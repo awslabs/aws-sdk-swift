@@ -22,11 +22,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func associateLenses(input: AssociateLensesInput) async throws -> AssociateLensesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateProfiles` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Associate a profile with a workload.
     ///
     /// - Parameter AssociateProfilesInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func associateProfiles(input: AssociateProfilesInput) async throws -> AssociateProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLensShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// - Parameter CreateLensShareInput : [no documentation found]
@@ -65,11 +59,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLensVersion` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     ///
     /// - Parameter CreateLensVersionInput : [no documentation found]
@@ -87,11 +78,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMilestone` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a milestone for an existing workload.
     ///
     /// - Parameter CreateMilestoneInput : Input for milestone creation.
@@ -109,11 +97,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createMilestone(input: CreateMilestoneInput) async throws -> CreateMilestoneOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateProfile` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a profile.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
@@ -130,11 +115,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateProfileShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a profile share.
     ///
     /// - Parameter CreateProfileShareInput : [no documentation found]
@@ -152,11 +134,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createProfileShare(input: CreateProfileShareInput) async throws -> CreateProfileShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a review template. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
     /// - Parameter CreateReviewTemplateInput : [no documentation found]
@@ -174,11 +153,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createReviewTemplate(input: CreateReviewTemplateInput) async throws -> CreateReviewTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTemplateShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. Disclaimer By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
     ///
     /// - Parameter CreateTemplateShareInput : [no documentation found]
@@ -196,11 +172,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createTemplateShare(input: CreateTemplateShareInput) async throws -> CreateTemplateShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkload` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide. Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section. When creating a workload using a review template, you must have the following IAM permissions:
     ///
     /// * wellarchitected:GetReviewTemplate
@@ -226,11 +199,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
     ///
     /// - Parameter CreateWorkloadShareInput : Input for Create Workload Share
@@ -248,11 +218,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLens` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// - Parameter DeleteLensInput : [no documentation found]
@@ -269,11 +236,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLensShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// - Parameter DeleteLensShareInput : [no documentation found]
@@ -290,11 +254,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteProfile` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a profile. Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
@@ -311,11 +272,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteProfileShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a profile share.
     ///
     /// - Parameter DeleteProfileShareInput : [no documentation found]
@@ -332,11 +290,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteProfileShare(input: DeleteProfileShareInput) async throws -> DeleteProfileShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
     /// - Parameter DeleteReviewTemplateInput : [no documentation found]
@@ -353,11 +308,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteReviewTemplate(input: DeleteReviewTemplateInput) async throws -> DeleteReviewTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTemplateShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
     /// - Parameter DeleteTemplateShareInput : [no documentation found]
@@ -374,11 +326,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteTemplateShare(input: DeleteTemplateShareInput) async throws -> DeleteTemplateShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWorkload` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete an existing workload.
     ///
     /// - Parameter DeleteWorkloadInput : Input for workload deletion.
@@ -395,11 +344,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteWorkload(input: DeleteWorkloadInput) async throws -> DeleteWorkloadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Delete a workload share.
     ///
     /// - Parameter DeleteWorkloadShareInput : Input for Delete Workload Share
@@ -416,11 +362,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func deleteWorkloadShare(input: DeleteWorkloadShareInput) async throws -> DeleteWorkloadShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateLenses` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
     ///
     /// - Parameter DisassociateLensesInput : Input to disassociate lens reviews.
@@ -437,11 +380,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func disassociateLenses(input: DisassociateLensesInput) async throws -> DisassociateLensesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateProfiles` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Disassociate a profile from a workload.
     ///
     /// - Parameter DisassociateProfilesInput : [no documentation found]
@@ -458,11 +398,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func disassociateProfiles(input: DisassociateProfilesInput) async throws -> DisassociateProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExportLens` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
     /// - Parameter ExportLensInput : [no documentation found]
@@ -478,11 +415,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func exportLens(input: ExportLensInput) async throws -> ExportLensOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAnswer` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get the answer to a specific question in a workload review.
     ///
     /// - Parameter GetAnswerInput : Input to get answer.
@@ -498,11 +432,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getAnswer(input: GetAnswerInput) async throws -> GetAnswerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConsolidatedReport` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
     ///
     /// - Parameter GetConsolidatedReportInput : [no documentation found]
@@ -518,11 +449,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLens` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get an existing lens.
     ///
     /// - Parameter GetLensInput : [no documentation found]
@@ -538,11 +466,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getLens(input: GetLensInput) async throws -> GetLensOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get lens review.
     ///
     /// - Parameter GetLensReviewInput : Input to get lens review.
@@ -558,11 +483,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getLensReview(input: GetLensReviewInput) async throws -> GetLensReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLensReviewReport` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get lens review report.
     ///
     /// - Parameter GetLensReviewReportInput : Input to get lens review report.
@@ -578,11 +500,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getLensReviewReport(input: GetLensReviewReportInput) async throws -> GetLensReviewReportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLensVersionDifference` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get lens version differences.
     ///
     /// - Parameter GetLensVersionDifferenceInput : [no documentation found]
@@ -598,11 +517,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getLensVersionDifference(input: GetLensVersionDifferenceInput) async throws -> GetLensVersionDifferenceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMilestone` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get a milestone for an existing workload.
     ///
     /// - Parameter GetMilestoneInput : Input to get a milestone.
@@ -618,11 +534,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getMilestone(input: GetMilestoneInput) async throws -> GetMilestoneOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProfile` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get profile information.
     ///
     /// - Parameter GetProfileInput : [no documentation found]
@@ -638,11 +551,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProfileTemplate` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get profile template.
     ///
     /// - Parameter GetProfileTemplateInput : [no documentation found]
@@ -658,11 +568,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getProfileTemplate(input: GetProfileTemplateInput) async throws -> GetProfileTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get review template.
     ///
     /// - Parameter GetReviewTemplateInput : [no documentation found]
@@ -678,11 +585,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getReviewTemplate(input: GetReviewTemplateInput) async throws -> GetReviewTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReviewTemplateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get review template answer.
     ///
     /// - Parameter GetReviewTemplateAnswerInput : [no documentation found]
@@ -698,11 +602,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getReviewTemplateAnswer(input: GetReviewTemplateAnswerInput) async throws -> GetReviewTemplateAnswerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get a lens review associated with a review template.
     ///
     /// - Parameter GetReviewTemplateLensReviewInput : [no documentation found]
@@ -718,11 +619,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getReviewTemplateLensReview(input: GetReviewTemplateLensReviewInput) async throws -> GetReviewTemplateLensReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWorkload` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Get an existing workload.
     ///
     /// - Parameter GetWorkloadInput : Input to get a workload.
@@ -738,11 +636,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportLens` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
     /// - Parameter ImportLensInput : [no documentation found]
@@ -760,11 +655,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func importLens(input: ImportLensInput) async throws -> ImportLensOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAnswers` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List of answers for a particular workload and lens.
     ///
     /// - Parameter ListAnswersInput : Input to list answers.
@@ -780,11 +672,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCheckDetails` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List of Trusted Advisor check details by account related to the workload.
     ///
     /// - Parameter ListCheckDetailsInput : [no documentation found]
@@ -800,11 +689,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listCheckDetails(input: ListCheckDetailsInput) async throws -> ListCheckDetailsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCheckSummaries` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List of Trusted Advisor checks summarized for all accounts related to the workload.
     ///
     /// - Parameter ListCheckSummariesInput : [no documentation found]
@@ -820,11 +706,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listCheckSummaries(input: ListCheckSummariesInput) async throws -> ListCheckSummariesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLenses` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the available lenses.
     ///
     /// - Parameter ListLensesInput : Input to list lenses.
@@ -839,11 +722,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listLenses(input: ListLensesInput) async throws -> ListLensesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLensReviewImprovements` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List lens review improvements.
     ///
     /// - Parameter ListLensReviewImprovementsInput : Input to list lens review improvements.
@@ -859,11 +739,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listLensReviewImprovements(input: ListLensReviewImprovementsInput) async throws -> ListLensReviewImprovementsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLensReviews` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List lens reviews for a particular workload.
     ///
     /// - Parameter ListLensReviewsInput : Input to list lens reviews.
@@ -879,11 +756,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLensShares` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the lens shares associated with the lens.
     ///
     /// - Parameter ListLensSharesInput : [no documentation found]
@@ -899,11 +773,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listLensShares(input: ListLensSharesInput) async throws -> ListLensSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMilestones` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List all milestones for an existing workload.
     ///
     /// - Parameter ListMilestonesInput : Input to list all milestones for a workload.
@@ -919,11 +790,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listMilestones(input: ListMilestonesInput) async throws -> ListMilestonesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNotifications` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List lens notifications.
     ///
     /// - Parameter ListNotificationsInput : [no documentation found]
@@ -938,11 +806,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProfileNotifications` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List profile notifications.
     ///
     /// - Parameter ListProfileNotificationsInput : [no documentation found]
@@ -957,11 +822,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listProfileNotifications(input: ListProfileNotificationsInput) async throws -> ListProfileNotificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProfiles` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List profiles.
     ///
     /// - Parameter ListProfilesInput : [no documentation found]
@@ -976,11 +838,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProfileShares` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List profile shares.
     ///
     /// - Parameter ListProfileSharesInput : [no documentation found]
@@ -996,11 +855,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listProfileShares(input: ListProfileSharesInput) async throws -> ListProfileSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReviewTemplateAnswers` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the answers of a review template.
     ///
     /// - Parameter ListReviewTemplateAnswersInput : [no documentation found]
@@ -1016,11 +872,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listReviewTemplateAnswers(input: ListReviewTemplateAnswersInput) async throws -> ListReviewTemplateAnswersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReviewTemplates` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List review templates.
     ///
     /// - Parameter ListReviewTemplatesInput : [no documentation found]
@@ -1035,11 +888,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listReviewTemplates(input: ListReviewTemplatesInput) async throws -> ListReviewTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListShareInvitations` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the share invitations. WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType.
     ///
     /// - Parameter ListShareInvitationsInput : Input for List Share Invitations
@@ -1054,11 +904,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listShareInvitations(input: ListShareInvitationsInput) async throws -> ListShareInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the tags for a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1071,11 +918,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTemplateShares` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List review template shares.
     ///
     /// - Parameter ListTemplateSharesInput : [no documentation found]
@@ -1091,11 +935,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listTemplateShares(input: ListTemplateSharesInput) async throws -> ListTemplateSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWorkloads` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Paginated list of workloads.
     ///
     /// - Parameter ListWorkloadsInput : Input to list all workloads.
@@ -1110,11 +951,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWorkloadShares` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// List the workload shares associated with the workload.
     ///
     /// - Parameter ListWorkloadSharesInput : Input for List Workload Share
@@ -1130,11 +968,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func listWorkloadShares(input: ListWorkloadSharesInput) async throws -> ListWorkloadSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Adds one or more tags to the specified resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1147,11 +982,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes specified tags from a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1164,11 +996,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update the answer to a specific question in a workload review.
     ///
     /// - Parameter UpdateAnswerInput : Input to update answer.
@@ -1185,11 +1014,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGlobalSettings` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
@@ -1205,11 +1031,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update lens review for a particular workload.
     ///
     /// - Parameter UpdateLensReviewInput : Input for update lens review.
@@ -1226,11 +1049,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateProfile` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a profile.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
@@ -1247,11 +1067,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReviewTemplate` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a review template.
     ///
     /// - Parameter UpdateReviewTemplateInput : [no documentation found]
@@ -1268,11 +1085,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateReviewTemplate(input: UpdateReviewTemplateInput) async throws -> UpdateReviewTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReviewTemplateAnswer` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a review template answer.
     ///
     /// - Parameter UpdateReviewTemplateAnswerInput : [no documentation found]
@@ -1289,11 +1103,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateReviewTemplateAnswer(input: UpdateReviewTemplateAnswerInput) async throws -> UpdateReviewTemplateAnswerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a lens review associated with a review template.
     ///
     /// - Parameter UpdateReviewTemplateLensReviewInput : [no documentation found]
@@ -1310,11 +1121,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateReviewTemplateLensReview(input: UpdateReviewTemplateLensReviewInput) async throws -> UpdateReviewTemplateLensReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateShareInvitation` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a workload or custom lens share invitation. This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
     ///
     /// - Parameter UpdateShareInvitationInput : Input for Update Share Invitation
@@ -1331,11 +1139,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateShareInvitation(input: UpdateShareInvitationInput) async throws -> UpdateShareInvitationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkload` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update an existing workload.
     ///
     /// - Parameter UpdateWorkloadInput : Input to update a workload.
@@ -1352,11 +1157,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkloadShare` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Update a workload share.
     ///
     /// - Parameter UpdateWorkloadShareInput : Input for Update Workload Share
@@ -1373,11 +1175,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func updateWorkloadShare(input: UpdateWorkloadShareInput) async throws -> UpdateWorkloadShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradeLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Upgrade lens review for a particular workload.
     ///
     /// - Parameter UpgradeLensReviewInput : [no documentation found]
@@ -1394,11 +1193,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradeProfileVersion` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Upgrade a profile.
     ///
     /// - Parameter UpgradeProfileVersionInput : [no documentation found]
@@ -1415,11 +1211,8 @@ public protocol WellArchitectedClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     func upgradeProfileVersion(input: UpgradeProfileVersionInput) async throws -> UpgradeProfileVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradeReviewTemplateLensReview` operation on the `WellArchitectedApiServiceLambda` service.
     ///
->>>>>>> main
     /// Upgrade the lens review of a review template.
     ///
     /// - Parameter UpgradeReviewTemplateLensReviewInput : [no documentation found]

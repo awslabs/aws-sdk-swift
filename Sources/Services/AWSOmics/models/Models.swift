@@ -6758,11 +6758,7 @@ extension GetReadSetOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
     }
@@ -7273,11 +7269,7 @@ extension GetReferenceOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
     }
@@ -7916,11 +7908,8 @@ struct GetRunOutputBody: Swift.Equatable {
     let retentionMode: OmicsClientTypes.RunRetentionMode?
     let failureReason: Swift.String?
     let logLocation: OmicsClientTypes.RunLogLocation?
-<<<<<<< HEAD
-=======
     let uuid: Swift.String?
     let runOutputUri: Swift.String?
->>>>>>> main
 }
 
 extension GetRunOutputBody: Swift.Decodable {
@@ -8030,13 +8019,10 @@ extension GetRunOutputBody: Swift.Decodable {
         failureReason = failureReasonDecoded
         let logLocationDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunLogLocation.self, forKey: .logLocation)
         logLocation = logLocationDecoded
-<<<<<<< HEAD
-=======
         let uuidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uuid)
         uuid = uuidDecoded
         let runOutputUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runOutputUri)
         runOutputUri = runOutputUriDecoded
->>>>>>> main
     }
 }
 
@@ -17843,24 +17829,6 @@ enum StartRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum StartRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension StartVariantImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case annotationFields
@@ -19579,34 +19547,6 @@ enum UpdateWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct UploadReadSetPartInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UploadReadSetPartInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UploadReadSetPartInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadReadSetPartOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadBody = ClientRuntime.HttpBody(byteStream: payload)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UploadReadSetPartInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadReadSetPartOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UploadReadSetPartInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload

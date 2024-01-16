@@ -22,11 +22,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMonitor` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
     ///
     /// - Parameter DeleteMonitorInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetHealthEvent` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
     ///
     /// - Parameter GetHealthEventInput : [no documentation found]
@@ -60,11 +54,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMonitor` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
     /// - Parameter GetMonitorInput : [no documentation found]
@@ -79,8 +70,6 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetQueryResults` operation on the `InternetMonitor20210603` service.
     ///
     /// Return the data for a query with the Amazon CloudWatch Internet Monitor query interface. Specify the query that you want to return results for by providing a QueryId and a monitor name. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
@@ -127,7 +116,6 @@ public protocol InternetMonitorClientProtocol {
     func getQueryStatus(input: GetQueryStatusInput) async throws -> GetQueryStatusOutput
     /// Performs the `ListHealthEvents` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and the status. Health events that have start times during the time frame that is requested are not included in the list of health events.
     ///
     /// - Parameter ListHealthEventsInput : [no documentation found]
@@ -142,11 +130,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMonitors` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
     ///
     /// - Parameter ListMonitorsInput : [no documentation found]
@@ -161,11 +146,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : Invalid request.
     func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -181,8 +163,6 @@ public protocol InternetMonitorClientProtocol {
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartQuery` operation on the `InternetMonitor20210603` service.
     ///
     /// Start a query to return data for a specific query type for the Amazon CloudWatch Internet Monitor query interface. Specify a time period for the data that you want returned by using StartTime and EndTime. You filter the query results to return by providing parameters that you specify with FilterParameters. For more information about using the query interface, including examples, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
@@ -219,7 +199,6 @@ public protocol InternetMonitorClientProtocol {
     func stopQuery(input: StopQueryInput) async throws -> StopQueryOutput
     /// Performs the `TagResource` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -235,11 +214,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Removes a tag from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -255,11 +231,8 @@ public protocol InternetMonitorClientProtocol {
     /// - `NotFoundException` : The request specifies something that doesn't exist.
     /// - `TooManyRequestsException` : There were too many requests.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMonitor` operation on the `InternetMonitor20210603` service.
     ///
->>>>>>> main
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     ///
     /// - Parameter UpdateMonitorInput : [no documentation found]

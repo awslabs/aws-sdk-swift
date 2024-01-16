@@ -22,11 +22,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createSchedule(input: CreateScheduleInput) async throws -> CreateScheduleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateScheduleGroup` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Creates the specified schedule group.
     ///
     /// - Parameter CreateScheduleGroupInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createScheduleGroup(input: CreateScheduleGroupInput) async throws -> CreateScheduleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSchedule` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Deletes the specified schedule.
     ///
     /// - Parameter DeleteScheduleInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteScheduleGroup` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a DELETING state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted. This operation is eventually consistent.
     ///
     /// - Parameter DeleteScheduleGroupInput : [no documentation found]
@@ -82,11 +73,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteScheduleGroup(input: DeleteScheduleGroupInput) async throws -> DeleteScheduleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchedule` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Retrieves the specified schedule.
     ///
     /// - Parameter GetScheduleInput : [no documentation found]
@@ -101,11 +89,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getSchedule(input: GetScheduleInput) async throws -> GetScheduleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetScheduleGroup` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Retrieves the specified schedule group.
     ///
     /// - Parameter GetScheduleGroupInput : [no documentation found]
@@ -120,11 +105,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getScheduleGroup(input: GetScheduleGroupInput) async throws -> GetScheduleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListScheduleGroups` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Returns a paginated list of your schedule groups.
     ///
     /// - Parameter ListScheduleGroupsInput : [no documentation found]
@@ -138,11 +120,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listScheduleGroups(input: ListScheduleGroupsInput) async throws -> ListScheduleGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSchedules` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Returns a paginated list of your EventBridge Scheduler schedules.
     ///
     /// - Parameter ListSchedulesInput : [no documentation found]
@@ -157,11 +136,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listSchedules(input: ListSchedulesInput) async throws -> ListSchedulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Lists the tags associated with the Scheduler resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -176,11 +152,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -196,11 +169,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified EventBridge Scheduler schedule group.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -216,11 +186,8 @@ public protocol SchedulerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSchedule` operation on the `AWSChronosService` service.
     ///
->>>>>>> main
     /// Updates the specified schedule. When you call UpdateSchedule, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update. Before calling this operation, we recommend that you call the GetSchedule API operation and make a note of all optional parameters for your UpdateSchedule call.
     ///
     /// - Parameter UpdateScheduleInput : [no documentation found]

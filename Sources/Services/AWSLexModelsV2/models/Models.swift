@@ -4597,8 +4597,6 @@ enum BatchUpdateCustomVocabularyItemOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-=======
 extension LexModelsV2ClientTypes.BedrockModelSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modelArn
@@ -4635,7 +4633,6 @@ extension LexModelsV2ClientTypes {
 
 }
 
->>>>>>> main
 extension LexModelsV2ClientTypes.BotAliasHistoryEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botVersion
@@ -6643,8 +6640,6 @@ enum BuildBotLocaleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension LexModelsV2ClientTypes.BuildtimeSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case descriptiveBotBuilder
@@ -6690,7 +6685,6 @@ extension LexModelsV2ClientTypes {
 
 }
 
->>>>>>> main
 extension LexModelsV2ClientTypes {
     public enum BuiltInIntentSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case intentsignature
@@ -13940,8 +13934,6 @@ enum DescribeBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeBotResourceGenerationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let botId = botId else {
@@ -14160,7 +14152,6 @@ enum DescribeBotResourceGenerationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension DescribeBotVersionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let botId = botId else {
@@ -16540,8 +16531,6 @@ enum DescribeTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bedrockModelSpecification
@@ -16588,7 +16577,6 @@ extension LexModelsV2ClientTypes {
 
 }
 
->>>>>>> main
 extension LexModelsV2ClientTypes.DialogAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case slotToElicit
@@ -21258,8 +21246,6 @@ enum ListBotRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListBotResourceGenerationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -21458,7 +21444,6 @@ enum ListBotResourceGenerationsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension ListBotVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -30525,8 +30510,6 @@ enum StartBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension StartBotResourceGenerationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case generationInputPrompt
@@ -30715,7 +30698,6 @@ enum StartBotResourceGenerationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension StartImportInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "StartImportInput(importId: \(Swift.String(describing: importId)), mergeStrategy: \(Swift.String(describing: mergeStrategy)), resourceSpecification: \(Swift.String(describing: resourceSpecification)), filePassword: \"CONTENT_REDACTED\")"}

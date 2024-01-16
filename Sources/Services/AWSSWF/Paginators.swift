@@ -12,11 +12,7 @@ extension SWFClient {
     ///     - input: A `[GetWorkflowExecutionHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowExecutionHistoryOutput`
     public func getWorkflowExecutionHistoryPaginated(input: GetWorkflowExecutionHistoryInput) -> ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(input: input, inputKey: \GetWorkflowExecutionHistoryInput.nextPageToken, outputKey: \GetWorkflowExecutionHistoryOutput.nextPageToken, paginationFunction: self.getWorkflowExecutionHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.getWorkflowExecutionHistory(input:))
->>>>>>> main
     }
 }
 
@@ -31,11 +27,7 @@ extension GetWorkflowExecutionHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetWorkflowExecutionHistoryInput, Output == GetWorkflowExecutionHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetWorkflowExecutionHistoryInput, OperationStackOutput == GetWorkflowExecutionHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getWorkflowExecutionHistoryPaginated`
     /// to access the nested member `[SWFClientTypes.HistoryEvent]`
     /// - Returns: `[SWFClientTypes.HistoryEvent]`
@@ -53,11 +45,7 @@ extension SWFClient {
     ///     - input: A `[ListActivityTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActivityTypesOutput`
     public func listActivityTypesPaginated(input: ListActivityTypesInput) -> ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutput>(input: input, inputKey: \ListActivityTypesInput.nextPageToken, outputKey: \ListActivityTypesOutput.nextPageToken, paginationFunction: self.listActivityTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListActivityTypesInput, ListActivityTypesOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listActivityTypes(input:))
->>>>>>> main
     }
 }
 
@@ -73,11 +61,7 @@ extension ListActivityTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListActivityTypesInput, Output == ListActivityTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListActivityTypesInput, OperationStackOutput == ListActivityTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listActivityTypesPaginated`
     /// to access the nested member `[SWFClientTypes.ActivityTypeInfo]`
     /// - Returns: `[SWFClientTypes.ActivityTypeInfo]`
@@ -95,11 +79,7 @@ extension SWFClient {
     ///     - input: A `[ListClosedWorkflowExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClosedWorkflowExecutionsOutput`
     public func listClosedWorkflowExecutionsPaginated(input: ListClosedWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(input: input, inputKey: \ListClosedWorkflowExecutionsInput.nextPageToken, outputKey: \ListClosedWorkflowExecutionsOutput.nextPageToken, paginationFunction: self.listClosedWorkflowExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listClosedWorkflowExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -119,11 +99,7 @@ extension ListClosedWorkflowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClosedWorkflowExecutionsInput, Output == ListClosedWorkflowExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClosedWorkflowExecutionsInput, OperationStackOutput == ListClosedWorkflowExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClosedWorkflowExecutionsPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowExecutionInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowExecutionInfo]`
@@ -141,11 +117,7 @@ extension SWFClient {
     ///     - input: A `[ListDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
     public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.nextPageToken, outputKey: \ListDomainsOutput.nextPageToken, paginationFunction: self.listDomains(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listDomains(input:))
->>>>>>> main
     }
 }
 
@@ -159,11 +131,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDomainsInput, OperationStackOutput == ListDomainsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[SWFClientTypes.DomainInfo]`
     /// - Returns: `[SWFClientTypes.DomainInfo]`
@@ -181,11 +149,7 @@ extension SWFClient {
     ///     - input: A `[ListOpenWorkflowExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOpenWorkflowExecutionsOutput`
     public func listOpenWorkflowExecutionsPaginated(input: ListOpenWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(input: input, inputKey: \ListOpenWorkflowExecutionsInput.nextPageToken, outputKey: \ListOpenWorkflowExecutionsOutput.nextPageToken, paginationFunction: self.listOpenWorkflowExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listOpenWorkflowExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -203,11 +167,7 @@ extension ListOpenWorkflowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOpenWorkflowExecutionsInput, Output == ListOpenWorkflowExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOpenWorkflowExecutionsInput, OperationStackOutput == ListOpenWorkflowExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOpenWorkflowExecutionsPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowExecutionInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowExecutionInfo]`
@@ -225,11 +185,7 @@ extension SWFClient {
     ///     - input: A `[ListWorkflowTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowTypesOutput`
     public func listWorkflowTypesPaginated(input: ListWorkflowTypesInput) -> ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutput>(input: input, inputKey: \ListWorkflowTypesInput.nextPageToken, outputKey: \ListWorkflowTypesOutput.nextPageToken, paginationFunction: self.listWorkflowTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorkflowTypesInput, ListWorkflowTypesOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.listWorkflowTypes(input:))
->>>>>>> main
     }
 }
 
@@ -245,11 +201,7 @@ extension ListWorkflowTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorkflowTypesInput, Output == ListWorkflowTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorkflowTypesInput, OperationStackOutput == ListWorkflowTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkflowTypesPaginated`
     /// to access the nested member `[SWFClientTypes.WorkflowTypeInfo]`
     /// - Returns: `[SWFClientTypes.WorkflowTypeInfo]`
@@ -267,11 +219,7 @@ extension SWFClient {
     ///     - input: A `[PollForDecisionTaskInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `PollForDecisionTaskOutput`
     public func pollForDecisionTaskPaginated(input: PollForDecisionTaskInput) -> ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutput>(input: input, inputKey: \PollForDecisionTaskInput.nextPageToken, outputKey: \PollForDecisionTaskOutput.nextPageToken, paginationFunction: self.pollForDecisionTask(input:))
-=======
         return ClientRuntime.PaginatorSequence<PollForDecisionTaskInput, PollForDecisionTaskOutput>(input: input, inputKey: \.nextPageToken, outputKey: \.nextPageToken, paginationFunction: self.pollForDecisionTask(input:))
->>>>>>> main
     }
 }
 
@@ -288,11 +236,7 @@ extension PollForDecisionTaskInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == PollForDecisionTaskInput, Output == PollForDecisionTaskOutput {
-=======
 extension PaginatorSequence where OperationStackInput == PollForDecisionTaskInput, OperationStackOutput == PollForDecisionTaskOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `pollForDecisionTaskPaginated`
     /// to access the nested member `[SWFClientTypes.HistoryEvent]`
     /// - Returns: `[SWFClientTypes.HistoryEvent]`

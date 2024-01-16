@@ -4452,49 +4452,6 @@ extension GetDataCatalogOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetDataCatalogOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDataCatalogOutputBody = try responseDecoder.decode(responseBody: data)
-            self.dataCatalog = output.dataCatalog
-        } else {
-            self.dataCatalog = nil
-        }
-    }
-}
-
-public struct GetDataCatalogOutput: Swift.Equatable {
-    /// The data catalog returned.
-    public var dataCatalog: AthenaClientTypes.DataCatalog?
-
-    public init(
-        dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
-        self.dataCatalog = dataCatalog
-    }
-}
-
-struct GetDataCatalogOutputBody: Swift.Equatable {
-    let dataCatalog: AthenaClientTypes.DataCatalog?
-}
-
-extension GetDataCatalogOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dataCatalog = "DataCatalog"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dataCatalogDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.DataCatalog.self, forKey: .dataCatalog)
-        dataCatalog = dataCatalogDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum GetDataCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4620,49 +4577,6 @@ extension GetDatabaseOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
-            self.database = output.database
-        } else {
-            self.database = nil
-        }
-    }
-}
-
-public struct GetDatabaseOutput: Swift.Equatable {
-    /// The database returned.
-    public var database: AthenaClientTypes.Database?
-
-    public init(
-        database: AthenaClientTypes.Database? = nil
-    )
-    {
-        self.database = database
-    }
-}
-
-struct GetDatabaseOutputBody: Swift.Equatable {
-    let database: AthenaClientTypes.Database?
-}
-
-extension GetDatabaseOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case database = "Database"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let databaseDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.Database.self, forKey: .database)
-        database = databaseDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum GetDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5754,49 +5668,6 @@ extension GetTableMetadataOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetTableMetadataOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTableMetadataOutputBody = try responseDecoder.decode(responseBody: data)
-            self.tableMetadata = output.tableMetadata
-        } else {
-            self.tableMetadata = nil
-        }
-    }
-}
-
-public struct GetTableMetadataOutput: Swift.Equatable {
-    /// An object that contains table metadata.
-    public var tableMetadata: AthenaClientTypes.TableMetadata?
-
-    public init(
-        tableMetadata: AthenaClientTypes.TableMetadata? = nil
-    )
-    {
-        self.tableMetadata = tableMetadata
-    }
-}
-
-struct GetTableMetadataOutputBody: Swift.Equatable {
-    let tableMetadata: AthenaClientTypes.TableMetadata?
-}
-
-extension GetTableMetadataOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case tableMetadata = "TableMetadata"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let tableMetadataDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.TableMetadata.self, forKey: .tableMetadata)
-        tableMetadata = tableMetadataDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum GetTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5887,8 +5758,6 @@ struct GetWorkGroupOutputBody: Swift.Equatable {
 }
 
 extension GetWorkGroupOutputBody: Swift.Decodable {
-<<<<<<< HEAD
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workGroup = "WorkGroup"
     }
@@ -5913,7 +5782,6 @@ enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension AthenaClientTypes.IdentityCenterConfiguration: Swift.Codable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enableIdentityCenter = "EnableIdentityCenter"
         case identityCenterInstanceArn = "IdentityCenterInstanceArn"
@@ -5938,18 +5806,6 @@ extension AthenaClientTypes.IdentityCenterConfiguration: Swift.Codable {
     }
 }
 
-<<<<<<< HEAD
-enum GetWorkGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-=======
 extension AthenaClientTypes {
     /// Specifies whether the workgroup is IAM Identity Center supported.
     public struct IdentityCenterConfiguration: Swift.Equatable {
@@ -5968,7 +5824,6 @@ extension AthenaClientTypes {
         }
     }
 
->>>>>>> main
 }
 
 extension ImportNotebookInput: Swift.Encodable {

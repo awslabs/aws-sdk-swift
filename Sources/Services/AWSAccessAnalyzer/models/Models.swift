@@ -1436,8 +1436,6 @@ enum CancelPolicyGenerationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CheckAccessNotGrantedInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CheckAccessNotGrantedInput(access: \(Swift.String(describing: access)), policyType: \(Swift.String(describing: policyType)), policyDocument: \"CONTENT_REDACTED\")"}
@@ -1842,7 +1840,6 @@ extension AccessAnalyzerClientTypes {
     }
 }
 
->>>>>>> main
 extension AccessAnalyzerClientTypes.CloudTrailDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessRole
@@ -2492,47 +2489,6 @@ extension CreateAnalyzerInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let configurationDecoded = try containerValues.decodeIfPresent(AccessAnalyzerClientTypes.AnalyzerConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
-    }
-}
-
-extension CreateAnalyzerOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAnalyzerOutputBody = try responseDecoder.decode(responseBody: data)
-            self.arn = output.arn
-        } else {
-            self.arn = nil
-        }
-    }
-}
-
-/// The response to the request to create an analyzer.
-public struct CreateAnalyzerOutput: Swift.Equatable {
-    /// The ARN of the analyzer that was created by the request.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    )
-    {
-        self.arn = arn
-    }
-}
-
-struct CreateAnalyzerOutputBody: Swift.Equatable {
-    let arn: Swift.String?
-}
-
-extension CreateAnalyzerOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case arn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
-        arn = arnDecoded
     }
 }
 
@@ -4857,8 +4813,6 @@ enum GetFindingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetFindingV2Input: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5108,7 +5062,6 @@ enum GetFindingV2OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetGeneratedPolicyInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6887,8 +6840,6 @@ enum ListFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListFindingsV2Input: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analyzerArn
@@ -7072,7 +7023,6 @@ enum ListFindingsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListPolicyGenerationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9579,8 +9529,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension AccessAnalyzerClientTypes.UnusedAccessConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case unusedAccessAge
@@ -9846,7 +9794,6 @@ extension AccessAnalyzerClientTypes {
 
 }
 
->>>>>>> main
 extension UpdateArchiveRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken

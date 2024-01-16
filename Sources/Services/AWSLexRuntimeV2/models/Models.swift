@@ -2712,38 +2712,8 @@ enum RecognizeTextOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct RecognizeUtteranceInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "RecognizeUtteranceInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<RecognizeUtteranceOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let inputStream = input.operationInput.inputStream {
-            let inputStreamBody = ClientRuntime.HttpBody(byteStream: inputStream)
-            input.builder.withBody(inputStreamBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<RecognizeUtteranceInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<RecognizeUtteranceOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension RecognizeUtteranceInput: Swift.CustomDebugStringConvertible {
@@ -3710,52 +3680,6 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct StartConversationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartConversationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartConversationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartConversationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let requestEventStream = input.operationInput.requestEventStream {
-                guard let messageEncoder = context.getMessageEncoder() else {
-                    fatalError("Message encoder is required for streaming payload")
-                }
-                guard let messageSigner = context.getMessageSigner() else {
-                    fatalError("Message signer is required for streaming payload")
-                }
-                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: requestEventStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
-                input.builder.withBody(.stream(encoderStream))
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let requestEventStreamData = "{}".data(using: .utf8)!
-                    let requestEventStreamBody = ClientRuntime.HttpBody.data(requestEventStreamData)
-                    input.builder.withBody(requestEventStreamBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartConversationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartConversationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension StartConversationInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()

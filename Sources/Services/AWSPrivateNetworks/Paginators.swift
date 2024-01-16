@@ -12,11 +12,7 @@ extension PrivateNetworksClient {
     ///     - input: A `[ListDeviceIdentifiersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceIdentifiersOutput`
     public func listDeviceIdentifiersPaginated(input: ListDeviceIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>(input: input, inputKey: \ListDeviceIdentifiersInput.startToken, outputKey: \ListDeviceIdentifiersOutput.nextToken, paginationFunction: self.listDeviceIdentifiers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeviceIdentifiersInput, ListDeviceIdentifiersOutput>(input: input, inputKey: \.startToken, outputKey: \.nextToken, paginationFunction: self.listDeviceIdentifiers(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension ListDeviceIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDeviceIdentifiersInput, Output == ListDeviceIdentifiersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDeviceIdentifiersInput, OperationStackOutput == ListDeviceIdentifiersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDeviceIdentifiersPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.DeviceIdentifier]`
     /// - Returns: `[PrivateNetworksClientTypes.DeviceIdentifier]`
@@ -52,11 +44,7 @@ extension PrivateNetworksClient {
     ///     - input: A `[ListNetworkResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkResourcesOutput`
     public func listNetworkResourcesPaginated(input: ListNetworkResourcesInput) -> ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutput>(input: input, inputKey: \ListNetworkResourcesInput.startToken, outputKey: \ListNetworkResourcesOutput.nextToken, paginationFunction: self.listNetworkResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNetworkResourcesInput, ListNetworkResourcesOutput>(input: input, inputKey: \.startToken, outputKey: \.nextToken, paginationFunction: self.listNetworkResources(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension ListNetworkResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNetworkResourcesInput, Output == ListNetworkResourcesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNetworkResourcesInput, OperationStackOutput == ListNetworkResourcesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNetworkResourcesPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.NetworkResource]`
     /// - Returns: `[PrivateNetworksClientTypes.NetworkResource]`
@@ -92,11 +76,7 @@ extension PrivateNetworksClient {
     ///     - input: A `[ListNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutput`
     public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \ListNetworksInput.startToken, outputKey: \ListNetworksOutput.nextToken, paginationFunction: self.listNetworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \.startToken, outputKey: \.nextToken, paginationFunction: self.listNetworks(input:))
->>>>>>> main
     }
 }
 
@@ -109,11 +89,7 @@ extension ListNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNetworksInput, Output == ListNetworksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNetworksInput, OperationStackOutput == ListNetworksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNetworksPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.Network]`
     /// - Returns: `[PrivateNetworksClientTypes.Network]`
@@ -131,11 +107,7 @@ extension PrivateNetworksClient {
     ///     - input: A `[ListNetworkSitesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkSitesOutput`
     public func listNetworkSitesPaginated(input: ListNetworkSitesInput) -> ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutput>(input: input, inputKey: \ListNetworkSitesInput.startToken, outputKey: \ListNetworkSitesOutput.nextToken, paginationFunction: self.listNetworkSites(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNetworkSitesInput, ListNetworkSitesOutput>(input: input, inputKey: \.startToken, outputKey: \.nextToken, paginationFunction: self.listNetworkSites(input:))
->>>>>>> main
     }
 }
 
@@ -149,11 +121,7 @@ extension ListNetworkSitesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNetworkSitesInput, Output == ListNetworkSitesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNetworkSitesInput, OperationStackOutput == ListNetworkSitesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNetworkSitesPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.NetworkSite]`
     /// - Returns: `[PrivateNetworksClientTypes.NetworkSite]`
@@ -171,11 +139,7 @@ extension PrivateNetworksClient {
     ///     - input: A `[ListOrdersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrdersOutput`
     public func listOrdersPaginated(input: ListOrdersInput) -> ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput>(input: input, inputKey: \ListOrdersInput.startToken, outputKey: \ListOrdersOutput.nextToken, paginationFunction: self.listOrders(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOrdersInput, ListOrdersOutput>(input: input, inputKey: \.startToken, outputKey: \.nextToken, paginationFunction: self.listOrders(input:))
->>>>>>> main
     }
 }
 
@@ -189,11 +153,7 @@ extension ListOrdersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOrdersInput, Output == ListOrdersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOrdersInput, OperationStackOutput == ListOrdersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOrdersPaginated`
     /// to access the nested member `[PrivateNetworksClientTypes.Order]`
     /// - Returns: `[PrivateNetworksClientTypes.Order]`

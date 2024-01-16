@@ -12,11 +12,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribeDomainAutoTunesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutput`
     public func describeDomainAutoTunesPaginated(input: DescribeDomainAutoTunesInput) -> ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(input: input, inputKey: \DescribeDomainAutoTunesInput.nextToken, outputKey: \DescribeDomainAutoTunesOutput.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribeInboundCrossClusterSearchConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundCrossClusterSearchConnectionsOutput`
     public func describeInboundCrossClusterSearchConnectionsPaginated(input: DescribeInboundCrossClusterSearchConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutput>(input: input, inputKey: \DescribeInboundCrossClusterSearchConnectionsInput.nextToken, outputKey: \DescribeInboundCrossClusterSearchConnectionsOutput.nextToken, paginationFunction: self.describeInboundCrossClusterSearchConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInboundCrossClusterSearchConnections(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribeOutboundCrossClusterSearchConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundCrossClusterSearchConnectionsOutput`
     public func describeOutboundCrossClusterSearchConnectionsPaginated(input: DescribeOutboundCrossClusterSearchConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutput>(input: input, inputKey: \DescribeOutboundCrossClusterSearchConnectionsInput.nextToken, outputKey: \DescribeOutboundCrossClusterSearchConnectionsOutput.nextToken, paginationFunction: self.describeOutboundCrossClusterSearchConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOutboundCrossClusterSearchConnections(input:))
->>>>>>> main
     }
 }
 
@@ -90,11 +78,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribePackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutput`
     public func describePackagesPaginated(input: DescribePackagesInput) -> ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput>(input: input, inputKey: \DescribePackagesInput.nextToken, outputKey: \DescribePackagesOutput.nextToken, paginationFunction: self.describePackages(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePackages(input:))
->>>>>>> main
     }
 }
 
@@ -116,11 +100,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribeReservedElasticsearchInstanceOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstanceOfferingsOutput`
     public func describeReservedElasticsearchInstanceOfferingsPaginated(input: DescribeReservedElasticsearchInstanceOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutput>(input: input, inputKey: \DescribeReservedElasticsearchInstanceOfferingsInput.nextToken, outputKey: \DescribeReservedElasticsearchInstanceOfferingsOutput.nextToken, paginationFunction: self.describeReservedElasticsearchInstanceOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedElasticsearchInstanceOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -142,11 +122,7 @@ extension ElasticsearchClient {
     ///     - input: A `[DescribeReservedElasticsearchInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstancesOutput`
     public func describeReservedElasticsearchInstancesPaginated(input: DescribeReservedElasticsearchInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutput>(input: input, inputKey: \DescribeReservedElasticsearchInstancesInput.nextToken, outputKey: \DescribeReservedElasticsearchInstancesOutput.nextToken, paginationFunction: self.describeReservedElasticsearchInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedElasticsearchInstances(input:))
->>>>>>> main
     }
 }
 
@@ -168,11 +144,7 @@ extension ElasticsearchClient {
     ///     - input: A `[GetPackageVersionHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutput`
     public func getPackageVersionHistoryPaginated(input: GetPackageVersionHistoryInput) -> ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(input: input, inputKey: \GetPackageVersionHistoryInput.nextToken, outputKey: \GetPackageVersionHistoryOutput.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
->>>>>>> main
     }
 }
 
@@ -194,11 +166,7 @@ extension ElasticsearchClient {
     ///     - input: A `[GetUpgradeHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutput`
     public func getUpgradeHistoryPaginated(input: GetUpgradeHistoryInput) -> ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(input: input, inputKey: \GetUpgradeHistoryInput.nextToken, outputKey: \GetUpgradeHistoryOutput.nextToken, paginationFunction: self.getUpgradeHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUpgradeHistory(input:))
->>>>>>> main
     }
 }
 
@@ -220,11 +188,7 @@ extension ElasticsearchClient {
     ///     - input: A `[ListDomainsForPackageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutput`
     public func listDomainsForPackagePaginated(input: ListDomainsForPackageInput) -> ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput>(input: input, inputKey: \ListDomainsForPackageInput.nextToken, outputKey: \ListDomainsForPackageOutput.nextToken, paginationFunction: self.listDomainsForPackage(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainsForPackage(input:))
->>>>>>> main
     }
 }
 
@@ -246,11 +210,7 @@ extension ElasticsearchClient {
     ///     - input: A `[ListElasticsearchInstanceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchInstanceTypesOutput`
     public func listElasticsearchInstanceTypesPaginated(input: ListElasticsearchInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutput>(input: input, inputKey: \ListElasticsearchInstanceTypesInput.nextToken, outputKey: \ListElasticsearchInstanceTypesOutput.nextToken, paginationFunction: self.listElasticsearchInstanceTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listElasticsearchInstanceTypes(input:))
->>>>>>> main
     }
 }
 
@@ -273,11 +233,7 @@ extension ElasticsearchClient {
     ///     - input: A `[ListElasticsearchVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchVersionsOutput`
     public func listElasticsearchVersionsPaginated(input: ListElasticsearchVersionsInput) -> ClientRuntime.PaginatorSequence<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutput>(input: input, inputKey: \ListElasticsearchVersionsInput.nextToken, outputKey: \ListElasticsearchVersionsOutput.nextToken, paginationFunction: self.listElasticsearchVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listElasticsearchVersions(input:))
->>>>>>> main
     }
 }
 
@@ -298,11 +254,7 @@ extension ElasticsearchClient {
     ///     - input: A `[ListPackagesForDomainInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutput`
     public func listPackagesForDomainPaginated(input: ListPackagesForDomainInput) -> ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput>(input: input, inputKey: \ListPackagesForDomainInput.nextToken, outputKey: \ListPackagesForDomainOutput.nextToken, paginationFunction: self.listPackagesForDomain(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackagesForDomain(input:))
->>>>>>> main
     }
 }
 

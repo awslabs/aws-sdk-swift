@@ -12,11 +12,7 @@ extension IvsClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension IvsClient {
     ///     - input: A `[ListPlaybackKeyPairsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPlaybackKeyPairsOutput`
     public func listPlaybackKeyPairsPaginated(input: ListPlaybackKeyPairsInput) -> ClientRuntime.PaginatorSequence<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(input: input, inputKey: \ListPlaybackKeyPairsInput.nextToken, outputKey: \ListPlaybackKeyPairsOutput.nextToken, paginationFunction: self.listPlaybackKeyPairs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlaybackKeyPairs(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension IvsClient {
     ///     - input: A `[ListRecordingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecordingConfigurationsOutput`
     public func listRecordingConfigurationsPaginated(input: ListRecordingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(input: input, inputKey: \ListRecordingConfigurationsInput.nextToken, outputKey: \ListRecordingConfigurationsOutput.nextToken, paginationFunction: self.listRecordingConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecordingConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -89,11 +77,7 @@ extension IvsClient {
     ///     - input: A `[ListStreamKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamKeysOutput`
     public func listStreamKeysPaginated(input: ListStreamKeysInput) -> ClientRuntime.PaginatorSequence<ListStreamKeysInput, ListStreamKeysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStreamKeysInput, ListStreamKeysOutput>(input: input, inputKey: \ListStreamKeysInput.nextToken, outputKey: \ListStreamKeysOutput.nextToken, paginationFunction: self.listStreamKeys(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStreamKeysInput, ListStreamKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamKeys(input:))
->>>>>>> main
     }
 }
 
@@ -115,11 +99,7 @@ extension IvsClient {
     ///     - input: A `[ListStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutput`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutput.nextToken, paginationFunction: self.listStreams(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreams(input:))
->>>>>>> main
     }
 }
 
@@ -141,11 +121,7 @@ extension IvsClient {
     ///     - input: A `[ListStreamSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamSessionsOutput`
     public func listStreamSessionsPaginated(input: ListStreamSessionsInput) -> ClientRuntime.PaginatorSequence<ListStreamSessionsInput, ListStreamSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStreamSessionsInput, ListStreamSessionsOutput>(input: input, inputKey: \ListStreamSessionsInput.nextToken, outputKey: \ListStreamSessionsOutput.nextToken, paginationFunction: self.listStreamSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStreamSessionsInput, ListStreamSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamSessions(input:))
->>>>>>> main
     }
 }
 

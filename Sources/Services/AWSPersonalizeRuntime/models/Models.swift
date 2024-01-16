@@ -339,8 +339,6 @@ extension GetPersonalizedRankingInputBody: Swift.Decodable {
             }
         }
         filterValues = filterValuesDecoded0
-<<<<<<< HEAD
-=======
         let metadataColumnsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .metadataColumns)
         var metadataColumnsDecoded0: [Swift.String:[Swift.String]]? = nil
         if let metadataColumnsContainer = metadataColumnsContainer {
@@ -359,7 +357,6 @@ extension GetPersonalizedRankingInputBody: Swift.Decodable {
             }
         }
         metadataColumns = metadataColumnsDecoded0
->>>>>>> main
     }
 }
 
@@ -626,8 +623,6 @@ extension GetRecommendationsInputBody: Swift.Decodable {
             }
         }
         promotions = promotionsDecoded0
-<<<<<<< HEAD
-=======
         let metadataColumnsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .metadataColumns)
         var metadataColumnsDecoded0: [Swift.String:[Swift.String]]? = nil
         if let metadataColumnsContainer = metadataColumnsContainer {
@@ -646,7 +641,6 @@ extension GetRecommendationsInputBody: Swift.Decodable {
             }
         }
         metadataColumns = metadataColumnsDecoded0
->>>>>>> main
     }
 }
 

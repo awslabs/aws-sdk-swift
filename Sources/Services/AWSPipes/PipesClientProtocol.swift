@@ -22,11 +22,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func createPipe(input: CreatePipeInput) async throws -> CreatePipeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePipe` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Delete an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DeletePipeInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func deletePipe(input: DeletePipeInput) async throws -> DeletePipeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePipe` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Get the information about an existing pipe. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter DescribePipeInput : [no documentation found]
@@ -61,11 +55,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func describePipe(input: DescribePipeInput) async throws -> DescribePipeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPipes` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Get the pipes associated with this account. For more information about pipes, see [Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
     ///
     /// - Parameter ListPipesInput : [no documentation found]
@@ -79,11 +70,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func listPipes(input: ListPipesInput) async throws -> ListPipesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Displays the tags associated with a pipe.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -97,11 +85,8 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartPipe` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Start an existing pipe.
     ///
     /// - Parameter StartPipeInput : [no documentation found]
@@ -117,11 +102,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func startPipe(input: StartPipeInput) async throws -> StartPipeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopPipe` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Stop an existing pipe.
     ///
     /// - Parameter StopPipeInput : [no documentation found]
@@ -137,11 +119,8 @@ public protocol PipesClientProtocol {
     /// - `ThrottlingException` : An action was throttled.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func stopPipe(input: StopPipeInput) async throws -> StopPipeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Assigns one or more tags (key-value pairs) to the specified pipe. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a pipe that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the pipe. If you specify a tag key that is already associated with the pipe, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a pipe.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -155,11 +134,8 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `Pipes` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified pipes.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -173,13 +149,9 @@ public protocol PipesClientProtocol {
     /// - `NotFoundException` : An entity that you specified does not exist.
     /// - `ValidationException` : Indicates that an error has occurred while performing a validate operation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-    /// Update an existing pipe. When you call UpdatePipe, only the fields that are included in the request are changed, the rest are unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or TargetParameters objects. The fields in these objects are updated atomically as one and override existing values. This is by design and means that if you don't specify an optional field in one of these Parameters objects, that field will be set to its system-default value after the update. For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
-=======
     /// Performs the `UpdatePipe` operation on the `Pipes` service.
     ///
     /// Update an existing pipe. When you call UpdatePipe, EventBridge only the updates fields you have specified in the request; the rest remain unchanged. The exception to this is if you modify any Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters, or TargetParameters objects. For example, DynamoDBStreamParameters or EventBridgeEventBusParameters. EventBridge updates the fields in these objects atomically as one and overrides existing values. This is by design, and means that if you don't specify an optional field in one of these Parameters objects, EventBridge sets that field to its system-default value during the update. For more information about pipes, see [ Amazon EventBridge Pipes](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html) in the Amazon EventBridge User Guide.
->>>>>>> main
     ///
     /// - Parameter UpdatePipeInput : [no documentation found]
     ///

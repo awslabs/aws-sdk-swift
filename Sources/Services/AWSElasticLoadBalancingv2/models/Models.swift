@@ -493,8 +493,6 @@ enum AddTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension AddTrustStoreRevocationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -649,7 +647,6 @@ enum AddTrustStoreRevocationsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension AllocationIdNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -1847,11 +1844,8 @@ enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyTags": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-=======
             case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TrustStoreNotReady": return try await TrustStoreNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -2756,8 +2750,6 @@ enum CreateTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateTrustStoreInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -2949,7 +2941,6 @@ enum CreateTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteListenerInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3218,8 +3209,6 @@ enum DeleteTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteTrustStoreInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3287,7 +3276,6 @@ enum DeleteTrustStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeregisterTargetsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -4682,10 +4670,7 @@ enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LoadBalancerNotFound": return try await LoadBalancerNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "RuleNotFound": return try await RuleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TargetGroupNotFound": return try await TargetGroupNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-=======
             case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -5123,8 +5108,6 @@ extension DescribeTargetHealthInputBody: Swift.Decodable {
         } else {
             targets = nil
         }
-<<<<<<< HEAD
-=======
         if containerValues.contains(.include) {
             struct KeyVal0{struct member{}}
             let includeWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .include)
@@ -5176,7 +5159,6 @@ extension ElasticLoadBalancingv2ClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = DescribeTargetHealthInputIncludeEnum(rawValue: rawValue) ?? DescribeTargetHealthInputIncludeEnum.sdkUnknown(rawValue)
         }
->>>>>>> main
     }
 }
 
@@ -5250,8 +5232,6 @@ enum DescribeTargetHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeTrustStoreAssociationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -5855,7 +5835,6 @@ enum DescribeTrustStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DuplicateListenerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -8547,11 +8526,8 @@ enum ModifyListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRegistrationsForTargetId": return try await TooManyRegistrationsForTargetIdException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyTargets": return try await TooManyTargetsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyUniqueTargetGroupsPerLoadBalancer": return try await TooManyUniqueTargetGroupsPerLoadBalancerException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-=======
             case "TrustStoreNotFound": return try await TrustStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TrustStoreNotReady": return try await TrustStoreNotReadyException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "UnsupportedProtocol": return try await UnsupportedProtocolException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -9276,8 +9252,6 @@ enum ModifyTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ModifyTrustStoreInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -9484,7 +9458,6 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 }
 
->>>>>>> main
 extension OperationNotPermittedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -10285,8 +10258,6 @@ enum RemoveTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RemoveTrustStoreRevocationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -10392,7 +10363,6 @@ enum RemoveTrustStoreRevocationsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension ResourceInUseException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {

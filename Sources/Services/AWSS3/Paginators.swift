@@ -3,8 +3,6 @@
 import ClientRuntime
 
 extension S3Client {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListDirectoryBucketsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -35,7 +33,6 @@ extension PaginatorSequence where OperationStackInput == ListDirectoryBucketsInp
     }
 }
 extension S3Client {
->>>>>>> main
     /// Paginate over `[ListObjectsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -45,11 +42,7 @@ extension S3Client {
     ///     - input: A `[ListObjectsV2Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObjectsV2Output`
     public func listObjectsV2Paginated(input: ListObjectsV2Input) -> ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2Output> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2Output>(input: input, inputKey: \ListObjectsV2Input.continuationToken, outputKey: \ListObjectsV2Output.nextContinuationToken, paginationFunction: self.listObjectsV2(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListObjectsV2Input, ListObjectsV2Output>(input: input, inputKey: \.continuationToken, outputKey: \.nextContinuationToken, paginationFunction: self.listObjectsV2(input:))
->>>>>>> main
     }
 }
 
@@ -79,11 +72,7 @@ extension S3Client {
     ///     - input: A `[ListPartsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutput`
     public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \ListPartsInput.partNumberMarker, outputKey: \ListPartsOutput.nextPartNumberMarker, paginationFunction: self.listParts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutput>(input: input, inputKey: \.partNumberMarker, outputKey: \.nextPartNumberMarker, isTruncatedKey: \.isTruncated, paginationFunction: self.listParts(input:))
->>>>>>> main
     }
 }
 
@@ -103,11 +92,7 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPartsInput, OperationStackOutput == ListPartsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
     /// to access the nested member `[S3ClientTypes.Part]`
     /// - Returns: `[S3ClientTypes.Part]`

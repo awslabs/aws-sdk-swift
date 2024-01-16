@@ -615,8 +615,6 @@ enum DecreaseStreamRetentionPeriodOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteResourcePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceARN = "ResourceARN"
@@ -690,7 +688,6 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteStreamInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enforceConsumerDeletion = "EnforceConsumerDeletion"
@@ -2183,8 +2180,6 @@ enum GetRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetResourcePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceARN = "ResourceARN"
@@ -2288,7 +2283,6 @@ enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetShardIteratorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case shardId = "ShardId"

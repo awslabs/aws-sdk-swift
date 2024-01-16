@@ -242,17 +242,12 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6278,47 +6273,6 @@ extension CreateReplicationGroupOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateReplicationGroupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateReplicationGroupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.replicationGroup = output.replicationGroup
-        } else {
-            self.replicationGroup = nil
-        }
-    }
-}
-
-public struct CreateReplicationGroupOutput: Swift.Equatable {
-    /// Contains all of the attributes of a specific Redis replication group.
-    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-
-    public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
-    )
-    {
-        self.replicationGroup = replicationGroup
-    }
-}
-
-struct CreateReplicationGroupOutputBody: Swift.Equatable {
-    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
-}
-
-extension CreateReplicationGroupOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case replicationGroup = "ReplicationGroup"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateReplicationGroupResult"))
-        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
-        replicationGroup = replicationGroupDecoded
-    }
-}
-
 enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -6347,8 +6301,6 @@ enum CreateReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateServerlessCacheInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6857,7 +6809,6 @@ enum CreateServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension CreateSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -8927,8 +8878,6 @@ enum DeleteReplicationGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteServerlessCacheInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -9143,7 +9092,6 @@ enum DeleteServerlessCacheSnapshotOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension DeleteSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -11758,8 +11706,6 @@ enum DescribeReservedCacheNodesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeServerlessCacheSnapshotsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12077,7 +12023,6 @@ enum DescribeServerlessCachesOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension DescribeServiceUpdatesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -16171,17 +16116,12 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserNotFound": return try await UserNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -18290,8 +18230,6 @@ enum ModifyReplicationGroupShardConfigurationOutputError: ClientRuntime.HttpResp
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ModifyServerlessCacheInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -18499,7 +18437,6 @@ enum ModifyServerlessCacheOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ModifyUserGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -21376,17 +21313,12 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "CacheSubnetGroupNotFoundFault": return try await CacheSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "InvalidServerlessCacheSnapshotStateFault": return try await InvalidServerlessCacheSnapshotStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidServerlessCacheStateFault": return try await InvalidServerlessCacheStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ReservedCacheNodeNotFound": return try await ReservedCacheNodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheNotFoundFault": return try await ServerlessCacheNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "ServerlessCacheSnapshotNotFoundFault": return try await ServerlessCacheSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "SnapshotNotFoundFault": return try await SnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UserGroupNotFound": return try await UserGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

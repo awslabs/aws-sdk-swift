@@ -25,11 +25,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func addFacetToObject(input: AddFacetToObjectInput) async throws -> AddFacetToObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ApplySchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Copies the input published schema, at the specified version, into the [Directory] with the same name and version as that of the published schema.
     ///
     /// - Parameter ApplySchemaInput : [no documentation found]
@@ -49,11 +46,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func applySchema(input: ApplySchemaInput) async throws -> ApplySchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AttachObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Attaches an existing object to another object. An object can be accessed in two ways:
     ///
     /// * Using the path
@@ -79,11 +73,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachObject(input: AttachObjectInput) async throws -> AttachObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AttachPolicy` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
     ///
     /// - Parameter AttachPolicyInput : [no documentation found]
@@ -103,11 +94,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachPolicy(input: AttachPolicyInput) async throws -> AttachPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AttachToIndex` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Attaches the specified object to the specified index.
     ///
     /// - Parameter AttachToIndexInput : [no documentation found]
@@ -130,11 +118,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachToIndex(input: AttachToIndexInput) async throws -> AttachToIndexOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AttachTypedLink` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Attaches a typed link to a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter AttachTypedLinkInput : [no documentation found]
@@ -155,11 +140,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func attachTypedLink(input: AttachTypedLinkInput) async throws -> AttachTypedLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchRead` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Performs all the read operations in a batch.
     ///
     /// - Parameter BatchReadInput : [no documentation found]
@@ -177,11 +159,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func batchRead(input: BatchReadInput) async throws -> BatchReadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchWrite` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Performs all the write operations in a batch. Either all the operations succeed or none.
     ///
     /// - Parameter BatchWriteInput : [no documentation found]
@@ -200,11 +179,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func batchWrite(input: BatchWriteInput) async throws -> BatchWriteOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDirectory` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates a [Directory] by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html) in the Amazon Cloud Directory Developer Guide.
     ///
     /// - Parameter CreateDirectoryInput : [no documentation found]
@@ -223,11 +199,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createDirectory(input: CreateDirectoryInput) async throws -> CreateDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates a new [Facet] in a schema. Facet creation is allowed only in development or applied schemas.
     ///
     /// - Parameter CreateFacetInput : [no documentation found]
@@ -248,11 +221,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createFacet(input: CreateFacetInput) async throws -> CreateFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIndex` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates an index object. See [Indexing and search](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html) for more information.
     ///
     /// - Parameter CreateIndexInput : [no documentation found]
@@ -274,11 +244,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates an object in a [Directory]. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of [Facet] attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
     ///
     /// - Parameter CreateObjectInput : [no documentation found]
@@ -300,11 +267,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `UnsupportedIndexTypeException` : Indicates that the requested index type is not supported.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createObject(input: CreateObjectInput) async throws -> CreateObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates a new schema in a development state. A schema can exist in three phases:
     ///
     /// * Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.
@@ -328,11 +292,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTypedLinkFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Creates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter CreateTypedLinkFacetInput : [no documentation found]
@@ -353,11 +314,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func createTypedLinkFacet(input: CreateTypedLinkFacetInput) async throws -> CreateTypedLinkFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDirectory` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
     ///
     /// - Parameter DeleteDirectoryInput : [no documentation found]
@@ -377,11 +335,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteDirectory(input: DeleteDirectoryInput) async throws -> DeleteDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Deletes a given [Facet]. All attributes and [Rule]s that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
     ///
     /// - Parameter DeleteFacetInput : [no documentation found]
@@ -401,11 +356,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteFacet(input: DeleteFacetInput) async throws -> DeleteFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see [Amazon Cloud Directory Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html).
     ///
     /// - Parameter DeleteObjectInput : [no documentation found]
@@ -425,11 +377,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Deletes a given schema. Schemas in a development and published state can only be deleted.
     ///
     /// - Parameter DeleteSchemaInput : [no documentation found]
@@ -448,11 +397,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `StillContainsLinksException` : The object could not be deleted because links still exist. Remove the links and then try the operation again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTypedLinkFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Deletes a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter DeleteTypedLinkFacetInput : [no documentation found]
@@ -471,11 +417,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func deleteTypedLinkFacet(input: DeleteTypedLinkFacetInput) async throws -> DeleteTypedLinkFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DetachFromIndex` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Detaches the specified object from the specified index.
     ///
     /// - Parameter DetachFromIndexInput : [no documentation found]
@@ -496,11 +439,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachFromIndex(input: DetachFromIndexInput) async throws -> DetachFromIndexOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DetachObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
     ///
     /// - Parameter DetachObjectInput : [no documentation found]
@@ -520,11 +460,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachObject(input: DetachObjectInput) async throws -> DetachObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DetachPolicy` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Detaches a policy from an object.
     ///
     /// - Parameter DetachPolicyInput : [no documentation found]
@@ -544,11 +481,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachPolicy(input: DetachPolicyInput) async throws -> DetachPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DetachTypedLink` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Detaches a typed link from a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter DetachTypedLinkInput : [no documentation found]
@@ -568,11 +502,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func detachTypedLink(input: DetachTypedLinkInput) async throws -> DetachTypedLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableDirectory` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
     ///
     /// - Parameter DisableDirectoryInput : [no documentation found]
@@ -591,11 +522,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func disableDirectory(input: DisableDirectoryInput) async throws -> DisableDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableDirectory` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
     ///
     /// - Parameter EnableDirectoryInput : [no documentation found]
@@ -614,11 +542,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func enableDirectory(input: EnableDirectoryInput) async throws -> EnableDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAppliedSchemaVersion` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns current applied schema version ARN, including the minor version in use.
     ///
     /// - Parameter GetAppliedSchemaVersionInput : [no documentation found]
@@ -636,11 +561,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getAppliedSchemaVersion(input: GetAppliedSchemaVersionInput) async throws -> GetAppliedSchemaVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDirectory` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves metadata about a directory.
     ///
     /// - Parameter GetDirectoryInput : [no documentation found]
@@ -657,11 +579,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getDirectory(input: GetDirectoryInput) async throws -> GetDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Gets details of the [Facet], such as facet name, attributes, [Rule]s, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
     ///
     /// - Parameter GetFacetInput : [no documentation found]
@@ -680,11 +599,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getFacet(input: GetFacetInput) async throws -> GetFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLinkAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves attributes that are associated with a typed link.
     ///
     /// - Parameter GetLinkAttributesInput : [no documentation found]
@@ -704,11 +620,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getLinkAttributes(input: GetLinkAttributesInput) async throws -> GetLinkAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetObjectAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves attributes within a facet that are associated with an object.
     ///
     /// - Parameter GetObjectAttributesInput : [no documentation found]
@@ -728,11 +641,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetObjectInformation` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves metadata about an object.
     ///
     /// - Parameter GetObjectInformationInput : [no documentation found]
@@ -751,11 +661,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getObjectInformation(input: GetObjectInformationInput) async throws -> GetObjectInformationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchemaAsJson` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves a JSON representation of the schema. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
     /// - Parameter GetSchemaAsJsonInput : [no documentation found]
@@ -773,11 +680,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getSchemaAsJson(input: GetSchemaAsJsonInput) async throws -> GetSchemaAsJsonOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTypedLinkFacetInformation` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns the identity attribute order for a specific [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter GetTypedLinkFacetInformationInput : [no documentation found]
@@ -797,11 +701,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func getTypedLinkFacetInformation(input: GetTypedLinkFacetInformationInput) async throws -> GetTypedLinkFacetInformationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAppliedSchemaArns` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
     ///
     /// - Parameter ListAppliedSchemaArnsInput : [no documentation found]
@@ -820,11 +721,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listAppliedSchemaArns(input: ListAppliedSchemaArnsInput) async throws -> ListAppliedSchemaArnsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAttachedIndices` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists indices attached to the specified object.
     ///
     /// - Parameter ListAttachedIndicesInput : [no documentation found]
@@ -843,11 +741,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listAttachedIndices(input: ListAttachedIndicesInput) async throws -> ListAttachedIndicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevelopmentSchemaArns` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
     ///
     /// - Parameter ListDevelopmentSchemaArnsInput : [no documentation found]
@@ -866,11 +761,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listDevelopmentSchemaArns(input: ListDevelopmentSchemaArnsInput) async throws -> ListDevelopmentSchemaArnsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDirectories` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists directories created within an account.
     ///
     /// - Parameter ListDirectoriesInput : [no documentation found]
@@ -888,11 +780,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listDirectories(input: ListDirectoriesInput) async throws -> ListDirectoriesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFacetAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves attributes attached to the facet.
     ///
     /// - Parameter ListFacetAttributesInput : [no documentation found]
@@ -912,11 +801,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listFacetAttributes(input: ListFacetAttributesInput) async throws -> ListFacetAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFacetNames` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves the names of facets that exist in a schema.
     ///
     /// - Parameter ListFacetNamesInput : [no documentation found]
@@ -935,11 +821,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listFacetNames(input: ListFacetNamesInput) async throws -> ListFacetNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIncomingTypedLinks` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns a paginated list of all the incoming [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter ListIncomingTypedLinksInput : [no documentation found]
@@ -960,11 +843,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listIncomingTypedLinks(input: ListIncomingTypedLinksInput) async throws -> ListIncomingTypedLinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIndex` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists objects attached to the specified index.
     ///
     /// - Parameter ListIndexInput : [no documentation found]
@@ -986,11 +866,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listIndex(input: ListIndexInput) async throws -> ListIndexOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListManagedSchemaArns` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
     /// - Parameter ListManagedSchemaArnsInput : [no documentation found]
@@ -1007,11 +884,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource could not be found.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listManagedSchemaArns(input: ListManagedSchemaArnsInput) async throws -> ListManagedSchemaArnsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListObjectAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists all attributes that are associated with an object.
     ///
     /// - Parameter ListObjectAttributesInput : [no documentation found]
@@ -1032,11 +906,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectAttributes(input: ListObjectAttributesInput) async throws -> ListObjectAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListObjectChildren` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns a paginated list of child objects that are associated with a given object.
     ///
     /// - Parameter ListObjectChildrenInput : [no documentation found]
@@ -1057,11 +928,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectChildren(input: ListObjectChildrenInput) async throws -> ListObjectChildrenOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListObjectParentPaths` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see [Directory Structure](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html). Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
     ///
     /// - Parameter ListObjectParentPathsInput : [no documentation found]
@@ -1081,11 +949,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectParentPaths(input: ListObjectParentPathsInput) async throws -> ListObjectParentPathsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListObjectParents` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists parent objects that are associated with a given object in pagination fashion.
     ///
     /// - Parameter ListObjectParentsInput : [no documentation found]
@@ -1106,11 +971,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectParents(input: ListObjectParentsInput) async throws -> ListObjectParentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListObjectPolicies` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns policies attached to an object in pagination fashion.
     ///
     /// - Parameter ListObjectPoliciesInput : [no documentation found]
@@ -1130,11 +992,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listObjectPolicies(input: ListObjectPoliciesInput) async throws -> ListObjectPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOutgoingTypedLinks` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns a paginated list of all the outgoing [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter ListOutgoingTypedLinksInput : [no documentation found]
@@ -1155,11 +1014,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listOutgoingTypedLinks(input: ListOutgoingTypedLinksInput) async throws -> ListOutgoingTypedLinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPolicyAttachments` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
     ///
     /// - Parameter ListPolicyAttachmentsInput : [no documentation found]
@@ -1180,11 +1036,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listPolicyAttachments(input: ListPolicyAttachmentsInput) async throws -> ListPolicyAttachmentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPublishedSchemaArns` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
     /// - Parameter ListPublishedSchemaArnsInput : [no documentation found]
@@ -1203,11 +1056,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listPublishedSchemaArns(input: ListPublishedSchemaArnsInput) async throws -> ListPublishedSchemaArnsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1226,11 +1076,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTypedLinkFacetAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns a paginated list of all attribute definitions for a particular [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter ListTypedLinkFacetAttributesInput : [no documentation found]
@@ -1250,11 +1097,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTypedLinkFacetAttributes(input: ListTypedLinkFacetAttributesInput) async throws -> ListTypedLinkFacetAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTypedLinkFacetNames` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter ListTypedLinkFacetNamesInput : [no documentation found]
@@ -1273,11 +1117,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func listTypedLinkFacetNames(input: ListTypedLinkFacetNamesInput) async throws -> ListTypedLinkFacetNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `LookupPolicy` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Lists all policies from the root of the [Directory] to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
     ///
     /// - Parameter LookupPolicyInput : [no documentation found]
@@ -1297,11 +1138,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func lookupPolicy(input: LookupPolicyInput) async throws -> LookupPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PublishSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Publishes a development schema with a major version and a recommended minor version.
     ///
     /// - Parameter PublishSchemaInput : [no documentation found]
@@ -1320,11 +1158,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `SchemaAlreadyPublishedException` : Indicates that a schema is already published.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func publishSchema(input: PublishSchemaInput) async throws -> PublishSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutSchemaFromJson` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Allows a schema to be updated using JSON upload. Only available for development schemas. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
     /// - Parameter PutSchemaFromJsonInput : [no documentation found]
@@ -1343,11 +1178,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func putSchemaFromJson(input: PutSchemaFromJsonInput) async throws -> PutSchemaFromJsonOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveFacetFromObject` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Removes the specified facet from the specified object.
     ///
     /// - Parameter RemoveFacetFromObjectInput : [no documentation found]
@@ -1367,11 +1199,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func removeFacetFromObject(input: RemoveFacetFromObjectInput) async throws -> RemoveFacetFromObjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// An API operation for adding tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1390,11 +1219,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// An API operation for removing tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1413,11 +1239,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Does the following:
     ///
     /// * Adds new Attributes, Rules, or ObjectTypes.
@@ -1445,11 +1268,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateFacet(input: UpdateFacetInput) async throws -> UpdateFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLinkAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
     ///
     /// - Parameter UpdateLinkAttributesInput : [no documentation found]
@@ -1469,11 +1289,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateLinkAttributes(input: UpdateLinkAttributesInput) async throws -> UpdateLinkAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateObjectAttributes` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Updates a given object's attributes.
     ///
     /// - Parameter UpdateObjectAttributesInput : [no documentation found]
@@ -1494,11 +1311,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateObjectAttributes(input: UpdateObjectAttributesInput) async throws -> UpdateObjectAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Updates the schema name with a new name. Only development schema names can be updated.
     ///
     /// - Parameter UpdateSchemaInput : [no documentation found]
@@ -1516,11 +1330,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTypedLinkFacet` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Updates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
     /// - Parameter UpdateTypedLinkFacetInput : [no documentation found]
@@ -1542,11 +1353,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `RetryableConflictException` : Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func updateTypedLinkFacet(input: UpdateTypedLinkFacetInput) async throws -> UpdateTypedLinkFacetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradeAppliedSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
     ///
     /// - Parameter UpgradeAppliedSchemaInput : [no documentation found]
@@ -1566,11 +1374,8 @@ public protocol CloudDirectoryClientProtocol {
     /// - `SchemaAlreadyExistsException` : Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     /// - `ValidationException` : Indicates that your request is malformed in some manner. See the exception message.
     func upgradeAppliedSchema(input: UpgradeAppliedSchemaInput) async throws -> UpgradeAppliedSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradePublishedSchema` operation on the `AmazonCloudDirectory_20170111` service.
     ///
->>>>>>> main
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
     ///
     /// - Parameter UpgradePublishedSchemaInput : [no documentation found]

@@ -953,11 +953,7 @@ extension GetRevocationStatusOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetRevocationStatusOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of revoked entities (including one or more of the signing profile ARN, signing job ID, and certificate hash) supplied as input to the API.
-=======
     /// A list of revoked entities (including zero or more of the signing profile ARN, signing job ARN, and certificate hashes) supplied as input to the API.
->>>>>>> main
     public var revokedEntities: [Swift.String]?
 
     public init(

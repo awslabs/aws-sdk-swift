@@ -1718,68 +1718,6 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
         resolverEndpointType = resolverEndpointTypeDecoded
-<<<<<<< HEAD
-        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
-        outpostArn = outpostArnDecoded
-        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
-        preferredInstanceType = preferredInstanceTypeDecoded
-    }
-}
-
-extension CreateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateResolverEndpointOutputBody = try responseDecoder.decode(responseBody: data)
-            self.resolverEndpoint = output.resolverEndpoint
-        } else {
-            self.resolverEndpoint = nil
-        }
-    }
-}
-
-public struct CreateResolverEndpointOutput: Swift.Equatable {
-    /// Information about the CreateResolverEndpoint request, including the status of the request.
-    public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
-
-    public init(
-        resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
-        self.resolverEndpoint = resolverEndpoint
-    }
-}
-
-struct CreateResolverEndpointOutputBody: Swift.Equatable {
-    let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
-}
-
-extension CreateResolverEndpointOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resolverEndpoint = "ResolverEndpoint"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resolverEndpointDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpoint.self, forKey: .resolverEndpoint)
-        resolverEndpoint = resolverEndpointDecoded
-    }
-}
-
-enum CreateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-=======
         let protocolsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.ModelProtocol?].self, forKey: .protocols)
         var protocolsDecoded0:[Route53ResolverClientTypes.ModelProtocol]? = nil
         if let protocolsContainer = protocolsContainer {
@@ -1789,14 +1727,11 @@ enum CreateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
                     protocolsDecoded0?.append(enum0)
                 }
             }
->>>>>>> main
         }
         protocols = protocolsDecoded0
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1855,7 +1790,6 @@ enum CreateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateResolverQueryLogConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creatorRequestId = "CreatorRequestId"
@@ -2208,10 +2142,7 @@ enum CreateResolverRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -13674,62 +13605,6 @@ extension UpdateResolverEndpointInputBody: Swift.Decodable {
             }
         }
         updateIpAddresses = updateIpAddressesDecoded0
-<<<<<<< HEAD
-    }
-}
-
-extension UpdateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateResolverEndpointOutputBody = try responseDecoder.decode(responseBody: data)
-            self.resolverEndpoint = output.resolverEndpoint
-        } else {
-            self.resolverEndpoint = nil
-        }
-    }
-}
-
-public struct UpdateResolverEndpointOutput: Swift.Equatable {
-    /// The response to an UpdateResolverEndpoint request.
-    public var resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
-
-    public init(
-        resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint? = nil
-    )
-    {
-        self.resolverEndpoint = resolverEndpoint
-    }
-}
-
-struct UpdateResolverEndpointOutputBody: Swift.Equatable {
-    let resolverEndpoint: Route53ResolverClientTypes.ResolverEndpoint?
-}
-
-extension UpdateResolverEndpointOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resolverEndpoint = "ResolverEndpoint"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resolverEndpointDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpoint.self, forKey: .resolverEndpoint)
-        resolverEndpoint = resolverEndpointDecoded
-    }
-}
-
-enum UpdateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-=======
         let protocolsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.ModelProtocol?].self, forKey: .protocols)
         var protocolsDecoded0:[Route53ResolverClientTypes.ModelProtocol]? = nil
         if let protocolsContainer = protocolsContainer {
@@ -13739,14 +13614,11 @@ enum UpdateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
                     protocolsDecoded0?.append(enum0)
                 }
             }
->>>>>>> main
         }
         protocols = protocolsDecoded0
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateResolverEndpointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13803,7 +13675,6 @@ enum UpdateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdateResolverRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case config = "Config"
@@ -13910,10 +13781,7 @@ enum UpdateResolverRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

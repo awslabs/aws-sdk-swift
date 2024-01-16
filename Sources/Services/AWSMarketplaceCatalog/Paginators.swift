@@ -12,11 +12,7 @@ extension MarketplaceCatalogClient {
     ///     - input: A `[ListChangeSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChangeSetsOutput`
     public func listChangeSetsPaginated(input: ListChangeSetsInput) -> ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput>(input: input, inputKey: \ListChangeSetsInput.nextToken, outputKey: \ListChangeSetsOutput.nextToken, paginationFunction: self.listChangeSets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListChangeSetsInput, ListChangeSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChangeSets(input:))
->>>>>>> main
     }
 }
 
@@ -31,11 +27,7 @@ extension ListChangeSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListChangeSetsInput, Output == ListChangeSetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListChangeSetsInput, OperationStackOutput == ListChangeSetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listChangeSetsPaginated`
     /// to access the nested member `[MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]`
     /// - Returns: `[MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]`
@@ -53,11 +45,7 @@ extension MarketplaceCatalogClient {
     ///     - input: A `[ListEntitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesOutput`
     public func listEntitiesPaginated(input: ListEntitiesInput) -> ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \ListEntitiesInput.nextToken, outputKey: \ListEntitiesOutput.nextToken, paginationFunction: self.listEntities(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEntitiesInput, ListEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEntities(input:))
->>>>>>> main
     }
 }
 
@@ -76,11 +64,7 @@ extension ListEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEntitiesInput, Output == ListEntitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEntitiesInput, OperationStackOutput == ListEntitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEntitiesPaginated`
     /// to access the nested member `[MarketplaceCatalogClientTypes.EntitySummary]`
     /// - Returns: `[MarketplaceCatalogClientTypes.EntitySummary]`

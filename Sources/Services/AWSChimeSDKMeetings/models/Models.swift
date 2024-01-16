@@ -4627,8 +4627,6 @@ enum UpdateAttendeeCapabilitiesOutputError: ClientRuntime.HttpResponseErrorBindi
         }
     }
 }
-<<<<<<< HEAD
-=======
 
 extension ChimeSDKMeetingsClientTypes.VideoFeatures: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -4699,4 +4697,3 @@ extension ChimeSDKMeetingsClientTypes {
         }
     }
 }
->>>>>>> main

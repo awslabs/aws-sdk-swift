@@ -1590,47 +1590,6 @@ extension CreateDBClusterOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateDBClusterOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct CreateDBClusterOutput: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct CreateDBClusterOutputBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension CreateDBClusterOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
-    }
-}
-
 enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3316,11 +3275,8 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// Specifies whether the cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
-<<<<<<< HEAD
-=======
         /// Storage type associated with your cluster Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
         public var storageType: Swift.String?
->>>>>>> main
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
@@ -3356,10 +3312,7 @@ extension DocDBClientTypes {
             replicationSourceIdentifier: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
-<<<<<<< HEAD
-=======
             storageType: Swift.String? = nil,
->>>>>>> main
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -3980,11 +3933,8 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// Specifies whether the cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
-<<<<<<< HEAD
-=======
         /// Storage type associated with your cluster snapshot For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
         public var storageType: Swift.String?
->>>>>>> main
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public var vpcId: Swift.String?
 
@@ -4005,10 +3955,7 @@ extension DocDBClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
-<<<<<<< HEAD
-=======
             storageType: Swift.String? = nil,
->>>>>>> main
             vpcId: Swift.String? = nil
         )
         {
@@ -12105,47 +12052,6 @@ extension ModifyDBClusterOutputBody: Swift.Decodable {
     }
 }
 
-extension ModifyDBClusterOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyDBClusterOutputBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct ModifyDBClusterOutput: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct ModifyDBClusterOutputBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension ModifyDBClusterOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBClusterResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
-    }
-}
-
 enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -13230,12 +13136,9 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
-<<<<<<< HEAD
-=======
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
->>>>>>> main
         if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
         }
@@ -13301,10 +13204,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
-<<<<<<< HEAD
-=======
             storageType: Swift.String? = nil,
->>>>>>> main
             vpc: Swift.Bool? = nil
         )
         {
@@ -14868,47 +14768,6 @@ extension RestoreDBClusterFromSnapshotOutputBody: Swift.Decodable {
     }
 }
 
-extension RestoreDBClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterFromSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterFromSnapshotOutputBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterFromSnapshotOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterFromSnapshotResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
-    }
-}
-
 enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -15220,47 +15079,6 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         deletionProtection = deletionProtectionDecoded
         let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
         storageType = storageTypeDecoded
-    }
-}
-
-extension RestoreDBClusterToPointInTimeOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: RestoreDBClusterToPointInTimeOutputBody = try responseDecoder.decode(responseBody: data)
-            self.dbCluster = output.dbCluster
-        } else {
-            self.dbCluster = nil
-        }
-    }
-}
-
-public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
-    /// Detailed information about a cluster.
-    public var dbCluster: DocDBClientTypes.DBCluster?
-
-    public init(
-        dbCluster: DocDBClientTypes.DBCluster? = nil
-    )
-    {
-        self.dbCluster = dbCluster
-    }
-}
-
-struct RestoreDBClusterToPointInTimeOutputBody: Swift.Equatable {
-    let dbCluster: DocDBClientTypes.DBCluster?
-}
-
-extension RestoreDBClusterToPointInTimeOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case dbCluster = "DBCluster"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
-        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RestoreDBClusterToPointInTimeResult"))
-        let dbClusterDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.DBCluster.self, forKey: .dbCluster)
-        dbCluster = dbClusterDecoded
     }
 }
 

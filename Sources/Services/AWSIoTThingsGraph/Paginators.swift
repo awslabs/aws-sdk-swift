@@ -12,11 +12,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[GetFlowTemplateRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFlowTemplateRevisionsOutput`
     public func getFlowTemplateRevisionsPaginated(input: GetFlowTemplateRevisionsInput) -> ClientRuntime.PaginatorSequence<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutput>(input: input, inputKey: \GetFlowTemplateRevisionsInput.nextToken, outputKey: \GetFlowTemplateRevisionsOutput.nextToken, paginationFunction: self.getFlowTemplateRevisions(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFlowTemplateRevisions(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension GetFlowTemplateRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetFlowTemplateRevisionsInput, Output == GetFlowTemplateRevisionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetFlowTemplateRevisionsInput, OperationStackOutput == GetFlowTemplateRevisionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getFlowTemplateRevisionsPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
@@ -51,11 +43,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[GetSystemTemplateRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSystemTemplateRevisionsOutput`
     public func getSystemTemplateRevisionsPaginated(input: GetSystemTemplateRevisionsInput) -> ClientRuntime.PaginatorSequence<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutput>(input: input, inputKey: \GetSystemTemplateRevisionsInput.nextToken, outputKey: \GetSystemTemplateRevisionsOutput.nextToken, paginationFunction: self.getSystemTemplateRevisions(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSystemTemplateRevisions(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension GetSystemTemplateRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSystemTemplateRevisionsInput, Output == GetSystemTemplateRevisionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSystemTemplateRevisionsInput, OperationStackOutput == GetSystemTemplateRevisionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSystemTemplateRevisionsPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
@@ -90,11 +74,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[ListFlowExecutionMessagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlowExecutionMessagesOutput`
     public func listFlowExecutionMessagesPaginated(input: ListFlowExecutionMessagesInput) -> ClientRuntime.PaginatorSequence<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutput>(input: input, inputKey: \ListFlowExecutionMessagesInput.nextToken, outputKey: \ListFlowExecutionMessagesOutput.nextToken, paginationFunction: self.listFlowExecutionMessages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlowExecutionMessages(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +87,7 @@ extension ListFlowExecutionMessagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFlowExecutionMessagesInput, Output == ListFlowExecutionMessagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFlowExecutionMessagesInput, OperationStackOutput == ListFlowExecutionMessagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFlowExecutionMessagesPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
     /// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
@@ -129,11 +105,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +118,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.Tag]`
     /// - Returns: `[IoTThingsGraphClientTypes.Tag]`
@@ -168,11 +136,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchEntitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchEntitiesOutput`
     public func searchEntitiesPaginated(input: SearchEntitiesInput) -> ClientRuntime.PaginatorSequence<SearchEntitiesInput, SearchEntitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchEntitiesInput, SearchEntitiesOutput>(input: input, inputKey: \SearchEntitiesInput.nextToken, outputKey: \SearchEntitiesOutput.nextToken, paginationFunction: self.searchEntities(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchEntitiesInput, SearchEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchEntities(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +151,7 @@ extension SearchEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchEntitiesInput, Output == SearchEntitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchEntitiesInput, OperationStackOutput == SearchEntitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchEntitiesPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.EntityDescription]`
     /// - Returns: `[IoTThingsGraphClientTypes.EntityDescription]`
@@ -209,11 +169,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchFlowExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchFlowExecutionsOutput`
     public func searchFlowExecutionsPaginated(input: SearchFlowExecutionsInput) -> ClientRuntime.PaginatorSequence<SearchFlowExecutionsInput, SearchFlowExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchFlowExecutionsInput, SearchFlowExecutionsOutput>(input: input, inputKey: \SearchFlowExecutionsInput.nextToken, outputKey: \SearchFlowExecutionsOutput.nextToken, paginationFunction: self.searchFlowExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchFlowExecutionsInput, SearchFlowExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchFlowExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -229,11 +185,7 @@ extension SearchFlowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchFlowExecutionsInput, Output == SearchFlowExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchFlowExecutionsInput, OperationStackOutput == SearchFlowExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchFlowExecutionsPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
@@ -251,11 +203,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchFlowTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchFlowTemplatesOutput`
     public func searchFlowTemplatesPaginated(input: SearchFlowTemplatesInput) -> ClientRuntime.PaginatorSequence<SearchFlowTemplatesInput, SearchFlowTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchFlowTemplatesInput, SearchFlowTemplatesOutput>(input: input, inputKey: \SearchFlowTemplatesInput.nextToken, outputKey: \SearchFlowTemplatesOutput.nextToken, paginationFunction: self.searchFlowTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchFlowTemplatesInput, SearchFlowTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchFlowTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -268,11 +216,7 @@ extension SearchFlowTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchFlowTemplatesInput, Output == SearchFlowTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchFlowTemplatesInput, OperationStackOutput == SearchFlowTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchFlowTemplatesPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
@@ -290,11 +234,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchSystemInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchSystemInstancesOutput`
     public func searchSystemInstancesPaginated(input: SearchSystemInstancesInput) -> ClientRuntime.PaginatorSequence<SearchSystemInstancesInput, SearchSystemInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchSystemInstancesInput, SearchSystemInstancesOutput>(input: input, inputKey: \SearchSystemInstancesInput.nextToken, outputKey: \SearchSystemInstancesOutput.nextToken, paginationFunction: self.searchSystemInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchSystemInstancesInput, SearchSystemInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchSystemInstances(input:))
->>>>>>> main
     }
 }
 
@@ -307,11 +247,7 @@ extension SearchSystemInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchSystemInstancesInput, Output == SearchSystemInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchSystemInstancesInput, OperationStackOutput == SearchSystemInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchSystemInstancesPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
@@ -329,11 +265,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchSystemTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchSystemTemplatesOutput`
     public func searchSystemTemplatesPaginated(input: SearchSystemTemplatesInput) -> ClientRuntime.PaginatorSequence<SearchSystemTemplatesInput, SearchSystemTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchSystemTemplatesInput, SearchSystemTemplatesOutput>(input: input, inputKey: \SearchSystemTemplatesInput.nextToken, outputKey: \SearchSystemTemplatesOutput.nextToken, paginationFunction: self.searchSystemTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchSystemTemplatesInput, SearchSystemTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchSystemTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -346,11 +278,7 @@ extension SearchSystemTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchSystemTemplatesInput, Output == SearchSystemTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchSystemTemplatesInput, OperationStackOutput == SearchSystemTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchSystemTemplatesPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
     /// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
@@ -368,11 +296,7 @@ extension IoTThingsGraphClient {
     ///     - input: A `[SearchThingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchThingsOutput`
     public func searchThingsPaginated(input: SearchThingsInput) -> ClientRuntime.PaginatorSequence<SearchThingsInput, SearchThingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchThingsInput, SearchThingsOutput>(input: input, inputKey: \SearchThingsInput.nextToken, outputKey: \SearchThingsOutput.nextToken, paginationFunction: self.searchThings(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchThingsInput, SearchThingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchThings(input:))
->>>>>>> main
     }
 }
 
@@ -386,11 +310,7 @@ extension SearchThingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchThingsInput, Output == SearchThingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchThingsInput, OperationStackOutput == SearchThingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchThingsPaginated`
     /// to access the nested member `[IoTThingsGraphClientTypes.Thing]`
     /// - Returns: `[IoTThingsGraphClientTypes.Thing]`

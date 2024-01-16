@@ -4,11 +4,8 @@ import ClientRuntime
 
 /// Welcome to the Entity Resolution API Reference. Entity Resolution is an Amazon Web Services service that provides pre-configured entity resolution capabilities that enable developers and analysts at advertising and marketing companies to build an accurate and complete view of their consumers. With Entity Resolution, you can match source records containing consumer identifiers, such as name, email address, and phone number. This is true even when these records have incomplete or conflicting identifiers. For example, Entity Resolution can effectively match a source record from a customer relationship management (CRM) system with a source record from a marketing system containing campaign information. To learn more about Entity Resolution concepts, procedures, and best practices, see the [Entity Resolution User Guide](https://docs.aws.amazon.com/entityresolution/latest/userguide/what-is-service.html).
 public protocol EntityResolutionClientProtocol {
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIdMappingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API.
     ///
     /// - Parameter CreateIdMappingWorkflowInput : [no documentation found]
@@ -25,11 +22,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func createIdMappingWorkflow(input: CreateIdMappingWorkflowInput) async throws -> CreateIdMappingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMatchingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
     ///
     /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
@@ -46,11 +40,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSchemaMapping` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
     /// - Parameter CreateSchemaMappingInput : [no documentation found]
@@ -67,11 +58,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIdMappingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
     /// - Parameter DeleteIdMappingWorkflowInput : [no documentation found]
@@ -86,11 +74,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func deleteIdMappingWorkflow(input: DeleteIdMappingWorkflowInput) async throws -> DeleteIdMappingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMatchingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
     /// - Parameter DeleteMatchingWorkflowInput : [no documentation found]
@@ -105,11 +90,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSchemaMapping` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
     /// - Parameter DeleteSchemaMappingInput : [no documentation found]
@@ -125,11 +107,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIdMappingJob` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
     /// - Parameter GetIdMappingJobInput : [no documentation found]
@@ -145,11 +124,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getIdMappingJob(input: GetIdMappingJobInput) async throws -> GetIdMappingJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIdMappingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns the IdMappingWorkflow with a given name, if it exists.
     ///
     /// - Parameter GetIdMappingWorkflowInput : [no documentation found]
@@ -165,11 +141,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getIdMappingWorkflow(input: GetIdMappingWorkflowInput) async throws -> GetIdMappingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMatchId` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns the corresponding Match ID of a customer record if the record has been processed.
     ///
     /// - Parameter GetMatchIdInput : [no documentation found]
@@ -185,11 +158,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMatchingJob` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
     /// - Parameter GetMatchingJobInput : [no documentation found]
@@ -205,11 +175,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMatchingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
     /// - Parameter GetMatchingWorkflowInput : [no documentation found]
@@ -225,11 +192,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProviderService` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns the ProviderService of a given name.
     ///
     /// - Parameter GetProviderServiceInput : [no documentation found]
@@ -245,11 +209,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getProviderService(input: GetProviderServiceInput) async throws -> GetProviderServiceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchemaMapping` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns the SchemaMapping of a given name.
     ///
     /// - Parameter GetSchemaMappingInput : [no documentation found]
@@ -265,11 +226,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIdMappingJobs` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Lists all ID mapping jobs for a given workflow.
     ///
     /// - Parameter ListIdMappingJobsInput : [no documentation found]
@@ -285,11 +243,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listIdMappingJobs(input: ListIdMappingJobsInput) async throws -> ListIdMappingJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIdMappingWorkflows` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListIdMappingWorkflowsInput : [no documentation found]
@@ -304,11 +259,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listIdMappingWorkflows(input: ListIdMappingWorkflowsInput) async throws -> ListIdMappingWorkflowsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMatchingJobs` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Lists all jobs for a given workflow.
     ///
     /// - Parameter ListMatchingJobsInput : [no documentation found]
@@ -324,11 +276,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMatchingWorkflows` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListMatchingWorkflowsInput : [no documentation found]
@@ -343,11 +292,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProviderServices` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns a list of all the ProviderServices that are available in this Amazon Web Services Region.
     ///
     /// - Parameter ListProviderServicesInput : [no documentation found]
@@ -362,11 +308,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listProviderServices(input: ListProviderServicesInput) async throws -> ListProviderServicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSchemaMappings` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListSchemaMappingsInput : [no documentation found]
@@ -381,11 +324,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -399,19 +339,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-    /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
-    ///
-    /// - Parameter StartIdMappingJobInput : [no documentation found]
-    ///
-=======
     /// Performs the `StartIdMappingJob` operation on the `AWSVeniceService` service.
     ///
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     ///
     /// - Parameter StartIdMappingJobInput : [no documentation found]
     ///
->>>>>>> main
     /// - Returns: `StartIdMappingJobOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -425,11 +358,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func startIdMappingJob(input: StartIdMappingJobInput) async throws -> StartIdMappingJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartMatchingJob` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
     /// - Parameter StartMatchingJobInput : [no documentation found]
@@ -447,11 +377,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -465,11 +392,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -482,19 +406,12 @@ public protocol EntityResolutionClientProtocol {
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-    /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
-    ///
-    /// - Parameter UpdateIdMappingWorkflowInput : [no documentation found]
-    ///
-=======
     /// Performs the `UpdateIdMappingWorkflow` operation on the `AWSVeniceService` service.
     ///
     /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed.
     ///
     /// - Parameter UpdateIdMappingWorkflowInput : [no documentation found]
     ///
->>>>>>> main
     /// - Returns: `UpdateIdMappingWorkflowOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -506,11 +423,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func updateIdMappingWorkflow(input: UpdateIdMappingWorkflowInput) async throws -> UpdateIdMappingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMatchingWorkflow` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
     ///
     /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
@@ -526,11 +440,8 @@ public protocol EntityResolutionClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSchemaMapping` operation on the `AWSVeniceService` service.
     ///
->>>>>>> main
     /// Updates a schema mapping. A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
     ///
     /// - Parameter UpdateSchemaMappingInput : [no documentation found]

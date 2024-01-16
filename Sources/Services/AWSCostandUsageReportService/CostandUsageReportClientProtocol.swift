@@ -18,23 +18,14 @@ public protocol CostandUsageReportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
-<<<<<<< HEAD
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
-    /// Lists the AWS Cost and Usage reports available to this account.
-=======
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
     /// Performs the `DescribeReportDefinitions` operation on the `AWSOrigamiServiceGatewayService` service.
->>>>>>> main
     ///
     /// Lists the Amazon Web Services Cost and Usage Report available to this account.
     ///
-<<<<<<< HEAD
-=======
     /// - Parameter DescribeReportDefinitionsInput : Requests a Amazon Web Services Cost and Usage Report list owned by the account.
     ///
->>>>>>> main
     /// - Returns: `DescribeReportDefinitionsOutput` : If the action is successful, the service sends back an HTTP 200 response.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -42,9 +33,6 @@ public protocol CostandUsageReportClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     func describeReportDefinitions(input: DescribeReportDefinitionsInput) async throws -> DescribeReportDefinitionsOutput
-<<<<<<< HEAD
-    /// Allows you to programatically update your report preferences.
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSOrigamiServiceGatewayService` service.
     ///
     /// Lists the tags associated with the specified report definition.
@@ -63,7 +51,6 @@ public protocol CostandUsageReportClientProtocol {
     /// Performs the `ModifyReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
     ///
     /// Allows you to programmatically update your report preferences.
->>>>>>> main
     ///
     /// - Parameter ModifyReportDefinitionInput : [no documentation found]
     ///
@@ -73,15 +60,10 @@ public protocol CostandUsageReportClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
-<<<<<<< HEAD
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput
-=======
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func modifyReportDefinition(input: ModifyReportDefinitionInput) async throws -> ModifyReportDefinitionOutput
     /// Performs the `PutReportDefinition` operation on the `AWSOrigamiServiceGatewayService` service.
     ///
->>>>>>> main
     /// Creates a new report using the description that you provide.
     ///
     /// - Parameter PutReportDefinitionInput : Creates a Cost and Usage Report.
@@ -94,10 +76,6 @@ public protocol CostandUsageReportClientProtocol {
     /// - `DuplicateReportNameException` : A report with the specified name already exists in the account. Specify a different report name.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `ReportLimitReachedException` : This account already has five reports defined. To define a new report, you must delete an existing report.
-<<<<<<< HEAD
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
-=======
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
@@ -131,7 +109,6 @@ public protocol CostandUsageReportClientProtocol {
     /// - `ResourceNotFoundException` : The specified report (ReportName) in the request doesn't exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
->>>>>>> main
 }
 
 public enum CostandUsageReportClientTypes {}

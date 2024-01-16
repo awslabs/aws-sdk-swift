@@ -1047,38 +1047,8 @@ enum ListSnapshotBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct PutSnapshotBlockInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutSnapshotBlockInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutSnapshotBlockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutSnapshotBlockOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let blockData = input.operationInput.blockData {
-            let blockDataBody = ClientRuntime.HttpBody(byteStream: blockData)
-            input.builder.withBody(blockDataBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutSnapshotBlockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutSnapshotBlockOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension PutSnapshotBlockInput: Swift.CustomDebugStringConvertible {

@@ -12,11 +12,7 @@ extension OpsWorksClient {
     ///     - input: A `[DescribeEcsClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEcsClustersOutput`
     public func describeEcsClustersPaginated(input: DescribeEcsClustersInput) -> ClientRuntime.PaginatorSequence<DescribeEcsClustersInput, DescribeEcsClustersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEcsClustersInput, DescribeEcsClustersOutput>(input: input, inputKey: \DescribeEcsClustersInput.nextToken, outputKey: \DescribeEcsClustersOutput.nextToken, paginationFunction: self.describeEcsClusters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEcsClustersInput, DescribeEcsClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEcsClusters(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension DescribeEcsClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEcsClustersInput, Output == DescribeEcsClustersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEcsClustersInput, OperationStackOutput == DescribeEcsClustersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEcsClustersPaginated`
     /// to access the nested member `[OpsWorksClientTypes.EcsCluster]`
     /// - Returns: `[OpsWorksClientTypes.EcsCluster]`

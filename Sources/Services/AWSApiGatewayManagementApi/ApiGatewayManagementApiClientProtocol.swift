@@ -19,11 +19,8 @@ public protocol ApiGatewayManagementApiClientProtocol {
     /// - `GoneException` : The connection with the provided id no longer exists.
     /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConnection` operation on the `ApiGatewayManagementApi` service.
     ///
->>>>>>> main
     /// Get information about the connection with the provided id.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
@@ -37,11 +34,8 @@ public protocol ApiGatewayManagementApiClientProtocol {
     /// - `GoneException` : The connection with the provided id no longer exists.
     /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PostToConnection` operation on the `ApiGatewayManagementApi` service.
     ///
->>>>>>> main
     /// Sends the provided data to the specified connection.
     ///
     /// - Parameter PostToConnectionInput : [no documentation found]

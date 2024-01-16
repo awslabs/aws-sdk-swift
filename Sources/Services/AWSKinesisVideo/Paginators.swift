@@ -12,11 +12,7 @@ extension KinesisVideoClient {
     ///     - input: A `[DescribeMappedResourceConfigurationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMappedResourceConfigurationOutput`
     public func describeMappedResourceConfigurationPaginated(input: DescribeMappedResourceConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutput>(input: input, inputKey: \DescribeMappedResourceConfigurationInput.nextToken, outputKey: \DescribeMappedResourceConfigurationOutput.nextToken, paginationFunction: self.describeMappedResourceConfiguration(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMappedResourceConfiguration(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension DescribeMappedResourceConfigurationInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeMappedResourceConfigurationInput, Output == DescribeMappedResourceConfigurationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeMappedResourceConfigurationInput, OperationStackOutput == DescribeMappedResourceConfigurationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMappedResourceConfigurationPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
     /// - Returns: `[KinesisVideoClientTypes.MappedResourceConfigurationListItem]`
@@ -52,11 +44,7 @@ extension KinesisVideoClient {
     ///     - input: A `[ListEdgeAgentConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEdgeAgentConfigurationsOutput`
     public func listEdgeAgentConfigurationsPaginated(input: ListEdgeAgentConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput>(input: input, inputKey: \ListEdgeAgentConfigurationsInput.nextToken, outputKey: \ListEdgeAgentConfigurationsOutput.nextToken, paginationFunction: self.listEdgeAgentConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEdgeAgentConfigurationsInput, ListEdgeAgentConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEdgeAgentConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension ListEdgeAgentConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEdgeAgentConfigurationsInput, Output == ListEdgeAgentConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEdgeAgentConfigurationsInput, OperationStackOutput == ListEdgeAgentConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEdgeAgentConfigurationsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
     /// - Returns: `[KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig]`
@@ -91,11 +75,7 @@ extension KinesisVideoClient {
     ///     - input: A `[ListSignalingChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSignalingChannelsOutput`
     public func listSignalingChannelsPaginated(input: ListSignalingChannelsInput) -> ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutput>(input: input, inputKey: \ListSignalingChannelsInput.nextToken, outputKey: \ListSignalingChannelsOutput.nextToken, paginationFunction: self.listSignalingChannels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSignalingChannelsInput, ListSignalingChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSignalingChannels(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension ListSignalingChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSignalingChannelsInput, Output == ListSignalingChannelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSignalingChannelsInput, OperationStackOutput == ListSignalingChannelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSignalingChannelsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.ChannelInfo]`
     /// - Returns: `[KinesisVideoClientTypes.ChannelInfo]`
@@ -130,11 +106,7 @@ extension KinesisVideoClient {
     ///     - input: A `[ListStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutput`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutput.nextToken, paginationFunction: self.listStreams(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreams(input:))
->>>>>>> main
     }
 }
 
@@ -147,11 +119,7 @@ extension ListStreamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListStreamsInput, Output == ListStreamsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListStreamsInput, OperationStackOutput == ListStreamsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStreamsPaginated`
     /// to access the nested member `[KinesisVideoClientTypes.StreamInfo]`
     /// - Returns: `[KinesisVideoClientTypes.StreamInfo]`

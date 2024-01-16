@@ -23,6 +23,9 @@ public class ControlTowerClient {
         decoder.dateDecodingStrategy = .secondsSince1970
         decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
         self.decoder = config.decoder ?? decoder
+        var modeledAuthSchemes: [ClientRuntime.AuthScheme] = Array()
+        modeledAuthSchemes.append(SigV4AuthScheme())
+        config.authSchemes = config.authSchemes ?? modeledAuthSchemes
         self.config = config
     }
 
@@ -42,13 +45,16 @@ extension ControlTowerClient {
 
     public struct ServiceSpecificConfiguration: AWSServiceSpecificConfiguration {
         public typealias AWSServiceEndpointResolver = EndpointResolver
+        public typealias AWSAuthSchemeResolver = ControlTowerAuthSchemeResolver
 
         public var serviceName: String { "ControlTower" }
         public var clientName: String { "ControlTowerClient" }
+        public var authSchemeResolver: ControlTowerAuthSchemeResolver
         public var endpointResolver: EndpointResolver
 
-        public init(endpointResolver: EndpointResolver? = nil) throws {
+        public init(endpointResolver: EndpointResolver? = nil, authSchemeResolver: ControlTowerAuthSchemeResolver? = nil) throws {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
+            self.authSchemeResolver = authSchemeResolver ?? DefaultControlTowerAuthSchemeResolver()
         }
     }
 }
@@ -67,34 +73,17 @@ public struct ControlTowerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 }
 
 extension ControlTowerClient: ControlTowerClientProtocol {
-<<<<<<< HEAD
-    /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
-=======
     /// Performs the `CreateLandingZone` operation on the `AWSControlTowerApis` service.
->>>>>>> main
     ///
     /// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
     ///
-<<<<<<< HEAD
-    /// - Returns: `DisableControlOutput` : [no documentation found]
-=======
     /// - Parameter CreateLandingZoneInput : [no documentation found]
     ///
     /// - Returns: `CreateLandingZoneOutput` : [no documentation found]
->>>>>>> main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
@@ -111,7 +100,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -122,12 +115,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLandingZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateLandingZoneOutput, CreateLandingZoneOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLandingZoneInput, CreateLandingZoneOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLandingZoneInput, CreateLandingZoneOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLandingZoneOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLandingZoneOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateLandingZoneOutput, CreateLandingZoneOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLandingZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLandingZoneOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLandingZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -162,7 +155,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -173,12 +170,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLandingZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteLandingZoneOutput, DeleteLandingZoneOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLandingZoneInput, DeleteLandingZoneOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteLandingZoneInput, DeleteLandingZoneOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLandingZoneOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLandingZoneOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteLandingZoneOutput, DeleteLandingZoneOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLandingZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLandingZoneOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLandingZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -203,7 +200,6 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
->>>>>>> main
     public func disableControl(input: DisableControlInput) async throws -> DisableControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -215,53 +211,36 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<DisableControlInput, DisableControlOutput, DisableControlOutputError>(id: "disableControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableControlInput, DisableControlOutput, DisableControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableControlInput, DisableControlOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableControlOutput, DisableControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableControlInput, DisableControlOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableControlInput, DisableControlOutput>(xmlName: "DisableControlInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableControlOutput, DisableControlOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableControlOutput, DisableControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableControlOutput, DisableControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableControlOutput, DisableControlOutputError>(clientLogMode: config.clientLogMode))
-=======
         var operation = ClientRuntime.OperationStack<DisableControlInput, DisableControlOutput>(id: "disableControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableControlInput, DisableControlOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableControlInput, DisableControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DisableControlOutput, DisableControlOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableControlInput, DisableControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisableControlInput, DisableControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableControlOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableControlOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DisableControlOutput, DisableControlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisableControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableControlOutput>(clientLogMode: config.clientLogMode))
->>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-<<<<<<< HEAD
-    /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// Performs the `EnableControl` operation on the `AWSControlTowerApis` service.
     ///
     /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter EnableControlInput : [no documentation found]
     ///
@@ -270,15 +249,6 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
@@ -286,7 +256,6 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
->>>>>>> main
     public func enableControl(input: EnableControlInput) async throws -> EnableControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -298,53 +267,36 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<EnableControlInput, EnableControlOutput, EnableControlOutputError>(id: "enableControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableControlInput, EnableControlOutput, EnableControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableControlInput, EnableControlOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableControlOutput, EnableControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableControlInput, EnableControlOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableControlInput, EnableControlOutput>(xmlName: "EnableControlInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableControlOutput, EnableControlOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableControlOutput, EnableControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableControlOutput, EnableControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableControlOutput, EnableControlOutputError>(clientLogMode: config.clientLogMode))
-=======
         var operation = ClientRuntime.OperationStack<EnableControlInput, EnableControlOutput>(id: "enableControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableControlInput, EnableControlOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableControlInput, EnableControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<EnableControlOutput, EnableControlOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableControlInput, EnableControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableControlInput, EnableControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableControlOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableControlOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<EnableControlOutput, EnableControlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableControlOutput>(clientLogMode: config.clientLogMode))
->>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-<<<<<<< HEAD
-    /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// Performs the `GetControlOperation` operation on the `AWSControlTowerApis` service.
     ///
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter GetControlOperationInput : [no documentation found]
     ///
@@ -353,19 +305,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
->>>>>>> main
     public func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,61 +321,37 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<GetControlOperationInput, GetControlOperationOutput, GetControlOperationOutputError>(id: "getControlOperation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetControlOperationInput, GetControlOperationOutput, GetControlOperationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetControlOperationInput, GetControlOperationOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetControlOperationOutput, GetControlOperationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetControlOperationInput, GetControlOperationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetControlOperationInput, GetControlOperationOutput>(xmlName: "GetControlOperationInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetControlOperationOutput, GetControlOperationOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetControlOperationOutput, GetControlOperationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetControlOperationOutput, GetControlOperationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetControlOperationOutput, GetControlOperationOutputError>(clientLogMode: config.clientLogMode))
-=======
         var operation = ClientRuntime.OperationStack<GetControlOperationInput, GetControlOperationOutput>(id: "getControlOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetControlOperationInput, GetControlOperationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetControlOperationInput, GetControlOperationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetControlOperationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetControlOperationOutput, GetControlOperationOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetControlOperationInput, GetControlOperationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetControlOperationInput, GetControlOperationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetControlOperationOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetControlOperationOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetControlOperationOutput, GetControlOperationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetControlOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetControlOperationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetControlOperationOutput>(clientLogMode: config.clientLogMode))
->>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-<<<<<<< HEAD
-    /// Provides details about the enabled control. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html). Returned values
-    ///
-    /// * TargetRegions: Shows target AWS Regions where the enabled control is available to be deployed.
-    ///
-    /// * StatusSummary: Provides a detailed summary of the deployment status.
-    ///
-    /// * DriftSummary: Provides a detailed summary of the drifted status.
-    ///
-=======
     /// Performs the `GetEnabledControl` operation on the `AWSControlTowerApis` service.
     ///
     /// Retrieves details about an enabled control. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
     ///
->>>>>>> main
     /// - Parameter GetEnabledControlInput : [no documentation found]
     ///
     /// - Returns: `GetEnabledControlOutput` : [no documentation found]
@@ -439,19 +359,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
->>>>>>> main
     public func getEnabledControl(input: GetEnabledControlInput) async throws -> GetEnabledControlOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -463,49 +375,33 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<GetEnabledControlInput, GetEnabledControlOutput, GetEnabledControlOutputError>(id: "getEnabledControl")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnabledControlInput, GetEnabledControlOutput, GetEnabledControlOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnabledControlInput, GetEnabledControlOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnabledControlOutput, GetEnabledControlOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEnabledControlInput, GetEnabledControlOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEnabledControlInput, GetEnabledControlOutput>(xmlName: "GetEnabledControlInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEnabledControlOutput, GetEnabledControlOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnabledControlOutput, GetEnabledControlOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnabledControlOutput, GetEnabledControlOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnabledControlOutput, GetEnabledControlOutputError>(clientLogMode: config.clientLogMode))
-=======
         var operation = ClientRuntime.OperationStack<GetEnabledControlInput, GetEnabledControlOutput>(id: "getEnabledControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnabledControlInput, GetEnabledControlOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnabledControlInput, GetEnabledControlOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnabledControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetEnabledControlOutput, GetEnabledControlOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEnabledControlInput, GetEnabledControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetEnabledControlInput, GetEnabledControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEnabledControlOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnabledControlOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetEnabledControlOutput, GetEnabledControlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnabledControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEnabledControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnabledControlOutput>(clientLogMode: config.clientLogMode))
->>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-<<<<<<< HEAD
-    /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// Performs the `GetLandingZone` operation on the `AWSControlTowerApis` service.
     ///
     /// Returns details about the landing zone. Displays a message in case of error.
@@ -533,7 +429,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -544,12 +444,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLandingZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetLandingZoneOutput, GetLandingZoneOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLandingZoneInput, GetLandingZoneOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLandingZoneInput, GetLandingZoneOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLandingZoneOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLandingZoneOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetLandingZoneOutput, GetLandingZoneOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLandingZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLandingZoneOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLandingZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -583,7 +483,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -594,12 +498,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLandingZoneOperationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetLandingZoneOperationOutput, GetLandingZoneOperationOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLandingZoneOperationInput, GetLandingZoneOperationOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLandingZoneOperationInput, GetLandingZoneOperationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLandingZoneOperationOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLandingZoneOperationOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetLandingZoneOperationOutput, GetLandingZoneOperationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLandingZoneOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLandingZoneOperationOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLandingZoneOperationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -609,7 +513,6 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// Performs the `ListEnabledControls` operation on the `AWSControlTowerApis` service.
     ///
     /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter ListEnabledControlsInput : [no documentation found]
     ///
@@ -618,19 +521,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
->>>>>>> main
     public func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -642,39 +537,27 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<ListEnabledControlsInput, ListEnabledControlsOutput, ListEnabledControlsOutputError>(id: "listEnabledControls")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput, ListEnabledControlsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>(xmlName: "ListEnabledControlsInput"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEnabledControlsOutput, ListEnabledControlsOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>(clientLogMode: config.clientLogMode))
-=======
         var operation = ClientRuntime.OperationStack<ListEnabledControlsInput, ListEnabledControlsOutput>(id: "listEnabledControls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEnabledControlsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEnabledControlsInput, ListEnabledControlsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEnabledControlsOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnabledControlsOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEnabledControlsOutput, ListEnabledControlsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnabledControlsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEnabledControlsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnabledControlsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -707,7 +590,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -718,12 +605,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLandingZonesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListLandingZonesOutput, ListLandingZonesOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLandingZonesInput, ListLandingZonesOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLandingZonesInput, ListLandingZonesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLandingZonesOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLandingZonesOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListLandingZonesOutput, ListLandingZonesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLandingZonesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLandingZonesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLandingZonesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -755,7 +642,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -766,9 +657,9 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -803,7 +694,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -814,12 +709,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetLandingZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ResetLandingZoneOutput, ResetLandingZoneOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetLandingZoneInput, ResetLandingZoneOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResetLandingZoneInput, ResetLandingZoneOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetLandingZoneOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetLandingZoneOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ResetLandingZoneOutput, ResetLandingZoneOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetLandingZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetLandingZoneOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetLandingZoneOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -851,7 +746,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -862,12 +761,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TagResourceOutput, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -899,7 +798,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -910,10 +813,10 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UntagResourceOutput, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -949,7 +852,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -960,12 +867,12 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEnabledControlOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateEnabledControlOutput, UpdateEnabledControlOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEnabledControlInput, UpdateEnabledControlOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEnabledControlInput, UpdateEnabledControlOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEnabledControlOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnabledControlOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateEnabledControlOutput, UpdateEnabledControlOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnabledControlOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEnabledControlOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnabledControlOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -1000,7 +907,11 @@ extension ControlTowerClient: ControlTowerClientProtocol {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "controltower")
                       .withSigningRegion(value: config.signingRegion)
@@ -1011,15 +922,14 @@ extension ControlTowerClient: ControlTowerClientProtocol {
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLandingZoneOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateLandingZoneOutput, UpdateLandingZoneOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLandingZoneInput, UpdateLandingZoneOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLandingZoneInput, UpdateLandingZoneOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLandingZoneOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLandingZoneOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateLandingZoneOutput, UpdateLandingZoneOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLandingZoneOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLandingZoneOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLandingZoneOutput>(clientLogMode: config.clientLogMode))
->>>>>>> main
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

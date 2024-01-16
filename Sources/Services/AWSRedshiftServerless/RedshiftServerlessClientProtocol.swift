@@ -22,11 +22,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCustomDomainAssociation` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates a custom domain association for Amazon Redshift Serverless.
     ///
     /// - Parameter CreateCustomDomainAssociationInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEndpointAccess` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates an Amazon Redshift Serverless managed VPC endpoint.
     ///
     /// - Parameter CreateEndpointAccessInput : [no documentation found]
@@ -64,11 +58,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateNamespace` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates a namespace in Amazon Redshift Serverless.
     ///
     /// - Parameter CreateNamespaceInput : [no documentation found]
@@ -83,8 +74,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateScheduledAction` operation on the `RedshiftServerless` service.
     ///
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation.
@@ -103,7 +92,6 @@ public protocol RedshiftServerlessClientProtocol {
     func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput
     /// Performs the `CreateSnapshot` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see [ Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery.html).
     ///
     /// - Parameter CreateSnapshotInput : [no documentation found]
@@ -120,8 +108,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSnapshotCopyConfiguration` operation on the `RedshiftServerless` service.
     ///
     /// Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
@@ -142,7 +128,6 @@ public protocol RedshiftServerlessClientProtocol {
     func createSnapshotCopyConfiguration(input: CreateSnapshotCopyConfigurationInput) async throws -> CreateSnapshotCopyConfigurationOutput
     /// Performs the `CreateUsageLimit` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
     ///
     /// - Parameter CreateUsageLimitInput : [no documentation found]
@@ -158,11 +143,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkgroup` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Creates an workgroup in Amazon Redshift Serverless.
     ///
     /// - Parameter CreateWorkgroupInput : [no documentation found]
@@ -179,11 +161,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCustomDomainAssociation` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Deletes a custom domain association for Amazon Redshift Serverless.
     ///
     /// - Parameter DeleteCustomDomainAssociationInput : [no documentation found]
@@ -200,11 +179,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEndpointAccess` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Deletes an Amazon Redshift Serverless managed VPC endpoint.
     ///
     /// - Parameter DeleteEndpointAccessInput : [no documentation found]
@@ -219,11 +195,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteNamespace` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
     ///
     /// - Parameter DeleteNamespaceInput : [no documentation found]
@@ -238,11 +211,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteResourcePolicy` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Deletes the specified resource policy.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
@@ -256,8 +226,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteScheduledAction` operation on the `RedshiftServerless` service.
     ///
     /// Deletes a scheduled action.
@@ -275,7 +243,6 @@ public protocol RedshiftServerlessClientProtocol {
     func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput
     /// Performs the `DeleteSnapshot` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Deletes a snapshot from Amazon Redshift Serverless.
     ///
     /// - Parameter DeleteSnapshotInput : [no documentation found]
@@ -290,407 +257,13 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput
-<<<<<<< HEAD
-    /// Deletes a usage limit from Amazon Redshift Serverless.
-=======
     /// Performs the `DeleteSnapshotCopyConfiguration` operation on the `RedshiftServerless` service.
->>>>>>> main
     ///
     /// Deletes a snapshot copy configuration
     ///
-<<<<<<< HEAD
-    /// - Returns: `DeleteUsageLimitOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput
-    /// Deletes a workgroup.
-    ///
-    /// - Parameter DeleteWorkgroupInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteWorkgroupOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func deleteWorkgroup(input: DeleteWorkgroupInput) async throws -> DeleteWorkgroupOutput
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
-    ///
-    /// - Parameter GetCredentialsInput : [no documentation found]
-    ///
-    /// - Returns: `GetCredentialsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput
-    /// Gets information about a specific custom domain association.
-    ///
-    /// - Parameter GetCustomDomainAssociationInput : [no documentation found]
-    ///
-    /// - Returns: `GetCustomDomainAssociationOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput
-    /// Returns information, such as the name, about a VPC endpoint.
-    ///
-    /// - Parameter GetEndpointAccessInput : [no documentation found]
-    ///
-    /// - Returns: `GetEndpointAccessOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getEndpointAccess(input: GetEndpointAccessInput) async throws -> GetEndpointAccessOutput
-    /// Returns information about a namespace in Amazon Redshift Serverless.
-    ///
-    /// - Parameter GetNamespaceInput : [no documentation found]
-    ///
-    /// - Returns: `GetNamespaceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput
-    /// Returns information about a recovery point.
-    ///
-    /// - Parameter GetRecoveryPointInput : [no documentation found]
-    ///
-    /// - Returns: `GetRecoveryPointOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getRecoveryPoint(input: GetRecoveryPointInput) async throws -> GetRecoveryPointOutput
-    /// Returns a resource policy.
-    ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
-    ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput
-    /// Returns information about a specific snapshot.
-    ///
-    /// - Parameter GetSnapshotInput : [no documentation found]
-    ///
-    /// - Returns: `GetSnapshotOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput
-    /// Returns information about a TableRestoreStatus object.
-    ///
-    /// - Parameter GetTableRestoreStatusInput : [no documentation found]
-    ///
-    /// - Returns: `GetTableRestoreStatusOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutput
-    /// Returns information about a usage limit.
-    ///
-    /// - Parameter GetUsageLimitInput : [no documentation found]
-    ///
-    /// - Returns: `GetUsageLimitOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutput
-    /// Returns information about a specific workgroup.
-    ///
-    /// - Parameter GetWorkgroupInput : [no documentation found]
-    ///
-    /// - Returns: `GetWorkgroupOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput
-    /// Lists custom domain associations for Amazon Redshift Serverless.
-    ///
-    /// - Parameter ListCustomDomainAssociationsInput : [no documentation found]
-    ///
-    /// - Returns: `ListCustomDomainAssociationsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `InvalidPaginationException` : The provided pagination token is invalid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput
-    /// Returns an array of EndpointAccess objects and relevant information.
-    ///
-    /// - Parameter ListEndpointAccessInput : [no documentation found]
-    ///
-    /// - Returns: `ListEndpointAccessOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listEndpointAccess(input: ListEndpointAccessInput) async throws -> ListEndpointAccessOutput
-    /// Returns information about a list of specified namespaces.
-    ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
-    ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput
-    /// Returns an array of recovery points.
-    ///
-    /// - Parameter ListRecoveryPointsInput : [no documentation found]
-    ///
-    /// - Returns: `ListRecoveryPointsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutput
-    /// Returns a list of snapshots.
-    ///
-    /// - Parameter ListSnapshotsInput : [no documentation found]
-    ///
-    /// - Returns: `ListSnapshotsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput
-    /// Returns information about an array of TableRestoreStatus objects.
-    ///
-    /// - Parameter ListTableRestoreStatusInput : [no documentation found]
-    ///
-    /// - Returns: `ListTableRestoreStatusOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidPaginationException` : The provided pagination token is invalid.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutput
-    /// Lists the tags assigned to a resource.
-    ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
-    ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-    /// Lists all usage limits within Amazon Redshift Serverless.
-    ///
-    /// - Parameter ListUsageLimitsInput : [no documentation found]
-    ///
-    /// - Returns: `ListUsageLimitsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `InvalidPaginationException` : The provided pagination token is invalid.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listUsageLimits(input: ListUsageLimitsInput) async throws -> ListUsageLimitsOutput
-    /// Returns information about a list of specified workgroups.
-    ///
-    /// - Parameter ListWorkgroupsInput : [no documentation found]
-    ///
-    /// - Returns: `ListWorkgroupsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func listWorkgroups(input: ListWorkgroupsInput) async throws -> ListWorkgroupsOutput
-    /// Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
-    ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
-    ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
-    /// Restore the data from a recovery point.
-    ///
-    /// - Parameter RestoreFromRecoveryPointInput : [no documentation found]
-    ///
-    /// - Returns: `RestoreFromRecoveryPointOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutput
-    /// Restores a namespace from a snapshot.
-    ///
-    /// - Parameter RestoreFromSnapshotInput : [no documentation found]
-    ///
-    /// - Returns: `RestoreFromSnapshotOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput
-    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with [interleaved sort keys](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved).
-    ///
-    /// - Parameter RestoreTableFromSnapshotInput : [no documentation found]
-    ///
-    /// - Returns: `RestoreTableFromSnapshotOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutput
-    /// Assigns one or more tags to a resource.
-    ///
-    /// - Parameter TagResourceInput : [no documentation found]
-    ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-    /// Removes a tag or set of tags from a resource.
-    ///
-    /// - Parameter UntagResourceInput : [no documentation found]
-    ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-    /// Updates an Amazon Redshift Serverless certificate associated with a custom domain.
-    ///
-    /// - Parameter UpdateCustomDomainAssociationInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateCustomDomainAssociationOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The submitted action has conflicts.
-    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-    func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput
-    /// Updates an Amazon Redshift Serverless managed endpoint.
-    ///
-    /// - Parameter UpdateEndpointAccessInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateEndpointAccessOutput` : [no documentation found]
-=======
     /// - Parameter DeleteSnapshotCopyConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteSnapshotCopyConfigurationOutput` : [no documentation found]
->>>>>>> main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,9 +273,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
-<<<<<<< HEAD
-    func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput
-=======
     func deleteSnapshotCopyConfiguration(input: DeleteSnapshotCopyConfigurationInput) async throws -> DeleteSnapshotCopyConfigurationOutput
     /// Performs the `DeleteUsageLimit` operation on the `RedshiftServerless` service.
     ///
@@ -1229,7 +799,6 @@ public protocol RedshiftServerlessClientProtocol {
     func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput
     /// Performs the `UpdateNamespace` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     ///
     /// - Parameter UpdateNamespaceInput : [no documentation found]
@@ -1244,8 +813,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateScheduledAction` operation on the `RedshiftServerless` service.
     ///
     /// Updates a scheduled action.
@@ -1264,7 +831,6 @@ public protocol RedshiftServerlessClientProtocol {
     func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput
     /// Performs the `UpdateSnapshot` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Updates a snapshot.
     ///
     /// - Parameter UpdateSnapshotInput : [no documentation found]
@@ -1279,8 +845,6 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSnapshotCopyConfiguration` operation on the `RedshiftServerless` service.
     ///
     /// Updates a snapshot copy configuration.
@@ -1300,7 +864,6 @@ public protocol RedshiftServerlessClientProtocol {
     func updateSnapshotCopyConfiguration(input: UpdateSnapshotCopyConfigurationInput) async throws -> UpdateSnapshotCopyConfigurationOutput
     /// Performs the `UpdateUsageLimit` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
     ///
     /// - Parameter UpdateUsageLimitInput : [no documentation found]
@@ -1315,11 +878,8 @@ public protocol RedshiftServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
     func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkgroup` operation on the `RedshiftServerless` service.
     ///
->>>>>>> main
     /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request.
     ///
     /// - Parameter UpdateWorkgroupInput : [no documentation found]

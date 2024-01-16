@@ -36,11 +36,8 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     func getClip(input: GetClipInput) async throws -> GetClipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDASHStreamingSessionURL` operation on the `AWSAcuityReader` service.
     ///
->>>>>>> main
     /// Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can then open the URL in a media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through MPEG-DASH:
     ///
     /// * The media must contain h.264 or h.265 encoded video and, optionally, AAC or G.711 encoded audio. Specifically, the codec ID of track 1 should be V_MPEG/ISO/AVC (for h.264) or V_MPEGH/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be A_AAC (for AAC) or A_MS/ACM (for G.711).
@@ -97,11 +94,8 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     func getDASHStreamingSessionURL(input: GetDASHStreamingSessionURLInput) async throws -> GetDASHStreamingSessionURLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetHLSStreamingSessionURL` operation on the `AWSAcuityReader` service.
     ///
->>>>>>> main
     /// Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a browser or media player to view the stream contents. Both the StreamName and the StreamARN parameters are optional, but you must specify either the StreamName or the StreamARN when invoking this API operation. An Amazon Kinesis video stream has the following requirements for providing data through HLS:
     ///
     /// * For streaming video, the media must contain H.264 or H.265 encoded video and, optionally, AAC encoded audio. Specifically, the codec ID of track 1 should be V_MPEG/ISO/AVC (for H.264) or V_MPEG/ISO/HEVC (for H.265). Optionally, the codec ID of track 2 should be A_AAC. For audio only streaming, the codec ID of track 1 should be A_AAC.
@@ -162,11 +156,8 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     func getHLSStreamingSessionURL(input: GetHLSStreamingSessionURLInput) async throws -> GetHLSStreamingSessionURLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetImages` operation on the `AWSAcuityReader` service.
     ///
->>>>>>> main
     /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     ///
     /// - Parameter GetImagesInput : [no documentation found]
@@ -181,11 +172,8 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     func getImages(input: GetImagesInput) async throws -> GetImagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMediaForFragmentList` operation on the `AWSAcuityReader` service.
     ///
->>>>>>> main
     /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream. You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/). For limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html). If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:
     ///
     /// * x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the HTTP status code provides.
@@ -207,11 +195,8 @@ public protocol KinesisVideoArchivedMediaClientProtocol {
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     func getMediaForFragmentList(input: GetMediaForFragmentListInput) async throws -> GetMediaForFragmentListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFragments` operation on the `AWSAcuityReader` service.
     ///
->>>>>>> main
     /// Returns a list of [Fragment] objects from the specified stream and timestamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFragments. However, results are typically available in less than one second. You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments requests to this endpoint using the [--endpoint-url parameter](https://docs.aws.amazon.com/cli/latest/reference/). If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:
     ///
     /// * x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the HTTP status code provides.

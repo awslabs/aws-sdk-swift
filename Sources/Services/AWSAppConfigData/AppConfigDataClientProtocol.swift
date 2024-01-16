@@ -40,11 +40,8 @@ public protocol AppConfigDataClientProtocol {
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getLatestConfiguration(input: GetLatestConfigurationInput) async throws -> GetLatestConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartConfigurationSession` operation on the `AppConfigData` service.
     ///
->>>>>>> main
     /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the [GetLatestConfiguration] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
     ///
     /// - Parameter StartConfigurationSessionInput : [no documentation found]

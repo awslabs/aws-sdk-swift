@@ -12,11 +12,7 @@ extension AppIntegrationsClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.ApplicationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.ApplicationSummary]`
@@ -50,11 +42,7 @@ extension AppIntegrationsClient {
     ///     - input: A `[ListDataIntegrationAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationAssociationsOutput`
     public func listDataIntegrationAssociationsPaginated(input: ListDataIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput>(input: input, inputKey: \ListDataIntegrationAssociationsInput.nextToken, outputKey: \ListDataIntegrationAssociationsOutput.nextToken, paginationFunction: self.listDataIntegrationAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataIntegrationAssociationsInput, ListDataIntegrationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataIntegrationAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListDataIntegrationAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataIntegrationAssociationsInput, Output == ListDataIntegrationAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataIntegrationAssociationsInput, OperationStackOutput == ListDataIntegrationAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataIntegrationAssociationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.DataIntegrationAssociationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.DataIntegrationAssociationSummary]`
@@ -89,11 +73,7 @@ extension AppIntegrationsClient {
     ///     - input: A `[ListDataIntegrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataIntegrationsOutput`
     public func listDataIntegrationsPaginated(input: ListDataIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutput>(input: input, inputKey: \ListDataIntegrationsInput.nextToken, outputKey: \ListDataIntegrationsOutput.nextToken, paginationFunction: self.listDataIntegrations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataIntegrationsInput, ListDataIntegrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataIntegrations(input:))
->>>>>>> main
     }
 }
 
@@ -105,11 +85,7 @@ extension ListDataIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataIntegrationsInput, Output == ListDataIntegrationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataIntegrationsInput, OperationStackOutput == ListDataIntegrationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataIntegrationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.DataIntegrationSummary]`
     /// - Returns: `[AppIntegrationsClientTypes.DataIntegrationSummary]`
@@ -127,11 +103,7 @@ extension AppIntegrationsClient {
     ///     - input: A `[ListEventIntegrationAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationAssociationsOutput`
     public func listEventIntegrationAssociationsPaginated(input: ListEventIntegrationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput>(input: input, inputKey: \ListEventIntegrationAssociationsInput.nextToken, outputKey: \ListEventIntegrationAssociationsOutput.nextToken, paginationFunction: self.listEventIntegrationAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEventIntegrationAssociationsInput, ListEventIntegrationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventIntegrationAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +116,7 @@ extension ListEventIntegrationAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEventIntegrationAssociationsInput, Output == ListEventIntegrationAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEventIntegrationAssociationsInput, OperationStackOutput == ListEventIntegrationAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventIntegrationAssociationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.EventIntegrationAssociation]`
     /// - Returns: `[AppIntegrationsClientTypes.EventIntegrationAssociation]`
@@ -166,11 +134,7 @@ extension AppIntegrationsClient {
     ///     - input: A `[ListEventIntegrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventIntegrationsOutput`
     public func listEventIntegrationsPaginated(input: ListEventIntegrationsInput) -> ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutput>(input: input, inputKey: \ListEventIntegrationsInput.nextToken, outputKey: \ListEventIntegrationsOutput.nextToken, paginationFunction: self.listEventIntegrations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEventIntegrationsInput, ListEventIntegrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventIntegrations(input:))
->>>>>>> main
     }
 }
 
@@ -182,11 +146,7 @@ extension ListEventIntegrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEventIntegrationsInput, Output == ListEventIntegrationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEventIntegrationsInput, OperationStackOutput == ListEventIntegrationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventIntegrationsPaginated`
     /// to access the nested member `[AppIntegrationsClientTypes.EventIntegration]`
     /// - Returns: `[AppIntegrationsClientTypes.EventIntegration]`

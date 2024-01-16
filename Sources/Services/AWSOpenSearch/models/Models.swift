@@ -8589,8 +8589,6 @@ enum GetCompatibleVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetDataSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let domainName = domainName else {
@@ -8708,7 +8706,6 @@ enum GetDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetDomainMaintenanceStatusInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10026,8 +10023,6 @@ extension OpenSearchClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension ListDataSourcesInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let domainName = domainName else {
@@ -10126,7 +10121,6 @@ enum ListDataSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListDomainMaintenancesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {

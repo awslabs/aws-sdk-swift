@@ -12,11 +12,7 @@ extension EC2Client {
     ///     - input: A `[DescribeAddressesAttributeInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddressesAttributeOutput`
     public func describeAddressesAttributePaginated(input: DescribeAddressesAttributeInput) -> ClientRuntime.PaginatorSequence<DescribeAddressesAttributeInput, DescribeAddressesAttributeOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAddressesAttributeInput, DescribeAddressesAttributeOutput>(input: input, inputKey: \DescribeAddressesAttributeInput.nextToken, outputKey: \DescribeAddressesAttributeOutput.nextToken, paginationFunction: self.describeAddressesAttribute(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAddressesAttributeInput, DescribeAddressesAttributeOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAddressesAttribute(input:))
->>>>>>> main
     }
 }
 
@@ -31,11 +27,7 @@ extension DescribeAddressesAttributeInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAddressesAttributeInput, Output == DescribeAddressesAttributeOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAddressesAttributeInput, OperationStackOutput == DescribeAddressesAttributeOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAddressesAttributePaginated`
     /// to access the nested member `[EC2ClientTypes.AddressAttribute]`
     /// - Returns: `[EC2ClientTypes.AddressAttribute]`
@@ -53,11 +45,7 @@ extension EC2Client {
     ///     - input: A `[DescribeAddressTransfersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddressTransfersOutput`
     public func describeAddressTransfersPaginated(input: DescribeAddressTransfersInput) -> ClientRuntime.PaginatorSequence<DescribeAddressTransfersInput, DescribeAddressTransfersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAddressTransfersInput, DescribeAddressTransfersOutput>(input: input, inputKey: \DescribeAddressTransfersInput.nextToken, outputKey: \DescribeAddressTransfersOutput.nextToken, paginationFunction: self.describeAddressTransfers(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAddressTransfersInput, DescribeAddressTransfersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAddressTransfers(input:))
->>>>>>> main
     }
 }
 
@@ -71,11 +59,7 @@ extension DescribeAddressTransfersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAddressTransfersInput, Output == DescribeAddressTransfersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAddressTransfersInput, OperationStackOutput == DescribeAddressTransfersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAddressTransfersPaginated`
     /// to access the nested member `[EC2ClientTypes.AddressTransfer]`
     /// - Returns: `[EC2ClientTypes.AddressTransfer]`
@@ -93,11 +77,7 @@ extension EC2Client {
     ///     - input: A `[DescribeAwsNetworkPerformanceMetricSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAwsNetworkPerformanceMetricSubscriptionsOutput`
     public func describeAwsNetworkPerformanceMetricSubscriptionsPaginated(input: DescribeAwsNetworkPerformanceMetricSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutput>(input: input, inputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsInput.nextToken, outputKey: \DescribeAwsNetworkPerformanceMetricSubscriptionsOutput.nextToken, paginationFunction: self.describeAwsNetworkPerformanceMetricSubscriptions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAwsNetworkPerformanceMetricSubscriptionsInput, DescribeAwsNetworkPerformanceMetricSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAwsNetworkPerformanceMetricSubscriptions(input:))
->>>>>>> main
     }
 }
 
@@ -111,11 +91,7 @@ extension DescribeAwsNetworkPerformanceMetricSubscriptionsInput: ClientRuntime.P
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAwsNetworkPerformanceMetricSubscriptionsInput, Output == DescribeAwsNetworkPerformanceMetricSubscriptionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAwsNetworkPerformanceMetricSubscriptionsInput, OperationStackOutput == DescribeAwsNetworkPerformanceMetricSubscriptionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAwsNetworkPerformanceMetricSubscriptionsPaginated`
     /// to access the nested member `[EC2ClientTypes.Subscription]`
     /// - Returns: `[EC2ClientTypes.Subscription]`
@@ -133,11 +109,7 @@ extension EC2Client {
     ///     - input: A `[DescribeByoipCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeByoipCidrsOutput`
     public func describeByoipCidrsPaginated(input: DescribeByoipCidrsInput) -> ClientRuntime.PaginatorSequence<DescribeByoipCidrsInput, DescribeByoipCidrsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeByoipCidrsInput, DescribeByoipCidrsOutput>(input: input, inputKey: \DescribeByoipCidrsInput.nextToken, outputKey: \DescribeByoipCidrsOutput.nextToken, paginationFunction: self.describeByoipCidrs(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeByoipCidrsInput, DescribeByoipCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeByoipCidrs(input:))
->>>>>>> main
     }
 }
 
@@ -150,11 +122,7 @@ extension DescribeByoipCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeByoipCidrsInput, Output == DescribeByoipCidrsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeByoipCidrsInput, OperationStackOutput == DescribeByoipCidrsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeByoipCidrsPaginated`
     /// to access the nested member `[EC2ClientTypes.ByoipCidr]`
     /// - Returns: `[EC2ClientTypes.ByoipCidr]`
@@ -172,11 +140,7 @@ extension EC2Client {
     ///     - input: A `[DescribeCapacityBlockOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlockOfferingsOutput`
     public func describeCapacityBlockOfferingsPaginated(input: DescribeCapacityBlockOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(input: input, inputKey: \DescribeCapacityBlockOfferingsInput.nextToken, outputKey: \DescribeCapacityBlockOfferingsOutput.nextToken, paginationFunction: self.describeCapacityBlockOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCapacityBlockOfferingsInput, DescribeCapacityBlockOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityBlockOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -194,11 +158,7 @@ extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCapacityBlockOfferingsInput, Output == DescribeCapacityBlockOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockOfferingsInput, OperationStackOutput == DescribeCapacityBlockOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlockOfferingsPaginated`
     /// to access the nested member `[EC2ClientTypes.CapacityBlockOffering]`
     /// - Returns: `[EC2ClientTypes.CapacityBlockOffering]`
@@ -216,11 +176,7 @@ extension EC2Client {
     ///     - input: A `[DescribeCapacityReservationFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityReservationFleetsOutput`
     public func describeCapacityReservationFleetsPaginated(input: DescribeCapacityReservationFleetsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityReservationFleetsInput, DescribeCapacityReservationFleetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCapacityReservationFleetsInput, DescribeCapacityReservationFleetsOutput>(input: input, inputKey: \DescribeCapacityReservationFleetsInput.nextToken, outputKey: \DescribeCapacityReservationFleetsOutput.nextToken, paginationFunction: self.describeCapacityReservationFleets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCapacityReservationFleetsInput, DescribeCapacityReservationFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityReservationFleets(input:))
->>>>>>> main
     }
 }
 
@@ -235,11 +191,7 @@ extension DescribeCapacityReservationFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCapacityReservationFleetsInput, Output == DescribeCapacityReservationFleetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCapacityReservationFleetsInput, OperationStackOutput == DescribeCapacityReservationFleetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCapacityReservationFleetsPaginated`
     /// to access the nested member `[EC2ClientTypes.CapacityReservationFleet]`
     /// - Returns: `[EC2ClientTypes.CapacityReservationFleet]`
@@ -257,11 +209,7 @@ extension EC2Client {
     ///     - input: A `[DescribeCapacityReservationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityReservationsOutput`
     public func describeCapacityReservationsPaginated(input: DescribeCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityReservationsInput, DescribeCapacityReservationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCapacityReservationsInput, DescribeCapacityReservationsOutput>(input: input, inputKey: \DescribeCapacityReservationsInput.nextToken, outputKey: \DescribeCapacityReservationsOutput.nextToken, paginationFunction: self.describeCapacityReservations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCapacityReservationsInput, DescribeCapacityReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityReservations(input:))
->>>>>>> main
     }
 }
 
@@ -276,11 +224,7 @@ extension DescribeCapacityReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCapacityReservationsInput, Output == DescribeCapacityReservationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCapacityReservationsInput, OperationStackOutput == DescribeCapacityReservationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCapacityReservationsPaginated`
     /// to access the nested member `[EC2ClientTypes.CapacityReservation]`
     /// - Returns: `[EC2ClientTypes.CapacityReservation]`
@@ -298,11 +242,7 @@ extension EC2Client {
     ///     - input: A `[DescribeCarrierGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCarrierGatewaysOutput`
     public func describeCarrierGatewaysPaginated(input: DescribeCarrierGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeCarrierGatewaysInput, DescribeCarrierGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCarrierGatewaysInput, DescribeCarrierGatewaysOutput>(input: input, inputKey: \DescribeCarrierGatewaysInput.nextToken, outputKey: \DescribeCarrierGatewaysOutput.nextToken, paginationFunction: self.describeCarrierGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCarrierGatewaysInput, DescribeCarrierGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCarrierGateways(input:))
->>>>>>> main
     }
 }
 
@@ -317,11 +257,7 @@ extension DescribeCarrierGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCarrierGatewaysInput, Output == DescribeCarrierGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCarrierGatewaysInput, OperationStackOutput == DescribeCarrierGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCarrierGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.CarrierGateway]`
     /// - Returns: `[EC2ClientTypes.CarrierGateway]`
@@ -339,11 +275,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClassicLinkInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClassicLinkInstancesOutput`
     public func describeClassicLinkInstancesPaginated(input: DescribeClassicLinkInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeClassicLinkInstancesInput, DescribeClassicLinkInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClassicLinkInstancesInput, DescribeClassicLinkInstancesOutput>(input: input, inputKey: \DescribeClassicLinkInstancesInput.nextToken, outputKey: \DescribeClassicLinkInstancesOutput.nextToken, paginationFunction: self.describeClassicLinkInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClassicLinkInstancesInput, DescribeClassicLinkInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClassicLinkInstances(input:))
->>>>>>> main
     }
 }
 
@@ -358,11 +290,7 @@ extension DescribeClassicLinkInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClassicLinkInstancesInput, Output == DescribeClassicLinkInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClassicLinkInstancesInput, OperationStackOutput == DescribeClassicLinkInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClassicLinkInstancesPaginated`
     /// to access the nested member `[EC2ClientTypes.ClassicLinkInstance]`
     /// - Returns: `[EC2ClientTypes.ClassicLinkInstance]`
@@ -380,11 +308,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClientVpnAuthorizationRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientVpnAuthorizationRulesOutput`
     public func describeClientVpnAuthorizationRulesPaginated(input: DescribeClientVpnAuthorizationRulesInput) -> ClientRuntime.PaginatorSequence<DescribeClientVpnAuthorizationRulesInput, DescribeClientVpnAuthorizationRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClientVpnAuthorizationRulesInput, DescribeClientVpnAuthorizationRulesOutput>(input: input, inputKey: \DescribeClientVpnAuthorizationRulesInput.nextToken, outputKey: \DescribeClientVpnAuthorizationRulesOutput.nextToken, paginationFunction: self.describeClientVpnAuthorizationRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClientVpnAuthorizationRulesInput, DescribeClientVpnAuthorizationRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientVpnAuthorizationRules(input:))
->>>>>>> main
     }
 }
 
@@ -399,11 +323,7 @@ extension DescribeClientVpnAuthorizationRulesInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClientVpnAuthorizationRulesInput, Output == DescribeClientVpnAuthorizationRulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClientVpnAuthorizationRulesInput, OperationStackOutput == DescribeClientVpnAuthorizationRulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClientVpnAuthorizationRulesPaginated`
     /// to access the nested member `[EC2ClientTypes.AuthorizationRule]`
     /// - Returns: `[EC2ClientTypes.AuthorizationRule]`
@@ -421,11 +341,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClientVpnConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientVpnConnectionsOutput`
     public func describeClientVpnConnectionsPaginated(input: DescribeClientVpnConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeClientVpnConnectionsInput, DescribeClientVpnConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClientVpnConnectionsInput, DescribeClientVpnConnectionsOutput>(input: input, inputKey: \DescribeClientVpnConnectionsInput.nextToken, outputKey: \DescribeClientVpnConnectionsOutput.nextToken, paginationFunction: self.describeClientVpnConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClientVpnConnectionsInput, DescribeClientVpnConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientVpnConnections(input:))
->>>>>>> main
     }
 }
 
@@ -440,11 +356,7 @@ extension DescribeClientVpnConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClientVpnConnectionsInput, Output == DescribeClientVpnConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClientVpnConnectionsInput, OperationStackOutput == DescribeClientVpnConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClientVpnConnectionsPaginated`
     /// to access the nested member `[EC2ClientTypes.ClientVpnConnection]`
     /// - Returns: `[EC2ClientTypes.ClientVpnConnection]`
@@ -462,11 +374,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClientVpnEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientVpnEndpointsOutput`
     public func describeClientVpnEndpointsPaginated(input: DescribeClientVpnEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeClientVpnEndpointsInput, DescribeClientVpnEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClientVpnEndpointsInput, DescribeClientVpnEndpointsOutput>(input: input, inputKey: \DescribeClientVpnEndpointsInput.nextToken, outputKey: \DescribeClientVpnEndpointsOutput.nextToken, paginationFunction: self.describeClientVpnEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClientVpnEndpointsInput, DescribeClientVpnEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientVpnEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -481,11 +389,7 @@ extension DescribeClientVpnEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClientVpnEndpointsInput, Output == DescribeClientVpnEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClientVpnEndpointsInput, OperationStackOutput == DescribeClientVpnEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClientVpnEndpointsPaginated`
     /// to access the nested member `[EC2ClientTypes.ClientVpnEndpoint]`
     /// - Returns: `[EC2ClientTypes.ClientVpnEndpoint]`
@@ -503,11 +407,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClientVpnRoutesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientVpnRoutesOutput`
     public func describeClientVpnRoutesPaginated(input: DescribeClientVpnRoutesInput) -> ClientRuntime.PaginatorSequence<DescribeClientVpnRoutesInput, DescribeClientVpnRoutesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClientVpnRoutesInput, DescribeClientVpnRoutesOutput>(input: input, inputKey: \DescribeClientVpnRoutesInput.nextToken, outputKey: \DescribeClientVpnRoutesOutput.nextToken, paginationFunction: self.describeClientVpnRoutes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClientVpnRoutesInput, DescribeClientVpnRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientVpnRoutes(input:))
->>>>>>> main
     }
 }
 
@@ -522,11 +422,7 @@ extension DescribeClientVpnRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClientVpnRoutesInput, Output == DescribeClientVpnRoutesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClientVpnRoutesInput, OperationStackOutput == DescribeClientVpnRoutesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClientVpnRoutesPaginated`
     /// to access the nested member `[EC2ClientTypes.ClientVpnRoute]`
     /// - Returns: `[EC2ClientTypes.ClientVpnRoute]`
@@ -544,11 +440,7 @@ extension EC2Client {
     ///     - input: A `[DescribeClientVpnTargetNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClientVpnTargetNetworksOutput`
     public func describeClientVpnTargetNetworksPaginated(input: DescribeClientVpnTargetNetworksInput) -> ClientRuntime.PaginatorSequence<DescribeClientVpnTargetNetworksInput, DescribeClientVpnTargetNetworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClientVpnTargetNetworksInput, DescribeClientVpnTargetNetworksOutput>(input: input, inputKey: \DescribeClientVpnTargetNetworksInput.nextToken, outputKey: \DescribeClientVpnTargetNetworksOutput.nextToken, paginationFunction: self.describeClientVpnTargetNetworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClientVpnTargetNetworksInput, DescribeClientVpnTargetNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClientVpnTargetNetworks(input:))
->>>>>>> main
     }
 }
 
@@ -564,11 +456,7 @@ extension DescribeClientVpnTargetNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClientVpnTargetNetworksInput, Output == DescribeClientVpnTargetNetworksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClientVpnTargetNetworksInput, OperationStackOutput == DescribeClientVpnTargetNetworksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClientVpnTargetNetworksPaginated`
     /// to access the nested member `[EC2ClientTypes.TargetNetwork]`
     /// - Returns: `[EC2ClientTypes.TargetNetwork]`
@@ -586,11 +474,7 @@ extension EC2Client {
     ///     - input: A `[DescribeCoipPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCoipPoolsOutput`
     public func describeCoipPoolsPaginated(input: DescribeCoipPoolsInput) -> ClientRuntime.PaginatorSequence<DescribeCoipPoolsInput, DescribeCoipPoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCoipPoolsInput, DescribeCoipPoolsOutput>(input: input, inputKey: \DescribeCoipPoolsInput.nextToken, outputKey: \DescribeCoipPoolsOutput.nextToken, paginationFunction: self.describeCoipPools(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCoipPoolsInput, DescribeCoipPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCoipPools(input:))
->>>>>>> main
     }
 }
 
@@ -605,11 +489,7 @@ extension DescribeCoipPoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCoipPoolsInput, Output == DescribeCoipPoolsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCoipPoolsInput, OperationStackOutput == DescribeCoipPoolsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCoipPoolsPaginated`
     /// to access the nested member `[EC2ClientTypes.CoipPool]`
     /// - Returns: `[EC2ClientTypes.CoipPool]`
@@ -627,11 +507,7 @@ extension EC2Client {
     ///     - input: A `[DescribeDhcpOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDhcpOptionsOutput`
     public func describeDhcpOptionsPaginated(input: DescribeDhcpOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeDhcpOptionsInput, DescribeDhcpOptionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeDhcpOptionsInput, DescribeDhcpOptionsOutput>(input: input, inputKey: \DescribeDhcpOptionsInput.nextToken, outputKey: \DescribeDhcpOptionsOutput.nextToken, paginationFunction: self.describeDhcpOptions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeDhcpOptionsInput, DescribeDhcpOptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDhcpOptions(input:))
->>>>>>> main
     }
 }
 
@@ -646,11 +522,7 @@ extension DescribeDhcpOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeDhcpOptionsInput, Output == DescribeDhcpOptionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeDhcpOptionsInput, OperationStackOutput == DescribeDhcpOptionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeDhcpOptionsPaginated`
     /// to access the nested member `[EC2ClientTypes.DhcpOptions]`
     /// - Returns: `[EC2ClientTypes.DhcpOptions]`
@@ -668,11 +540,7 @@ extension EC2Client {
     ///     - input: A `[DescribeEgressOnlyInternetGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEgressOnlyInternetGatewaysOutput`
     public func describeEgressOnlyInternetGatewaysPaginated(input: DescribeEgressOnlyInternetGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeEgressOnlyInternetGatewaysInput, DescribeEgressOnlyInternetGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEgressOnlyInternetGatewaysInput, DescribeEgressOnlyInternetGatewaysOutput>(input: input, inputKey: \DescribeEgressOnlyInternetGatewaysInput.nextToken, outputKey: \DescribeEgressOnlyInternetGatewaysOutput.nextToken, paginationFunction: self.describeEgressOnlyInternetGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEgressOnlyInternetGatewaysInput, DescribeEgressOnlyInternetGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEgressOnlyInternetGateways(input:))
->>>>>>> main
     }
 }
 
@@ -687,11 +555,7 @@ extension DescribeEgressOnlyInternetGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEgressOnlyInternetGatewaysInput, Output == DescribeEgressOnlyInternetGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEgressOnlyInternetGatewaysInput, OperationStackOutput == DescribeEgressOnlyInternetGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEgressOnlyInternetGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.EgressOnlyInternetGateway]`
     /// - Returns: `[EC2ClientTypes.EgressOnlyInternetGateway]`
@@ -709,11 +573,7 @@ extension EC2Client {
     ///     - input: A `[DescribeExportImageTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeExportImageTasksOutput`
     public func describeExportImageTasksPaginated(input: DescribeExportImageTasksInput) -> ClientRuntime.PaginatorSequence<DescribeExportImageTasksInput, DescribeExportImageTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeExportImageTasksInput, DescribeExportImageTasksOutput>(input: input, inputKey: \DescribeExportImageTasksInput.nextToken, outputKey: \DescribeExportImageTasksOutput.nextToken, paginationFunction: self.describeExportImageTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeExportImageTasksInput, DescribeExportImageTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeExportImageTasks(input:))
->>>>>>> main
     }
 }
 
@@ -728,11 +588,7 @@ extension DescribeExportImageTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeExportImageTasksInput, Output == DescribeExportImageTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeExportImageTasksInput, OperationStackOutput == DescribeExportImageTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeExportImageTasksPaginated`
     /// to access the nested member `[EC2ClientTypes.ExportImageTask]`
     /// - Returns: `[EC2ClientTypes.ExportImageTask]`
@@ -750,11 +606,7 @@ extension EC2Client {
     ///     - input: A `[DescribeFastLaunchImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFastLaunchImagesOutput`
     public func describeFastLaunchImagesPaginated(input: DescribeFastLaunchImagesInput) -> ClientRuntime.PaginatorSequence<DescribeFastLaunchImagesInput, DescribeFastLaunchImagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFastLaunchImagesInput, DescribeFastLaunchImagesOutput>(input: input, inputKey: \DescribeFastLaunchImagesInput.nextToken, outputKey: \DescribeFastLaunchImagesOutput.nextToken, paginationFunction: self.describeFastLaunchImages(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFastLaunchImagesInput, DescribeFastLaunchImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFastLaunchImages(input:))
->>>>>>> main
     }
 }
 
@@ -769,11 +621,7 @@ extension DescribeFastLaunchImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFastLaunchImagesInput, Output == DescribeFastLaunchImagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFastLaunchImagesInput, OperationStackOutput == DescribeFastLaunchImagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFastLaunchImagesPaginated`
     /// to access the nested member `[EC2ClientTypes.DescribeFastLaunchImagesSuccessItem]`
     /// - Returns: `[EC2ClientTypes.DescribeFastLaunchImagesSuccessItem]`
@@ -791,11 +639,7 @@ extension EC2Client {
     ///     - input: A `[DescribeFastSnapshotRestoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFastSnapshotRestoresOutput`
     public func describeFastSnapshotRestoresPaginated(input: DescribeFastSnapshotRestoresInput) -> ClientRuntime.PaginatorSequence<DescribeFastSnapshotRestoresInput, DescribeFastSnapshotRestoresOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFastSnapshotRestoresInput, DescribeFastSnapshotRestoresOutput>(input: input, inputKey: \DescribeFastSnapshotRestoresInput.nextToken, outputKey: \DescribeFastSnapshotRestoresOutput.nextToken, paginationFunction: self.describeFastSnapshotRestores(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFastSnapshotRestoresInput, DescribeFastSnapshotRestoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFastSnapshotRestores(input:))
->>>>>>> main
     }
 }
 
@@ -809,11 +653,7 @@ extension DescribeFastSnapshotRestoresInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFastSnapshotRestoresInput, Output == DescribeFastSnapshotRestoresOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFastSnapshotRestoresInput, OperationStackOutput == DescribeFastSnapshotRestoresOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFastSnapshotRestoresPaginated`
     /// to access the nested member `[EC2ClientTypes.DescribeFastSnapshotRestoreSuccessItem]`
     /// - Returns: `[EC2ClientTypes.DescribeFastSnapshotRestoreSuccessItem]`
@@ -831,11 +671,7 @@ extension EC2Client {
     ///     - input: A `[DescribeFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetsOutput`
     public func describeFleetsPaginated(input: DescribeFleetsInput) -> ClientRuntime.PaginatorSequence<DescribeFleetsInput, DescribeFleetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetsInput, DescribeFleetsOutput>(input: input, inputKey: \DescribeFleetsInput.nextToken, outputKey: \DescribeFleetsOutput.nextToken, paginationFunction: self.describeFleets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetsInput, DescribeFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleets(input:))
->>>>>>> main
     }
 }
 
@@ -850,11 +686,7 @@ extension DescribeFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFleetsInput, Output == DescribeFleetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFleetsInput, OperationStackOutput == DescribeFleetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetsPaginated`
     /// to access the nested member `[EC2ClientTypes.FleetData]`
     /// - Returns: `[EC2ClientTypes.FleetData]`
@@ -872,11 +704,7 @@ extension EC2Client {
     ///     - input: A `[DescribeFlowLogsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFlowLogsOutput`
     public func describeFlowLogsPaginated(input: DescribeFlowLogsInput) -> ClientRuntime.PaginatorSequence<DescribeFlowLogsInput, DescribeFlowLogsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFlowLogsInput, DescribeFlowLogsOutput>(input: input, inputKey: \DescribeFlowLogsInput.nextToken, outputKey: \DescribeFlowLogsOutput.nextToken, paginationFunction: self.describeFlowLogs(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFlowLogsInput, DescribeFlowLogsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFlowLogs(input:))
->>>>>>> main
     }
 }
 
@@ -891,11 +719,7 @@ extension DescribeFlowLogsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFlowLogsInput, Output == DescribeFlowLogsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFlowLogsInput, OperationStackOutput == DescribeFlowLogsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFlowLogsPaginated`
     /// to access the nested member `[EC2ClientTypes.FlowLog]`
     /// - Returns: `[EC2ClientTypes.FlowLog]`
@@ -913,11 +737,7 @@ extension EC2Client {
     ///     - input: A `[DescribeFpgaImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFpgaImagesOutput`
     public func describeFpgaImagesPaginated(input: DescribeFpgaImagesInput) -> ClientRuntime.PaginatorSequence<DescribeFpgaImagesInput, DescribeFpgaImagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFpgaImagesInput, DescribeFpgaImagesOutput>(input: input, inputKey: \DescribeFpgaImagesInput.nextToken, outputKey: \DescribeFpgaImagesOutput.nextToken, paginationFunction: self.describeFpgaImages(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFpgaImagesInput, DescribeFpgaImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFpgaImages(input:))
->>>>>>> main
     }
 }
 
@@ -933,11 +753,7 @@ extension DescribeFpgaImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFpgaImagesInput, Output == DescribeFpgaImagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFpgaImagesInput, OperationStackOutput == DescribeFpgaImagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFpgaImagesPaginated`
     /// to access the nested member `[EC2ClientTypes.FpgaImage]`
     /// - Returns: `[EC2ClientTypes.FpgaImage]`
@@ -955,11 +771,7 @@ extension EC2Client {
     ///     - input: A `[DescribeHostReservationOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHostReservationOfferingsOutput`
     public func describeHostReservationOfferingsPaginated(input: DescribeHostReservationOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeHostReservationOfferingsInput, DescribeHostReservationOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeHostReservationOfferingsInput, DescribeHostReservationOfferingsOutput>(input: input, inputKey: \DescribeHostReservationOfferingsInput.nextToken, outputKey: \DescribeHostReservationOfferingsOutput.nextToken, paginationFunction: self.describeHostReservationOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeHostReservationOfferingsInput, DescribeHostReservationOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeHostReservationOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -975,11 +787,7 @@ extension DescribeHostReservationOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeHostReservationOfferingsInput, Output == DescribeHostReservationOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeHostReservationOfferingsInput, OperationStackOutput == DescribeHostReservationOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeHostReservationOfferingsPaginated`
     /// to access the nested member `[EC2ClientTypes.HostOffering]`
     /// - Returns: `[EC2ClientTypes.HostOffering]`
@@ -997,11 +805,7 @@ extension EC2Client {
     ///     - input: A `[DescribeHostReservationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHostReservationsOutput`
     public func describeHostReservationsPaginated(input: DescribeHostReservationsInput) -> ClientRuntime.PaginatorSequence<DescribeHostReservationsInput, DescribeHostReservationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeHostReservationsInput, DescribeHostReservationsOutput>(input: input, inputKey: \DescribeHostReservationsInput.nextToken, outputKey: \DescribeHostReservationsOutput.nextToken, paginationFunction: self.describeHostReservations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeHostReservationsInput, DescribeHostReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeHostReservations(input:))
->>>>>>> main
     }
 }
 
@@ -1015,11 +819,7 @@ extension DescribeHostReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeHostReservationsInput, Output == DescribeHostReservationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeHostReservationsInput, OperationStackOutput == DescribeHostReservationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeHostReservationsPaginated`
     /// to access the nested member `[EC2ClientTypes.HostReservation]`
     /// - Returns: `[EC2ClientTypes.HostReservation]`
@@ -1037,11 +837,7 @@ extension EC2Client {
     ///     - input: A `[DescribeHostsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeHostsOutput`
     public func describeHostsPaginated(input: DescribeHostsInput) -> ClientRuntime.PaginatorSequence<DescribeHostsInput, DescribeHostsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeHostsInput, DescribeHostsOutput>(input: input, inputKey: \DescribeHostsInput.nextToken, outputKey: \DescribeHostsOutput.nextToken, paginationFunction: self.describeHosts(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeHostsInput, DescribeHostsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeHosts(input:))
->>>>>>> main
     }
 }
 
@@ -1055,11 +851,7 @@ extension DescribeHostsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeHostsInput, Output == DescribeHostsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeHostsInput, OperationStackOutput == DescribeHostsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeHostsPaginated`
     /// to access the nested member `[EC2ClientTypes.Host]`
     /// - Returns: `[EC2ClientTypes.Host]`
@@ -1077,11 +869,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIamInstanceProfileAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIamInstanceProfileAssociationsOutput`
     public func describeIamInstanceProfileAssociationsPaginated(input: DescribeIamInstanceProfileAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeIamInstanceProfileAssociationsInput, DescribeIamInstanceProfileAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIamInstanceProfileAssociationsInput, DescribeIamInstanceProfileAssociationsOutput>(input: input, inputKey: \DescribeIamInstanceProfileAssociationsInput.nextToken, outputKey: \DescribeIamInstanceProfileAssociationsOutput.nextToken, paginationFunction: self.describeIamInstanceProfileAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIamInstanceProfileAssociationsInput, DescribeIamInstanceProfileAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIamInstanceProfileAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -1095,11 +883,7 @@ extension DescribeIamInstanceProfileAssociationsInput: ClientRuntime.PaginateTok
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIamInstanceProfileAssociationsInput, Output == DescribeIamInstanceProfileAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIamInstanceProfileAssociationsInput, OperationStackOutput == DescribeIamInstanceProfileAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIamInstanceProfileAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.IamInstanceProfileAssociation]`
     /// - Returns: `[EC2ClientTypes.IamInstanceProfileAssociation]`
@@ -1117,11 +901,7 @@ extension EC2Client {
     ///     - input: A `[DescribeImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutput`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutput.nextToken, paginationFunction: self.describeImages(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImages(input:))
->>>>>>> main
     }
 }
 
@@ -1140,11 +920,7 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeImagesInput, OperationStackOutput == DescribeImagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
     /// to access the nested member `[EC2ClientTypes.Image]`
     /// - Returns: `[EC2ClientTypes.Image]`
@@ -1162,11 +938,7 @@ extension EC2Client {
     ///     - input: A `[DescribeImportImageTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImportImageTasksOutput`
     public func describeImportImageTasksPaginated(input: DescribeImportImageTasksInput) -> ClientRuntime.PaginatorSequence<DescribeImportImageTasksInput, DescribeImportImageTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeImportImageTasksInput, DescribeImportImageTasksOutput>(input: input, inputKey: \DescribeImportImageTasksInput.nextToken, outputKey: \DescribeImportImageTasksOutput.nextToken, paginationFunction: self.describeImportImageTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeImportImageTasksInput, DescribeImportImageTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImportImageTasks(input:))
->>>>>>> main
     }
 }
 
@@ -1181,11 +953,7 @@ extension DescribeImportImageTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeImportImageTasksInput, Output == DescribeImportImageTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeImportImageTasksInput, OperationStackOutput == DescribeImportImageTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImportImageTasksPaginated`
     /// to access the nested member `[EC2ClientTypes.ImportImageTask]`
     /// - Returns: `[EC2ClientTypes.ImportImageTask]`
@@ -1203,11 +971,7 @@ extension EC2Client {
     ///     - input: A `[DescribeImportSnapshotTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImportSnapshotTasksOutput`
     public func describeImportSnapshotTasksPaginated(input: DescribeImportSnapshotTasksInput) -> ClientRuntime.PaginatorSequence<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutput>(input: input, inputKey: \DescribeImportSnapshotTasksInput.nextToken, outputKey: \DescribeImportSnapshotTasksOutput.nextToken, paginationFunction: self.describeImportSnapshotTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImportSnapshotTasks(input:))
->>>>>>> main
     }
 }
 
@@ -1222,11 +986,7 @@ extension DescribeImportSnapshotTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeImportSnapshotTasksInput, Output == DescribeImportSnapshotTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeImportSnapshotTasksInput, OperationStackOutput == DescribeImportSnapshotTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImportSnapshotTasksPaginated`
     /// to access the nested member `[EC2ClientTypes.ImportSnapshotTask]`
     /// - Returns: `[EC2ClientTypes.ImportSnapshotTask]`
@@ -1244,11 +1004,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceConnectEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceConnectEndpointsOutput`
     public func describeInstanceConnectEndpointsPaginated(input: DescribeInstanceConnectEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutput>(input: input, inputKey: \DescribeInstanceConnectEndpointsInput.nextToken, outputKey: \DescribeInstanceConnectEndpointsOutput.nextToken, paginationFunction: self.describeInstanceConnectEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceConnectEndpointsInput, DescribeInstanceConnectEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceConnectEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -1263,11 +1019,7 @@ extension DescribeInstanceConnectEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceConnectEndpointsInput, Output == DescribeInstanceConnectEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceConnectEndpointsInput, OperationStackOutput == DescribeInstanceConnectEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceConnectEndpointsPaginated`
     /// to access the nested member `[EC2ClientTypes.Ec2InstanceConnectEndpoint]`
     /// - Returns: `[EC2ClientTypes.Ec2InstanceConnectEndpoint]`
@@ -1285,11 +1037,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceCreditSpecificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceCreditSpecificationsOutput`
     public func describeInstanceCreditSpecificationsPaginated(input: DescribeInstanceCreditSpecificationsInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceCreditSpecificationsInput, DescribeInstanceCreditSpecificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceCreditSpecificationsInput, DescribeInstanceCreditSpecificationsOutput>(input: input, inputKey: \DescribeInstanceCreditSpecificationsInput.nextToken, outputKey: \DescribeInstanceCreditSpecificationsOutput.nextToken, paginationFunction: self.describeInstanceCreditSpecifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceCreditSpecificationsInput, DescribeInstanceCreditSpecificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceCreditSpecifications(input:))
->>>>>>> main
     }
 }
 
@@ -1304,11 +1052,7 @@ extension DescribeInstanceCreditSpecificationsInput: ClientRuntime.PaginateToken
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceCreditSpecificationsInput, Output == DescribeInstanceCreditSpecificationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceCreditSpecificationsInput, OperationStackOutput == DescribeInstanceCreditSpecificationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceCreditSpecificationsPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceCreditSpecification]`
     /// - Returns: `[EC2ClientTypes.InstanceCreditSpecification]`
@@ -1326,11 +1070,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceEventWindowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceEventWindowsOutput`
     public func describeInstanceEventWindowsPaginated(input: DescribeInstanceEventWindowsInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceEventWindowsInput, DescribeInstanceEventWindowsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceEventWindowsInput, DescribeInstanceEventWindowsOutput>(input: input, inputKey: \DescribeInstanceEventWindowsInput.nextToken, outputKey: \DescribeInstanceEventWindowsOutput.nextToken, paginationFunction: self.describeInstanceEventWindows(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceEventWindowsInput, DescribeInstanceEventWindowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceEventWindows(input:))
->>>>>>> main
     }
 }
 
@@ -1345,11 +1085,7 @@ extension DescribeInstanceEventWindowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceEventWindowsInput, Output == DescribeInstanceEventWindowsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceEventWindowsInput, OperationStackOutput == DescribeInstanceEventWindowsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceEventWindowsPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceEventWindow]`
     /// - Returns: `[EC2ClientTypes.InstanceEventWindow]`
@@ -1367,11 +1103,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancesOutput`
     public func describeInstancesPaginated(input: DescribeInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput>(input: input, inputKey: \DescribeInstancesInput.nextToken, outputKey: \DescribeInstancesOutput.nextToken, paginationFunction: self.describeInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstances(input:))
->>>>>>> main
     }
 }
 
@@ -1386,11 +1118,7 @@ extension DescribeInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstancesInput, Output == DescribeInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstancesInput, OperationStackOutput == DescribeInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancesPaginated`
     /// to access the nested member `[EC2ClientTypes.Reservation]`
     /// - Returns: `[EC2ClientTypes.Reservation]`
@@ -1408,11 +1136,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceStatusOutput`
     public func describeInstanceStatusPaginated(input: DescribeInstanceStatusInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceStatusInput, DescribeInstanceStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceStatusInput, DescribeInstanceStatusOutput>(input: input, inputKey: \DescribeInstanceStatusInput.nextToken, outputKey: \DescribeInstanceStatusOutput.nextToken, paginationFunction: self.describeInstanceStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceStatusInput, DescribeInstanceStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceStatus(input:))
->>>>>>> main
     }
 }
 
@@ -1428,11 +1152,7 @@ extension DescribeInstanceStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceStatusInput, Output == DescribeInstanceStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceStatusInput, OperationStackOutput == DescribeInstanceStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceStatusPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceStatus]`
     /// - Returns: `[EC2ClientTypes.InstanceStatus]`
@@ -1441,8 +1161,6 @@ extension PaginatorSequence where OperationStackInput == DescribeInstanceStatusI
     }
 }
 extension EC2Client {
-<<<<<<< HEAD
-=======
     /// Paginate over `[DescribeInstanceTopologyOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1477,7 +1195,6 @@ extension PaginatorSequence where OperationStackInput == DescribeInstanceTopolog
     }
 }
 extension EC2Client {
->>>>>>> main
     /// Paginate over `[DescribeInstanceTypeOfferingsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1487,11 +1204,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceTypeOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceTypeOfferingsOutput`
     public func describeInstanceTypeOfferingsPaginated(input: DescribeInstanceTypeOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceTypeOfferingsInput, DescribeInstanceTypeOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceTypeOfferingsInput, DescribeInstanceTypeOfferingsOutput>(input: input, inputKey: \DescribeInstanceTypeOfferingsInput.nextToken, outputKey: \DescribeInstanceTypeOfferingsOutput.nextToken, paginationFunction: self.describeInstanceTypeOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceTypeOfferingsInput, DescribeInstanceTypeOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceTypeOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -1506,11 +1219,7 @@ extension DescribeInstanceTypeOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceTypeOfferingsInput, Output == DescribeInstanceTypeOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceTypeOfferingsInput, OperationStackOutput == DescribeInstanceTypeOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceTypeOfferingsPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceTypeOffering]`
     /// - Returns: `[EC2ClientTypes.InstanceTypeOffering]`
@@ -1528,11 +1237,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInstanceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceTypesOutput`
     public func describeInstanceTypesPaginated(input: DescribeInstanceTypesInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceTypesInput, DescribeInstanceTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstanceTypesInput, DescribeInstanceTypesOutput>(input: input, inputKey: \DescribeInstanceTypesInput.nextToken, outputKey: \DescribeInstanceTypesOutput.nextToken, paginationFunction: self.describeInstanceTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstanceTypesInput, DescribeInstanceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceTypes(input:))
->>>>>>> main
     }
 }
 
@@ -1547,11 +1252,7 @@ extension DescribeInstanceTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstanceTypesInput, Output == DescribeInstanceTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstanceTypesInput, OperationStackOutput == DescribeInstanceTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstanceTypesPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceTypeInfo]`
     /// - Returns: `[EC2ClientTypes.InstanceTypeInfo]`
@@ -1569,11 +1270,7 @@ extension EC2Client {
     ///     - input: A `[DescribeInternetGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInternetGatewaysOutput`
     public func describeInternetGatewaysPaginated(input: DescribeInternetGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutput>(input: input, inputKey: \DescribeInternetGatewaysInput.nextToken, outputKey: \DescribeInternetGatewaysOutput.nextToken, paginationFunction: self.describeInternetGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInternetGatewaysInput, DescribeInternetGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInternetGateways(input:))
->>>>>>> main
     }
 }
 
@@ -1588,11 +1285,7 @@ extension DescribeInternetGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInternetGatewaysInput, Output == DescribeInternetGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInternetGatewaysInput, OperationStackOutput == DescribeInternetGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInternetGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.InternetGateway]`
     /// - Returns: `[EC2ClientTypes.InternetGateway]`
@@ -1610,11 +1303,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpamPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamPoolsOutput`
     public func describeIpamPoolsPaginated(input: DescribeIpamPoolsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamPoolsInput, DescribeIpamPoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpamPoolsInput, DescribeIpamPoolsOutput>(input: input, inputKey: \DescribeIpamPoolsInput.nextToken, outputKey: \DescribeIpamPoolsOutput.nextToken, paginationFunction: self.describeIpamPools(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpamPoolsInput, DescribeIpamPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamPools(input:))
->>>>>>> main
     }
 }
 
@@ -1629,11 +1318,7 @@ extension DescribeIpamPoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpamPoolsInput, Output == DescribeIpamPoolsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpamPoolsInput, OperationStackOutput == DescribeIpamPoolsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpamPoolsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamPool]`
     /// - Returns: `[EC2ClientTypes.IpamPool]`
@@ -1651,11 +1336,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpamResourceDiscoveriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamResourceDiscoveriesOutput`
     public func describeIpamResourceDiscoveriesPaginated(input: DescribeIpamResourceDiscoveriesInput) -> ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutput>(input: input, inputKey: \DescribeIpamResourceDiscoveriesInput.nextToken, outputKey: \DescribeIpamResourceDiscoveriesOutput.nextToken, paginationFunction: self.describeIpamResourceDiscoveries(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamResourceDiscoveries(input:))
->>>>>>> main
     }
 }
 
@@ -1670,11 +1351,7 @@ extension DescribeIpamResourceDiscoveriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpamResourceDiscoveriesInput, Output == DescribeIpamResourceDiscoveriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpamResourceDiscoveriesInput, OperationStackOutput == DescribeIpamResourceDiscoveriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpamResourceDiscoveriesPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamResourceDiscovery]`
     /// - Returns: `[EC2ClientTypes.IpamResourceDiscovery]`
@@ -1692,11 +1369,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpamResourceDiscoveryAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamResourceDiscoveryAssociationsOutput`
     public func describeIpamResourceDiscoveryAssociationsPaginated(input: DescribeIpamResourceDiscoveryAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutput>(input: input, inputKey: \DescribeIpamResourceDiscoveryAssociationsInput.nextToken, outputKey: \DescribeIpamResourceDiscoveryAssociationsOutput.nextToken, paginationFunction: self.describeIpamResourceDiscoveryAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamResourceDiscoveryAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -1711,11 +1384,7 @@ extension DescribeIpamResourceDiscoveryAssociationsInput: ClientRuntime.Paginate
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpamResourceDiscoveryAssociationsInput, Output == DescribeIpamResourceDiscoveryAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpamResourceDiscoveryAssociationsInput, OperationStackOutput == DescribeIpamResourceDiscoveryAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpamResourceDiscoveryAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamResourceDiscoveryAssociation]`
     /// - Returns: `[EC2ClientTypes.IpamResourceDiscoveryAssociation]`
@@ -1733,11 +1402,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamsOutput`
     public func describeIpamsPaginated(input: DescribeIpamsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamsInput, DescribeIpamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpamsInput, DescribeIpamsOutput>(input: input, inputKey: \DescribeIpamsInput.nextToken, outputKey: \DescribeIpamsOutput.nextToken, paginationFunction: self.describeIpams(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpamsInput, DescribeIpamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpams(input:))
->>>>>>> main
     }
 }
 
@@ -1752,11 +1417,7 @@ extension DescribeIpamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpamsInput, Output == DescribeIpamsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpamsInput, OperationStackOutput == DescribeIpamsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpamsPaginated`
     /// to access the nested member `[EC2ClientTypes.Ipam]`
     /// - Returns: `[EC2ClientTypes.Ipam]`
@@ -1774,11 +1435,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpamScopesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamScopesOutput`
     public func describeIpamScopesPaginated(input: DescribeIpamScopesInput) -> ClientRuntime.PaginatorSequence<DescribeIpamScopesInput, DescribeIpamScopesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpamScopesInput, DescribeIpamScopesOutput>(input: input, inputKey: \DescribeIpamScopesInput.nextToken, outputKey: \DescribeIpamScopesOutput.nextToken, paginationFunction: self.describeIpamScopes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpamScopesInput, DescribeIpamScopesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamScopes(input:))
->>>>>>> main
     }
 }
 
@@ -1793,11 +1450,7 @@ extension DescribeIpamScopesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpamScopesInput, Output == DescribeIpamScopesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpamScopesInput, OperationStackOutput == DescribeIpamScopesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpamScopesPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamScope]`
     /// - Returns: `[EC2ClientTypes.IpamScope]`
@@ -1815,11 +1468,7 @@ extension EC2Client {
     ///     - input: A `[DescribeIpv6PoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpv6PoolsOutput`
     public func describeIpv6PoolsPaginated(input: DescribeIpv6PoolsInput) -> ClientRuntime.PaginatorSequence<DescribeIpv6PoolsInput, DescribeIpv6PoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeIpv6PoolsInput, DescribeIpv6PoolsOutput>(input: input, inputKey: \DescribeIpv6PoolsInput.nextToken, outputKey: \DescribeIpv6PoolsOutput.nextToken, paginationFunction: self.describeIpv6Pools(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeIpv6PoolsInput, DescribeIpv6PoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpv6Pools(input:))
->>>>>>> main
     }
 }
 
@@ -1834,11 +1483,7 @@ extension DescribeIpv6PoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeIpv6PoolsInput, Output == DescribeIpv6PoolsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeIpv6PoolsInput, OperationStackOutput == DescribeIpv6PoolsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeIpv6PoolsPaginated`
     /// to access the nested member `[EC2ClientTypes.Ipv6Pool]`
     /// - Returns: `[EC2ClientTypes.Ipv6Pool]`
@@ -1856,11 +1501,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLaunchTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLaunchTemplatesOutput`
     public func describeLaunchTemplatesPaginated(input: DescribeLaunchTemplatesInput) -> ClientRuntime.PaginatorSequence<DescribeLaunchTemplatesInput, DescribeLaunchTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLaunchTemplatesInput, DescribeLaunchTemplatesOutput>(input: input, inputKey: \DescribeLaunchTemplatesInput.nextToken, outputKey: \DescribeLaunchTemplatesOutput.nextToken, paginationFunction: self.describeLaunchTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLaunchTemplatesInput, DescribeLaunchTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLaunchTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -1876,11 +1517,7 @@ extension DescribeLaunchTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLaunchTemplatesInput, Output == DescribeLaunchTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLaunchTemplatesInput, OperationStackOutput == DescribeLaunchTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLaunchTemplatesPaginated`
     /// to access the nested member `[EC2ClientTypes.LaunchTemplate]`
     /// - Returns: `[EC2ClientTypes.LaunchTemplate]`
@@ -1898,11 +1535,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLaunchTemplateVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLaunchTemplateVersionsOutput`
     public func describeLaunchTemplateVersionsPaginated(input: DescribeLaunchTemplateVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeLaunchTemplateVersionsInput, DescribeLaunchTemplateVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLaunchTemplateVersionsInput, DescribeLaunchTemplateVersionsOutput>(input: input, inputKey: \DescribeLaunchTemplateVersionsInput.nextToken, outputKey: \DescribeLaunchTemplateVersionsOutput.nextToken, paginationFunction: self.describeLaunchTemplateVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLaunchTemplateVersionsInput, DescribeLaunchTemplateVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLaunchTemplateVersions(input:))
->>>>>>> main
     }
 }
 
@@ -1922,11 +1555,7 @@ extension DescribeLaunchTemplateVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLaunchTemplateVersionsInput, Output == DescribeLaunchTemplateVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLaunchTemplateVersionsInput, OperationStackOutput == DescribeLaunchTemplateVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLaunchTemplateVersionsPaginated`
     /// to access the nested member `[EC2ClientTypes.LaunchTemplateVersion]`
     /// - Returns: `[EC2ClientTypes.LaunchTemplateVersion]`
@@ -1944,11 +1573,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewayRouteTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewayRouteTablesOutput`
     public func describeLocalGatewayRouteTablesPaginated(input: DescribeLocalGatewayRouteTablesInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTablesInput, DescribeLocalGatewayRouteTablesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTablesInput, DescribeLocalGatewayRouteTablesOutput>(input: input, inputKey: \DescribeLocalGatewayRouteTablesInput.nextToken, outputKey: \DescribeLocalGatewayRouteTablesOutput.nextToken, paginationFunction: self.describeLocalGatewayRouteTables(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTablesInput, DescribeLocalGatewayRouteTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGatewayRouteTables(input:))
->>>>>>> main
     }
 }
 
@@ -1963,11 +1588,7 @@ extension DescribeLocalGatewayRouteTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewayRouteTablesInput, Output == DescribeLocalGatewayRouteTablesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayRouteTablesInput, OperationStackOutput == DescribeLocalGatewayRouteTablesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewayRouteTablesPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayRouteTable]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayRouteTable]`
@@ -1985,11 +1606,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput`
     public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginated(input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput>(input: input, inputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput.nextToken, outputKey: \DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput.nextToken, paginationFunction: self.describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -2004,11 +1621,7 @@ extension DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput: 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, Output == DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput, OperationStackOutput == DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayRouteTableVirtualInterfaceGroupAssociation]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayRouteTableVirtualInterfaceGroupAssociation]`
@@ -2026,11 +1639,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewayRouteTableVpcAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewayRouteTableVpcAssociationsOutput`
     public func describeLocalGatewayRouteTableVpcAssociationsPaginated(input: DescribeLocalGatewayRouteTableVpcAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVpcAssociationsInput, DescribeLocalGatewayRouteTableVpcAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVpcAssociationsInput, DescribeLocalGatewayRouteTableVpcAssociationsOutput>(input: input, inputKey: \DescribeLocalGatewayRouteTableVpcAssociationsInput.nextToken, outputKey: \DescribeLocalGatewayRouteTableVpcAssociationsOutput.nextToken, paginationFunction: self.describeLocalGatewayRouteTableVpcAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewayRouteTableVpcAssociationsInput, DescribeLocalGatewayRouteTableVpcAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGatewayRouteTableVpcAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -2045,11 +1654,7 @@ extension DescribeLocalGatewayRouteTableVpcAssociationsInput: ClientRuntime.Pagi
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewayRouteTableVpcAssociationsInput, Output == DescribeLocalGatewayRouteTableVpcAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayRouteTableVpcAssociationsInput, OperationStackOutput == DescribeLocalGatewayRouteTableVpcAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewayRouteTableVpcAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayRouteTableVpcAssociation]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayRouteTableVpcAssociation]`
@@ -2067,11 +1672,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewaysOutput`
     public func describeLocalGatewaysPaginated(input: DescribeLocalGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewaysInput, DescribeLocalGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewaysInput, DescribeLocalGatewaysOutput>(input: input, inputKey: \DescribeLocalGatewaysInput.nextToken, outputKey: \DescribeLocalGatewaysOutput.nextToken, paginationFunction: self.describeLocalGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewaysInput, DescribeLocalGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGateways(input:))
->>>>>>> main
     }
 }
 
@@ -2086,11 +1687,7 @@ extension DescribeLocalGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewaysInput, Output == DescribeLocalGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewaysInput, OperationStackOutput == DescribeLocalGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGateway]`
     /// - Returns: `[EC2ClientTypes.LocalGateway]`
@@ -2108,11 +1705,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewayVirtualInterfaceGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewayVirtualInterfaceGroupsOutput`
     public func describeLocalGatewayVirtualInterfaceGroupsPaginated(input: DescribeLocalGatewayVirtualInterfaceGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfaceGroupsInput, DescribeLocalGatewayVirtualInterfaceGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfaceGroupsInput, DescribeLocalGatewayVirtualInterfaceGroupsOutput>(input: input, inputKey: \DescribeLocalGatewayVirtualInterfaceGroupsInput.nextToken, outputKey: \DescribeLocalGatewayVirtualInterfaceGroupsOutput.nextToken, paginationFunction: self.describeLocalGatewayVirtualInterfaceGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfaceGroupsInput, DescribeLocalGatewayVirtualInterfaceGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGatewayVirtualInterfaceGroups(input:))
->>>>>>> main
     }
 }
 
@@ -2127,11 +1720,7 @@ extension DescribeLocalGatewayVirtualInterfaceGroupsInput: ClientRuntime.Paginat
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewayVirtualInterfaceGroupsInput, Output == DescribeLocalGatewayVirtualInterfaceGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayVirtualInterfaceGroupsInput, OperationStackOutput == DescribeLocalGatewayVirtualInterfaceGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewayVirtualInterfaceGroupsPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayVirtualInterfaceGroup]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayVirtualInterfaceGroup]`
@@ -2149,11 +1738,7 @@ extension EC2Client {
     ///     - input: A `[DescribeLocalGatewayVirtualInterfacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeLocalGatewayVirtualInterfacesOutput`
     public func describeLocalGatewayVirtualInterfacesPaginated(input: DescribeLocalGatewayVirtualInterfacesInput) -> ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfacesInput, DescribeLocalGatewayVirtualInterfacesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfacesInput, DescribeLocalGatewayVirtualInterfacesOutput>(input: input, inputKey: \DescribeLocalGatewayVirtualInterfacesInput.nextToken, outputKey: \DescribeLocalGatewayVirtualInterfacesOutput.nextToken, paginationFunction: self.describeLocalGatewayVirtualInterfaces(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeLocalGatewayVirtualInterfacesInput, DescribeLocalGatewayVirtualInterfacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeLocalGatewayVirtualInterfaces(input:))
->>>>>>> main
     }
 }
 
@@ -2168,11 +1753,7 @@ extension DescribeLocalGatewayVirtualInterfacesInput: ClientRuntime.PaginateToke
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeLocalGatewayVirtualInterfacesInput, Output == DescribeLocalGatewayVirtualInterfacesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayVirtualInterfacesInput, OperationStackOutput == DescribeLocalGatewayVirtualInterfacesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeLocalGatewayVirtualInterfacesPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayVirtualInterface]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayVirtualInterface]`
@@ -2190,11 +1771,7 @@ extension EC2Client {
     ///     - input: A `[DescribeManagedPrefixListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeManagedPrefixListsOutput`
     public func describeManagedPrefixListsPaginated(input: DescribeManagedPrefixListsInput) -> ClientRuntime.PaginatorSequence<DescribeManagedPrefixListsInput, DescribeManagedPrefixListsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeManagedPrefixListsInput, DescribeManagedPrefixListsOutput>(input: input, inputKey: \DescribeManagedPrefixListsInput.nextToken, outputKey: \DescribeManagedPrefixListsOutput.nextToken, paginationFunction: self.describeManagedPrefixLists(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeManagedPrefixListsInput, DescribeManagedPrefixListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeManagedPrefixLists(input:))
->>>>>>> main
     }
 }
 
@@ -2209,11 +1786,7 @@ extension DescribeManagedPrefixListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeManagedPrefixListsInput, Output == DescribeManagedPrefixListsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeManagedPrefixListsInput, OperationStackOutput == DescribeManagedPrefixListsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeManagedPrefixListsPaginated`
     /// to access the nested member `[EC2ClientTypes.ManagedPrefixList]`
     /// - Returns: `[EC2ClientTypes.ManagedPrefixList]`
@@ -2231,11 +1804,7 @@ extension EC2Client {
     ///     - input: A `[DescribeMovingAddressesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMovingAddressesOutput`
     public func describeMovingAddressesPaginated(input: DescribeMovingAddressesInput) -> ClientRuntime.PaginatorSequence<DescribeMovingAddressesInput, DescribeMovingAddressesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeMovingAddressesInput, DescribeMovingAddressesOutput>(input: input, inputKey: \DescribeMovingAddressesInput.nextToken, outputKey: \DescribeMovingAddressesOutput.nextToken, paginationFunction: self.describeMovingAddresses(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeMovingAddressesInput, DescribeMovingAddressesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMovingAddresses(input:))
->>>>>>> main
     }
 }
 
@@ -2250,11 +1819,7 @@ extension DescribeMovingAddressesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeMovingAddressesInput, Output == DescribeMovingAddressesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeMovingAddressesInput, OperationStackOutput == DescribeMovingAddressesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMovingAddressesPaginated`
     /// to access the nested member `[EC2ClientTypes.MovingAddressStatus]`
     /// - Returns: `[EC2ClientTypes.MovingAddressStatus]`
@@ -2272,11 +1837,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNatGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNatGatewaysOutput`
     public func describeNatGatewaysPaginated(input: DescribeNatGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeNatGatewaysInput, DescribeNatGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNatGatewaysInput, DescribeNatGatewaysOutput>(input: input, inputKey: \DescribeNatGatewaysInput.nextToken, outputKey: \DescribeNatGatewaysOutput.nextToken, paginationFunction: self.describeNatGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNatGatewaysInput, DescribeNatGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNatGateways(input:))
->>>>>>> main
     }
 }
 
@@ -2291,11 +1852,7 @@ extension DescribeNatGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNatGatewaysInput, Output == DescribeNatGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNatGatewaysInput, OperationStackOutput == DescribeNatGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNatGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.NatGateway]`
     /// - Returns: `[EC2ClientTypes.NatGateway]`
@@ -2313,11 +1870,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkAclsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkAclsOutput`
     public func describeNetworkAclsPaginated(input: DescribeNetworkAclsInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkAclsInput, DescribeNetworkAclsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkAclsInput, DescribeNetworkAclsOutput>(input: input, inputKey: \DescribeNetworkAclsInput.nextToken, outputKey: \DescribeNetworkAclsOutput.nextToken, paginationFunction: self.describeNetworkAcls(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkAclsInput, DescribeNetworkAclsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkAcls(input:))
->>>>>>> main
     }
 }
 
@@ -2332,11 +1885,7 @@ extension DescribeNetworkAclsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkAclsInput, Output == DescribeNetworkAclsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkAclsInput, OperationStackOutput == DescribeNetworkAclsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkAclsPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkAcl]`
     /// - Returns: `[EC2ClientTypes.NetworkAcl]`
@@ -2354,11 +1903,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInsightsAccessScopeAnalysesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInsightsAccessScopeAnalysesOutput`
     public func describeNetworkInsightsAccessScopeAnalysesPaginated(input: DescribeNetworkInsightsAccessScopeAnalysesInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopeAnalysesInput, DescribeNetworkInsightsAccessScopeAnalysesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopeAnalysesInput, DescribeNetworkInsightsAccessScopeAnalysesOutput>(input: input, inputKey: \DescribeNetworkInsightsAccessScopeAnalysesInput.nextToken, outputKey: \DescribeNetworkInsightsAccessScopeAnalysesOutput.nextToken, paginationFunction: self.describeNetworkInsightsAccessScopeAnalyses(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopeAnalysesInput, DescribeNetworkInsightsAccessScopeAnalysesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInsightsAccessScopeAnalyses(input:))
->>>>>>> main
     }
 }
 
@@ -2376,11 +1921,7 @@ extension DescribeNetworkInsightsAccessScopeAnalysesInput: ClientRuntime.Paginat
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInsightsAccessScopeAnalysesInput, Output == DescribeNetworkInsightsAccessScopeAnalysesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInsightsAccessScopeAnalysesInput, OperationStackOutput == DescribeNetworkInsightsAccessScopeAnalysesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInsightsAccessScopeAnalysesPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInsightsAccessScopeAnalysis]`
     /// - Returns: `[EC2ClientTypes.NetworkInsightsAccessScopeAnalysis]`
@@ -2398,11 +1939,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInsightsAccessScopesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInsightsAccessScopesOutput`
     public func describeNetworkInsightsAccessScopesPaginated(input: DescribeNetworkInsightsAccessScopesInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopesInput, DescribeNetworkInsightsAccessScopesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopesInput, DescribeNetworkInsightsAccessScopesOutput>(input: input, inputKey: \DescribeNetworkInsightsAccessScopesInput.nextToken, outputKey: \DescribeNetworkInsightsAccessScopesOutput.nextToken, paginationFunction: self.describeNetworkInsightsAccessScopes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAccessScopesInput, DescribeNetworkInsightsAccessScopesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInsightsAccessScopes(input:))
->>>>>>> main
     }
 }
 
@@ -2417,11 +1954,7 @@ extension DescribeNetworkInsightsAccessScopesInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInsightsAccessScopesInput, Output == DescribeNetworkInsightsAccessScopesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInsightsAccessScopesInput, OperationStackOutput == DescribeNetworkInsightsAccessScopesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInsightsAccessScopesPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInsightsAccessScope]`
     /// - Returns: `[EC2ClientTypes.NetworkInsightsAccessScope]`
@@ -2439,11 +1972,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInsightsAnalysesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInsightsAnalysesOutput`
     public func describeNetworkInsightsAnalysesPaginated(input: DescribeNetworkInsightsAnalysesInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAnalysesInput, DescribeNetworkInsightsAnalysesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAnalysesInput, DescribeNetworkInsightsAnalysesOutput>(input: input, inputKey: \DescribeNetworkInsightsAnalysesInput.nextToken, outputKey: \DescribeNetworkInsightsAnalysesOutput.nextToken, paginationFunction: self.describeNetworkInsightsAnalyses(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsAnalysesInput, DescribeNetworkInsightsAnalysesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInsightsAnalyses(input:))
->>>>>>> main
     }
 }
 
@@ -2461,11 +1990,7 @@ extension DescribeNetworkInsightsAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInsightsAnalysesInput, Output == DescribeNetworkInsightsAnalysesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInsightsAnalysesInput, OperationStackOutput == DescribeNetworkInsightsAnalysesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInsightsAnalysesPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInsightsAnalysis]`
     /// - Returns: `[EC2ClientTypes.NetworkInsightsAnalysis]`
@@ -2483,11 +2008,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInsightsPathsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInsightsPathsOutput`
     public func describeNetworkInsightsPathsPaginated(input: DescribeNetworkInsightsPathsInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInsightsPathsInput, DescribeNetworkInsightsPathsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsPathsInput, DescribeNetworkInsightsPathsOutput>(input: input, inputKey: \DescribeNetworkInsightsPathsInput.nextToken, outputKey: \DescribeNetworkInsightsPathsOutput.nextToken, paginationFunction: self.describeNetworkInsightsPaths(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInsightsPathsInput, DescribeNetworkInsightsPathsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInsightsPaths(input:))
->>>>>>> main
     }
 }
 
@@ -2502,11 +2023,7 @@ extension DescribeNetworkInsightsPathsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInsightsPathsInput, Output == DescribeNetworkInsightsPathsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInsightsPathsInput, OperationStackOutput == DescribeNetworkInsightsPathsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInsightsPathsPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInsightsPath]`
     /// - Returns: `[EC2ClientTypes.NetworkInsightsPath]`
@@ -2524,11 +2041,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInterfacePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInterfacePermissionsOutput`
     public func describeNetworkInterfacePermissionsPaginated(input: DescribeNetworkInterfacePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInterfacePermissionsInput, DescribeNetworkInterfacePermissionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInterfacePermissionsInput, DescribeNetworkInterfacePermissionsOutput>(input: input, inputKey: \DescribeNetworkInterfacePermissionsInput.nextToken, outputKey: \DescribeNetworkInterfacePermissionsOutput.nextToken, paginationFunction: self.describeNetworkInterfacePermissions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInterfacePermissionsInput, DescribeNetworkInterfacePermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInterfacePermissions(input:))
->>>>>>> main
     }
 }
 
@@ -2542,11 +2055,7 @@ extension DescribeNetworkInterfacePermissionsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInterfacePermissionsInput, Output == DescribeNetworkInterfacePermissionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInterfacePermissionsInput, OperationStackOutput == DescribeNetworkInterfacePermissionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInterfacePermissionsPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInterfacePermission]`
     /// - Returns: `[EC2ClientTypes.NetworkInterfacePermission]`
@@ -2564,11 +2073,7 @@ extension EC2Client {
     ///     - input: A `[DescribeNetworkInterfacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkInterfacesOutput`
     public func describeNetworkInterfacesPaginated(input: DescribeNetworkInterfacesInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutput>(input: input, inputKey: \DescribeNetworkInterfacesInput.nextToken, outputKey: \DescribeNetworkInterfacesOutput.nextToken, paginationFunction: self.describeNetworkInterfaces(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeNetworkInterfacesInput, DescribeNetworkInterfacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkInterfaces(input:))
->>>>>>> main
     }
 }
 
@@ -2583,11 +2088,7 @@ extension DescribeNetworkInterfacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeNetworkInterfacesInput, Output == DescribeNetworkInterfacesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeNetworkInterfacesInput, OperationStackOutput == DescribeNetworkInterfacesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeNetworkInterfacesPaginated`
     /// to access the nested member `[EC2ClientTypes.NetworkInterface]`
     /// - Returns: `[EC2ClientTypes.NetworkInterface]`
@@ -2605,11 +2106,7 @@ extension EC2Client {
     ///     - input: A `[DescribePrefixListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePrefixListsOutput`
     public func describePrefixListsPaginated(input: DescribePrefixListsInput) -> ClientRuntime.PaginatorSequence<DescribePrefixListsInput, DescribePrefixListsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePrefixListsInput, DescribePrefixListsOutput>(input: input, inputKey: \DescribePrefixListsInput.nextToken, outputKey: \DescribePrefixListsOutput.nextToken, paginationFunction: self.describePrefixLists(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePrefixListsInput, DescribePrefixListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePrefixLists(input:))
->>>>>>> main
     }
 }
 
@@ -2624,11 +2121,7 @@ extension DescribePrefixListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribePrefixListsInput, Output == DescribePrefixListsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribePrefixListsInput, OperationStackOutput == DescribePrefixListsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePrefixListsPaginated`
     /// to access the nested member `[EC2ClientTypes.PrefixList]`
     /// - Returns: `[EC2ClientTypes.PrefixList]`
@@ -2646,11 +2139,7 @@ extension EC2Client {
     ///     - input: A `[DescribePrincipalIdFormatInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePrincipalIdFormatOutput`
     public func describePrincipalIdFormatPaginated(input: DescribePrincipalIdFormatInput) -> ClientRuntime.PaginatorSequence<DescribePrincipalIdFormatInput, DescribePrincipalIdFormatOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePrincipalIdFormatInput, DescribePrincipalIdFormatOutput>(input: input, inputKey: \DescribePrincipalIdFormatInput.nextToken, outputKey: \DescribePrincipalIdFormatOutput.nextToken, paginationFunction: self.describePrincipalIdFormat(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePrincipalIdFormatInput, DescribePrincipalIdFormatOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePrincipalIdFormat(input:))
->>>>>>> main
     }
 }
 
@@ -2664,11 +2153,7 @@ extension DescribePrincipalIdFormatInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribePrincipalIdFormatInput, Output == DescribePrincipalIdFormatOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribePrincipalIdFormatInput, OperationStackOutput == DescribePrincipalIdFormatOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePrincipalIdFormatPaginated`
     /// to access the nested member `[EC2ClientTypes.PrincipalIdFormat]`
     /// - Returns: `[EC2ClientTypes.PrincipalIdFormat]`
@@ -2686,11 +2171,7 @@ extension EC2Client {
     ///     - input: A `[DescribePublicIpv4PoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePublicIpv4PoolsOutput`
     public func describePublicIpv4PoolsPaginated(input: DescribePublicIpv4PoolsInput) -> ClientRuntime.PaginatorSequence<DescribePublicIpv4PoolsInput, DescribePublicIpv4PoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePublicIpv4PoolsInput, DescribePublicIpv4PoolsOutput>(input: input, inputKey: \DescribePublicIpv4PoolsInput.nextToken, outputKey: \DescribePublicIpv4PoolsOutput.nextToken, paginationFunction: self.describePublicIpv4Pools(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePublicIpv4PoolsInput, DescribePublicIpv4PoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePublicIpv4Pools(input:))
->>>>>>> main
     }
 }
 
@@ -2704,11 +2185,7 @@ extension DescribePublicIpv4PoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribePublicIpv4PoolsInput, Output == DescribePublicIpv4PoolsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribePublicIpv4PoolsInput, OperationStackOutput == DescribePublicIpv4PoolsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePublicIpv4PoolsPaginated`
     /// to access the nested member `[EC2ClientTypes.PublicIpv4Pool]`
     /// - Returns: `[EC2ClientTypes.PublicIpv4Pool]`
@@ -2726,11 +2203,7 @@ extension EC2Client {
     ///     - input: A `[DescribeReplaceRootVolumeTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplaceRootVolumeTasksOutput`
     public func describeReplaceRootVolumeTasksPaginated(input: DescribeReplaceRootVolumeTasksInput) -> ClientRuntime.PaginatorSequence<DescribeReplaceRootVolumeTasksInput, DescribeReplaceRootVolumeTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReplaceRootVolumeTasksInput, DescribeReplaceRootVolumeTasksOutput>(input: input, inputKey: \DescribeReplaceRootVolumeTasksInput.nextToken, outputKey: \DescribeReplaceRootVolumeTasksOutput.nextToken, paginationFunction: self.describeReplaceRootVolumeTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReplaceRootVolumeTasksInput, DescribeReplaceRootVolumeTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReplaceRootVolumeTasks(input:))
->>>>>>> main
     }
 }
 
@@ -2745,11 +2218,7 @@ extension DescribeReplaceRootVolumeTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReplaceRootVolumeTasksInput, Output == DescribeReplaceRootVolumeTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReplaceRootVolumeTasksInput, OperationStackOutput == DescribeReplaceRootVolumeTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReplaceRootVolumeTasksPaginated`
     /// to access the nested member `[EC2ClientTypes.ReplaceRootVolumeTask]`
     /// - Returns: `[EC2ClientTypes.ReplaceRootVolumeTask]`
@@ -2767,11 +2236,7 @@ extension EC2Client {
     ///     - input: A `[DescribeReservedInstancesModificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstancesModificationsOutput`
     public func describeReservedInstancesModificationsPaginated(input: DescribeReservedInstancesModificationsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstancesModificationsInput, DescribeReservedInstancesModificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesModificationsInput, DescribeReservedInstancesModificationsOutput>(input: input, inputKey: \DescribeReservedInstancesModificationsInput.nextToken, outputKey: \DescribeReservedInstancesModificationsOutput.nextToken, paginationFunction: self.describeReservedInstancesModifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedInstancesModificationsInput, DescribeReservedInstancesModificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedInstancesModifications(input:))
->>>>>>> main
     }
 }
 
@@ -2784,11 +2249,7 @@ extension DescribeReservedInstancesModificationsInput: ClientRuntime.PaginateTok
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedInstancesModificationsInput, Output == DescribeReservedInstancesModificationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedInstancesModificationsInput, OperationStackOutput == DescribeReservedInstancesModificationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedInstancesModificationsPaginated`
     /// to access the nested member `[EC2ClientTypes.ReservedInstancesModification]`
     /// - Returns: `[EC2ClientTypes.ReservedInstancesModification]`
@@ -2806,11 +2267,7 @@ extension EC2Client {
     ///     - input: A `[DescribeReservedInstancesOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedInstancesOfferingsOutput`
     public func describeReservedInstancesOfferingsPaginated(input: DescribeReservedInstancesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedInstancesOfferingsInput, DescribeReservedInstancesOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedInstancesOfferingsInput, DescribeReservedInstancesOfferingsOutput>(input: input, inputKey: \DescribeReservedInstancesOfferingsInput.nextToken, outputKey: \DescribeReservedInstancesOfferingsOutput.nextToken, paginationFunction: self.describeReservedInstancesOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedInstancesOfferingsInput, DescribeReservedInstancesOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedInstancesOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -2835,11 +2292,7 @@ extension DescribeReservedInstancesOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedInstancesOfferingsInput, Output == DescribeReservedInstancesOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedInstancesOfferingsInput, OperationStackOutput == DescribeReservedInstancesOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedInstancesOfferingsPaginated`
     /// to access the nested member `[EC2ClientTypes.ReservedInstancesOffering]`
     /// - Returns: `[EC2ClientTypes.ReservedInstancesOffering]`
@@ -2857,11 +2310,7 @@ extension EC2Client {
     ///     - input: A `[DescribeRouteTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRouteTablesOutput`
     public func describeRouteTablesPaginated(input: DescribeRouteTablesInput) -> ClientRuntime.PaginatorSequence<DescribeRouteTablesInput, DescribeRouteTablesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeRouteTablesInput, DescribeRouteTablesOutput>(input: input, inputKey: \DescribeRouteTablesInput.nextToken, outputKey: \DescribeRouteTablesOutput.nextToken, paginationFunction: self.describeRouteTables(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeRouteTablesInput, DescribeRouteTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRouteTables(input:))
->>>>>>> main
     }
 }
 
@@ -2876,11 +2325,7 @@ extension DescribeRouteTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeRouteTablesInput, Output == DescribeRouteTablesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeRouteTablesInput, OperationStackOutput == DescribeRouteTablesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeRouteTablesPaginated`
     /// to access the nested member `[EC2ClientTypes.RouteTable]`
     /// - Returns: `[EC2ClientTypes.RouteTable]`
@@ -2898,11 +2343,7 @@ extension EC2Client {
     ///     - input: A `[DescribeScheduledInstanceAvailabilityInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledInstanceAvailabilityOutput`
     public func describeScheduledInstanceAvailabilityPaginated(input: DescribeScheduledInstanceAvailabilityInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledInstanceAvailabilityInput, DescribeScheduledInstanceAvailabilityOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeScheduledInstanceAvailabilityInput, DescribeScheduledInstanceAvailabilityOutput>(input: input, inputKey: \DescribeScheduledInstanceAvailabilityInput.nextToken, outputKey: \DescribeScheduledInstanceAvailabilityOutput.nextToken, paginationFunction: self.describeScheduledInstanceAvailability(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeScheduledInstanceAvailabilityInput, DescribeScheduledInstanceAvailabilityOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeScheduledInstanceAvailability(input:))
->>>>>>> main
     }
 }
 
@@ -2920,11 +2361,7 @@ extension DescribeScheduledInstanceAvailabilityInput: ClientRuntime.PaginateToke
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeScheduledInstanceAvailabilityInput, Output == DescribeScheduledInstanceAvailabilityOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeScheduledInstanceAvailabilityInput, OperationStackOutput == DescribeScheduledInstanceAvailabilityOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeScheduledInstanceAvailabilityPaginated`
     /// to access the nested member `[EC2ClientTypes.ScheduledInstanceAvailability]`
     /// - Returns: `[EC2ClientTypes.ScheduledInstanceAvailability]`
@@ -2942,11 +2379,7 @@ extension EC2Client {
     ///     - input: A `[DescribeScheduledInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledInstancesOutput`
     public func describeScheduledInstancesPaginated(input: DescribeScheduledInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledInstancesInput, DescribeScheduledInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeScheduledInstancesInput, DescribeScheduledInstancesOutput>(input: input, inputKey: \DescribeScheduledInstancesInput.nextToken, outputKey: \DescribeScheduledInstancesOutput.nextToken, paginationFunction: self.describeScheduledInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeScheduledInstancesInput, DescribeScheduledInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeScheduledInstances(input:))
->>>>>>> main
     }
 }
 
@@ -2962,11 +2395,7 @@ extension DescribeScheduledInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeScheduledInstancesInput, Output == DescribeScheduledInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeScheduledInstancesInput, OperationStackOutput == DescribeScheduledInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeScheduledInstancesPaginated`
     /// to access the nested member `[EC2ClientTypes.ScheduledInstance]`
     /// - Returns: `[EC2ClientTypes.ScheduledInstance]`
@@ -2984,11 +2413,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSecurityGroupRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSecurityGroupRulesOutput`
     public func describeSecurityGroupRulesPaginated(input: DescribeSecurityGroupRulesInput) -> ClientRuntime.PaginatorSequence<DescribeSecurityGroupRulesInput, DescribeSecurityGroupRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSecurityGroupRulesInput, DescribeSecurityGroupRulesOutput>(input: input, inputKey: \DescribeSecurityGroupRulesInput.nextToken, outputKey: \DescribeSecurityGroupRulesOutput.nextToken, paginationFunction: self.describeSecurityGroupRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSecurityGroupRulesInput, DescribeSecurityGroupRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSecurityGroupRules(input:))
->>>>>>> main
     }
 }
 
@@ -3003,11 +2428,7 @@ extension DescribeSecurityGroupRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSecurityGroupRulesInput, Output == DescribeSecurityGroupRulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSecurityGroupRulesInput, OperationStackOutput == DescribeSecurityGroupRulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSecurityGroupRulesPaginated`
     /// to access the nested member `[EC2ClientTypes.SecurityGroupRule]`
     /// - Returns: `[EC2ClientTypes.SecurityGroupRule]`
@@ -3025,11 +2446,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSecurityGroupsOutput`
     public func describeSecurityGroupsPaginated(input: DescribeSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput>(input: input, inputKey: \DescribeSecurityGroupsInput.nextToken, outputKey: \DescribeSecurityGroupsOutput.nextToken, paginationFunction: self.describeSecurityGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSecurityGroups(input:))
->>>>>>> main
     }
 }
 
@@ -3045,11 +2462,7 @@ extension DescribeSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSecurityGroupsInput, Output == DescribeSecurityGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSecurityGroupsInput, OperationStackOutput == DescribeSecurityGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSecurityGroupsPaginated`
     /// to access the nested member `[EC2ClientTypes.SecurityGroup]`
     /// - Returns: `[EC2ClientTypes.SecurityGroup]`
@@ -3067,11 +2480,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshots(input:))
->>>>>>> main
     }
 }
 
@@ -3088,11 +2497,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput, OperationStackOutput == DescribeSnapshotsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[EC2ClientTypes.Snapshot]`
     /// - Returns: `[EC2ClientTypes.Snapshot]`
@@ -3110,11 +2515,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSnapshotTierStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotTierStatusOutput`
     public func describeSnapshotTierStatusPaginated(input: DescribeSnapshotTierStatusInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotTierStatusInput, DescribeSnapshotTierStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotTierStatusInput, DescribeSnapshotTierStatusOutput>(input: input, inputKey: \DescribeSnapshotTierStatusInput.nextToken, outputKey: \DescribeSnapshotTierStatusOutput.nextToken, paginationFunction: self.describeSnapshotTierStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSnapshotTierStatusInput, DescribeSnapshotTierStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshotTierStatus(input:))
->>>>>>> main
     }
 }
 
@@ -3128,11 +2529,7 @@ extension DescribeSnapshotTierStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSnapshotTierStatusInput, Output == DescribeSnapshotTierStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSnapshotTierStatusInput, OperationStackOutput == DescribeSnapshotTierStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotTierStatusPaginated`
     /// to access the nested member `[EC2ClientTypes.SnapshotTierStatus]`
     /// - Returns: `[EC2ClientTypes.SnapshotTierStatus]`
@@ -3150,11 +2547,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSpotFleetRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSpotFleetRequestsOutput`
     public func describeSpotFleetRequestsPaginated(input: DescribeSpotFleetRequestsInput) -> ClientRuntime.PaginatorSequence<DescribeSpotFleetRequestsInput, DescribeSpotFleetRequestsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSpotFleetRequestsInput, DescribeSpotFleetRequestsOutput>(input: input, inputKey: \DescribeSpotFleetRequestsInput.nextToken, outputKey: \DescribeSpotFleetRequestsOutput.nextToken, paginationFunction: self.describeSpotFleetRequests(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSpotFleetRequestsInput, DescribeSpotFleetRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSpotFleetRequests(input:))
->>>>>>> main
     }
 }
 
@@ -3168,11 +2561,7 @@ extension DescribeSpotFleetRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSpotFleetRequestsInput, Output == DescribeSpotFleetRequestsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSpotFleetRequestsInput, OperationStackOutput == DescribeSpotFleetRequestsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSpotFleetRequestsPaginated`
     /// to access the nested member `[EC2ClientTypes.SpotFleetRequestConfig]`
     /// - Returns: `[EC2ClientTypes.SpotFleetRequestConfig]`
@@ -3190,11 +2579,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSpotInstanceRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSpotInstanceRequestsOutput`
     public func describeSpotInstanceRequestsPaginated(input: DescribeSpotInstanceRequestsInput) -> ClientRuntime.PaginatorSequence<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutput>(input: input, inputKey: \DescribeSpotInstanceRequestsInput.nextToken, outputKey: \DescribeSpotInstanceRequestsOutput.nextToken, paginationFunction: self.describeSpotInstanceRequests(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSpotInstanceRequestsInput, DescribeSpotInstanceRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSpotInstanceRequests(input:))
->>>>>>> main
     }
 }
 
@@ -3209,11 +2594,7 @@ extension DescribeSpotInstanceRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSpotInstanceRequestsInput, Output == DescribeSpotInstanceRequestsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSpotInstanceRequestsInput, OperationStackOutput == DescribeSpotInstanceRequestsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSpotInstanceRequestsPaginated`
     /// to access the nested member `[EC2ClientTypes.SpotInstanceRequest]`
     /// - Returns: `[EC2ClientTypes.SpotInstanceRequest]`
@@ -3231,11 +2612,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSpotPriceHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSpotPriceHistoryOutput`
     public func describeSpotPriceHistoryPaginated(input: DescribeSpotPriceHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeSpotPriceHistoryInput, DescribeSpotPriceHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSpotPriceHistoryInput, DescribeSpotPriceHistoryOutput>(input: input, inputKey: \DescribeSpotPriceHistoryInput.nextToken, outputKey: \DescribeSpotPriceHistoryOutput.nextToken, paginationFunction: self.describeSpotPriceHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSpotPriceHistoryInput, DescribeSpotPriceHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSpotPriceHistory(input:))
->>>>>>> main
     }
 }
 
@@ -3254,11 +2631,7 @@ extension DescribeSpotPriceHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSpotPriceHistoryInput, Output == DescribeSpotPriceHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSpotPriceHistoryInput, OperationStackOutput == DescribeSpotPriceHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSpotPriceHistoryPaginated`
     /// to access the nested member `[EC2ClientTypes.SpotPrice]`
     /// - Returns: `[EC2ClientTypes.SpotPrice]`
@@ -3276,11 +2649,7 @@ extension EC2Client {
     ///     - input: A `[DescribeStaleSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStaleSecurityGroupsOutput`
     public func describeStaleSecurityGroupsPaginated(input: DescribeStaleSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeStaleSecurityGroupsInput, DescribeStaleSecurityGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeStaleSecurityGroupsInput, DescribeStaleSecurityGroupsOutput>(input: input, inputKey: \DescribeStaleSecurityGroupsInput.nextToken, outputKey: \DescribeStaleSecurityGroupsOutput.nextToken, paginationFunction: self.describeStaleSecurityGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeStaleSecurityGroupsInput, DescribeStaleSecurityGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStaleSecurityGroups(input:))
->>>>>>> main
     }
 }
 
@@ -3294,11 +2663,7 @@ extension DescribeStaleSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeStaleSecurityGroupsInput, Output == DescribeStaleSecurityGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeStaleSecurityGroupsInput, OperationStackOutput == DescribeStaleSecurityGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStaleSecurityGroupsPaginated`
     /// to access the nested member `[EC2ClientTypes.StaleSecurityGroup]`
     /// - Returns: `[EC2ClientTypes.StaleSecurityGroup]`
@@ -3316,11 +2681,7 @@ extension EC2Client {
     ///     - input: A `[DescribeStoreImageTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStoreImageTasksOutput`
     public func describeStoreImageTasksPaginated(input: DescribeStoreImageTasksInput) -> ClientRuntime.PaginatorSequence<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutput>(input: input, inputKey: \DescribeStoreImageTasksInput.nextToken, outputKey: \DescribeStoreImageTasksOutput.nextToken, paginationFunction: self.describeStoreImageTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeStoreImageTasksInput, DescribeStoreImageTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStoreImageTasks(input:))
->>>>>>> main
     }
 }
 
@@ -3335,11 +2696,7 @@ extension DescribeStoreImageTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeStoreImageTasksInput, Output == DescribeStoreImageTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeStoreImageTasksInput, OperationStackOutput == DescribeStoreImageTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStoreImageTasksPaginated`
     /// to access the nested member `[EC2ClientTypes.StoreImageTaskResult]`
     /// - Returns: `[EC2ClientTypes.StoreImageTaskResult]`
@@ -3357,11 +2714,7 @@ extension EC2Client {
     ///     - input: A `[DescribeSubnetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubnetsOutput`
     public func describeSubnetsPaginated(input: DescribeSubnetsInput) -> ClientRuntime.PaginatorSequence<DescribeSubnetsInput, DescribeSubnetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSubnetsInput, DescribeSubnetsOutput>(input: input, inputKey: \DescribeSubnetsInput.nextToken, outputKey: \DescribeSubnetsOutput.nextToken, paginationFunction: self.describeSubnets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSubnetsInput, DescribeSubnetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSubnets(input:))
->>>>>>> main
     }
 }
 
@@ -3376,11 +2729,7 @@ extension DescribeSubnetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSubnetsInput, Output == DescribeSubnetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSubnetsInput, OperationStackOutput == DescribeSubnetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSubnetsPaginated`
     /// to access the nested member `[EC2ClientTypes.Subnet]`
     /// - Returns: `[EC2ClientTypes.Subnet]`
@@ -3398,11 +2747,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.nextToken, outputKey: \DescribeTagsOutput.nextToken, paginationFunction: self.describeTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTags(input:))
->>>>>>> main
     }
 }
 
@@ -3416,11 +2761,7 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
     /// to access the nested member `[EC2ClientTypes.TagDescription]`
     /// - Returns: `[EC2ClientTypes.TagDescription]`
@@ -3438,11 +2779,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTrafficMirrorFiltersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrafficMirrorFiltersOutput`
     public func describeTrafficMirrorFiltersPaginated(input: DescribeTrafficMirrorFiltersInput) -> ClientRuntime.PaginatorSequence<DescribeTrafficMirrorFiltersInput, DescribeTrafficMirrorFiltersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorFiltersInput, DescribeTrafficMirrorFiltersOutput>(input: input, inputKey: \DescribeTrafficMirrorFiltersInput.nextToken, outputKey: \DescribeTrafficMirrorFiltersOutput.nextToken, paginationFunction: self.describeTrafficMirrorFilters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorFiltersInput, DescribeTrafficMirrorFiltersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrafficMirrorFilters(input:))
->>>>>>> main
     }
 }
 
@@ -3457,11 +2794,7 @@ extension DescribeTrafficMirrorFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTrafficMirrorFiltersInput, Output == DescribeTrafficMirrorFiltersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTrafficMirrorFiltersInput, OperationStackOutput == DescribeTrafficMirrorFiltersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTrafficMirrorFiltersPaginated`
     /// to access the nested member `[EC2ClientTypes.TrafficMirrorFilter]`
     /// - Returns: `[EC2ClientTypes.TrafficMirrorFilter]`
@@ -3479,11 +2812,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTrafficMirrorSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrafficMirrorSessionsOutput`
     public func describeTrafficMirrorSessionsPaginated(input: DescribeTrafficMirrorSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeTrafficMirrorSessionsInput, DescribeTrafficMirrorSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorSessionsInput, DescribeTrafficMirrorSessionsOutput>(input: input, inputKey: \DescribeTrafficMirrorSessionsInput.nextToken, outputKey: \DescribeTrafficMirrorSessionsOutput.nextToken, paginationFunction: self.describeTrafficMirrorSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorSessionsInput, DescribeTrafficMirrorSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrafficMirrorSessions(input:))
->>>>>>> main
     }
 }
 
@@ -3498,11 +2827,7 @@ extension DescribeTrafficMirrorSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTrafficMirrorSessionsInput, Output == DescribeTrafficMirrorSessionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTrafficMirrorSessionsInput, OperationStackOutput == DescribeTrafficMirrorSessionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTrafficMirrorSessionsPaginated`
     /// to access the nested member `[EC2ClientTypes.TrafficMirrorSession]`
     /// - Returns: `[EC2ClientTypes.TrafficMirrorSession]`
@@ -3520,11 +2845,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTrafficMirrorTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrafficMirrorTargetsOutput`
     public func describeTrafficMirrorTargetsPaginated(input: DescribeTrafficMirrorTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeTrafficMirrorTargetsInput, DescribeTrafficMirrorTargetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorTargetsInput, DescribeTrafficMirrorTargetsOutput>(input: input, inputKey: \DescribeTrafficMirrorTargetsInput.nextToken, outputKey: \DescribeTrafficMirrorTargetsOutput.nextToken, paginationFunction: self.describeTrafficMirrorTargets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTrafficMirrorTargetsInput, DescribeTrafficMirrorTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrafficMirrorTargets(input:))
->>>>>>> main
     }
 }
 
@@ -3539,11 +2860,7 @@ extension DescribeTrafficMirrorTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTrafficMirrorTargetsInput, Output == DescribeTrafficMirrorTargetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTrafficMirrorTargetsInput, OperationStackOutput == DescribeTrafficMirrorTargetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTrafficMirrorTargetsPaginated`
     /// to access the nested member `[EC2ClientTypes.TrafficMirrorTarget]`
     /// - Returns: `[EC2ClientTypes.TrafficMirrorTarget]`
@@ -3561,11 +2878,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayAttachmentsOutput`
     public func describeTransitGatewayAttachmentsPaginated(input: DescribeTransitGatewayAttachmentsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayAttachmentsInput, DescribeTransitGatewayAttachmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayAttachmentsInput, DescribeTransitGatewayAttachmentsOutput>(input: input, inputKey: \DescribeTransitGatewayAttachmentsInput.nextToken, outputKey: \DescribeTransitGatewayAttachmentsOutput.nextToken, paginationFunction: self.describeTransitGatewayAttachments(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayAttachmentsInput, DescribeTransitGatewayAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayAttachments(input:))
->>>>>>> main
     }
 }
 
@@ -3580,11 +2893,7 @@ extension DescribeTransitGatewayAttachmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayAttachmentsInput, Output == DescribeTransitGatewayAttachmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayAttachmentsInput, OperationStackOutput == DescribeTransitGatewayAttachmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayAttachmentsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayAttachment]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayAttachment]`
@@ -3602,11 +2911,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayConnectPeersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayConnectPeersOutput`
     public func describeTransitGatewayConnectPeersPaginated(input: DescribeTransitGatewayConnectPeersInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectPeersInput, DescribeTransitGatewayConnectPeersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectPeersInput, DescribeTransitGatewayConnectPeersOutput>(input: input, inputKey: \DescribeTransitGatewayConnectPeersInput.nextToken, outputKey: \DescribeTransitGatewayConnectPeersOutput.nextToken, paginationFunction: self.describeTransitGatewayConnectPeers(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectPeersInput, DescribeTransitGatewayConnectPeersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayConnectPeers(input:))
->>>>>>> main
     }
 }
 
@@ -3621,11 +2926,7 @@ extension DescribeTransitGatewayConnectPeersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayConnectPeersInput, Output == DescribeTransitGatewayConnectPeersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayConnectPeersInput, OperationStackOutput == DescribeTransitGatewayConnectPeersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayConnectPeersPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayConnectPeer]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayConnectPeer]`
@@ -3643,11 +2944,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayConnectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayConnectsOutput`
     public func describeTransitGatewayConnectsPaginated(input: DescribeTransitGatewayConnectsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectsInput, DescribeTransitGatewayConnectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectsInput, DescribeTransitGatewayConnectsOutput>(input: input, inputKey: \DescribeTransitGatewayConnectsInput.nextToken, outputKey: \DescribeTransitGatewayConnectsOutput.nextToken, paginationFunction: self.describeTransitGatewayConnects(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayConnectsInput, DescribeTransitGatewayConnectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayConnects(input:))
->>>>>>> main
     }
 }
 
@@ -3662,11 +2959,7 @@ extension DescribeTransitGatewayConnectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayConnectsInput, Output == DescribeTransitGatewayConnectsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayConnectsInput, OperationStackOutput == DescribeTransitGatewayConnectsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayConnectsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayConnect]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayConnect]`
@@ -3684,11 +2977,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayMulticastDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayMulticastDomainsOutput`
     public func describeTransitGatewayMulticastDomainsPaginated(input: DescribeTransitGatewayMulticastDomainsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayMulticastDomainsInput, DescribeTransitGatewayMulticastDomainsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayMulticastDomainsInput, DescribeTransitGatewayMulticastDomainsOutput>(input: input, inputKey: \DescribeTransitGatewayMulticastDomainsInput.nextToken, outputKey: \DescribeTransitGatewayMulticastDomainsOutput.nextToken, paginationFunction: self.describeTransitGatewayMulticastDomains(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayMulticastDomainsInput, DescribeTransitGatewayMulticastDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayMulticastDomains(input:))
->>>>>>> main
     }
 }
 
@@ -3703,11 +2992,7 @@ extension DescribeTransitGatewayMulticastDomainsInput: ClientRuntime.PaginateTok
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayMulticastDomainsInput, Output == DescribeTransitGatewayMulticastDomainsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayMulticastDomainsInput, OperationStackOutput == DescribeTransitGatewayMulticastDomainsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayMulticastDomainsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayMulticastDomain]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayMulticastDomain]`
@@ -3725,11 +3010,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayPeeringAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayPeeringAttachmentsOutput`
     public func describeTransitGatewayPeeringAttachmentsPaginated(input: DescribeTransitGatewayPeeringAttachmentsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayPeeringAttachmentsInput, DescribeTransitGatewayPeeringAttachmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayPeeringAttachmentsInput, DescribeTransitGatewayPeeringAttachmentsOutput>(input: input, inputKey: \DescribeTransitGatewayPeeringAttachmentsInput.nextToken, outputKey: \DescribeTransitGatewayPeeringAttachmentsOutput.nextToken, paginationFunction: self.describeTransitGatewayPeeringAttachments(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayPeeringAttachmentsInput, DescribeTransitGatewayPeeringAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayPeeringAttachments(input:))
->>>>>>> main
     }
 }
 
@@ -3744,11 +3025,7 @@ extension DescribeTransitGatewayPeeringAttachmentsInput: ClientRuntime.PaginateT
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayPeeringAttachmentsInput, Output == DescribeTransitGatewayPeeringAttachmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayPeeringAttachmentsInput, OperationStackOutput == DescribeTransitGatewayPeeringAttachmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayPeeringAttachmentsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayPeeringAttachment]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayPeeringAttachment]`
@@ -3766,11 +3043,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayPolicyTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayPolicyTablesOutput`
     public func describeTransitGatewayPolicyTablesPaginated(input: DescribeTransitGatewayPolicyTablesInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayPolicyTablesInput, DescribeTransitGatewayPolicyTablesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayPolicyTablesInput, DescribeTransitGatewayPolicyTablesOutput>(input: input, inputKey: \DescribeTransitGatewayPolicyTablesInput.nextToken, outputKey: \DescribeTransitGatewayPolicyTablesOutput.nextToken, paginationFunction: self.describeTransitGatewayPolicyTables(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayPolicyTablesInput, DescribeTransitGatewayPolicyTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayPolicyTables(input:))
->>>>>>> main
     }
 }
 
@@ -3785,11 +3058,7 @@ extension DescribeTransitGatewayPolicyTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayPolicyTablesInput, Output == DescribeTransitGatewayPolicyTablesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayPolicyTablesInput, OperationStackOutput == DescribeTransitGatewayPolicyTablesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayPolicyTablesPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayPolicyTable]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayPolicyTable]`
@@ -3807,11 +3076,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayRouteTableAnnouncementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayRouteTableAnnouncementsOutput`
     public func describeTransitGatewayRouteTableAnnouncementsPaginated(input: DescribeTransitGatewayRouteTableAnnouncementsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTableAnnouncementsInput, DescribeTransitGatewayRouteTableAnnouncementsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTableAnnouncementsInput, DescribeTransitGatewayRouteTableAnnouncementsOutput>(input: input, inputKey: \DescribeTransitGatewayRouteTableAnnouncementsInput.nextToken, outputKey: \DescribeTransitGatewayRouteTableAnnouncementsOutput.nextToken, paginationFunction: self.describeTransitGatewayRouteTableAnnouncements(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTableAnnouncementsInput, DescribeTransitGatewayRouteTableAnnouncementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayRouteTableAnnouncements(input:))
->>>>>>> main
     }
 }
 
@@ -3826,11 +3091,7 @@ extension DescribeTransitGatewayRouteTableAnnouncementsInput: ClientRuntime.Pagi
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayRouteTableAnnouncementsInput, Output == DescribeTransitGatewayRouteTableAnnouncementsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayRouteTableAnnouncementsInput, OperationStackOutput == DescribeTransitGatewayRouteTableAnnouncementsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayRouteTableAnnouncementsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayRouteTableAnnouncement]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayRouteTableAnnouncement]`
@@ -3848,11 +3109,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayRouteTablesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayRouteTablesOutput`
     public func describeTransitGatewayRouteTablesPaginated(input: DescribeTransitGatewayRouteTablesInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTablesInput, DescribeTransitGatewayRouteTablesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTablesInput, DescribeTransitGatewayRouteTablesOutput>(input: input, inputKey: \DescribeTransitGatewayRouteTablesInput.nextToken, outputKey: \DescribeTransitGatewayRouteTablesOutput.nextToken, paginationFunction: self.describeTransitGatewayRouteTables(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayRouteTablesInput, DescribeTransitGatewayRouteTablesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayRouteTables(input:))
->>>>>>> main
     }
 }
 
@@ -3867,11 +3124,7 @@ extension DescribeTransitGatewayRouteTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayRouteTablesInput, Output == DescribeTransitGatewayRouteTablesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayRouteTablesInput, OperationStackOutput == DescribeTransitGatewayRouteTablesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayRouteTablesPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayRouteTable]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayRouteTable]`
@@ -3889,11 +3142,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewaysOutput`
     public func describeTransitGatewaysPaginated(input: DescribeTransitGatewaysInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewaysInput, DescribeTransitGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewaysInput, DescribeTransitGatewaysOutput>(input: input, inputKey: \DescribeTransitGatewaysInput.nextToken, outputKey: \DescribeTransitGatewaysOutput.nextToken, paginationFunction: self.describeTransitGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewaysInput, DescribeTransitGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGateways(input:))
->>>>>>> main
     }
 }
 
@@ -3908,11 +3157,7 @@ extension DescribeTransitGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewaysInput, Output == DescribeTransitGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewaysInput, OperationStackOutput == DescribeTransitGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewaysPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGateway]`
     /// - Returns: `[EC2ClientTypes.TransitGateway]`
@@ -3930,11 +3175,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTransitGatewayVpcAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTransitGatewayVpcAttachmentsOutput`
     public func describeTransitGatewayVpcAttachmentsPaginated(input: DescribeTransitGatewayVpcAttachmentsInput) -> ClientRuntime.PaginatorSequence<DescribeTransitGatewayVpcAttachmentsInput, DescribeTransitGatewayVpcAttachmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTransitGatewayVpcAttachmentsInput, DescribeTransitGatewayVpcAttachmentsOutput>(input: input, inputKey: \DescribeTransitGatewayVpcAttachmentsInput.nextToken, outputKey: \DescribeTransitGatewayVpcAttachmentsOutput.nextToken, paginationFunction: self.describeTransitGatewayVpcAttachments(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTransitGatewayVpcAttachmentsInput, DescribeTransitGatewayVpcAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTransitGatewayVpcAttachments(input:))
->>>>>>> main
     }
 }
 
@@ -3949,11 +3190,7 @@ extension DescribeTransitGatewayVpcAttachmentsInput: ClientRuntime.PaginateToken
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTransitGatewayVpcAttachmentsInput, Output == DescribeTransitGatewayVpcAttachmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTransitGatewayVpcAttachmentsInput, OperationStackOutput == DescribeTransitGatewayVpcAttachmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTransitGatewayVpcAttachmentsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayVpcAttachment]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayVpcAttachment]`
@@ -3971,11 +3208,7 @@ extension EC2Client {
     ///     - input: A `[DescribeTrunkInterfaceAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrunkInterfaceAssociationsOutput`
     public func describeTrunkInterfaceAssociationsPaginated(input: DescribeTrunkInterfaceAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeTrunkInterfaceAssociationsInput, DescribeTrunkInterfaceAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTrunkInterfaceAssociationsInput, DescribeTrunkInterfaceAssociationsOutput>(input: input, inputKey: \DescribeTrunkInterfaceAssociationsInput.nextToken, outputKey: \DescribeTrunkInterfaceAssociationsOutput.nextToken, paginationFunction: self.describeTrunkInterfaceAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTrunkInterfaceAssociationsInput, DescribeTrunkInterfaceAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTrunkInterfaceAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -3990,11 +3223,7 @@ extension DescribeTrunkInterfaceAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTrunkInterfaceAssociationsInput, Output == DescribeTrunkInterfaceAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTrunkInterfaceAssociationsInput, OperationStackOutput == DescribeTrunkInterfaceAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTrunkInterfaceAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TrunkInterfaceAssociation]`
     /// - Returns: `[EC2ClientTypes.TrunkInterfaceAssociation]`
@@ -4012,11 +3241,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVerifiedAccessEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessEndpointsOutput`
     public func describeVerifiedAccessEndpointsPaginated(input: DescribeVerifiedAccessEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutput>(input: input, inputKey: \DescribeVerifiedAccessEndpointsInput.nextToken, outputKey: \DescribeVerifiedAccessEndpointsOutput.nextToken, paginationFunction: self.describeVerifiedAccessEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessEndpointsInput, DescribeVerifiedAccessEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedAccessEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -4033,11 +3258,7 @@ extension DescribeVerifiedAccessEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVerifiedAccessEndpointsInput, Output == DescribeVerifiedAccessEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVerifiedAccessEndpointsInput, OperationStackOutput == DescribeVerifiedAccessEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessEndpointsPaginated`
     /// to access the nested member `[EC2ClientTypes.VerifiedAccessEndpoint]`
     /// - Returns: `[EC2ClientTypes.VerifiedAccessEndpoint]`
@@ -4055,11 +3276,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVerifiedAccessGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessGroupsOutput`
     public func describeVerifiedAccessGroupsPaginated(input: DescribeVerifiedAccessGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutput>(input: input, inputKey: \DescribeVerifiedAccessGroupsInput.nextToken, outputKey: \DescribeVerifiedAccessGroupsOutput.nextToken, paginationFunction: self.describeVerifiedAccessGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessGroupsInput, DescribeVerifiedAccessGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedAccessGroups(input:))
->>>>>>> main
     }
 }
 
@@ -4075,11 +3292,7 @@ extension DescribeVerifiedAccessGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVerifiedAccessGroupsInput, Output == DescribeVerifiedAccessGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVerifiedAccessGroupsInput, OperationStackOutput == DescribeVerifiedAccessGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessGroupsPaginated`
     /// to access the nested member `[EC2ClientTypes.VerifiedAccessGroup]`
     /// - Returns: `[EC2ClientTypes.VerifiedAccessGroup]`
@@ -4097,11 +3310,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVerifiedAccessInstanceLoggingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessInstanceLoggingConfigurationsOutput`
     public func describeVerifiedAccessInstanceLoggingConfigurationsPaginated(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutput>(input: input, inputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsInput.nextToken, outputKey: \DescribeVerifiedAccessInstanceLoggingConfigurationsOutput.nextToken, paginationFunction: self.describeVerifiedAccessInstanceLoggingConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstanceLoggingConfigurationsInput, DescribeVerifiedAccessInstanceLoggingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedAccessInstanceLoggingConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -4116,11 +3325,7 @@ extension DescribeVerifiedAccessInstanceLoggingConfigurationsInput: ClientRuntim
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVerifiedAccessInstanceLoggingConfigurationsInput, Output == DescribeVerifiedAccessInstanceLoggingConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVerifiedAccessInstanceLoggingConfigurationsInput, OperationStackOutput == DescribeVerifiedAccessInstanceLoggingConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessInstanceLoggingConfigurationsPaginated`
     /// to access the nested member `[EC2ClientTypes.VerifiedAccessInstanceLoggingConfiguration]`
     /// - Returns: `[EC2ClientTypes.VerifiedAccessInstanceLoggingConfiguration]`
@@ -4138,11 +3343,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVerifiedAccessInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessInstancesOutput`
     public func describeVerifiedAccessInstancesPaginated(input: DescribeVerifiedAccessInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutput>(input: input, inputKey: \DescribeVerifiedAccessInstancesInput.nextToken, outputKey: \DescribeVerifiedAccessInstancesOutput.nextToken, paginationFunction: self.describeVerifiedAccessInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessInstancesInput, DescribeVerifiedAccessInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedAccessInstances(input:))
->>>>>>> main
     }
 }
 
@@ -4157,11 +3358,7 @@ extension DescribeVerifiedAccessInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVerifiedAccessInstancesInput, Output == DescribeVerifiedAccessInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVerifiedAccessInstancesInput, OperationStackOutput == DescribeVerifiedAccessInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessInstancesPaginated`
     /// to access the nested member `[EC2ClientTypes.VerifiedAccessInstance]`
     /// - Returns: `[EC2ClientTypes.VerifiedAccessInstance]`
@@ -4179,11 +3376,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVerifiedAccessTrustProvidersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVerifiedAccessTrustProvidersOutput`
     public func describeVerifiedAccessTrustProvidersPaginated(input: DescribeVerifiedAccessTrustProvidersInput) -> ClientRuntime.PaginatorSequence<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutput>(input: input, inputKey: \DescribeVerifiedAccessTrustProvidersInput.nextToken, outputKey: \DescribeVerifiedAccessTrustProvidersOutput.nextToken, paginationFunction: self.describeVerifiedAccessTrustProviders(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVerifiedAccessTrustProvidersInput, DescribeVerifiedAccessTrustProvidersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVerifiedAccessTrustProviders(input:))
->>>>>>> main
     }
 }
 
@@ -4198,11 +3391,7 @@ extension DescribeVerifiedAccessTrustProvidersInput: ClientRuntime.PaginateToken
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVerifiedAccessTrustProvidersInput, Output == DescribeVerifiedAccessTrustProvidersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVerifiedAccessTrustProvidersInput, OperationStackOutput == DescribeVerifiedAccessTrustProvidersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVerifiedAccessTrustProvidersPaginated`
     /// to access the nested member `[EC2ClientTypes.VerifiedAccessTrustProvider]`
     /// - Returns: `[EC2ClientTypes.VerifiedAccessTrustProvider]`
@@ -4220,11 +3409,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVolumesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumesOutput`
     public func describeVolumesPaginated(input: DescribeVolumesInput) -> ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput>(input: input, inputKey: \DescribeVolumesInput.nextToken, outputKey: \DescribeVolumesOutput.nextToken, paginationFunction: self.describeVolumes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVolumes(input:))
->>>>>>> main
     }
 }
 
@@ -4239,11 +3424,7 @@ extension DescribeVolumesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVolumesInput, Output == DescribeVolumesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVolumesInput, OperationStackOutput == DescribeVolumesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVolumesPaginated`
     /// to access the nested member `[EC2ClientTypes.Volume]`
     /// - Returns: `[EC2ClientTypes.Volume]`
@@ -4261,11 +3442,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVolumesModificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumesModificationsOutput`
     public func describeVolumesModificationsPaginated(input: DescribeVolumesModificationsInput) -> ClientRuntime.PaginatorSequence<DescribeVolumesModificationsInput, DescribeVolumesModificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVolumesModificationsInput, DescribeVolumesModificationsOutput>(input: input, inputKey: \DescribeVolumesModificationsInput.nextToken, outputKey: \DescribeVolumesModificationsOutput.nextToken, paginationFunction: self.describeVolumesModifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVolumesModificationsInput, DescribeVolumesModificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVolumesModifications(input:))
->>>>>>> main
     }
 }
 
@@ -4280,11 +3457,7 @@ extension DescribeVolumesModificationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVolumesModificationsInput, Output == DescribeVolumesModificationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVolumesModificationsInput, OperationStackOutput == DescribeVolumesModificationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVolumesModificationsPaginated`
     /// to access the nested member `[EC2ClientTypes.VolumeModification]`
     /// - Returns: `[EC2ClientTypes.VolumeModification]`
@@ -4302,11 +3475,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVolumeStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumeStatusOutput`
     public func describeVolumeStatusPaginated(input: DescribeVolumeStatusInput) -> ClientRuntime.PaginatorSequence<DescribeVolumeStatusInput, DescribeVolumeStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVolumeStatusInput, DescribeVolumeStatusOutput>(input: input, inputKey: \DescribeVolumeStatusInput.nextToken, outputKey: \DescribeVolumeStatusOutput.nextToken, paginationFunction: self.describeVolumeStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVolumeStatusInput, DescribeVolumeStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVolumeStatus(input:))
->>>>>>> main
     }
 }
 
@@ -4321,11 +3490,7 @@ extension DescribeVolumeStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVolumeStatusInput, Output == DescribeVolumeStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVolumeStatusInput, OperationStackOutput == DescribeVolumeStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVolumeStatusPaginated`
     /// to access the nested member `[EC2ClientTypes.VolumeStatusItem]`
     /// - Returns: `[EC2ClientTypes.VolumeStatusItem]`
@@ -4343,11 +3508,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcClassicLinkDnsSupportInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcClassicLinkDnsSupportOutput`
     public func describeVpcClassicLinkDnsSupportPaginated(input: DescribeVpcClassicLinkDnsSupportInput) -> ClientRuntime.PaginatorSequence<DescribeVpcClassicLinkDnsSupportInput, DescribeVpcClassicLinkDnsSupportOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcClassicLinkDnsSupportInput, DescribeVpcClassicLinkDnsSupportOutput>(input: input, inputKey: \DescribeVpcClassicLinkDnsSupportInput.nextToken, outputKey: \DescribeVpcClassicLinkDnsSupportOutput.nextToken, paginationFunction: self.describeVpcClassicLinkDnsSupport(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcClassicLinkDnsSupportInput, DescribeVpcClassicLinkDnsSupportOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcClassicLinkDnsSupport(input:))
->>>>>>> main
     }
 }
 
@@ -4360,11 +3521,7 @@ extension DescribeVpcClassicLinkDnsSupportInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcClassicLinkDnsSupportInput, Output == DescribeVpcClassicLinkDnsSupportOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcClassicLinkDnsSupportInput, OperationStackOutput == DescribeVpcClassicLinkDnsSupportOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcClassicLinkDnsSupportPaginated`
     /// to access the nested member `[EC2ClientTypes.ClassicLinkDnsSupport]`
     /// - Returns: `[EC2ClientTypes.ClassicLinkDnsSupport]`
@@ -4382,11 +3539,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcEndpointConnectionNotificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcEndpointConnectionNotificationsOutput`
     public func describeVpcEndpointConnectionNotificationsPaginated(input: DescribeVpcEndpointConnectionNotificationsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionNotificationsInput, DescribeVpcEndpointConnectionNotificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionNotificationsInput, DescribeVpcEndpointConnectionNotificationsOutput>(input: input, inputKey: \DescribeVpcEndpointConnectionNotificationsInput.nextToken, outputKey: \DescribeVpcEndpointConnectionNotificationsOutput.nextToken, paginationFunction: self.describeVpcEndpointConnectionNotifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionNotificationsInput, DescribeVpcEndpointConnectionNotificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcEndpointConnectionNotifications(input:))
->>>>>>> main
     }
 }
 
@@ -4401,11 +3554,7 @@ extension DescribeVpcEndpointConnectionNotificationsInput: ClientRuntime.Paginat
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcEndpointConnectionNotificationsInput, Output == DescribeVpcEndpointConnectionNotificationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcEndpointConnectionNotificationsInput, OperationStackOutput == DescribeVpcEndpointConnectionNotificationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcEndpointConnectionNotificationsPaginated`
     /// to access the nested member `[EC2ClientTypes.ConnectionNotification]`
     /// - Returns: `[EC2ClientTypes.ConnectionNotification]`
@@ -4423,11 +3572,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcEndpointConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcEndpointConnectionsOutput`
     public func describeVpcEndpointConnectionsPaginated(input: DescribeVpcEndpointConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionsInput, DescribeVpcEndpointConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionsInput, DescribeVpcEndpointConnectionsOutput>(input: input, inputKey: \DescribeVpcEndpointConnectionsInput.nextToken, outputKey: \DescribeVpcEndpointConnectionsOutput.nextToken, paginationFunction: self.describeVpcEndpointConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcEndpointConnectionsInput, DescribeVpcEndpointConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcEndpointConnections(input:))
->>>>>>> main
     }
 }
 
@@ -4441,11 +3586,7 @@ extension DescribeVpcEndpointConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcEndpointConnectionsInput, Output == DescribeVpcEndpointConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcEndpointConnectionsInput, OperationStackOutput == DescribeVpcEndpointConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcEndpointConnectionsPaginated`
     /// to access the nested member `[EC2ClientTypes.VpcEndpointConnection]`
     /// - Returns: `[EC2ClientTypes.VpcEndpointConnection]`
@@ -4463,11 +3604,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcEndpointsOutput`
     public func describeVpcEndpointsPaginated(input: DescribeVpcEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>(input: input, inputKey: \DescribeVpcEndpointsInput.nextToken, outputKey: \DescribeVpcEndpointsOutput.nextToken, paginationFunction: self.describeVpcEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -4482,11 +3619,7 @@ extension DescribeVpcEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcEndpointsInput, Output == DescribeVpcEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcEndpointsInput, OperationStackOutput == DescribeVpcEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcEndpointsPaginated`
     /// to access the nested member `[EC2ClientTypes.VpcEndpoint]`
     /// - Returns: `[EC2ClientTypes.VpcEndpoint]`
@@ -4504,11 +3637,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcEndpointServiceConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcEndpointServiceConfigurationsOutput`
     public func describeVpcEndpointServiceConfigurationsPaginated(input: DescribeVpcEndpointServiceConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcEndpointServiceConfigurationsInput, DescribeVpcEndpointServiceConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcEndpointServiceConfigurationsInput, DescribeVpcEndpointServiceConfigurationsOutput>(input: input, inputKey: \DescribeVpcEndpointServiceConfigurationsInput.nextToken, outputKey: \DescribeVpcEndpointServiceConfigurationsOutput.nextToken, paginationFunction: self.describeVpcEndpointServiceConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcEndpointServiceConfigurationsInput, DescribeVpcEndpointServiceConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcEndpointServiceConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -4523,11 +3652,7 @@ extension DescribeVpcEndpointServiceConfigurationsInput: ClientRuntime.PaginateT
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcEndpointServiceConfigurationsInput, Output == DescribeVpcEndpointServiceConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcEndpointServiceConfigurationsInput, OperationStackOutput == DescribeVpcEndpointServiceConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcEndpointServiceConfigurationsPaginated`
     /// to access the nested member `[EC2ClientTypes.ServiceConfiguration]`
     /// - Returns: `[EC2ClientTypes.ServiceConfiguration]`
@@ -4545,11 +3670,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcEndpointServicePermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcEndpointServicePermissionsOutput`
     public func describeVpcEndpointServicePermissionsPaginated(input: DescribeVpcEndpointServicePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcEndpointServicePermissionsInput, DescribeVpcEndpointServicePermissionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcEndpointServicePermissionsInput, DescribeVpcEndpointServicePermissionsOutput>(input: input, inputKey: \DescribeVpcEndpointServicePermissionsInput.nextToken, outputKey: \DescribeVpcEndpointServicePermissionsOutput.nextToken, paginationFunction: self.describeVpcEndpointServicePermissions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcEndpointServicePermissionsInput, DescribeVpcEndpointServicePermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcEndpointServicePermissions(input:))
->>>>>>> main
     }
 }
 
@@ -4564,11 +3685,7 @@ extension DescribeVpcEndpointServicePermissionsInput: ClientRuntime.PaginateToke
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcEndpointServicePermissionsInput, Output == DescribeVpcEndpointServicePermissionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcEndpointServicePermissionsInput, OperationStackOutput == DescribeVpcEndpointServicePermissionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcEndpointServicePermissionsPaginated`
     /// to access the nested member `[EC2ClientTypes.AllowedPrincipal]`
     /// - Returns: `[EC2ClientTypes.AllowedPrincipal]`
@@ -4586,11 +3703,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcPeeringConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcPeeringConnectionsOutput`
     public func describeVpcPeeringConnectionsPaginated(input: DescribeVpcPeeringConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(input: input, inputKey: \DescribeVpcPeeringConnectionsInput.nextToken, outputKey: \DescribeVpcPeeringConnectionsOutput.nextToken, paginationFunction: self.describeVpcPeeringConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcPeeringConnections(input:))
->>>>>>> main
     }
 }
 
@@ -4605,11 +3718,7 @@ extension DescribeVpcPeeringConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcPeeringConnectionsInput, Output == DescribeVpcPeeringConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcPeeringConnectionsInput, OperationStackOutput == DescribeVpcPeeringConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcPeeringConnectionsPaginated`
     /// to access the nested member `[EC2ClientTypes.VpcPeeringConnection]`
     /// - Returns: `[EC2ClientTypes.VpcPeeringConnection]`
@@ -4627,11 +3736,7 @@ extension EC2Client {
     ///     - input: A `[DescribeVpcsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpcsOutput`
     public func describeVpcsPaginated(input: DescribeVpcsInput) -> ClientRuntime.PaginatorSequence<DescribeVpcsInput, DescribeVpcsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVpcsInput, DescribeVpcsOutput>(input: input, inputKey: \DescribeVpcsInput.nextToken, outputKey: \DescribeVpcsOutput.nextToken, paginationFunction: self.describeVpcs(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVpcsInput, DescribeVpcsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpcs(input:))
->>>>>>> main
     }
 }
 
@@ -4646,11 +3751,7 @@ extension DescribeVpcsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVpcsInput, Output == DescribeVpcsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVpcsInput, OperationStackOutput == DescribeVpcsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVpcsPaginated`
     /// to access the nested member `[EC2ClientTypes.Vpc]`
     /// - Returns: `[EC2ClientTypes.Vpc]`
@@ -4668,11 +3769,7 @@ extension EC2Client {
     ///     - input: A `[GetAssociatedIpv6PoolCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAssociatedIpv6PoolCidrsOutput`
     public func getAssociatedIpv6PoolCidrsPaginated(input: GetAssociatedIpv6PoolCidrsInput) -> ClientRuntime.PaginatorSequence<GetAssociatedIpv6PoolCidrsInput, GetAssociatedIpv6PoolCidrsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetAssociatedIpv6PoolCidrsInput, GetAssociatedIpv6PoolCidrsOutput>(input: input, inputKey: \GetAssociatedIpv6PoolCidrsInput.nextToken, outputKey: \GetAssociatedIpv6PoolCidrsOutput.nextToken, paginationFunction: self.getAssociatedIpv6PoolCidrs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetAssociatedIpv6PoolCidrsInput, GetAssociatedIpv6PoolCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAssociatedIpv6PoolCidrs(input:))
->>>>>>> main
     }
 }
 
@@ -4686,11 +3783,7 @@ extension GetAssociatedIpv6PoolCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetAssociatedIpv6PoolCidrsInput, Output == GetAssociatedIpv6PoolCidrsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetAssociatedIpv6PoolCidrsInput, OperationStackOutput == GetAssociatedIpv6PoolCidrsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAssociatedIpv6PoolCidrsPaginated`
     /// to access the nested member `[EC2ClientTypes.Ipv6CidrAssociation]`
     /// - Returns: `[EC2ClientTypes.Ipv6CidrAssociation]`
@@ -4708,11 +3801,7 @@ extension EC2Client {
     ///     - input: A `[GetAwsNetworkPerformanceDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAwsNetworkPerformanceDataOutput`
     public func getAwsNetworkPerformanceDataPaginated(input: GetAwsNetworkPerformanceDataInput) -> ClientRuntime.PaginatorSequence<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutput>(input: input, inputKey: \GetAwsNetworkPerformanceDataInput.nextToken, outputKey: \GetAwsNetworkPerformanceDataOutput.nextToken, paginationFunction: self.getAwsNetworkPerformanceData(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetAwsNetworkPerformanceDataInput, GetAwsNetworkPerformanceDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAwsNetworkPerformanceData(input:))
->>>>>>> main
     }
 }
 
@@ -4728,11 +3817,7 @@ extension GetAwsNetworkPerformanceDataInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetAwsNetworkPerformanceDataInput, Output == GetAwsNetworkPerformanceDataOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetAwsNetworkPerformanceDataInput, OperationStackOutput == GetAwsNetworkPerformanceDataOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAwsNetworkPerformanceDataPaginated`
     /// to access the nested member `[EC2ClientTypes.DataResponse]`
     /// - Returns: `[EC2ClientTypes.DataResponse]`
@@ -4750,11 +3835,7 @@ extension EC2Client {
     ///     - input: A `[GetGroupsForCapacityReservationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetGroupsForCapacityReservationOutput`
     public func getGroupsForCapacityReservationPaginated(input: GetGroupsForCapacityReservationInput) -> ClientRuntime.PaginatorSequence<GetGroupsForCapacityReservationInput, GetGroupsForCapacityReservationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetGroupsForCapacityReservationInput, GetGroupsForCapacityReservationOutput>(input: input, inputKey: \GetGroupsForCapacityReservationInput.nextToken, outputKey: \GetGroupsForCapacityReservationOutput.nextToken, paginationFunction: self.getGroupsForCapacityReservation(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetGroupsForCapacityReservationInput, GetGroupsForCapacityReservationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getGroupsForCapacityReservation(input:))
->>>>>>> main
     }
 }
 
@@ -4768,11 +3849,7 @@ extension GetGroupsForCapacityReservationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetGroupsForCapacityReservationInput, Output == GetGroupsForCapacityReservationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetGroupsForCapacityReservationInput, OperationStackOutput == GetGroupsForCapacityReservationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getGroupsForCapacityReservationPaginated`
     /// to access the nested member `[EC2ClientTypes.CapacityReservationGroup]`
     /// - Returns: `[EC2ClientTypes.CapacityReservationGroup]`
@@ -4790,11 +3867,7 @@ extension EC2Client {
     ///     - input: A `[GetInstanceTypesFromInstanceRequirementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInstanceTypesFromInstanceRequirementsOutput`
     public func getInstanceTypesFromInstanceRequirementsPaginated(input: GetInstanceTypesFromInstanceRequirementsInput) -> ClientRuntime.PaginatorSequence<GetInstanceTypesFromInstanceRequirementsInput, GetInstanceTypesFromInstanceRequirementsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetInstanceTypesFromInstanceRequirementsInput, GetInstanceTypesFromInstanceRequirementsOutput>(input: input, inputKey: \GetInstanceTypesFromInstanceRequirementsInput.nextToken, outputKey: \GetInstanceTypesFromInstanceRequirementsOutput.nextToken, paginationFunction: self.getInstanceTypesFromInstanceRequirements(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetInstanceTypesFromInstanceRequirementsInput, GetInstanceTypesFromInstanceRequirementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInstanceTypesFromInstanceRequirements(input:))
->>>>>>> main
     }
 }
 
@@ -4810,11 +3883,7 @@ extension GetInstanceTypesFromInstanceRequirementsInput: ClientRuntime.PaginateT
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetInstanceTypesFromInstanceRequirementsInput, Output == GetInstanceTypesFromInstanceRequirementsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetInstanceTypesFromInstanceRequirementsInput, OperationStackOutput == GetInstanceTypesFromInstanceRequirementsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getInstanceTypesFromInstanceRequirementsPaginated`
     /// to access the nested member `[EC2ClientTypes.InstanceTypeInfoFromInstanceRequirements]`
     /// - Returns: `[EC2ClientTypes.InstanceTypeInfoFromInstanceRequirements]`
@@ -4832,11 +3901,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamAddressHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamAddressHistoryOutput`
     public func getIpamAddressHistoryPaginated(input: GetIpamAddressHistoryInput) -> ClientRuntime.PaginatorSequence<GetIpamAddressHistoryInput, GetIpamAddressHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamAddressHistoryInput, GetIpamAddressHistoryOutput>(input: input, inputKey: \GetIpamAddressHistoryInput.nextToken, outputKey: \GetIpamAddressHistoryOutput.nextToken, paginationFunction: self.getIpamAddressHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamAddressHistoryInput, GetIpamAddressHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamAddressHistory(input:))
->>>>>>> main
     }
 }
 
@@ -4854,11 +3919,7 @@ extension GetIpamAddressHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamAddressHistoryInput, Output == GetIpamAddressHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamAddressHistoryInput, OperationStackOutput == GetIpamAddressHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamAddressHistoryPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamAddressHistoryRecord]`
     /// - Returns: `[EC2ClientTypes.IpamAddressHistoryRecord]`
@@ -4876,11 +3937,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamDiscoveredAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamDiscoveredAccountsOutput`
     public func getIpamDiscoveredAccountsPaginated(input: GetIpamDiscoveredAccountsInput) -> ClientRuntime.PaginatorSequence<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutput>(input: input, inputKey: \GetIpamDiscoveredAccountsInput.nextToken, outputKey: \GetIpamDiscoveredAccountsOutput.nextToken, paginationFunction: self.getIpamDiscoveredAccounts(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamDiscoveredAccounts(input:))
->>>>>>> main
     }
 }
 
@@ -4896,11 +3953,7 @@ extension GetIpamDiscoveredAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamDiscoveredAccountsInput, Output == GetIpamDiscoveredAccountsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamDiscoveredAccountsInput, OperationStackOutput == GetIpamDiscoveredAccountsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamDiscoveredAccountsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamDiscoveredAccount]`
     /// - Returns: `[EC2ClientTypes.IpamDiscoveredAccount]`
@@ -4918,11 +3971,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamDiscoveredResourceCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamDiscoveredResourceCidrsOutput`
     public func getIpamDiscoveredResourceCidrsPaginated(input: GetIpamDiscoveredResourceCidrsInput) -> ClientRuntime.PaginatorSequence<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutput>(input: input, inputKey: \GetIpamDiscoveredResourceCidrsInput.nextToken, outputKey: \GetIpamDiscoveredResourceCidrsOutput.nextToken, paginationFunction: self.getIpamDiscoveredResourceCidrs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamDiscoveredResourceCidrs(input:))
->>>>>>> main
     }
 }
 
@@ -4938,11 +3987,7 @@ extension GetIpamDiscoveredResourceCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamDiscoveredResourceCidrsInput, Output == GetIpamDiscoveredResourceCidrsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamDiscoveredResourceCidrsInput, OperationStackOutput == GetIpamDiscoveredResourceCidrsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamDiscoveredResourceCidrsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamDiscoveredResourceCidr]`
     /// - Returns: `[EC2ClientTypes.IpamDiscoveredResourceCidr]`
@@ -4960,11 +4005,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamPoolAllocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamPoolAllocationsOutput`
     public func getIpamPoolAllocationsPaginated(input: GetIpamPoolAllocationsInput) -> ClientRuntime.PaginatorSequence<GetIpamPoolAllocationsInput, GetIpamPoolAllocationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamPoolAllocationsInput, GetIpamPoolAllocationsOutput>(input: input, inputKey: \GetIpamPoolAllocationsInput.nextToken, outputKey: \GetIpamPoolAllocationsOutput.nextToken, paginationFunction: self.getIpamPoolAllocations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamPoolAllocationsInput, GetIpamPoolAllocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamPoolAllocations(input:))
->>>>>>> main
     }
 }
 
@@ -4980,11 +4021,7 @@ extension GetIpamPoolAllocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamPoolAllocationsInput, Output == GetIpamPoolAllocationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamPoolAllocationsInput, OperationStackOutput == GetIpamPoolAllocationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamPoolAllocationsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamPoolAllocation]`
     /// - Returns: `[EC2ClientTypes.IpamPoolAllocation]`
@@ -5002,11 +4039,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamPoolCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamPoolCidrsOutput`
     public func getIpamPoolCidrsPaginated(input: GetIpamPoolCidrsInput) -> ClientRuntime.PaginatorSequence<GetIpamPoolCidrsInput, GetIpamPoolCidrsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamPoolCidrsInput, GetIpamPoolCidrsOutput>(input: input, inputKey: \GetIpamPoolCidrsInput.nextToken, outputKey: \GetIpamPoolCidrsOutput.nextToken, paginationFunction: self.getIpamPoolCidrs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamPoolCidrsInput, GetIpamPoolCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamPoolCidrs(input:))
->>>>>>> main
     }
 }
 
@@ -5021,11 +4054,7 @@ extension GetIpamPoolCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamPoolCidrsInput, Output == GetIpamPoolCidrsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamPoolCidrsInput, OperationStackOutput == GetIpamPoolCidrsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamPoolCidrsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamPoolCidr]`
     /// - Returns: `[EC2ClientTypes.IpamPoolCidr]`
@@ -5043,11 +4072,7 @@ extension EC2Client {
     ///     - input: A `[GetIpamResourceCidrsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetIpamResourceCidrsOutput`
     public func getIpamResourceCidrsPaginated(input: GetIpamResourceCidrsInput) -> ClientRuntime.PaginatorSequence<GetIpamResourceCidrsInput, GetIpamResourceCidrsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetIpamResourceCidrsInput, GetIpamResourceCidrsOutput>(input: input, inputKey: \GetIpamResourceCidrsInput.nextToken, outputKey: \GetIpamResourceCidrsOutput.nextToken, paginationFunction: self.getIpamResourceCidrs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetIpamResourceCidrsInput, GetIpamResourceCidrsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamResourceCidrs(input:))
->>>>>>> main
     }
 }
 
@@ -5067,11 +4092,7 @@ extension GetIpamResourceCidrsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetIpamResourceCidrsInput, Output == GetIpamResourceCidrsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetIpamResourceCidrsInput, OperationStackOutput == GetIpamResourceCidrsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getIpamResourceCidrsPaginated`
     /// to access the nested member `[EC2ClientTypes.IpamResourceCidr]`
     /// - Returns: `[EC2ClientTypes.IpamResourceCidr]`
@@ -5089,11 +4110,7 @@ extension EC2Client {
     ///     - input: A `[GetManagedPrefixListAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetManagedPrefixListAssociationsOutput`
     public func getManagedPrefixListAssociationsPaginated(input: GetManagedPrefixListAssociationsInput) -> ClientRuntime.PaginatorSequence<GetManagedPrefixListAssociationsInput, GetManagedPrefixListAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetManagedPrefixListAssociationsInput, GetManagedPrefixListAssociationsOutput>(input: input, inputKey: \GetManagedPrefixListAssociationsInput.nextToken, outputKey: \GetManagedPrefixListAssociationsOutput.nextToken, paginationFunction: self.getManagedPrefixListAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetManagedPrefixListAssociationsInput, GetManagedPrefixListAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getManagedPrefixListAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -5107,11 +4124,7 @@ extension GetManagedPrefixListAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetManagedPrefixListAssociationsInput, Output == GetManagedPrefixListAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetManagedPrefixListAssociationsInput, OperationStackOutput == GetManagedPrefixListAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getManagedPrefixListAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.PrefixListAssociation]`
     /// - Returns: `[EC2ClientTypes.PrefixListAssociation]`
@@ -5129,11 +4142,7 @@ extension EC2Client {
     ///     - input: A `[GetManagedPrefixListEntriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetManagedPrefixListEntriesOutput`
     public func getManagedPrefixListEntriesPaginated(input: GetManagedPrefixListEntriesInput) -> ClientRuntime.PaginatorSequence<GetManagedPrefixListEntriesInput, GetManagedPrefixListEntriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetManagedPrefixListEntriesInput, GetManagedPrefixListEntriesOutput>(input: input, inputKey: \GetManagedPrefixListEntriesInput.nextToken, outputKey: \GetManagedPrefixListEntriesOutput.nextToken, paginationFunction: self.getManagedPrefixListEntries(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetManagedPrefixListEntriesInput, GetManagedPrefixListEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getManagedPrefixListEntries(input:))
->>>>>>> main
     }
 }
 
@@ -5148,11 +4157,7 @@ extension GetManagedPrefixListEntriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetManagedPrefixListEntriesInput, Output == GetManagedPrefixListEntriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetManagedPrefixListEntriesInput, OperationStackOutput == GetManagedPrefixListEntriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getManagedPrefixListEntriesPaginated`
     /// to access the nested member `[EC2ClientTypes.PrefixListEntry]`
     /// - Returns: `[EC2ClientTypes.PrefixListEntry]`
@@ -5170,11 +4175,7 @@ extension EC2Client {
     ///     - input: A `[GetNetworkInsightsAccessScopeAnalysisFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkInsightsAccessScopeAnalysisFindingsOutput`
     public func getNetworkInsightsAccessScopeAnalysisFindingsPaginated(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) -> ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutput>(input: input, inputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsInput.nextToken, outputKey: \GetNetworkInsightsAccessScopeAnalysisFindingsOutput.nextToken, paginationFunction: self.getNetworkInsightsAccessScopeAnalysisFindings(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetNetworkInsightsAccessScopeAnalysisFindingsInput, GetNetworkInsightsAccessScopeAnalysisFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getNetworkInsightsAccessScopeAnalysisFindings(input:))
->>>>>>> main
     }
 }
 
@@ -5188,11 +4189,7 @@ extension GetNetworkInsightsAccessScopeAnalysisFindingsInput: ClientRuntime.Pagi
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetNetworkInsightsAccessScopeAnalysisFindingsInput, Output == GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetNetworkInsightsAccessScopeAnalysisFindingsInput, OperationStackOutput == GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getNetworkInsightsAccessScopeAnalysisFindingsPaginated`
     /// to access the nested member `[EC2ClientTypes.AccessScopeAnalysisFinding]`
     /// - Returns: `[EC2ClientTypes.AccessScopeAnalysisFinding]`
@@ -5210,11 +4207,7 @@ extension EC2Client {
     ///     - input: A `[GetSecurityGroupsForVpcInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSecurityGroupsForVpcOutput`
     public func getSecurityGroupsForVpcPaginated(input: GetSecurityGroupsForVpcInput) -> ClientRuntime.PaginatorSequence<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(input: input, inputKey: \GetSecurityGroupsForVpcInput.nextToken, outputKey: \GetSecurityGroupsForVpcOutput.nextToken, paginationFunction: self.getSecurityGroupsForVpc(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSecurityGroupsForVpcInput, GetSecurityGroupsForVpcOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSecurityGroupsForVpc(input:))
->>>>>>> main
     }
 }
 
@@ -5229,11 +4222,7 @@ extension GetSecurityGroupsForVpcInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSecurityGroupsForVpcInput, Output == GetSecurityGroupsForVpcOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSecurityGroupsForVpcInput, OperationStackOutput == GetSecurityGroupsForVpcOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSecurityGroupsForVpcPaginated`
     /// to access the nested member `[EC2ClientTypes.SecurityGroupForVpc]`
     /// - Returns: `[EC2ClientTypes.SecurityGroupForVpc]`
@@ -5251,11 +4240,7 @@ extension EC2Client {
     ///     - input: A `[GetSpotPlacementScoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSpotPlacementScoresOutput`
     public func getSpotPlacementScoresPaginated(input: GetSpotPlacementScoresInput) -> ClientRuntime.PaginatorSequence<GetSpotPlacementScoresInput, GetSpotPlacementScoresOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSpotPlacementScoresInput, GetSpotPlacementScoresOutput>(input: input, inputKey: \GetSpotPlacementScoresInput.nextToken, outputKey: \GetSpotPlacementScoresOutput.nextToken, paginationFunction: self.getSpotPlacementScores(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSpotPlacementScoresInput, GetSpotPlacementScoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSpotPlacementScores(input:))
->>>>>>> main
     }
 }
 
@@ -5274,11 +4259,7 @@ extension GetSpotPlacementScoresInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSpotPlacementScoresInput, Output == GetSpotPlacementScoresOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSpotPlacementScoresInput, OperationStackOutput == GetSpotPlacementScoresOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSpotPlacementScoresPaginated`
     /// to access the nested member `[EC2ClientTypes.SpotPlacementScore]`
     /// - Returns: `[EC2ClientTypes.SpotPlacementScore]`
@@ -5296,11 +4277,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayAttachmentPropagationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayAttachmentPropagationsOutput`
     public func getTransitGatewayAttachmentPropagationsPaginated(input: GetTransitGatewayAttachmentPropagationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayAttachmentPropagationsInput, GetTransitGatewayAttachmentPropagationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayAttachmentPropagationsInput, GetTransitGatewayAttachmentPropagationsOutput>(input: input, inputKey: \GetTransitGatewayAttachmentPropagationsInput.nextToken, outputKey: \GetTransitGatewayAttachmentPropagationsOutput.nextToken, paginationFunction: self.getTransitGatewayAttachmentPropagations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayAttachmentPropagationsInput, GetTransitGatewayAttachmentPropagationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayAttachmentPropagations(input:))
->>>>>>> main
     }
 }
 
@@ -5315,11 +4292,7 @@ extension GetTransitGatewayAttachmentPropagationsInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayAttachmentPropagationsInput, Output == GetTransitGatewayAttachmentPropagationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayAttachmentPropagationsInput, OperationStackOutput == GetTransitGatewayAttachmentPropagationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayAttachmentPropagationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayAttachmentPropagation]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayAttachmentPropagation]`
@@ -5337,11 +4310,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayMulticastDomainAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayMulticastDomainAssociationsOutput`
     public func getTransitGatewayMulticastDomainAssociationsPaginated(input: GetTransitGatewayMulticastDomainAssociationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayMulticastDomainAssociationsInput, GetTransitGatewayMulticastDomainAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayMulticastDomainAssociationsInput, GetTransitGatewayMulticastDomainAssociationsOutput>(input: input, inputKey: \GetTransitGatewayMulticastDomainAssociationsInput.nextToken, outputKey: \GetTransitGatewayMulticastDomainAssociationsOutput.nextToken, paginationFunction: self.getTransitGatewayMulticastDomainAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayMulticastDomainAssociationsInput, GetTransitGatewayMulticastDomainAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayMulticastDomainAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -5356,11 +4325,7 @@ extension GetTransitGatewayMulticastDomainAssociationsInput: ClientRuntime.Pagin
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayMulticastDomainAssociationsInput, Output == GetTransitGatewayMulticastDomainAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayMulticastDomainAssociationsInput, OperationStackOutput == GetTransitGatewayMulticastDomainAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayMulticastDomainAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayMulticastDomainAssociation]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayMulticastDomainAssociation]`
@@ -5378,11 +4343,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayPolicyTableAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayPolicyTableAssociationsOutput`
     public func getTransitGatewayPolicyTableAssociationsPaginated(input: GetTransitGatewayPolicyTableAssociationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayPolicyTableAssociationsInput, GetTransitGatewayPolicyTableAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayPolicyTableAssociationsInput, GetTransitGatewayPolicyTableAssociationsOutput>(input: input, inputKey: \GetTransitGatewayPolicyTableAssociationsInput.nextToken, outputKey: \GetTransitGatewayPolicyTableAssociationsOutput.nextToken, paginationFunction: self.getTransitGatewayPolicyTableAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayPolicyTableAssociationsInput, GetTransitGatewayPolicyTableAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayPolicyTableAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -5397,11 +4358,7 @@ extension GetTransitGatewayPolicyTableAssociationsInput: ClientRuntime.PaginateT
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayPolicyTableAssociationsInput, Output == GetTransitGatewayPolicyTableAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayPolicyTableAssociationsInput, OperationStackOutput == GetTransitGatewayPolicyTableAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayPolicyTableAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayPolicyTableAssociation]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayPolicyTableAssociation]`
@@ -5419,11 +4376,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayPrefixListReferencesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayPrefixListReferencesOutput`
     public func getTransitGatewayPrefixListReferencesPaginated(input: GetTransitGatewayPrefixListReferencesInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayPrefixListReferencesInput, GetTransitGatewayPrefixListReferencesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayPrefixListReferencesInput, GetTransitGatewayPrefixListReferencesOutput>(input: input, inputKey: \GetTransitGatewayPrefixListReferencesInput.nextToken, outputKey: \GetTransitGatewayPrefixListReferencesOutput.nextToken, paginationFunction: self.getTransitGatewayPrefixListReferences(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayPrefixListReferencesInput, GetTransitGatewayPrefixListReferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayPrefixListReferences(input:))
->>>>>>> main
     }
 }
 
@@ -5438,11 +4391,7 @@ extension GetTransitGatewayPrefixListReferencesInput: ClientRuntime.PaginateToke
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayPrefixListReferencesInput, Output == GetTransitGatewayPrefixListReferencesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayPrefixListReferencesInput, OperationStackOutput == GetTransitGatewayPrefixListReferencesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayPrefixListReferencesPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayPrefixListReference]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayPrefixListReference]`
@@ -5460,11 +4409,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayRouteTableAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayRouteTableAssociationsOutput`
     public func getTransitGatewayRouteTableAssociationsPaginated(input: GetTransitGatewayRouteTableAssociationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTableAssociationsInput, GetTransitGatewayRouteTableAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTableAssociationsInput, GetTransitGatewayRouteTableAssociationsOutput>(input: input, inputKey: \GetTransitGatewayRouteTableAssociationsInput.nextToken, outputKey: \GetTransitGatewayRouteTableAssociationsOutput.nextToken, paginationFunction: self.getTransitGatewayRouteTableAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTableAssociationsInput, GetTransitGatewayRouteTableAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayRouteTableAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -5479,11 +4424,7 @@ extension GetTransitGatewayRouteTableAssociationsInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayRouteTableAssociationsInput, Output == GetTransitGatewayRouteTableAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayRouteTableAssociationsInput, OperationStackOutput == GetTransitGatewayRouteTableAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayRouteTableAssociationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayRouteTableAssociation]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayRouteTableAssociation]`
@@ -5501,11 +4442,7 @@ extension EC2Client {
     ///     - input: A `[GetTransitGatewayRouteTablePropagationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayRouteTablePropagationsOutput`
     public func getTransitGatewayRouteTablePropagationsPaginated(input: GetTransitGatewayRouteTablePropagationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTablePropagationsInput, GetTransitGatewayRouteTablePropagationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTablePropagationsInput, GetTransitGatewayRouteTablePropagationsOutput>(input: input, inputKey: \GetTransitGatewayRouteTablePropagationsInput.nextToken, outputKey: \GetTransitGatewayRouteTablePropagationsOutput.nextToken, paginationFunction: self.getTransitGatewayRouteTablePropagations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayRouteTablePropagationsInput, GetTransitGatewayRouteTablePropagationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayRouteTablePropagations(input:))
->>>>>>> main
     }
 }
 
@@ -5520,11 +4457,7 @@ extension GetTransitGatewayRouteTablePropagationsInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayRouteTablePropagationsInput, Output == GetTransitGatewayRouteTablePropagationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayRouteTablePropagationsInput, OperationStackOutput == GetTransitGatewayRouteTablePropagationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayRouteTablePropagationsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayRouteTablePropagation]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayRouteTablePropagation]`
@@ -5542,11 +4475,7 @@ extension EC2Client {
     ///     - input: A `[GetVpnConnectionDeviceTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetVpnConnectionDeviceTypesOutput`
     public func getVpnConnectionDeviceTypesPaginated(input: GetVpnConnectionDeviceTypesInput) -> ClientRuntime.PaginatorSequence<GetVpnConnectionDeviceTypesInput, GetVpnConnectionDeviceTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetVpnConnectionDeviceTypesInput, GetVpnConnectionDeviceTypesOutput>(input: input, inputKey: \GetVpnConnectionDeviceTypesInput.nextToken, outputKey: \GetVpnConnectionDeviceTypesOutput.nextToken, paginationFunction: self.getVpnConnectionDeviceTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetVpnConnectionDeviceTypesInput, GetVpnConnectionDeviceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getVpnConnectionDeviceTypes(input:))
->>>>>>> main
     }
 }
 
@@ -5559,11 +4488,7 @@ extension GetVpnConnectionDeviceTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetVpnConnectionDeviceTypesInput, Output == GetVpnConnectionDeviceTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetVpnConnectionDeviceTypesInput, OperationStackOutput == GetVpnConnectionDeviceTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getVpnConnectionDeviceTypesPaginated`
     /// to access the nested member `[EC2ClientTypes.VpnConnectionDeviceType]`
     /// - Returns: `[EC2ClientTypes.VpnConnectionDeviceType]`
@@ -5581,11 +4506,7 @@ extension EC2Client {
     ///     - input: A `[ListImagesInRecycleBinInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagesInRecycleBinOutput`
     public func listImagesInRecycleBinPaginated(input: ListImagesInRecycleBinInput) -> ClientRuntime.PaginatorSequence<ListImagesInRecycleBinInput, ListImagesInRecycleBinOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImagesInRecycleBinInput, ListImagesInRecycleBinOutput>(input: input, inputKey: \ListImagesInRecycleBinInput.nextToken, outputKey: \ListImagesInRecycleBinOutput.nextToken, paginationFunction: self.listImagesInRecycleBin(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImagesInRecycleBinInput, ListImagesInRecycleBinOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImagesInRecycleBin(input:))
->>>>>>> main
     }
 }
 
@@ -5599,11 +4520,7 @@ extension ListImagesInRecycleBinInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImagesInRecycleBinInput, Output == ListImagesInRecycleBinOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImagesInRecycleBinInput, OperationStackOutput == ListImagesInRecycleBinOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagesInRecycleBinPaginated`
     /// to access the nested member `[EC2ClientTypes.ImageRecycleBinInfo]`
     /// - Returns: `[EC2ClientTypes.ImageRecycleBinInfo]`
@@ -5621,11 +4538,7 @@ extension EC2Client {
     ///     - input: A `[ListSnapshotsInRecycleBinInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotsInRecycleBinOutput`
     public func listSnapshotsInRecycleBinPaginated(input: ListSnapshotsInRecycleBinInput) -> ClientRuntime.PaginatorSequence<ListSnapshotsInRecycleBinInput, ListSnapshotsInRecycleBinOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSnapshotsInRecycleBinInput, ListSnapshotsInRecycleBinOutput>(input: input, inputKey: \ListSnapshotsInRecycleBinInput.nextToken, outputKey: \ListSnapshotsInRecycleBinOutput.nextToken, paginationFunction: self.listSnapshotsInRecycleBin(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSnapshotsInRecycleBinInput, ListSnapshotsInRecycleBinOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSnapshotsInRecycleBin(input:))
->>>>>>> main
     }
 }
 
@@ -5639,11 +4552,7 @@ extension ListSnapshotsInRecycleBinInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSnapshotsInRecycleBinInput, Output == ListSnapshotsInRecycleBinOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSnapshotsInRecycleBinInput, OperationStackOutput == ListSnapshotsInRecycleBinOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSnapshotsInRecycleBinPaginated`
     /// to access the nested member `[EC2ClientTypes.SnapshotRecycleBinInfo]`
     /// - Returns: `[EC2ClientTypes.SnapshotRecycleBinInfo]`
@@ -5661,11 +4570,7 @@ extension EC2Client {
     ///     - input: A `[SearchLocalGatewayRoutesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchLocalGatewayRoutesOutput`
     public func searchLocalGatewayRoutesPaginated(input: SearchLocalGatewayRoutesInput) -> ClientRuntime.PaginatorSequence<SearchLocalGatewayRoutesInput, SearchLocalGatewayRoutesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchLocalGatewayRoutesInput, SearchLocalGatewayRoutesOutput>(input: input, inputKey: \SearchLocalGatewayRoutesInput.nextToken, outputKey: \SearchLocalGatewayRoutesOutput.nextToken, paginationFunction: self.searchLocalGatewayRoutes(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchLocalGatewayRoutesInput, SearchLocalGatewayRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchLocalGatewayRoutes(input:))
->>>>>>> main
     }
 }
 
@@ -5680,11 +4585,7 @@ extension SearchLocalGatewayRoutesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchLocalGatewayRoutesInput, Output == SearchLocalGatewayRoutesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchLocalGatewayRoutesInput, OperationStackOutput == SearchLocalGatewayRoutesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchLocalGatewayRoutesPaginated`
     /// to access the nested member `[EC2ClientTypes.LocalGatewayRoute]`
     /// - Returns: `[EC2ClientTypes.LocalGatewayRoute]`
@@ -5702,11 +4603,7 @@ extension EC2Client {
     ///     - input: A `[SearchTransitGatewayMulticastGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchTransitGatewayMulticastGroupsOutput`
     public func searchTransitGatewayMulticastGroupsPaginated(input: SearchTransitGatewayMulticastGroupsInput) -> ClientRuntime.PaginatorSequence<SearchTransitGatewayMulticastGroupsInput, SearchTransitGatewayMulticastGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchTransitGatewayMulticastGroupsInput, SearchTransitGatewayMulticastGroupsOutput>(input: input, inputKey: \SearchTransitGatewayMulticastGroupsInput.nextToken, outputKey: \SearchTransitGatewayMulticastGroupsOutput.nextToken, paginationFunction: self.searchTransitGatewayMulticastGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchTransitGatewayMulticastGroupsInput, SearchTransitGatewayMulticastGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTransitGatewayMulticastGroups(input:))
->>>>>>> main
     }
 }
 
@@ -5721,11 +4618,7 @@ extension SearchTransitGatewayMulticastGroupsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchTransitGatewayMulticastGroupsInput, Output == SearchTransitGatewayMulticastGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchTransitGatewayMulticastGroupsInput, OperationStackOutput == SearchTransitGatewayMulticastGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchTransitGatewayMulticastGroupsPaginated`
     /// to access the nested member `[EC2ClientTypes.TransitGatewayMulticastGroup]`
     /// - Returns: `[EC2ClientTypes.TransitGatewayMulticastGroup]`

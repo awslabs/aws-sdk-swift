@@ -752,8 +752,6 @@ enum CreateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateRepositoryLinkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionArn = "ConnectionArn"
@@ -1093,7 +1091,6 @@ enum CreateSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
->>>>>>> main
 extension DeleteConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionArn = "ConnectionArn"
@@ -1233,8 +1230,6 @@ enum DeleteHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteRepositoryLinkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositoryLinkId = "RepositoryLinkId"
@@ -1398,7 +1393,6 @@ enum DeleteSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
->>>>>>> main
 extension GetConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionArn = "ConnectionArn"
@@ -1639,8 +1633,6 @@ enum GetHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetRepositoryLinkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case repositoryLinkId = "RepositoryLinkId"
@@ -2247,7 +2239,6 @@ enum GetSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CodeStarconnectionsClientTypes.Host: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hostArn = "HostArn"
@@ -2789,8 +2780,6 @@ enum ListHostsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRepositoryLinksInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -3222,7 +3211,6 @@ enum ListSyncConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -4897,8 +4885,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4954,7 +4940,6 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension UnsupportedOperationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5255,8 +5240,6 @@ enum UpdateHostOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateOutOfSyncException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5775,7 +5758,6 @@ enum UpdateSyncConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
->>>>>>> main
 extension CodeStarconnectionsClientTypes.VpcConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityGroupIds = "SecurityGroupIds"

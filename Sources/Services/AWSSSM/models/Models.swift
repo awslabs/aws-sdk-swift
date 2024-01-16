@@ -8281,7 +8281,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     ///
     /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
     ///
-    /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: ClientRuntime.Date?
@@ -33941,7 +33941,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -35609,7 +35609,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?

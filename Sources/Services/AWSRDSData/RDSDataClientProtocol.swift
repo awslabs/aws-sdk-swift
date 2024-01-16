@@ -22,11 +22,8 @@ public protocol RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BeginTransaction` operation on the `RdsDataService` service.
     ///
->>>>>>> main
     /// Starts a SQL transaction. A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. DDL statements inside a transaction cause an implicit commit. We recommend that you run each DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     ///
     /// - Parameter BeginTransactionInput : The request parameters represent the input of a request to start a SQL transaction.
@@ -43,11 +40,8 @@ public protocol RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CommitTransaction` operation on the `RdsDataService` service.
     ///
->>>>>>> main
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
     ///
     /// - Parameter CommitTransactionInput : The request parameters represent the input of a commit transaction request.
@@ -65,11 +59,8 @@ public protocol RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExecuteSql` operation on the `RdsDataService` service.
     ///
->>>>>>> main
     /// Runs one or more SQL statements. This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API. API deprecated since 2019-03-21")
     ///
@@ -86,11 +77,8 @@ public protocol RDSDataClientProtocol {
     /// - `InternalServerErrorException` : An internal error occurred.
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExecuteStatement` operation on the `RdsDataService` service.
     ///
->>>>>>> main
     /// Runs a SQL statement against a database. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.
     ///
     /// - Parameter ExecuteStatementInput : The request parameters represent the input of a request to run a SQL statement against a database.
@@ -107,11 +95,8 @@ public protocol RDSDataClientProtocol {
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
     func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RollbackTransaction` operation on the `RdsDataService` service.
     ///
->>>>>>> main
     /// Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
     ///
     /// - Parameter RollbackTransactionInput : The request parameters represent the input of a request to perform a rollback of a transaction.

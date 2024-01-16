@@ -275,11 +275,7 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct CreateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-<<<<<<< HEAD
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
-=======
     /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2
->>>>>>> main
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -543,49 +539,6 @@ extension CreateEnvironmentOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateEnvironmentOutputBody = try responseDecoder.decode(responseBody: data)
-            self.arn = output.arn
-        } else {
-            self.arn = nil
-        }
-    }
-}
-
-public struct CreateEnvironmentOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) returned in the response for the environment.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    )
-    {
-        self.arn = arn
-    }
-}
-
-struct CreateEnvironmentOutputBody: Swift.Equatable {
-    let arn: Swift.String?
-}
-
-extension CreateEnvironmentOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case arn = "Arn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
-        arn = arnDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

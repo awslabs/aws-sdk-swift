@@ -128,31 +128,6 @@ public struct AbortMultipartUploadOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-extension AbortMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
-            self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
-        } else {
-            self.requestCharged = nil
-        }
-    }
-}
-
-public struct AbortMultipartUploadOutput: Swift.Equatable {
-    /// If present, indicates that the requester was successfully charged for the request.
-    public var requestCharged: S3ClientTypes.RequestCharged?
-
-    public init(
-        requestCharged: S3ClientTypes.RequestCharged? = nil
-    )
-    {
-        self.requestCharged = requestCharged
-    }
-}
-
-=======
->>>>>>> main
 enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -163,11 +138,7 @@ enum AbortMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.AccelerateConfiguration: Swift.Codable {
-=======
 extension S3ClientTypes.AccelerateConfiguration: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
     }
@@ -1598,48 +1569,6 @@ extension S3ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CompleteMultipartUploadInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CompleteMultipartUploadInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let multipartUpload = input.operationInput.multipartUpload {
-                let xmlEncoder = encoder as! XMLEncoder
-                let multipartUploadData = try xmlEncoder.encode(multipartUpload, withRootKey: "CompleteMultipartUpload")
-                let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
-                input.builder.withBody(multipartUploadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let multipartUploadData = "{}".data(using: .utf8)!
-                    let multipartUploadBody = ClientRuntime.HttpBody.data(multipartUploadData)
-                    input.builder.withBody(multipartUploadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CompleteMultipartUploadInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CompleteMultipartUploadOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension CompleteMultipartUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CompleteMultipartUploadInput(bucket: \(Swift.String(describing: bucket)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), multipartUpload: \(Swift.String(describing: multipartUpload)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
@@ -1856,11 +1785,7 @@ extension CompleteMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CompleteMultipartUploadOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
-=======
     /// The name of the bucket that contains the newly created object. Does not return the access point ARN or access point alias if used. Access points are not supported by directory buckets.
->>>>>>> main
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
@@ -1976,11 +1901,7 @@ enum CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.CompletedMultipartUpload: Swift.Codable {
-=======
 extension S3ClientTypes.CompletedMultipartUpload: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case parts = "Part"
     }
@@ -2626,18 +2547,6 @@ public struct CopyObjectInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct CopyObjectInputBody: Swift.Equatable {
-}
-
-extension CopyObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension CopyObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CopyObjectOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyObjectResult: \(Swift.String(describing: copyObjectResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), expiration: \(Swift.String(describing: expiration)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), versionId: \(Swift.String(describing: versionId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
@@ -2705,13 +2614,8 @@ extension CopyObjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CopyObjectOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-=======
     /// Indicates whether the copied object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
->>>>>>> main
     /// Container for all response elements.
     public var copyObjectResult: S3ClientTypes.CopyObjectResult?
     /// Version ID of the source object that was copied. This functionality is not supported when the source object is in a directory bucket.
@@ -2787,11 +2691,7 @@ enum CopyObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.CopyObjectResult: Swift.Codable {
-=======
 extension S3ClientTypes.CopyObjectResult: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checksumCRC32 = "ChecksumCRC32"
         case checksumCRC32C = "ChecksumCRC32C"
@@ -2986,64 +2886,7 @@ extension S3ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateBucketInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateBucketInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
-                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                input.builder.withBody(createBucketConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let createBucketConfigurationData = "{}".data(using: .utf8)!
-                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                    input.builder.withBody(createBucketConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateBucketInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension CreateBucketInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension CreateBucketInput: Swift.Encodable {
-=======
 extension CreateBucketInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createBucketConfiguration = "CreateBucketConfiguration"
     }
@@ -3573,18 +3416,6 @@ public struct CreateMultipartUploadInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct CreateMultipartUploadInputBody: Swift.Equatable {
-}
-
-extension CreateMultipartUploadInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension CreateMultipartUploadOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateMultipartUploadOutput(abortDate: \(Swift.String(describing: abortDate)), abortRuleId: \(Swift.String(describing: abortRuleId)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), key: \(Swift.String(describing: key)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), uploadId: \(Swift.String(describing: uploadId)), ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
@@ -3657,11 +3488,7 @@ extension CreateMultipartUploadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateMultipartUploadOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines this action.
-=======
     /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, the response includes this header. The header indicates when the initiated multipart upload becomes eligible for an abort operation. For more information, see [ Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config) in the Amazon S3 User Guide. The response also includes the x-amz-abort-rule-id header that provides the ID of the lifecycle configuration rule that defines the abort action. This functionality is not supported for directory buckets.
->>>>>>> main
     public var abortDate: ClientRuntime.Date?
     /// This header is returned along with the x-amz-abort-date header. It identifies the applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads. This functionality is not supported for directory buckets.
     public var abortRuleId: Swift.String?
@@ -3753,9 +3580,6 @@ enum CreateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.DefaultRetention: Swift.Codable {
-=======
 extension CreateSessionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3880,7 +3704,6 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes.DefaultRetention: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case days = "Days"
         case mode = "Mode"
@@ -4055,16 +3878,6 @@ public struct DeleteBucketAnalyticsConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketAnalyticsConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4127,16 +3940,6 @@ public struct DeleteBucketCorsOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketCorsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketCorsOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4187,16 +3990,6 @@ public struct DeleteBucketEncryptionInput: Swift.Equatable {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
-}
-
-extension DeleteBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketEncryptionOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
@@ -4301,16 +4094,6 @@ public struct DeleteBucketIntelligentTieringConfigurationOutput: Swift.Equatable
     public init() { }
 }
 
-extension DeleteBucketIntelligentTieringConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketIntelligentTieringConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4372,16 +4155,6 @@ public struct DeleteBucketInventoryConfigurationInput: Swift.Equatable {
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
-}
-
-extension DeleteBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketInventoryConfigurationOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
@@ -4456,16 +4229,6 @@ public struct DeleteBucketLifecycleOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketLifecycleOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketLifecycleOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4527,16 +4290,6 @@ public struct DeleteBucketMetricsConfigurationInput: Swift.Equatable {
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
-}
-
-extension DeleteBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketMetricsConfigurationOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
@@ -4630,16 +4383,6 @@ public struct DeleteBucketOwnershipControlsOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketOwnershipControlsOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4690,16 +4433,6 @@ public struct DeleteBucketPolicyInput: Swift.Equatable {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
-}
-
-extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketPolicyOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
@@ -4774,16 +4507,6 @@ public struct DeleteBucketReplicationOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketReplicationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4834,16 +4557,6 @@ public struct DeleteBucketTaggingInput: Swift.Equatable {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
     }
-}
-
-extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketTaggingOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
@@ -4918,16 +4631,6 @@ public struct DeleteBucketWebsiteOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketWebsiteOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -4937,11 +4640,7 @@ enum DeleteBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.DeleteMarkerEntry: Swift.Codable {
-=======
 extension S3ClientTypes.DeleteMarkerEntry: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isLatest = "IsLatest"
         case key = "Key"
@@ -5151,18 +4850,6 @@ public struct DeleteObjectInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DeleteObjectInputBody: Swift.Equatable {
-}
-
-extension DeleteObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
@@ -5184,15 +4871,9 @@ extension DeleteObjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteObjectOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker.
-    public var deleteMarker: Swift.Bool
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker. This functionality is not supported for directory buckets.
     public var deleteMarker: Swift.Bool?
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Returns the version ID of the delete marker created as a result of the DELETE operation. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
@@ -5299,31 +4980,6 @@ public struct DeleteObjectTaggingOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-extension DeleteObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
-            self.versionId = versionIdHeaderValue
-        } else {
-            self.versionId = nil
-        }
-    }
-}
-
-public struct DeleteObjectTaggingOutput: Swift.Equatable {
-    /// The versionId of the object the tag-set was removed from.
-    public var versionId: Swift.String?
-
-    public init(
-        versionId: Swift.String? = nil
-    )
-    {
-        self.versionId = versionId
-    }
-}
-
-=======
->>>>>>> main
 enum DeleteObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -5333,64 +4989,7 @@ enum DeleteObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct DeleteObjectsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DeleteObjectsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<DeleteObjectsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DeleteObjectsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let delete = input.operationInput.delete {
-                let xmlEncoder = encoder as! XMLEncoder
-                let deleteData = try xmlEncoder.encode(delete, withRootKey: "Delete")
-                let deleteBody = ClientRuntime.HttpBody.data(deleteData)
-                input.builder.withBody(deleteBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let deleteData = "{}".data(using: .utf8)!
-                    let deleteBody = ClientRuntime.HttpBody.data(deleteData)
-                    input.builder.withBody(deleteBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<DeleteObjectsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<DeleteObjectsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension DeleteObjectsInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension DeleteObjectsInput: Swift.Encodable {
-=======
 extension DeleteObjectsInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case delete = "Delete"
     }
@@ -5658,16 +5257,6 @@ public struct DeletePublicAccessBlockOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeletePublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePublicAccessBlockOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -5677,11 +5266,7 @@ enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.DeletedObject: Swift.Codable {
-=======
 extension S3ClientTypes.DeletedObject: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deleteMarker = "DeleteMarker"
         case deleteMarkerVersionId = "DeleteMarkerVersionId"
@@ -7513,18 +7098,6 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketAccelerateConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketAccelerateConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketAccelerateConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -7543,11 +7116,7 @@ extension GetBucketAccelerateConfigurationOutput: ClientRuntime.HttpResponseBind
 }
 
 public struct GetBucketAccelerateConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// The accelerate configuration of the bucket.
     public var status: S3ClientTypes.BucketAccelerateStatus?
@@ -7630,18 +7199,6 @@ public struct GetBucketAclInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketAclInputBody: Swift.Equatable {
-}
-
-extension GetBucketAclInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketAclOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7773,18 +7330,6 @@ public struct GetBucketAnalyticsConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketAnalyticsConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketAnalyticsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketAnalyticsConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -7876,18 +7421,6 @@ public struct GetBucketCorsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketCorsInputBody: Swift.Equatable {
-}
-
-extension GetBucketCorsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketCorsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7996,18 +7529,6 @@ public struct GetBucketEncryptionInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketEncryptionInputBody: Swift.Equatable {
-}
-
-extension GetBucketEncryptionInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketEncryptionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -8097,18 +7618,6 @@ public struct GetBucketIntelligentTieringConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketIntelligentTieringConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketIntelligentTieringConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -8212,18 +7721,6 @@ public struct GetBucketInventoryConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketInventoryConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketInventoryConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketInventoryConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -8315,18 +7812,6 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketLifecycleConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8435,18 +7920,6 @@ public struct GetBucketLocationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketLocationInputBody: Swift.Equatable {
-}
-
-extension GetBucketLocationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketLocationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8539,18 +8012,6 @@ public struct GetBucketLoggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketLoggingInputBody: Swift.Equatable {
-}
-
-extension GetBucketLoggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketLoggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8655,18 +8116,6 @@ public struct GetBucketMetricsConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketMetricsConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketMetricsConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketMetricsConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -8758,18 +8207,6 @@ public struct GetBucketNotificationConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketNotificationConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketNotificationConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketNotificationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8941,18 +8378,6 @@ public struct GetBucketOwnershipControlsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketOwnershipControlsInputBody: Swift.Equatable {
-}
-
-extension GetBucketOwnershipControlsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketOwnershipControlsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -9044,18 +8469,6 @@ public struct GetBucketPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketPolicyInputBody: Swift.Equatable {
-}
-
-extension GetBucketPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let output = Swift.String(data: data, encoding: .utf8) {
@@ -9146,18 +8559,6 @@ public struct GetBucketPolicyStatusInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketPolicyStatusInputBody: Swift.Equatable {
-}
-
-extension GetBucketPolicyStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -9249,18 +8650,6 @@ public struct GetBucketReplicationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketReplicationInputBody: Swift.Equatable {
-}
-
-extension GetBucketReplicationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -9352,18 +8741,6 @@ public struct GetBucketRequestPaymentInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketRequestPaymentInputBody: Swift.Equatable {
-}
-
-extension GetBucketRequestPaymentInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketRequestPaymentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9456,18 +8833,6 @@ public struct GetBucketTaggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketTaggingInputBody: Swift.Equatable {
-}
-
-extension GetBucketTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9578,18 +8943,6 @@ public struct GetBucketVersioningInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketVersioningInputBody: Swift.Equatable {
-}
-
-extension GetBucketVersioningInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketVersioningOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9692,18 +9045,6 @@ public struct GetBucketWebsiteInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketWebsiteInputBody: Swift.Equatable {
-}
-
-extension GetBucketWebsiteInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketWebsiteOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9866,18 +9207,6 @@ public struct GetObjectAclInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectAclInputBody: Swift.Equatable {
-}
-
-extension GetObjectAclInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectAclOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -10080,18 +9409,6 @@ public struct GetObjectAttributesInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectAttributesInputBody: Swift.Equatable {
-}
-
-extension GetObjectAttributesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectAttributesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
@@ -10218,11 +9535,7 @@ enum GetObjectAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.GetObjectAttributesParts: Swift.Codable {
-=======
 extension S3ClientTypes.GetObjectAttributesParts: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isTruncated = "IsTruncated"
         case maxParts = "MaxParts"
@@ -10379,38 +9692,30 @@ extension GetObjectInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withFlowType(value: .PRESIGN_URL)
+                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput, GetObjectOutputError>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput, GetObjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput, GetObjectOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput, GetObjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput, GetObjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput, GetObjectOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
-=======
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectOutput, GetObjectOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: GetObjectInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectOutput, GetObjectOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetObjectOutput(), next: ClientRuntime.NoopHandler())
->>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -10437,42 +9742,32 @@ extension GetObjectInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withFlowType(value: .PRESIGN_REQUEST)
+                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput, GetObjectOutputError>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput, GetObjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput, GetObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput, GetObjectOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput, GetObjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput, GetObjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput, GetObjectOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
-=======
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetObjectOutput, GetObjectOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetObjectOutput, GetObjectOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutput>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetObjectOutput(), next: ClientRuntime.NoopHandler())
->>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -10816,18 +10111,6 @@ public struct GetObjectLegalHoldInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectLegalHoldInputBody: Swift.Equatable {
-}
-
-extension GetObjectLegalHoldInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectLegalHoldOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -10958,48 +10241,6 @@ extension GetObjectLockConfigurationOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetObjectLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
-            self.objectLockConfiguration = output
-        } else {
-            self.objectLockConfiguration = nil
-        }
-    }
-}
-
-public struct GetObjectLockConfigurationOutput: Swift.Equatable {
-    /// The specified bucket's Object Lock configuration.
-    public var objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
-
-    public init(
-        objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration? = nil
-    )
-    {
-        self.objectLockConfiguration = objectLockConfiguration
-    }
-}
-
-struct GetObjectLockConfigurationOutputBody: Swift.Equatable {
-    let objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
-}
-
-extension GetObjectLockConfigurationOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case objectLockConfiguration = "ObjectLockConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockConfiguration.self, forKey: .objectLockConfiguration)
-        objectLockConfiguration = objectLockConfigurationDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum GetObjectLockConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -11210,11 +10451,7 @@ extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetObjectOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates that a range of bytes was specified.
-=======
     /// Indicates that a range of bytes was specified in the request.
->>>>>>> main
     public var acceptRanges: Swift.String?
     /// Object data.
     public var body: ClientRuntime.ByteStream?
@@ -11470,18 +10707,6 @@ public struct GetObjectRetentionInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectRetentionInputBody: Swift.Equatable {
-}
-
-extension GetObjectRetentionInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectRetentionOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -11596,18 +10821,6 @@ public struct GetObjectTaggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectTaggingInputBody: Swift.Equatable {
-}
-
-extension GetObjectTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
@@ -11742,18 +10955,6 @@ public struct GetObjectTorrentInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetObjectTorrentInputBody: Swift.Equatable {
-}
-
-extension GetObjectTorrentInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetObjectTorrentOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -11903,48 +11104,6 @@ extension GetPublicAccessBlockOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
-            self.publicAccessBlockConfiguration = output
-        } else {
-            self.publicAccessBlockConfiguration = nil
-        }
-    }
-}
-
-public struct GetPublicAccessBlockOutput: Swift.Equatable {
-    /// The PublicAccessBlock configuration currently in effect for this Amazon S3 bucket.
-    public var publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
-
-    public init(
-        publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration? = nil
-    )
-    {
-        self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
-    }
-}
-
-struct GetPublicAccessBlockOutputBody: Swift.Equatable {
-    let publicAccessBlockConfiguration: S3ClientTypes.PublicAccessBlockConfiguration?
-}
-
-extension GetPublicAccessBlockOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let publicAccessBlockConfigurationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.PublicAccessBlockConfiguration.self, forKey: .publicAccessBlockConfiguration)
-        publicAccessBlockConfiguration = publicAccessBlockConfigurationDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -11954,11 +11113,7 @@ enum GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.GlacierJobParameters: Swift.Codable {
-=======
 extension S3ClientTypes.GlacierJobParameters: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tier = "Tier"
     }
@@ -12200,16 +11355,6 @@ public struct HeadBucketOutput: Swift.Equatable {
     }
 }
 
-extension HeadBucketOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct HeadBucketOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum HeadBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
@@ -12389,18 +11534,6 @@ public struct HeadObjectInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct HeadObjectInputBody: Swift.Equatable {
-}
-
-extension HeadObjectInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
@@ -12751,11 +11884,7 @@ enum HeadObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.IndexDocument: Swift.Codable {
-=======
 extension S3ClientTypes.IndexDocument: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case suffix = "Suffix"
     }
@@ -14230,18 +13359,6 @@ public struct ListBucketAnalyticsConfigurationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListBucketAnalyticsConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketAnalyticsConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListBucketAnalyticsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14285,11 +13402,7 @@ public struct ListBucketAnalyticsConfigurationsOutput: Swift.Equatable {
 }
 
 struct ListBucketAnalyticsConfigurationsOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let analyticsConfigurationList: [S3ClientTypes.AnalyticsConfiguration]?
@@ -14379,18 +13492,6 @@ public struct ListBucketIntelligentTieringConfigurationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListBucketIntelligentTieringConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketIntelligentTieringConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListBucketIntelligentTieringConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14434,11 +13535,7 @@ public struct ListBucketIntelligentTieringConfigurationsOutput: Swift.Equatable 
 }
 
 struct ListBucketIntelligentTieringConfigurationsOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let intelligentTieringConfigurationList: [S3ClientTypes.IntelligentTieringConfiguration]?
@@ -14542,18 +13639,6 @@ public struct ListBucketInventoryConfigurationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListBucketInventoryConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketInventoryConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListBucketInventoryConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14701,18 +13786,6 @@ public struct ListBucketMetricsConfigurationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListBucketMetricsConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListBucketMetricsConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListBucketMetricsConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14756,11 +13829,7 @@ public struct ListBucketMetricsConfigurationsOutput: Swift.Equatable {
 }
 
 struct ListBucketMetricsConfigurationsOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let continuationToken: Swift.String?
     let nextContinuationToken: Swift.String?
     let metricsConfigurationList: [S3ClientTypes.MetricsConfiguration]?
@@ -14812,8 +13881,6 @@ enum ListBucketMetricsConfigurationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListBucketsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -14824,7 +13891,6 @@ extension ListBucketsInput: ClientRuntime.QueryItemProvider {
     }
 }
 
->>>>>>> main
 extension ListBucketsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/"
@@ -14836,18 +13902,6 @@ public struct ListBucketsInput: Swift.Equatable {
     public init() { }
 }
 
-<<<<<<< HEAD
-struct ListBucketsInputBody: Swift.Equatable {
-}
-
-extension ListBucketsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListBucketsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14924,8 +13978,6 @@ enum ListBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListDirectoryBucketsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -15042,7 +14094,6 @@ enum ListDirectoryBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListMultipartUploadsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -15145,18 +14196,6 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListMultipartUploadsInputBody: Swift.Equatable {
-}
-
-extension ListMultipartUploadsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListMultipartUploadsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -15464,18 +14503,6 @@ public struct ListObjectVersionsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListObjectVersionsInputBody: Swift.Equatable {
-}
-
-extension ListObjectVersionsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListObjectVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -15582,11 +14609,7 @@ public struct ListObjectVersionsOutput: Swift.Equatable {
 }
 
 struct ListObjectVersionsOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let keyMarker: Swift.String?
     let versionIdMarker: Swift.String?
     let nextKeyMarker: Swift.String?
@@ -15804,18 +14827,6 @@ public struct ListObjectsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListObjectsInputBody: Swift.Equatable {
-}
-
-extension ListObjectsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListObjectsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -15904,11 +14915,7 @@ public struct ListObjectsOutput: Swift.Equatable {
 }
 
 struct ListObjectsOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let marker: Swift.String?
     let nextMarker: Swift.String?
     let contents: [S3ClientTypes.Object]?
@@ -16120,18 +15127,6 @@ public struct ListObjectsV2Input: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListObjectsV2InputBody: Swift.Equatable {
-}
-
-extension ListObjectsV2InputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListObjectsV2Output: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
@@ -16172,15 +15167,11 @@ extension ListObjectsV2Output: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListObjectsV2Output: Swift.Equatable {
-<<<<<<< HEAD
-    /// All of the keys (up to 1,000) rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
-=======
     /// All of the keys (up to 1,000) that share the same prefix are grouped together. When counting the total numbers of returns by this API operation, this group of keys is considered as one item. A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
     ///
     /// * Directory buckets - For directory buckets, only prefixes that end in a delimiter (/) are supported.
     ///
     /// * Directory buckets - When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the CommonPrefixes response parameter contains the prefixes that are associated with the in-progress multipart uploads. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide.
->>>>>>> main
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
     /// Metadata about each object returned.
     public var contents: [S3ClientTypes.Object]?
@@ -16240,11 +15231,7 @@ public struct ListObjectsV2Output: Swift.Equatable {
 }
 
 struct ListObjectsV2OutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let isTruncated: Swift.Bool
-=======
     let isTruncated: Swift.Bool?
->>>>>>> main
     let contents: [S3ClientTypes.Object]?
     let name: Swift.String?
     let `prefix`: Swift.String?
@@ -16456,18 +15443,6 @@ public struct ListPartsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListPartsInputBody: Swift.Equatable {
-}
-
-extension ListPartsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListPartsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
@@ -16518,11 +15493,7 @@ extension ListPartsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListPartsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action.
-=======
     /// If the bucket has a lifecycle rule configured with an action to abort incomplete multipart uploads and the prefix in the lifecycle rule matches the object name in the request, then the response includes this header indicating when the initiated multipart upload will become eligible for abort operation. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config). The response will also include the x-amz-abort-rule-id header that will provide the ID of the lifecycle configuration rule that defines this action. This functionality is not supported for directory buckets.
->>>>>>> main
     public var abortDate: ClientRuntime.Date?
     /// This header is returned along with the x-amz-abort-date header. It identifies applicable lifecycle configuration rule that defines the action to abort incomplete multipart uploads. This functionality is not supported for directory buckets.
     public var abortRuleId: Swift.String?
@@ -16674,9 +15645,6 @@ enum ListPartsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.LoggingEnabled: Swift.Codable {
-=======
 extension S3ClientTypes.LocationInfo: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -16748,7 +15716,6 @@ extension S3ClientTypes {
 }
 
 extension S3ClientTypes.LoggingEnabled: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetBucket = "TargetBucket"
         case targetGrants = "TargetGrants"
@@ -19222,64 +18189,7 @@ extension S3ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct PutBucketAccelerateConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketAccelerateConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketAccelerateConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketAccelerateConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let accelerateConfiguration = input.operationInput.accelerateConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let accelerateConfigurationData = try xmlEncoder.encode(accelerateConfiguration, withRootKey: "AccelerateConfiguration")
-                let accelerateConfigurationBody = ClientRuntime.HttpBody.data(accelerateConfigurationData)
-                input.builder.withBody(accelerateConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let accelerateConfigurationData = "{}".data(using: .utf8)!
-                    let accelerateConfigurationBody = ClientRuntime.HttpBody.data(accelerateConfigurationData)
-                    input.builder.withBody(accelerateConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketAccelerateConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketAccelerateConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketAccelerateConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketAccelerateConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketAccelerateConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accelerateConfiguration = "AccelerateConfiguration"
     }
@@ -19380,64 +18290,7 @@ enum PutBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketAclInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketAclInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketAclInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketAclOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let accessControlPolicy = input.operationInput.accessControlPolicy {
-                let xmlEncoder = encoder as! XMLEncoder
-                let accessControlPolicyData = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
-                let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
-                input.builder.withBody(accessControlPolicyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let accessControlPolicyData = "{}".data(using: .utf8)!
-                    let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
-                    input.builder.withBody(accessControlPolicyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketAclInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketAclOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketAclInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketAclInput: Swift.Encodable {
-=======
 extension PutBucketAclInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlPolicy = "AccessControlPolicy"
     }
@@ -19586,64 +18439,7 @@ enum PutBucketAclOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketAnalyticsConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketAnalyticsConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketAnalyticsConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketAnalyticsConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let analyticsConfiguration = input.operationInput.analyticsConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let analyticsConfigurationData = try xmlEncoder.encode(analyticsConfiguration, withRootKey: "AnalyticsConfiguration")
-                let analyticsConfigurationBody = ClientRuntime.HttpBody.data(analyticsConfigurationData)
-                input.builder.withBody(analyticsConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let analyticsConfigurationData = "{}".data(using: .utf8)!
-                    let analyticsConfigurationBody = ClientRuntime.HttpBody.data(analyticsConfigurationData)
-                    input.builder.withBody(analyticsConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketAnalyticsConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketAnalyticsConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketAnalyticsConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketAnalyticsConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketAnalyticsConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case analyticsConfiguration = "AnalyticsConfiguration"
     }
@@ -19748,64 +18544,7 @@ enum PutBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketCorsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketCorsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketCorsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketCorsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let corsConfiguration = input.operationInput.corsConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let corsConfigurationData = try xmlEncoder.encode(corsConfiguration, withRootKey: "CORSConfiguration")
-                let corsConfigurationBody = ClientRuntime.HttpBody.data(corsConfigurationData)
-                input.builder.withBody(corsConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let corsConfigurationData = "{}".data(using: .utf8)!
-                    let corsConfigurationBody = ClientRuntime.HttpBody.data(corsConfigurationData)
-                    input.builder.withBody(corsConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketCorsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketCorsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketCorsInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketCorsInput: Swift.Encodable {
-=======
 extension PutBucketCorsInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case corsConfiguration = "CORSConfiguration"
     }
@@ -19913,64 +18652,7 @@ enum PutBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketEncryptionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketEncryptionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketEncryptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketEncryptionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let serverSideEncryptionConfiguration = input.operationInput.serverSideEncryptionConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let serverSideEncryptionConfigurationData = try xmlEncoder.encode(serverSideEncryptionConfiguration, withRootKey: "ServerSideEncryptionConfiguration")
-                let serverSideEncryptionConfigurationBody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationData)
-                input.builder.withBody(serverSideEncryptionConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let serverSideEncryptionConfigurationData = "{}".data(using: .utf8)!
-                    let serverSideEncryptionConfigurationBody = ClientRuntime.HttpBody.data(serverSideEncryptionConfigurationData)
-                    input.builder.withBody(serverSideEncryptionConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketEncryptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketEncryptionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketEncryptionInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketEncryptionInput: Swift.Encodable {
-=======
 extension PutBucketEncryptionInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
     }
@@ -20078,64 +18760,7 @@ enum PutBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketIntelligentTieringConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketIntelligentTieringConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketIntelligentTieringConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketIntelligentTieringConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let intelligentTieringConfiguration = input.operationInput.intelligentTieringConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let intelligentTieringConfigurationData = try xmlEncoder.encode(intelligentTieringConfiguration, withRootKey: "IntelligentTieringConfiguration")
-                let intelligentTieringConfigurationBody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationData)
-                input.builder.withBody(intelligentTieringConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let intelligentTieringConfigurationData = "{}".data(using: .utf8)!
-                    let intelligentTieringConfigurationBody = ClientRuntime.HttpBody.data(intelligentTieringConfigurationData)
-                    input.builder.withBody(intelligentTieringConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketIntelligentTieringConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketIntelligentTieringConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketIntelligentTieringConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketIntelligentTieringConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case intelligentTieringConfiguration = "IntelligentTieringConfiguration"
     }
@@ -20226,64 +18851,7 @@ enum PutBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResp
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketInventoryConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketInventoryConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketInventoryConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketInventoryConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let inventoryConfiguration = input.operationInput.inventoryConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let inventoryConfigurationData = try xmlEncoder.encode(inventoryConfiguration, withRootKey: "InventoryConfiguration")
-                let inventoryConfigurationBody = ClientRuntime.HttpBody.data(inventoryConfigurationData)
-                input.builder.withBody(inventoryConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let inventoryConfigurationData = "{}".data(using: .utf8)!
-                    let inventoryConfigurationBody = ClientRuntime.HttpBody.data(inventoryConfigurationData)
-                    input.builder.withBody(inventoryConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketInventoryConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketInventoryConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketInventoryConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketInventoryConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketInventoryConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inventoryConfiguration = "InventoryConfiguration"
     }
@@ -20388,64 +18956,7 @@ enum PutBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketLifecycleConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let lifecycleConfiguration = input.operationInput.lifecycleConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let lifecycleConfigurationData = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
-                let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
-                input.builder.withBody(lifecycleConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let lifecycleConfigurationData = "{}".data(using: .utf8)!
-                    let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
-                    input.builder.withBody(lifecycleConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketLifecycleConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketLifecycleConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycleConfiguration = "LifecycleConfiguration"
     }
@@ -20545,64 +19056,7 @@ enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketLoggingInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketLoggingInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketLoggingInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketLoggingOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let bucketLoggingStatus = input.operationInput.bucketLoggingStatus {
-                let xmlEncoder = encoder as! XMLEncoder
-                let bucketLoggingStatusData = try xmlEncoder.encode(bucketLoggingStatus, withRootKey: "BucketLoggingStatus")
-                let bucketLoggingStatusBody = ClientRuntime.HttpBody.data(bucketLoggingStatusData)
-                input.builder.withBody(bucketLoggingStatusBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let bucketLoggingStatusData = "{}".data(using: .utf8)!
-                    let bucketLoggingStatusBody = ClientRuntime.HttpBody.data(bucketLoggingStatusData)
-                    input.builder.withBody(bucketLoggingStatusBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketLoggingInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketLoggingOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketLoggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketLoggingInput: Swift.Encodable {
-=======
 extension PutBucketLoggingInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucketLoggingStatus = "BucketLoggingStatus"
     }
@@ -20710,64 +19164,7 @@ enum PutBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketMetricsConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketMetricsConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketMetricsConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketMetricsConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let metricsConfiguration = input.operationInput.metricsConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let metricsConfigurationData = try xmlEncoder.encode(metricsConfiguration, withRootKey: "MetricsConfiguration")
-                let metricsConfigurationBody = ClientRuntime.HttpBody.data(metricsConfigurationData)
-                input.builder.withBody(metricsConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let metricsConfigurationData = "{}".data(using: .utf8)!
-                    let metricsConfigurationBody = ClientRuntime.HttpBody.data(metricsConfigurationData)
-                    input.builder.withBody(metricsConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketMetricsConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketMetricsConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketMetricsConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketMetricsConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketMetricsConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case metricsConfiguration = "MetricsConfiguration"
     }
@@ -20872,64 +19269,7 @@ enum PutBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketNotificationConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketNotificationConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketNotificationConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketNotificationConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let notificationConfiguration = input.operationInput.notificationConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let notificationConfigurationData = try xmlEncoder.encode(notificationConfiguration, withRootKey: "NotificationConfiguration")
-                let notificationConfigurationBody = ClientRuntime.HttpBody.data(notificationConfigurationData)
-                input.builder.withBody(notificationConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let notificationConfigurationData = "{}".data(using: .utf8)!
-                    let notificationConfigurationBody = ClientRuntime.HttpBody.data(notificationConfigurationData)
-                    input.builder.withBody(notificationConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketNotificationConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketNotificationConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketNotificationConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketNotificationConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketNotificationConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notificationConfiguration = "NotificationConfiguration"
     }
@@ -21030,64 +19370,7 @@ enum PutBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketOwnershipControlsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketOwnershipControlsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketOwnershipControlsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketOwnershipControlsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let ownershipControls = input.operationInput.ownershipControls {
-                let xmlEncoder = encoder as! XMLEncoder
-                let ownershipControlsData = try xmlEncoder.encode(ownershipControls, withRootKey: "OwnershipControls")
-                let ownershipControlsBody = ClientRuntime.HttpBody.data(ownershipControlsData)
-                input.builder.withBody(ownershipControlsBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let ownershipControlsData = "{}".data(using: .utf8)!
-                    let ownershipControlsBody = ClientRuntime.HttpBody.data(ownershipControlsData)
-                    input.builder.withBody(ownershipControlsBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketOwnershipControlsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketOwnershipControlsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketOwnershipControlsInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketOwnershipControlsInput: Swift.Encodable {
-=======
 extension PutBucketOwnershipControlsInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ownershipControls = "OwnershipControls"
     }
@@ -21188,51 +19471,7 @@ enum PutBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketPolicyInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketPolicyInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketPolicyOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let policy = input.operationInput.policy {
-            let policyData = policy.data(using: .utf8)
-            let policyBody = ClientRuntime.HttpBody.data(policyData)
-            input.builder.withBody(policyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketPolicyOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketPolicyInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketPolicyInput: Swift.Encodable {
-=======
 extension PutBucketPolicyInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -21358,64 +19597,7 @@ enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketReplicationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketReplicationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketReplicationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let replicationConfiguration = input.operationInput.replicationConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let replicationConfigurationData = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
-                let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
-                input.builder.withBody(replicationConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let replicationConfigurationData = "{}".data(using: .utf8)!
-                    let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
-                    input.builder.withBody(replicationConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketReplicationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketReplicationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketReplicationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketReplicationInput: Swift.Encodable {
-=======
 extension PutBucketReplicationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationConfiguration = "ReplicationConfiguration"
     }
@@ -21530,64 +19712,7 @@ enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketRequestPaymentInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketRequestPaymentInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketRequestPaymentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketRequestPaymentOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let requestPaymentConfiguration = input.operationInput.requestPaymentConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let requestPaymentConfigurationData = try xmlEncoder.encode(requestPaymentConfiguration, withRootKey: "RequestPaymentConfiguration")
-                let requestPaymentConfigurationBody = ClientRuntime.HttpBody.data(requestPaymentConfigurationData)
-                input.builder.withBody(requestPaymentConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let requestPaymentConfigurationData = "{}".data(using: .utf8)!
-                    let requestPaymentConfigurationBody = ClientRuntime.HttpBody.data(requestPaymentConfigurationData)
-                    input.builder.withBody(requestPaymentConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketRequestPaymentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketRequestPaymentOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketRequestPaymentInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketRequestPaymentInput: Swift.Encodable {
-=======
 extension PutBucketRequestPaymentInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case requestPaymentConfiguration = "RequestPaymentConfiguration"
     }
@@ -21695,64 +19820,7 @@ enum PutBucketRequestPaymentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketTaggingInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketTaggingInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketTaggingOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let tagging = input.operationInput.tagging {
-                let xmlEncoder = encoder as! XMLEncoder
-                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                input.builder.withBody(taggingBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let taggingData = "{}".data(using: .utf8)!
-                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                    input.builder.withBody(taggingBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketTaggingInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketTaggingOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketTaggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketTaggingInput: Swift.Encodable {
-=======
 extension PutBucketTaggingInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagging = "Tagging"
     }
@@ -21860,64 +19928,7 @@ enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketVersioningInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketVersioningInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketVersioningOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let versioningConfiguration = input.operationInput.versioningConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let versioningConfigurationData = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
-                let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
-                input.builder.withBody(versioningConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let versioningConfigurationData = "{}".data(using: .utf8)!
-                    let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
-                    input.builder.withBody(versioningConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketVersioningInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketVersioningOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketVersioningInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketVersioningInput: Swift.Encodable {
-=======
 extension PutBucketVersioningInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case versioningConfiguration = "VersioningConfiguration"
     }
@@ -22032,64 +20043,7 @@ enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketWebsiteInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketWebsiteInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketWebsiteInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketWebsiteOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let websiteConfiguration = input.operationInput.websiteConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let websiteConfigurationData = try xmlEncoder.encode(websiteConfiguration, withRootKey: "WebsiteConfiguration")
-                let websiteConfigurationBody = ClientRuntime.HttpBody.data(websiteConfigurationData)
-                input.builder.withBody(websiteConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let websiteConfigurationData = "{}".data(using: .utf8)!
-                    let websiteConfigurationBody = ClientRuntime.HttpBody.data(websiteConfigurationData)
-                    input.builder.withBody(websiteConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketWebsiteInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketWebsiteOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketWebsiteInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketWebsiteInput: Swift.Encodable {
-=======
 extension PutBucketWebsiteInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case websiteConfiguration = "WebsiteConfiguration"
     }
@@ -22197,64 +20151,7 @@ enum PutBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutObjectAclInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectAclInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectAclInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectAclOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let accessControlPolicy = input.operationInput.accessControlPolicy {
-                let xmlEncoder = encoder as! XMLEncoder
-                let accessControlPolicyData = try xmlEncoder.encode(accessControlPolicy, withRootKey: "AccessControlPolicy")
-                let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
-                input.builder.withBody(accessControlPolicyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let accessControlPolicyData = "{}".data(using: .utf8)!
-                    let accessControlPolicyBody = ClientRuntime.HttpBody.data(accessControlPolicyData)
-                    input.builder.withBody(accessControlPolicyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectAclInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectAclOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutObjectAclInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutObjectAclInput: Swift.Encodable {
-=======
 extension PutObjectAclInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlPolicy = "AccessControlPolicy"
     }
@@ -22418,11 +20315,7 @@ extension PutObjectAclOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectAclOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -22439,38 +20332,8 @@ enum PutObjectAclOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "NoSuchKey": return try await NoSuchKey(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension PutObjectInput: Swift.CustomDebugStringConvertible {
@@ -22619,39 +20482,31 @@ extension PutObjectInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withFlowType(value: .PRESIGN_URL)
+                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput, PutObjectOutputError>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput, PutObjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput, PutObjectOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput, PutObjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput, PutObjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput, PutObjectOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
-=======
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectOutput, PutObjectOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectOutput, PutObjectOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
->>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -22678,48 +20533,36 @@ extension PutObjectInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withFlowType(value: .PRESIGN_REQUEST)
+                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput, PutObjectOutputError>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput, PutObjectOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput, PutObjectOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-=======
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
->>>>>>> main
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<PutObjectOutput, PutObjectOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
-<<<<<<< HEAD
-        operation.serializeStep.intercept(position: .after, middleware: PutObjectInputBodyMiddleware())
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput, PutObjectOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput, PutObjectOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput, PutObjectOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput, PutObjectOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
-=======
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutObjectOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<PutObjectOutput, PutObjectOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
->>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -22992,64 +20835,7 @@ extension PutObjectInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-public struct PutObjectLegalHoldInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectLegalHoldInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectLegalHoldInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectLegalHoldOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let legalHold = input.operationInput.legalHold {
-                let xmlEncoder = encoder as! XMLEncoder
-                let legalHoldData = try xmlEncoder.encode(legalHold, withRootKey: "LegalHold")
-                let legalHoldBody = ClientRuntime.HttpBody.data(legalHoldData)
-                input.builder.withBody(legalHoldBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let legalHoldData = "{}".data(using: .utf8)!
-                    let legalHoldBody = ClientRuntime.HttpBody.data(legalHoldData)
-                    input.builder.withBody(legalHoldBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectLegalHoldInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectLegalHoldOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutObjectLegalHoldInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutObjectLegalHoldInput: Swift.Encodable {
-=======
 extension PutObjectLegalHoldInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case legalHold = "LegalHold"
     }
@@ -23171,11 +20957,7 @@ extension PutObjectLegalHoldOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectLegalHoldOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -23191,64 +20973,7 @@ enum PutObjectLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
-    }
-}
-
-public struct PutObjectLockConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectLockConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectLockConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectLockConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let objectLockConfiguration = input.operationInput.objectLockConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let objectLockConfigurationData = try xmlEncoder.encode(objectLockConfiguration, withRootKey: "ObjectLockConfiguration")
-                let objectLockConfigurationBody = ClientRuntime.HttpBody.data(objectLockConfigurationData)
-                input.builder.withBody(objectLockConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let objectLockConfigurationData = "{}".data(using: .utf8)!
-                    let objectLockConfigurationBody = ClientRuntime.HttpBody.data(objectLockConfigurationData)
-                    input.builder.withBody(objectLockConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectLockConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectLockConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutObjectLockConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-=======
-        }
->>>>>>> main
     }
 }
 
@@ -23365,11 +21090,7 @@ extension PutObjectLockConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectLockConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -23470,15 +21191,9 @@ extension PutObjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-    /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-=======
     /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
->>>>>>> main
     public var checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
@@ -23544,64 +21259,7 @@ enum PutObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
-    }
-}
-
-public struct PutObjectRetentionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectRetentionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectRetentionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectRetentionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let retention = input.operationInput.retention {
-                let xmlEncoder = encoder as! XMLEncoder
-                let retentionData = try xmlEncoder.encode(retention, withRootKey: "Retention")
-                let retentionBody = ClientRuntime.HttpBody.data(retentionData)
-                input.builder.withBody(retentionBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let retentionData = "{}".data(using: .utf8)!
-                    let retentionBody = ClientRuntime.HttpBody.data(retentionData)
-                    input.builder.withBody(retentionBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectRetentionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectRetentionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutObjectRetentionInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-=======
-        }
->>>>>>> main
     }
 }
 
@@ -23734,11 +21392,7 @@ extension PutObjectRetentionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutObjectRetentionOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
@@ -23754,64 +21408,7 @@ enum PutObjectRetentionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
-    }
-}
-
-public struct PutObjectTaggingInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectTaggingInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectTaggingInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectTaggingOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let tagging = input.operationInput.tagging {
-                let xmlEncoder = encoder as! XMLEncoder
-                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                input.builder.withBody(taggingBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let taggingData = "{}".data(using: .utf8)!
-                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                    input.builder.withBody(taggingBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectTaggingInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectTaggingOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutObjectTaggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-=======
-        }
->>>>>>> main
     }
 }
 
@@ -23954,64 +21551,7 @@ enum PutObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
-    }
-}
-
-public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutPublicAccessBlockInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let publicAccessBlockConfiguration = input.operationInput.publicAccessBlockConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let publicAccessBlockConfigurationData = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
-                let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
-                input.builder.withBody(publicAccessBlockConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let publicAccessBlockConfigurationData = "{}".data(using: .utf8)!
-                    let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
-                    input.builder.withBody(publicAccessBlockConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutPublicAccessBlockInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-=======
-        }
->>>>>>> main
     }
 }
 
@@ -24123,11 +21663,7 @@ enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.QueueConfiguration: Swift.Codable {
-=======
 extension S3ClientTypes.QueueConfiguration: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Event"
         case filter = "Filter"
@@ -25035,64 +22571,7 @@ extension S3ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct RestoreObjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "RestoreObjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<RestoreObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<RestoreObjectOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let restoreRequest = input.operationInput.restoreRequest {
-                let xmlEncoder = encoder as! XMLEncoder
-                let restoreRequestData = try xmlEncoder.encode(restoreRequest, withRootKey: "RestoreRequest")
-                let restoreRequestBody = ClientRuntime.HttpBody.data(restoreRequestData)
-                input.builder.withBody(restoreRequestBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let restoreRequestData = "{}".data(using: .utf8)!
-                    let restoreRequestBody = ClientRuntime.HttpBody.data(restoreRequestData)
-                    input.builder.withBody(restoreRequestBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<RestoreObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<RestoreObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension RestoreObjectInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension RestoreObjectInput: Swift.Encodable {
-=======
 extension RestoreObjectInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case restoreRequest = "RestoreRequest"
     }
@@ -25213,11 +22692,7 @@ extension RestoreObjectOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RestoreObjectOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that the requester was successfully charged for the request.
-=======
     /// If present, indicates that the requester was successfully charged for the request. This functionality is not supported for directory buckets.
->>>>>>> main
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Indicates the path in the provided S3 output location where Select results will be restored to.
     public var restoreOutputPath: Swift.String?
@@ -25242,11 +22717,7 @@ enum RestoreObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.RestoreRequest: Swift.Codable {
-=======
 extension S3ClientTypes.RestoreRequest: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case days = "Days"
         case description = "Description"
@@ -25940,11 +23411,7 @@ enum SelectObjectContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.SelectParameters: Swift.Codable {
-=======
 extension S3ClientTypes.SelectParameters: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expression = "Expression"
         case expressionType = "ExpressionType"
@@ -27337,18 +24804,6 @@ public struct UploadPartCopyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct UploadPartCopyInputBody: Swift.Equatable {
-}
-
-extension UploadPartCopyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension UploadPartCopyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UploadPartCopyOutput(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), copyPartResult: \(Swift.String(describing: copyPartResult)), copySourceVersionId: \(Swift.String(describing: copySourceVersionId)), requestCharged: \(Swift.String(describing: requestCharged)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
@@ -27401,13 +24856,8 @@ extension UploadPartCopyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UploadPartCopyOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-=======
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
->>>>>>> main
     /// Container for all response elements.
     public var copyPartResult: S3ClientTypes.CopyPartResult?
     /// The version of the source object that was copied, if you have enabled versioning on the source bucket. This functionality is not supported when the source object is in a directory bucket.
@@ -27466,38 +24916,8 @@ enum UploadPartCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, requestID2: httpResponse.requestId2, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct UploadPartInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UploadPartInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UploadPartInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadPartOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UploadPartInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadPartOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension UploadPartInput: Swift.CustomDebugStringConvertible {
@@ -27578,48 +24998,36 @@ extension UploadPartInput {
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
                       .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes!)
+                      .withAuthSchemeResolver(value: config.serviceSpecific.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withFlowType(value: .PRESIGN_REQUEST)
+                      .withExpiration(value: expiration)
                       .withCredentialsProvider(value: config.credentialsProvider)
+                      .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-<<<<<<< HEAD
-        var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutput, UploadPartOutputError>(id: "uploadPart")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput, UploadPartOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
-        let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput, UploadPartOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-=======
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutput>(id: "uploadPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
+        context.attributes.set(key: AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
->>>>>>> main
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UploadPartOutput, UploadPartOutputError>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
-<<<<<<< HEAD
-        operation.serializeStep.intercept(position: .after, middleware: UploadPartInputBodyMiddleware())
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutput, UploadPartOutputError>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput, UploadPartOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput, UploadPartOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput, UploadPartOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
-=======
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadPartOutput>(options: config.retryStrategyOptions))
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UploadPartOutput, UploadPartOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: UploadPartOutput(), next: ClientRuntime.NoopHandler())
->>>>>>> main
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -27828,15 +25236,9 @@ extension UploadPartOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UploadPartOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
-    /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. With multipart uploads, this may not be a checksum value of the object. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
-=======
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS). This functionality is not supported for directory buckets.
     public var bucketKeyEnabled: Swift.Bool?
     /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
->>>>>>> main
     public var checksumCRC32: Swift.String?
     /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
@@ -27894,11 +25296,7 @@ enum UploadPartOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ClientTypes.VersioningConfiguration: Swift.Codable {
-=======
 extension S3ClientTypes.VersioningConfiguration: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mfaDelete = "MfaDelete"
         case status = "Status"
@@ -28013,34 +25411,6 @@ extension S3ClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct WriteGetObjectResponseInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "WriteGetObjectResponseInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<WriteGetObjectResponseInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<WriteGetObjectResponseOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<WriteGetObjectResponseInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<WriteGetObjectResponseOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension WriteGetObjectResponseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "WriteGetObjectResponseInput(acceptRanges: \(Swift.String(describing: acceptRanges)), body: \(Swift.String(describing: body)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), requestRoute: \(Swift.String(describing: requestRoute)), requestToken: \(Swift.String(describing: requestToken)), restore: \(Swift.String(describing: restore)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), statusCode: \(Swift.String(describing: statusCode)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), ssekmsKeyId: \"CONTENT_REDACTED\")"}

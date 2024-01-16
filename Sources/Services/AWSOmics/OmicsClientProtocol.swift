@@ -24,11 +24,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AcceptShare` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Accepts a share for an analytics store.
     ///
     /// - Parameter AcceptShareInput : [no documentation found]
@@ -46,11 +43,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDeleteReadSet` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes one or more read sets.
     ///
     /// - Parameter BatchDeleteReadSetInput : [no documentation found]
@@ -67,11 +61,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelAnnotationImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Cancels an annotation import job.
     ///
     /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
@@ -87,11 +78,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelRun` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Cancels a run.
     ///
     /// - Parameter CancelRunInput : [no documentation found]
@@ -110,11 +98,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelRun(input: CancelRunInput) async throws -> CancelRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelVariantImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Cancels a variant import job.
     ///
     /// - Parameter CancelVariantImportJobInput : [no documentation found]
@@ -130,11 +115,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CompleteMultipartReadSetUpload` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Concludes a multipart upload once you have uploaded all the components.
     ///
     /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
@@ -153,11 +135,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAnnotationStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates an annotation store.
     ///
     /// - Parameter CreateAnnotationStoreInput : [no documentation found]
@@ -175,11 +154,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAnnotationStoreVersion` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a new version of an annotation store.
     ///
     /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
@@ -197,11 +173,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMultipartReadSetUpload` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Begins a multipart read set upload.
     ///
     /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
@@ -220,11 +193,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateReferenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a reference store.
     ///
     /// - Parameter CreateReferenceStoreInput : [no documentation found]
@@ -241,11 +211,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRunGroup` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a run group.
     ///
     /// - Parameter CreateRunGroupInput : [no documentation found]
@@ -264,11 +231,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSequenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a sequence store.
     ///
     /// - Parameter CreateSequenceStoreInput : [no documentation found]
@@ -285,11 +249,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateShare` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
     ///
     /// - Parameter CreateShareInput : [no documentation found]
@@ -307,11 +268,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createShare(input: CreateShareInput) async throws -> CreateShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVariantStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a variant store.
     ///
     /// - Parameter CreateVariantStoreInput : [no documentation found]
@@ -329,11 +287,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkflow` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Creates a workflow.
     ///
     /// - Parameter CreateWorkflowInput : [no documentation found]
@@ -352,11 +307,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAnnotationStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes an annotation store.
     ///
     /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
@@ -373,11 +325,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAnnotationStoreVersions` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes one or multiple versions of an annotation store.
     ///
     /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
@@ -394,11 +343,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteReference` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a genome reference.
     ///
     /// - Parameter DeleteReferenceInput : [no documentation found]
@@ -416,11 +362,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteReferenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a genome reference store.
     ///
     /// - Parameter DeleteReferenceStoreInput : [no documentation found]
@@ -438,11 +381,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRun` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a workflow run.
     ///
     /// - Parameter DeleteRunInput : [no documentation found]
@@ -461,11 +401,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRunGroup` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a workflow run group.
     ///
     /// - Parameter DeleteRunGroupInput : [no documentation found]
@@ -484,11 +421,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSequenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a sequence store.
     ///
     /// - Parameter DeleteSequenceStoreInput : [no documentation found]
@@ -506,11 +440,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteShare` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a share of an analytics store.
     ///
     /// - Parameter DeleteShareInput : [no documentation found]
@@ -528,11 +459,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVariantStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a variant store.
     ///
     /// - Parameter DeleteVariantStoreInput : [no documentation found]
@@ -549,11 +477,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWorkflow` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Deletes a workflow.
     ///
     /// - Parameter DeleteWorkflowInput : [no documentation found]
@@ -572,11 +497,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAnnotationImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about an annotation import job.
     ///
     /// - Parameter GetAnnotationImportJobInput : [no documentation found]
@@ -592,11 +514,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAnnotationStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about an annotation store.
     ///
     /// - Parameter GetAnnotationStoreInput : [no documentation found]
@@ -612,11 +531,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAnnotationStoreVersion` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves the metadata for an annotation store version.
     ///
     /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
@@ -632,11 +548,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReadSet` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets a file from a read set.
     ///
     /// - Parameter GetReadSetInput : [no documentation found]
@@ -655,11 +568,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReadSetActivationJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a read set activation job.
     ///
     /// - Parameter GetReadSetActivationJobInput : [no documentation found]
@@ -676,11 +586,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReadSetExportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a read set export job.
     ///
     /// - Parameter GetReadSetExportJobInput : [no documentation found]
@@ -697,11 +604,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReadSetImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a read set import job.
     ///
     /// - Parameter GetReadSetImportJobInput : [no documentation found]
@@ -718,11 +622,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReadSetMetadata` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets details about a read set.
     ///
     /// - Parameter GetReadSetMetadataInput : [no documentation found]
@@ -739,11 +640,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReference` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets a reference file.
     ///
     /// - Parameter GetReferenceInput : [no documentation found]
@@ -761,11 +659,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReference(input: GetReferenceInput) async throws -> GetReferenceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReferenceImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a reference import job.
     ///
     /// - Parameter GetReferenceImportJobInput : [no documentation found]
@@ -782,11 +677,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReferenceMetadata` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a genome reference's metadata.
     ///
     /// - Parameter GetReferenceMetadataInput : [no documentation found]
@@ -803,11 +695,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReferenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a reference store.
     ///
     /// - Parameter GetReferenceStoreInput : [no documentation found]
@@ -824,11 +713,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRun` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a workflow run.
     ///
     /// - Parameter GetRunInput : [no documentation found]
@@ -847,11 +733,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRun(input: GetRunInput) async throws -> GetRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRunGroup` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a workflow run group.
     ///
     /// - Parameter GetRunGroupInput : [no documentation found]
@@ -870,11 +753,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRunTask` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a workflow run task.
     ///
     /// - Parameter GetRunTaskInput : [no documentation found]
@@ -893,11 +773,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSequenceStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a sequence store.
     ///
     /// - Parameter GetSequenceStoreInput : [no documentation found]
@@ -914,11 +791,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetShare` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves the metadata for a share.
     ///
     /// - Parameter GetShareInput : [no documentation found]
@@ -936,11 +810,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getShare(input: GetShareInput) async throws -> GetShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVariantImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a variant import job.
     ///
     /// - Parameter GetVariantImportJobInput : [no documentation found]
@@ -956,11 +827,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVariantStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a variant store.
     ///
     /// - Parameter GetVariantStoreInput : [no documentation found]
@@ -976,11 +844,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWorkflow` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Gets information about a workflow.
     ///
     /// - Parameter GetWorkflowInput : [no documentation found]
@@ -999,11 +864,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAnnotationImportJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of annotation import jobs.
     ///
     /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
@@ -1019,11 +881,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAnnotationStores` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of annotation stores.
     ///
     /// - Parameter ListAnnotationStoresInput : [no documentation found]
@@ -1039,11 +898,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAnnotationStoreVersions` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Lists the versions of an annotation store.
     ///
     /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
@@ -1059,11 +915,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMultipartReadSetUploads` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Lists all multipart read set uploads and their statuses.
     ///
     /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
@@ -1082,11 +935,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReadSetActivationJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of read set activation jobs.
     ///
     /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
@@ -1103,11 +953,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReadSetExportJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of read set export jobs.
     ///
     /// - Parameter ListReadSetExportJobsInput : [no documentation found]
@@ -1124,11 +971,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReadSetImportJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of read set import jobs.
     ///
     /// - Parameter ListReadSetImportJobsInput : [no documentation found]
@@ -1145,11 +989,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReadSets` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of read sets.
     ///
     /// - Parameter ListReadSetsInput : [no documentation found]
@@ -1166,11 +1007,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReadSetUploadParts` operation on the `Omics` service.
     ///
->>>>>>> main
     /// This operation will list all parts in a requested multipart upload for a sequence store.
     ///
     /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
@@ -1189,11 +1027,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReferenceImportJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of reference import jobs.
     ///
     /// - Parameter ListReferenceImportJobsInput : [no documentation found]
@@ -1210,11 +1045,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReferences` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of references.
     ///
     /// - Parameter ListReferencesInput : [no documentation found]
@@ -1231,11 +1063,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReferenceStores` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of reference stores.
     ///
     /// - Parameter ListReferenceStoresInput : [no documentation found]
@@ -1251,11 +1080,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRunGroups` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of run groups.
     ///
     /// - Parameter ListRunGroupsInput : [no documentation found]
@@ -1274,11 +1100,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRuns` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of runs.
     ///
     /// - Parameter ListRunsInput : [no documentation found]
@@ -1297,11 +1120,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRunTasks` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of tasks for a run.
     ///
     /// - Parameter ListRunTasksInput : [no documentation found]
@@ -1320,11 +1140,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSequenceStores` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of sequence stores.
     ///
     /// - Parameter ListSequenceStoresInput : [no documentation found]
@@ -1340,11 +1157,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListShares` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Lists all shares associated with an account.
     ///
     /// - Parameter ListSharesInput : [no documentation found]
@@ -1362,11 +1176,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listShares(input: ListSharesInput) async throws -> ListSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1385,11 +1196,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVariantImportJobs` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of variant import jobs.
     ///
     /// - Parameter ListVariantImportJobsInput : [no documentation found]
@@ -1405,11 +1213,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVariantStores` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of variant stores.
     ///
     /// - Parameter ListVariantStoresInput : [no documentation found]
@@ -1425,11 +1230,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWorkflows` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Retrieves a list of workflows.
     ///
     /// - Parameter ListWorkflowsInput : [no documentation found]
@@ -1448,11 +1250,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartAnnotationImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Starts an annotation import job.
     ///
     /// - Parameter StartAnnotationImportJobInput : [no documentation found]
@@ -1469,11 +1268,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReadSetActivationJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
     ///
     /// - Parameter StartReadSetActivationJobInput : [no documentation found]
@@ -1491,11 +1287,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReadSetExportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Exports a read set to Amazon S3.
     ///
     /// - Parameter StartReadSetExportJobInput : [no documentation found]
@@ -1513,11 +1306,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReadSetImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Starts a read set import job.
     ///
     /// - Parameter StartReadSetImportJobInput : [no documentation found]
@@ -1535,11 +1325,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReferenceImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Starts a reference import job.
     ///
     /// - Parameter StartReferenceImportJobInput : [no documentation found]
@@ -1557,11 +1344,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartRun` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
     ///
     /// - Parameter StartRunInput : [no documentation found]
@@ -1580,11 +1364,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startRun(input: StartRunInput) async throws -> StartRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartVariantImportJob` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Starts a variant import job.
     ///
     /// - Parameter StartVariantImportJobInput : [no documentation found]
@@ -1601,11 +1382,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1624,11 +1402,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1647,11 +1422,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAnnotationStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Updates an annotation store.
     ///
     /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
@@ -1667,11 +1439,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAnnotationStoreVersion` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Updates the description of an annotation store version.
     ///
     /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
@@ -1687,11 +1456,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRunGroup` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Updates a run group.
     ///
     /// - Parameter UpdateRunGroupInput : [no documentation found]
@@ -1710,11 +1476,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVariantStore` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Updates a variant store.
     ///
     /// - Parameter UpdateVariantStoreInput : [no documentation found]
@@ -1730,11 +1493,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkflow` operation on the `Omics` service.
     ///
->>>>>>> main
     /// Updates a workflow.
     ///
     /// - Parameter UpdateWorkflowInput : [no documentation found]
@@ -1753,11 +1513,8 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UploadReadSetPart` operation on the `Omics` service.
     ///
->>>>>>> main
     /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
     ///
     /// - Parameter UploadReadSetPartInput : [no documentation found]

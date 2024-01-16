@@ -30,11 +30,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func batchCreateRumMetricDefinitions(input: BatchCreateRumMetricDefinitionsInput) async throws -> BatchCreateRumMetricDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDeleteRumMetricDefinitions` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200.
     ///
     /// - Parameter BatchDeleteRumMetricDefinitionsInput : [no documentation found]
@@ -51,11 +48,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func batchDeleteRumMetricDefinitions(input: BatchDeleteRumMetricDefinitionsInput) async throws -> BatchDeleteRumMetricDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchGetRumMetricDefinitions` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
     ///
     /// - Parameter BatchGetRumMetricDefinitionsInput : [no documentation found]
@@ -70,11 +64,8 @@ public protocol RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func batchGetRumMetricDefinitions(input: BatchGetRumMetricDefinitionsInput) async throws -> BatchGetRumMetricDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAppMonitor` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use [UpdateAppMonitor](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_UpdateAppMonitor.html) instead. After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see [How do I find a code snippet that I've already generated?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html)
     ///
     /// - Parameter CreateAppMonitorInput : [no documentation found]
@@ -92,11 +83,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func createAppMonitor(input: CreateAppMonitorInput) async throws -> CreateAppMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAppMonitor` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Deletes an existing app monitor. This immediately stops the collection of data.
     ///
     /// - Parameter DeleteAppMonitorInput : [no documentation found]
@@ -113,11 +101,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func deleteAppMonitor(input: DeleteAppMonitorInput) async throws -> DeleteAppMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRumMetricsDestination` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
     ///
     /// - Parameter DeleteRumMetricsDestinationInput : [no documentation found]
@@ -134,11 +119,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func deleteRumMetricsDestination(input: DeleteRumMetricsDestinationInput) async throws -> DeleteRumMetricsDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAppMonitor` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Retrieves the complete configuration information for one app monitor.
     ///
     /// - Parameter GetAppMonitorInput : [no documentation found]
@@ -154,11 +136,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func getAppMonitor(input: GetAppMonitorInput) async throws -> GetAppMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAppMonitorData` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     ///
     /// - Parameter GetAppMonitorDataInput : [no documentation found]
@@ -174,11 +153,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func getAppMonitorData(input: GetAppMonitorDataInput) async throws -> GetAppMonitorDataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAppMonitors` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     ///
     /// - Parameter ListAppMonitorsInput : [no documentation found]
@@ -193,11 +169,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func listAppMonitors(input: ListAppMonitorsInput) async throws -> ListAppMonitorsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRumMetricsDestinations` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor. For more information about extended metrics, see [AddRumMetrics](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_AddRumMetrcs.html).
     ///
     /// - Parameter ListRumMetricsDestinationsInput : [no documentation found]
@@ -212,11 +185,8 @@ public protocol RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func listRumMetricsDestinations(input: ListRumMetricsDestinationsInput) async throws -> ListRumMetricsDestinationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Displays the tags associated with a CloudWatch RUM resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -230,11 +200,8 @@ public protocol RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRumEvents` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes PutRumEvents operations to send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     ///
     /// - Parameter PutRumEventsInput : [no documentation found]
@@ -250,11 +217,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func putRumEvents(input: PutRumEventsInput) async throws -> PutRumEventsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRumMetricsDestination` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see [BatchCreateRumMetricDefinitions](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricDefinitions.html).
     ///
     /// - Parameter PutRumMetricsDestinationInput : [no documentation found]
@@ -271,11 +235,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func putRumMetricsDestination(input: PutRumMetricsDestinationInput) async throws -> PutRumMetricsDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -289,11 +250,8 @@ public protocol RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -307,11 +265,8 @@ public protocol RUMClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAppMonitor` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use [TagResource](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_TagResource.html). To create a new app monitor, use [CreateAppMonitor](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_CreateAppMonitor.html). After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see [How do I find a code snippet that I've already generated?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html)
     ///
     /// - Parameter UpdateAppMonitorInput : [no documentation found]
@@ -328,11 +283,8 @@ public protocol RUMClientProtocol {
     /// - `ThrottlingException` : The request was throttled because of quota limits.
     /// - `ValidationException` : One of the arguments for the request is not valid.
     func updateAppMonitor(input: UpdateAppMonitorInput) async throws -> UpdateAppMonitorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRumMetricDefinition` operation on the `RUM` service.
     ///
->>>>>>> main
     /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see [BatchCreateRumMetricsDefinitions](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html).
     ///
     /// - Parameter UpdateRumMetricDefinitionInput : [no documentation found]

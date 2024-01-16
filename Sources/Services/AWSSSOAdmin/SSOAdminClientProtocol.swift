@@ -23,11 +23,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func attachCustomerManagedPolicyReferenceToPermissionSet(input: AttachCustomerManagedPolicyReferenceToPermissionSetInput) async throws -> AttachCustomerManagedPolicyReferenceToPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AttachManagedPolicyToPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
@@ -45,11 +42,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput) async throws -> AttachManagedPolicyToPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAccountAssignment` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// - Parameter CreateAccountAssignmentInput : [no documentation found]
@@ -67,8 +61,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createAccountAssignment(input: CreateAccountAssignmentInput) async throws -> CreateAccountAssignmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApplication` operation on the `SWBExternalService` service.
     ///
     /// Creates an application in IAM Identity Center for the given application provider.
@@ -131,7 +123,6 @@ public protocol SSOAdminClientProtocol {
     func createInstance(input: CreateInstanceInput) async throws -> CreateInstanceOutput
     /// Performs the `CreateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
     /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -148,11 +139,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput) async throws -> CreateInstanceAccessControlAttributeConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
     /// - Parameter CreatePermissionSetInput : [no documentation found]
@@ -170,8 +158,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createPermissionSet(input: CreatePermissionSetInput) async throws -> CreatePermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTrustedTokenIssuer` operation on the `SWBExternalService` service.
     ///
     /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
@@ -192,7 +178,6 @@ public protocol SSOAdminClientProtocol {
     func createTrustedTokenIssuer(input: CreateTrustedTokenIssuerInput) async throws -> CreateTrustedTokenIssuerOutput
     /// Performs the `DeleteAccountAssignment` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
@@ -209,8 +194,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteAccountAssignment(input: DeleteAccountAssignmentInput) async throws -> DeleteAccountAssignmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplication` operation on the `SWBExternalService` service.
     ///
     /// Deletes the association with the application. The connected service resource still exists.
@@ -303,7 +286,6 @@ public protocol SSOAdminClientProtocol {
     func deleteApplicationGrant(input: DeleteApplicationGrantInput) async throws -> DeleteApplicationGrantOutput
     /// Performs the `DeleteInlinePolicyFromPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Deletes the inline policy from a specified permission set.
     ///
     /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
@@ -320,8 +302,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteInlinePolicyFromPermissionSet(input: DeleteInlinePolicyFromPermissionSetInput) async throws -> DeleteInlinePolicyFromPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteInstance` operation on the `SWBExternalService` service.
     ///
     /// Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
@@ -341,7 +321,6 @@ public protocol SSOAdminClientProtocol {
     func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput
     /// Performs the `DeleteInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -358,11 +337,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteInstanceAccessControlAttributeConfiguration(input: DeleteInstanceAccessControlAttributeConfigurationInput) async throws -> DeleteInstanceAccessControlAttributeConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePermissionsBoundaryFromPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
     /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
@@ -379,11 +355,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deletePermissionsBoundaryFromPermissionSet(input: DeletePermissionsBoundaryFromPermissionSetInput) async throws -> DeletePermissionsBoundaryFromPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Deletes the specified permission set.
     ///
     /// - Parameter DeletePermissionSetInput : [no documentation found]
@@ -400,8 +373,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deletePermissionSet(input: DeletePermissionSetInput) async throws -> DeletePermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTrustedTokenIssuer` operation on the `SWBExternalService` service.
     ///
     /// Deletes a trusted token issuer configuration from an instance of IAM Identity Center. Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
@@ -422,7 +393,6 @@ public protocol SSOAdminClientProtocol {
     func deleteTrustedTokenIssuer(input: DeleteTrustedTokenIssuerInput) async throws -> DeleteTrustedTokenIssuerOutput
     /// Performs the `DescribeAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Describes the status of the assignment creation request.
     ///
     /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
@@ -438,11 +408,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeAccountAssignmentCreationStatus(input: DescribeAccountAssignmentCreationStatusInput) async throws -> DescribeAccountAssignmentCreationStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Describes the status of the assignment deletion request.
     ///
     /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
@@ -458,8 +425,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeAccountAssignmentDeletionStatus(input: DescribeAccountAssignmentDeletionStatusInput) async throws -> DescribeAccountAssignmentDeletionStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplication` operation on the `SWBExternalService` service.
     ///
     /// Retrieves the details of an application associated with an instance of IAM Identity Center.
@@ -535,7 +500,6 @@ public protocol SSOAdminClientProtocol {
     func describeInstance(input: DescribeInstanceInput) async throws -> DescribeInstanceOutput
     /// Performs the `DescribeInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -551,11 +515,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeInstanceAccessControlAttributeConfiguration(input: DescribeInstanceAccessControlAttributeConfigurationInput) async throws -> DescribeInstanceAccessControlAttributeConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Gets the details of the permission set.
     ///
     /// - Parameter DescribePermissionSetInput : [no documentation found]
@@ -571,11 +532,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describePermissionSet(input: DescribePermissionSetInput) async throws -> DescribePermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Describes the status for the given permission set provisioning request.
     ///
     /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
@@ -591,8 +549,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describePermissionSetProvisioningStatus(input: DescribePermissionSetProvisioningStatusInput) async throws -> DescribePermissionSetProvisioningStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTrustedTokenIssuer` operation on the `SWBExternalService` service.
     ///
     /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
@@ -612,7 +568,6 @@ public protocol SSOAdminClientProtocol {
     func describeTrustedTokenIssuer(input: DescribeTrustedTokenIssuerInput) async throws -> DescribeTrustedTokenIssuerOutput
     /// Performs the `DetachCustomerManagedPolicyReferenceFromPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
     /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
@@ -629,11 +584,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func detachCustomerManagedPolicyReferenceFromPermissionSet(input: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) async throws -> DetachCustomerManagedPolicyReferenceFromPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DetachManagedPolicyFromPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
@@ -650,8 +602,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func detachManagedPolicyFromPermissionSet(input: DetachManagedPolicyFromPermissionSetInput) async throws -> DetachManagedPolicyFromPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplicationAccessScope` operation on the `SWBExternalService` service.
     ///
     /// Retrieves the authorized targets for an IAM Identity Center access scope for an application.
@@ -722,7 +672,6 @@ public protocol SSOAdminClientProtocol {
     func getApplicationGrant(input: GetApplicationGrantInput) async throws -> GetApplicationGrantOutput
     /// Performs the `GetInlinePolicyForPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Obtains the inline policy assigned to the permission set.
     ///
     /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
@@ -738,11 +687,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getInlinePolicyForPermissionSet(input: GetInlinePolicyForPermissionSetInput) async throws -> GetInlinePolicyForPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPermissionsBoundaryForPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
     /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
@@ -758,11 +704,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getPermissionsBoundaryForPermissionSet(input: GetPermissionsBoundaryForPermissionSetInput) async throws -> GetPermissionsBoundaryForPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAccountAssignmentCreationStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
@@ -778,11 +721,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput) async throws -> ListAccountAssignmentCreationStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAccountAssignmentDeletionStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
@@ -798,11 +738,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput) async throws -> ListAccountAssignmentDeletionStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAccountAssignments` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// - Parameter ListAccountAssignmentsInput : [no documentation found]
@@ -818,8 +755,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignments(input: ListAccountAssignmentsInput) async throws -> ListAccountAssignmentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAccountAssignmentsForPrincipal` operation on the `SWBExternalService` service.
     ///
     /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to.
@@ -839,7 +774,6 @@ public protocol SSOAdminClientProtocol {
     func listAccountAssignmentsForPrincipal(input: ListAccountAssignmentsForPrincipalInput) async throws -> ListAccountAssignmentsForPrincipalOutput
     /// Performs the `ListAccountsForProvisionedPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
@@ -855,8 +789,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountsForProvisionedPermissionSet(input: ListAccountsForProvisionedPermissionSetInput) async throws -> ListAccountsForProvisionedPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationAccessScopes` operation on the `SWBExternalService` service.
     ///
     /// Lists the access scopes and authorized targets associated with an application.
@@ -976,7 +908,6 @@ public protocol SSOAdminClientProtocol {
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
     /// Performs the `ListCustomerManagedPolicyReferencesInPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
     /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
@@ -992,13 +923,9 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listCustomerManagedPolicyReferencesInPermissionSet(input: ListCustomerManagedPolicyReferencesInPermissionSetInput) async throws -> ListCustomerManagedPolicyReferencesInPermissionSetOutput
-<<<<<<< HEAD
-    /// Lists the IAM Identity Center instances that the caller has access to.
-=======
     /// Performs the `ListInstances` operation on the `SWBExternalService` service.
     ///
     /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
->>>>>>> main
     ///
     /// - Parameter ListInstancesInput : [no documentation found]
     ///
@@ -1012,11 +939,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListManagedPoliciesInPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
@@ -1032,11 +956,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listManagedPoliciesInPermissionSet(input: ListManagedPoliciesInPermissionSetInput) async throws -> ListManagedPoliciesInPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissionSetProvisioningStatus` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
@@ -1052,11 +973,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listPermissionSetProvisioningStatus(input: ListPermissionSetProvisioningStatusInput) async throws -> ListPermissionSetProvisioningStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissionSets` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
     /// - Parameter ListPermissionSetsInput : [no documentation found]
@@ -1072,11 +990,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listPermissionSets(input: ListPermissionSetsInput) async throws -> ListPermissionSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissionSetsProvisionedToAccount` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
@@ -1092,11 +1007,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listPermissionSetsProvisionedToAccount(input: ListPermissionSetsProvisionedToAccountInput) async throws -> ListPermissionSetsProvisionedToAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Lists the tags that are attached to a specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1112,8 +1024,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTrustedTokenIssuers` operation on the `SWBExternalService` service.
     ///
     /// Lists all the trusted token issuers configured in an instance of IAM Identity Center.
@@ -1132,7 +1042,6 @@ public protocol SSOAdminClientProtocol {
     func listTrustedTokenIssuers(input: ListTrustedTokenIssuersInput) async throws -> ListTrustedTokenIssuersOutput
     /// Performs the `ProvisionPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
     /// - Parameter ProvisionPermissionSetInput : [no documentation found]
@@ -1149,8 +1058,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func provisionPermissionSet(input: ProvisionPermissionSetInput) async throws -> ProvisionPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutApplicationAccessScope` operation on the `SWBExternalService` service.
     ///
     /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
@@ -1225,7 +1132,6 @@ public protocol SSOAdminClientProtocol {
     func putApplicationGrant(input: PutApplicationGrantInput) async throws -> PutApplicationGrantOutput
     /// Performs the `PutInlinePolicyToPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
@@ -1243,11 +1149,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput) async throws -> PutInlinePolicyToPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutPermissionsBoundaryToPermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
     /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
@@ -1264,11 +1167,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func putPermissionsBoundaryToPermissionSet(input: PutPermissionsBoundaryToPermissionSetInput) async throws -> PutPermissionsBoundaryToPermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Associates a set of tags with a specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1286,11 +1186,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Disassociates a set of tags from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1307,8 +1204,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `SWBExternalService` service.
     ///
     /// Updates application properties.
@@ -1346,7 +1241,6 @@ public protocol SSOAdminClientProtocol {
     func updateInstance(input: UpdateInstanceInput) async throws -> UpdateInstanceOutput
     /// Performs the `UpdateInstanceAccessControlAttributeConfiguration` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
     /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
@@ -1363,11 +1257,8 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func updateInstanceAccessControlAttributeConfiguration(input: UpdateInstanceAccessControlAttributeConfigurationInput) async throws -> UpdateInstanceAccessControlAttributeConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePermissionSet` operation on the `SWBExternalService` service.
     ///
->>>>>>> main
     /// Updates an existing permission set.
     ///
     /// - Parameter UpdatePermissionSetInput : [no documentation found]
@@ -1384,8 +1275,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func updatePermissionSet(input: UpdatePermissionSetInput) async throws -> UpdatePermissionSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTrustedTokenIssuer` operation on the `SWBExternalService` service.
     ///
     /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
@@ -1404,7 +1293,6 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func updateTrustedTokenIssuer(input: UpdateTrustedTokenIssuerInput) async throws -> UpdateTrustedTokenIssuerOutput
->>>>>>> main
 }
 
 public enum SSOAdminClientTypes {}

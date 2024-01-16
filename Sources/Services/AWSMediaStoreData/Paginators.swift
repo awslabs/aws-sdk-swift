@@ -12,11 +12,7 @@ extension MediaStoreDataClient {
     ///     - input: A `[ListItemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListItemsOutput`
     public func listItemsPaginated(input: ListItemsInput) -> ClientRuntime.PaginatorSequence<ListItemsInput, ListItemsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListItemsInput, ListItemsOutput>(input: input, inputKey: \ListItemsInput.nextToken, outputKey: \ListItemsOutput.nextToken, paginationFunction: self.listItems(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListItemsInput, ListItemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listItems(input:))
->>>>>>> main
     }
 }
 

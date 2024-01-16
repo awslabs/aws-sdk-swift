@@ -1541,8 +1541,6 @@ enum AssociateDefaultVocabularyOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension AssociateFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flowId = "FlowId"
@@ -1651,7 +1649,6 @@ enum AssociateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension AssociateInstanceStorageConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceType = "ResourceType"
@@ -2688,8 +2685,6 @@ extension ConnectClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension BatchAssociateAnalyticsDataSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetIds = "DataSetIds"
@@ -3016,7 +3011,6 @@ enum BatchDisassociateAnalyticsDataSetOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
->>>>>>> main
 extension BatchGetFlowAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceIds = "ResourceIds"
@@ -5520,8 +5514,6 @@ struct CreateAgentStatusOutputBody: Swift.Equatable {
 }
 
 extension CreateAgentStatusOutputBody: Swift.Decodable {
-<<<<<<< HEAD
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentStatusARN = "AgentStatusARN"
         case agentStatusId = "AgentStatusId"
@@ -5554,7 +5546,6 @@ enum CreateAgentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension ConnectClientTypes.CreateCaseActionDefinition: Swift.Codable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fields = "Fields"
         case templateId = "TemplateId"
@@ -5591,23 +5582,6 @@ extension ConnectClientTypes.CreateCaseActionDefinition: Swift.Codable {
     }
 }
 
-<<<<<<< HEAD
-enum CreateAgentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DuplicateResourceException": return try await DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-=======
 extension ConnectClientTypes {
     /// The CreateCase action definition.
     public struct CreateCaseActionDefinition: Swift.Equatable {
@@ -5628,7 +5602,6 @@ extension ConnectClientTypes {
         }
     }
 
->>>>>>> main
 }
 
 extension CreateContactFlowInput: Swift.Encodable {
@@ -6511,8 +6484,6 @@ extension CreateInstanceInputBody: Swift.Decodable {
         inboundCallsEnabled = inboundCallsEnabledDecoded
         let outboundCallsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outboundCallsEnabled)
         outboundCallsEnabled = outboundCallsEnabledDecoded
-<<<<<<< HEAD
-=======
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -6524,7 +6495,6 @@ extension CreateInstanceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
->>>>>>> main
     }
 }
 
@@ -14489,8 +14459,6 @@ enum DisassociateBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DisassociateFlowInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let instanceId = instanceId else {
@@ -14564,7 +14532,6 @@ enum DisassociateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DisassociateInstanceStorageConfigInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -15610,8 +15577,6 @@ extension ConnectClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ConnectClientTypes.EndAssociatedTasksActionDefinition: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -15632,7 +15597,6 @@ extension ConnectClientTypes {
 
 }
 
->>>>>>> main
 extension ConnectClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
@@ -15713,8 +15677,6 @@ extension ConnectClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ConnectClientTypes.ErrorResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode = "ErrorCode"
@@ -15760,7 +15722,6 @@ extension ConnectClientTypes {
 
 }
 
->>>>>>> main
 extension ConnectClientTypes.Evaluation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answers = "Answers"
@@ -18081,8 +18042,6 @@ extension ConnectClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ConnectClientTypes.FieldValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
@@ -18195,7 +18154,6 @@ extension ConnectClientTypes {
 
 }
 
->>>>>>> main
 extension ConnectClientTypes.FilterV2: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterKey = "FilterKey"
@@ -18344,8 +18302,6 @@ extension ConnectClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension ConnectClientTypes {
     public enum FlowAssociationResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case smsPhoneNumber
@@ -18375,7 +18331,6 @@ extension ConnectClientTypes {
     }
 }
 
->>>>>>> main
 extension ConnectClientTypes.FlowAssociationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flowId = "FlowId"
@@ -19090,8 +19045,6 @@ enum GetFederationTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetFlowAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let instanceId = instanceId else {
@@ -19215,7 +19168,6 @@ enum GetFlowAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetMetricDataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime = "EndTime"
@@ -19556,11 +19508,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-<<<<<<< HEAD
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile
-=======
     /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype
->>>>>>> main
     /// This member is required.
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -23616,8 +23564,6 @@ enum ListAgentStatusesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListAnalyticsDataAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -23756,7 +23702,6 @@ enum ListAnalyticsDataAssociationsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension ListApprovedOriginsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -25005,19 +24950,11 @@ enum ListEvaluationFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ConnectClientTypes {
     public enum ListFlowAssociationResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-<<<<<<< HEAD
-        case smsPhoneNumber
-=======
->>>>>>> main
         case voicePhoneNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ListFlowAssociationResourceType] {
             return [
-<<<<<<< HEAD
-                .smsPhoneNumber,
-=======
->>>>>>> main
                 .voicePhoneNumber,
                 .sdkUnknown("")
             ]
@@ -25028,10 +24965,6 @@ extension ConnectClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
-<<<<<<< HEAD
-            case .smsPhoneNumber: return "SMS_PHONE_NUMBER"
-=======
->>>>>>> main
             case .voicePhoneNumber: return "VOICE_PHONE_NUMBER"
             case let .sdkUnknown(s): return s
             }
@@ -25044,8 +24977,6 @@ extension ConnectClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListFlowAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -25185,7 +25116,6 @@ enum ListFlowAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListHoursOfOperationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -26321,13 +26251,10 @@ extension ConnectClientTypes.ListPhoneNumbersSummary: Swift.Codable {
         targetArn = targetArnDecoded
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
-<<<<<<< HEAD
-=======
         let phoneNumberDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .phoneNumberDescription)
         phoneNumberDescription = phoneNumberDescriptionDecoded
         let sourcePhoneNumberArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourcePhoneNumberArn)
         sourcePhoneNumberArn = sourcePhoneNumberArnDecoded
->>>>>>> main
     }
 }
 
@@ -26348,11 +26275,8 @@ extension ConnectClientTypes {
         public var phoneNumberId: Swift.String?
         /// The type of phone number.
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
-<<<<<<< HEAD
-=======
         /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number that was imported from Amazon Pinpoint.
         public var sourcePhoneNumberArn: Swift.String?
->>>>>>> main
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
 
@@ -27167,8 +27091,6 @@ enum ListQuickConnectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRealtimeContactAnalysisSegmentsV2Input: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -27380,7 +27302,6 @@ enum ListRealtimeContactAnalysisSegmentsV2OutputError: ClientRuntime.HttpRespons
     }
 }
 
->>>>>>> main
 extension ListRoutingProfileQueuesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -30390,8 +30311,6 @@ struct MonitorContactOutputBody: Swift.Equatable {
 }
 
 extension MonitorContactOutputBody: Swift.Decodable {
-<<<<<<< HEAD
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactArn = "ContactArn"
         case contactId = "ContactId"
@@ -30424,7 +30343,6 @@ enum MonitorContactOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension ConnectClientTypes.NewSessionDetails: Swift.Codable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
         case participantDetails = "ParticipantDetails"
@@ -30482,23 +30400,6 @@ extension ConnectClientTypes.NewSessionDetails: Swift.Codable {
         attributes = attributesDecoded0
         let streamingConfigurationDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ChatStreamingConfiguration.self, forKey: .streamingConfiguration)
         streamingConfiguration = streamingConfigurationDecoded
-    }
-}
-
-enum MonitorContactOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotencyException": return try await IdempotencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -38893,10 +38794,7 @@ extension SearchUsersInput: ClientRuntime.URLPathProvider {
 
 public struct SearchUsersInput: Swift.Equatable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. InstanceID is a required field. The "Required: No" below is incorrect.
-<<<<<<< HEAD
-=======
     /// This member is required.
->>>>>>> main
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -40526,8 +40424,6 @@ extension StartChatContactInputBody: Swift.Decodable {
         persistentChat = persistentChatDecoded
         let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
         relatedContactId = relatedContactIdDecoded
-<<<<<<< HEAD
-=======
         let segmentAttributesContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.SegmentAttributeValue?].self, forKey: .segmentAttributes)
         var segmentAttributesDecoded0: [Swift.String:ConnectClientTypes.SegmentAttributeValue]? = nil
         if let segmentAttributesContainer = segmentAttributesContainer {
@@ -40539,7 +40435,6 @@ extension StartChatContactInputBody: Swift.Decodable {
             }
         }
         segmentAttributes = segmentAttributesDecoded0
->>>>>>> main
     }
 }
 
@@ -41579,8 +41474,6 @@ enum StartTaskContactOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension StartWebRTCContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedCapabilities = "AllowedCapabilities"
@@ -41836,7 +41729,6 @@ enum StartWebRTCContactOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ConnectClientTypes {
     public enum Statistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case avg
@@ -44700,8 +44592,6 @@ enum UpdateAgentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ConnectClientTypes.UpdateCaseActionDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fields = "Fields"
@@ -44750,7 +44640,6 @@ extension ConnectClientTypes {
 
 }
 
->>>>>>> main
 extension UpdateContactAttributesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"

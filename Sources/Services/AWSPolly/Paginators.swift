@@ -12,11 +12,7 @@ extension PollyClient {
     ///     - input: A `[ListSpeechSynthesisTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSpeechSynthesisTasksOutput`
     public func listSpeechSynthesisTasksPaginated(input: ListSpeechSynthesisTasksInput) -> ClientRuntime.PaginatorSequence<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutput>(input: input, inputKey: \ListSpeechSynthesisTasksInput.nextToken, outputKey: \ListSpeechSynthesisTasksOutput.nextToken, paginationFunction: self.listSpeechSynthesisTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSpeechSynthesisTasks(input:))
->>>>>>> main
     }
 }
 

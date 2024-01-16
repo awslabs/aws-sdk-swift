@@ -12,11 +12,7 @@ extension ChimeSDKIdentityClient {
     ///     - input: A `[ListAppInstanceAdminsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceAdminsOutput`
     public func listAppInstanceAdminsPaginated(input: ListAppInstanceAdminsInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(input: input, inputKey: \ListAppInstanceAdminsInput.nextToken, outputKey: \ListAppInstanceAdminsOutput.nextToken, paginationFunction: self.listAppInstanceAdmins(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceAdmins(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension ChimeSDKIdentityClient {
     ///     - input: A `[ListAppInstanceBotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceBotsOutput`
     public func listAppInstanceBotsPaginated(input: ListAppInstanceBotsInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceBotsInput, ListAppInstanceBotsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppInstanceBotsInput, ListAppInstanceBotsOutput>(input: input, inputKey: \ListAppInstanceBotsInput.nextToken, outputKey: \ListAppInstanceBotsOutput.nextToken, paginationFunction: self.listAppInstanceBots(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppInstanceBotsInput, ListAppInstanceBotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceBots(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension ChimeSDKIdentityClient {
     ///     - input: A `[ListAppInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstancesOutput`
     public func listAppInstancesPaginated(input: ListAppInstancesInput) -> ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput>(input: input, inputKey: \ListAppInstancesInput.nextToken, outputKey: \ListAppInstancesOutput.nextToken, paginationFunction: self.listAppInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppInstancesInput, ListAppInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstances(input:))
->>>>>>> main
     }
 }
 
@@ -89,11 +77,7 @@ extension ChimeSDKIdentityClient {
     ///     - input: A `[ListAppInstanceUserEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceUserEndpointsOutput`
     public func listAppInstanceUserEndpointsPaginated(input: ListAppInstanceUserEndpointsInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput>(input: input, inputKey: \ListAppInstanceUserEndpointsInput.nextToken, outputKey: \ListAppInstanceUserEndpointsOutput.nextToken, paginationFunction: self.listAppInstanceUserEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppInstanceUserEndpointsInput, ListAppInstanceUserEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceUserEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -115,11 +99,7 @@ extension ChimeSDKIdentityClient {
     ///     - input: A `[ListAppInstanceUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceUsersOutput`
     public func listAppInstanceUsersPaginated(input: ListAppInstanceUsersInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(input: input, inputKey: \ListAppInstanceUsersInput.nextToken, outputKey: \ListAppInstanceUsersOutput.nextToken, paginationFunction: self.listAppInstanceUsers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppInstanceUsers(input:))
->>>>>>> main
     }
 }
 

@@ -22,11 +22,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAuthorizer` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Adds a new Authorizer resource to an existing RestApi resource.
     ///
     /// - Parameter CreateAuthorizerInput : Request to add a new Authorizer to an existing RestApi resource.
@@ -43,11 +40,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createAuthorizer(input: CreateAuthorizerInput) async throws -> CreateAuthorizerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBasePathMapping` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a new BasePathMapping resource.
     ///
     /// - Parameter CreateBasePathMappingInput : Requests API Gateway to create a new BasePathMapping resource.
@@ -64,11 +58,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createBasePathMapping(input: CreateBasePathMappingInput) async throws -> CreateBasePathMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDeployment` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     ///
     /// - Parameter CreateDeploymentInput : Requests API Gateway to create a Deployment resource.
@@ -86,11 +77,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDocumentationPart` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a documentation part.
     ///
     /// - Parameter CreateDocumentationPartInput : Creates a new documentation part of a given API.
@@ -107,11 +95,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createDocumentationPart(input: CreateDocumentationPartInput) async throws -> CreateDocumentationPartOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDocumentationVersion` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a documentation version
     ///
     /// - Parameter CreateDocumentationVersionInput : Creates a new documentation version of a given API.
@@ -128,11 +113,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createDocumentationVersion(input: CreateDocumentationVersionInput) async throws -> CreateDocumentationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDomainName` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a new domain name.
     ///
     /// - Parameter CreateDomainNameInput : A request to create a new domain name.
@@ -148,11 +130,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateModel` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Adds a new Model resource to an existing RestApi resource.
     ///
     /// - Parameter CreateModelInput : Request to add a new Model to an existing RestApi resource.
@@ -169,11 +148,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createModel(input: CreateModelInput) async throws -> CreateModelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRequestValidator` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a RequestValidator of a given RestApi.
     ///
     /// - Parameter CreateRequestValidatorInput : Creates a RequestValidator of a given RestApi.
@@ -190,11 +166,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createRequestValidator(input: CreateRequestValidatorInput) async throws -> CreateRequestValidatorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a Resource resource.
     ///
     /// - Parameter CreateResourceInput : Requests API Gateway to create a Resource resource.
@@ -211,11 +184,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createResource(input: CreateResourceInput) async throws -> CreateResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a new RestApi resource.
     ///
     /// - Parameter CreateRestApiInput : The POST Request to add a new RestApi resource to your collection.
@@ -231,11 +201,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createRestApi(input: CreateRestApiInput) async throws -> CreateRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateStage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a new Stage resource that references a pre-existing Deployment for the API.
     ///
     /// - Parameter CreateStageInput : Requests API Gateway to create a Stage resource.
@@ -252,11 +219,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createStage(input: CreateStageInput) async throws -> CreateStageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUsagePlan` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
     ///
     /// - Parameter CreateUsagePlanInput : The POST request to create a usage plan with the name, description, throttle limits and quota limits, as well as the associated API stages, specified in the payload.
@@ -273,11 +237,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createUsagePlan(input: CreateUsagePlanInput) async throws -> CreateUsagePlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUsagePlanKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a usage plan key for adding an existing API key to a usage plan.
     ///
     /// - Parameter CreateUsagePlanKeyInput : The POST request to create a usage plan key for adding an existing API key to a usage plan.
@@ -294,11 +255,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createUsagePlanKey(input: CreateUsagePlanKeyInput) async throws -> CreateUsagePlanKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVpcLink` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
     ///
     /// - Parameter CreateVpcLinkInput : Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
@@ -314,11 +272,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func createVpcLink(input: CreateVpcLinkInput) async throws -> CreateVpcLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApiKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes the ApiKey resource.
     ///
     /// - Parameter DeleteApiKeyInput : A request to delete the ApiKey resource.
@@ -334,11 +289,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAuthorizer` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes an existing Authorizer resource.
     ///
     /// - Parameter DeleteAuthorizerInput : Request to delete an existing Authorizer resource.
@@ -354,11 +306,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteAuthorizer(input: DeleteAuthorizerInput) async throws -> DeleteAuthorizerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBasePathMapping` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes the BasePathMapping resource.
     ///
     /// - Parameter DeleteBasePathMappingInput : A request to delete the BasePathMapping resource.
@@ -374,11 +323,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteBasePathMapping(input: DeleteBasePathMappingInput) async throws -> DeleteBasePathMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteClientCertificate` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes the ClientCertificate resource.
     ///
     /// - Parameter DeleteClientCertificateInput : A request to delete the ClientCertificate resource.
@@ -394,11 +340,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteClientCertificate(input: DeleteClientCertificateInput) async throws -> DeleteClientCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDeployment` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     ///
     /// - Parameter DeleteDeploymentInput : Requests API Gateway to delete a Deployment resource.
@@ -415,11 +358,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteDeployment(input: DeleteDeploymentInput) async throws -> DeleteDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDocumentationPart` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a documentation part
     ///
     /// - Parameter DeleteDocumentationPartInput : Deletes an existing documentation part of an API.
@@ -435,11 +375,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteDocumentationPart(input: DeleteDocumentationPartInput) async throws -> DeleteDocumentationPartOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDocumentationVersion` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a documentation version.
     ///
     /// - Parameter DeleteDocumentationVersionInput : Deletes an existing documentation version of an API.
@@ -455,11 +392,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteDocumentationVersion(input: DeleteDocumentationVersionInput) async throws -> DeleteDocumentationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDomainName` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes the DomainName resource.
     ///
     /// - Parameter DeleteDomainNameInput : A request to delete the DomainName resource.
@@ -475,11 +409,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGatewayResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
     ///
     /// - Parameter DeleteGatewayResponseInput : Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
@@ -495,11 +426,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteGatewayResponse(input: DeleteGatewayResponseInput) async throws -> DeleteGatewayResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIntegration` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a delete integration.
     ///
     /// - Parameter DeleteIntegrationInput : Represents a delete integration request.
@@ -515,11 +443,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteIntegration(input: DeleteIntegrationInput) async throws -> DeleteIntegrationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIntegrationResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a delete integration response.
     ///
     /// - Parameter DeleteIntegrationResponseInput : Represents a delete integration response request.
@@ -535,11 +460,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteIntegrationResponse(input: DeleteIntegrationResponseInput) async throws -> DeleteIntegrationResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMethod` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes an existing Method resource.
     ///
     /// - Parameter DeleteMethodInput : Request to delete an existing Method resource.
@@ -554,11 +476,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteMethod(input: DeleteMethodInput) async throws -> DeleteMethodOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMethodResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes an existing MethodResponse resource.
     ///
     /// - Parameter DeleteMethodResponseInput : A request to delete an existing MethodResponse resource.
@@ -574,11 +493,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteMethodResponse(input: DeleteMethodResponseInput) async throws -> DeleteMethodResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteModel` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a model.
     ///
     /// - Parameter DeleteModelInput : Request to delete an existing model in an existing RestApi resource.
@@ -594,11 +510,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRequestValidator` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a RequestValidator of a given RestApi.
     ///
     /// - Parameter DeleteRequestValidatorInput : Deletes a specified RequestValidator of a given RestApi.
@@ -614,11 +527,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteRequestValidator(input: DeleteRequestValidatorInput) async throws -> DeleteRequestValidatorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a Resource resource.
     ///
     /// - Parameter DeleteResourceInput : Request to delete a Resource.
@@ -634,11 +544,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes the specified API.
     ///
     /// - Parameter DeleteRestApiInput : Request to delete the specified API from your collection.
@@ -654,11 +561,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteRestApi(input: DeleteRestApiInput) async throws -> DeleteRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteStage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a Stage resource.
     ///
     /// - Parameter DeleteStageInput : Requests API Gateway to delete a Stage resource.
@@ -675,11 +579,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUsagePlan` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a usage plan of a given plan Id.
     ///
     /// - Parameter DeleteUsagePlanInput : The DELETE request to delete a usage plan of a given plan Id.
@@ -695,11 +596,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteUsagePlan(input: DeleteUsagePlanInput) async throws -> DeleteUsagePlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUsagePlanKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes a usage plan key and remove the underlying API key from the associated usage plan.
     ///
     /// - Parameter DeleteUsagePlanKeyInput : The DELETE request to delete a usage plan key and remove the underlying API key from the associated usage plan.
@@ -715,11 +613,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteUsagePlanKey(input: DeleteUsagePlanKeyInput) async throws -> DeleteUsagePlanKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVpcLink` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Deletes an existing VpcLink of a specified identifier.
     ///
     /// - Parameter DeleteVpcLinkInput : Deletes an existing VpcLink of a specified identifier.
@@ -735,11 +630,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func deleteVpcLink(input: DeleteVpcLinkInput) async throws -> DeleteVpcLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `FlushStageAuthorizersCache` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Flushes all authorizer cache entries on a stage.
     ///
     /// - Parameter FlushStageAuthorizersCacheInput : Request to flush authorizer cache entries on a specified stage.
@@ -756,11 +648,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func flushStageAuthorizersCache(input: FlushStageAuthorizersCacheInput) async throws -> FlushStageAuthorizersCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `FlushStageCache` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Flushes a stage's cache.
     ///
     /// - Parameter FlushStageCacheInput : Requests API Gateway to flush a stage's cache.
@@ -777,11 +666,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func flushStageCache(input: FlushStageCacheInput) async throws -> FlushStageCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GenerateClientCertificate` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Generates a ClientCertificate resource.
     ///
     /// - Parameter GenerateClientCertificateInput : A request to generate a ClientCertificate resource.
@@ -797,11 +683,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func generateClientCertificate(input: GenerateClientCertificateInput) async throws -> GenerateClientCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAccount` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about the current Account resource.
     ///
     /// - Parameter GetAccountInput : Requests API Gateway to get information about the current Account resource.
@@ -816,11 +699,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApiKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about the current ApiKey resource.
     ///
     /// - Parameter GetApiKeyInput : A request to get information about the current ApiKey resource.
@@ -835,11 +715,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getApiKey(input: GetApiKeyInput) async throws -> GetApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApiKeys` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about the current ApiKeys resource.
     ///
     /// - Parameter GetApiKeysInput : A request to get information about the current ApiKeys resource.
@@ -854,11 +731,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getApiKeys(input: GetApiKeysInput) async throws -> GetApiKeysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAuthorizer` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describe an existing Authorizer resource.
     ///
     /// - Parameter GetAuthorizerInput : Request to describe an existing Authorizer resource.
@@ -873,11 +747,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getAuthorizer(input: GetAuthorizerInput) async throws -> GetAuthorizerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAuthorizers` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describe an existing Authorizers resource.
     ///
     /// - Parameter GetAuthorizersInput : Request to describe an existing Authorizers resource.
@@ -892,11 +763,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getAuthorizers(input: GetAuthorizersInput) async throws -> GetAuthorizersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBasePathMapping` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describe a BasePathMapping resource.
     ///
     /// - Parameter GetBasePathMappingInput : Request to describe a BasePathMapping resource.
@@ -911,11 +779,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getBasePathMapping(input: GetBasePathMappingInput) async throws -> GetBasePathMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBasePathMappings` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a collection of BasePathMapping resources.
     ///
     /// - Parameter GetBasePathMappingsInput : A request to get information about a collection of BasePathMapping resources.
@@ -930,11 +795,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getBasePathMappings(input: GetBasePathMappingsInput) async throws -> GetBasePathMappingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetClientCertificate` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about the current ClientCertificate resource.
     ///
     /// - Parameter GetClientCertificateInput : A request to get information about the current ClientCertificate resource.
@@ -949,11 +811,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getClientCertificate(input: GetClientCertificateInput) async throws -> GetClientCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetClientCertificates` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a collection of ClientCertificate resources.
     ///
     /// - Parameter GetClientCertificatesInput : A request to get information about a collection of ClientCertificate resources.
@@ -968,11 +827,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getClientCertificates(input: GetClientCertificatesInput) async throws -> GetClientCertificatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeployment` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about a Deployment resource.
     ///
     /// - Parameter GetDeploymentInput : Requests API Gateway to get information about a Deployment resource.
@@ -988,11 +844,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeployments` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about a Deployments collection.
     ///
     /// - Parameter GetDeploymentsInput : Requests API Gateway to get information about a Deployments collection.
@@ -1008,11 +861,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDocumentationPart` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a documentation part.
     ///
     /// - Parameter GetDocumentationPartInput : Gets a specified documentation part of a given API.
@@ -1027,11 +877,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDocumentationPart(input: GetDocumentationPartInput) async throws -> GetDocumentationPartOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDocumentationParts` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets documentation parts.
     ///
     /// - Parameter GetDocumentationPartsInput : Gets the documentation parts of an API. The result may be filtered by the type, name, or path of API entities (targets).
@@ -1046,11 +893,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDocumentationParts(input: GetDocumentationPartsInput) async throws -> GetDocumentationPartsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDocumentationVersion` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a documentation version.
     ///
     /// - Parameter GetDocumentationVersionInput : Gets a documentation snapshot of an API.
@@ -1064,11 +908,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDocumentationVersion(input: GetDocumentationVersionInput) async throws -> GetDocumentationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDocumentationVersions` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets documentation versions.
     ///
     /// - Parameter GetDocumentationVersionsInput : Gets the documentation versions of an API.
@@ -1083,11 +924,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDocumentationVersions(input: GetDocumentationVersionsInput) async throws -> GetDocumentationVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainName` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     ///
     /// - Parameter GetDomainNameInput : Request to get the name of a DomainName resource.
@@ -1102,11 +940,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainNames` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a collection of DomainName resources.
     ///
     /// - Parameter GetDomainNamesInput : Request to describe a collection of DomainName resources.
@@ -1121,11 +956,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getDomainNames(input: GetDomainNamesInput) async throws -> GetDomainNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExport` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Exports a deployed version of a RestApi in a specified format.
     ///
     /// - Parameter GetExportInput : Request a new export of a RestApi for a particular Stage.
@@ -1142,11 +974,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getExport(input: GetExportInput) async throws -> GetExportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGatewayResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a GatewayResponse of a specified response type on the given RestApi.
     ///
     /// - Parameter GetGatewayResponseInput : Gets a GatewayResponse of a specified response type on the given RestApi.
@@ -1161,11 +990,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getGatewayResponse(input: GetGatewayResponseInput) async throws -> GetGatewayResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGatewayResponses` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
     ///
     /// - Parameter GetGatewayResponsesInput : Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
@@ -1180,11 +1006,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getGatewayResponses(input: GetGatewayResponsesInput) async throws -> GetGatewayResponsesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIntegration` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Get the integration settings.
     ///
     /// - Parameter GetIntegrationInput : Represents a request to get the integration configuration.
@@ -1199,11 +1022,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getIntegration(input: GetIntegrationInput) async throws -> GetIntegrationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIntegrationResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a get integration response.
     ///
     /// - Parameter GetIntegrationResponseInput : Represents a get integration response request.
@@ -1218,11 +1038,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getIntegrationResponse(input: GetIntegrationResponseInput) async throws -> GetIntegrationResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMethod` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describe an existing Method resource.
     ///
     /// - Parameter GetMethodInput : Request to describe an existing Method resource.
@@ -1236,11 +1053,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getMethod(input: GetMethodInput) async throws -> GetMethodOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMethodResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describes a MethodResponse resource.
     ///
     /// - Parameter GetMethodResponseInput : Request to describe a MethodResponse resource.
@@ -1254,11 +1068,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getMethodResponse(input: GetMethodResponseInput) async throws -> GetMethodResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetModel` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describes an existing model defined for a RestApi resource.
     ///
     /// - Parameter GetModelInput : Request to list information about a model in an existing RestApi resource.
@@ -1273,11 +1084,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getModel(input: GetModelInput) async throws -> GetModelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetModels` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Describes existing Models defined for a RestApi resource.
     ///
     /// - Parameter GetModelsInput : Request to list existing Models defined for a RestApi resource.
@@ -1292,11 +1100,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getModels(input: GetModelsInput) async throws -> GetModelsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetModelTemplate` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     ///
     /// - Parameter GetModelTemplateInput : Request to generate a sample mapping template used to transform the payload.
@@ -1311,11 +1116,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getModelTemplate(input: GetModelTemplateInput) async throws -> GetModelTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRequestValidator` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a RequestValidator of a given RestApi.
     ///
     /// - Parameter GetRequestValidatorInput : Gets a RequestValidator of a given RestApi.
@@ -1330,11 +1132,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getRequestValidator(input: GetRequestValidatorInput) async throws -> GetRequestValidatorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRequestValidators` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets the RequestValidators collection of a given RestApi.
     ///
     /// - Parameter GetRequestValidatorsInput : Gets the RequestValidators collection of a given RestApi.
@@ -1349,11 +1148,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getRequestValidators(input: GetRequestValidatorsInput) async throws -> GetRequestValidatorsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Lists information about a resource.
     ///
     /// - Parameter GetResourceInput : Request to list information about a resource.
@@ -1367,11 +1163,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getResource(input: GetResourceInput) async throws -> GetResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResources` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Lists information about a collection of Resource resources.
     ///
     /// - Parameter GetResourcesInput : Request to list information about a collection of resources.
@@ -1386,11 +1179,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getResources(input: GetResourcesInput) async throws -> GetResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Lists the RestApi resource in the collection.
     ///
     /// - Parameter GetRestApiInput : The GET request to list an existing RestApi defined for your collection.
@@ -1405,11 +1195,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getRestApi(input: GetRestApiInput) async throws -> GetRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRestApis` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Lists the RestApis resources for your collection.
     ///
     /// - Parameter GetRestApisInput : The GET request to list existing RestApis defined for your collection.
@@ -1424,11 +1211,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getRestApis(input: GetRestApisInput) async throws -> GetRestApisOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSdk` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Generates a client SDK for a RestApi and Stage.
     ///
     /// - Parameter GetSdkInput : Request a new generated client SDK for a RestApi and Stage.
@@ -1445,11 +1229,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getSdk(input: GetSdkInput) async throws -> GetSdkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSdkType` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets an SDK type.
     ///
     /// - Parameter GetSdkTypeInput : Get an SdkType instance.
@@ -1464,11 +1245,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getSdkType(input: GetSdkTypeInput) async throws -> GetSdkTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSdkTypes` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets SDK types
     ///
     /// - Parameter GetSdkTypesInput : Get the SdkTypes collection.
@@ -1483,11 +1261,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getSdkTypes(input: GetSdkTypesInput) async throws -> GetSdkTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetStage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about a Stage resource.
     ///
     /// - Parameter GetStageInput : Requests API Gateway to get information about a Stage resource.
@@ -1504,11 +1279,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getStage(input: GetStageInput) async throws -> GetStageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetStages` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets information about one or more Stage resources.
     ///
     /// - Parameter GetStagesInput : Requests API Gateway to get information about one or more Stage resources.
@@ -1525,11 +1297,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getStages(input: GetStagesInput) async throws -> GetStagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTags` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets the Tags collection for a given resource.
     ///
     /// - Parameter GetTagsInput : Gets the Tags collection for a given resource.
@@ -1544,11 +1313,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getTags(input: GetTagsInput) async throws -> GetTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets the usage data of a usage plan in a specified time interval.
     ///
     /// - Parameter GetUsageInput : The GET request to get the usage data of a usage plan in a specified time interval.
@@ -1563,11 +1329,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getUsage(input: GetUsageInput) async throws -> GetUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsagePlan` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a usage plan of a given plan identifier.
     ///
     /// - Parameter GetUsagePlanInput : The GET request to get a usage plan of a given plan identifier.
@@ -1582,11 +1345,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getUsagePlan(input: GetUsagePlanInput) async throws -> GetUsagePlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsagePlanKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a usage plan key of a given key identifier.
     ///
     /// - Parameter GetUsagePlanKeyInput : The GET request to get a usage plan key of a given key identifier.
@@ -1601,11 +1361,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getUsagePlanKey(input: GetUsagePlanKeyInput) async throws -> GetUsagePlanKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsagePlanKeys` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
     ///
     /// - Parameter GetUsagePlanKeysInput : The GET request to get all the usage plan keys representing the API keys added to a specified usage plan.
@@ -1620,11 +1377,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getUsagePlanKeys(input: GetUsagePlanKeysInput) async throws -> GetUsagePlanKeysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsagePlans` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets all the usage plans of the caller's account.
     ///
     /// - Parameter GetUsagePlansInput : The GET request to get all the usage plans of the caller's account.
@@ -1639,11 +1393,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getUsagePlans(input: GetUsagePlansInput) async throws -> GetUsagePlansOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVpcLink` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets a specified VPC link under the caller's account in a region.
     ///
     /// - Parameter GetVpcLinkInput : Gets a specified VPC link under the caller's account in a region.
@@ -1658,11 +1409,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getVpcLink(input: GetVpcLinkInput) async throws -> GetVpcLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVpcLinks` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Gets the VpcLinks collection under the caller's account in a selected region.
     ///
     /// - Parameter GetVpcLinksInput : Gets the VpcLinks collection under the caller's account in a selected region.
@@ -1677,11 +1425,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func getVpcLinks(input: GetVpcLinksInput) async throws -> GetVpcLinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportApiKeys` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Import API keys from an external source, such as a CSV-formatted file.
     ///
     /// - Parameter ImportApiKeysInput : The POST request to import API keys from an external source, such as a CSV-formatted file.
@@ -1698,11 +1443,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func importApiKeys(input: ImportApiKeysInput) async throws -> ImportApiKeysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportDocumentationParts` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Imports documentation parts
     ///
     /// - Parameter ImportDocumentationPartsInput : Import documentation parts from an external (e.g., OpenAPI) definition file.
@@ -1719,11 +1461,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func importDocumentationParts(input: ImportDocumentationPartsInput) async throws -> ImportDocumentationPartsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// A feature of the API Gateway control service for creating a new API from an external API definition file.
     ///
     /// - Parameter ImportRestApiInput : A POST request to import an API to API Gateway using an input of an API definition file.
@@ -1740,11 +1479,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func importRestApi(input: ImportRestApiInput) async throws -> ImportRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutGatewayResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
     ///
     /// - Parameter PutGatewayResponseInput : Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
@@ -1761,11 +1497,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putGatewayResponse(input: PutGatewayResponseInput) async throws -> PutGatewayResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutIntegration` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Sets up a method's integration.
     ///
     /// - Parameter PutIntegrationInput : Sets up a method's integration.
@@ -1782,11 +1515,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putIntegration(input: PutIntegrationInput) async throws -> PutIntegrationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutIntegrationResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents a put integration.
     ///
     /// - Parameter PutIntegrationResponseInput : Represents a put integration response request.
@@ -1803,11 +1533,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putIntegrationResponse(input: PutIntegrationResponseInput) async throws -> PutIntegrationResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutMethod` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Add a method to an existing Resource resource.
     ///
     /// - Parameter PutMethodInput : Request to add a method to an existing Resource resource.
@@ -1824,11 +1551,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putMethod(input: PutMethodInput) async throws -> PutMethodOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutMethodResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Adds a MethodResponse to an existing Method resource.
     ///
     /// - Parameter PutMethodResponseInput : Request to add a MethodResponse to an existing Method resource.
@@ -1845,11 +1569,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putMethodResponse(input: PutMethodResponseInput) async throws -> PutMethodResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     ///
     /// - Parameter PutRestApiInput : A PUT request to update an existing API, with external API definitions specified as the request body.
@@ -1866,11 +1587,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func putRestApi(input: PutRestApiInput) async throws -> PutRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Adds or updates a tag on a given resource.
     ///
     /// - Parameter TagResourceInput : Adds or updates a tag on a given resource.
@@ -1887,11 +1605,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TestInvokeAuthorizer` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
     ///
     /// - Parameter TestInvokeAuthorizerInput : Make a request to simulate the invocation of an Authorizer.
@@ -1906,11 +1621,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func testInvokeAuthorizer(input: TestInvokeAuthorizerInput) async throws -> TestInvokeAuthorizerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TestInvokeMethod` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
     ///
     /// - Parameter TestInvokeMethodInput : Make a request to simulate the invocation of a Method.
@@ -1925,11 +1637,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func testInvokeMethod(input: TestInvokeMethodInput) async throws -> TestInvokeMethodOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Removes a tag from a given resource.
     ///
     /// - Parameter UntagResourceInput : Removes a tag from a given resource.
@@ -1946,11 +1655,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAccount` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about the current Account resource.
     ///
     /// - Parameter UpdateAccountInput : Requests API Gateway to change information about the current Account resource.
@@ -1967,11 +1673,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateAccount(input: UpdateAccountInput) async throws -> UpdateAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApiKey` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about an ApiKey resource.
     ///
     /// - Parameter UpdateApiKeyInput : A request to change information about an ApiKey resource.
@@ -1988,11 +1691,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAuthorizer` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates an existing Authorizer resource.
     ///
     /// - Parameter UpdateAuthorizerInput : Request to update an existing Authorizer resource.
@@ -2009,11 +1709,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateAuthorizer(input: UpdateAuthorizerInput) async throws -> UpdateAuthorizerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBasePathMapping` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about the BasePathMapping resource.
     ///
     /// - Parameter UpdateBasePathMappingInput : A request to change information about the BasePathMapping resource.
@@ -2030,11 +1727,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateBasePathMapping(input: UpdateBasePathMappingInput) async throws -> UpdateBasePathMappingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateClientCertificate` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about an ClientCertificate resource.
     ///
     /// - Parameter UpdateClientCertificateInput : A request to change information about an ClientCertificate resource.
@@ -2051,11 +1745,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateClientCertificate(input: UpdateClientCertificateInput) async throws -> UpdateClientCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDeployment` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about a Deployment resource.
     ///
     /// - Parameter UpdateDeploymentInput : Requests API Gateway to change information about a Deployment resource.
@@ -2073,11 +1764,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateDeployment(input: UpdateDeploymentInput) async throws -> UpdateDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDocumentationPart` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates a documentation part.
     ///
     /// - Parameter UpdateDocumentationPartInput : Updates an existing documentation part of a given API.
@@ -2094,11 +1782,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateDocumentationPart(input: UpdateDocumentationPartInput) async throws -> UpdateDocumentationPartOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDocumentationVersion` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates a documentation version.
     ///
     /// - Parameter UpdateDocumentationVersionInput : Updates an existing documentation version of an API.
@@ -2115,11 +1800,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateDocumentationVersion(input: UpdateDocumentationVersionInput) async throws -> UpdateDocumentationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainName` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about the DomainName resource.
     ///
     /// - Parameter UpdateDomainNameInput : A request to change information about the DomainName resource.
@@ -2136,11 +1818,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGatewayResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates a GatewayResponse of a specified response type on the given RestApi.
     ///
     /// - Parameter UpdateGatewayResponseInput : Updates a GatewayResponse of a specified response type on the given RestApi.
@@ -2157,11 +1836,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateGatewayResponse(input: UpdateGatewayResponseInput) async throws -> UpdateGatewayResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateIntegration` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents an update integration.
     ///
     /// - Parameter UpdateIntegrationInput : Represents an update integration request.
@@ -2178,11 +1854,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateIntegrationResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Represents an update integration response.
     ///
     /// - Parameter UpdateIntegrationResponseInput : Represents an update integration response request.
@@ -2199,11 +1872,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateIntegrationResponse(input: UpdateIntegrationResponseInput) async throws -> UpdateIntegrationResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMethod` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates an existing Method resource.
     ///
     /// - Parameter UpdateMethodInput : Request to update an existing Method resource.
@@ -2219,11 +1889,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateMethod(input: UpdateMethodInput) async throws -> UpdateMethodOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMethodResponse` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates an existing MethodResponse resource.
     ///
     /// - Parameter UpdateMethodResponseInput : A request to update an existing MethodResponse resource.
@@ -2240,11 +1907,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateMethodResponse(input: UpdateMethodResponseInput) async throws -> UpdateMethodResponseOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateModel` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about a model.
     ///
     /// - Parameter UpdateModelInput : Request to update an existing model in an existing RestApi resource.
@@ -2261,11 +1925,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRequestValidator` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates a RequestValidator of a given RestApi.
     ///
     /// - Parameter UpdateRequestValidatorInput : Updates a RequestValidator of a given RestApi.
@@ -2282,11 +1943,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateRequestValidator(input: UpdateRequestValidatorInput) async throws -> UpdateRequestValidatorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResource` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about a Resource resource.
     ///
     /// - Parameter UpdateResourceInput : Request to change information about a Resource resource.
@@ -2302,11 +1960,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRestApi` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about the specified API.
     ///
     /// - Parameter UpdateRestApiInput : Request to update an existing RestApi resource in your collection.
@@ -2323,11 +1978,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateRestApi(input: UpdateRestApiInput) async throws -> UpdateRestApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateStage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Changes information about a Stage resource.
     ///
     /// - Parameter UpdateStageInput : Requests API Gateway to change information about a Stage resource.
@@ -2344,11 +1996,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUsage` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     ///
     /// - Parameter UpdateUsageInput : The PATCH request to grant a temporary extension to the remaining quota of a usage plan associated with a specified API key.
@@ -2365,11 +2014,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateUsage(input: UpdateUsageInput) async throws -> UpdateUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUsagePlan` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates a usage plan of a given plan Id.
     ///
     /// - Parameter UpdateUsagePlanInput : The PATCH request to update a usage plan of a given plan Id.
@@ -2386,11 +2032,8 @@ public protocol APIGatewayClientProtocol {
     /// - `TooManyRequestsException` : The request has reached its throttling limit. Retry after the specified time period.
     /// - `UnauthorizedException` : The request is denied because the caller has insufficient permissions.
     func updateUsagePlan(input: UpdateUsagePlanInput) async throws -> UpdateUsagePlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVpcLink` operation on the `BackplaneControlService` service.
     ///
->>>>>>> main
     /// Updates an existing VpcLink of a specified identifier.
     ///
     /// - Parameter UpdateVpcLinkInput : Updates an existing VpcLink of a specified identifier.

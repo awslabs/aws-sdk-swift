@@ -48,11 +48,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `UnauthorizedException` : Returns information about an error.
     func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfiguration` operation on the `mq` service.
     ///
->>>>>>> main
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     ///
     /// - Parameter CreateConfigurationInput : Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
@@ -67,11 +64,8 @@ public protocol MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTags` operation on the `mq` service.
     ///
->>>>>>> main
     /// Add a tag to a resource.
     ///
     /// - Parameter CreateTagsInput : A map of the key-value pairs for the resource tag.
@@ -86,11 +80,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUser` operation on the `mq` service.
     ///
->>>>>>> main
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     ///
     /// - Parameter CreateUserInput : Creates a new ActiveMQ user.
@@ -106,11 +97,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBroker` operation on the `mq` service.
     ///
->>>>>>> main
     /// Deletes a broker. Note: This API is asynchronous.
     ///
     /// - Parameter DeleteBrokerInput : [no documentation found]
@@ -125,11 +113,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTags` operation on the `mq` service.
     ///
->>>>>>> main
     /// Removes a tag from a resource.
     ///
     /// - Parameter DeleteTagsInput : [no documentation found]
@@ -144,11 +129,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUser` operation on the `mq` service.
     ///
->>>>>>> main
     /// Deletes an ActiveMQ user.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
@@ -163,11 +145,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBroker` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns information about the specified broker.
     ///
     /// - Parameter DescribeBrokerInput : [no documentation found]
@@ -182,11 +161,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func describeBroker(input: DescribeBrokerInput) async throws -> DescribeBrokerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBrokerEngineTypes` operation on the `mq` service.
     ///
->>>>>>> main
     /// Describe available engine types and versions.
     ///
     /// - Parameter DescribeBrokerEngineTypesInput : [no documentation found]
@@ -200,11 +176,8 @@ public protocol MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func describeBrokerEngineTypes(input: DescribeBrokerEngineTypesInput) async throws -> DescribeBrokerEngineTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBrokerInstanceOptions` operation on the `mq` service.
     ///
->>>>>>> main
     /// Describe available broker instance options.
     ///
     /// - Parameter DescribeBrokerInstanceOptionsInput : [no documentation found]
@@ -218,11 +191,8 @@ public protocol MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func describeBrokerInstanceOptions(input: DescribeBrokerInstanceOptionsInput) async throws -> DescribeBrokerInstanceOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConfiguration` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns information about the specified configuration.
     ///
     /// - Parameter DescribeConfigurationInput : [no documentation found]
@@ -237,11 +207,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConfigurationRevision` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns the specified configuration revision for the specified configuration.
     ///
     /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
@@ -256,11 +223,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeUser` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns information about an ActiveMQ user.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
@@ -275,11 +239,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBrokers` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns a list of all brokers.
     ///
     /// - Parameter ListBrokersInput : [no documentation found]
@@ -293,11 +254,8 @@ public protocol MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func listBrokers(input: ListBrokersInput) async throws -> ListBrokersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfigurationRevisions` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns a list of all revisions for the specified configuration.
     ///
     /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
@@ -312,11 +270,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfigurations` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns a list of all configurations.
     ///
     /// - Parameter ListConfigurationsInput : [no documentation found]
@@ -330,11 +285,8 @@ public protocol MqClientProtocol {
     /// - `ForbiddenException` : Returns information about an error.
     /// - `InternalServerErrorException` : Returns information about an error.
     func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTags` operation on the `mq` service.
     ///
->>>>>>> main
     /// Lists tags for a resource.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
@@ -349,11 +301,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUsers` operation on the `mq` service.
     ///
->>>>>>> main
     /// Returns a list of all ActiveMQ users.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
@@ -368,11 +317,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `Promote` operation on the `mq` service.
     ///
->>>>>>> main
     /// Promotes a data replication replica broker to the primary broker role.
     ///
     /// - Parameter PromoteInput : Promotes a data replication replica broker to the primary broker role.
@@ -387,11 +333,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func promote(input: PromoteInput) async throws -> PromoteOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RebootBroker` operation on the `mq` service.
     ///
->>>>>>> main
     /// Reboots a broker. Note: This API is asynchronous.
     ///
     /// - Parameter RebootBrokerInput : [no documentation found]
@@ -406,11 +349,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBroker` operation on the `mq` service.
     ///
->>>>>>> main
     /// Adds a pending configuration change to a broker.
     ///
     /// - Parameter UpdateBrokerInput : Updates the broker using the specified properties.
@@ -426,11 +366,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func updateBroker(input: UpdateBrokerInput) async throws -> UpdateBrokerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfiguration` operation on the `mq` service.
     ///
->>>>>>> main
     /// Updates the specified configuration.
     ///
     /// - Parameter UpdateConfigurationInput : Updates the specified configuration.
@@ -446,11 +383,8 @@ public protocol MqClientProtocol {
     /// - `InternalServerErrorException` : Returns information about an error.
     /// - `NotFoundException` : Returns information about an error.
     func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUser` operation on the `mq` service.
     ///
->>>>>>> main
     /// Updates the information for an ActiveMQ user.
     ///
     /// - Parameter UpdateUserInput : Updates the information for an ActiveMQ user.

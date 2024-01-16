@@ -12,11 +12,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListPhoneNumberOrdersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumberOrdersOutput`
     public func listPhoneNumberOrdersPaginated(input: ListPhoneNumberOrdersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(input: input, inputKey: \ListPhoneNumberOrdersInput.nextToken, outputKey: \ListPhoneNumberOrdersOutput.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumberOrders(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListPhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOutput`
     public func listPhoneNumbersPaginated(input: ListPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \ListPhoneNumbersInput.nextToken, outputKey: \ListPhoneNumbersOutput.nextToken, paginationFunction: self.listPhoneNumbers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPhoneNumbersInput, ListPhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumbers(input:))
->>>>>>> main
     }
 }
 
@@ -66,11 +58,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListProxySessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProxySessionsOutput`
     public func listProxySessionsPaginated(input: ListProxySessionsInput) -> ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput>(input: input, inputKey: \ListProxySessionsInput.nextToken, outputKey: \ListProxySessionsOutput.nextToken, paginationFunction: self.listProxySessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProxySessionsInput, ListProxySessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxySessions(input:))
->>>>>>> main
     }
 }
 
@@ -93,11 +81,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListSipMediaApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSipMediaApplicationsOutput`
     public func listSipMediaApplicationsPaginated(input: ListSipMediaApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(input: input, inputKey: \ListSipMediaApplicationsInput.nextToken, outputKey: \ListSipMediaApplicationsOutput.nextToken, paginationFunction: self.listSipMediaApplications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSipMediaApplications(input:))
->>>>>>> main
     }
 }
 
@@ -109,11 +93,7 @@ extension ListSipMediaApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSipMediaApplicationsInput, Output == ListSipMediaApplicationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSipMediaApplicationsInput, OperationStackOutput == ListSipMediaApplicationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSipMediaApplicationsPaginated`
     /// to access the nested member `[ChimeSDKVoiceClientTypes.SipMediaApplication]`
     /// - Returns: `[ChimeSDKVoiceClientTypes.SipMediaApplication]`
@@ -131,11 +111,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListSipRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSipRulesOutput`
     public func listSipRulesPaginated(input: ListSipRulesInput) -> ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput>(input: input, inputKey: \ListSipRulesInput.nextToken, outputKey: \ListSipRulesOutput.nextToken, paginationFunction: self.listSipRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSipRulesInput, ListSipRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSipRules(input:))
->>>>>>> main
     }
 }
 
@@ -148,11 +124,7 @@ extension ListSipRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSipRulesInput, Output == ListSipRulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSipRulesInput, OperationStackOutput == ListSipRulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSipRulesPaginated`
     /// to access the nested member `[ChimeSDKVoiceClientTypes.SipRule]`
     /// - Returns: `[ChimeSDKVoiceClientTypes.SipRule]`
@@ -170,11 +142,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListVoiceConnectorGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorGroupsOutput`
     public func listVoiceConnectorGroupsPaginated(input: ListVoiceConnectorGroupsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(input: input, inputKey: \ListVoiceConnectorGroupsInput.nextToken, outputKey: \ListVoiceConnectorGroupsOutput.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceConnectorGroups(input:))
->>>>>>> main
     }
 }
 
@@ -195,11 +163,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListVoiceConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceConnectorsOutput`
     public func listVoiceConnectorsPaginated(input: ListVoiceConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(input: input, inputKey: \ListVoiceConnectorsInput.nextToken, outputKey: \ListVoiceConnectorsOutput.nextToken, paginationFunction: self.listVoiceConnectors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceConnectors(input:))
->>>>>>> main
     }
 }
 
@@ -220,11 +184,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListVoiceProfileDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfileDomainsOutput`
     public func listVoiceProfileDomainsPaginated(input: ListVoiceProfileDomainsInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput>(input: input, inputKey: \ListVoiceProfileDomainsInput.nextToken, outputKey: \ListVoiceProfileDomainsOutput.nextToken, paginationFunction: self.listVoiceProfileDomains(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVoiceProfileDomainsInput, ListVoiceProfileDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceProfileDomains(input:))
->>>>>>> main
     }
 }
 
@@ -245,11 +205,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[ListVoiceProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVoiceProfilesOutput`
     public func listVoiceProfilesPaginated(input: ListVoiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutput>(input: input, inputKey: \ListVoiceProfilesInput.nextToken, outputKey: \ListVoiceProfilesOutput.nextToken, paginationFunction: self.listVoiceProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVoiceProfilesInput, ListVoiceProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVoiceProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -271,11 +227,7 @@ extension ChimeSDKVoiceClient {
     ///     - input: A `[SearchAvailablePhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchAvailablePhoneNumbersOutput`
     public func searchAvailablePhoneNumbersPaginated(input: SearchAvailablePhoneNumbersInput) -> ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \SearchAvailablePhoneNumbersInput.nextToken, outputKey: \SearchAvailablePhoneNumbersOutput.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAvailablePhoneNumbers(input:))
->>>>>>> main
     }
 }
 

@@ -12,11 +12,7 @@ extension AmplifyClient {
     ///     - input: A `[ListAppsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppsOutput`
     public func listAppsPaginated(input: ListAppsInput) -> ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \ListAppsInput.nextToken, outputKey: \ListAppsOutput.nextToken, paginationFunction: self.listApps(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApps(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListAppsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAppsInput, Output == ListAppsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAppsInput, OperationStackOutput == ListAppsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppsPaginated`
     /// to access the nested member `[AmplifyClientTypes.App]`
     /// - Returns: `[AmplifyClientTypes.App]`
@@ -50,11 +42,7 @@ extension AmplifyClient {
     ///     - input: A `[ListBranchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBranchesOutput`
     public func listBranchesPaginated(input: ListBranchesInput) -> ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput>(input: input, inputKey: \ListBranchesInput.nextToken, outputKey: \ListBranchesOutput.nextToken, paginationFunction: self.listBranches(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBranches(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListBranchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListBranchesInput, Output == ListBranchesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListBranchesInput, OperationStackOutput == ListBranchesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBranchesPaginated`
     /// to access the nested member `[AmplifyClientTypes.Branch]`
     /// - Returns: `[AmplifyClientTypes.Branch]`
@@ -89,11 +73,7 @@ extension AmplifyClient {
     ///     - input: A `[ListDomainAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainAssociationsOutput`
     public func listDomainAssociationsPaginated(input: ListDomainAssociationsInput) -> ClientRuntime.PaginatorSequence<ListDomainAssociationsInput, ListDomainAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDomainAssociationsInput, ListDomainAssociationsOutput>(input: input, inputKey: \ListDomainAssociationsInput.nextToken, outputKey: \ListDomainAssociationsOutput.nextToken, paginationFunction: self.listDomainAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDomainAssociationsInput, ListDomainAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +86,7 @@ extension ListDomainAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDomainAssociationsInput, Output == ListDomainAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDomainAssociationsInput, OperationStackOutput == ListDomainAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDomainAssociationsPaginated`
     /// to access the nested member `[AmplifyClientTypes.DomainAssociation]`
     /// - Returns: `[AmplifyClientTypes.DomainAssociation]`
@@ -128,11 +104,7 @@ extension AmplifyClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +118,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[AmplifyClientTypes.JobSummary]`
     /// - Returns: `[AmplifyClientTypes.JobSummary]`

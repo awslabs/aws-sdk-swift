@@ -774,8 +774,6 @@ enum CancelExportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -973,7 +971,6 @@ enum CreateDeliveryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateExportTaskInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination
@@ -1153,8 +1150,6 @@ enum CreateExportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateLogAnomalyDetectorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case anomalyVisibilityTime
@@ -1354,7 +1349,6 @@ enum CreateLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension CreateLogGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
@@ -1827,8 +1821,6 @@ enum DeleteDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteDeliveryDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -2123,7 +2115,6 @@ enum DeleteDeliverySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationName
@@ -2196,8 +2187,6 @@ enum DeleteDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteLogAnomalyDetectorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case anomalyDetectorArn
@@ -2270,7 +2259,6 @@ enum DeleteLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension DeleteLogGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logGroupName
@@ -2841,8 +2829,6 @@ enum DeleteSubscriptionFilterOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CloudWatchLogsClientTypes.Delivery: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -3239,7 +3225,6 @@ extension CloudWatchLogsClientTypes {
 
 }
 
->>>>>>> main
 extension DescribeAccountPoliciesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIdentifiers
@@ -3387,8 +3372,6 @@ enum DescribeAccountPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeDeliveriesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case limit
@@ -3785,7 +3768,6 @@ enum DescribeDeliverySourcesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
->>>>>>> main
 extension DescribeDestinationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationNamePrefix = "DestinationNamePrefix"
@@ -6213,8 +6195,6 @@ enum GetDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetDeliveryDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -6816,7 +6796,6 @@ enum GetLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetLogEventsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
@@ -8275,8 +8254,6 @@ enum ListTagsLogGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CloudWatchLogsClientTypes.LiveTailSessionLogEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ingestionTime
@@ -8565,7 +8542,6 @@ extension CloudWatchLogsClientTypes {
 
 }
 
->>>>>>> main
 extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -9826,8 +9802,6 @@ enum PutDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PutDeliveryDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deliveryDestinationConfiguration
@@ -10250,7 +10224,6 @@ enum PutDeliverySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension PutDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationName
@@ -12693,8 +12666,6 @@ enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CloudWatchLogsClientTypes {
     public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -12730,7 +12701,6 @@ extension CloudWatchLogsClientTypes {
     }
 }
 
->>>>>>> main
 extension StopQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryId
@@ -13398,8 +13368,6 @@ enum TestMetricFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13455,7 +13423,6 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension TooManyTagsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13766,8 +13733,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
-<<<<<<< HEAD
-=======
 
 extension UpdateAnomalyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -14064,4 +14029,3 @@ extension ValidationExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
->>>>>>> main

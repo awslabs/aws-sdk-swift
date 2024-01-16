@@ -3,8 +3,6 @@
 import ClientRuntime
 
 extension SecretsManagerClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[BatchGetSecretValueOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -28,7 +26,6 @@ extension BatchGetSecretValueInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SecretsManagerClient {
->>>>>>> main
     /// Paginate over `[ListSecretsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -38,11 +35,7 @@ extension SecretsManagerClient {
     ///     - input: A `[ListSecretsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecretsOutput`
     public func listSecretsPaginated(input: ListSecretsInput) -> ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput>(input: input, inputKey: \ListSecretsInput.nextToken, outputKey: \ListSecretsOutput.nextToken, paginationFunction: self.listSecrets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSecretsInput, ListSecretsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecrets(input:))
->>>>>>> main
     }
 }
 
@@ -66,11 +59,7 @@ extension SecretsManagerClient {
     ///     - input: A `[ListSecretVersionIdsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecretVersionIdsOutput`
     public func listSecretVersionIdsPaginated(input: ListSecretVersionIdsInput) -> ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(input: input, inputKey: \ListSecretVersionIdsInput.nextToken, outputKey: \ListSecretVersionIdsOutput.nextToken, paginationFunction: self.listSecretVersionIds(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSecretVersionIdsInput, ListSecretVersionIdsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecretVersionIds(input:))
->>>>>>> main
     }
 }
 

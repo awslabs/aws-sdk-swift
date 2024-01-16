@@ -21,11 +21,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     func createLink(input: CreateLinkInput) async throws -> CreateLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each account can contain one sink. If you delete a sink, you can then create a new one in that account.
     ///
     /// - Parameter CreateSinkInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     func createSink(input: CreateSinkInput) async throws -> CreateSinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
     ///
     /// - Parameter DeleteLinkInput : [no documentation found]
@@ -60,11 +54,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Deletes a sink. You must delete all links to a sink before you can delete that sink.
     ///
     /// - Parameter DeleteSinkInput : [no documentation found]
@@ -80,11 +71,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func deleteSink(input: DeleteSinkInput) async throws -> DeleteSinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Returns complete information about one link. To use this operation, provide the link ARN. To retrieve a list of link ARNs, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
     /// - Parameter GetLinkInput : [no documentation found]
@@ -99,11 +87,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func getLink(input: GetLinkInput) async throws -> GetLinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Returns complete information about one monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
     ///
     /// - Parameter GetSinkInput : [no documentation found]
@@ -118,11 +103,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func getSink(input: GetSinkInput) async throws -> GetSinkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSinkPolicy` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
     ///
     /// - Parameter GetSinkPolicyInput : [no documentation found]
@@ -137,11 +119,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func getSinkPolicy(input: GetSinkPolicyInput) async throws -> GetSinkPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAttachedLinks` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html). To find a list of links for one source account, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
     /// - Parameter ListAttachedLinksInput : [no documentation found]
@@ -156,11 +135,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func listAttachedLinks(input: ListAttachedLinksInput) async throws -> ListAttachedLinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLinks` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use [ListAttachedLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListAttachedLinks.html) from within the monitoring account.
     ///
     /// - Parameter ListLinksInput : [no documentation found]
@@ -174,11 +150,8 @@ public protocol OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func listLinks(input: ListLinksInput) async throws -> ListLinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSinks` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Use this operation in a monitoring account to return the list of sinks created in that account.
     ///
     /// - Parameter ListSinksInput : [no documentation found]
@@ -192,11 +165,8 @@ public protocol OAMClientProtocol {
     /// - `InvalidParameterException` : A parameter is specified incorrectly.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func listSinks(input: ListSinksInput) async throws -> ListSinksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Displays the tags associated with a resource. Both sinks and links support tagging.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -209,11 +179,8 @@ public protocol OAMClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutSinkPolicy` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Creates or updates the resource policy that grants permissions to source accounts to link to the monitoring account sink. When you create a sink policy, you can grant permissions to all accounts in an organization or to individual accounts. You can also use a sink policy to limit the types of data that is shared. The three types that you can allow or deny are:
     ///
     /// * Metrics - Specify with AWS::CloudWatch::Metric
@@ -239,11 +206,8 @@ public protocol OAMClientProtocol {
     /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     func putSinkPolicy(input: PutSinkPolicyInput) async throws -> PutSinkPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -257,11 +221,8 @@ public protocol OAMClientProtocol {
     /// - `TooManyTagsException` : A resource can have no more than 50 tags.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -274,11 +235,8 @@ public protocol OAMClientProtocol {
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The value of a parameter in the request caused an error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLink` operation on the `oamservice` service.
     ///
->>>>>>> main
     /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. To update the list of tags associated with the sink, use [TagResource](https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html).
     ///
     /// - Parameter UpdateLinkInput : [no documentation found]

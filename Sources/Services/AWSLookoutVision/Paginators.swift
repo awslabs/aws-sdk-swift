@@ -12,11 +12,7 @@ extension LookoutVisionClient {
     ///     - input: A `[ListDatasetEntriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetEntriesOutput`
     public func listDatasetEntriesPaginated(input: ListDatasetEntriesInput) -> ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput>(input: input, inputKey: \ListDatasetEntriesInput.nextToken, outputKey: \ListDatasetEntriesOutput.nextToken, paginationFunction: self.listDatasetEntries(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatasetEntriesInput, ListDatasetEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetEntries(input:))
->>>>>>> main
     }
 }
 
@@ -35,11 +31,7 @@ extension ListDatasetEntriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDatasetEntriesInput, Output == ListDatasetEntriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDatasetEntriesInput, OperationStackOutput == ListDatasetEntriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetEntriesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -57,11 +49,7 @@ extension LookoutVisionClient {
     ///     - input: A `[ListModelPackagingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelPackagingJobsOutput`
     public func listModelPackagingJobsPaginated(input: ListModelPackagingJobsInput) -> ClientRuntime.PaginatorSequence<ListModelPackagingJobsInput, ListModelPackagingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelPackagingJobsInput, ListModelPackagingJobsOutput>(input: input, inputKey: \ListModelPackagingJobsInput.nextToken, outputKey: \ListModelPackagingJobsOutput.nextToken, paginationFunction: self.listModelPackagingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelPackagingJobsInput, ListModelPackagingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelPackagingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -74,11 +62,7 @@ extension ListModelPackagingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelPackagingJobsInput, Output == ListModelPackagingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelPackagingJobsInput, OperationStackOutput == ListModelPackagingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelPackagingJobsPaginated`
     /// to access the nested member `[LookoutVisionClientTypes.ModelPackagingJobMetadata]`
     /// - Returns: `[LookoutVisionClientTypes.ModelPackagingJobMetadata]`
@@ -96,11 +80,7 @@ extension LookoutVisionClient {
     ///     - input: A `[ListModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelsOutput`
     public func listModelsPaginated(input: ListModelsInput) -> ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \ListModelsInput.nextToken, outputKey: \ListModelsOutput.nextToken, paginationFunction: self.listModels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModels(input:))
->>>>>>> main
     }
 }
 
@@ -113,11 +93,7 @@ extension ListModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelsInput, Output == ListModelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelsInput, OperationStackOutput == ListModelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelsPaginated`
     /// to access the nested member `[LookoutVisionClientTypes.ModelMetadata]`
     /// - Returns: `[LookoutVisionClientTypes.ModelMetadata]`
@@ -135,11 +111,7 @@ extension LookoutVisionClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
->>>>>>> main
     }
 }
 
@@ -151,11 +123,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[LookoutVisionClientTypes.ProjectMetadata]`
     /// - Returns: `[LookoutVisionClientTypes.ProjectMetadata]`

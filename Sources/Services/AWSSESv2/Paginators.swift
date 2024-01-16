@@ -12,11 +12,7 @@ extension SESv2Client {
     ///     - input: A `[GetDedicatedIpsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutput`
     public func getDedicatedIpsPaginated(input: GetDedicatedIpsInput) -> ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput>(input: input, inputKey: \GetDedicatedIpsInput.nextToken, outputKey: \GetDedicatedIpsOutput.nextToken, paginationFunction: self.getDedicatedIps(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDedicatedIps(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension SESv2Client {
     ///     - input: A `[ListConfigurationSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutput`
     public func listConfigurationSetsPaginated(input: ListConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput>(input: input, inputKey: \ListConfigurationSetsInput.nextToken, outputKey: \ListConfigurationSetsOutput.nextToken, paginationFunction: self.listConfigurationSets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationSets(input:))
->>>>>>> main
     }
 }
 
@@ -63,11 +55,7 @@ extension SESv2Client {
     ///     - input: A `[ListContactListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactListsOutput`
     public func listContactListsPaginated(input: ListContactListsInput) -> ClientRuntime.PaginatorSequence<ListContactListsInput, ListContactListsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListContactListsInput, ListContactListsOutput>(input: input, inputKey: \ListContactListsInput.nextToken, outputKey: \ListContactListsOutput.nextToken, paginationFunction: self.listContactLists(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListContactListsInput, ListContactListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactLists(input:))
->>>>>>> main
     }
 }
 
@@ -88,11 +76,7 @@ extension SESv2Client {
     ///     - input: A `[ListContactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutput`
     public func listContactsPaginated(input: ListContactsInput) -> ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput>(input: input, inputKey: \ListContactsInput.nextToken, outputKey: \ListContactsOutput.nextToken, paginationFunction: self.listContacts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContacts(input:))
->>>>>>> main
     }
 }
 
@@ -115,11 +99,7 @@ extension SESv2Client {
     ///     - input: A `[ListCustomVerificationEmailTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVerificationEmailTemplatesOutput`
     public func listCustomVerificationEmailTemplatesPaginated(input: ListCustomVerificationEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput>(input: input, inputKey: \ListCustomVerificationEmailTemplatesInput.nextToken, outputKey: \ListCustomVerificationEmailTemplatesOutput.nextToken, paginationFunction: self.listCustomVerificationEmailTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomVerificationEmailTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -140,11 +120,7 @@ extension SESv2Client {
     ///     - input: A `[ListDedicatedIpPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutput`
     public func listDedicatedIpPoolsPaginated(input: ListDedicatedIpPoolsInput) -> ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput>(input: input, inputKey: \ListDedicatedIpPoolsInput.nextToken, outputKey: \ListDedicatedIpPoolsOutput.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
->>>>>>> main
     }
 }
 
@@ -165,11 +141,7 @@ extension SESv2Client {
     ///     - input: A `[ListDeliverabilityTestReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutput`
     public func listDeliverabilityTestReportsPaginated(input: ListDeliverabilityTestReportsInput) -> ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput>(input: input, inputKey: \ListDeliverabilityTestReportsInput.nextToken, outputKey: \ListDeliverabilityTestReportsOutput.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
->>>>>>> main
     }
 }
 
@@ -190,11 +162,7 @@ extension SESv2Client {
     ///     - input: A `[ListDomainDeliverabilityCampaignsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutput`
     public func listDomainDeliverabilityCampaignsPaginated(input: ListDomainDeliverabilityCampaignsInput) -> ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput>(input: input, inputKey: \ListDomainDeliverabilityCampaignsInput.nextToken, outputKey: \ListDomainDeliverabilityCampaignsOutput.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
->>>>>>> main
     }
 }
 
@@ -218,11 +186,7 @@ extension SESv2Client {
     ///     - input: A `[ListEmailIdentitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutput`
     public func listEmailIdentitiesPaginated(input: ListEmailIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(input: input, inputKey: \ListEmailIdentitiesInput.nextToken, outputKey: \ListEmailIdentitiesOutput.nextToken, paginationFunction: self.listEmailIdentities(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEmailIdentities(input:))
->>>>>>> main
     }
 }
 
@@ -243,11 +207,7 @@ extension SESv2Client {
     ///     - input: A `[ListEmailTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEmailTemplatesOutput`
     public func listEmailTemplatesPaginated(input: ListEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListEmailTemplatesInput, ListEmailTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEmailTemplatesInput, ListEmailTemplatesOutput>(input: input, inputKey: \ListEmailTemplatesInput.nextToken, outputKey: \ListEmailTemplatesOutput.nextToken, paginationFunction: self.listEmailTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEmailTemplatesInput, ListEmailTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEmailTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -268,11 +228,7 @@ extension SESv2Client {
     ///     - input: A `[ListExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExportJobsOutput`
     public func listExportJobsPaginated(input: ListExportJobsInput) -> ClientRuntime.PaginatorSequence<ListExportJobsInput, ListExportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExportJobsInput, ListExportJobsOutput>(input: input, inputKey: \ListExportJobsInput.nextToken, outputKey: \ListExportJobsOutput.nextToken, paginationFunction: self.listExportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExportJobsInput, ListExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -295,11 +251,7 @@ extension SESv2Client {
     ///     - input: A `[ListImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportJobsOutput`
     public func listImportJobsPaginated(input: ListImportJobsInput) -> ClientRuntime.PaginatorSequence<ListImportJobsInput, ListImportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImportJobsInput, ListImportJobsOutput>(input: input, inputKey: \ListImportJobsInput.nextToken, outputKey: \ListImportJobsOutput.nextToken, paginationFunction: self.listImportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImportJobsInput, ListImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -321,11 +273,7 @@ extension SESv2Client {
     ///     - input: A `[ListRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutput`
     public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutput.nextToken, paginationFunction: self.listRecommendations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendations(input:))
->>>>>>> main
     }
 }
 
@@ -347,11 +295,7 @@ extension SESv2Client {
     ///     - input: A `[ListSuppressedDestinationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSuppressedDestinationsOutput`
     public func listSuppressedDestinationsPaginated(input: ListSuppressedDestinationsInput) -> ClientRuntime.PaginatorSequence<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutput>(input: input, inputKey: \ListSuppressedDestinationsInput.nextToken, outputKey: \ListSuppressedDestinationsOutput.nextToken, paginationFunction: self.listSuppressedDestinations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSuppressedDestinations(input:))
->>>>>>> main
     }
 }
 

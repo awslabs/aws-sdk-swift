@@ -4192,8 +4192,6 @@ enum CreateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateRestoreTestingPlanInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateRestoreTestingPlanInput(creatorRequestId: \(Swift.String(describing: creatorRequestId)), restoreTestingPlan: \(Swift.String(describing: restoreTestingPlan)), tags: \"CONTENT_REDACTED\")"}
@@ -4527,7 +4525,6 @@ enum CreateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension BackupClientTypes.DateRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fromDate = "FromDate"
@@ -5153,8 +5150,6 @@ enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let restoreTestingPlanName = restoreTestingPlanName else {
@@ -5269,7 +5264,6 @@ enum DeleteRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension DependencyFailureException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5700,21 +5694,6 @@ extension DescribeBackupJobOutputBody: Swift.Decodable {
         initiationDate = initiationDateDecoded
         let messageCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageCategory)
         messageCategory = messageCategoryDecoded
-    }
-}
-
-enum DescribeBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -6448,20 +6427,6 @@ enum DescribeProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-enum DescribeProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension DescribeRecoveryPointInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6785,20 +6750,6 @@ extension DescribeRecoveryPointOutputBody: Swift.Decodable {
         resourceName = resourceNameDecoded
         let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
         vaultType = vaultTypeDecoded
-    }
-}
-
-enum DescribeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -7332,21 +7283,6 @@ extension DescribeRestoreJobOutputBody: Swift.Decodable {
         deletionStatus = deletionStatusDecoded
         let deletionStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deletionStatusMessage)
         deletionStatusMessage = deletionStatusMessageDecoded
-    }
-}
-
-enum DescribeRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "DependencyFailureException": return try await DependencyFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -8706,11 +8642,7 @@ extension GetRecoveryPointRestoreMetadataInputBody: Swift.Decodable {
 
 extension GetRecoveryPointRestoreMetadataOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "GetRecoveryPointRestoreMetadataOutput(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), restoreMetadata: \"CONTENT_REDACTED\")"}
-=======
         "GetRecoveryPointRestoreMetadataOutput(backupVaultArn: \(Swift.String(describing: backupVaultArn)), recoveryPointArn: \(Swift.String(describing: recoveryPointArn)), resourceType: \(Swift.String(describing: resourceType)), restoreMetadata: \"CONTENT_REDACTED\")"}
->>>>>>> main
 }
 
 extension GetRecoveryPointRestoreMetadataOutput: ClientRuntime.HttpResponseBinding {
@@ -9210,20 +9142,6 @@ enum GetRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBindi
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetRecoveryPointRestoreMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "MissingParameterValueException": return try await MissingParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -10967,8 +10885,6 @@ enum ListBackupVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListCopyJobSummariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -11150,7 +11066,6 @@ enum ListCopyJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -11707,11 +11622,7 @@ extension ListProtectedResourcesByBackupVaultOutput: ClientRuntime.HttpResponseB
 }
 
 public struct ListProtectedResourcesByBackupVaultOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// These are the results returned for the request ListProtectedResourcesByBackupVault.
     public var results: [BackupClientTypes.ProtectedResource]?
@@ -11831,11 +11742,7 @@ extension ListProtectedResourcesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListProtectedResourcesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     public var results: [BackupClientTypes.ProtectedResource]?
@@ -12050,11 +11957,7 @@ extension ListRecoveryPointsByBackupVaultOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListRecoveryPointsByBackupVaultOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points saved in a backup vault.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByBackupVault]?
@@ -12311,11 +12214,7 @@ extension ListRecoveryPointsByResourceOutput: ClientRuntime.HttpResponseBinding 
 }
 
 public struct ListRecoveryPointsByResourceOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about recovery points of the specified resource type. Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
     public var recoveryPoints: [BackupClientTypes.RecoveryPointByResource]?
@@ -12644,8 +12543,6 @@ enum ListReportPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRestoreJobSummariesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -12972,7 +12869,6 @@ enum ListRestoreJobsByProtectedResourceOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
->>>>>>> main
 extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -13132,11 +13028,7 @@ extension ListRestoreJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListRestoreJobsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// An array of objects that contain detailed information about jobs to restore saved resources.
     public var restoreJobs: [BackupClientTypes.RestoreJobsListMember]?
@@ -13194,8 +13086,6 @@ enum ListRestoreJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRestoreTestingPlansInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -13445,7 +13335,6 @@ enum ListRestoreTestingSelectionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ListTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -13522,11 +13411,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
-=======
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
->>>>>>> main
     public var nextToken: Swift.String?
     /// To help organize your resources, you can assign your own metadata to the resources you create. Each tag is a key-value pair.
     public var tags: [Swift.String:Swift.String]?
@@ -14121,8 +14006,6 @@ enum PutBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PutRestoreValidationResultInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case validationStatus = "ValidationStatus"
@@ -14216,7 +14099,6 @@ enum PutRestoreValidationResultOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case backupSizeInBytes = "BackupSizeInBytes"
@@ -18962,8 +18844,6 @@ enum UpdateReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateRestoreTestingPlanInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case restoreTestingPlan = "RestoreTestingPlan"
@@ -19273,7 +19153,6 @@ enum UpdateRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension BackupClientTypes {
     public enum VaultState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available

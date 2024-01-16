@@ -12,11 +12,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[GetServerDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetServerDetailsOutput`
     public func getServerDetailsPaginated(input: GetServerDetailsInput) -> ClientRuntime.PaginatorSequence<GetServerDetailsInput, GetServerDetailsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetServerDetailsInput, GetServerDetailsOutput>(input: input, inputKey: \GetServerDetailsInput.nextToken, outputKey: \GetServerDetailsOutput.nextToken, paginationFunction: self.getServerDetails(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetServerDetailsInput, GetServerDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getServerDetails(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension GetServerDetailsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetServerDetailsInput, Output == GetServerDetailsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetServerDetailsInput, OperationStackOutput == GetServerDetailsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getServerDetailsPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.AssociatedApplication]`
     /// - Returns: `[MigrationHubStrategyClientTypes.AssociatedApplication]`
@@ -51,11 +43,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[ListAnalyzableServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnalyzableServersOutput`
     public func listAnalyzableServersPaginated(input: ListAnalyzableServersInput) -> ClientRuntime.PaginatorSequence<ListAnalyzableServersInput, ListAnalyzableServersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAnalyzableServersInput, ListAnalyzableServersOutput>(input: input, inputKey: \ListAnalyzableServersInput.nextToken, outputKey: \ListAnalyzableServersOutput.nextToken, paginationFunction: self.listAnalyzableServers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAnalyzableServersInput, ListAnalyzableServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnalyzableServers(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension ListAnalyzableServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAnalyzableServersInput, Output == ListAnalyzableServersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAnalyzableServersInput, OperationStackOutput == ListAnalyzableServersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAnalyzableServersPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.AnalyzableServerSummary]`
     /// - Returns: `[MigrationHubStrategyClientTypes.AnalyzableServerSummary]`
@@ -90,11 +74,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[ListApplicationComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationComponentsOutput`
     public func listApplicationComponentsPaginated(input: ListApplicationComponentsInput) -> ClientRuntime.PaginatorSequence<ListApplicationComponentsInput, ListApplicationComponentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationComponentsInput, ListApplicationComponentsOutput>(input: input, inputKey: \ListApplicationComponentsInput.nextToken, outputKey: \ListApplicationComponentsOutput.nextToken, paginationFunction: self.listApplicationComponents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationComponentsInput, ListApplicationComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationComponents(input:))
->>>>>>> main
     }
 }
 
@@ -110,11 +90,7 @@ extension ListApplicationComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListApplicationComponentsInput, Output == ListApplicationComponentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListApplicationComponentsInput, OperationStackOutput == ListApplicationComponentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationComponentsPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.ApplicationComponentDetail]`
     /// - Returns: `[MigrationHubStrategyClientTypes.ApplicationComponentDetail]`
@@ -132,11 +108,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[ListCollectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCollectorsOutput`
     public func listCollectorsPaginated(input: ListCollectorsInput) -> ClientRuntime.PaginatorSequence<ListCollectorsInput, ListCollectorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCollectorsInput, ListCollectorsOutput>(input: input, inputKey: \ListCollectorsInput.nextToken, outputKey: \ListCollectorsOutput.nextToken, paginationFunction: self.listCollectors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCollectorsInput, ListCollectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCollectors(input:))
->>>>>>> main
     }
 }
 
@@ -148,11 +120,7 @@ extension ListCollectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCollectorsInput, Output == ListCollectorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCollectorsInput, OperationStackOutput == ListCollectorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCollectorsPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.Collector]`
     /// - Returns: `[MigrationHubStrategyClientTypes.Collector]`
@@ -170,11 +138,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[ListImportFileTaskInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportFileTaskOutput`
     public func listImportFileTaskPaginated(input: ListImportFileTaskInput) -> ClientRuntime.PaginatorSequence<ListImportFileTaskInput, ListImportFileTaskOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImportFileTaskInput, ListImportFileTaskOutput>(input: input, inputKey: \ListImportFileTaskInput.nextToken, outputKey: \ListImportFileTaskOutput.nextToken, paginationFunction: self.listImportFileTask(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImportFileTaskInput, ListImportFileTaskOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImportFileTask(input:))
->>>>>>> main
     }
 }
 
@@ -186,11 +150,7 @@ extension ListImportFileTaskInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImportFileTaskInput, Output == ListImportFileTaskOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImportFileTaskInput, OperationStackOutput == ListImportFileTaskOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImportFileTaskPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.ImportFileTaskInformation]`
     /// - Returns: `[MigrationHubStrategyClientTypes.ImportFileTaskInformation]`
@@ -208,11 +168,7 @@ extension MigrationHubStrategyClient {
     ///     - input: A `[ListServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServersOutput`
     public func listServersPaginated(input: ListServersInput) -> ClientRuntime.PaginatorSequence<ListServersInput, ListServersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServersInput, ListServersOutput>(input: input, inputKey: \ListServersInput.nextToken, outputKey: \ListServersOutput.nextToken, paginationFunction: self.listServers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServersInput, ListServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServers(input:))
->>>>>>> main
     }
 }
 
@@ -228,11 +184,7 @@ extension ListServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListServersInput, Output == ListServersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListServersInput, OperationStackOutput == ListServersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServersPaginated`
     /// to access the nested member `[MigrationHubStrategyClientTypes.ServerDetail]`
     /// - Returns: `[MigrationHubStrategyClientTypes.ServerDetail]`

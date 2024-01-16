@@ -21,11 +21,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateAdminAccount(input: AssociateAdminAccountInput) async throws -> AssociateAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateThirdPartyFirewall` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
     ///
     /// - Parameter AssociateThirdPartyFirewallInput : [no documentation found]
@@ -40,11 +37,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func associateThirdPartyFirewall(input: AssociateThirdPartyFirewallInput) async throws -> AssociateThirdPartyFirewallOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchAssociateResource` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Associate resources to a Firewall Manager resource set.
     ///
     /// - Parameter BatchAssociateResourceInput : [no documentation found]
@@ -60,11 +54,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func batchAssociateResource(input: BatchAssociateResourceInput) async throws -> BatchAssociateResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDisassociateResource` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Disassociates resources from a Firewall Manager resource set.
     ///
     /// - Parameter BatchDisassociateResourceInput : [no documentation found]
@@ -79,11 +70,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func batchDisassociateResource(input: BatchDisassociateResourceInput) async throws -> BatchDisassociateResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAppsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Permanently deletes an Firewall Manager applications list.
     ///
     /// - Parameter DeleteAppsListInput : [no documentation found]
@@ -97,11 +85,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteAppsList(input: DeleteAppsListInput) async throws -> DeleteAppsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteNotificationChannel` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
     /// - Parameter DeleteNotificationChannelInput : [no documentation found]
@@ -115,11 +100,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteNotificationChannel(input: DeleteNotificationChannelInput) async throws -> DeleteNotificationChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePolicy` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Permanently deletes an Firewall Manager policy.
     ///
     /// - Parameter DeletePolicyInput : [no documentation found]
@@ -135,11 +117,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteProtocolsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Permanently deletes an Firewall Manager protocols list.
     ///
     /// - Parameter DeleteProtocolsListInput : [no documentation found]
@@ -153,11 +132,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteProtocolsList(input: DeleteProtocolsListInput) async throws -> DeleteProtocolsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteResourceSet` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Deletes the specified [ResourceSet].
     ///
     /// - Parameter DeleteResourceSetInput : [no documentation found]
@@ -172,11 +148,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateAdminAccount` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a [PutAdminAccount] request. To set an account as a default administrator account, you must submit an [AssociateAdminAccount] request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
     ///
     /// - Parameter DisassociateAdminAccountInput : [no documentation found]
@@ -190,11 +163,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disassociateAdminAccount(input: DisassociateAdminAccountInput) async throws -> DisassociateAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateThirdPartyFirewall` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
     ///
     /// - Parameter DisassociateThirdPartyFirewallInput : [no documentation found]
@@ -209,11 +179,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func disassociateThirdPartyFirewall(input: DisassociateThirdPartyFirewallInput) async throws -> DisassociateThirdPartyFirewallOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAdminAccount` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator.
     ///
     /// - Parameter GetAdminAccountInput : [no documentation found]
@@ -227,11 +194,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getAdminAccount(input: GetAdminAccountInput) async throws -> GetAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAdminScope` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns information about the specified account's administrative scope. The admistrative scope defines the resources that an Firewall Manager administrator can manage.
     ///
     /// - Parameter GetAdminScopeInput : [no documentation found]
@@ -247,11 +211,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getAdminScope(input: GetAdminScopeInput) async throws -> GetAdminScopeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAppsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns information about the specified Firewall Manager applications list.
     ///
     /// - Parameter GetAppsListInput : [no documentation found]
@@ -265,11 +226,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getAppsList(input: GetAppsListInput) async throws -> GetAppsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetComplianceDetail` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy.
     ///
     /// * Resources are considered noncompliant for WAF and Shield Advanced policies if the specified policy has not been applied to them.
@@ -292,11 +250,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getComplianceDetail(input: GetComplianceDetailInput) async throws -> GetComplianceDetailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetNotificationChannel` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
     /// - Parameter GetNotificationChannelInput : [no documentation found]
@@ -310,11 +265,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getNotificationChannel(input: GetNotificationChannelInput) async throws -> GetNotificationChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPolicy` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns information about the specified Firewall Manager policy.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
@@ -329,11 +281,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidTypeException` : The value of the Type parameter is invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProtectionStatus` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported.
     ///
     /// - Parameter GetProtectionStatusInput : [no documentation found]
@@ -347,11 +296,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getProtectionStatus(input: GetProtectionStatusInput) async throws -> GetProtectionStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProtocolsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns information about the specified Firewall Manager protocols list.
     ///
     /// - Parameter GetProtocolsListInput : [no documentation found]
@@ -365,11 +311,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getProtocolsList(input: GetProtocolsListInput) async throws -> GetProtocolsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceSet` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Gets information about a specific resource set.
     ///
     /// - Parameter GetResourceSetInput : [no documentation found]
@@ -384,11 +327,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetThirdPartyFirewallAssociationStatus` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
     ///
     /// - Parameter GetThirdPartyFirewallAssociationStatusInput : [no documentation found]
@@ -403,11 +343,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getThirdPartyFirewallAssociationStatus(input: GetThirdPartyFirewallAssociationStatusInput) async throws -> GetThirdPartyFirewallAssociationStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetViolationDetails` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
     ///
     /// - Parameter GetViolationDetailsInput : [no documentation found]
@@ -421,11 +358,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func getViolationDetails(input: GetViolationDetailsInput) async throws -> GetViolationDetailsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAdminAccountsForOrganization` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns a AdminAccounts object that lists the Firewall Manager administrators within the organization that are onboarded to Firewall Manager by [AssociateAdminAccount]. This operation can be called only from the organization's management account.
     ///
     /// - Parameter ListAdminAccountsForOrganizationInput : [no documentation found]
@@ -440,11 +374,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listAdminAccountsForOrganization(input: ListAdminAccountsForOrganizationInput) async throws -> ListAdminAccountsForOrganizationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAdminsManagingAccount` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their [AdminScope].
     ///
     /// - Parameter ListAdminsManagingAccountInput : [no documentation found]
@@ -458,11 +389,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listAdminsManagingAccount(input: ListAdminsManagingAccountInput) async throws -> ListAdminsManagingAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAppsLists` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of AppsListDataSummary objects.
     ///
     /// - Parameter ListAppsListsInput : [no documentation found]
@@ -477,11 +405,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listAppsLists(input: ListAppsListsInput) async throws -> ListAppsListsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListComplianceStatus` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     ///
     /// - Parameter ListComplianceStatusInput : [no documentation found]
@@ -494,11 +419,8 @@ public protocol FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listComplianceStatus(input: ListComplianceStatusInput) async throws -> ListComplianceStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDiscoveredResources` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
     ///
     /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
@@ -512,11 +434,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMemberAccounts` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's management account can make this request.
     ///
     /// - Parameter ListMemberAccountsInput : [no documentation found]
@@ -529,11 +448,8 @@ public protocol FMSClientProtocol {
     /// - `InternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPolicies` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of PolicySummary objects.
     ///
     /// - Parameter ListPoliciesInput : [no documentation found]
@@ -548,11 +464,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listPolicies(input: ListPoliciesInput) async throws -> ListPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProtocolsLists` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of ProtocolsListDataSummary objects.
     ///
     /// - Parameter ListProtocolsListsInput : [no documentation found]
@@ -566,11 +479,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listProtocolsLists(input: ListProtocolsListsInput) async throws -> ListProtocolsListsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceSetResources` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of resources that are currently associated to a resource set.
     ///
     /// - Parameter ListResourceSetResourcesInput : [no documentation found]
@@ -585,11 +495,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listResourceSetResources(input: ListResourceSetResourcesInput) async throws -> ListResourceSetResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceSets` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Returns an array of ResourceSetSummary objects.
     ///
     /// - Parameter ListResourceSetsInput : [no documentation found]
@@ -603,11 +510,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidInputException` : The parameters of the request were invalid.
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Retrieves the list of tags for the specified Amazon Web Services resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -622,11 +526,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListThirdPartyFirewallFirewallPolicies` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
     ///
     /// - Parameter ListThirdPartyFirewallFirewallPoliciesInput : [no documentation found]
@@ -641,11 +542,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func listThirdPartyFirewallFirewallPolicies(input: ListThirdPartyFirewallFirewallPoliciesInput) async throws -> ListThirdPartyFirewallFirewallPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAdminAccount` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by [AssociateAdminAccount]. Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager calls Organizations to delegate the account within Organizations. For more information about administrator accounts within Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     ///
     /// - Parameter PutAdminAccountInput : [no documentation found]
@@ -660,11 +558,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     func putAdminAccount(input: PutAdminAccountInput) async throws -> PutAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAppsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Creates an Firewall Manager applications list.
     ///
     /// - Parameter PutAppsListInput : [no documentation found]
@@ -680,11 +575,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func putAppsList(input: PutAppsListInput) async throws -> PutAppsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutNotificationChannel` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this role. For information about configuring an SNS access policy, see [Service roles for Firewall Manager](https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service) in the Firewall Manager Developer Guide.
     ///
     /// - Parameter PutNotificationChannelInput : [no documentation found]
@@ -698,11 +590,7 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func putNotificationChannel(input: PutNotificationChannelInput) async throws -> PutNotificationChannelOutput
-<<<<<<< HEAD
-    /// Creates an Firewall Manager policy. Firewall Manager provides the following types of policies:
-=======
     /// Performs the `PutPolicy` operation on the `AWSFMS_20180101` service.
->>>>>>> main
     ///
     /// Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual policy type. If you want to enforce multiple policy types across accounts, you can create multiple policies. You can create more than one policy for each type. If you add a new account to an organization that you created with Organizations, Firewall Manager automatically applies the policy to the resources in that account that are within scope of the policy. Firewall Manager provides the following types of policies:
     ///
@@ -734,11 +622,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutProtocolsList` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Creates an Firewall Manager protocols list.
     ///
     /// - Parameter PutProtocolsListInput : [no documentation found]
@@ -754,11 +639,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func putProtocolsList(input: PutProtocolsListInput) async throws -> PutProtocolsListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutResourceSet` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
     ///
     /// - Parameter PutResourceSetInput : [no documentation found]
@@ -773,11 +655,8 @@ public protocol FMSClientProtocol {
     /// - `InvalidOperationException` : The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     func putResourceSet(input: PutResourceSetInput) async throws -> PutResourceSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Adds one or more tags to an Amazon Web Services resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -793,11 +672,8 @@ public protocol FMSClientProtocol {
     /// - `LimitExceededException` : The operation exceeds a resource limit, for example, the maximum number of policy objects that you can create for an Amazon Web Services account. For more information, see [Firewall Manager Limits](https://docs.aws.amazon.com/waf/latest/developerguide/fms-limits.html) in the WAF Developer Guide.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSFMS_20180101` service.
     ///
->>>>>>> main
     /// Removes one or more tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

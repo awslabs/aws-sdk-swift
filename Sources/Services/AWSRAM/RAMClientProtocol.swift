@@ -30,11 +30,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func acceptResourceShareInvitation(input: AcceptResourceShareInvitationInput) async throws -> AcceptResourceShareInvitationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateResourceShare` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
     /// - Parameter AssociateResourceShareInput : [no documentation found]
@@ -56,11 +53,8 @@ public protocol RAMClientProtocol {
     /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func associateResourceShare(input: AssociateResourceShareInput) async throws -> AssociateResourceShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateResourceSharePermission` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share.
     ///
     /// - Parameter AssociateResourceSharePermissionInput : [no documentation found]
@@ -78,11 +72,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func associateResourceSharePermission(input: AssociateResourceSharePermissionInput) async throws -> AssociateResourceSharePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePermission` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation.
     ///
     /// - Parameter CreatePermissionInput : [no documentation found]
@@ -103,11 +94,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePermissionVersion` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use [ReplacePermissionAssociations] to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions before you can create a new one.
     ///
     /// - Parameter CreatePermissionVersionInput : [no documentation found]
@@ -128,11 +116,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func createPermissionVersion(input: CreatePermissionVersionInput) async throws -> CreatePermissionVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateResourceShare` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
     /// - Parameter CreateResourceShareInput : [no documentation found]
@@ -155,11 +140,8 @@ public protocol RAMClientProtocol {
     /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePermission` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission.
     ///
     /// - Parameter DeletePermissionInput : [no documentation found]
@@ -177,11 +159,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePermissionVersion` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another.
     ///
     /// - Parameter DeletePermissionVersionInput : [no documentation found]
@@ -200,11 +179,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func deletePermissionVersion(input: DeletePermissionVersionInput) async throws -> DeletePermissionVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteResourceShare` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Deletes the specified resource share. This doesn't delete any of the resources that were associated with the resource share; it only stops the sharing of those resources through this resource share.
     ///
     /// - Parameter DeleteResourceShareInput : [no documentation found]
@@ -224,11 +200,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func deleteResourceShare(input: DeleteResourceShareInput) async throws -> DeleteResourceShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateResourceShare` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Removes the specified principals or resources from participating in the specified resource share.
     ///
     /// - Parameter DisassociateResourceShareInput : [no documentation found]
@@ -249,11 +222,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func disassociateResourceShare(input: DisassociateResourceShareInput) async throws -> DisassociateResourceShareOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateResourceSharePermission` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share.
     ///
     /// - Parameter DisassociateResourceSharePermissionInput : [no documentation found]
@@ -272,11 +242,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func disassociateResourceSharePermission(input: DisassociateResourceSharePermissionInput) async throws -> DisassociateResourceSharePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableSharingWithAwsOrganization` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU ID. Until you enable sharing within the organization, you can specify only individual Amazon Web Services accounts, or for supported resource types, IAM roles and users. You must call this operation from an IAM role or user in the organization's management account.
     ///
     /// - Parameter EnableSharingWithAwsOrganizationInput : [no documentation found]
@@ -290,11 +257,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func enableSharingWithAwsOrganization(input: EnableSharingWithAwsOrganizationInput) async throws -> EnableSharingWithAwsOrganizationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPermission` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves the contents of a managed permission in JSON format.
     ///
     /// - Parameter GetPermissionInput : [no documentation found]
@@ -311,11 +275,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func getPermission(input: GetPermissionInput) async throws -> GetPermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourcePolicies` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves the resource policies for the specified resources that you own and have shared.
     ///
     /// - Parameter GetResourcePoliciesInput : [no documentation found]
@@ -332,11 +293,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceShareAssociations` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves the lists of resources and principals that associated for resource shares that you own.
     ///
     /// - Parameter GetResourceShareAssociationsInput : [no documentation found]
@@ -354,11 +312,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func getResourceShareAssociations(input: GetResourceShareAssociationsInput) async throws -> GetResourceShareAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceShareInvitations` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves details about invitations that you have received for resource shares.
     ///
     /// - Parameter GetResourceShareInvitationsInput : [no documentation found]
@@ -377,11 +332,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func getResourceShareInvitations(input: GetResourceShareInvitationsInput) async throws -> GetResourceShareInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceShares` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves details about the resource shares that you own or that are shared with you.
     ///
     /// - Parameter GetResourceSharesInput : [no documentation found]
@@ -398,11 +350,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func getResourceShares(input: GetResourceSharesInput) async throws -> GetResourceSharesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPendingInvitationResources` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
     /// - Parameter ListPendingInvitationResourcesInput : [no documentation found]
@@ -422,11 +371,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func listPendingInvitationResources(input: ListPendingInvitationResourcesInput) async throws -> ListPendingInvitationResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissionAssociations` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
     ///
     /// - Parameter ListPermissionAssociationsInput : [no documentation found]
@@ -442,11 +388,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func listPermissionAssociations(input: ListPermissionAssociationsInput) async throws -> ListPermissionAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissions` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
     /// - Parameter ListPermissionsInput : [no documentation found]
@@ -462,11 +405,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPermissionVersions` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the available versions of the specified RAM permission.
     ///
     /// - Parameter ListPermissionVersionsInput : [no documentation found]
@@ -484,11 +424,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func listPermissionVersions(input: ListPermissionVersionsInput) async throws -> ListPermissionVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPrincipals` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
     /// - Parameter ListPrincipalsInput : [no documentation found]
@@ -505,11 +442,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func listPrincipals(input: ListPrincipalsInput) async throws -> ListPrincipalsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReplacePermissionAssociationsWork` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
     ///
     /// - Parameter ListReplacePermissionAssociationsWorkInput : [no documentation found]
@@ -524,11 +458,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func listReplacePermissionAssociationsWork(input: ListReplacePermissionAssociationsWorkInput) async throws -> ListReplacePermissionAssociationsWorkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResources` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the resources that you added to a resource share or the resources that are shared with you.
     ///
     /// - Parameter ListResourcesInput : [no documentation found]
@@ -546,11 +477,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceSharePermissions` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the RAM permissions that are associated with a resource share.
     ///
     /// - Parameter ListResourceSharePermissionsInput : [no documentation found]
@@ -568,11 +496,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func listResourceSharePermissions(input: ListResourceSharePermissionsInput) async throws -> ListResourceSharePermissionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceTypes` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Lists the resource types that can be shared by RAM.
     ///
     /// - Parameter ListResourceTypesInput : [no documentation found]
@@ -587,11 +512,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func listResourceTypes(input: ListResourceTypesInput) async throws -> ListResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PromotePermissionCreatedFromPolicy` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permissions as the original resource-based policy. You can associate this customer managed permission to any resource shares. Before you use [PromoteResourceShareCreatedFromPolicy], you should first run this operation to ensure that you have an appropriate customer managed permission that can be associated with the promoted resource share.
     ///
     /// * The original CREATED_FROM_POLICY policy isn't deleted, and resource shares using that original policy aren't automatically updated.
@@ -615,11 +537,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func promotePermissionCreatedFromPolicy(input: PromotePermissionCreatedFromPolicyInput) async throws -> PromotePermissionCreatedFromPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PromoteResourceShareCreatedFromPolicy` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When you promote a resource share, you can then manage the resource share in RAM and it becomes visible to all of the principals you shared it with. Before you perform this operation, you should first run [PromotePermissionCreatedFromPolicy]to ensure that you have an appropriate customer managed permission that can be associated with this resource share after its is promoted. If this operation can't find a managed permission that exactly matches the existing CREATED_FROM_POLICY permission, then this operation fails.
     ///
     /// - Parameter PromoteResourceShareCreatedFromPolicyInput : [no documentation found]
@@ -640,11 +559,8 @@ public protocol RAMClientProtocol {
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     /// - `UnmatchedPolicyPermissionException` : There isn't an existing managed permission defined in RAM that has the same IAM permissions as the resource-based policy attached to the resource. You should first run [PromotePermissionCreatedFromPolicy] to create that managed permission.
     func promoteResourceShareCreatedFromPolicy(input: PromoteResourceShareCreatedFromPolicyInput) async throws -> PromoteResourceShareCreatedFromPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RejectResourceShareInvitation` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Rejects an invitation to a resource share from another Amazon Web Services account.
     ///
     /// - Parameter RejectResourceShareInvitationInput : [no documentation found]
@@ -665,11 +581,8 @@ public protocol RAMClientProtocol {
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     func rejectResourceShareInvitation(input: RejectResourceShareInvitationInput) async throws -> RejectResourceShareInvitationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ReplacePermissionAssociations` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of the permission by specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can use the optional fromPermissionVersion parameter to update only those resources that use a specified version of the managed permission to the new managed permission. To successfully perform this operation, you must have permission to update the resource-based policy on all affected resource types.
     ///
     /// - Parameter ReplacePermissionAssociationsInput : [no documentation found]
@@ -688,11 +601,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func replacePermissionAssociations(input: ReplacePermissionAssociationsInput) async throws -> ReplacePermissionAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SetDefaultPermissionVersion` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use [ReplacePermissionAssociations] to update them.
     ///
     /// - Parameter SetDefaultPermissionVersionInput : [no documentation found]
@@ -710,11 +620,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func setDefaultPermissionVersion(input: SetDefaultPermissionVersionInput) async throws -> SetDefaultPermissionVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -733,11 +640,8 @@ public protocol RAMClientProtocol {
     /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Removes the specified tag key and value pairs from the specified resource share or managed permission.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -753,11 +657,8 @@ public protocol RAMClientProtocol {
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResourceShare` operation on the `AmazonResourceSharing` service.
     ///
->>>>>>> main
     /// Modifies some of the properties of the specified resource share.
     ///
     /// - Parameter UpdateResourceShareInput : [no documentation found]

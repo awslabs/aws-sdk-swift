@@ -6992,8 +6992,6 @@ enum CreateCertificateFromCsrOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateCertificateProviderInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountDefaultForOperations
@@ -7178,7 +7176,6 @@ enum CreateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension CreateCustomMetricInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
@@ -12152,47 +12149,6 @@ enum CreateTopicRuleDestinationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-public struct CreateTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateTopicRuleInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateTopicRuleInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateTopicRuleOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let topicRulePayload = input.operationInput.topicRulePayload {
-                let topicRulePayloadData = try encoder.encode(topicRulePayload)
-                let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                input.builder.withBody(topicRulePayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let topicRulePayloadData = "{}".data(using: .utf8)!
-                    let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                    input.builder.withBody(topicRulePayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateTopicRuleInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateTopicRuleOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension CreateTopicRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case topicRulePayload
@@ -12855,8 +12811,6 @@ enum DeleteCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteCertificateProviderInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let certificateProviderName = certificateProviderName else {
@@ -12915,7 +12869,6 @@ enum DeleteCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension DeleteConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -15953,8 +15906,6 @@ enum DescribeCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeCertificateProviderInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let certificateProviderName = certificateProviderName else {
@@ -16101,7 +16052,6 @@ enum DescribeCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension DescribeCustomMetricInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let metricName = metricName else {
@@ -18778,20 +18728,6 @@ extension DescribeSecurityProfileOutputBody: Swift.Decodable {
         lastModifiedDate = lastModifiedDateDecoded
         let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
         metricsExportConfig = metricsExportConfigDecoded
-    }
-}
-
-enum DescribeSecurityProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -28558,8 +28494,6 @@ enum ListCACertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListCertificateProvidersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -28682,7 +28616,6 @@ enum ListCertificateProvidersOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension ListCertificatesByCAInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -39578,47 +39511,6 @@ extension IoTClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct ReplaceTopicRuleInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ReplaceTopicRuleInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<ReplaceTopicRuleInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ReplaceTopicRuleOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let topicRulePayload = input.operationInput.topicRulePayload {
-                let topicRulePayloadData = try encoder.encode(topicRulePayload)
-                let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                input.builder.withBody(topicRulePayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let topicRulePayloadData = "{}".data(using: .utf8)!
-                    let topicRulePayloadBody = ClientRuntime.HttpBody.data(topicRulePayloadData)
-                    input.builder.withBody(topicRulePayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<ReplaceTopicRuleInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<ReplaceTopicRuleOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension ReplaceTopicRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case topicRulePayload
@@ -41480,47 +41372,6 @@ enum SetDefaultPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-public struct SetLoggingOptionsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "SetLoggingOptionsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<SetLoggingOptionsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SetLoggingOptionsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let loggingOptionsPayload = input.operationInput.loggingOptionsPayload {
-                let loggingOptionsPayloadData = try encoder.encode(loggingOptionsPayload)
-                let loggingOptionsPayloadBody = ClientRuntime.HttpBody.data(loggingOptionsPayloadData)
-                input.builder.withBody(loggingOptionsPayloadBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let loggingOptionsPayloadData = "{}".data(using: .utf8)!
-                    let loggingOptionsPayloadBody = ClientRuntime.HttpBody.data(loggingOptionsPayloadData)
-                    input.builder.withBody(loggingOptionsPayloadBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<SetLoggingOptionsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SetLoggingOptionsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension SetLoggingOptionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case loggingOptionsPayload
@@ -43420,8 +43271,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTClientTypes {
     public enum TargetFieldOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case latlon
@@ -43454,7 +43303,6 @@ extension IoTClientTypes {
     }
 }
 
->>>>>>> main
 extension IoTClientTypes {
     public enum TargetSelection: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case continuous
@@ -47355,8 +47203,6 @@ enum UpdateCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateCertificateProviderInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountDefaultForOperations
@@ -47502,7 +47348,6 @@ enum UpdateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension UpdateCustomMetricInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayName
@@ -50023,21 +49868,6 @@ extension UpdateSecurityProfileOutputBody: Swift.Decodable {
         lastModifiedDate = lastModifiedDateDecoded
         let metricsExportConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.MetricsExportConfig.self, forKey: .metricsExportConfig)
         metricsExportConfig = metricsExportConfigDecoded
-    }
-}
-
-enum UpdateSecurityProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "VersionConflictException": return try await VersionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 

@@ -336,11 +336,7 @@ extension CancelZonalShiftOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CancelZonalShiftOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
-=======
     /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
->>>>>>> main
     /// This member is required.
     public var awayFrom: Swift.String?
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
@@ -1143,21 +1139,6 @@ extension GetManagedResourceOutputBody: Swift.Decodable {
         practiceRunConfiguration = practiceRunConfigurationDecoded
         let zonalAutoshiftStatusDecoded = try containerValues.decodeIfPresent(ARCZonalShiftClientTypes.ZonalAutoshiftStatus.self, forKey: .zonalAutoshiftStatus)
         zonalAutoshiftStatus = zonalAutoshiftStatusDecoded
-    }
-}
-
-enum GetManagedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -2106,11 +2087,7 @@ extension StartZonalShiftOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct StartZonalShiftOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
-=======
     /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
->>>>>>> main
     /// This member is required.
     public var awayFrom: Swift.String?
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.
@@ -2721,11 +2698,7 @@ extension UpdateZonalShiftOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateZonalShiftOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the AWS Region.
-=======
     /// The Availability Zone that traffic is moved away from for a resource when you start a zonal shift. Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
->>>>>>> main
     /// This member is required.
     public var awayFrom: Swift.String?
     /// A comment that you enter about the zonal shift. Only the latest comment is retained; no comment history is maintained. A new comment overwrites any existing comment string.

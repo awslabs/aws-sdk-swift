@@ -12,11 +12,7 @@ extension CodeStarconnectionsClient {
     ///     - input: A `[ListConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutput`
     public func listConnectionsPaginated(input: ListConnectionsInput) -> ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput>(input: input, inputKey: \ListConnectionsInput.nextToken, outputKey: \ListConnectionsOutput.nextToken, paginationFunction: self.listConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnections(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension CodeStarconnectionsClient {
     ///     - input: A `[ListHostsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHostsOutput`
     public func listHostsPaginated(input: ListHostsInput) -> ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutput>(input: input, inputKey: \ListHostsInput.nextToken, outputKey: \ListHostsOutput.nextToken, paginationFunction: self.listHosts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListHostsInput, ListHostsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHosts(input:))
->>>>>>> main
     }
 }
 

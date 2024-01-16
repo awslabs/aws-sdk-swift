@@ -22,11 +22,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Associates an IP access settings resource with a web portal.
     ///
     /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Associates a network settings resource with a web portal.
     ///
     /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
@@ -64,11 +58,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Associates a trust store with a web portal.
     ///
     /// - Parameter AssociateTrustStoreInput : [no documentation found]
@@ -84,11 +75,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Associates a user access logging settings resource with a web portal.
     ///
     /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
@@ -105,11 +93,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Associates a user settings resource with a web portal.
     ///
     /// - Parameter AssociateUserSettingsInput : [no documentation found]
@@ -126,11 +111,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
     /// - Parameter CreateBrowserSettingsInput : [no documentation found]
@@ -148,11 +130,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
     /// - Parameter CreateIdentityProviderInput : [no documentation found]
@@ -170,11 +149,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
@@ -191,11 +167,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
     /// - Parameter CreateNetworkSettingsInput : [no documentation found]
@@ -212,11 +185,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePortal` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a web portal.
     ///
     /// - Parameter CreatePortalInput : [no documentation found]
@@ -234,11 +204,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
     /// - Parameter CreateTrustStoreInput : [no documentation found]
@@ -255,11 +222,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
     /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
@@ -276,11 +240,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
     /// - Parameter CreateUserSettingsInput : [no documentation found]
@@ -297,11 +258,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes browser settings.
     ///
     /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
@@ -317,11 +275,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes the identity provider.
     ///
     /// - Parameter DeleteIdentityProviderInput : [no documentation found]
@@ -337,11 +292,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes IP access settings.
     ///
     /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
@@ -357,11 +309,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes network settings.
     ///
     /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
@@ -377,11 +326,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePortal` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a web portal.
     ///
     /// - Parameter DeletePortalInput : [no documentation found]
@@ -397,11 +343,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes the trust store.
     ///
     /// - Parameter DeleteTrustStoreInput : [no documentation found]
@@ -417,11 +360,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes user access logging settings.
     ///
     /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
@@ -437,11 +377,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes user settings.
     ///
     /// - Parameter DeleteUserSettingsInput : [no documentation found]
@@ -457,11 +394,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates browser settings from a web portal.
     ///
     /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
@@ -477,11 +411,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates IP access settings from a web portal.
     ///
     /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
@@ -497,11 +428,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates network settings from a web portal.
     ///
     /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
@@ -517,11 +445,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates a trust store from a web portal.
     ///
     /// - Parameter DisassociateTrustStoreInput : [no documentation found]
@@ -537,11 +462,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates user access logging settings from a web portal.
     ///
     /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
@@ -557,11 +479,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Disassociates user settings from a web portal.
     ///
     /// - Parameter DisassociateUserSettingsInput : [no documentation found]
@@ -577,11 +496,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets browser settings.
     ///
     /// - Parameter GetBrowserSettingsInput : [no documentation found]
@@ -597,11 +513,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the identity provider.
     ///
     /// - Parameter GetIdentityProviderInput : [no documentation found]
@@ -617,11 +530,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the IP access settings.
     ///
     /// - Parameter GetIpAccessSettingsInput : [no documentation found]
@@ -637,11 +547,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the network settings.
     ///
     /// - Parameter GetNetworkSettingsInput : [no documentation found]
@@ -657,11 +564,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPortal` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the web portal.
     ///
     /// - Parameter GetPortalInput : [no documentation found]
@@ -677,11 +581,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getPortal(input: GetPortalInput) async throws -> GetPortalOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPortalServiceProviderMetadata` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the service provider metadata.
     ///
     /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
@@ -697,11 +598,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the trust store.
     ///
     /// - Parameter GetTrustStoreInput : [no documentation found]
@@ -717,11 +615,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTrustStoreCertificate` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the trust store certificate.
     ///
     /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
@@ -737,11 +632,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets user access logging settings.
     ///
     /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
@@ -757,11 +649,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets user settings.
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
@@ -777,11 +666,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of browser settings.
     ///
     /// - Parameter ListBrowserSettingsInput : [no documentation found]
@@ -796,11 +682,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIdentityProviders` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of identity providers for a specific web portal.
     ///
     /// - Parameter ListIdentityProvidersInput : [no documentation found]
@@ -815,11 +698,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of IP access settings.
     ///
     /// - Parameter ListIpAccessSettingsInput : [no documentation found]
@@ -834,11 +714,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of network settings.
     ///
     /// - Parameter ListNetworkSettingsInput : [no documentation found]
@@ -853,11 +730,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPortals` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list or web portals.
     ///
     /// - Parameter ListPortalsInput : [no documentation found]
@@ -872,11 +746,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -892,11 +763,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTrustStoreCertificates` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of trust store certificates.
     ///
     /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
@@ -912,11 +780,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTrustStores` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of trust stores.
     ///
     /// - Parameter ListTrustStoresInput : [no documentation found]
@@ -931,11 +796,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of user access logging settings.
     ///
     /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
@@ -950,11 +812,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a list of user settings.
     ///
     /// - Parameter ListUserSettingsInput : [no documentation found]
@@ -969,11 +828,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Adds or overwrites one or more tags for the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -990,11 +846,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `TooManyTagsException` : There are too many tags.
     /// - `ValidationException` : There is a validation error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1010,11 +863,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBrowserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates browser settings.
     ///
     /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
@@ -1030,11 +880,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateIdentityProvider` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the identity provider.
     ///
     /// - Parameter UpdateIdentityProviderInput : [no documentation found]
@@ -1050,11 +897,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateIpAccessSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates IP access settings.
     ///
     /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
@@ -1070,11 +914,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateNetworkSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates network settings.
     ///
     /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
@@ -1090,11 +931,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePortal` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a web portal.
     ///
     /// - Parameter UpdatePortalInput : [no documentation found]
@@ -1111,11 +949,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTrustStore` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the trust store.
     ///
     /// - Parameter UpdateTrustStoreInput : [no documentation found]
@@ -1132,11 +967,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUserAccessLoggingSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the user access logging settings.
     ///
     /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
@@ -1152,11 +984,8 @@ public protocol WorkSpacesWebClientProtocol {
     /// - `ThrottlingException` : There is a throttling error.
     /// - `ValidationException` : There is a validation error.
     func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUserSettings` operation on the `AWSErmineControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the user settings.
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]

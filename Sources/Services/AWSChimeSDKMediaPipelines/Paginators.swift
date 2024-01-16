@@ -12,11 +12,7 @@ extension ChimeSDKMediaPipelinesClient {
     ///     - input: A `[ListMediaCapturePipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaCapturePipelinesOutput`
     public func listMediaCapturePipelinesPaginated(input: ListMediaCapturePipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(input: input, inputKey: \ListMediaCapturePipelinesInput.nextToken, outputKey: \ListMediaCapturePipelinesOutput.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaCapturePipelines(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension ChimeSDKMediaPipelinesClient {
     ///     - input: A `[ListMediaInsightsPipelineConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaInsightsPipelineConfigurationsOutput`
     public func listMediaInsightsPipelineConfigurationsPaginated(input: ListMediaInsightsPipelineConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput>(input: input, inputKey: \ListMediaInsightsPipelineConfigurationsInput.nextToken, outputKey: \ListMediaInsightsPipelineConfigurationsOutput.nextToken, paginationFunction: self.listMediaInsightsPipelineConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaInsightsPipelineConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -62,11 +54,7 @@ extension ChimeSDKMediaPipelinesClient {
     ///     - input: A `[ListMediaPipelineKinesisVideoStreamPoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelineKinesisVideoStreamPoolsOutput`
     public func listMediaPipelineKinesisVideoStreamPoolsPaginated(input: ListMediaPipelineKinesisVideoStreamPoolsInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput>(input: input, inputKey: \ListMediaPipelineKinesisVideoStreamPoolsInput.nextToken, outputKey: \ListMediaPipelineKinesisVideoStreamPoolsOutput.nextToken, paginationFunction: self.listMediaPipelineKinesisVideoStreamPools(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaPipelineKinesisVideoStreamPools(input:))
->>>>>>> main
     }
 }
 
@@ -87,11 +75,7 @@ extension ChimeSDKMediaPipelinesClient {
     ///     - input: A `[ListMediaPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelinesOutput`
     public func listMediaPipelinesPaginated(input: ListMediaPipelinesInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutput>(input: input, inputKey: \ListMediaPipelinesInput.nextToken, outputKey: \ListMediaPipelinesOutput.nextToken, paginationFunction: self.listMediaPipelines(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMediaPipelinesInput, ListMediaPipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMediaPipelines(input:))
->>>>>>> main
     }
 }
 

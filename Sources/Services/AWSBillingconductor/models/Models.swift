@@ -1928,46 +1928,6 @@ extension CreateCustomLineItemOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateCustomLineItemOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCustomLineItemOutputBody = try responseDecoder.decode(responseBody: data)
-            self.arn = output.arn
-        } else {
-            self.arn = nil
-        }
-    }
-}
-
-public struct CreateCustomLineItemOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the created custom line item.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    )
-    {
-        self.arn = arn
-    }
-}
-
-struct CreateCustomLineItemOutputBody: Swift.Equatable {
-    let arn: Swift.String?
-}
-
-extension CreateCustomLineItemOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case arn = "Arn"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
-        arn = arnDecoded
-    }
-}
-
 enum CreateCustomLineItemOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3296,11 +3256,7 @@ extension DeleteCustomLineItemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteCustomLineItemOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Then ARN of the deleted custom line item.
-=======
     /// The ARN of the deleted custom line item.
->>>>>>> main
     public var arn: Swift.String?
 
     public init(

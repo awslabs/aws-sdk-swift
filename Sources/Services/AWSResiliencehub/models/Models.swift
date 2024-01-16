@@ -10260,7 +10260,7 @@ extension ResiliencehubClientTypes {
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
         /// The name of the resource.
         public var resourceName: Swift.String?
-        /// Type of resource.
+        /// The type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
         /// Type of input source.

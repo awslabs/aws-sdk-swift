@@ -12,11 +12,7 @@ extension SFNClient {
     ///     - input: A `[GetExecutionHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetExecutionHistoryOutput`
     public func getExecutionHistoryPaginated(input: GetExecutionHistoryInput) -> ClientRuntime.PaginatorSequence<GetExecutionHistoryInput, GetExecutionHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetExecutionHistoryInput, GetExecutionHistoryOutput>(input: input, inputKey: \GetExecutionHistoryInput.nextToken, outputKey: \GetExecutionHistoryOutput.nextToken, paginationFunction: self.getExecutionHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetExecutionHistoryInput, GetExecutionHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getExecutionHistory(input:))
->>>>>>> main
     }
 }
 
@@ -31,11 +27,7 @@ extension GetExecutionHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetExecutionHistoryInput, Output == GetExecutionHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetExecutionHistoryInput, OperationStackOutput == GetExecutionHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getExecutionHistoryPaginated`
     /// to access the nested member `[SFNClientTypes.HistoryEvent]`
     /// - Returns: `[SFNClientTypes.HistoryEvent]`
@@ -53,11 +45,7 @@ extension SFNClient {
     ///     - input: A `[ListActivitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActivitiesOutput`
     public func listActivitiesPaginated(input: ListActivitiesInput) -> ClientRuntime.PaginatorSequence<ListActivitiesInput, ListActivitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListActivitiesInput, ListActivitiesOutput>(input: input, inputKey: \ListActivitiesInput.nextToken, outputKey: \ListActivitiesOutput.nextToken, paginationFunction: self.listActivities(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListActivitiesInput, ListActivitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActivities(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension ListActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListActivitiesInput, Output == ListActivitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListActivitiesInput, OperationStackOutput == ListActivitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listActivitiesPaginated`
     /// to access the nested member `[SFNClientTypes.ActivityListItem]`
     /// - Returns: `[SFNClientTypes.ActivityListItem]`
@@ -91,11 +75,7 @@ extension SFNClient {
     ///     - input: A `[ListExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExecutionsOutput`
     public func listExecutionsPaginated(input: ListExecutionsInput) -> ClientRuntime.PaginatorSequence<ListExecutionsInput, ListExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExecutionsInput, ListExecutionsOutput>(input: input, inputKey: \ListExecutionsInput.nextToken, outputKey: \ListExecutionsOutput.nextToken, paginationFunction: self.listExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExecutionsInput, ListExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -111,11 +91,7 @@ extension ListExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListExecutionsInput, Output == ListExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListExecutionsInput, OperationStackOutput == ListExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listExecutionsPaginated`
     /// to access the nested member `[SFNClientTypes.ExecutionListItem]`
     /// - Returns: `[SFNClientTypes.ExecutionListItem]`
@@ -133,11 +109,7 @@ extension SFNClient {
     ///     - input: A `[ListMapRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMapRunsOutput`
     public func listMapRunsPaginated(input: ListMapRunsInput) -> ClientRuntime.PaginatorSequence<ListMapRunsInput, ListMapRunsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMapRunsInput, ListMapRunsOutput>(input: input, inputKey: \ListMapRunsInput.nextToken, outputKey: \ListMapRunsOutput.nextToken, paginationFunction: self.listMapRuns(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMapRunsInput, ListMapRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMapRuns(input:))
->>>>>>> main
     }
 }
 
@@ -150,11 +122,7 @@ extension ListMapRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMapRunsInput, Output == ListMapRunsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMapRunsInput, OperationStackOutput == ListMapRunsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMapRunsPaginated`
     /// to access the nested member `[SFNClientTypes.MapRunListItem]`
     /// - Returns: `[SFNClientTypes.MapRunListItem]`
@@ -172,11 +140,7 @@ extension SFNClient {
     ///     - input: A `[ListStateMachinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStateMachinesOutput`
     public func listStateMachinesPaginated(input: ListStateMachinesInput) -> ClientRuntime.PaginatorSequence<ListStateMachinesInput, ListStateMachinesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStateMachinesInput, ListStateMachinesOutput>(input: input, inputKey: \ListStateMachinesInput.nextToken, outputKey: \ListStateMachinesOutput.nextToken, paginationFunction: self.listStateMachines(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStateMachinesInput, ListStateMachinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStateMachines(input:))
->>>>>>> main
     }
 }
 
@@ -188,11 +152,7 @@ extension ListStateMachinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListStateMachinesInput, Output == ListStateMachinesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListStateMachinesInput, OperationStackOutput == ListStateMachinesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStateMachinesPaginated`
     /// to access the nested member `[SFNClientTypes.StateMachineListItem]`
     /// - Returns: `[SFNClientTypes.StateMachineListItem]`

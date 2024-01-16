@@ -21,11 +21,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableRegion` operation on the `Account` service.
     ///
->>>>>>> main
     /// Disables (opts-out) a particular Region for an account.
     ///
     /// - Parameter DisableRegionInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableRegion` operation on the `Account` service.
     ///
->>>>>>> main
     /// Enables (opts-in) a particular Region for an account.
     ///
     /// - Parameter EnableRegionInput : [no documentation found]
@@ -61,11 +55,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAlternateContact` operation on the `Account` service.
     ///
->>>>>>> main
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
     /// - Parameter GetAlternateContactInput : [no documentation found]
@@ -81,11 +72,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetContactInformation` operation on the `Account` service.
     ///
->>>>>>> main
     /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
     /// - Parameter GetContactInformationInput : [no documentation found]
@@ -101,11 +89,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRegionOptStatus` operation on the `Account` service.
     ///
->>>>>>> main
     /// Retrieves the opt-in status of a particular Region.
     ///
     /// - Parameter GetRegionOptStatusInput : [no documentation found]
@@ -120,11 +105,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRegions` operation on the `Account` service.
     ///
->>>>>>> main
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter.
     ///
     /// - Parameter ListRegionsInput : [no documentation found]
@@ -139,11 +121,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAlternateContact` operation on the `Account` service.
     ///
->>>>>>> main
     /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
     /// - Parameter PutAlternateContactInput : [no documentation found]
@@ -158,11 +137,8 @@ public protocol AccountClientProtocol {
     /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
     /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutContactInformation` operation on the `Account` service.
     ///
->>>>>>> main
     /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
     /// - Parameter PutContactInformationInput : [no documentation found]

@@ -29521,10 +29521,7 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         case clusterName = "ClusterName"
         case currentVersion = "CurrentVersion"
         case encryptionInfo = "EncryptionInfo"
-<<<<<<< HEAD
-=======
         case enhancedMonitoring = "EnhancedMonitoring"
->>>>>>> main
         case numberOfBrokerNodes = "NumberOfBrokerNodes"
     }
 
@@ -29542,12 +29539,9 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         if let encryptionInfo = self.encryptionInfo {
             try encodeContainer.encode(encryptionInfo, forKey: .encryptionInfo)
         }
-<<<<<<< HEAD
-=======
         if let enhancedMonitoring = self.enhancedMonitoring {
             try encodeContainer.encode(enhancedMonitoring, forKey: .enhancedMonitoring)
         }
->>>>>>> main
         if let numberOfBrokerNodes = self.numberOfBrokerNodes {
             try encodeContainer.encode(numberOfBrokerNodes, forKey: .numberOfBrokerNodes)
         }
@@ -29565,38 +29559,24 @@ extension SecurityHubClientTypes.AwsMskClusterClusterInfoDetails: Swift.Codable 
         clusterName = clusterNameDecoded
         let clientAuthenticationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails.self, forKey: .clientAuthentication)
         clientAuthentication = clientAuthenticationDecoded
-<<<<<<< HEAD
-=======
         let enhancedMonitoringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enhancedMonitoring)
         enhancedMonitoring = enhancedMonitoringDecoded
->>>>>>> main
     }
 }
 
 extension SecurityHubClientTypes {
-<<<<<<< HEAD
-    /// Provide details about an Amazon MSK cluster.
-=======
     /// Provide details about an Amazon Managed Streaming for Apache Kafka (Amazon MSK) cluster.
->>>>>>> main
     public struct AwsMskClusterClusterInfoDetails: Swift.Equatable {
         /// Provides information for different modes of client authentication.
         public var clientAuthentication: SecurityHubClientTypes.AwsMskClusterClusterInfoClientAuthenticationDetails?
         /// The name of the cluster.
         public var clusterName: Swift.String?
-<<<<<<< HEAD
-        /// The current version of the MSK cluster.
-        public var currentVersion: Swift.String?
-        /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
-        public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
-=======
         /// The current version of the cluster.
         public var currentVersion: Swift.String?
         /// Includes encryption-related information, such as the KMS key used for encrypting data at rest and whether you want Amazon MSK to encrypt your data in transit.
         public var encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails?
         /// Specifies the level of monitoring for the cluster.
         public var enhancedMonitoring: Swift.String?
->>>>>>> main
         /// The number of broker nodes in the cluster.
         public var numberOfBrokerNodes: Swift.Int?
 
@@ -29605,10 +29585,7 @@ extension SecurityHubClientTypes {
             clusterName: Swift.String? = nil,
             currentVersion: Swift.String? = nil,
             encryptionInfo: SecurityHubClientTypes.AwsMskClusterClusterInfoEncryptionInfoDetails? = nil,
-<<<<<<< HEAD
-=======
             enhancedMonitoring: Swift.String? = nil,
->>>>>>> main
             numberOfBrokerNodes: Swift.Int? = nil
         )
         {
@@ -29616,10 +29593,7 @@ extension SecurityHubClientTypes {
             self.clusterName = clusterName
             self.currentVersion = currentVersion
             self.encryptionInfo = encryptionInfo
-<<<<<<< HEAD
-=======
             self.enhancedMonitoring = enhancedMonitoring
->>>>>>> main
             self.numberOfBrokerNodes = numberOfBrokerNodes
         }
     }
@@ -36084,8 +36058,6 @@ extension SecurityHubClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension SecurityHubClientTypes.AwsS3AccessPointDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointArn = "AccessPointArn"
@@ -36226,7 +36198,6 @@ extension SecurityHubClientTypes {
 
 }
 
->>>>>>> main
 extension SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blockPublicAcls = "BlockPublicAcls"
@@ -44861,10 +44832,7 @@ enum BatchDisableStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -44988,10 +44956,7 @@ enum BatchEnableStandardsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -45145,8 +45110,6 @@ enum BatchGetAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension BatchGetConfigurationPolicyAssociationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationPolicyAssociationIdentifiers = "ConfigurationPolicyAssociationIdentifiers"
@@ -45291,7 +45254,6 @@ enum BatchGetConfigurationPolicyAssociationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
->>>>>>> main
 extension BatchGetSecurityControlsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case securityControlIds = "SecurityControlIds"
@@ -46368,10 +46330,7 @@ enum BatchUpdateStandardsControlAssociationsOutputError: ClientRuntime.HttpRespo
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -46381,8 +46340,6 @@ enum BatchUpdateStandardsControlAssociationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SecurityHubClientTypes.BooleanConfigurationOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValue = "DefaultValue"
@@ -46418,7 +46375,6 @@ extension SecurityHubClientTypes {
 
 }
 
->>>>>>> main
 extension SecurityHubClientTypes.BooleanFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case value = "Value"
@@ -47969,8 +47925,6 @@ enum CreateAutomationRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateConfigurationPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationPolicy = "ConfigurationPolicy"
@@ -48184,7 +48138,6 @@ enum CreateConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension CreateFindingAggregatorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case regionLinkingMode = "RegionLinkingMode"
@@ -48601,10 +48554,7 @@ enum CreateMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -49160,8 +49110,6 @@ extension DeleteActionTargetOutput: ClientRuntime.HttpResponseBinding {
             self.actionTargetArn = output.actionTargetArn
         } else {
             self.actionTargetArn = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -49213,19 +49161,13 @@ extension DeleteConfigurationPolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let identifier = identifier else {
             return nil
->>>>>>> main
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
     }
 }
 
-<<<<<<< HEAD
-public struct DeleteActionTargetOutput: Swift.Equatable {
-    /// The ARN of the custom action target that was deleted.
-=======
 public struct DeleteConfigurationPolicyInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
->>>>>>> main
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -49237,21 +49179,10 @@ public struct DeleteConfigurationPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DeleteActionTargetOutputBody: Swift.Equatable {
-    let actionTargetArn: Swift.String?
-}
-
-extension DeleteActionTargetOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case actionTargetArn = "ActionTargetArn"
-    }
-=======
 struct DeleteConfigurationPolicyInputBody: Swift.Equatable {
 }
 
 extension DeleteConfigurationPolicyInputBody: Swift.Decodable {
->>>>>>> main
 
     public init(from decoder: Swift.Decoder) throws {
     }
@@ -49278,20 +49209,6 @@ enum DeleteConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DeleteActionTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidAccessException": return try await InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -50000,31 +49917,17 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
             self.autoEnable = output.autoEnable
             self.autoEnableStandards = output.autoEnableStandards
             self.memberAccountLimitReached = output.memberAccountLimitReached
-<<<<<<< HEAD
-=======
             self.organizationConfiguration = output.organizationConfiguration
->>>>>>> main
         } else {
             self.autoEnable = nil
             self.autoEnableStandards = nil
             self.memberAccountLimitReached = nil
-<<<<<<< HEAD
-=======
             self.organizationConfiguration = nil
->>>>>>> main
         }
     }
 }
 
 public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Whether to automatically enable Security Hub for new accounts in the organization. If set to true, then Security Hub is enabled for new accounts. If set to false, then new accounts are not added automatically.
-    public var autoEnable: Swift.Bool?
-    /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) for new member accounts in the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts.
-    public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
-    /// Whether the maximum number of allowed member accounts are already associated with the Security Hub administrator account.
-    public var memberAccountLimitReached: Swift.Bool?
-=======
     /// Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
     public var autoEnable: Swift.Bool?
     /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) in new member accounts when they join the organization. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. The default value of this parameter is equal to DEFAULT. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
@@ -50033,26 +49936,18 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     public var memberAccountLimitReached: Swift.Bool?
     /// Provides information about the way an organization is configured in Security Hub.
     public var organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
->>>>>>> main
 
     public init(
         autoEnable: Swift.Bool? = nil,
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil,
-<<<<<<< HEAD
-        memberAccountLimitReached: Swift.Bool? = nil
-=======
         memberAccountLimitReached: Swift.Bool? = nil,
         organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration? = nil
->>>>>>> main
     )
     {
         self.autoEnable = autoEnable
         self.autoEnableStandards = autoEnableStandards
         self.memberAccountLimitReached = memberAccountLimitReached
-<<<<<<< HEAD
-=======
         self.organizationConfiguration = organizationConfiguration
->>>>>>> main
     }
 }
 
@@ -50060,10 +49955,7 @@ struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
     let autoEnable: Swift.Bool?
     let memberAccountLimitReached: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
-<<<<<<< HEAD
-=======
     let organizationConfiguration: SecurityHubClientTypes.OrganizationConfiguration?
->>>>>>> main
 }
 
 extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
@@ -50071,10 +49963,7 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
         case autoEnable = "AutoEnable"
         case autoEnableStandards = "AutoEnableStandards"
         case memberAccountLimitReached = "MemberAccountLimitReached"
-<<<<<<< HEAD
-=======
         case organizationConfiguration = "OrganizationConfiguration"
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -50085,11 +49974,8 @@ extension DescribeOrganizationConfigurationOutputBody: Swift.Decodable {
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let autoEnableStandardsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutoEnableStandards.self, forKey: .autoEnableStandards)
         autoEnableStandards = autoEnableStandardsDecoded
-<<<<<<< HEAD
-=======
         let organizationConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.OrganizationConfiguration.self, forKey: .organizationConfiguration)
         organizationConfiguration = organizationConfigurationDecoded
->>>>>>> main
     }
 }
 
@@ -51230,8 +51116,6 @@ enum EnableSecurityHubOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SecurityHubClientTypes.EnumConfigurationOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValues = "AllowedValues"
@@ -51368,7 +51252,6 @@ extension SecurityHubClientTypes {
 
 }
 
->>>>>>> main
 extension SecurityHubClientTypes.FilePaths: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileName = "FileName"
@@ -52289,8 +52172,6 @@ enum GetAdministratorAccountOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetConfigurationPolicyAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case target = "Target"
@@ -52602,7 +52483,6 @@ enum GetConfigurationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetEnabledStandardsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -53760,8 +53640,6 @@ enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetSecurityControlDefinitionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -53861,7 +53739,6 @@ enum GetSecurityControlDefinitionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension SecurityHubClientTypes.IcmpTypeCode: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
@@ -55087,8 +54964,6 @@ enum ListAutomationRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListConfigurationPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -55356,7 +55231,6 @@ enum ListConfigurationPolicyAssociationsOutputError: ClientRuntime.HttpResponseE
     }
 }
 
->>>>>>> main
 extension ListEnabledProductsForImportInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -57330,11 +57204,6 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         if let eq = self.eq {
             try encodeContainer.encode(eq, forKey: .eq)
         }
-<<<<<<< HEAD
-        if let gte = self.gte {
-            try encodeContainer.encode(gte, forKey: .gte)
-        }
-=======
         if let gt = self.gt {
             try encodeContainer.encode(gt, forKey: .gt)
         }
@@ -57344,7 +57213,6 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         if let lt = self.lt {
             try encodeContainer.encode(lt, forKey: .lt)
         }
->>>>>>> main
         if let lte = self.lte {
             try encodeContainer.encode(lte, forKey: .lte)
         }
@@ -57356,13 +57224,10 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         gte = gteDecoded
         let lteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lte)
         lte = lteDecoded
-<<<<<<< HEAD
-=======
         let gtDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .gt)
         gt = gtDecoded
         let ltDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lt)
         lt = ltDecoded
->>>>>>> main
         let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq)
         eq = eqDecoded
     }
@@ -57373,29 +57238,20 @@ extension SecurityHubClientTypes {
     public struct NumberFilter: Swift.Equatable {
         /// The equal-to condition to be applied to a single field when querying for findings.
         public var eq: Swift.Double?
-<<<<<<< HEAD
-        /// The greater-than-equal condition to be applied to a single field when querying for findings.
-        public var gte: Swift.Double?
-=======
         /// The greater-than condition to be applied to a single field when querying for findings.
         public var gt: Swift.Double?
         /// The greater-than-equal condition to be applied to a single field when querying for findings.
         public var gte: Swift.Double?
         /// The less-than condition to be applied to a single field when querying for findings.
         public var lt: Swift.Double?
->>>>>>> main
         /// The less-than-equal condition to be applied to a single field when querying for findings.
         public var lte: Swift.Double?
 
         public init(
             eq: Swift.Double? = nil,
-<<<<<<< HEAD
-            gte: Swift.Double? = nil,
-=======
             gt: Swift.Double? = nil,
             gte: Swift.Double? = nil,
             lt: Swift.Double? = nil,
->>>>>>> main
             lte: Swift.Double? = nil
         )
         {
@@ -59237,10 +59093,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsRdsEventSubscription = "AwsRdsEventSubscription"
         case awsRedshiftCluster = "AwsRedshiftCluster"
         case awsRoute53HostedZone = "AwsRoute53HostedZone"
-<<<<<<< HEAD
-=======
         case awsS3AccessPoint = "AwsS3AccessPoint"
->>>>>>> main
         case awsS3AccountPublicAccessBlock = "AwsS3AccountPublicAccessBlock"
         case awsS3Bucket = "AwsS3Bucket"
         case awsS3Object = "AwsS3Object"
@@ -59495,12 +59348,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         if let awsRoute53HostedZone = self.awsRoute53HostedZone {
             try encodeContainer.encode(awsRoute53HostedZone, forKey: .awsRoute53HostedZone)
         }
-<<<<<<< HEAD
-=======
         if let awsS3AccessPoint = self.awsS3AccessPoint {
             try encodeContainer.encode(awsS3AccessPoint, forKey: .awsS3AccessPoint)
         }
->>>>>>> main
         if let awsS3AccountPublicAccessBlock = self.awsS3AccountPublicAccessBlock {
             try encodeContainer.encode(awsS3AccountPublicAccessBlock, forKey: .awsS3AccountPublicAccessBlock)
         }
@@ -59777,13 +59627,10 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsRoute53HostedZone = awsRoute53HostedZoneDecoded
         let awsMskClusterDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsMskClusterDetails.self, forKey: .awsMskCluster)
         awsMskCluster = awsMskClusterDecoded
-<<<<<<< HEAD
-=======
         let awsS3AccessPointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3AccessPointDetails.self, forKey: .awsS3AccessPoint)
         awsS3AccessPoint = awsS3AccessPointDecoded
         let awsEc2ClientVpnEndpointDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.self, forKey: .awsEc2ClientVpnEndpoint)
         awsEc2ClientVpnEndpoint = awsEc2ClientVpnEndpointDecoded
->>>>>>> main
     }
 }
 
@@ -59942,11 +59789,8 @@ extension SecurityHubClientTypes {
         public var awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails?
         /// Provides details about an Amazon Route 53 hosted zone, including the four name servers assigned to the hosted zone. A hosted zone represents a collection of records that can be managed together, belonging to a single parent domain name.
         public var awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails?
-<<<<<<< HEAD
-=======
         /// Provides details about an Amazon Simple Storage Service (Amazon S3) access point. S3 access points are named network endpoints that are attached to S3 buckets that you can use to perform S3 object operations.
         public var awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails?
->>>>>>> main
         /// Details about the Amazon S3 Public Access Block configuration for an account.
         public var awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails?
         /// Details about an S3 bucket related to a finding.
@@ -60073,10 +59917,7 @@ extension SecurityHubClientTypes {
             awsRdsEventSubscription: SecurityHubClientTypes.AwsRdsEventSubscriptionDetails? = nil,
             awsRedshiftCluster: SecurityHubClientTypes.AwsRedshiftClusterDetails? = nil,
             awsRoute53HostedZone: SecurityHubClientTypes.AwsRoute53HostedZoneDetails? = nil,
-<<<<<<< HEAD
-=======
             awsS3AccessPoint: SecurityHubClientTypes.AwsS3AccessPointDetails? = nil,
->>>>>>> main
             awsS3AccountPublicAccessBlock: SecurityHubClientTypes.AwsS3AccountPublicAccessBlockDetails? = nil,
             awsS3Bucket: SecurityHubClientTypes.AwsS3BucketDetails? = nil,
             awsS3Object: SecurityHubClientTypes.AwsS3ObjectDetails? = nil,
@@ -60177,10 +60018,7 @@ extension SecurityHubClientTypes {
             self.awsRdsEventSubscription = awsRdsEventSubscription
             self.awsRedshiftCluster = awsRedshiftCluster
             self.awsRoute53HostedZone = awsRoute53HostedZone
-<<<<<<< HEAD
-=======
             self.awsS3AccessPoint = awsS3AccessPoint
->>>>>>> main
             self.awsS3AccountPublicAccessBlock = awsS3AccountPublicAccessBlock
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
@@ -62530,11 +62368,7 @@ extension SecurityHubClientTypes {
         public var normalized: Swift.Int?
         /// The native severity from the finding product that generated the finding.
         public var original: Swift.String?
-<<<<<<< HEAD
-        /// Deprecated. This attribute is being deprecated. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
-=======
         /// Deprecated. This attribute isn't included in findings. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
->>>>>>> main
         public var product: Swift.Double?
 
         public init(
@@ -64610,8 +64444,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SecurityHubClientTypes.Target: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountid = "AccountId"
@@ -64701,7 +64533,6 @@ extension SecurityHubClientTypes {
     }
 }
 
->>>>>>> main
 extension SecurityHubClientTypes.Threat: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filePaths = "FilePaths"
@@ -66265,8 +66096,6 @@ enum UpdateOrganizationConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateSecurityControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastUpdateReason = "LastUpdateReason"
@@ -66379,7 +66208,6 @@ enum UpdateSecurityControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdateSecurityHubConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnableControls = "AutoEnableControls"
@@ -66557,8 +66385,6 @@ enum UpdateStandardsControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SecurityHubClientTypes {
     public enum UpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ready
@@ -66591,7 +66417,6 @@ extension SecurityHubClientTypes {
     }
 }
 
->>>>>>> main
 extension SecurityHubClientTypes {
     public enum VerificationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case benignPositive

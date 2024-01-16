@@ -12,11 +12,7 @@ extension PanoramaClient {
     ///     - input: A `[ListApplicationInstanceDependenciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceDependenciesOutput`
     public func listApplicationInstanceDependenciesPaginated(input: ListApplicationInstanceDependenciesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput>(input: input, inputKey: \ListApplicationInstanceDependenciesInput.nextToken, outputKey: \ListApplicationInstanceDependenciesOutput.nextToken, paginationFunction: self.listApplicationInstanceDependencies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationInstanceDependencies(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension PanoramaClient {
     ///     - input: A `[ListApplicationInstanceNodeInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstanceNodeInstancesOutput`
     public func listApplicationInstanceNodeInstancesPaginated(input: ListApplicationInstanceNodeInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput>(input: input, inputKey: \ListApplicationInstanceNodeInstancesInput.nextToken, outputKey: \ListApplicationInstanceNodeInstancesOutput.nextToken, paginationFunction: self.listApplicationInstanceNodeInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationInstanceNodeInstances(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension PanoramaClient {
     ///     - input: A `[ListApplicationInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationInstancesOutput`
     public func listApplicationInstancesPaginated(input: ListApplicationInstancesInput) -> ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutput>(input: input, inputKey: \ListApplicationInstancesInput.nextToken, outputKey: \ListApplicationInstancesOutput.nextToken, paginationFunction: self.listApplicationInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationInstancesInput, ListApplicationInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationInstances(input:))
->>>>>>> main
     }
 }
 
@@ -91,11 +79,7 @@ extension PanoramaClient {
     ///     - input: A `[ListDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutput`
     public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutput.nextToken, paginationFunction: self.listDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevices(input:))
->>>>>>> main
     }
 }
 
@@ -120,11 +104,7 @@ extension PanoramaClient {
     ///     - input: A `[ListDevicesJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesJobsOutput`
     public func listDevicesJobsPaginated(input: ListDevicesJobsInput) -> ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutput>(input: input, inputKey: \ListDevicesJobsInput.nextToken, outputKey: \ListDevicesJobsOutput.nextToken, paginationFunction: self.listDevicesJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDevicesJobsInput, ListDevicesJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevicesJobs(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +126,7 @@ extension PanoramaClient {
     ///     - input: A `[ListNodeFromTemplateJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNodeFromTemplateJobsOutput`
     public func listNodeFromTemplateJobsPaginated(input: ListNodeFromTemplateJobsInput) -> ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput>(input: input, inputKey: \ListNodeFromTemplateJobsInput.nextToken, outputKey: \ListNodeFromTemplateJobsOutput.nextToken, paginationFunction: self.listNodeFromTemplateJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodeFromTemplateJobs(input:))
->>>>>>> main
     }
 }
 
@@ -171,11 +147,7 @@ extension PanoramaClient {
     ///     - input: A `[ListNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
     public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodes(input:))
->>>>>>> main
     }
 }
 
@@ -201,11 +173,7 @@ extension PanoramaClient {
     ///     - input: A `[ListPackageImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackageImportJobsOutput`
     public func listPackageImportJobsPaginated(input: ListPackageImportJobsInput) -> ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutput>(input: input, inputKey: \ListPackageImportJobsInput.nextToken, outputKey: \ListPackageImportJobsOutput.nextToken, paginationFunction: self.listPackageImportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPackageImportJobsInput, ListPackageImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackageImportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -226,11 +194,7 @@ extension PanoramaClient {
     ///     - input: A `[ListPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesOutput`
     public func listPackagesPaginated(input: ListPackagesInput) -> ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \ListPackagesInput.nextToken, outputKey: \ListPackagesOutput.nextToken, paginationFunction: self.listPackages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPackagesInput, ListPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPackages(input:))
->>>>>>> main
     }
 }
 

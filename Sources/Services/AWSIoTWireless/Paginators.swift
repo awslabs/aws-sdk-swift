@@ -12,11 +12,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListDestinationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDestinationsOutput`
     public func listDestinationsPaginated(input: ListDestinationsInput) -> ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutput>(input: input, inputKey: \ListDestinationsInput.nextToken, outputKey: \ListDestinationsOutput.nextToken, paginationFunction: self.listDestinations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDestinationsInput, ListDestinationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDestinations(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListDeviceProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceProfilesOutput`
     public func listDeviceProfilesPaginated(input: ListDeviceProfilesInput) -> ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutput>(input: input, inputKey: \ListDeviceProfilesInput.nextToken, outputKey: \ListDeviceProfilesOutput.nextToken, paginationFunction: self.listDeviceProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeviceProfilesInput, ListDeviceProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeviceProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -63,11 +55,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListFuotaTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFuotaTasksOutput`
     public func listFuotaTasksPaginated(input: ListFuotaTasksInput) -> ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutput>(input: input, inputKey: \ListFuotaTasksInput.nextToken, outputKey: \ListFuotaTasksOutput.nextToken, paginationFunction: self.listFuotaTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFuotaTasksInput, ListFuotaTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFuotaTasks(input:))
->>>>>>> main
     }
 }
 
@@ -88,11 +76,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListMulticastGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsOutput`
     public func listMulticastGroupsPaginated(input: ListMulticastGroupsInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutput>(input: input, inputKey: \ListMulticastGroupsInput.nextToken, outputKey: \ListMulticastGroupsOutput.nextToken, paginationFunction: self.listMulticastGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMulticastGroupsInput, ListMulticastGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMulticastGroups(input:))
->>>>>>> main
     }
 }
 
@@ -113,11 +97,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListMulticastGroupsByFuotaTaskInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMulticastGroupsByFuotaTaskOutput`
     public func listMulticastGroupsByFuotaTaskPaginated(input: ListMulticastGroupsByFuotaTaskInput) -> ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(input: input, inputKey: \ListMulticastGroupsByFuotaTaskInput.nextToken, outputKey: \ListMulticastGroupsByFuotaTaskOutput.nextToken, paginationFunction: self.listMulticastGroupsByFuotaTask(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMulticastGroupsByFuotaTask(input:))
->>>>>>> main
     }
 }
 
@@ -139,11 +119,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListNetworkAnalyzerConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworkAnalyzerConfigurationsOutput`
     public func listNetworkAnalyzerConfigurationsPaginated(input: ListNetworkAnalyzerConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(input: input, inputKey: \ListNetworkAnalyzerConfigurationsInput.nextToken, outputKey: \ListNetworkAnalyzerConfigurationsOutput.nextToken, paginationFunction: self.listNetworkAnalyzerConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNetworkAnalyzerConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -164,11 +140,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListPositionConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPositionConfigurationsOutput`
     public func listPositionConfigurationsPaginated(input: ListPositionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(input: input, inputKey: \ListPositionConfigurationsInput.nextToken, outputKey: \ListPositionConfigurationsOutput.nextToken, paginationFunction: self.listPositionConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPositionConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -190,11 +162,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListQueuedMessagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueuedMessagesOutput`
     public func listQueuedMessagesPaginated(input: ListQueuedMessagesInput) -> ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutput>(input: input, inputKey: \ListQueuedMessagesInput.nextToken, outputKey: \ListQueuedMessagesOutput.nextToken, paginationFunction: self.listQueuedMessages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListQueuedMessagesInput, ListQueuedMessagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueuedMessages(input:))
->>>>>>> main
     }
 }
 
@@ -217,11 +185,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListServiceProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServiceProfilesOutput`
     public func listServiceProfilesPaginated(input: ListServiceProfilesInput) -> ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutput>(input: input, inputKey: \ListServiceProfilesInput.nextToken, outputKey: \ListServiceProfilesOutput.nextToken, paginationFunction: self.listServiceProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServiceProfilesInput, ListServiceProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -242,11 +206,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListWirelessDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessDevicesOutput`
     public func listWirelessDevicesPaginated(input: ListWirelessDevicesInput) -> ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutput>(input: input, inputKey: \ListWirelessDevicesInput.nextToken, outputKey: \ListWirelessDevicesOutput.nextToken, paginationFunction: self.listWirelessDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWirelessDevicesInput, ListWirelessDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWirelessDevices(input:))
->>>>>>> main
     }
 }
 
@@ -273,11 +233,7 @@ extension IoTWirelessClient {
     ///     - input: A `[ListWirelessGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWirelessGatewaysOutput`
     public func listWirelessGatewaysPaginated(input: ListWirelessGatewaysInput) -> ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(input: input, inputKey: \ListWirelessGatewaysInput.nextToken, outputKey: \ListWirelessGatewaysOutput.nextToken, paginationFunction: self.listWirelessGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWirelessGateways(input:))
->>>>>>> main
     }
 }
 

@@ -12,11 +12,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListActionExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActionExecutionsOutput`
     public func listActionExecutionsPaginated(input: ListActionExecutionsInput) -> ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutput>(input: input, inputKey: \ListActionExecutionsInput.nextToken, outputKey: \ListActionExecutionsOutput.nextToken, paginationFunction: self.listActionExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListActionExecutionsInput, ListActionExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActionExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension ListActionExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListActionExecutionsInput, Output == ListActionExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListActionExecutionsInput, OperationStackOutput == ListActionExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listActionExecutionsPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ActionExecutionDetail]`
     /// - Returns: `[CodePipelineClientTypes.ActionExecutionDetail]`
@@ -52,11 +44,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListActionTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActionTypesOutput`
     public func listActionTypesPaginated(input: ListActionTypesInput) -> ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutput>(input: input, inputKey: \ListActionTypesInput.nextToken, outputKey: \ListActionTypesOutput.nextToken, paginationFunction: self.listActionTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListActionTypesInput, ListActionTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActionTypes(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension ListActionTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListActionTypesInput, Output == ListActionTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListActionTypesInput, OperationStackOutput == ListActionTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listActionTypesPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ActionType]`
     /// - Returns: `[CodePipelineClientTypes.ActionType]`
@@ -91,11 +75,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListPipelineExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionsOutput`
     public func listPipelineExecutionsPaginated(input: ListPipelineExecutionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \ListPipelineExecutionsInput.nextToken, outputKey: \ListPipelineExecutionsOutput.nextToken, paginationFunction: self.listPipelineExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output == ListPipelineExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelineExecutionsInput, OperationStackOutput == ListPipelineExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionsPaginated`
     /// to access the nested member `[CodePipelineClientTypes.PipelineExecutionSummary]`
     /// - Returns: `[CodePipelineClientTypes.PipelineExecutionSummary]`
@@ -130,11 +106,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
     public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutput.nextToken, paginationFunction: self.listPipelines(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelines(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +118,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelinesInput, OperationStackOutput == ListPipelinesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[CodePipelineClientTypes.PipelineSummary]`
     /// - Returns: `[CodePipelineClientTypes.PipelineSummary]`
@@ -168,11 +136,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -185,11 +149,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[CodePipelineClientTypes.Tag]`
     /// - Returns: `[CodePipelineClientTypes.Tag]`
@@ -207,11 +167,7 @@ extension CodePipelineClient {
     ///     - input: A `[ListWebhooksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWebhooksOutput`
     public func listWebhooksPaginated(input: ListWebhooksInput) -> ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutput>(input: input, inputKey: \ListWebhooksInput.nextToken, outputKey: \ListWebhooksOutput.nextToken, paginationFunction: self.listWebhooks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWebhooksInput, ListWebhooksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWebhooks(input:))
->>>>>>> main
     }
 }
 
@@ -223,11 +179,7 @@ extension ListWebhooksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWebhooksInput, Output == ListWebhooksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWebhooksInput, OperationStackOutput == ListWebhooksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWebhooksPaginated`
     /// to access the nested member `[CodePipelineClientTypes.ListWebhookItem]`
     /// - Returns: `[CodePipelineClientTypes.ListWebhookItem]`

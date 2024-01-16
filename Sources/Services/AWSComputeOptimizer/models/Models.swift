@@ -1357,8 +1357,6 @@ enum DescribeRecommendationExportJobsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case savingsEstimationMode
@@ -1439,7 +1437,6 @@ extension ComputeOptimizerClientTypes {
 
 }
 
->>>>>>> main
 extension ComputeOptimizerClientTypes.EBSFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -7252,11 +7249,6 @@ extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpRespons
             let output: GetEffectiveRecommendationPreferencesOutputBody = try responseDecoder.decode(responseBody: data)
             self.enhancedInfrastructureMetrics = output.enhancedInfrastructureMetrics
             self.externalMetricsPreference = output.externalMetricsPreference
-<<<<<<< HEAD
-        } else {
-            self.enhancedInfrastructureMetrics = nil
-            self.externalMetricsPreference = nil
-=======
             self.lookBackPeriod = output.lookBackPeriod
             self.preferredResources = output.preferredResources
             self.utilizationPreferences = output.utilizationPreferences
@@ -7266,7 +7258,6 @@ extension GetEffectiveRecommendationPreferencesOutput: ClientRuntime.HttpRespons
             self.lookBackPeriod = nil
             self.preferredResources = nil
             self.utilizationPreferences = nil
->>>>>>> main
         }
     }
 }
@@ -7276,12 +7267,6 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-<<<<<<< HEAD
-
-    public init(
-        enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics? = nil,
-        externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference? = nil
-=======
     /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
@@ -7295,41 +7280,31 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
         lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
         preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]? = nil,
         utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]? = nil
->>>>>>> main
     )
     {
         self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
         self.externalMetricsPreference = externalMetricsPreference
-<<<<<<< HEAD
-=======
         self.lookBackPeriod = lookBackPeriod
         self.preferredResources = preferredResources
         self.utilizationPreferences = utilizationPreferences
->>>>>>> main
     }
 }
 
 struct GetEffectiveRecommendationPreferencesOutputBody: Swift.Equatable {
     let enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     let externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-<<<<<<< HEAD
-=======
     let lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     let utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
     let preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
->>>>>>> main
 }
 
 extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enhancedInfrastructureMetrics
         case externalMetricsPreference
-<<<<<<< HEAD
-=======
         case lookBackPeriod
         case preferredResources
         case utilizationPreferences
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7338,8 +7313,6 @@ extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
         enhancedInfrastructureMetrics = enhancedInfrastructureMetricsDecoded
         let externalMetricsPreferenceDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricsPreference.self, forKey: .externalMetricsPreference)
         externalMetricsPreference = externalMetricsPreferenceDecoded
-<<<<<<< HEAD
-=======
         let lookBackPeriodDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LookBackPeriodPreference.self, forKey: .lookBackPeriod)
         lookBackPeriod = lookBackPeriodDecoded
         let utilizationPreferencesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.UtilizationPreference?].self, forKey: .utilizationPreferences)
@@ -7364,7 +7337,6 @@ extension GetEffectiveRecommendationPreferencesOutputBody: Swift.Decodable {
             }
         }
         preferredResources = preferredResourcesDecoded0
->>>>>>> main
     }
 }
 

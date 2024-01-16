@@ -12,11 +12,7 @@ extension CostandUsageReportClient {
     ///     - input: A `[DescribeReportDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReportDefinitionsOutput`
     public func describeReportDefinitionsPaginated(input: DescribeReportDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutput>(input: input, inputKey: \DescribeReportDefinitionsInput.nextToken, outputKey: \DescribeReportDefinitionsOutput.nextToken, paginationFunction: self.describeReportDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReportDefinitions(input:))
->>>>>>> main
     }
 }
 

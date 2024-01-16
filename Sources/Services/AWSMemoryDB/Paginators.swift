@@ -12,11 +12,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeACLsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeACLsOutput`
     public func describeACLsPaginated(input: DescribeACLsInput) -> ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutput>(input: input, inputKey: \DescribeACLsInput.nextToken, outputKey: \DescribeACLsOutput.nextToken, paginationFunction: self.describeACLs(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeACLsInput, DescribeACLsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeACLs(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeACLsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeACLsInput, Output == DescribeACLsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeACLsInput, OperationStackOutput == DescribeACLsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeACLsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ACL]`
     /// - Returns: `[MemoryDBClientTypes.ACL]`
@@ -51,11 +43,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutput`
     public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \DescribeClustersInput.nextToken, outputKey: \DescribeClustersOutput.nextToken, paginationFunction: self.describeClusters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeClusters(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension DescribeClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeClustersInput, Output == DescribeClustersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeClustersInput, OperationStackOutput == DescribeClustersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeClustersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Cluster]`
     /// - Returns: `[MemoryDBClientTypes.Cluster]`
@@ -91,11 +75,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineVersionsOutput`
     public func describeEngineVersionsPaginated(input: DescribeEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(input: input, inputKey: \DescribeEngineVersionsInput.nextToken, outputKey: \DescribeEngineVersionsOutput.nextToken, paginationFunction: self.describeEngineVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEngineVersionsInput, DescribeEngineVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEngineVersions(input:))
->>>>>>> main
     }
 }
 
@@ -110,11 +90,7 @@ extension DescribeEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEngineVersionsInput, Output == DescribeEngineVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEngineVersionsInput, OperationStackOutput == DescribeEngineVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineVersionsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.EngineVersionInfo]`
     /// - Returns: `[MemoryDBClientTypes.EngineVersionInfo]`
@@ -132,11 +108,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEvents(input:))
->>>>>>> main
     }
 }
 
@@ -153,11 +125,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Event]`
     /// - Returns: `[MemoryDBClientTypes.Event]`
@@ -175,11 +143,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeParameterGroupsOutput`
     public func describeParameterGroupsPaginated(input: DescribeParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutput>(input: input, inputKey: \DescribeParameterGroupsInput.nextToken, outputKey: \DescribeParameterGroupsOutput.nextToken, paginationFunction: self.describeParameterGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeParameterGroupsInput, DescribeParameterGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeParameterGroups(input:))
->>>>>>> main
     }
 }
 
@@ -192,11 +156,7 @@ extension DescribeParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeParameterGroupsInput, Output == DescribeParameterGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeParameterGroupsInput, OperationStackOutput == DescribeParameterGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeParameterGroupsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ParameterGroup]`
     /// - Returns: `[MemoryDBClientTypes.ParameterGroup]`
@@ -214,11 +174,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutput`
     public func describeParametersPaginated(input: DescribeParametersInput) -> ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput>(input: input, inputKey: \DescribeParametersInput.nextToken, outputKey: \DescribeParametersOutput.nextToken, paginationFunction: self.describeParameters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeParameters(input:))
->>>>>>> main
     }
 }
 
@@ -231,11 +187,7 @@ extension DescribeParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeParametersInput, Output == DescribeParametersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeParametersInput, OperationStackOutput == DescribeParametersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeParametersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Parameter]`
     /// - Returns: `[MemoryDBClientTypes.Parameter]`
@@ -253,11 +205,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeReservedNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutput`
     public func describeReservedNodesPaginated(input: DescribeReservedNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput>(input: input, inputKey: \DescribeReservedNodesInput.nextToken, outputKey: \DescribeReservedNodesOutput.nextToken, paginationFunction: self.describeReservedNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedNodes(input:))
->>>>>>> main
     }
 }
 
@@ -274,11 +222,7 @@ extension DescribeReservedNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedNodesInput, Output == DescribeReservedNodesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedNodesInput, OperationStackOutput == DescribeReservedNodesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ReservedNode]`
     /// - Returns: `[MemoryDBClientTypes.ReservedNode]`
@@ -296,11 +240,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeReservedNodesOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOfferingsOutput`
     public func describeReservedNodesOfferingsPaginated(input: DescribeReservedNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput>(input: input, inputKey: \DescribeReservedNodesOfferingsInput.nextToken, outputKey: \DescribeReservedNodesOfferingsOutput.nextToken, paginationFunction: self.describeReservedNodesOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeReservedNodesOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -316,11 +256,7 @@ extension DescribeReservedNodesOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedNodesOfferingsInput, Output == DescribeReservedNodesOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedNodesOfferingsInput, OperationStackOutput == DescribeReservedNodesOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesOfferingsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ReservedNodesOffering]`
     /// - Returns: `[MemoryDBClientTypes.ReservedNodesOffering]`
@@ -338,11 +274,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeServiceUpdatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutput`
     public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \DescribeServiceUpdatesInput.nextToken, outputKey: \DescribeServiceUpdatesOutput.nextToken, paginationFunction: self.describeServiceUpdates(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeServiceUpdates(input:))
->>>>>>> main
     }
 }
 
@@ -357,11 +289,7 @@ extension DescribeServiceUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeServiceUpdatesInput, OperationStackOutput == DescribeServiceUpdatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeServiceUpdatesPaginated`
     /// to access the nested member `[MemoryDBClientTypes.ServiceUpdate]`
     /// - Returns: `[MemoryDBClientTypes.ServiceUpdate]`
@@ -379,11 +307,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutput.nextToken, paginationFunction: self.describeSnapshots(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSnapshots(input:))
->>>>>>> main
     }
 }
 
@@ -399,11 +323,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput, OperationStackOutput == DescribeSnapshotsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.Snapshot]`
     /// - Returns: `[MemoryDBClientTypes.Snapshot]`
@@ -421,11 +341,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubnetGroupsOutput`
     public func describeSubnetGroupsPaginated(input: DescribeSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput>(input: input, inputKey: \DescribeSubnetGroupsInput.nextToken, outputKey: \DescribeSubnetGroupsOutput.nextToken, paginationFunction: self.describeSubnetGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSubnetGroups(input:))
->>>>>>> main
     }
 }
 
@@ -438,11 +354,7 @@ extension DescribeSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSubnetGroupsInput, Output == DescribeSubnetGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSubnetGroupsInput, OperationStackOutput == DescribeSubnetGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSubnetGroupsPaginated`
     /// to access the nested member `[MemoryDBClientTypes.SubnetGroup]`
     /// - Returns: `[MemoryDBClientTypes.SubnetGroup]`
@@ -460,11 +372,7 @@ extension MemoryDBClient {
     ///     - input: A `[DescribeUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutput`
     public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \DescribeUsersInput.nextToken, outputKey: \DescribeUsersOutput.nextToken, paginationFunction: self.describeUsers(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeUsers(input:))
->>>>>>> main
     }
 }
 
@@ -478,11 +386,7 @@ extension DescribeUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeUsersInput, OperationStackOutput == DescribeUsersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeUsersPaginated`
     /// to access the nested member `[MemoryDBClientTypes.User]`
     /// - Returns: `[MemoryDBClientTypes.User]`

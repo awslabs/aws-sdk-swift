@@ -22,11 +22,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateAwsAccountWithPartnerAccount(input: AssociateAwsAccountWithPartnerAccountInput) async throws -> AssociateAwsAccountWithPartnerAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateMulticastGroupWithFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associate a multicast group with a FUOTA task.
     ///
     /// - Parameter AssociateMulticastGroupWithFuotaTaskInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateMulticastGroupWithFuotaTask(input: AssociateMulticastGroupWithFuotaTaskInput) async throws -> AssociateMulticastGroupWithFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWirelessDeviceWithFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associate a wireless device with a FUOTA task.
     ///
     /// - Parameter AssociateWirelessDeviceWithFuotaTaskInput : [no documentation found]
@@ -64,11 +58,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateWirelessDeviceWithFuotaTask(input: AssociateWirelessDeviceWithFuotaTaskInput) async throws -> AssociateWirelessDeviceWithFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associates a wireless device with a multicast group.
     ///
     /// - Parameter AssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
@@ -85,11 +76,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateWirelessDeviceWithMulticastGroup(input: AssociateWirelessDeviceWithMulticastGroupInput) async throws -> AssociateWirelessDeviceWithMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWirelessDeviceWithThing` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associates a wireless device with a thing.
     ///
     /// - Parameter AssociateWirelessDeviceWithThingInput : [no documentation found]
@@ -106,11 +94,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateWirelessDeviceWithThing(input: AssociateWirelessDeviceWithThingInput) async throws -> AssociateWirelessDeviceWithThingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWirelessGatewayWithCertificate` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associates a wireless gateway with a certificate.
     ///
     /// - Parameter AssociateWirelessGatewayWithCertificateInput : [no documentation found]
@@ -127,11 +112,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateWirelessGatewayWithCertificate(input: AssociateWirelessGatewayWithCertificateInput) async throws -> AssociateWirelessGatewayWithCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWirelessGatewayWithThing` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Associates a wireless gateway with a thing.
     ///
     /// - Parameter AssociateWirelessGatewayWithThingInput : [no documentation found]
@@ -148,11 +130,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func associateWirelessGatewayWithThing(input: AssociateWirelessGatewayWithThingInput) async throws -> AssociateWirelessGatewayWithThingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelMulticastGroupSession` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Cancels an existing multicast group session.
     ///
     /// - Parameter CancelMulticastGroupSessionInput : [no documentation found]
@@ -169,11 +148,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func cancelMulticastGroupSession(input: CancelMulticastGroupSessionInput) async throws -> CancelMulticastGroupSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDestination` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     ///
     /// - Parameter CreateDestinationInput : [no documentation found]
@@ -190,11 +166,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDeviceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a new device profile.
     ///
     /// - Parameter CreateDeviceProfileInput : [no documentation found]
@@ -210,11 +183,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createDeviceProfile(input: CreateDeviceProfileInput) async throws -> CreateDeviceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a FUOTA task.
     ///
     /// - Parameter CreateFuotaTaskInput : [no documentation found]
@@ -231,11 +201,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createFuotaTask(input: CreateFuotaTaskInput) async throws -> CreateFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a multicast group.
     ///
     /// - Parameter CreateMulticastGroupInput : [no documentation found]
@@ -252,11 +219,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createMulticastGroup(input: CreateMulticastGroupInput) async throws -> CreateMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a new network analyzer configuration.
     ///
     /// - Parameter CreateNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -273,11 +237,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createNetworkAnalyzerConfiguration(input: CreateNetworkAnalyzerConfigurationInput) async throws -> CreateNetworkAnalyzerConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateServiceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a new service profile.
     ///
     /// - Parameter CreateServiceProfileInput : [no documentation found]
@@ -293,11 +254,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createServiceProfile(input: CreateServiceProfileInput) async throws -> CreateServiceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Provisions a wireless device.
     ///
     /// - Parameter CreateWirelessDeviceInput : [no documentation found]
@@ -314,11 +272,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createWirelessDevice(input: CreateWirelessDeviceInput) async throws -> CreateWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWirelessGateway` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Provisions a wireless gateway.
     ///
     /// - Parameter CreateWirelessGatewayInput : [no documentation found]
@@ -334,11 +289,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createWirelessGateway(input: CreateWirelessGatewayInput) async throws -> CreateWirelessGatewayOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWirelessGatewayTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a task for a wireless gateway.
     ///
     /// - Parameter CreateWirelessGatewayTaskInput : [no documentation found]
@@ -355,11 +307,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createWirelessGatewayTask(input: CreateWirelessGatewayTaskInput) async throws -> CreateWirelessGatewayTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Creates a gateway task definition.
     ///
     /// - Parameter CreateWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -376,11 +325,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func createWirelessGatewayTaskDefinition(input: CreateWirelessGatewayTaskDefinitionInput) async throws -> CreateWirelessGatewayTaskDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDestination` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a destination.
     ///
     /// - Parameter DeleteDestinationInput : [no documentation found]
@@ -397,11 +343,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDeviceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a device profile.
     ///
     /// - Parameter DeleteDeviceProfileInput : [no documentation found]
@@ -418,11 +361,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteDeviceProfile(input: DeleteDeviceProfileInput) async throws -> DeleteDeviceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a FUOTA task.
     ///
     /// - Parameter DeleteFuotaTaskInput : [no documentation found]
@@ -438,11 +378,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteFuotaTask(input: DeleteFuotaTaskInput) async throws -> DeleteFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a multicast group if it is not in use by a fuota task.
     ///
     /// - Parameter DeleteMulticastGroupInput : [no documentation found]
@@ -459,11 +396,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteMulticastGroup(input: DeleteMulticastGroupInput) async throws -> DeleteMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a network analyzer configuration.
     ///
     /// - Parameter DeleteNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -480,11 +414,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteNetworkAnalyzerConfiguration(input: DeleteNetworkAnalyzerConfigurationInput) async throws -> DeleteNetworkAnalyzerConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteQueuedMessages` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Remove queued messages from the downlink queue.
     ///
     /// - Parameter DeleteQueuedMessagesInput : [no documentation found]
@@ -500,11 +431,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteQueuedMessages(input: DeleteQueuedMessagesInput) async throws -> DeleteQueuedMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteServiceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a service profile.
     ///
     /// - Parameter DeleteServiceProfileInput : [no documentation found]
@@ -521,11 +449,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteServiceProfile(input: DeleteServiceProfileInput) async throws -> DeleteServiceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a wireless device.
     ///
     /// - Parameter DeleteWirelessDeviceInput : [no documentation found]
@@ -541,11 +466,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteWirelessDevice(input: DeleteWirelessDeviceInput) async throws -> DeleteWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Delete an import task.
     ///
     /// - Parameter DeleteWirelessDeviceImportTaskInput : [no documentation found]
@@ -562,11 +484,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteWirelessDeviceImportTask(input: DeleteWirelessDeviceImportTaskInput) async throws -> DeleteWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWirelessGateway` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a wireless gateway.
     ///
     /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
@@ -582,11 +501,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteWirelessGateway(input: DeleteWirelessGatewayInput) async throws -> DeleteWirelessGatewayOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWirelessGatewayTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a wireless gateway task.
     ///
     /// - Parameter DeleteWirelessGatewayTaskInput : [no documentation found]
@@ -602,11 +518,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteWirelessGatewayTask(input: DeleteWirelessGatewayTaskInput) async throws -> DeleteWirelessGatewayTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     ///
     /// - Parameter DeleteWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -622,11 +535,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deleteWirelessGatewayTaskDefinition(input: DeleteWirelessGatewayTaskDefinitionInput) async throws -> DeleteWirelessGatewayTaskDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeregisterWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Deregister a wireless device from AWS IoT Wireless.
     ///
     /// - Parameter DeregisterWirelessDeviceInput : [no documentation found]
@@ -641,11 +551,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func deregisterWirelessDevice(input: DeregisterWirelessDeviceInput) async throws -> DeregisterWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateAwsAccountFromPartnerAccount` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     ///
     /// - Parameter DisassociateAwsAccountFromPartnerAccountInput : [no documentation found]
@@ -660,11 +567,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateAwsAccountFromPartnerAccount(input: DisassociateAwsAccountFromPartnerAccountInput) async throws -> DisassociateAwsAccountFromPartnerAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateMulticastGroupFromFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a multicast group from a fuota task.
     ///
     /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
@@ -680,11 +584,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ResourceNotFoundException` : Resource does not exist.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateMulticastGroupFromFuotaTask(input: DisassociateMulticastGroupFromFuotaTaskInput) async throws -> DisassociateMulticastGroupFromFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWirelessDeviceFromFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a wireless device from a FUOTA task.
     ///
     /// - Parameter DisassociateWirelessDeviceFromFuotaTaskInput : [no documentation found]
@@ -701,11 +602,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateWirelessDeviceFromFuotaTask(input: DisassociateWirelessDeviceFromFuotaTaskInput) async throws -> DisassociateWirelessDeviceFromFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a wireless device from a multicast group.
     ///
     /// - Parameter DisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
@@ -721,11 +619,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateWirelessDeviceFromMulticastGroup(input: DisassociateWirelessDeviceFromMulticastGroupInput) async throws -> DisassociateWirelessDeviceFromMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWirelessDeviceFromThing` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a wireless device from its currently associated thing.
     ///
     /// - Parameter DisassociateWirelessDeviceFromThingInput : [no documentation found]
@@ -742,11 +637,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateWirelessDeviceFromThing(input: DisassociateWirelessDeviceFromThingInput) async throws -> DisassociateWirelessDeviceFromThingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWirelessGatewayFromCertificate` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a wireless gateway from its currently associated certificate.
     ///
     /// - Parameter DisassociateWirelessGatewayFromCertificateInput : [no documentation found]
@@ -762,11 +654,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateWirelessGatewayFromCertificate(input: DisassociateWirelessGatewayFromCertificateInput) async throws -> DisassociateWirelessGatewayFromCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWirelessGatewayFromThing` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Disassociates a wireless gateway from its currently associated thing.
     ///
     /// - Parameter DisassociateWirelessGatewayFromThingInput : [no documentation found]
@@ -783,11 +672,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func disassociateWirelessGatewayFromThing(input: DisassociateWirelessGatewayFromThingInput) async throws -> DisassociateWirelessGatewayFromThingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDestination` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a destination.
     ///
     /// - Parameter GetDestinationInput : [no documentation found]
@@ -803,11 +689,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeviceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a device profile.
     ///
     /// - Parameter GetDeviceProfileInput : [no documentation found]
@@ -823,11 +706,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getDeviceProfile(input: GetDeviceProfileInput) async throws -> GetDeviceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEventConfigurationByResourceTypes` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get the event configuration based on resource types.
     ///
     /// - Parameter GetEventConfigurationByResourceTypesInput : [no documentation found]
@@ -841,11 +721,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     func getEventConfigurationByResourceTypes(input: GetEventConfigurationByResourceTypesInput) async throws -> GetEventConfigurationByResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a FUOTA task.
     ///
     /// - Parameter GetFuotaTaskInput : [no documentation found]
@@ -861,11 +738,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getFuotaTask(input: GetFuotaTaskInput) async throws -> GetFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLogLevelsByResourceTypes` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
     ///
     /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
@@ -881,11 +755,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getLogLevelsByResourceTypes(input: GetLogLevelsByResourceTypesInput) async throws -> GetLogLevelsByResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a multicast group.
     ///
     /// - Parameter GetMulticastGroupInput : [no documentation found]
@@ -901,11 +772,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getMulticastGroup(input: GetMulticastGroupInput) async throws -> GetMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMulticastGroupSession` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a multicast group session.
     ///
     /// - Parameter GetMulticastGroupSessionInput : [no documentation found]
@@ -921,11 +789,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getMulticastGroupSession(input: GetMulticastGroupSessionInput) async throws -> GetMulticastGroupSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get network analyzer configuration.
     ///
     /// - Parameter GetNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -941,11 +806,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getNetworkAnalyzerConfiguration(input: GetNetworkAnalyzerConfigurationInput) async throws -> GetNetworkAnalyzerConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPartnerAccount` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     ///
     /// - Parameter GetPartnerAccountInput : [no documentation found]
@@ -960,11 +822,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getPartnerAccount(input: GetPartnerAccountInput) async throws -> GetPartnerAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPosition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -981,11 +840,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getPosition(input: GetPositionInput) async throws -> GetPositionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPositionConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -1002,11 +858,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getPositionConfiguration(input: GetPositionConfigurationInput) async throws -> GetPositionConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPositionEstimate` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
     /// - Parameter GetPositionEstimateInput : [no documentation found]
@@ -1022,11 +875,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getPositionEstimate(input: GetPositionEstimateInput) async throws -> GetPositionEstimateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceEventConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get the event configuration for a particular resource identifier.
     ///
     /// - Parameter GetResourceEventConfigurationInput : [no documentation found]
@@ -1042,11 +892,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceLogLevel` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     ///
     /// - Parameter GetResourceLogLevelInput : [no documentation found]
@@ -1062,11 +909,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourcePosition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
     /// - Parameter GetResourcePositionInput : [no documentation found]
@@ -1082,11 +926,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetServiceEndpoint` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
     /// - Parameter GetServiceEndpointInput : [no documentation found]
@@ -1101,11 +942,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetServiceProfile` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a service profile.
     ///
     /// - Parameter GetServiceProfileInput : [no documentation found]
@@ -1121,11 +959,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getServiceProfile(input: GetServiceProfileInput) async throws -> GetServiceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a wireless device.
     ///
     /// - Parameter GetWirelessDeviceInput : [no documentation found]
@@ -1141,11 +976,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessDevice(input: GetWirelessDeviceInput) async throws -> GetWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Get information about an import task and count of device onboarding summary information for the import task.
     ///
     /// - Parameter GetWirelessDeviceImportTaskInput : [no documentation found]
@@ -1162,11 +994,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessDeviceImportTask(input: GetWirelessDeviceImportTaskInput) async throws -> GetWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessDeviceStatistics` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets operating information about a wireless device.
     ///
     /// - Parameter GetWirelessDeviceStatisticsInput : [no documentation found]
@@ -1182,11 +1011,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessDeviceStatistics(input: GetWirelessDeviceStatisticsInput) async throws -> GetWirelessDeviceStatisticsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGateway` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayInput : [no documentation found]
@@ -1202,11 +1028,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGateway(input: GetWirelessGatewayInput) async throws -> GetWirelessGatewayOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGatewayCertificate` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayCertificateInput : [no documentation found]
@@ -1222,11 +1045,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGatewayCertificate(input: GetWirelessGatewayCertificateInput) async throws -> GetWirelessGatewayCertificateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGatewayFirmwareInformation` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets the firmware version and other information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayFirmwareInformationInput : [no documentation found]
@@ -1242,11 +1062,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGatewayFirmwareInformation(input: GetWirelessGatewayFirmwareInformationInput) async throws -> GetWirelessGatewayFirmwareInformationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGatewayStatistics` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets operating information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayStatisticsInput : [no documentation found]
@@ -1262,11 +1079,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGatewayStatistics(input: GetWirelessGatewayStatisticsInput) async throws -> GetWirelessGatewayStatisticsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGatewayTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a wireless gateway task.
     ///
     /// - Parameter GetWirelessGatewayTaskInput : [no documentation found]
@@ -1282,11 +1096,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGatewayTask(input: GetWirelessGatewayTaskInput) async throws -> GetWirelessGatewayTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Gets information about a wireless gateway task definition.
     ///
     /// - Parameter GetWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -1302,11 +1113,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func getWirelessGatewayTaskDefinition(input: GetWirelessGatewayTaskDefinitionInput) async throws -> GetWirelessGatewayTaskDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDestinations` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the destinations registered to your AWS account.
     ///
     /// - Parameter ListDestinationsInput : [no documentation found]
@@ -1321,11 +1129,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDeviceProfiles` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the device profiles registered to your AWS account.
     ///
     /// - Parameter ListDeviceProfilesInput : [no documentation found]
@@ -1340,11 +1145,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listDeviceProfiles(input: ListDeviceProfilesInput) async throws -> ListDeviceProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevicesForWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List the Sidewalk devices in an import task and their onboarding status.
     ///
     /// - Parameter ListDevicesForWirelessDeviceImportTaskInput : [no documentation found]
@@ -1361,11 +1163,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listDevicesForWirelessDeviceImportTask(input: ListDevicesForWirelessDeviceImportTaskInput) async throws -> ListDevicesForWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListEventConfigurations` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List event configurations where at least one event topic has been enabled.
     ///
     /// - Parameter ListEventConfigurationsInput : [no documentation found]
@@ -1380,11 +1179,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listEventConfigurations(input: ListEventConfigurationsInput) async throws -> ListEventConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFuotaTasks` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the FUOTA tasks registered to your AWS account.
     ///
     /// - Parameter ListFuotaTasksInput : [no documentation found]
@@ -1399,11 +1195,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listFuotaTasks(input: ListFuotaTasksInput) async throws -> ListFuotaTasksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMulticastGroups` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the multicast groups registered to your AWS account.
     ///
     /// - Parameter ListMulticastGroupsInput : [no documentation found]
@@ -1418,11 +1211,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listMulticastGroups(input: ListMulticastGroupsInput) async throws -> ListMulticastGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMulticastGroupsByFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List all multicast groups associated with a fuota task.
     ///
     /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
@@ -1438,11 +1228,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listMulticastGroupsByFuotaTask(input: ListMulticastGroupsByFuotaTaskInput) async throws -> ListMulticastGroupsByFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNetworkAnalyzerConfigurations` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the network analyzer configurations.
     ///
     /// - Parameter ListNetworkAnalyzerConfigurationsInput : [no documentation found]
@@ -1457,11 +1244,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listNetworkAnalyzerConfigurations(input: ListNetworkAnalyzerConfigurationsInput) async throws -> ListNetworkAnalyzerConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPartnerAccounts` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the partner accounts associated with your AWS account.
     ///
     /// - Parameter ListPartnerAccountsInput : [no documentation found]
@@ -1476,11 +1260,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listPartnerAccounts(input: ListPartnerAccountsInput) async throws -> ListPartnerAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPositionConfigurations` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -1496,11 +1277,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listPositionConfigurations(input: ListPositionConfigurationsInput) async throws -> ListPositionConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListQueuedMessages` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List queued messages in the downlink queue.
     ///
     /// - Parameter ListQueuedMessagesInput : [no documentation found]
@@ -1516,11 +1294,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listQueuedMessages(input: ListQueuedMessagesInput) async throws -> ListQueuedMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListServiceProfiles` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the service profiles registered to your AWS account.
     ///
     /// - Parameter ListServiceProfilesInput : [no documentation found]
@@ -1535,11 +1310,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listServiceProfiles(input: ListServiceProfilesInput) async throws -> ListServiceProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1555,11 +1327,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWirelessDeviceImportTasks` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List wireless devices that have been added to an import task.
     ///
     /// - Parameter ListWirelessDeviceImportTasksInput : [no documentation found]
@@ -1576,11 +1345,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listWirelessDeviceImportTasks(input: ListWirelessDeviceImportTasksInput) async throws -> ListWirelessDeviceImportTasksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWirelessDevices` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the wireless devices registered to your AWS account.
     ///
     /// - Parameter ListWirelessDevicesInput : [no documentation found]
@@ -1595,11 +1361,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listWirelessDevices(input: ListWirelessDevicesInput) async throws -> ListWirelessDevicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWirelessGateways` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Lists the wireless gateways registered to your AWS account.
     ///
     /// - Parameter ListWirelessGatewaysInput : [no documentation found]
@@ -1614,11 +1377,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listWirelessGateways(input: ListWirelessGatewaysInput) async throws -> ListWirelessGatewaysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWirelessGatewayTaskDefinitions` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// List the wireless gateway tasks definitions registered to your AWS account.
     ///
     /// - Parameter ListWirelessGatewayTaskDefinitionsInput : [no documentation found]
@@ -1633,11 +1393,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func listWirelessGatewayTaskDefinitions(input: ListWirelessGatewayTaskDefinitionsInput) async throws -> ListWirelessGatewayTaskDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutPositionConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -1654,11 +1411,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func putPositionConfiguration(input: PutPositionConfigurationInput) async throws -> PutPositionConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutResourceLogLevel` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     ///
     /// - Parameter PutResourceLogLevelInput : [no documentation found]
@@ -1674,11 +1428,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func putResourceLogLevel(input: PutResourceLogLevelInput) async throws -> PutResourceLogLevelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ResetAllResourceLogLevels` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
     ///
     /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
@@ -1694,11 +1445,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func resetAllResourceLogLevels(input: ResetAllResourceLogLevelsInput) async throws -> ResetAllResourceLogLevelsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ResetResourceLogLevel` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     ///
     /// - Parameter ResetResourceLogLevelInput : [no documentation found]
@@ -1714,11 +1462,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func resetResourceLogLevel(input: ResetResourceLogLevelInput) async throws -> ResetResourceLogLevelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendDataToMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Sends the specified data to a multicast group.
     ///
     /// - Parameter SendDataToMulticastGroupInput : [no documentation found]
@@ -1735,11 +1480,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func sendDataToMulticastGroup(input: SendDataToMulticastGroupInput) async throws -> SendDataToMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendDataToWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Sends a decrypted application data frame to a device.
     ///
     /// - Parameter SendDataToWirelessDeviceInput : [no documentation found]
@@ -1754,11 +1496,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func sendDataToWirelessDevice(input: SendDataToWirelessDeviceInput) async throws -> SendDataToWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartBulkAssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     ///
     /// - Parameter StartBulkAssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
@@ -1774,11 +1513,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startBulkAssociateWirelessDeviceWithMulticastGroup(input: StartBulkAssociateWirelessDeviceWithMulticastGroupInput) async throws -> StartBulkAssociateWirelessDeviceWithMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartBulkDisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     ///
     /// - Parameter StartBulkDisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
@@ -1794,11 +1530,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startBulkDisassociateWirelessDeviceFromMulticastGroup(input: StartBulkDisassociateWirelessDeviceFromMulticastGroupInput) async throws -> StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Starts a FUOTA task.
     ///
     /// - Parameter StartFuotaTaskInput : [no documentation found]
@@ -1815,11 +1548,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startFuotaTask(input: StartFuotaTaskInput) async throws -> StartFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartMulticastGroupSession` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Starts a multicast group session.
     ///
     /// - Parameter StartMulticastGroupSessionInput : [no documentation found]
@@ -1836,11 +1566,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startMulticastGroupSession(input: StartMulticastGroupSessionInput) async throws -> StartMulticastGroupSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSingleWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Start import task for a single wireless device.
     ///
     /// - Parameter StartSingleWirelessDeviceImportTaskInput : [no documentation found]
@@ -1857,11 +1584,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startSingleWirelessDeviceImportTask(input: StartSingleWirelessDeviceImportTaskInput) async throws -> StartSingleWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     ///
     /// - Parameter StartWirelessDeviceImportTaskInput : [no documentation found]
@@ -1878,11 +1602,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func startWirelessDeviceImportTask(input: StartWirelessDeviceImportTaskInput) async throws -> StartWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Adds a tag to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1899,11 +1620,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `TooManyTagsException` : The request was denied because the resource can't have any more tags.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TestWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     ///
     /// - Parameter TestWirelessDeviceInput : [no documentation found]
@@ -1918,11 +1636,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func testWirelessDevice(input: TestWirelessDeviceInput) async throws -> TestWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1938,11 +1653,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDestination` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a destination.
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
@@ -1958,11 +1670,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEventConfigurationByResourceTypes` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update the event configuration based on resource types.
     ///
     /// - Parameter UpdateEventConfigurationByResourceTypesInput : [no documentation found]
@@ -1977,11 +1686,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateEventConfigurationByResourceTypes(input: UpdateEventConfigurationByResourceTypesInput) async throws -> UpdateEventConfigurationByResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFuotaTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a FUOTA task.
     ///
     /// - Parameter UpdateFuotaTaskInput : [no documentation found]
@@ -1998,11 +1704,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateFuotaTask(input: UpdateFuotaTaskInput) async throws -> UpdateFuotaTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLogLevelsByResourceTypes` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
     ///
     /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
@@ -2019,11 +1722,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateLogLevelsByResourceTypes(input: UpdateLogLevelsByResourceTypesInput) async throws -> UpdateLogLevelsByResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMulticastGroup` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a multicast group session.
     ///
     /// - Parameter UpdateMulticastGroupInput : [no documentation found]
@@ -2040,11 +1740,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateMulticastGroup(input: UpdateMulticastGroupInput) async throws -> UpdateMulticastGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update network analyzer configuration.
     ///
     /// - Parameter UpdateNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -2060,11 +1757,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateNetworkAnalyzerConfiguration(input: UpdateNetworkAnalyzerConfigurationInput) async throws -> UpdateNetworkAnalyzerConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePartnerAccount` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a partner account.
     ///
     /// - Parameter UpdatePartnerAccountInput : [no documentation found]
@@ -2079,11 +1773,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updatePartnerAccount(input: UpdatePartnerAccountInput) async throws -> UpdatePartnerAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePosition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -2100,11 +1791,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResourceEventConfiguration` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update the event configuration for a particular resource identifier.
     ///
     /// - Parameter UpdateResourceEventConfigurationInput : [no documentation found]
@@ -2121,11 +1809,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResourcePosition` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
     /// - Parameter UpdateResourcePositionInput : [no documentation found]
@@ -2141,11 +1826,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWirelessDevice` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a wireless device.
     ///
     /// - Parameter UpdateWirelessDeviceInput : [no documentation found]
@@ -2161,11 +1843,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWirelessDeviceImportTask` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Update an import task to add more devices to the task.
     ///
     /// - Parameter UpdateWirelessDeviceImportTaskInput : [no documentation found]
@@ -2182,11 +1861,8 @@ public protocol IoTWirelessClientProtocol {
     /// - `ThrottlingException` : The request was denied because it exceeded the allowed API request rate.
     /// - `ValidationException` : The input did not meet the specified constraints.
     func updateWirelessDeviceImportTask(input: UpdateWirelessDeviceImportTaskInput) async throws -> UpdateWirelessDeviceImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWirelessGateway` operation on the `iotwireless` service.
     ///
->>>>>>> main
     /// Updates properties of a wireless gateway.
     ///
     /// - Parameter UpdateWirelessGatewayInput : [no documentation found]

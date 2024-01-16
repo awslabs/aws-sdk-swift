@@ -20,11 +20,8 @@ public protocol SavingsplansClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
     func createSavingsPlan(input: CreateSavingsPlanInput) async throws -> CreateSavingsPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteQueuedSavingsPlan` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Deletes the queued purchase for the specified Savings Plan.
     ///
     /// - Parameter DeleteQueuedSavingsPlanInput : [no documentation found]
@@ -39,11 +36,8 @@ public protocol SavingsplansClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
     func deleteQueuedSavingsPlan(input: DeleteQueuedSavingsPlanInput) async throws -> DeleteQueuedSavingsPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSavingsPlanRates` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Describes the specified Savings Plans rates.
     ///
     /// - Parameter DescribeSavingsPlanRatesInput : [no documentation found]
@@ -56,11 +50,8 @@ public protocol SavingsplansClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlanRates(input: DescribeSavingsPlanRatesInput) async throws -> DescribeSavingsPlanRatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSavingsPlans` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Describes the specified Savings Plans.
     ///
     /// - Parameter DescribeSavingsPlansInput : [no documentation found]
@@ -73,11 +64,8 @@ public protocol SavingsplansClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlans(input: DescribeSavingsPlansInput) async throws -> DescribeSavingsPlansOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSavingsPlansOfferingRates` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Describes the specified Savings Plans offering rates.
     ///
     /// - Parameter DescribeSavingsPlansOfferingRatesInput : [no documentation found]
@@ -90,11 +78,8 @@ public protocol SavingsplansClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlansOfferingRates(input: DescribeSavingsPlansOfferingRatesInput) async throws -> DescribeSavingsPlansOfferingRatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSavingsPlansOfferings` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Describes the specified Savings Plans offerings.
     ///
     /// - Parameter DescribeSavingsPlansOfferingsInput : [no documentation found]
@@ -107,11 +92,8 @@ public protocol SavingsplansClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred.
     /// - `ValidationException` : One of the input parameters is not valid.
     func describeSavingsPlansOfferings(input: DescribeSavingsPlansOfferingsInput) async throws -> DescribeSavingsPlansOfferingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -125,11 +107,8 @@ public protocol SavingsplansClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One of the input parameters is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Adds the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -144,11 +123,8 @@ public protocol SavingsplansClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
     /// - `ValidationException` : One of the input parameters is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSSavingsPlan` service.
     ///
->>>>>>> main
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

@@ -12,11 +12,7 @@ extension AppRunnerClient {
     ///     - input: A `[DescribeCustomDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomDomainsOutput`
     public func describeCustomDomainsPaginated(input: DescribeCustomDomainsInput) -> ClientRuntime.PaginatorSequence<DescribeCustomDomainsInput, DescribeCustomDomainsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(input: input, inputKey: \DescribeCustomDomainsInput.nextToken, outputKey: \DescribeCustomDomainsOutput.nextToken, paginationFunction: self.describeCustomDomains(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCustomDomainsInput, DescribeCustomDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCustomDomains(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListAutoScalingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAutoScalingConfigurationsOutput`
     public func listAutoScalingConfigurationsPaginated(input: ListAutoScalingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(input: input, inputKey: \ListAutoScalingConfigurationsInput.nextToken, outputKey: \ListAutoScalingConfigurationsOutput.nextToken, paginationFunction: self.listAutoScalingConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAutoScalingConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -65,11 +57,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutput`
     public func listConnectionsPaginated(input: ListConnectionsInput) -> ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput>(input: input, inputKey: \ListConnectionsInput.nextToken, outputKey: \ListConnectionsOutput.nextToken, paginationFunction: self.listConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnections(input:))
->>>>>>> main
     }
 }
 
@@ -91,11 +79,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListObservabilityConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListObservabilityConfigurationsOutput`
     public func listObservabilityConfigurationsPaginated(input: ListObservabilityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(input: input, inputKey: \ListObservabilityConfigurationsInput.nextToken, outputKey: \ListObservabilityConfigurationsOutput.nextToken, paginationFunction: self.listObservabilityConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listObservabilityConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -118,11 +102,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutput`
     public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutput.nextToken, paginationFunction: self.listOperations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOperations(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +124,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutput`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutput.nextToken, paginationFunction: self.listServices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServices(input:))
->>>>>>> main
     }
 }
 
@@ -169,11 +145,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListServicesForAutoScalingConfigurationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServicesForAutoScalingConfigurationOutput`
     public func listServicesForAutoScalingConfigurationPaginated(input: ListServicesForAutoScalingConfigurationInput) -> ClientRuntime.PaginatorSequence<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(input: input, inputKey: \ListServicesForAutoScalingConfigurationInput.nextToken, outputKey: \ListServicesForAutoScalingConfigurationOutput.nextToken, paginationFunction: self.listServicesForAutoScalingConfiguration(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServicesForAutoScalingConfiguration(input:))
->>>>>>> main
     }
 }
 
@@ -195,11 +167,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListVpcConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectorsOutput`
     public func listVpcConnectorsPaginated(input: ListVpcConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectorsInput, ListVpcConnectorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVpcConnectorsInput, ListVpcConnectorsOutput>(input: input, inputKey: \ListVpcConnectorsInput.nextToken, outputKey: \ListVpcConnectorsOutput.nextToken, paginationFunction: self.listVpcConnectors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVpcConnectorsInput, ListVpcConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVpcConnectors(input:))
->>>>>>> main
     }
 }
 
@@ -220,11 +188,7 @@ extension AppRunnerClient {
     ///     - input: A `[ListVpcIngressConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVpcIngressConnectionsOutput`
     public func listVpcIngressConnectionsPaginated(input: ListVpcIngressConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(input: input, inputKey: \ListVpcIngressConnectionsInput.nextToken, outputKey: \ListVpcIngressConnectionsOutput.nextToken, paginationFunction: self.listVpcIngressConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVpcIngressConnections(input:))
->>>>>>> main
     }
 }
 

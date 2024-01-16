@@ -126,12 +126,6 @@ public struct AddPermissionOutput: Swift.Equatable {
 
 enum AddPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -142,7 +136,6 @@ enum AddPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -415,13 +408,6 @@ extension CancelMessageMoveTaskOutputBody: Swift.Decodable {
 
 enum CancelMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -431,7 +417,6 @@ enum CancelMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -596,19 +581,6 @@ enum ChangeMessageVisibilityBatchOutputError: ClientRuntime.HttpResponseErrorBin
             case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum ChangeMessageVisibilityBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -792,13 +764,6 @@ public struct ChangeMessageVisibilityOutput: Swift.Equatable {
 
 enum ChangeMessageVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.MessageNotInflight": return try await MessageNotInflight(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -810,7 +775,6 @@ enum ChangeMessageVisibilityOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -1070,13 +1034,6 @@ extension CreateQueueOutputBody: Swift.Decodable {
 
 enum CreateQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.QueueDeletedRecently": return try await QueueDeletedRecently(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "QueueAlreadyExists": return try await QueueNameExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1089,7 +1046,6 @@ enum CreateQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -1258,19 +1214,6 @@ enum DeleteMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum DeleteMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension SQSClientTypes.DeleteMessageBatchRequestEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
@@ -1428,13 +1371,6 @@ public struct DeleteMessageOutput: Swift.Equatable {
 
 enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidIdFormat": return try await InvalidIdFormat(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "ReceiptHandleIsInvalid": return try await ReceiptHandleIsInvalid(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1446,18 +1382,11 @@ enum DeleteMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
 
 extension DeleteQueueInput: Swift.Encodable {
-<<<<<<< HEAD
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let queueUrl = queueUrl {
-            try container.encode(queueUrl, forKey: ClientRuntime.Key("QueueUrl"))
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queueUrl = "QueueUrl"
     }
@@ -1466,7 +1395,6 @@ extension DeleteQueueInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queueUrl = self.queueUrl {
             try encodeContainer.encode(queueUrl, forKey: .queueUrl)
->>>>>>> main
         }
     }
 }
@@ -1519,11 +1447,6 @@ public struct DeleteQueueOutput: Swift.Equatable {
 
 enum DeleteQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1533,7 +1456,6 @@ enum DeleteQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -1821,16 +1743,6 @@ enum GetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum GetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension GetQueueUrlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queueName = "QueueName"
@@ -1935,12 +1847,6 @@ extension GetQueueUrlOutputBody: Swift.Decodable {
 
 enum GetQueueUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1950,13 +1856,10 @@ enum GetQueueUrlOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-=======
 extension InvalidAddress {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2012,7 +1915,6 @@ extension InvalidAddressBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension InvalidAttributeName {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2835,12 +2737,6 @@ extension ListDeadLetterSourceQueuesOutputBody: Swift.Decodable {
 
 enum ListDeadLetterSourceQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2850,7 +2746,6 @@ enum ListDeadLetterSourceQueuesOutputError: ClientRuntime.HttpResponseErrorBindi
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -2975,17 +2870,6 @@ enum ListMessageMoveTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum ListMessageMoveTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3217,15 +3101,6 @@ enum ListQueueTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum ListQueueTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension ListQueuesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -3330,10 +3205,6 @@ public struct ListQueuesOutput: Swift.Equatable {
 }
 
 struct ListQueuesOutputBody: Swift.Equatable {
-<<<<<<< HEAD
-    let nextToken: Swift.String?
-=======
->>>>>>> main
     let queueUrls: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -3372,15 +3243,6 @@ enum ListQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum ListQueuesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -3995,13 +3857,6 @@ public struct PurgeQueueOutput: Swift.Equatable {
 
 enum PurgeQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.PurgeQueueInProgress": return try await PurgeQueueInProgress(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.NonExistentQueue": return try await QueueDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4012,7 +3867,6 @@ enum PurgeQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -4604,16 +4458,6 @@ enum ReceiveMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum ReceiveMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "OverLimit": return try await OverLimit(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension RemovePermissionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case label = "Label"
@@ -4688,11 +4532,6 @@ public struct RemovePermissionOutput: Swift.Equatable {
 
 enum RemovePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4702,13 +4541,10 @@ enum RemovePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RequestThrottled {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4770,7 +4606,6 @@ extension RequestThrottledBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4994,21 +4829,6 @@ enum SendMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum SendMessageBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "AWS.SimpleQueueService.BatchEntryIdsNotDistinct": return try await BatchEntryIdsNotDistinct(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.BatchRequestTooLong": return try await BatchRequestTooLong(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.EmptyBatchRequest": return try await EmptyBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.InvalidBatchEntryId": return try await InvalidBatchEntryId(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.TooManyEntriesInBatchRequest": return try await TooManyEntriesInBatchRequest(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
 }
@@ -5513,13 +5333,6 @@ extension SendMessageOutputBody: Swift.Decodable {
 
 enum SendMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidMessageContents": return try await InvalidMessageContents(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5537,7 +5350,6 @@ enum SendMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -5721,12 +5533,6 @@ public struct SetQueueAttributesOutput: Swift.Equatable {
 
 enum SetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidAttributeName": return try await InvalidAttributeName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5739,7 +5545,6 @@ enum SetQueueAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -5858,13 +5663,6 @@ extension StartMessageMoveTaskOutputBody: Swift.Decodable {
 
 enum StartMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5874,7 +5672,6 @@ enum StartMessageMoveTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -5964,11 +5761,6 @@ public struct TagQueueOutput: Swift.Equatable {
 
 enum TagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5978,7 +5770,6 @@ enum TagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }
@@ -6178,11 +5969,6 @@ public struct UntagQueueOutput: Swift.Equatable {
 
 enum UntagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-<<<<<<< HEAD
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-=======
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6192,7 +5978,6 @@ enum UntagQueueOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestThrottled": return try await RequestThrottled(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "AWS.SimpleQueueService.UnsupportedOperation": return try await UnsupportedOperation(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
->>>>>>> main
         }
     }
 }

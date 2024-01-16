@@ -36,11 +36,8 @@ public protocol TranscribeStreamingClientProtocol {
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     func startCallAnalyticsStreamTranscription(input: StartCallAnalyticsStreamTranscriptionInput) async throws -> StartCallAnalyticsStreamTranscriptionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartMedicalStreamTranscription` operation on the `Transcribe` service.
     ///
->>>>>>> main
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:
     ///
     /// * language-code
@@ -65,11 +62,8 @@ public protocol TranscribeStreamingClientProtocol {
     /// - `LimitExceededException` : Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     /// - `ServiceUnavailableException` : The service is currently unavailable. Try your request later.
     func startMedicalStreamTranscription(input: StartMedicalStreamTranscriptionInput) async throws -> StartMedicalStreamTranscriptionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartStreamTranscription` operation on the `Transcribe` service.
     ///
->>>>>>> main
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to Amazon Transcribe and the transcription results are streamed to your application. The following parameters are required:
     ///
     /// * language-code or identify-language or identify-multiple-language

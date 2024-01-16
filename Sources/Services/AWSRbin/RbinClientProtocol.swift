@@ -19,11 +19,8 @@ public protocol RbinClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRule` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter DeleteRuleInput : [no documentation found]
@@ -38,11 +35,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRule` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Gets information about a Recycle Bin retention rule.
     ///
     /// - Parameter GetRuleInput : [no documentation found]
@@ -56,11 +50,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func getRule(input: GetRuleInput) async throws -> GetRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRules` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Lists the Recycle Bin retention rules in the Region.
     ///
     /// - Parameter ListRulesInput : [no documentation found]
@@ -73,11 +64,8 @@ public protocol RbinClientProtocol {
     /// - `InternalServerException` : The service could not respond to the request due to an internal problem.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Lists the tags assigned to a retention rule.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -91,11 +79,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `LockRule` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Locks a retention rule. A locked retention rule can't be modified or deleted.
     ///
     /// - Parameter LockRuleInput : [no documentation found]
@@ -110,11 +95,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func lockRule(input: LockRuleInput) async throws -> LockRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Assigns tags to the specified retention rule.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -129,11 +111,8 @@ public protocol RbinClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a service quota for the number of tags per resource to be exceeded.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UnlockRule` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
     ///
     /// - Parameter UnlockRuleInput : [no documentation found]
@@ -148,11 +127,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func unlockRule(input: UnlockRuleInput) async throws -> UnlockRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Unassigns a tag from a retention rule.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -166,11 +142,8 @@ public protocol RbinClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : One or more of the parameters in the request is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRule` operation on the `AmazonRecycleBin` service.
     ///
->>>>>>> main
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter UpdateRuleInput : [no documentation found]

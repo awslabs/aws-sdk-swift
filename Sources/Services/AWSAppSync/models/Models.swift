@@ -3047,46 +3047,6 @@ extension CreateGraphqlApiOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateGraphqlApiOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateGraphqlApiOutputBody = try responseDecoder.decode(responseBody: data)
-            self.graphqlApi = output.graphqlApi
-        } else {
-            self.graphqlApi = nil
-        }
-    }
-}
-
-public struct CreateGraphqlApiOutput: Swift.Equatable {
-    /// The GraphqlApi.
-    public var graphqlApi: AppSyncClientTypes.GraphqlApi?
-
-    public init(
-        graphqlApi: AppSyncClientTypes.GraphqlApi? = nil
-    )
-    {
-        self.graphqlApi = graphqlApi
-    }
-}
-
-struct CreateGraphqlApiOutputBody: Swift.Equatable {
-    let graphqlApi: AppSyncClientTypes.GraphqlApi?
-}
-
-extension CreateGraphqlApiOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case graphqlApi
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let graphqlApiDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphqlApi.self, forKey: .graphqlApi)
-        graphqlApi = graphqlApiDecoded
-    }
-}
-
 enum CreateGraphqlApiOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5983,8 +5943,6 @@ extension GetDataSourceInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetDataSourceIntrospectionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6132,7 +6090,6 @@ enum GetDataSourceIntrospectionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension GetDataSourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6967,8 +6924,6 @@ enum GetTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension AppSyncClientTypes {
     public enum GraphQLApiIntrospectionConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -7001,7 +6956,6 @@ extension AppSyncClientTypes {
     }
 }
 
->>>>>>> main
 extension AppSyncClientTypes {
     public enum GraphQLApiType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case graphql
@@ -12109,46 +12063,6 @@ extension UpdateGraphqlApiInputBody: Swift.Decodable {
         queryDepthLimit = queryDepthLimitDecoded
         let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit)
         resolverCountLimit = resolverCountLimitDecoded
-    }
-}
-
-extension UpdateGraphqlApiOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateGraphqlApiOutputBody = try responseDecoder.decode(responseBody: data)
-            self.graphqlApi = output.graphqlApi
-        } else {
-            self.graphqlApi = nil
-        }
-    }
-}
-
-public struct UpdateGraphqlApiOutput: Swift.Equatable {
-    /// The updated GraphqlApi object.
-    public var graphqlApi: AppSyncClientTypes.GraphqlApi?
-
-    public init(
-        graphqlApi: AppSyncClientTypes.GraphqlApi? = nil
-    )
-    {
-        self.graphqlApi = graphqlApi
-    }
-}
-
-struct UpdateGraphqlApiOutputBody: Swift.Equatable {
-    let graphqlApi: AppSyncClientTypes.GraphqlApi?
-}
-
-extension UpdateGraphqlApiOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case graphqlApi
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let graphqlApiDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphqlApi.self, forKey: .graphqlApi)
-        graphqlApi = graphqlApiDecoded
     }
 }
 

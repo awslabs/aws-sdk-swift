@@ -2091,8 +2091,6 @@ enum CopyBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CopySnapshotAndUpdateVolumeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -2355,7 +2353,6 @@ extension FSxClientTypes {
 
 }
 
->>>>>>> main
 extension CreateBackupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -9744,8 +9741,6 @@ enum DescribeFileSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeSharedVpcConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9826,7 +9821,6 @@ enum DescribeSharedVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
->>>>>>> main
 extension DescribeSnapshotsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"

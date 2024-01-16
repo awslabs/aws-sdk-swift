@@ -28,13 +28,9 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `TooManyCertificatesException` : You've reached the limit on the number of certificates per load balancer.
     func addListenerCertificates(input: AddListenerCertificatesInput) async throws -> AddListenerCertificatesOutput
-<<<<<<< HEAD
-    /// Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value.
-=======
     /// Performs the `AddTags` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, trust stores, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value.
->>>>>>> main
     ///
     /// - Parameter AddTagsInput : [no documentation found]
     ///
@@ -48,10 +44,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-<<<<<<< HEAD
-    /// - `TooManyTagsException` : You've reached the limit on the number of tags per load balancer.
-    func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-=======
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
     func addTags(input: AddTagsInput) async throws -> AddTagsOutput
@@ -73,7 +65,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func addTrustStoreRevocations(input: AddTrustStoreRevocationsInput) async throws -> AddTrustStoreRevocationsOutput
     /// Performs the `CreateListener` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Creates a listener for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following:
     ///
     /// * [Listeners for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)
@@ -113,11 +104,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TrustStoreNotReadyException` : The specified trust store is not active.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLoadBalancer` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following:
     ///
     /// * [Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html)
@@ -148,15 +136,10 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `ResourceInUseException` : A specified resource is in use.
     /// - `SubnetNotFoundException` : The specified subnet does not exist.
     /// - `TooManyLoadBalancersException` : You've reached the limit on the number of load balancers for your Amazon Web Services account.
-<<<<<<< HEAD
-    /// - `TooManyTagsException` : You've reached the limit on the number of tags per load balancer.
-    func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
-=======
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput
     /// Performs the `CreateRule` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see [Listener rules](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#listener-rules) in the Application Load Balancers Guide.
     ///
     /// - Parameter CreateRuleInput : [no documentation found]
@@ -182,11 +165,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyUniqueTargetGroupsPerLoadBalancerException` : You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTargetGroup` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Creates a target group. For more information, see the following:
     ///
     /// * [Target groups for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html)
@@ -210,8 +190,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TooManyTargetGroupsException` : You've reached the limit on the number of target groups for your Amazon Web Services account.
     func createTargetGroup(input: CreateTargetGroupInput) async throws -> CreateTargetGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTrustStore` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Creates a trust store.
@@ -232,7 +210,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutput
     /// Performs the `DeleteListener` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer to which it is attached.
     ///
     /// - Parameter DeleteListenerInput : [no documentation found]
@@ -245,11 +222,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `ResourceInUseException` : A specified resource is in use.
     func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLoadBalancer` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. Deleting a load balancer also deletes its listeners. You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds. Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
     ///
     /// - Parameter DeleteLoadBalancerInput : [no documentation found]
@@ -263,11 +237,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `ResourceInUseException` : A specified resource is in use.
     func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRule` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Deletes the specified rule. You can't delete the default rule.
     ///
     /// - Parameter DeleteRuleInput : [no documentation found]
@@ -280,11 +251,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not allowed.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTargetGroup` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For example, any EC2 instances continue to run until you stop or terminate them.
     ///
     /// - Parameter DeleteTargetGroupInput : [no documentation found]
@@ -296,8 +264,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceInUseException` : A specified resource is in use.
     func deleteTargetGroup(input: DeleteTargetGroupInput) async throws -> DeleteTargetGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTrustStore` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Deletes a trust store.
@@ -314,7 +280,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutput
     /// Performs the `DeregisterTargets` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer. The load balancer stops sending requests to targets that are deregistering, but uses connection draining to ensure that in-flight traffic completes on the existing connections. This deregistration delay is configured by default but can be updated for each target group. For more information, see the following:
     ///
     /// * [Deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay) in the Application Load Balancers User Guide
@@ -336,11 +301,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidTargetException` : The specified target does not exist, is not in the same VPC as the target group, or has an unsupported instance type.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func deregisterTargets(input: DeregisterTargetsInput) async throws -> DeregisterTargetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAccountLimits` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the current Elastic Load Balancing resource limits for your Amazon Web Services account. For more information, see the following:
     ///
     /// * [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
@@ -353,11 +315,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     ///
     /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
     func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeListenerCertificates` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see [SSL certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates) in the Application Load Balancers Guide or [Server certificates](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate) in the Network Load Balancers Guide.
     ///
     /// - Parameter DescribeListenerCertificatesInput : [no documentation found]
@@ -369,11 +328,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     func describeListenerCertificates(input: DescribeListenerCertificatesInput) async throws -> DescribeListenerCertificatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeListeners` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load balancer or one or more listeners.
     ///
     /// - Parameter DescribeListenersInput : [no documentation found]
@@ -387,11 +343,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func describeListeners(input: DescribeListenersInput) async throws -> DescribeListenersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeLoadBalancerAttributes` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the attributes for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following:
     ///
     /// * [Load balancer attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#load-balancer-attributes) in the Application Load Balancers Guide
@@ -409,11 +362,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     func describeLoadBalancerAttributes(input: DescribeLoadBalancerAttributesInput) async throws -> DescribeLoadBalancerAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeLoadBalancers` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the specified load balancers or all of your load balancers.
     ///
     /// - Parameter DescribeLoadBalancersInput : [no documentation found]
@@ -425,11 +375,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRules` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
     ///
     /// - Parameter DescribeRulesInput : [no documentation found]
@@ -443,11 +390,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func describeRules(input: DescribeRulesInput) async throws -> DescribeRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSSLPolicies` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the specified policies or all policies used for SSL negotiation. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
     ///
     /// - Parameter DescribeSSLPoliciesInput : [no documentation found]
@@ -459,11 +403,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `SSLPolicyNotFoundException` : The specified SSL policy does not exist.
     func describeSSLPolicies(input: DescribeSSLPoliciesInput) async throws -> DescribeSSLPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTags` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, or rules.
     ///
     /// - Parameter DescribeTagsInput : [no documentation found]
@@ -477,14 +418,10 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-<<<<<<< HEAD
-    func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-=======
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
     func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
     /// Performs the `DescribeTargetGroupAttributes` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the attributes for the specified target group. For more information, see the following:
     ///
     /// * [Target group attributes](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-attributes) in the Application Load Balancers Guide
@@ -502,11 +439,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// __Possible Exceptions:__
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func describeTargetGroupAttributes(input: DescribeTargetGroupAttributesInput) async throws -> DescribeTargetGroupAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTargetGroups` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups.
     ///
     /// - Parameter DescribeTargetGroupsInput : [no documentation found]
@@ -519,11 +453,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func describeTargetGroups(input: DescribeTargetGroupsInput) async throws -> DescribeTargetGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTargetHealth` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Describes the health of the specified targets or all of your targets.
     ///
     /// - Parameter DescribeTargetHealthInput : [no documentation found]
@@ -537,8 +468,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidTargetException` : The specified target does not exist, is not in the same VPC as the target group, or has an unsupported instance type.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func describeTargetHealth(input: DescribeTargetHealthInput) async throws -> DescribeTargetHealthOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTrustStoreAssociations` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Describes all resources associated with the specified trust store.
@@ -608,7 +537,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func getTrustStoreRevocationContent(input: GetTrustStoreRevocationContentInput) async throws -> GetTrustStoreRevocationContentOutput
     /// Performs the `ModifyListener` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
     ///
     /// - Parameter ModifyListenerInput : [no documentation found]
@@ -638,11 +566,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TrustStoreNotReadyException` : The specified trust store is not active.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func modifyListener(input: ModifyListenerInput) async throws -> ModifyListenerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyLoadBalancerAttributes` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Modifies the specified attributes of the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
     ///
     /// - Parameter ModifyLoadBalancerAttributesInput : [no documentation found]
@@ -655,11 +580,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     func modifyLoadBalancerAttributes(input: ModifyLoadBalancerAttributesInput) async throws -> ModifyLoadBalancerAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyRule` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
     ///
     /// - Parameter ModifyRuleInput : [no documentation found]
@@ -681,11 +603,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyUniqueTargetGroupsPerLoadBalancerException` : You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     /// - `UnsupportedProtocolException` : The specified protocol is not supported.
     func modifyRule(input: ModifyRuleInput) async throws -> ModifyRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyTargetGroup` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Modifies the health checks used when evaluating the health state of the targets in the specified target group.
     ///
     /// - Parameter ModifyTargetGroupInput : [no documentation found]
@@ -698,11 +617,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func modifyTargetGroup(input: ModifyTargetGroupInput) async throws -> ModifyTargetGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyTargetGroupAttributes` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Modifies the specified attributes of the specified target group.
     ///
     /// - Parameter ModifyTargetGroupAttributesInput : [no documentation found]
@@ -715,8 +631,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidConfigurationRequestException` : The requested configuration is not valid.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
     func modifyTargetGroupAttributes(input: ModifyTargetGroupAttributesInput) async throws -> ModifyTargetGroupAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyTrustStore` operation on the `ElasticLoadBalancing_v10` service.
     ///
     /// Update the ca certificate bundle for a given trust store.
@@ -734,7 +648,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func modifyTrustStore(input: ModifyTrustStoreInput) async throws -> ModifyTrustStoreOutput
     /// Performs the `RegisterTargets` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you cannot register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
     ///
     /// - Parameter RegisterTargetsInput : [no documentation found]
@@ -749,11 +662,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `TooManyRegistrationsForTargetIdException` : You've reached the limit on the number of times a target can be registered with a load balancer.
     /// - `TooManyTargetsException` : You've reached the limit on the number of targets.
     func registerTargets(input: RegisterTargetsInput) async throws -> RegisterTargetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveListenerCertificates` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Removes the specified certificate from the certificate list for the specified HTTPS or TLS listener.
     ///
     /// - Parameter RemoveListenerCertificatesInput : [no documentation found]
@@ -766,11 +676,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `ListenerNotFoundException` : The specified listener does not exist.
     /// - `OperationNotPermittedException` : This operation is not allowed.
     func removeListenerCertificates(input: RemoveListenerCertificatesInput) async throws -> RemoveListenerCertificatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveTags` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Removes the specified tags from the specified Elastic Load Balancing resources. You can remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, or rules.
     ///
     /// - Parameter RemoveTagsInput : [no documentation found]
@@ -784,10 +691,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     /// - `TargetGroupNotFoundException` : The specified target group does not exist.
-<<<<<<< HEAD
-    /// - `TooManyTagsException` : You've reached the limit on the number of tags per load balancer.
-    func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-=======
     /// - `TooManyTagsException` : You've reached the limit on the number of tags for this resource.
     /// - `TrustStoreNotFoundException` : The specified trust store does not exist.
     func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
@@ -807,7 +710,6 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     func removeTrustStoreRevocations(input: RemoveTrustStoreRevocationsInput) async throws -> RemoveTrustStoreRevocationsOutput
     /// Performs the `SetIpAddressType` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Sets the type of IP addresses used by the subnets of the specified load balancer.
     ///
     /// - Parameter SetIpAddressTypeInput : [no documentation found]
@@ -821,11 +723,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidSubnetException` : The specified subnet is out of available addresses.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SetRulePriorities` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Sets the priorities of the specified rules. You can reorder the rules as long as there are no priority conflicts in the new order. Any existing rules that you do not specify retain their current priority.
     ///
     /// - Parameter SetRulePrioritiesInput : [no documentation found]
@@ -839,11 +738,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `PriorityInUseException` : The specified priority is in use.
     /// - `RuleNotFoundException` : The specified rule does not exist.
     func setRulePriorities(input: SetRulePrioritiesInput) async throws -> SetRulePrioritiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SetSecurityGroups` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Associates the specified security groups with the specified Application Load Balancer or Network Load Balancer. The specified security groups override the previously associated security groups. You can't perform this operation on a Network Load Balancer unless you specified a security group for the load balancer when you created it. You can't associate a security group with a Gateway Load Balancer.
     ///
     /// - Parameter SetSecurityGroupsInput : [no documentation found]
@@ -857,11 +753,8 @@ public protocol ElasticLoadBalancingv2ClientProtocol {
     /// - `InvalidSecurityGroupException` : The specified security group does not exist.
     /// - `LoadBalancerNotFoundException` : The specified load balancer does not exist.
     func setSecurityGroups(input: SetSecurityGroupsInput) async throws -> SetSecurityGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SetSubnets` operation on the `ElasticLoadBalancing_v10` service.
     ///
->>>>>>> main
     /// Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets replace the previously enabled subnets. When you specify subnets for a Network Load Balancer, or Gateway Load Balancer you must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets.
     ///
     /// - Parameter SetSubnetsInput : [no documentation found]

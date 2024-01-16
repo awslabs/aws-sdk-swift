@@ -12,11 +12,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeAgentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAgentsOutput`
     public func describeAgentsPaginated(input: DescribeAgentsInput) -> ClientRuntime.PaginatorSequence<DescribeAgentsInput, DescribeAgentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAgentsInput, DescribeAgentsOutput>(input: input, inputKey: \DescribeAgentsInput.nextToken, outputKey: \DescribeAgentsOutput.nextToken, paginationFunction: self.describeAgents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAgentsInput, DescribeAgentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAgents(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension DescribeAgentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAgentsInput, Output == DescribeAgentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAgentsInput, OperationStackOutput == DescribeAgentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAgentsPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.AgentInfo]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.AgentInfo]`
@@ -52,11 +44,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeContinuousExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeContinuousExportsOutput`
     public func describeContinuousExportsPaginated(input: DescribeContinuousExportsInput) -> ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(input: input, inputKey: \DescribeContinuousExportsInput.nextToken, outputKey: \DescribeContinuousExportsOutput.nextToken, paginationFunction: self.describeContinuousExports(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeContinuousExports(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension DescribeContinuousExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeContinuousExportsInput, Output == DescribeContinuousExportsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeContinuousExportsInput, OperationStackOutput == DescribeContinuousExportsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeContinuousExportsPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.ContinuousExportDescription]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.ContinuousExportDescription]`
@@ -91,11 +75,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeExportConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeExportConfigurationsOutput`
     public func describeExportConfigurationsPaginated(input: DescribeExportConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(input: input, inputKey: \DescribeExportConfigurationsInput.nextToken, outputKey: \DescribeExportConfigurationsOutput.nextToken, paginationFunction: self.describeExportConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeExportConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension DescribeExportConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeExportConfigurationsInput, Output == DescribeExportConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeExportConfigurationsInput, OperationStackOutput == DescribeExportConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeExportConfigurationsPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.ExportInfo]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.ExportInfo]`
@@ -130,11 +106,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeExportTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeExportTasksOutput`
     public func describeExportTasksPaginated(input: DescribeExportTasksInput) -> ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput>(input: input, inputKey: \DescribeExportTasksInput.nextToken, outputKey: \DescribeExportTasksOutput.nextToken, paginationFunction: self.describeExportTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeExportTasksInput, DescribeExportTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeExportTasks(input:))
->>>>>>> main
     }
 }
 
@@ -148,11 +120,7 @@ extension DescribeExportTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeExportTasksInput, Output == DescribeExportTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeExportTasksInput, OperationStackOutput == DescribeExportTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeExportTasksPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.ExportInfo]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.ExportInfo]`
@@ -170,11 +138,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeImportTasksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeImportTasksOutput`
     public func describeImportTasksPaginated(input: DescribeImportTasksInput) -> ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutput>(input: input, inputKey: \DescribeImportTasksInput.nextToken, outputKey: \DescribeImportTasksOutput.nextToken, paginationFunction: self.describeImportTasks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeImportTasksInput, DescribeImportTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImportTasks(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +151,7 @@ extension DescribeImportTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeImportTasksInput, Output == DescribeImportTasksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeImportTasksInput, OperationStackOutput == DescribeImportTasksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeImportTasksPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.ImportTask]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.ImportTask]`
@@ -209,11 +169,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.nextToken, outputKey: \DescribeTagsOutput.nextToken, paginationFunction: self.describeTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeTags(input:))
->>>>>>> main
     }
 }
 
@@ -226,11 +182,7 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTagsInput, OperationStackOutput == DescribeTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
     /// to access the nested member `[ApplicationDiscoveryClientTypes.ConfigurationTag]`
     /// - Returns: `[ApplicationDiscoveryClientTypes.ConfigurationTag]`
@@ -248,11 +200,7 @@ extension ApplicationDiscoveryClient {
     ///     - input: A `[ListConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationsOutput`
     public func listConfigurationsPaginated(input: ListConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \ListConfigurationsInput.nextToken, outputKey: \ListConfigurationsOutput.nextToken, paginationFunction: self.listConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -267,11 +215,7 @@ extension ListConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListConfigurationsInput, Output == ListConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListConfigurationsInput, OperationStackOutput == ListConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationsPaginated`
     /// to access the nested member `[[Swift.String:Swift.String]]`
     /// - Returns: `[[Swift.String:Swift.String]]`

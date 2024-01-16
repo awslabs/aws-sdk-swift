@@ -3841,8 +3841,6 @@ enum CreateVpcConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension KafkaClientTypes {
     /// A type of an action required from the customer.
     public enum CustomerActionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -3879,7 +3877,6 @@ extension KafkaClientTypes {
     }
 }
 
->>>>>>> main
 extension DeleteClusterInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {

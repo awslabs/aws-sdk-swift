@@ -619,13 +619,9 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -4537,11 +4533,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-<<<<<<< HEAD
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
-=======
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
->>>>>>> main
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -7529,10 +7521,7 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let caCertificateIdentifier: Swift.String?
     let dbSystemId: Swift.String?
     let dedicatedLogVolume: Swift.Bool?
-<<<<<<< HEAD
-=======
     let multiTenant: Swift.Bool?
->>>>>>> main
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
@@ -7827,11 +7816,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         dbSystemId = dbSystemIdDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -10486,15 +10472,9 @@ public struct CreateIntegrationInput: Swift.Equatable {
     /// The name of the integration.
     /// This member is required.
     public var integrationName: Swift.String?
-<<<<<<< HEAD
-    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, Aurora uses a default Amazon Web Services owned key.
-    public var kmsKeyId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster to use as the source for replication.
-=======
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, RDS uses a default Amazon Web Services owned key.
     public var kmsKeyId: Swift.String?
     /// The Amazon Resource Name (ARN) of the database to use as the source for replication.
->>>>>>> main
     /// This member is required.
     public var sourceArn: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -10621,11 +10601,7 @@ extension CreateIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
-=======
 /// A zero-ETL integration with Amazon Redshift.
->>>>>>> main
 public struct CreateIntegrationOutput: Swift.Equatable {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -10639,11 +10615,7 @@ public struct CreateIntegrationOutput: Swift.Equatable {
     public var integrationName: Swift.String?
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
     public var kmsKeyId: Swift.String?
-<<<<<<< HEAD
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
-=======
     /// The Amazon Resource Name (ARN) of the database used as the source for replication.
->>>>>>> main
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
@@ -11004,8 +10976,6 @@ enum CreateOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateTenantDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
@@ -11216,7 +11186,6 @@ enum CreateTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CustomAvailabilityZoneNotFoundFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -11880,8 +11849,6 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
-<<<<<<< HEAD
-=======
         if let statusInfos = statusInfos {
             if !statusInfos.isEmpty {
                 var statusInfosContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StatusInfos"))
@@ -11894,7 +11861,6 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
                 try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
->>>>>>> main
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
@@ -12508,10 +12474,7 @@ extension RDSClientTypes {
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
-<<<<<<< HEAD
-=======
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
->>>>>>> main
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -15259,11 +15222,7 @@ extension RDSClientTypes {
         public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific DB engine version.
         public var supportsGlobalDatabases: Swift.Bool?
-<<<<<<< HEAD
-        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
-=======
         /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
->>>>>>> main
         public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
@@ -16208,11 +16167,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         dedicatedLogVolume = dedicatedLogVolumeDecoded
         let isStorageConfigUpgradeAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isStorageConfigUpgradeAvailable)
         isStorageConfigUpgradeAvailable = isStorageConfigUpgradeAvailableDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -16340,11 +16296,8 @@ extension RDSClientTypes {
         public var monitoringRoleArn: Swift.String?
         /// Indicates whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom DB instances.
         public var multiAZ: Swift.Bool?
-<<<<<<< HEAD
-=======
         /// Specifies whether the DB instance is in the multi-tenant configuration (TRUE) or the single-tenant configuration (FALSE).
         public var multiTenant: Swift.Bool?
->>>>>>> main
         /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2.
         public var ncharCharacterSetName: Swift.String?
         /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide and [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon Aurora User Guide. Valid Values: IPV4 | DUAL
@@ -16468,10 +16421,7 @@ extension RDSClientTypes {
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
-<<<<<<< HEAD
-=======
             multiTenant: Swift.Bool? = nil,
->>>>>>> main
             ncharCharacterSetName: Swift.String? = nil,
             networkType: Swift.String? = nil,
             optionGroupMemberships: [RDSClientTypes.OptionGroupMembership]? = nil,
@@ -16866,11 +16816,8 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -17478,11 +17425,7 @@ extension RDSClientTypes {
     public struct DBInstanceStatusInfo: Swift.Equatable {
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public var message: Swift.String?
-<<<<<<< HEAD
-        /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-=======
         /// Indicates whether the instance is operating normally (TRUE) or is in an error state (FALSE).
->>>>>>> main
         public var normal: Swift.Bool?
         /// The status of the DB instance. For a StatusType of read replica, the values can be replicating, replication stop point set, replication stop point reached, error, stopped, or terminated.
         public var status: Swift.String?
@@ -20105,11 +20048,8 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         dbSystemId = dbSystemIdDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -21585,11 +21525,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-<<<<<<< HEAD
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
-=======
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
->>>>>>> main
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -23677,11 +23613,7 @@ extension DeleteIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
-=======
 /// A zero-ETL integration with Amazon Redshift.
->>>>>>> main
 public struct DeleteIntegrationOutput: Swift.Equatable {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -23695,11 +23627,7 @@ public struct DeleteIntegrationOutput: Swift.Equatable {
     public var integrationName: Swift.String?
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
     public var kmsKeyId: Swift.String?
-<<<<<<< HEAD
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
-=======
     /// The Amazon Resource Name (ARN) of the database used as the source for replication.
->>>>>>> main
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
@@ -23918,8 +23846,6 @@ enum DeleteOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteTenantDatabaseInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -24053,7 +23979,6 @@ enum DeleteTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeregisterDBProxyTargetsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -28429,8 +28354,6 @@ enum DescribeDBProxyTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeDBRecommendationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -28696,7 +28619,6 @@ enum DescribeDBRecommendationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension DescribeDBSecurityGroupsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -28979,8 +28901,6 @@ enum DescribeDBSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeDBSnapshotTenantDatabasesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -29224,7 +29144,6 @@ enum DescribeDBSnapshotTenantDatabasesOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
->>>>>>> main
 extension DescribeDBSnapshotsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -32889,8 +32808,6 @@ enum DescribeSourceRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeTenantDatabasesInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -33090,7 +33007,6 @@ enum DescribeTenantDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
->>>>>>> main
 extension DescribeValidDBInstanceModificationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -33190,8 +33106,6 @@ enum DescribeValidDBInstanceModificationsOutputError: ClientRuntime.HttpResponse
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RDSClientTypes.DocLink: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text = "Text"
@@ -33237,7 +33151,6 @@ extension RDSClientTypes {
 
 }
 
->>>>>>> main
 extension RDSClientTypes.DomainMembership: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authSecretArn = "AuthSecretArn"
@@ -34241,11 +34154,7 @@ extension RDSClientTypes {
         public var custSubscriptionId: Swift.String?
         /// The Amazon Web Services customer account associated with the RDS event notification subscription.
         public var customerAwsId: Swift.String?
-<<<<<<< HEAD
-        /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-=======
         /// Specifies whether the subscription is enabled. True indicates the subscription is enabled.
->>>>>>> main
         public var enabled: Swift.Bool?
         /// A list of event categories for the RDS event notification subscription.
         public var eventCategoriesList: [Swift.String]?
@@ -36227,11 +36136,7 @@ extension RDSClientTypes.Integration: Swift.Codable {
 }
 
 extension RDSClientTypes {
-<<<<<<< HEAD
-    /// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
-=======
     /// A zero-ETL integration with Amazon Redshift.
->>>>>>> main
     public struct Integration: Swift.Equatable {
         /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
         public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -36245,11 +36150,7 @@ extension RDSClientTypes {
         public var integrationName: Swift.String?
         /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
         public var kmsKeyId: Swift.String?
-<<<<<<< HEAD
-        /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
-=======
         /// The Amazon Resource Name (ARN) of the database used as the source for replication.
->>>>>>> main
         public var sourceArn: Swift.String?
         /// The current status of the integration.
         public var status: RDSClientTypes.IntegrationStatus?
@@ -38349,13 +38250,9 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -39335,11 +39232,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-<<<<<<< HEAD
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
-=======
     /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
->>>>>>> main
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -41810,10 +41703,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let masterUserSecretKmsKeyId: Swift.String?
     let engine: Swift.String?
     let dedicatedLogVolume: Swift.Bool?
-<<<<<<< HEAD
-=======
     let multiTenant: Swift.Bool?
->>>>>>> main
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -42068,11 +41958,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         engine = engineDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -42246,11 +42133,7 @@ extension ModifyDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
-=======
 /// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
->>>>>>> main
 public struct ModifyDBParameterGroupOutput: Swift.Equatable {
     /// The name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
@@ -42753,8 +42636,6 @@ extension ModifyDBProxyTargetGroupOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: ModifyDBProxyTargetGroupOutputBody = try responseDecoder.decode(responseBody: data)
             self.dbProxyTargetGroup = output.dbProxyTargetGroup
-<<<<<<< HEAD
-=======
         } else {
             self.dbProxyTargetGroup = nil
         }
@@ -42905,32 +42786,12 @@ extension ModifyDBRecommendationInputBody: Swift.Decodable {
             } else {
                 recommendedActionUpdates = []
             }
->>>>>>> main
         } else {
             recommendedActionUpdates = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct ModifyDBProxyTargetGroupOutput: Swift.Equatable {
-    /// The settings of the modified DBProxyTarget.
-    public var dbProxyTargetGroup: RDSClientTypes.DBProxyTargetGroup?
-
-    public init(
-        dbProxyTargetGroup: RDSClientTypes.DBProxyTargetGroup? = nil
-    )
-    {
-        self.dbProxyTargetGroup = dbProxyTargetGroup
-    }
-}
-
-struct ModifyDBProxyTargetGroupOutputBody: Swift.Equatable {
-    let dbProxyTargetGroup: RDSClientTypes.DBProxyTargetGroup?
-}
-
-extension ModifyDBProxyTargetGroupOutputBody: Swift.Decodable {
-=======
 extension ModifyDBRecommendationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -42960,7 +42821,6 @@ struct ModifyDBRecommendationOutputBody: Swift.Equatable {
 }
 
 extension ModifyDBRecommendationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbRecommendation = "DBRecommendation"
     }
@@ -42977,18 +42837,6 @@ enum ModifyDBRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-enum ModifyDBProxyTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidDBProxyStateFault": return try await InvalidDBProxyStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -43923,13 +43771,6 @@ extension ModifyOptionGroupInputBody: Swift.Decodable {
 }
 
 extension ModifyOptionGroupOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ModifyOptionGroupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.optionGroup = output.optionGroup
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -44087,22 +43928,15 @@ extension ModifyTenantDatabaseOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: ModifyTenantDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
             self.tenantDatabase = output.tenantDatabase
->>>>>>> main
         } else {
             self.tenantDatabase = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct ModifyOptionGroupOutput: Swift.Equatable {
-    ///
-    public var optionGroup: RDSClientTypes.OptionGroup?
-=======
 public struct ModifyTenantDatabaseOutput: Swift.Equatable {
     /// A tenant database in the DB instance. This data type is an element in the response to the DescribeTenantDatabases action.
     public var tenantDatabase: RDSClientTypes.TenantDatabase?
->>>>>>> main
 
     public init(
         tenantDatabase: RDSClientTypes.TenantDatabase? = nil
@@ -44112,19 +43946,11 @@ public struct ModifyTenantDatabaseOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ModifyOptionGroupOutputBody: Swift.Equatable {
-    let optionGroup: RDSClientTypes.OptionGroup?
-}
-
-extension ModifyOptionGroupOutputBody: Swift.Decodable {
-=======
 struct ModifyTenantDatabaseOutputBody: Swift.Equatable {
     let tenantDatabase: RDSClientTypes.TenantDatabase?
 }
 
 extension ModifyTenantDatabaseOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tenantDatabase = "TenantDatabase"
     }
@@ -44145,17 +43971,6 @@ enum ModifyTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TenantDatabaseAlreadyExists": return try await TenantDatabaseAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-enum ModifyOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidOptionGroupStateFault": return try await InvalidOptionGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "OptionGroupNotFoundFault": return try await OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -46589,11 +46404,8 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         engine = engineDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
-<<<<<<< HEAD
-=======
         let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
         multiTenant = multiTenantDecoded
->>>>>>> main
     }
 }
 
@@ -47579,10 +47391,7 @@ extension RDSClientTypes {
 extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interconnectSubnetId = "InterconnectSubnetId"
-<<<<<<< HEAD
-=======
         case replicaMode = "ReplicaMode"
->>>>>>> main
         case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
     }
 
@@ -47591,12 +47400,9 @@ extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
         if let interconnectSubnetId = interconnectSubnetId {
             try container.encode(interconnectSubnetId, forKey: ClientRuntime.Key("InterconnectSubnetId"))
         }
-<<<<<<< HEAD
-=======
         if let replicaMode = replicaMode {
             try container.encode(replicaMode, forKey: ClientRuntime.Key("ReplicaMode"))
         }
->>>>>>> main
         if let transitGatewayMulticastDomainId = transitGatewayMulticastDomainId {
             try container.encode(transitGatewayMulticastDomainId, forKey: ClientRuntime.Key("TransitGatewayMulticastDomainId"))
         }
@@ -47608,11 +47414,8 @@ extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
         interconnectSubnetId = interconnectSubnetIdDecoded
         let transitGatewayMulticastDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayMulticastDomainId)
         transitGatewayMulticastDomainId = transitGatewayMulticastDomainIdDecoded
-<<<<<<< HEAD
-=======
         let replicaModeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ReplicaMode.self, forKey: .replicaMode)
         replicaMode = replicaModeDecoded
->>>>>>> main
     }
 }
 
@@ -47622,27 +47425,18 @@ extension RDSClientTypes {
         /// Reserved for future use.
         public var interconnectSubnetId: Swift.String?
         /// Reserved for future use.
-<<<<<<< HEAD
-=======
         public var replicaMode: RDSClientTypes.ReplicaMode?
         /// Reserved for future use.
->>>>>>> main
         public var transitGatewayMulticastDomainId: Swift.String?
 
         public init(
             interconnectSubnetId: Swift.String? = nil,
-<<<<<<< HEAD
-=======
             replicaMode: RDSClientTypes.ReplicaMode? = nil,
->>>>>>> main
             transitGatewayMulticastDomainId: Swift.String? = nil
         )
         {
             self.interconnectSubnetId = interconnectSubnetId
-<<<<<<< HEAD
-=======
             self.replicaMode = replicaMode
->>>>>>> main
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
         }
     }
@@ -47862,8 +47656,6 @@ enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RDSClientTypes.RecommendedAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionId = "ActionId"
@@ -48167,7 +47959,6 @@ extension RDSClientTypes {
 
 }
 
->>>>>>> main
 extension RDSClientTypes.RecurringCharge: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recurringChargeAmount = "RecurringChargeAmount"
@@ -48963,13 +48754,9 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-            case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-=======
             case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -49851,11 +49638,7 @@ extension ResetDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
-=======
 /// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
->>>>>>> main
 public struct ResetDBParameterGroupOutput: Swift.Equatable {
     /// The name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
@@ -58410,11 +58193,7 @@ extension RDSClientTypes {
         public var supportsBabelfish: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
-<<<<<<< HEAD
-        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
-=======
         /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
->>>>>>> main
         public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the target engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?

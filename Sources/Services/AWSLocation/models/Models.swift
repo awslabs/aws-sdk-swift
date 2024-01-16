@@ -7800,11 +7800,7 @@ extension ListDevicePositionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDevicePositionsInput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The geomerty used to filter device positions.
-=======
     /// The geometry used to filter device positions.
->>>>>>> main
     public var filterGeometry: LocationClientTypes.TrackingFilterGeometry?
     /// An optional limit for the number of entries returned in a single call. Default value: 100
     public var maxResults: Swift.Int?

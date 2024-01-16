@@ -12,11 +12,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListAccountAssignmentCreationStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAssignmentCreationStatusOutput`
     public func listAccountAssignmentCreationStatusPaginated(input: ListAccountAssignmentCreationStatusInput) -> ClientRuntime.PaginatorSequence<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(input: input, inputKey: \ListAccountAssignmentCreationStatusInput.nextToken, outputKey: \ListAccountAssignmentCreationStatusOutput.nextToken, paginationFunction: self.listAccountAssignmentCreationStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountAssignmentCreationStatus(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension ListAccountAssignmentCreationStatusInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccountAssignmentCreationStatusInput, Output == ListAccountAssignmentCreationStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccountAssignmentCreationStatusInput, OperationStackOutput == ListAccountAssignmentCreationStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccountAssignmentCreationStatusPaginated`
     /// to access the nested member `[SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]`
     /// - Returns: `[SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]`
@@ -52,11 +44,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListAccountAssignmentDeletionStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAssignmentDeletionStatusOutput`
     public func listAccountAssignmentDeletionStatusPaginated(input: ListAccountAssignmentDeletionStatusInput) -> ClientRuntime.PaginatorSequence<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(input: input, inputKey: \ListAccountAssignmentDeletionStatusInput.nextToken, outputKey: \ListAccountAssignmentDeletionStatusOutput.nextToken, paginationFunction: self.listAccountAssignmentDeletionStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountAssignmentDeletionStatus(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension ListAccountAssignmentDeletionStatusInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccountAssignmentDeletionStatusInput, Output == ListAccountAssignmentDeletionStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccountAssignmentDeletionStatusInput, OperationStackOutput == ListAccountAssignmentDeletionStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccountAssignmentDeletionStatusPaginated`
     /// to access the nested member `[SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]`
     /// - Returns: `[SSOAdminClientTypes.AccountAssignmentOperationStatusMetadata]`
@@ -92,11 +76,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListAccountAssignmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAssignmentsOutput`
     public func listAccountAssignmentsPaginated(input: ListAccountAssignmentsInput) -> ClientRuntime.PaginatorSequence<ListAccountAssignmentsInput, ListAccountAssignmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(input: input, inputKey: \ListAccountAssignmentsInput.nextToken, outputKey: \ListAccountAssignmentsOutput.nextToken, paginationFunction: self.listAccountAssignments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccountAssignmentsInput, ListAccountAssignmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountAssignments(input:))
->>>>>>> main
     }
 }
 
@@ -111,11 +91,7 @@ extension ListAccountAssignmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccountAssignmentsInput, Output == ListAccountAssignmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccountAssignmentsInput, OperationStackOutput == ListAccountAssignmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccountAssignmentsPaginated`
     /// to access the nested member `[SSOAdminClientTypes.AccountAssignment]`
     /// - Returns: `[SSOAdminClientTypes.AccountAssignment]`
@@ -124,8 +100,6 @@ extension PaginatorSequence where OperationStackInput == ListAccountAssignmentsI
     }
 }
 extension SSOAdminClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListAccountAssignmentsForPrincipalOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -160,7 +134,6 @@ extension PaginatorSequence where OperationStackInput == ListAccountAssignmentsF
     }
 }
 extension SSOAdminClient {
->>>>>>> main
     /// Paginate over `[ListAccountsForProvisionedPermissionSetOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -170,11 +143,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListAccountsForProvisionedPermissionSetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsForProvisionedPermissionSetOutput`
     public func listAccountsForProvisionedPermissionSetPaginated(input: ListAccountsForProvisionedPermissionSetInput) -> ClientRuntime.PaginatorSequence<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(input: input, inputKey: \ListAccountsForProvisionedPermissionSetInput.nextToken, outputKey: \ListAccountsForProvisionedPermissionSetOutput.nextToken, paginationFunction: self.listAccountsForProvisionedPermissionSet(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountsForProvisionedPermissionSet(input:))
->>>>>>> main
     }
 }
 
@@ -189,11 +158,7 @@ extension ListAccountsForProvisionedPermissionSetInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccountsForProvisionedPermissionSetInput, Output == ListAccountsForProvisionedPermissionSetOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccountsForProvisionedPermissionSetInput, OperationStackOutput == ListAccountsForProvisionedPermissionSetOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccountsForProvisionedPermissionSetPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -202,8 +167,6 @@ extension PaginatorSequence where OperationStackInput == ListAccountsForProvisio
     }
 }
 extension SSOAdminClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListApplicationAssignmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -331,7 +294,6 @@ extension PaginatorSequence where OperationStackInput == ListApplicationsInput, 
     }
 }
 extension SSOAdminClient {
->>>>>>> main
     /// Paginate over `[ListCustomerManagedPolicyReferencesInPermissionSetOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -341,11 +303,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListCustomerManagedPolicyReferencesInPermissionSetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomerManagedPolicyReferencesInPermissionSetOutput`
     public func listCustomerManagedPolicyReferencesInPermissionSetPaginated(input: ListCustomerManagedPolicyReferencesInPermissionSetInput) -> ClientRuntime.PaginatorSequence<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(input: input, inputKey: \ListCustomerManagedPolicyReferencesInPermissionSetInput.nextToken, outputKey: \ListCustomerManagedPolicyReferencesInPermissionSetOutput.nextToken, paginationFunction: self.listCustomerManagedPolicyReferencesInPermissionSet(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomerManagedPolicyReferencesInPermissionSet(input:))
->>>>>>> main
     }
 }
 
@@ -359,11 +317,7 @@ extension ListCustomerManagedPolicyReferencesInPermissionSetInput: ClientRuntime
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCustomerManagedPolicyReferencesInPermissionSetInput, Output == ListCustomerManagedPolicyReferencesInPermissionSetOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCustomerManagedPolicyReferencesInPermissionSetInput, OperationStackOutput == ListCustomerManagedPolicyReferencesInPermissionSetOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCustomerManagedPolicyReferencesInPermissionSetPaginated`
     /// to access the nested member `[SSOAdminClientTypes.CustomerManagedPolicyReference]`
     /// - Returns: `[SSOAdminClientTypes.CustomerManagedPolicyReference]`
@@ -381,11 +335,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
     public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstances(input:))
->>>>>>> main
     }
 }
 
@@ -397,11 +347,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstancesInput, OperationStackOutput == ListInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[SSOAdminClientTypes.InstanceMetadata]`
     /// - Returns: `[SSOAdminClientTypes.InstanceMetadata]`
@@ -419,11 +365,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListManagedPoliciesInPermissionSetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedPoliciesInPermissionSetOutput`
     public func listManagedPoliciesInPermissionSetPaginated(input: ListManagedPoliciesInPermissionSetInput) -> ClientRuntime.PaginatorSequence<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(input: input, inputKey: \ListManagedPoliciesInPermissionSetInput.nextToken, outputKey: \ListManagedPoliciesInPermissionSetOutput.nextToken, paginationFunction: self.listManagedPoliciesInPermissionSet(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedPoliciesInPermissionSet(input:))
->>>>>>> main
     }
 }
 
@@ -437,11 +379,7 @@ extension ListManagedPoliciesInPermissionSetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListManagedPoliciesInPermissionSetInput, Output == ListManagedPoliciesInPermissionSetOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListManagedPoliciesInPermissionSetInput, OperationStackOutput == ListManagedPoliciesInPermissionSetOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listManagedPoliciesInPermissionSetPaginated`
     /// to access the nested member `[SSOAdminClientTypes.AttachedManagedPolicy]`
     /// - Returns: `[SSOAdminClientTypes.AttachedManagedPolicy]`
@@ -459,11 +397,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListPermissionSetProvisioningStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionSetProvisioningStatusOutput`
     public func listPermissionSetProvisioningStatusPaginated(input: ListPermissionSetProvisioningStatusInput) -> ClientRuntime.PaginatorSequence<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(input: input, inputKey: \ListPermissionSetProvisioningStatusInput.nextToken, outputKey: \ListPermissionSetProvisioningStatusOutput.nextToken, paginationFunction: self.listPermissionSetProvisioningStatus(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissionSetProvisioningStatus(input:))
->>>>>>> main
     }
 }
 
@@ -477,11 +411,7 @@ extension ListPermissionSetProvisioningStatusInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPermissionSetProvisioningStatusInput, Output == ListPermissionSetProvisioningStatusOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPermissionSetProvisioningStatusInput, OperationStackOutput == ListPermissionSetProvisioningStatusOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPermissionSetProvisioningStatusPaginated`
     /// to access the nested member `[SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata]`
     /// - Returns: `[SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata]`
@@ -499,11 +429,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListPermissionSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionSetsOutput`
     public func listPermissionSetsPaginated(input: ListPermissionSetsInput) -> ClientRuntime.PaginatorSequence<ListPermissionSetsInput, ListPermissionSetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPermissionSetsInput, ListPermissionSetsOutput>(input: input, inputKey: \ListPermissionSetsInput.nextToken, outputKey: \ListPermissionSetsOutput.nextToken, paginationFunction: self.listPermissionSets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPermissionSetsInput, ListPermissionSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissionSets(input:))
->>>>>>> main
     }
 }
 
@@ -516,11 +442,7 @@ extension ListPermissionSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPermissionSetsInput, Output == ListPermissionSetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPermissionSetsInput, OperationStackOutput == ListPermissionSetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPermissionSetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -538,11 +460,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListPermissionSetsProvisionedToAccountInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionSetsProvisionedToAccountOutput`
     public func listPermissionSetsProvisionedToAccountPaginated(input: ListPermissionSetsProvisionedToAccountInput) -> ClientRuntime.PaginatorSequence<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(input: input, inputKey: \ListPermissionSetsProvisionedToAccountInput.nextToken, outputKey: \ListPermissionSetsProvisionedToAccountOutput.nextToken, paginationFunction: self.listPermissionSetsProvisionedToAccount(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissionSetsProvisionedToAccount(input:))
->>>>>>> main
     }
 }
 
@@ -557,11 +475,7 @@ extension ListPermissionSetsProvisionedToAccountInput: ClientRuntime.PaginateTok
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPermissionSetsProvisionedToAccountInput, Output == ListPermissionSetsProvisionedToAccountOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPermissionSetsProvisionedToAccountInput, OperationStackOutput == ListPermissionSetsProvisionedToAccountOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPermissionSetsProvisionedToAccountPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -579,11 +493,7 @@ extension SSOAdminClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -596,11 +506,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[SSOAdminClientTypes.Tag]`
     /// - Returns: `[SSOAdminClientTypes.Tag]`

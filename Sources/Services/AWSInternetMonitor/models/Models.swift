@@ -501,8 +501,6 @@ enum DeleteMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension InternetMonitorClientTypes.FilterParameter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case field = "Field"
@@ -570,7 +568,6 @@ extension InternetMonitorClientTypes {
 
 }
 
->>>>>>> main
 extension GetHealthEventInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let monitorName = monitorName else {
@@ -1009,8 +1006,6 @@ enum GetMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetQueryResultsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1274,7 +1269,6 @@ enum GetQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension InternetMonitorClientTypes.HealthEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "CreatedAt"

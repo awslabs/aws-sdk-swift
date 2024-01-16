@@ -390,49 +390,6 @@ extension CreateLifecyclePolicyOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateLifecyclePolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateLifecyclePolicyOutputBody = try responseDecoder.decode(responseBody: data)
-            self.policyId = output.policyId
-        } else {
-            self.policyId = nil
-        }
-    }
-}
-
-public struct CreateLifecyclePolicyOutput: Swift.Equatable {
-    /// The identifier of the lifecycle policy.
-    public var policyId: Swift.String?
-
-    public init(
-        policyId: Swift.String? = nil
-    )
-    {
-        self.policyId = policyId
-    }
-}
-
-struct CreateLifecyclePolicyOutputBody: Swift.Equatable {
-    let policyId: Swift.String?
-}
-
-extension CreateLifecyclePolicyOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case policyId = "PolicyId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let policyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyId)
-        policyId = policyIdDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum CreateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2942,19 +2899,11 @@ extension DLMClientTypes {
     ///
     /// * Age-based retention You must specify Interval and IntervalUnit. If you specify an [ArchiveRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html) for the schedule, then you can specify a retention interval of 0 days to archive snapshots immediately after creation. If you specify a [FastRestoreRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_FastRestoreRule.html), [ShareRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_ShareRule.html), or a [CrossRegionCopyRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyRule.html), then you must specify a retention interval of 1 day or more.
     public struct RetainRule: Swift.Equatable {
-<<<<<<< HEAD
-        /// The number of snapshots to retain for each volume, up to a maximum of 1000. For example if you want to retain a maximum of three snapshots, specify 3. When the fourth snapshot is created, the oldest retained snapshot is deleted, or it is moved to the archive tier if you have specified an [ArchiveRule].
-        public var count: Swift.Int?
-        /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
-        public var interval: Swift.Int?
-        /// The unit of time for time-based retention. For example, to retain snapshots for 3 months, specify Interval=3 and IntervalUnit=MONTHS. Once the snapshot has been retained for 3 months, it is deleted, or it is moved to the archive tier if you have specified an [ArchiveRule].
-=======
         /// The number of snapshots to retain for each volume, up to a maximum of 1000. For example if you want to retain a maximum of three snapshots, specify 3. When the fourth snapshot is created, the oldest retained snapshot is deleted, or it is moved to the archive tier if you have specified an [ArchiveRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html).
         public var count: Swift.Int?
         /// The amount of time to retain each snapshot. The maximum is 100 years. This is equivalent to 1200 months, 5200 weeks, or 36500 days.
         public var interval: Swift.Int?
         /// The unit of time for time-based retention. For example, to retain snapshots for 3 months, specify Interval=3 and IntervalUnit=MONTHS. Once the snapshot has been retained for 3 months, it is deleted, or it is moved to the archive tier if you have specified an [ArchiveRule](https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html).
->>>>>>> main
         public var intervalUnit: DLMClientTypes.RetentionIntervalUnitValues?
 
         public init(

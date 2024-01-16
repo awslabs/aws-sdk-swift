@@ -12,11 +12,7 @@ extension StorageGatewayClient {
     ///     - input: A `[DescribeTapeArchivesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeArchivesOutput`
     public func describeTapeArchivesPaginated(input: DescribeTapeArchivesInput) -> ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(input: input, inputKey: \DescribeTapeArchivesInput.marker, outputKey: \DescribeTapeArchivesOutput.marker, paginationFunction: self.describeTapeArchives(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTapeArchivesInput, DescribeTapeArchivesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTapeArchives(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeTapeArchivesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTapeArchivesInput, Output == DescribeTapeArchivesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTapeArchivesInput, OperationStackOutput == DescribeTapeArchivesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTapeArchivesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeArchive]`
     /// - Returns: `[StorageGatewayClientTypes.TapeArchive]`
@@ -51,11 +43,7 @@ extension StorageGatewayClient {
     ///     - input: A `[DescribeTapeRecoveryPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapeRecoveryPointsOutput`
     public func describeTapeRecoveryPointsPaginated(input: DescribeTapeRecoveryPointsInput) -> ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(input: input, inputKey: \DescribeTapeRecoveryPointsInput.marker, outputKey: \DescribeTapeRecoveryPointsOutput.marker, paginationFunction: self.describeTapeRecoveryPoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTapeRecoveryPointsInput, DescribeTapeRecoveryPointsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTapeRecoveryPoints(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension DescribeTapeRecoveryPointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTapeRecoveryPointsInput, Output == DescribeTapeRecoveryPointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTapeRecoveryPointsInput, OperationStackOutput == DescribeTapeRecoveryPointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTapeRecoveryPointsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeRecoveryPointInfo]`
     /// - Returns: `[StorageGatewayClientTypes.TapeRecoveryPointInfo]`
@@ -90,11 +74,7 @@ extension StorageGatewayClient {
     ///     - input: A `[DescribeTapesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTapesOutput`
     public func describeTapesPaginated(input: DescribeTapesInput) -> ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutput>(input: input, inputKey: \DescribeTapesInput.marker, outputKey: \DescribeTapesOutput.marker, paginationFunction: self.describeTapes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTapesInput, DescribeTapesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeTapes(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension DescribeTapesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeTapesInput, Output == DescribeTapesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeTapesInput, OperationStackOutput == DescribeTapesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeTapesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.Tape]`
     /// - Returns: `[StorageGatewayClientTypes.Tape]`
@@ -130,11 +106,7 @@ extension StorageGatewayClient {
     ///     - input: A `[DescribeVTLDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeVTLDevicesOutput`
     public func describeVTLDevicesPaginated(input: DescribeVTLDevicesInput) -> ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(input: input, inputKey: \DescribeVTLDevicesInput.marker, outputKey: \DescribeVTLDevicesOutput.marker, paginationFunction: self.describeVTLDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeVTLDevicesInput, DescribeVTLDevicesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeVTLDevices(input:))
->>>>>>> main
     }
 }
 
@@ -148,11 +120,7 @@ extension DescribeVTLDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeVTLDevicesInput, Output == DescribeVTLDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeVTLDevicesInput, OperationStackOutput == DescribeVTLDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeVTLDevicesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.VTLDevice]`
     /// - Returns: `[StorageGatewayClientTypes.VTLDevice]`
@@ -170,11 +138,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListFileSharesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFileSharesOutput`
     public func listFileSharesPaginated(input: ListFileSharesInput) -> ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutput>(input: input, inputKey: \ListFileSharesInput.marker, outputKey: \ListFileSharesOutput.nextMarker, paginationFunction: self.listFileShares(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFileSharesInput, ListFileSharesOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFileShares(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +151,7 @@ extension ListFileSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFileSharesInput, Output == ListFileSharesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFileSharesInput, OperationStackOutput == ListFileSharesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFileSharesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.FileShareInfo]`
     /// - Returns: `[StorageGatewayClientTypes.FileShareInfo]`
@@ -209,11 +169,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListFileSystemAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFileSystemAssociationsOutput`
     public func listFileSystemAssociationsPaginated(input: ListFileSystemAssociationsInput) -> ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(input: input, inputKey: \ListFileSystemAssociationsInput.marker, outputKey: \ListFileSystemAssociationsOutput.nextMarker, paginationFunction: self.listFileSystemAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFileSystemAssociationsInput, ListFileSystemAssociationsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listFileSystemAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -226,11 +182,7 @@ extension ListFileSystemAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFileSystemAssociationsInput, Output == ListFileSystemAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFileSystemAssociationsInput, OperationStackOutput == ListFileSystemAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFileSystemAssociationsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.FileSystemAssociationSummary]`
     /// - Returns: `[StorageGatewayClientTypes.FileSystemAssociationSummary]`
@@ -248,11 +200,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
     public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.marker, outputKey: \ListGatewaysOutput.marker, paginationFunction: self.listGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listGateways(input:))
->>>>>>> main
     }
 }
 
@@ -264,11 +212,7 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGatewaysInput, OperationStackOutput == ListGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.GatewayInfo]`
     /// - Returns: `[StorageGatewayClientTypes.GatewayInfo]`
@@ -286,11 +230,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.marker, outputKey: \ListTagsForResourceOutput.marker, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -303,11 +243,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[StorageGatewayClientTypes.Tag]`
     /// - Returns: `[StorageGatewayClientTypes.Tag]`
@@ -325,11 +261,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListTapePoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTapePoolsOutput`
     public func listTapePoolsPaginated(input: ListTapePoolsInput) -> ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutput>(input: input, inputKey: \ListTapePoolsInput.marker, outputKey: \ListTapePoolsOutput.marker, paginationFunction: self.listTapePools(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTapePoolsInput, ListTapePoolsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listTapePools(input:))
->>>>>>> main
     }
 }
 
@@ -342,11 +274,7 @@ extension ListTapePoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTapePoolsInput, Output == ListTapePoolsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTapePoolsInput, OperationStackOutput == ListTapePoolsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTapePoolsPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.PoolInfo]`
     /// - Returns: `[StorageGatewayClientTypes.PoolInfo]`
@@ -364,11 +292,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListTapesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTapesOutput`
     public func listTapesPaginated(input: ListTapesInput) -> ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutput>(input: input, inputKey: \ListTapesInput.marker, outputKey: \ListTapesOutput.marker, paginationFunction: self.listTapes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTapesInput, ListTapesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listTapes(input:))
->>>>>>> main
     }
 }
 
@@ -381,11 +305,7 @@ extension ListTapesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTapesInput, Output == ListTapesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTapesInput, OperationStackOutput == ListTapesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTapesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.TapeInfo]`
     /// - Returns: `[StorageGatewayClientTypes.TapeInfo]`
@@ -403,11 +323,7 @@ extension StorageGatewayClient {
     ///     - input: A `[ListVolumesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVolumesOutput`
     public func listVolumesPaginated(input: ListVolumesInput) -> ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutput>(input: input, inputKey: \ListVolumesInput.marker, outputKey: \ListVolumesOutput.marker, paginationFunction: self.listVolumes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVolumesInput, ListVolumesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listVolumes(input:))
->>>>>>> main
     }
 }
 
@@ -420,11 +336,7 @@ extension ListVolumesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListVolumesInput, Output == ListVolumesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListVolumesInput, OperationStackOutput == ListVolumesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listVolumesPaginated`
     /// to access the nested member `[StorageGatewayClientTypes.VolumeInfo]`
     /// - Returns: `[StorageGatewayClientTypes.VolumeInfo]`

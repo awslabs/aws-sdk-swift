@@ -12,11 +12,7 @@ extension IAMClient {
     ///     - input: A `[GetAccountAuthorizationDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAccountAuthorizationDetailsOutput`
     public func getAccountAuthorizationDetailsPaginated(input: GetAccountAuthorizationDetailsInput) -> ClientRuntime.PaginatorSequence<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(input: input, inputKey: \GetAccountAuthorizationDetailsInput.marker, outputKey: \GetAccountAuthorizationDetailsOutput.marker, paginationFunction: self.getAccountAuthorizationDetails(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.getAccountAuthorizationDetails(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension IAMClient {
     ///     - input: A `[GetGroupInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetGroupOutput`
     public func getGroupPaginated(input: GetGroupInput) -> ClientRuntime.PaginatorSequence<GetGroupInput, GetGroupOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetGroupInput, GetGroupOutput>(input: input, inputKey: \GetGroupInput.marker, outputKey: \GetGroupOutput.marker, paginationFunction: self.getGroup(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetGroupInput, GetGroupOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.getGroup(input:))
->>>>>>> main
     }
 }
 
@@ -55,11 +47,7 @@ extension GetGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetGroupInput, Output == GetGroupOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetGroupInput, OperationStackOutput == GetGroupOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getGroupPaginated`
     /// to access the nested member `[IAMClientTypes.User]`
     /// - Returns: `[IAMClientTypes.User]`
@@ -77,11 +65,7 @@ extension IAMClient {
     ///     - input: A `[ListAccessKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessKeysOutput`
     public func listAccessKeysPaginated(input: ListAccessKeysInput) -> ClientRuntime.PaginatorSequence<ListAccessKeysInput, ListAccessKeysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccessKeysInput, ListAccessKeysOutput>(input: input, inputKey: \ListAccessKeysInput.marker, outputKey: \ListAccessKeysOutput.marker, paginationFunction: self.listAccessKeys(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccessKeysInput, ListAccessKeysOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listAccessKeys(input:))
->>>>>>> main
     }
 }
 
@@ -94,11 +78,7 @@ extension ListAccessKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccessKeysInput, Output == ListAccessKeysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccessKeysInput, OperationStackOutput == ListAccessKeysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccessKeysPaginated`
     /// to access the nested member `[IAMClientTypes.AccessKeyMetadata]`
     /// - Returns: `[IAMClientTypes.AccessKeyMetadata]`
@@ -116,11 +96,7 @@ extension IAMClient {
     ///     - input: A `[ListAccountAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccountAliasesOutput`
     public func listAccountAliasesPaginated(input: ListAccountAliasesInput) -> ClientRuntime.PaginatorSequence<ListAccountAliasesInput, ListAccountAliasesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccountAliasesInput, ListAccountAliasesOutput>(input: input, inputKey: \ListAccountAliasesInput.marker, outputKey: \ListAccountAliasesOutput.marker, paginationFunction: self.listAccountAliases(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccountAliasesInput, ListAccountAliasesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listAccountAliases(input:))
->>>>>>> main
     }
 }
 
@@ -132,11 +108,7 @@ extension ListAccountAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccountAliasesInput, Output == ListAccountAliasesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccountAliasesInput, OperationStackOutput == ListAccountAliasesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccountAliasesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -154,11 +126,7 @@ extension IAMClient {
     ///     - input: A `[ListAttachedGroupPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedGroupPoliciesOutput`
     public func listAttachedGroupPoliciesPaginated(input: ListAttachedGroupPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(input: input, inputKey: \ListAttachedGroupPoliciesInput.marker, outputKey: \ListAttachedGroupPoliciesOutput.marker, paginationFunction: self.listAttachedGroupPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listAttachedGroupPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -172,11 +140,7 @@ extension ListAttachedGroupPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttachedGroupPoliciesInput, Output == ListAttachedGroupPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttachedGroupPoliciesInput, OperationStackOutput == ListAttachedGroupPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedGroupPoliciesPaginated`
     /// to access the nested member `[IAMClientTypes.AttachedPolicy]`
     /// - Returns: `[IAMClientTypes.AttachedPolicy]`
@@ -194,11 +158,7 @@ extension IAMClient {
     ///     - input: A `[ListAttachedRolePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedRolePoliciesOutput`
     public func listAttachedRolePoliciesPaginated(input: ListAttachedRolePoliciesInput) -> ClientRuntime.PaginatorSequence<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(input: input, inputKey: \ListAttachedRolePoliciesInput.marker, outputKey: \ListAttachedRolePoliciesOutput.marker, paginationFunction: self.listAttachedRolePolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listAttachedRolePolicies(input:))
->>>>>>> main
     }
 }
 
@@ -212,11 +172,7 @@ extension ListAttachedRolePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttachedRolePoliciesInput, Output == ListAttachedRolePoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttachedRolePoliciesInput, OperationStackOutput == ListAttachedRolePoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedRolePoliciesPaginated`
     /// to access the nested member `[IAMClientTypes.AttachedPolicy]`
     /// - Returns: `[IAMClientTypes.AttachedPolicy]`
@@ -234,11 +190,7 @@ extension IAMClient {
     ///     - input: A `[ListAttachedUserPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachedUserPoliciesOutput`
     public func listAttachedUserPoliciesPaginated(input: ListAttachedUserPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(input: input, inputKey: \ListAttachedUserPoliciesInput.marker, outputKey: \ListAttachedUserPoliciesOutput.marker, paginationFunction: self.listAttachedUserPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listAttachedUserPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -252,11 +204,7 @@ extension ListAttachedUserPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttachedUserPoliciesInput, Output == ListAttachedUserPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttachedUserPoliciesInput, OperationStackOutput == ListAttachedUserPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttachedUserPoliciesPaginated`
     /// to access the nested member `[IAMClientTypes.AttachedPolicy]`
     /// - Returns: `[IAMClientTypes.AttachedPolicy]`
@@ -274,11 +222,7 @@ extension IAMClient {
     ///     - input: A `[ListEntitiesForPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEntitiesForPolicyOutput`
     public func listEntitiesForPolicyPaginated(input: ListEntitiesForPolicyInput) -> ClientRuntime.PaginatorSequence<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(input: input, inputKey: \ListEntitiesForPolicyInput.marker, outputKey: \ListEntitiesForPolicyOutput.marker, paginationFunction: self.listEntitiesForPolicy(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listEntitiesForPolicy(input:))
->>>>>>> main
     }
 }
 
@@ -303,11 +247,7 @@ extension IAMClient {
     ///     - input: A `[ListGroupPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupPoliciesOutput`
     public func listGroupPoliciesPaginated(input: ListGroupPoliciesInput) -> ClientRuntime.PaginatorSequence<ListGroupPoliciesInput, ListGroupPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGroupPoliciesInput, ListGroupPoliciesOutput>(input: input, inputKey: \ListGroupPoliciesInput.marker, outputKey: \ListGroupPoliciesOutput.marker, paginationFunction: self.listGroupPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGroupPoliciesInput, ListGroupPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listGroupPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -320,11 +260,7 @@ extension ListGroupPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGroupPoliciesInput, Output == ListGroupPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGroupPoliciesInput, OperationStackOutput == ListGroupPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupPoliciesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -342,11 +278,7 @@ extension IAMClient {
     ///     - input: A `[ListGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.marker, outputKey: \ListGroupsOutput.marker, paginationFunction: self.listGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listGroups(input:))
->>>>>>> main
     }
 }
 
@@ -359,11 +291,7 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGroupsInput, OperationStackOutput == ListGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
     /// to access the nested member `[IAMClientTypes.Group]`
     /// - Returns: `[IAMClientTypes.Group]`
@@ -381,11 +309,7 @@ extension IAMClient {
     ///     - input: A `[ListGroupsForUserInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsForUserOutput`
     public func listGroupsForUserPaginated(input: ListGroupsForUserInput) -> ClientRuntime.PaginatorSequence<ListGroupsForUserInput, ListGroupsForUserOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGroupsForUserInput, ListGroupsForUserOutput>(input: input, inputKey: \ListGroupsForUserInput.marker, outputKey: \ListGroupsForUserOutput.marker, paginationFunction: self.listGroupsForUser(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGroupsForUserInput, ListGroupsForUserOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listGroupsForUser(input:))
->>>>>>> main
     }
 }
 
@@ -398,11 +322,7 @@ extension ListGroupsForUserInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGroupsForUserInput, Output == ListGroupsForUserOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGroupsForUserInput, OperationStackOutput == ListGroupsForUserOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGroupsForUserPaginated`
     /// to access the nested member `[IAMClientTypes.Group]`
     /// - Returns: `[IAMClientTypes.Group]`
@@ -420,11 +340,7 @@ extension IAMClient {
     ///     - input: A `[ListInstanceProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceProfilesOutput`
     public func listInstanceProfilesPaginated(input: ListInstanceProfilesInput) -> ClientRuntime.PaginatorSequence<ListInstanceProfilesInput, ListInstanceProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstanceProfilesInput, ListInstanceProfilesOutput>(input: input, inputKey: \ListInstanceProfilesInput.marker, outputKey: \ListInstanceProfilesOutput.marker, paginationFunction: self.listInstanceProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstanceProfilesInput, ListInstanceProfilesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstanceProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -437,11 +353,7 @@ extension ListInstanceProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstanceProfilesInput, Output == ListInstanceProfilesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstanceProfilesInput, OperationStackOutput == ListInstanceProfilesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceProfilesPaginated`
     /// to access the nested member `[IAMClientTypes.InstanceProfile]`
     /// - Returns: `[IAMClientTypes.InstanceProfile]`
@@ -459,11 +371,7 @@ extension IAMClient {
     ///     - input: A `[ListInstanceProfilesForRoleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceProfilesForRoleOutput`
     public func listInstanceProfilesForRolePaginated(input: ListInstanceProfilesForRoleInput) -> ClientRuntime.PaginatorSequence<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(input: input, inputKey: \ListInstanceProfilesForRoleInput.marker, outputKey: \ListInstanceProfilesForRoleOutput.marker, paginationFunction: self.listInstanceProfilesForRole(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstanceProfilesForRole(input:))
->>>>>>> main
     }
 }
 
@@ -476,11 +384,7 @@ extension ListInstanceProfilesForRoleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstanceProfilesForRoleInput, Output == ListInstanceProfilesForRoleOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstanceProfilesForRoleInput, OperationStackOutput == ListInstanceProfilesForRoleOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceProfilesForRolePaginated`
     /// to access the nested member `[IAMClientTypes.InstanceProfile]`
     /// - Returns: `[IAMClientTypes.InstanceProfile]`
@@ -498,11 +402,7 @@ extension IAMClient {
     ///     - input: A `[ListInstanceProfileTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstanceProfileTagsOutput`
     public func listInstanceProfileTagsPaginated(input: ListInstanceProfileTagsInput) -> ClientRuntime.PaginatorSequence<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(input: input, inputKey: \ListInstanceProfileTagsInput.marker, outputKey: \ListInstanceProfileTagsOutput.marker, paginationFunction: self.listInstanceProfileTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listInstanceProfileTags(input:))
->>>>>>> main
     }
 }
 
@@ -515,11 +415,7 @@ extension ListInstanceProfileTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstanceProfileTagsInput, Output == ListInstanceProfileTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstanceProfileTagsInput, OperationStackOutput == ListInstanceProfileTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstanceProfileTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -537,11 +433,7 @@ extension IAMClient {
     ///     - input: A `[ListMFADevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMFADevicesOutput`
     public func listMFADevicesPaginated(input: ListMFADevicesInput) -> ClientRuntime.PaginatorSequence<ListMFADevicesInput, ListMFADevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMFADevicesInput, ListMFADevicesOutput>(input: input, inputKey: \ListMFADevicesInput.marker, outputKey: \ListMFADevicesOutput.marker, paginationFunction: self.listMFADevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMFADevicesInput, ListMFADevicesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listMFADevices(input:))
->>>>>>> main
     }
 }
 
@@ -554,11 +446,7 @@ extension ListMFADevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMFADevicesInput, Output == ListMFADevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMFADevicesInput, OperationStackOutput == ListMFADevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMFADevicesPaginated`
     /// to access the nested member `[IAMClientTypes.MFADevice]`
     /// - Returns: `[IAMClientTypes.MFADevice]`
@@ -576,11 +464,7 @@ extension IAMClient {
     ///     - input: A `[ListMFADeviceTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMFADeviceTagsOutput`
     public func listMFADeviceTagsPaginated(input: ListMFADeviceTagsInput) -> ClientRuntime.PaginatorSequence<ListMFADeviceTagsInput, ListMFADeviceTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(input: input, inputKey: \ListMFADeviceTagsInput.marker, outputKey: \ListMFADeviceTagsOutput.marker, paginationFunction: self.listMFADeviceTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listMFADeviceTags(input:))
->>>>>>> main
     }
 }
 
@@ -593,11 +477,7 @@ extension ListMFADeviceTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMFADeviceTagsInput, Output == ListMFADeviceTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMFADeviceTagsInput, OperationStackOutput == ListMFADeviceTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMFADeviceTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -615,11 +495,7 @@ extension IAMClient {
     ///     - input: A `[ListOpenIDConnectProviderTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOpenIDConnectProviderTagsOutput`
     public func listOpenIDConnectProviderTagsPaginated(input: ListOpenIDConnectProviderTagsInput) -> ClientRuntime.PaginatorSequence<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(input: input, inputKey: \ListOpenIDConnectProviderTagsInput.marker, outputKey: \ListOpenIDConnectProviderTagsOutput.marker, paginationFunction: self.listOpenIDConnectProviderTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listOpenIDConnectProviderTags(input:))
->>>>>>> main
     }
 }
 
@@ -632,11 +508,7 @@ extension ListOpenIDConnectProviderTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOpenIDConnectProviderTagsInput, Output == ListOpenIDConnectProviderTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOpenIDConnectProviderTagsInput, OperationStackOutput == ListOpenIDConnectProviderTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOpenIDConnectProviderTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -654,11 +526,7 @@ extension IAMClient {
     ///     - input: A `[ListPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutput`
     public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \ListPoliciesInput.marker, outputKey: \ListPoliciesOutput.marker, paginationFunction: self.listPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -674,11 +542,7 @@ extension ListPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPoliciesInput, Output == ListPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPoliciesInput, OperationStackOutput == ListPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPoliciesPaginated`
     /// to access the nested member `[IAMClientTypes.Policy]`
     /// - Returns: `[IAMClientTypes.Policy]`
@@ -696,11 +560,7 @@ extension IAMClient {
     ///     - input: A `[ListPolicyTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyTagsOutput`
     public func listPolicyTagsPaginated(input: ListPolicyTagsInput) -> ClientRuntime.PaginatorSequence<ListPolicyTagsInput, ListPolicyTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPolicyTagsInput, ListPolicyTagsOutput>(input: input, inputKey: \ListPolicyTagsInput.marker, outputKey: \ListPolicyTagsOutput.marker, paginationFunction: self.listPolicyTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPolicyTagsInput, ListPolicyTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listPolicyTags(input:))
->>>>>>> main
     }
 }
 
@@ -713,11 +573,7 @@ extension ListPolicyTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPolicyTagsInput, Output == ListPolicyTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPolicyTagsInput, OperationStackOutput == ListPolicyTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPolicyTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -735,11 +591,7 @@ extension IAMClient {
     ///     - input: A `[ListPolicyVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPolicyVersionsOutput`
     public func listPolicyVersionsPaginated(input: ListPolicyVersionsInput) -> ClientRuntime.PaginatorSequence<ListPolicyVersionsInput, ListPolicyVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPolicyVersionsInput, ListPolicyVersionsOutput>(input: input, inputKey: \ListPolicyVersionsInput.marker, outputKey: \ListPolicyVersionsOutput.marker, paginationFunction: self.listPolicyVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPolicyVersionsInput, ListPolicyVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listPolicyVersions(input:))
->>>>>>> main
     }
 }
 
@@ -752,11 +604,7 @@ extension ListPolicyVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPolicyVersionsInput, Output == ListPolicyVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPolicyVersionsInput, OperationStackOutput == ListPolicyVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPolicyVersionsPaginated`
     /// to access the nested member `[IAMClientTypes.PolicyVersion]`
     /// - Returns: `[IAMClientTypes.PolicyVersion]`
@@ -774,11 +622,7 @@ extension IAMClient {
     ///     - input: A `[ListRolePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRolePoliciesOutput`
     public func listRolePoliciesPaginated(input: ListRolePoliciesInput) -> ClientRuntime.PaginatorSequence<ListRolePoliciesInput, ListRolePoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRolePoliciesInput, ListRolePoliciesOutput>(input: input, inputKey: \ListRolePoliciesInput.marker, outputKey: \ListRolePoliciesOutput.marker, paginationFunction: self.listRolePolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRolePoliciesInput, ListRolePoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listRolePolicies(input:))
->>>>>>> main
     }
 }
 
@@ -791,11 +635,7 @@ extension ListRolePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRolePoliciesInput, Output == ListRolePoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRolePoliciesInput, OperationStackOutput == ListRolePoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRolePoliciesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -813,11 +653,7 @@ extension IAMClient {
     ///     - input: A `[ListRolesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRolesOutput`
     public func listRolesPaginated(input: ListRolesInput) -> ClientRuntime.PaginatorSequence<ListRolesInput, ListRolesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRolesInput, ListRolesOutput>(input: input, inputKey: \ListRolesInput.marker, outputKey: \ListRolesOutput.marker, paginationFunction: self.listRoles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRolesInput, ListRolesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listRoles(input:))
->>>>>>> main
     }
 }
 
@@ -830,11 +666,7 @@ extension ListRolesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRolesInput, Output == ListRolesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRolesInput, OperationStackOutput == ListRolesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRolesPaginated`
     /// to access the nested member `[IAMClientTypes.Role]`
     /// - Returns: `[IAMClientTypes.Role]`
@@ -852,11 +684,7 @@ extension IAMClient {
     ///     - input: A `[ListRoleTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoleTagsOutput`
     public func listRoleTagsPaginated(input: ListRoleTagsInput) -> ClientRuntime.PaginatorSequence<ListRoleTagsInput, ListRoleTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRoleTagsInput, ListRoleTagsOutput>(input: input, inputKey: \ListRoleTagsInput.marker, outputKey: \ListRoleTagsOutput.marker, paginationFunction: self.listRoleTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRoleTagsInput, ListRoleTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listRoleTags(input:))
->>>>>>> main
     }
 }
 
@@ -869,11 +697,7 @@ extension ListRoleTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRoleTagsInput, Output == ListRoleTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRoleTagsInput, OperationStackOutput == ListRoleTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRoleTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -891,11 +715,7 @@ extension IAMClient {
     ///     - input: A `[ListSAMLProviderTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSAMLProviderTagsOutput`
     public func listSAMLProviderTagsPaginated(input: ListSAMLProviderTagsInput) -> ClientRuntime.PaginatorSequence<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(input: input, inputKey: \ListSAMLProviderTagsInput.marker, outputKey: \ListSAMLProviderTagsOutput.marker, paginationFunction: self.listSAMLProviderTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSAMLProviderTags(input:))
->>>>>>> main
     }
 }
 
@@ -908,11 +728,7 @@ extension ListSAMLProviderTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSAMLProviderTagsInput, Output == ListSAMLProviderTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSAMLProviderTagsInput, OperationStackOutput == ListSAMLProviderTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSAMLProviderTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -930,11 +746,7 @@ extension IAMClient {
     ///     - input: A `[ListServerCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServerCertificatesOutput`
     public func listServerCertificatesPaginated(input: ListServerCertificatesInput) -> ClientRuntime.PaginatorSequence<ListServerCertificatesInput, ListServerCertificatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServerCertificatesInput, ListServerCertificatesOutput>(input: input, inputKey: \ListServerCertificatesInput.marker, outputKey: \ListServerCertificatesOutput.marker, paginationFunction: self.listServerCertificates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServerCertificatesInput, ListServerCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listServerCertificates(input:))
->>>>>>> main
     }
 }
 
@@ -947,11 +759,7 @@ extension ListServerCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListServerCertificatesInput, Output == ListServerCertificatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListServerCertificatesInput, OperationStackOutput == ListServerCertificatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServerCertificatesPaginated`
     /// to access the nested member `[IAMClientTypes.ServerCertificateMetadata]`
     /// - Returns: `[IAMClientTypes.ServerCertificateMetadata]`
@@ -969,11 +777,7 @@ extension IAMClient {
     ///     - input: A `[ListServerCertificateTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListServerCertificateTagsOutput`
     public func listServerCertificateTagsPaginated(input: ListServerCertificateTagsInput) -> ClientRuntime.PaginatorSequence<ListServerCertificateTagsInput, ListServerCertificateTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(input: input, inputKey: \ListServerCertificateTagsInput.marker, outputKey: \ListServerCertificateTagsOutput.marker, paginationFunction: self.listServerCertificateTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listServerCertificateTags(input:))
->>>>>>> main
     }
 }
 
@@ -986,11 +790,7 @@ extension ListServerCertificateTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListServerCertificateTagsInput, Output == ListServerCertificateTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListServerCertificateTagsInput, OperationStackOutput == ListServerCertificateTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listServerCertificateTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -1008,11 +808,7 @@ extension IAMClient {
     ///     - input: A `[ListSigningCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSigningCertificatesOutput`
     public func listSigningCertificatesPaginated(input: ListSigningCertificatesInput) -> ClientRuntime.PaginatorSequence<ListSigningCertificatesInput, ListSigningCertificatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSigningCertificatesInput, ListSigningCertificatesOutput>(input: input, inputKey: \ListSigningCertificatesInput.marker, outputKey: \ListSigningCertificatesOutput.marker, paginationFunction: self.listSigningCertificates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSigningCertificatesInput, ListSigningCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSigningCertificates(input:))
->>>>>>> main
     }
 }
 
@@ -1025,11 +821,7 @@ extension ListSigningCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSigningCertificatesInput, Output == ListSigningCertificatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSigningCertificatesInput, OperationStackOutput == ListSigningCertificatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSigningCertificatesPaginated`
     /// to access the nested member `[IAMClientTypes.SigningCertificate]`
     /// - Returns: `[IAMClientTypes.SigningCertificate]`
@@ -1047,11 +839,7 @@ extension IAMClient {
     ///     - input: A `[ListSSHPublicKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSSHPublicKeysOutput`
     public func listSSHPublicKeysPaginated(input: ListSSHPublicKeysInput) -> ClientRuntime.PaginatorSequence<ListSSHPublicKeysInput, ListSSHPublicKeysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(input: input, inputKey: \ListSSHPublicKeysInput.marker, outputKey: \ListSSHPublicKeysOutput.marker, paginationFunction: self.listSSHPublicKeys(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listSSHPublicKeys(input:))
->>>>>>> main
     }
 }
 
@@ -1064,11 +852,7 @@ extension ListSSHPublicKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSSHPublicKeysInput, Output == ListSSHPublicKeysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSSHPublicKeysInput, OperationStackOutput == ListSSHPublicKeysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSSHPublicKeysPaginated`
     /// to access the nested member `[IAMClientTypes.SSHPublicKeyMetadata]`
     /// - Returns: `[IAMClientTypes.SSHPublicKeyMetadata]`
@@ -1086,11 +870,7 @@ extension IAMClient {
     ///     - input: A `[ListUserPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserPoliciesOutput`
     public func listUserPoliciesPaginated(input: ListUserPoliciesInput) -> ClientRuntime.PaginatorSequence<ListUserPoliciesInput, ListUserPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListUserPoliciesInput, ListUserPoliciesOutput>(input: input, inputKey: \ListUserPoliciesInput.marker, outputKey: \ListUserPoliciesOutput.marker, paginationFunction: self.listUserPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListUserPoliciesInput, ListUserPoliciesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listUserPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -1103,11 +883,7 @@ extension ListUserPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListUserPoliciesInput, Output == ListUserPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListUserPoliciesInput, OperationStackOutput == ListUserPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUserPoliciesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -1125,11 +901,7 @@ extension IAMClient {
     ///     - input: A `[ListUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutput`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \ListUsersInput.marker, outputKey: \ListUsersOutput.marker, paginationFunction: self.listUsers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listUsers(input:))
->>>>>>> main
     }
 }
 
@@ -1142,11 +914,7 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListUsersInput, OperationStackOutput == ListUsersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
     /// to access the nested member `[IAMClientTypes.User]`
     /// - Returns: `[IAMClientTypes.User]`
@@ -1164,11 +932,7 @@ extension IAMClient {
     ///     - input: A `[ListUserTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserTagsOutput`
     public func listUserTagsPaginated(input: ListUserTagsInput) -> ClientRuntime.PaginatorSequence<ListUserTagsInput, ListUserTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListUserTagsInput, ListUserTagsOutput>(input: input, inputKey: \ListUserTagsInput.marker, outputKey: \ListUserTagsOutput.marker, paginationFunction: self.listUserTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListUserTagsInput, ListUserTagsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listUserTags(input:))
->>>>>>> main
     }
 }
 
@@ -1181,11 +945,7 @@ extension ListUserTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListUserTagsInput, Output == ListUserTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListUserTagsInput, OperationStackOutput == ListUserTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUserTagsPaginated`
     /// to access the nested member `[IAMClientTypes.Tag]`
     /// - Returns: `[IAMClientTypes.Tag]`
@@ -1203,11 +963,7 @@ extension IAMClient {
     ///     - input: A `[ListVirtualMFADevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVirtualMFADevicesOutput`
     public func listVirtualMFADevicesPaginated(input: ListVirtualMFADevicesInput) -> ClientRuntime.PaginatorSequence<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(input: input, inputKey: \ListVirtualMFADevicesInput.marker, outputKey: \ListVirtualMFADevicesOutput.marker, paginationFunction: self.listVirtualMFADevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listVirtualMFADevices(input:))
->>>>>>> main
     }
 }
 
@@ -1220,11 +976,7 @@ extension ListVirtualMFADevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListVirtualMFADevicesInput, Output == ListVirtualMFADevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListVirtualMFADevicesInput, OperationStackOutput == ListVirtualMFADevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listVirtualMFADevicesPaginated`
     /// to access the nested member `[IAMClientTypes.VirtualMFADevice]`
     /// - Returns: `[IAMClientTypes.VirtualMFADevice]`
@@ -1242,11 +994,7 @@ extension IAMClient {
     ///     - input: A `[SimulateCustomPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SimulateCustomPolicyOutput`
     public func simulateCustomPolicyPaginated(input: SimulateCustomPolicyInput) -> ClientRuntime.PaginatorSequence<SimulateCustomPolicyInput, SimulateCustomPolicyOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(input: input, inputKey: \SimulateCustomPolicyInput.marker, outputKey: \SimulateCustomPolicyOutput.marker, paginationFunction: self.simulateCustomPolicy(input:))
-=======
         return ClientRuntime.PaginatorSequence<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.simulateCustomPolicy(input:))
->>>>>>> main
     }
 }
 
@@ -1267,11 +1015,7 @@ extension SimulateCustomPolicyInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SimulateCustomPolicyInput, Output == SimulateCustomPolicyOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SimulateCustomPolicyInput, OperationStackOutput == SimulateCustomPolicyOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `simulateCustomPolicyPaginated`
     /// to access the nested member `[IAMClientTypes.EvaluationResult]`
     /// - Returns: `[IAMClientTypes.EvaluationResult]`
@@ -1289,11 +1033,7 @@ extension IAMClient {
     ///     - input: A `[SimulatePrincipalPolicyInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SimulatePrincipalPolicyOutput`
     public func simulatePrincipalPolicyPaginated(input: SimulatePrincipalPolicyInput) -> ClientRuntime.PaginatorSequence<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(input: input, inputKey: \SimulatePrincipalPolicyInput.marker, outputKey: \SimulatePrincipalPolicyOutput.marker, paginationFunction: self.simulatePrincipalPolicy(input:))
-=======
         return ClientRuntime.PaginatorSequence<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.simulatePrincipalPolicy(input:))
->>>>>>> main
     }
 }
 
@@ -1315,11 +1055,7 @@ extension SimulatePrincipalPolicyInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SimulatePrincipalPolicyInput, Output == SimulatePrincipalPolicyOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SimulatePrincipalPolicyInput, OperationStackOutput == SimulatePrincipalPolicyOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `simulatePrincipalPolicyPaginated`
     /// to access the nested member `[IAMClientTypes.EvaluationResult]`
     /// - Returns: `[IAMClientTypes.EvaluationResult]`

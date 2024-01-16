@@ -12,11 +12,7 @@ extension LakeFormationClient {
     ///     - input: A `[GetEffectivePermissionsForPathInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEffectivePermissionsForPathOutput`
     public func getEffectivePermissionsForPathPaginated(input: GetEffectivePermissionsForPathInput) -> ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput>(input: input, inputKey: \GetEffectivePermissionsForPathInput.nextToken, outputKey: \GetEffectivePermissionsForPathOutput.nextToken, paginationFunction: self.getEffectivePermissionsForPath(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEffectivePermissionsForPath(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension LakeFormationClient {
     ///     - input: A `[GetTableObjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTableObjectsOutput`
     public func getTableObjectsPaginated(input: GetTableObjectsInput) -> ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutput>(input: input, inputKey: \GetTableObjectsInput.nextToken, outputKey: \GetTableObjectsOutput.nextToken, paginationFunction: self.getTableObjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTableObjectsInput, GetTableObjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTableObjects(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +62,7 @@ extension LakeFormationClient {
     ///     - input: A `[GetWorkUnitsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetWorkUnitsOutput`
     public func getWorkUnitsPaginated(input: GetWorkUnitsInput) -> ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutput>(input: input, inputKey: \GetWorkUnitsInput.nextToken, outputKey: \GetWorkUnitsOutput.nextToken, paginationFunction: self.getWorkUnits(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetWorkUnitsInput, GetWorkUnitsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getWorkUnits(input:))
->>>>>>> main
     }
 }
 
@@ -87,11 +75,7 @@ extension GetWorkUnitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetWorkUnitsInput, Output == GetWorkUnitsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetWorkUnitsInput, OperationStackOutput == GetWorkUnitsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getWorkUnitsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.WorkUnitRange]`
     /// - Returns: `[LakeFormationClientTypes.WorkUnitRange]`
@@ -109,11 +93,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListDataCellsFilterInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataCellsFilterOutput`
     public func listDataCellsFilterPaginated(input: ListDataCellsFilterInput) -> ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutput>(input: input, inputKey: \ListDataCellsFilterInput.nextToken, outputKey: \ListDataCellsFilterOutput.nextToken, paginationFunction: self.listDataCellsFilter(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataCellsFilterInput, ListDataCellsFilterOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataCellsFilter(input:))
->>>>>>> main
     }
 }
 
@@ -126,11 +106,7 @@ extension ListDataCellsFilterInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataCellsFilterInput, Output == ListDataCellsFilterOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataCellsFilterInput, OperationStackOutput == ListDataCellsFilterOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataCellsFilterPaginated`
     /// to access the nested member `[LakeFormationClientTypes.DataCellsFilter]`
     /// - Returns: `[LakeFormationClientTypes.DataCellsFilter]`
@@ -148,11 +124,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListLakeFormationOptInsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLakeFormationOptInsOutput`
     public func listLakeFormationOptInsPaginated(input: ListLakeFormationOptInsInput) -> ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput>(input: input, inputKey: \ListLakeFormationOptInsInput.nextToken, outputKey: \ListLakeFormationOptInsOutput.nextToken, paginationFunction: self.listLakeFormationOptIns(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLakeFormationOptIns(input:))
->>>>>>> main
     }
 }
 
@@ -175,11 +147,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListLFTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLFTagsOutput`
     public func listLFTagsPaginated(input: ListLFTagsInput) -> ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutput>(input: input, inputKey: \ListLFTagsInput.nextToken, outputKey: \ListLFTagsOutput.nextToken, paginationFunction: self.listLFTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLFTagsInput, ListLFTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLFTags(input:))
->>>>>>> main
     }
 }
 
@@ -193,11 +161,7 @@ extension ListLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLFTagsInput, Output == ListLFTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLFTagsInput, OperationStackOutput == ListLFTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.LFTagPair]`
     /// - Returns: `[LakeFormationClientTypes.LFTagPair]`
@@ -215,11 +179,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListPermissionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionsOutput`
     public func listPermissionsPaginated(input: ListPermissionsInput) -> ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \ListPermissionsInput.nextToken, outputKey: \ListPermissionsOutput.nextToken, paginationFunction: self.listPermissions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPermissionsInput, ListPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPermissions(input:))
->>>>>>> main
     }
 }
 
@@ -245,11 +205,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcesOutput`
     public func listResourcesPaginated(input: ListResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \ListResourcesInput.nextToken, outputKey: \ListResourcesOutput.nextToken, paginationFunction: self.listResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListResourcesInput, ListResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResources(input:))
->>>>>>> main
     }
 }
 
@@ -271,11 +227,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListTableStorageOptimizersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTableStorageOptimizersOutput`
     public func listTableStorageOptimizersPaginated(input: ListTableStorageOptimizersInput) -> ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput>(input: input, inputKey: \ListTableStorageOptimizersInput.nextToken, outputKey: \ListTableStorageOptimizersOutput.nextToken, paginationFunction: self.listTableStorageOptimizers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTableStorageOptimizers(input:))
->>>>>>> main
     }
 }
 
@@ -300,11 +252,7 @@ extension LakeFormationClient {
     ///     - input: A `[ListTransactionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTransactionsOutput`
     public func listTransactionsPaginated(input: ListTransactionsInput) -> ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput>(input: input, inputKey: \ListTransactionsInput.nextToken, outputKey: \ListTransactionsOutput.nextToken, paginationFunction: self.listTransactions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTransactionsInput, ListTransactionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTransactions(input:))
->>>>>>> main
     }
 }
 
@@ -327,11 +275,7 @@ extension LakeFormationClient {
     ///     - input: A `[SearchDatabasesByLFTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchDatabasesByLFTagsOutput`
     public func searchDatabasesByLFTagsPaginated(input: SearchDatabasesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput>(input: input, inputKey: \SearchDatabasesByLFTagsInput.nextToken, outputKey: \SearchDatabasesByLFTagsOutput.nextToken, paginationFunction: self.searchDatabasesByLFTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchDatabasesByLFTags(input:))
->>>>>>> main
     }
 }
 
@@ -345,11 +289,7 @@ extension SearchDatabasesByLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchDatabasesByLFTagsInput, Output == SearchDatabasesByLFTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchDatabasesByLFTagsInput, OperationStackOutput == SearchDatabasesByLFTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchDatabasesByLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.TaggedDatabase]`
     /// - Returns: `[LakeFormationClientTypes.TaggedDatabase]`
@@ -367,11 +307,7 @@ extension LakeFormationClient {
     ///     - input: A `[SearchTablesByLFTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchTablesByLFTagsOutput`
     public func searchTablesByLFTagsPaginated(input: SearchTablesByLFTagsInput) -> ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput>(input: input, inputKey: \SearchTablesByLFTagsInput.nextToken, outputKey: \SearchTablesByLFTagsOutput.nextToken, paginationFunction: self.searchTablesByLFTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTablesByLFTags(input:))
->>>>>>> main
     }
 }
 
@@ -385,11 +321,7 @@ extension SearchTablesByLFTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchTablesByLFTagsInput, Output == SearchTablesByLFTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchTablesByLFTagsInput, OperationStackOutput == SearchTablesByLFTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchTablesByLFTagsPaginated`
     /// to access the nested member `[LakeFormationClientTypes.TaggedTable]`
     /// - Returns: `[LakeFormationClientTypes.TaggedTable]`

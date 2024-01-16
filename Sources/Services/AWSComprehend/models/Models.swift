@@ -2211,11 +2211,7 @@ extension ClassifyDocumentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ClassifyDocumentOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
-=======
     /// The classes used by the document being analyzed. These are used for models trained in multi-class mode. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. For prompt safety classification, the response includes only two classes (SAFE_PROMPT and UNSAFE_PROMPT), along with a confidence score for each class. The value range of the score is zero to one, where one is the highest confidence.
->>>>>>> main
     public var classes: [ComprehendClientTypes.DocumentClass]?
     /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
     public var documentMetadata: ComprehendClientTypes.DocumentMetadata?
@@ -7481,8 +7477,6 @@ enum DetectTargetedSentimentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DetectToxicContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DetectToxicContentInput(languageCode: \(Swift.String(describing: languageCode)), textSegments: \"CONTENT_REDACTED\")"}
@@ -7624,7 +7618,6 @@ enum DetectToxicContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ComprehendClientTypes.DocumentClass: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"

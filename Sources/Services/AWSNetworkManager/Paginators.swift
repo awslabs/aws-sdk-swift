@@ -12,11 +12,7 @@ extension NetworkManagerClient {
     ///     - input: A `[DescribeGlobalNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalNetworksOutput`
     public func describeGlobalNetworksPaginated(input: DescribeGlobalNetworksInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalNetworksInput, DescribeGlobalNetworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGlobalNetworksInput, DescribeGlobalNetworksOutput>(input: input, inputKey: \DescribeGlobalNetworksInput.nextToken, outputKey: \DescribeGlobalNetworksOutput.nextToken, paginationFunction: self.describeGlobalNetworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGlobalNetworksInput, DescribeGlobalNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeGlobalNetworks(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeGlobalNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGlobalNetworksInput, Output == DescribeGlobalNetworksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGlobalNetworksInput, OperationStackOutput == DescribeGlobalNetworksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalNetworksPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.GlobalNetwork]`
     /// - Returns: `[NetworkManagerClientTypes.GlobalNetwork]`
@@ -51,11 +43,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConnectionsOutput`
     public func getConnectionsPaginated(input: GetConnectionsInput) -> ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput>(input: input, inputKey: \GetConnectionsInput.nextToken, outputKey: \GetConnectionsOutput.nextToken, paginationFunction: self.getConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConnections(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension GetConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetConnectionsInput, Output == GetConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetConnectionsInput, OperationStackOutput == GetConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getConnectionsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Connection]`
     /// - Returns: `[NetworkManagerClientTypes.Connection]`
@@ -92,11 +76,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetConnectPeerAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConnectPeerAssociationsOutput`
     public func getConnectPeerAssociationsPaginated(input: GetConnectPeerAssociationsInput) -> ClientRuntime.PaginatorSequence<GetConnectPeerAssociationsInput, GetConnectPeerAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetConnectPeerAssociationsInput, GetConnectPeerAssociationsOutput>(input: input, inputKey: \GetConnectPeerAssociationsInput.nextToken, outputKey: \GetConnectPeerAssociationsOutput.nextToken, paginationFunction: self.getConnectPeerAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetConnectPeerAssociationsInput, GetConnectPeerAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConnectPeerAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -110,11 +90,7 @@ extension GetConnectPeerAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetConnectPeerAssociationsInput, Output == GetConnectPeerAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetConnectPeerAssociationsInput, OperationStackOutput == GetConnectPeerAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getConnectPeerAssociationsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.ConnectPeerAssociation]`
     /// - Returns: `[NetworkManagerClientTypes.ConnectPeerAssociation]`
@@ -132,11 +108,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetCoreNetworkChangeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCoreNetworkChangeEventsOutput`
     public func getCoreNetworkChangeEventsPaginated(input: GetCoreNetworkChangeEventsInput) -> ClientRuntime.PaginatorSequence<GetCoreNetworkChangeEventsInput, GetCoreNetworkChangeEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCoreNetworkChangeEventsInput, GetCoreNetworkChangeEventsOutput>(input: input, inputKey: \GetCoreNetworkChangeEventsInput.nextToken, outputKey: \GetCoreNetworkChangeEventsOutput.nextToken, paginationFunction: self.getCoreNetworkChangeEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCoreNetworkChangeEventsInput, GetCoreNetworkChangeEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCoreNetworkChangeEvents(input:))
->>>>>>> main
     }
 }
 
@@ -150,11 +122,7 @@ extension GetCoreNetworkChangeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetCoreNetworkChangeEventsInput, Output == GetCoreNetworkChangeEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetCoreNetworkChangeEventsInput, OperationStackOutput == GetCoreNetworkChangeEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getCoreNetworkChangeEventsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.CoreNetworkChangeEvent]`
     /// - Returns: `[NetworkManagerClientTypes.CoreNetworkChangeEvent]`
@@ -172,11 +140,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetCoreNetworkChangeSetInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCoreNetworkChangeSetOutput`
     public func getCoreNetworkChangeSetPaginated(input: GetCoreNetworkChangeSetInput) -> ClientRuntime.PaginatorSequence<GetCoreNetworkChangeSetInput, GetCoreNetworkChangeSetOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCoreNetworkChangeSetInput, GetCoreNetworkChangeSetOutput>(input: input, inputKey: \GetCoreNetworkChangeSetInput.nextToken, outputKey: \GetCoreNetworkChangeSetOutput.nextToken, paginationFunction: self.getCoreNetworkChangeSet(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCoreNetworkChangeSetInput, GetCoreNetworkChangeSetOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCoreNetworkChangeSet(input:))
->>>>>>> main
     }
 }
 
@@ -190,11 +154,7 @@ extension GetCoreNetworkChangeSetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetCoreNetworkChangeSetInput, Output == GetCoreNetworkChangeSetOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetCoreNetworkChangeSetInput, OperationStackOutput == GetCoreNetworkChangeSetOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getCoreNetworkChangeSetPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.CoreNetworkChange]`
     /// - Returns: `[NetworkManagerClientTypes.CoreNetworkChange]`
@@ -212,11 +172,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetCustomerGatewayAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCustomerGatewayAssociationsOutput`
     public func getCustomerGatewayAssociationsPaginated(input: GetCustomerGatewayAssociationsInput) -> ClientRuntime.PaginatorSequence<GetCustomerGatewayAssociationsInput, GetCustomerGatewayAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCustomerGatewayAssociationsInput, GetCustomerGatewayAssociationsOutput>(input: input, inputKey: \GetCustomerGatewayAssociationsInput.nextToken, outputKey: \GetCustomerGatewayAssociationsOutput.nextToken, paginationFunction: self.getCustomerGatewayAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCustomerGatewayAssociationsInput, GetCustomerGatewayAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCustomerGatewayAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -230,11 +186,7 @@ extension GetCustomerGatewayAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetCustomerGatewayAssociationsInput, Output == GetCustomerGatewayAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetCustomerGatewayAssociationsInput, OperationStackOutput == GetCustomerGatewayAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getCustomerGatewayAssociationsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.CustomerGatewayAssociation]`
     /// - Returns: `[NetworkManagerClientTypes.CustomerGatewayAssociation]`
@@ -252,11 +204,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDevicesOutput`
     public func getDevicesPaginated(input: GetDevicesInput) -> ClientRuntime.PaginatorSequence<GetDevicesInput, GetDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetDevicesInput, GetDevicesOutput>(input: input, inputKey: \GetDevicesInput.nextToken, outputKey: \GetDevicesOutput.nextToken, paginationFunction: self.getDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetDevicesInput, GetDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDevices(input:))
->>>>>>> main
     }
 }
 
@@ -271,11 +219,7 @@ extension GetDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetDevicesInput, Output == GetDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetDevicesInput, OperationStackOutput == GetDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getDevicesPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Device]`
     /// - Returns: `[NetworkManagerClientTypes.Device]`
@@ -293,11 +237,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetLinkAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLinkAssociationsOutput`
     public func getLinkAssociationsPaginated(input: GetLinkAssociationsInput) -> ClientRuntime.PaginatorSequence<GetLinkAssociationsInput, GetLinkAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetLinkAssociationsInput, GetLinkAssociationsOutput>(input: input, inputKey: \GetLinkAssociationsInput.nextToken, outputKey: \GetLinkAssociationsOutput.nextToken, paginationFunction: self.getLinkAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetLinkAssociationsInput, GetLinkAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLinkAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -312,11 +252,7 @@ extension GetLinkAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetLinkAssociationsInput, Output == GetLinkAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetLinkAssociationsInput, OperationStackOutput == GetLinkAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getLinkAssociationsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.LinkAssociation]`
     /// - Returns: `[NetworkManagerClientTypes.LinkAssociation]`
@@ -334,11 +270,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetLinksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetLinksOutput`
     public func getLinksPaginated(input: GetLinksInput) -> ClientRuntime.PaginatorSequence<GetLinksInput, GetLinksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetLinksInput, GetLinksOutput>(input: input, inputKey: \GetLinksInput.nextToken, outputKey: \GetLinksOutput.nextToken, paginationFunction: self.getLinks(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetLinksInput, GetLinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getLinks(input:))
->>>>>>> main
     }
 }
 
@@ -355,11 +287,7 @@ extension GetLinksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetLinksInput, Output == GetLinksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetLinksInput, OperationStackOutput == GetLinksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getLinksPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Link]`
     /// - Returns: `[NetworkManagerClientTypes.Link]`
@@ -377,11 +305,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetNetworkResourceCountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkResourceCountsOutput`
     public func getNetworkResourceCountsPaginated(input: GetNetworkResourceCountsInput) -> ClientRuntime.PaginatorSequence<GetNetworkResourceCountsInput, GetNetworkResourceCountsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetNetworkResourceCountsInput, GetNetworkResourceCountsOutput>(input: input, inputKey: \GetNetworkResourceCountsInput.nextToken, outputKey: \GetNetworkResourceCountsOutput.nextToken, paginationFunction: self.getNetworkResourceCounts(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetNetworkResourceCountsInput, GetNetworkResourceCountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getNetworkResourceCounts(input:))
->>>>>>> main
     }
 }
 
@@ -395,11 +319,7 @@ extension GetNetworkResourceCountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetNetworkResourceCountsInput, Output == GetNetworkResourceCountsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetNetworkResourceCountsInput, OperationStackOutput == GetNetworkResourceCountsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getNetworkResourceCountsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.NetworkResourceCount]`
     /// - Returns: `[NetworkManagerClientTypes.NetworkResourceCount]`
@@ -417,11 +337,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetNetworkResourceRelationshipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkResourceRelationshipsOutput`
     public func getNetworkResourceRelationshipsPaginated(input: GetNetworkResourceRelationshipsInput) -> ClientRuntime.PaginatorSequence<GetNetworkResourceRelationshipsInput, GetNetworkResourceRelationshipsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetNetworkResourceRelationshipsInput, GetNetworkResourceRelationshipsOutput>(input: input, inputKey: \GetNetworkResourceRelationshipsInput.nextToken, outputKey: \GetNetworkResourceRelationshipsOutput.nextToken, paginationFunction: self.getNetworkResourceRelationships(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetNetworkResourceRelationshipsInput, GetNetworkResourceRelationshipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getNetworkResourceRelationships(input:))
->>>>>>> main
     }
 }
 
@@ -440,11 +356,7 @@ extension GetNetworkResourceRelationshipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetNetworkResourceRelationshipsInput, Output == GetNetworkResourceRelationshipsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetNetworkResourceRelationshipsInput, OperationStackOutput == GetNetworkResourceRelationshipsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getNetworkResourceRelationshipsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Relationship]`
     /// - Returns: `[NetworkManagerClientTypes.Relationship]`
@@ -462,11 +374,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetNetworkResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkResourcesOutput`
     public func getNetworkResourcesPaginated(input: GetNetworkResourcesInput) -> ClientRuntime.PaginatorSequence<GetNetworkResourcesInput, GetNetworkResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetNetworkResourcesInput, GetNetworkResourcesOutput>(input: input, inputKey: \GetNetworkResourcesInput.nextToken, outputKey: \GetNetworkResourcesOutput.nextToken, paginationFunction: self.getNetworkResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetNetworkResourcesInput, GetNetworkResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getNetworkResources(input:))
->>>>>>> main
     }
 }
 
@@ -485,11 +393,7 @@ extension GetNetworkResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetNetworkResourcesInput, Output == GetNetworkResourcesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetNetworkResourcesInput, OperationStackOutput == GetNetworkResourcesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getNetworkResourcesPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.NetworkResource]`
     /// - Returns: `[NetworkManagerClientTypes.NetworkResource]`
@@ -507,11 +411,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetNetworkTelemetryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetNetworkTelemetryOutput`
     public func getNetworkTelemetryPaginated(input: GetNetworkTelemetryInput) -> ClientRuntime.PaginatorSequence<GetNetworkTelemetryInput, GetNetworkTelemetryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetNetworkTelemetryInput, GetNetworkTelemetryOutput>(input: input, inputKey: \GetNetworkTelemetryInput.nextToken, outputKey: \GetNetworkTelemetryOutput.nextToken, paginationFunction: self.getNetworkTelemetry(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetNetworkTelemetryInput, GetNetworkTelemetryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getNetworkTelemetry(input:))
->>>>>>> main
     }
 }
 
@@ -530,11 +430,7 @@ extension GetNetworkTelemetryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetNetworkTelemetryInput, Output == GetNetworkTelemetryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetNetworkTelemetryInput, OperationStackOutput == GetNetworkTelemetryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getNetworkTelemetryPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.NetworkTelemetry]`
     /// - Returns: `[NetworkManagerClientTypes.NetworkTelemetry]`
@@ -552,11 +448,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetSitesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSitesOutput`
     public func getSitesPaginated(input: GetSitesInput) -> ClientRuntime.PaginatorSequence<GetSitesInput, GetSitesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSitesInput, GetSitesOutput>(input: input, inputKey: \GetSitesInput.nextToken, outputKey: \GetSitesOutput.nextToken, paginationFunction: self.getSites(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSitesInput, GetSitesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSites(input:))
->>>>>>> main
     }
 }
 
@@ -570,11 +462,7 @@ extension GetSitesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSitesInput, Output == GetSitesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSitesInput, OperationStackOutput == GetSitesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSitesPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Site]`
     /// - Returns: `[NetworkManagerClientTypes.Site]`
@@ -592,11 +480,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetTransitGatewayConnectPeerAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayConnectPeerAssociationsOutput`
     public func getTransitGatewayConnectPeerAssociationsPaginated(input: GetTransitGatewayConnectPeerAssociationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayConnectPeerAssociationsInput, GetTransitGatewayConnectPeerAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayConnectPeerAssociationsInput, GetTransitGatewayConnectPeerAssociationsOutput>(input: input, inputKey: \GetTransitGatewayConnectPeerAssociationsInput.nextToken, outputKey: \GetTransitGatewayConnectPeerAssociationsOutput.nextToken, paginationFunction: self.getTransitGatewayConnectPeerAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayConnectPeerAssociationsInput, GetTransitGatewayConnectPeerAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayConnectPeerAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -610,11 +494,7 @@ extension GetTransitGatewayConnectPeerAssociationsInput: ClientRuntime.PaginateT
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayConnectPeerAssociationsInput, Output == GetTransitGatewayConnectPeerAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayConnectPeerAssociationsInput, OperationStackOutput == GetTransitGatewayConnectPeerAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayConnectPeerAssociationsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation]`
     /// - Returns: `[NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation]`
@@ -632,11 +512,7 @@ extension NetworkManagerClient {
     ///     - input: A `[GetTransitGatewayRegistrationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTransitGatewayRegistrationsOutput`
     public func getTransitGatewayRegistrationsPaginated(input: GetTransitGatewayRegistrationsInput) -> ClientRuntime.PaginatorSequence<GetTransitGatewayRegistrationsInput, GetTransitGatewayRegistrationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTransitGatewayRegistrationsInput, GetTransitGatewayRegistrationsOutput>(input: input, inputKey: \GetTransitGatewayRegistrationsInput.nextToken, outputKey: \GetTransitGatewayRegistrationsOutput.nextToken, paginationFunction: self.getTransitGatewayRegistrations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTransitGatewayRegistrationsInput, GetTransitGatewayRegistrationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTransitGatewayRegistrations(input:))
->>>>>>> main
     }
 }
 
@@ -650,11 +526,7 @@ extension GetTransitGatewayRegistrationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTransitGatewayRegistrationsInput, Output == GetTransitGatewayRegistrationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTransitGatewayRegistrationsInput, OperationStackOutput == GetTransitGatewayRegistrationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTransitGatewayRegistrationsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.TransitGatewayRegistration]`
     /// - Returns: `[NetworkManagerClientTypes.TransitGatewayRegistration]`
@@ -672,11 +544,7 @@ extension NetworkManagerClient {
     ///     - input: A `[ListAttachmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttachmentsOutput`
     public func listAttachmentsPaginated(input: ListAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput>(input: input, inputKey: \ListAttachmentsInput.nextToken, outputKey: \ListAttachmentsOutput.nextToken, paginationFunction: self.listAttachments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachments(input:))
->>>>>>> main
     }
 }
 
@@ -692,11 +560,7 @@ extension ListAttachmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttachmentsInput, Output == ListAttachmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttachmentsInput, OperationStackOutput == ListAttachmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttachmentsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Attachment]`
     /// - Returns: `[NetworkManagerClientTypes.Attachment]`
@@ -714,11 +578,7 @@ extension NetworkManagerClient {
     ///     - input: A `[ListConnectPeersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConnectPeersOutput`
     public func listConnectPeersPaginated(input: ListConnectPeersInput) -> ClientRuntime.PaginatorSequence<ListConnectPeersInput, ListConnectPeersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConnectPeersInput, ListConnectPeersOutput>(input: input, inputKey: \ListConnectPeersInput.nextToken, outputKey: \ListConnectPeersOutput.nextToken, paginationFunction: self.listConnectPeers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConnectPeersInput, ListConnectPeersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConnectPeers(input:))
->>>>>>> main
     }
 }
 
@@ -732,11 +592,7 @@ extension ListConnectPeersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListConnectPeersInput, Output == ListConnectPeersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListConnectPeersInput, OperationStackOutput == ListConnectPeersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listConnectPeersPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.ConnectPeerSummary]`
     /// - Returns: `[NetworkManagerClientTypes.ConnectPeerSummary]`
@@ -754,11 +610,7 @@ extension NetworkManagerClient {
     ///     - input: A `[ListCoreNetworkPolicyVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCoreNetworkPolicyVersionsOutput`
     public func listCoreNetworkPolicyVersionsPaginated(input: ListCoreNetworkPolicyVersionsInput) -> ClientRuntime.PaginatorSequence<ListCoreNetworkPolicyVersionsInput, ListCoreNetworkPolicyVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCoreNetworkPolicyVersionsInput, ListCoreNetworkPolicyVersionsOutput>(input: input, inputKey: \ListCoreNetworkPolicyVersionsInput.nextToken, outputKey: \ListCoreNetworkPolicyVersionsOutput.nextToken, paginationFunction: self.listCoreNetworkPolicyVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCoreNetworkPolicyVersionsInput, ListCoreNetworkPolicyVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoreNetworkPolicyVersions(input:))
->>>>>>> main
     }
 }
 
@@ -771,11 +623,7 @@ extension ListCoreNetworkPolicyVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCoreNetworkPolicyVersionsInput, Output == ListCoreNetworkPolicyVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCoreNetworkPolicyVersionsInput, OperationStackOutput == ListCoreNetworkPolicyVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCoreNetworkPolicyVersionsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.CoreNetworkPolicyVersion]`
     /// - Returns: `[NetworkManagerClientTypes.CoreNetworkPolicyVersion]`
@@ -793,11 +641,7 @@ extension NetworkManagerClient {
     ///     - input: A `[ListCoreNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCoreNetworksOutput`
     public func listCoreNetworksPaginated(input: ListCoreNetworksInput) -> ClientRuntime.PaginatorSequence<ListCoreNetworksInput, ListCoreNetworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCoreNetworksInput, ListCoreNetworksOutput>(input: input, inputKey: \ListCoreNetworksInput.nextToken, outputKey: \ListCoreNetworksOutput.nextToken, paginationFunction: self.listCoreNetworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCoreNetworksInput, ListCoreNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoreNetworks(input:))
->>>>>>> main
     }
 }
 
@@ -809,11 +653,7 @@ extension ListCoreNetworksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCoreNetworksInput, Output == ListCoreNetworksOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCoreNetworksInput, OperationStackOutput == ListCoreNetworksOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCoreNetworksPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.CoreNetworkSummary]`
     /// - Returns: `[NetworkManagerClientTypes.CoreNetworkSummary]`
@@ -831,11 +671,7 @@ extension NetworkManagerClient {
     ///     - input: A `[ListPeeringsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPeeringsOutput`
     public func listPeeringsPaginated(input: ListPeeringsInput) -> ClientRuntime.PaginatorSequence<ListPeeringsInput, ListPeeringsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPeeringsInput, ListPeeringsOutput>(input: input, inputKey: \ListPeeringsInput.nextToken, outputKey: \ListPeeringsOutput.nextToken, paginationFunction: self.listPeerings(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPeeringsInput, ListPeeringsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPeerings(input:))
->>>>>>> main
     }
 }
 
@@ -851,11 +687,7 @@ extension ListPeeringsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPeeringsInput, Output == ListPeeringsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPeeringsInput, OperationStackOutput == ListPeeringsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPeeringsPaginated`
     /// to access the nested member `[NetworkManagerClientTypes.Peering]`
     /// - Returns: `[NetworkManagerClientTypes.Peering]`

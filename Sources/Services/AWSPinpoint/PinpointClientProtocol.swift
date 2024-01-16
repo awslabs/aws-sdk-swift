@@ -23,11 +23,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCampaign` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application.
     ///
     /// - Parameter CreateCampaignInput : [no documentation found]
@@ -45,11 +42,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEmailTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a message template for messages that are sent through the email channel.
     ///
     /// - Parameter CreateEmailTemplateInput : [no documentation found]
@@ -65,11 +59,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateExportJob` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates an export job for an application.
     ///
     /// - Parameter CreateExportJobInput : [no documentation found]
@@ -87,11 +78,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateImportJob` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates an import job for an application.
     ///
     /// - Parameter CreateImportJobInput : [no documentation found]
@@ -109,11 +97,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateInAppTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new message template for messages using the in-app message channel.
     ///
     /// - Parameter CreateInAppTemplateInput : [no documentation found]
@@ -129,11 +114,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createInAppTemplate(input: CreateInAppTemplateInput) async throws -> CreateInAppTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateJourney` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a journey for an application.
     ///
     /// - Parameter CreateJourneyInput : [no documentation found]
@@ -151,11 +133,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createJourney(input: CreateJourneyInput) async throws -> CreateJourneyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePushTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a message template for messages that are sent through a push notification channel.
     ///
     /// - Parameter CreatePushTemplateInput : [no documentation found]
@@ -171,11 +150,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createPushTemplate(input: CreatePushTemplateInput) async throws -> CreatePushTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRecommenderConfiguration` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates an Amazon Pinpoint configuration for a recommender model.
     ///
     /// - Parameter CreateRecommenderConfigurationInput : [no documentation found]
@@ -193,11 +169,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createRecommenderConfiguration(input: CreateRecommenderConfigurationInput) async throws -> CreateRecommenderConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSegment` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
     /// - Parameter CreateSegmentInput : [no documentation found]
@@ -215,11 +188,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createSegment(input: CreateSegmentInput) async throws -> CreateSegmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSmsTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a message template for messages that are sent through the SMS channel.
     ///
     /// - Parameter CreateSmsTemplateInput : [no documentation found]
@@ -235,11 +205,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createSmsTemplate(input: CreateSmsTemplateInput) async throws -> CreateSmsTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVoiceTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a message template for messages that are sent through the voice channel.
     ///
     /// - Parameter CreateVoiceTemplateInput : [no documentation found]
@@ -255,11 +222,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func createVoiceTemplate(input: CreateVoiceTemplateInput) async throws -> CreateVoiceTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAdmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the ADM channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteAdmChannelInput : [no documentation found]
@@ -277,11 +241,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteAdmChannel(input: DeleteAdmChannelInput) async throws -> DeleteAdmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApnsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the APNs channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteApnsChannelInput : [no documentation found]
@@ -299,11 +260,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsChannel(input: DeleteApnsChannelInput) async throws -> DeleteApnsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApnsSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteApnsSandboxChannelInput : [no documentation found]
@@ -321,11 +279,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsSandboxChannel(input: DeleteApnsSandboxChannelInput) async throws -> DeleteApnsSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApnsVoipChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteApnsVoipChannelInput : [no documentation found]
@@ -343,11 +298,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsVoipChannel(input: DeleteApnsVoipChannelInput) async throws -> DeleteApnsVoipChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApnsVoipSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteApnsVoipSandboxChannelInput : [no documentation found]
@@ -365,11 +317,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApnsVoipSandboxChannel(input: DeleteApnsVoipSandboxChannelInput) async throws -> DeleteApnsVoipSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApp` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes an application.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
@@ -387,11 +336,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBaiduChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteBaiduChannelInput : [no documentation found]
@@ -409,11 +355,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteBaiduChannel(input: DeleteBaiduChannelInput) async throws -> DeleteBaiduChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCampaign` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a campaign from an application.
     ///
     /// - Parameter DeleteCampaignInput : [no documentation found]
@@ -431,11 +374,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEmailChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the email channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteEmailChannelInput : [no documentation found]
@@ -453,11 +393,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEmailChannel(input: DeleteEmailChannelInput) async throws -> DeleteEmailChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEmailTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a message template for messages that were sent through the email channel.
     ///
     /// - Parameter DeleteEmailTemplateInput : [no documentation found]
@@ -475,11 +412,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEndpoint` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes an endpoint from an application.
     ///
     /// - Parameter DeleteEndpointInput : [no documentation found]
@@ -497,11 +431,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEventStream` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes the event stream for an application.
     ///
     /// - Parameter DeleteEventStreamInput : [no documentation found]
@@ -519,11 +450,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteEventStream(input: DeleteEventStreamInput) async throws -> DeleteEventStreamOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGcmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteGcmChannelInput : [no documentation found]
@@ -541,11 +469,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteGcmChannel(input: DeleteGcmChannelInput) async throws -> DeleteGcmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteInAppTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a message template for messages sent using the in-app message channel.
     ///
     /// - Parameter DeleteInAppTemplateInput : [no documentation found]
@@ -563,11 +488,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteInAppTemplate(input: DeleteInAppTemplateInput) async throws -> DeleteInAppTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteJourney` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a journey from an application.
     ///
     /// - Parameter DeleteJourneyInput : [no documentation found]
@@ -585,11 +507,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteJourney(input: DeleteJourneyInput) async throws -> DeleteJourneyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePushTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a message template for messages that were sent through a push notification channel.
     ///
     /// - Parameter DeletePushTemplateInput : [no documentation found]
@@ -607,11 +526,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deletePushTemplate(input: DeletePushTemplateInput) async throws -> DeletePushTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRecommenderConfiguration` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes an Amazon Pinpoint configuration for a recommender model.
     ///
     /// - Parameter DeleteRecommenderConfigurationInput : [no documentation found]
@@ -629,11 +545,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteRecommenderConfiguration(input: DeleteRecommenderConfigurationInput) async throws -> DeleteRecommenderConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSegment` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a segment from an application.
     ///
     /// - Parameter DeleteSegmentInput : [no documentation found]
@@ -651,11 +564,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSegment(input: DeleteSegmentInput) async throws -> DeleteSegmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSmsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the SMS channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteSmsChannelInput : [no documentation found]
@@ -673,11 +583,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSmsChannel(input: DeleteSmsChannelInput) async throws -> DeleteSmsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSmsTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a message template for messages that were sent through the SMS channel.
     ///
     /// - Parameter DeleteSmsTemplateInput : [no documentation found]
@@ -695,11 +602,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteSmsTemplate(input: DeleteSmsTemplateInput) async throws -> DeleteSmsTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUserEndpoints` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes all the endpoints that are associated with a specific user ID.
     ///
     /// - Parameter DeleteUserEndpointsInput : [no documentation found]
@@ -717,11 +621,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteUserEndpoints(input: DeleteUserEndpointsInput) async throws -> DeleteUserEndpointsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVoiceChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Disables the voice channel for an application and deletes any existing settings for the channel.
     ///
     /// - Parameter DeleteVoiceChannelInput : [no documentation found]
@@ -739,11 +640,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteVoiceChannel(input: DeleteVoiceChannelInput) async throws -> DeleteVoiceChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVoiceTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Deletes a message template for messages that were sent through the voice channel.
     ///
     /// - Parameter DeleteVoiceTemplateInput : [no documentation found]
@@ -761,11 +659,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func deleteVoiceTemplate(input: DeleteVoiceTemplateInput) async throws -> DeleteVoiceTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAdmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the ADM channel for an application.
     ///
     /// - Parameter GetAdmChannelInput : [no documentation found]
@@ -783,11 +678,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getAdmChannel(input: GetAdmChannelInput) async throws -> GetAdmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApnsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the APNs channel for an application.
     ///
     /// - Parameter GetApnsChannelInput : [no documentation found]
@@ -805,11 +697,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsChannel(input: GetApnsChannelInput) async throws -> GetApnsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApnsSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application.
     ///
     /// - Parameter GetApnsSandboxChannelInput : [no documentation found]
@@ -827,11 +716,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsSandboxChannel(input: GetApnsSandboxChannelInput) async throws -> GetApnsSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApnsVoipChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application.
     ///
     /// - Parameter GetApnsVoipChannelInput : [no documentation found]
@@ -849,11 +735,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsVoipChannel(input: GetApnsVoipChannelInput) async throws -> GetApnsVoipChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApnsVoipSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
     ///
     /// - Parameter GetApnsVoipSandboxChannelInput : [no documentation found]
@@ -871,11 +754,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApnsVoipSandboxChannel(input: GetApnsVoipSandboxChannelInput) async throws -> GetApnsVoipSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApp` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about an application.
     ///
     /// - Parameter GetAppInput : [no documentation found]
@@ -893,11 +773,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApp(input: GetAppInput) async throws -> GetAppOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplicationDateRangeKpi` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
     ///
     /// - Parameter GetApplicationDateRangeKpiInput : [no documentation found]
@@ -915,11 +792,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApplicationDateRangeKpi(input: GetApplicationDateRangeKpiInput) async throws -> GetApplicationDateRangeKpiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplicationSettings` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the settings for an application.
     ///
     /// - Parameter GetApplicationSettingsInput : [no documentation found]
@@ -937,11 +811,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApplicationSettings(input: GetApplicationSettingsInput) async throws -> GetApplicationSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApps` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
     ///
     /// - Parameter GetAppsInput : [no documentation found]
@@ -959,11 +830,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getApps(input: GetAppsInput) async throws -> GetAppsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBaiduChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the Baidu channel for an application.
     ///
     /// - Parameter GetBaiduChannelInput : [no documentation found]
@@ -981,11 +849,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getBaiduChannel(input: GetBaiduChannelInput) async throws -> GetBaiduChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaign` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for a campaign.
     ///
     /// - Parameter GetCampaignInput : [no documentation found]
@@ -1003,11 +868,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaignActivities` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the activities for a campaign.
     ///
     /// - Parameter GetCampaignActivitiesInput : [no documentation found]
@@ -1025,11 +887,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignActivities(input: GetCampaignActivitiesInput) async throws -> GetCampaignActivitiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaignDateRangeKpi` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
     ///
     /// - Parameter GetCampaignDateRangeKpiInput : [no documentation found]
@@ -1047,11 +906,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignDateRangeKpi(input: GetCampaignDateRangeKpiInput) async throws -> GetCampaignDateRangeKpiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaigns` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
     ///
     /// - Parameter GetCampaignsInput : [no documentation found]
@@ -1069,11 +925,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaigns(input: GetCampaignsInput) async throws -> GetCampaignsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaignVersion` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
     ///
     /// - Parameter GetCampaignVersionInput : [no documentation found]
@@ -1091,11 +944,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignVersion(input: GetCampaignVersionInput) async throws -> GetCampaignVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCampaignVersions` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for all versions of a campaign.
     ///
     /// - Parameter GetCampaignVersionsInput : [no documentation found]
@@ -1113,11 +963,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getCampaignVersions(input: GetCampaignVersionsInput) async throws -> GetCampaignVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetChannels` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the history and status of each channel for an application.
     ///
     /// - Parameter GetChannelsInput : [no documentation found]
@@ -1135,11 +982,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getChannels(input: GetChannelsInput) async throws -> GetChannelsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEmailChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the email channel for an application.
     ///
     /// - Parameter GetEmailChannelInput : [no documentation found]
@@ -1157,11 +1001,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEmailChannel(input: GetEmailChannelInput) async throws -> GetEmailChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEmailTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel.
     ///
     /// - Parameter GetEmailTemplateInput : [no documentation found]
@@ -1179,11 +1020,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEndpoint` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the settings and attributes of a specific endpoint for an application.
     ///
     /// - Parameter GetEndpointInput : [no documentation found]
@@ -1201,11 +1039,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEventStream` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the event stream settings for an application.
     ///
     /// - Parameter GetEventStreamInput : [no documentation found]
@@ -1223,11 +1058,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getEventStream(input: GetEventStreamInput) async throws -> GetEventStreamOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExportJob` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of a specific export job for an application.
     ///
     /// - Parameter GetExportJobInput : [no documentation found]
@@ -1245,11 +1077,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExportJobs` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of all the export jobs for an application.
     ///
     /// - Parameter GetExportJobsInput : [no documentation found]
@@ -1267,11 +1096,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getExportJobs(input: GetExportJobsInput) async throws -> GetExportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGcmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the GCM channel for an application.
     ///
     /// - Parameter GetGcmChannelInput : [no documentation found]
@@ -1289,11 +1115,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getGcmChannel(input: GetGcmChannelInput) async throws -> GetGcmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetImportJob` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of a specific import job for an application.
     ///
     /// - Parameter GetImportJobInput : [no documentation found]
@@ -1311,11 +1134,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetImportJobs` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of all the import jobs for an application.
     ///
     /// - Parameter GetImportJobsInput : [no documentation found]
@@ -1333,11 +1153,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getImportJobs(input: GetImportJobsInput) async throws -> GetImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetInAppMessages` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the in-app messages targeted for the provided endpoint ID.
     ///
     /// - Parameter GetInAppMessagesInput : [no documentation found]
@@ -1355,11 +1172,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getInAppMessages(input: GetInAppMessagesInput) async throws -> GetInAppMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetInAppTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
     ///
     /// - Parameter GetInAppTemplateInput : [no documentation found]
@@ -1377,11 +1191,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getInAppTemplate(input: GetInAppTemplateInput) async throws -> GetInAppTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourney` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for a journey.
     ///
     /// - Parameter GetJourneyInput : [no documentation found]
@@ -1399,11 +1210,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourney(input: GetJourneyInput) async throws -> GetJourneyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyDateRangeKpi` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
     ///
     /// - Parameter GetJourneyDateRangeKpiInput : [no documentation found]
@@ -1421,11 +1229,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyDateRangeKpi(input: GetJourneyDateRangeKpiInput) async throws -> GetJourneyDateRangeKpiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyExecutionActivityMetrics` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
     ///
     /// - Parameter GetJourneyExecutionActivityMetricsInput : [no documentation found]
@@ -1443,11 +1248,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyExecutionActivityMetrics(input: GetJourneyExecutionActivityMetricsInput) async throws -> GetJourneyExecutionActivityMetricsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyExecutionMetrics` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
     ///
     /// - Parameter GetJourneyExecutionMetricsInput : [no documentation found]
@@ -1465,11 +1267,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyExecutionMetrics(input: GetJourneyExecutionMetricsInput) async throws -> GetJourneyExecutionMetricsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyRunExecutionActivityMetrics` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
     ///
     /// - Parameter GetJourneyRunExecutionActivityMetricsInput : [no documentation found]
@@ -1487,11 +1286,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRunExecutionActivityMetrics(input: GetJourneyRunExecutionActivityMetricsInput) async throws -> GetJourneyRunExecutionActivityMetricsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyRunExecutionMetrics` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
     ///
     /// - Parameter GetJourneyRunExecutionMetricsInput : [no documentation found]
@@ -1509,11 +1305,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRunExecutionMetrics(input: GetJourneyRunExecutionMetricsInput) async throws -> GetJourneyRunExecutionMetricsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJourneyRuns` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Provides information about the runs of a journey.
     ///
     /// - Parameter GetJourneyRunsInput : [no documentation found]
@@ -1531,11 +1324,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getJourneyRuns(input: GetJourneyRunsInput) async throws -> GetJourneyRunsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPushTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     ///
     /// - Parameter GetPushTemplateInput : [no documentation found]
@@ -1553,11 +1343,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getPushTemplate(input: GetPushTemplateInput) async throws -> GetPushTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRecommenderConfiguration` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
     ///
     /// - Parameter GetRecommenderConfigurationInput : [no documentation found]
@@ -1575,11 +1362,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getRecommenderConfiguration(input: GetRecommenderConfigurationInput) async throws -> GetRecommenderConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRecommenderConfigurations` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
     ///
     /// - Parameter GetRecommenderConfigurationsInput : [no documentation found]
@@ -1597,11 +1381,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getRecommenderConfigurations(input: GetRecommenderConfigurationsInput) async throws -> GetRecommenderConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegment` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     ///
     /// - Parameter GetSegmentInput : [no documentation found]
@@ -1619,11 +1400,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegment(input: GetSegmentInput) async throws -> GetSegmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegmentExportJobs` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the export jobs for a segment.
     ///
     /// - Parameter GetSegmentExportJobsInput : [no documentation found]
@@ -1641,11 +1419,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentExportJobs(input: GetSegmentExportJobsInput) async throws -> GetSegmentExportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegmentImportJobs` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the import jobs for a segment.
     ///
     /// - Parameter GetSegmentImportJobsInput : [no documentation found]
@@ -1663,11 +1438,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentImportJobs(input: GetSegmentImportJobsInput) async throws -> GetSegmentImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegments` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
     ///
     /// - Parameter GetSegmentsInput : [no documentation found]
@@ -1685,11 +1457,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegments(input: GetSegmentsInput) async throws -> GetSegmentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegmentVersion` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
     ///
     /// - Parameter GetSegmentVersionInput : [no documentation found]
@@ -1707,11 +1476,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentVersion(input: GetSegmentVersionInput) async throws -> GetSegmentVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSegmentVersions` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
     ///
     /// - Parameter GetSegmentVersionsInput : [no documentation found]
@@ -1729,11 +1495,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSegmentVersions(input: GetSegmentVersionsInput) async throws -> GetSegmentVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSmsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the SMS channel for an application.
     ///
     /// - Parameter GetSmsChannelInput : [no documentation found]
@@ -1751,11 +1514,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSmsChannel(input: GetSmsChannelInput) async throws -> GetSmsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSmsTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
     ///
     /// - Parameter GetSmsTemplateInput : [no documentation found]
@@ -1773,11 +1533,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getSmsTemplate(input: GetSmsTemplateInput) async throws -> GetSmsTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUserEndpoints` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the endpoints that are associated with a specific user ID.
     ///
     /// - Parameter GetUserEndpointsInput : [no documentation found]
@@ -1795,11 +1552,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getUserEndpoints(input: GetUserEndpointsInput) async throws -> GetUserEndpointsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVoiceChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status and settings of the voice channel for an application.
     ///
     /// - Parameter GetVoiceChannelInput : [no documentation found]
@@ -1817,11 +1571,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getVoiceChannel(input: GetVoiceChannelInput) async throws -> GetVoiceChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVoiceTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel.
     ///
     /// - Parameter GetVoiceTemplateInput : [no documentation found]
@@ -1839,11 +1590,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func getVoiceTemplate(input: GetVoiceTemplateInput) async throws -> GetVoiceTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListJourneys` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
     ///
     /// - Parameter ListJourneysInput : [no documentation found]
@@ -1861,22 +1609,16 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listJourneys(input: ListJourneysInput) async throws -> ListJourneysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTemplates` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
     ///
     /// - Parameter ListTemplatesInput : [no documentation found]
@@ -1892,11 +1634,8 @@ public protocol PinpointClientProtocol {
     /// - `MethodNotAllowedException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTemplateVersions` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about all the versions of a specific message template.
     ///
     /// - Parameter ListTemplateVersionsInput : [no documentation found]
@@ -1914,11 +1653,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PhoneNumberValidate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Retrieves information about a phone number.
     ///
     /// - Parameter PhoneNumberValidateInput : [no documentation found]
@@ -1936,11 +1672,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func phoneNumberValidate(input: PhoneNumberValidateInput) async throws -> PhoneNumberValidateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEvents` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
     ///
     /// - Parameter PutEventsInput : [no documentation found]
@@ -1958,11 +1691,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEventStream` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application.
     ///
     /// - Parameter PutEventStreamInput : [no documentation found]
@@ -1980,11 +1710,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveAttributes` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     ///
     /// - Parameter RemoveAttributesInput : [no documentation found]
@@ -2002,11 +1729,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func removeAttributes(input: RemoveAttributesInput) async throws -> RemoveAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendMessages` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates and sends a direct message.
     ///
     /// - Parameter SendMessagesInput : [no documentation found]
@@ -2024,11 +1748,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendMessages(input: SendMessagesInput) async throws -> SendMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendOTPMessage` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Send an OTP message
     ///
     /// - Parameter SendOTPMessageInput : [no documentation found]
@@ -2046,11 +1767,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendOTPMessage(input: SendOTPMessageInput) async throws -> SendOTPMessageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendUsersMessages` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates and sends a message to a list of users.
     ///
     /// - Parameter SendUsersMessagesInput : [no documentation found]
@@ -2068,33 +1786,24 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func sendUsersMessages(input: SendUsersMessagesInput) async throws -> SendUsersMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAdmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
     ///
     /// - Parameter UpdateAdmChannelInput : [no documentation found]
@@ -2112,11 +1821,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateAdmChannel(input: UpdateAdmChannelInput) async throws -> UpdateAdmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApnsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
     ///
     /// - Parameter UpdateApnsChannelInput : [no documentation found]
@@ -2134,11 +1840,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsChannel(input: UpdateApnsChannelInput) async throws -> UpdateApnsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApnsSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
     ///
     /// - Parameter UpdateApnsSandboxChannelInput : [no documentation found]
@@ -2156,11 +1859,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsSandboxChannel(input: UpdateApnsSandboxChannelInput) async throws -> UpdateApnsSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApnsVoipChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
     ///
     /// - Parameter UpdateApnsVoipChannelInput : [no documentation found]
@@ -2178,11 +1878,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsVoipChannel(input: UpdateApnsVoipChannelInput) async throws -> UpdateApnsVoipChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApnsVoipSandboxChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
     ///
     /// - Parameter UpdateApnsVoipSandboxChannelInput : [no documentation found]
@@ -2200,11 +1897,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApnsVoipSandboxChannel(input: UpdateApnsVoipSandboxChannelInput) async throws -> UpdateApnsVoipSandboxChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplicationSettings` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates the settings for an application.
     ///
     /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
@@ -2222,11 +1916,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBaiduChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
     ///
     /// - Parameter UpdateBaiduChannelInput : [no documentation found]
@@ -2244,11 +1935,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateBaiduChannel(input: UpdateBaiduChannelInput) async throws -> UpdateBaiduChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateCampaign` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates the configuration and other settings for a campaign.
     ///
     /// - Parameter UpdateCampaignInput : [no documentation found]
@@ -2266,11 +1954,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEmailChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application.
     ///
     /// - Parameter UpdateEmailChannelInput : [no documentation found]
@@ -2288,11 +1973,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEmailChannel(input: UpdateEmailChannelInput) async throws -> UpdateEmailChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEmailTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an existing message template for messages that are sent through the email channel.
     ///
     /// - Parameter UpdateEmailTemplateInput : [no documentation found]
@@ -2310,11 +1992,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEmailTemplate(input: UpdateEmailTemplateInput) async throws -> UpdateEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEndpoint` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
     /// - Parameter UpdateEndpointInput : [no documentation found]
@@ -2332,11 +2011,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEndpoint(input: UpdateEndpointInput) async throws -> UpdateEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEndpointsBatch` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
     /// - Parameter UpdateEndpointsBatchInput : [no documentation found]
@@ -2354,11 +2030,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateEndpointsBatch(input: UpdateEndpointsBatchInput) async throws -> UpdateEndpointsBatchOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGcmChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     ///
     /// - Parameter UpdateGcmChannelInput : [no documentation found]
@@ -2376,11 +2049,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateGcmChannel(input: UpdateGcmChannelInput) async throws -> UpdateGcmChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateInAppTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an existing message template for messages sent through the in-app message channel.
     ///
     /// - Parameter UpdateInAppTemplateInput : [no documentation found]
@@ -2398,11 +2068,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateInAppTemplate(input: UpdateInAppTemplateInput) async throws -> UpdateInAppTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateJourney` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates the configuration and other settings for a journey.
     ///
     /// - Parameter UpdateJourneyInput : [no documentation found]
@@ -2421,11 +2088,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateJourney(input: UpdateJourneyInput) async throws -> UpdateJourneyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateJourneyState` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Cancels (stops) an active journey.
     ///
     /// - Parameter UpdateJourneyStateInput : [no documentation found]
@@ -2443,11 +2107,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateJourneyState(input: UpdateJourneyStateInput) async throws -> UpdateJourneyStateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePushTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an existing message template for messages that are sent through a push notification channel.
     ///
     /// - Parameter UpdatePushTemplateInput : [no documentation found]
@@ -2465,11 +2126,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updatePushTemplate(input: UpdatePushTemplateInput) async throws -> UpdatePushTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRecommenderConfiguration` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an Amazon Pinpoint configuration for a recommender model.
     ///
     /// - Parameter UpdateRecommenderConfigurationInput : [no documentation found]
@@ -2487,11 +2145,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateRecommenderConfiguration(input: UpdateRecommenderConfigurationInput) async throws -> UpdateRecommenderConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSegment` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
     /// - Parameter UpdateSegmentInput : [no documentation found]
@@ -2509,11 +2164,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSegment(input: UpdateSegmentInput) async throws -> UpdateSegmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSmsChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
     ///
     /// - Parameter UpdateSmsChannelInput : [no documentation found]
@@ -2531,11 +2183,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSmsChannel(input: UpdateSmsChannelInput) async throws -> UpdateSmsChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSmsTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an existing message template for messages that are sent through the SMS channel.
     ///
     /// - Parameter UpdateSmsTemplateInput : [no documentation found]
@@ -2553,11 +2202,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateSmsTemplate(input: UpdateSmsTemplateInput) async throws -> UpdateSmsTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTemplateActiveVersion` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Changes the status of a specific version of a message template to active.
     ///
     /// - Parameter UpdateTemplateActiveVersionInput : [no documentation found]
@@ -2575,11 +2221,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateTemplateActiveVersion(input: UpdateTemplateActiveVersionInput) async throws -> UpdateTemplateActiveVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVoiceChannel` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     ///
     /// - Parameter UpdateVoiceChannelInput : [no documentation found]
@@ -2597,11 +2240,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateVoiceChannel(input: UpdateVoiceChannelInput) async throws -> UpdateVoiceChannelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVoiceTemplate` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Updates an existing message template for messages that are sent through the voice channel.
     ///
     /// - Parameter UpdateVoiceTemplateInput : [no documentation found]
@@ -2619,11 +2259,8 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func updateVoiceTemplate(input: UpdateVoiceTemplateInput) async throws -> UpdateVoiceTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `VerifyOTPMessage` operation on the `Pinpoint` service.
     ///
->>>>>>> main
     /// Verify an OTP
     ///
     /// - Parameter VerifyOTPMessageInput : [no documentation found]

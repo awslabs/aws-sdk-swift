@@ -1820,22 +1820,6 @@ enum CreateAccessPointForObjectLambdaOutputError: ClientRuntime.HttpResponseErro
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateAccessPointInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -1998,11 +1982,7 @@ enum CreateAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.CreateBucketConfiguration: Swift.Codable {
-=======
 extension S3ControlClientTypes.CreateBucketConfiguration: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case locationConstraint = "LocationConstraint"
     }
@@ -2035,64 +2015,7 @@ extension S3ControlClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateBucketInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateBucketInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateBucketOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
-                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                input.builder.withBody(createBucketConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let createBucketConfigurationData = "{}".data(using: .utf8)!
-                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
-                    input.builder.withBody(createBucketConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateBucketInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateBucketOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension CreateBucketInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension CreateBucketInput: Swift.Encodable {
-=======
 extension CreateBucketInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createBucketConfiguration = "CreateBucketConfiguration"
     }
@@ -2264,22 +2187,6 @@ enum CreateBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "BucketAlreadyExists": return try await BucketAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateJobInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -2509,11 +2416,7 @@ enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.CreateMultiRegionAccessPointInput: Swift.Codable {
-=======
 extension S3ControlClientTypes.CreateMultiRegionAccessPointInput: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case publicAccessBlock = "PublicAccessBlock"
@@ -2702,8 +2605,6 @@ enum CreateMultiRegionAccessPointOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateStorageLensGroupInput {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case storageLensGroup = "StorageLensGroup"
@@ -3082,7 +2983,6 @@ enum DeleteAccessGrantsLocationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension DeleteAccessPointForObjectLambdaInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3118,16 +3018,6 @@ public struct DeleteAccessPointForObjectLambdaInput: Swift.Equatable {
         self.accountId = accountId
         self.name = name
     }
-}
-
-extension DeleteAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointForObjectLambdaOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
@@ -3196,16 +3086,6 @@ public struct DeleteAccessPointOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteAccessPointOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3262,16 +3142,6 @@ public struct DeleteAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteAccessPointPolicyForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointPolicyForObjectLambdaOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3316,16 +3186,6 @@ public struct DeleteAccessPointPolicyInput: Swift.Equatable {
         self.accountId = accountId
         self.name = name
     }
-}
-
-extension DeleteAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteAccessPointPolicyOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
@@ -3431,16 +3291,6 @@ public struct DeleteBucketLifecycleConfigurationOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketLifecycleConfigurationOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3516,16 +3366,6 @@ public struct DeleteBucketPolicyOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketPolicyOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3570,16 +3410,6 @@ public struct DeleteBucketReplicationInput: Swift.Equatable {
         self.accountId = accountId
         self.bucket = bucket
     }
-}
-
-extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketReplicationOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
@@ -3648,16 +3478,6 @@ public struct DeleteBucketTaggingOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteBucketTaggingOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3714,16 +3534,6 @@ public struct DeleteJobTaggingOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteJobTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteJobTaggingOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -3736,11 +3546,7 @@ enum DeleteJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.DeleteMarkerReplication: Swift.Codable {
-=======
 extension S3ControlClientTypes.DeleteMarkerReplication: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
     }
@@ -4000,16 +3806,6 @@ public struct DeletePublicAccessBlockOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeletePublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeletePublicAccessBlockOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4054,16 +3850,6 @@ public struct DeleteStorageLensConfigurationInput: Swift.Equatable {
         self.accountId = accountId
         self.configId = configId
     }
-}
-
-extension DeleteStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStorageLensConfigurationOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
@@ -4132,16 +3918,6 @@ public struct DeleteStorageLensConfigurationTaggingOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteStorageLensConfigurationTaggingOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteStorageLensConfigurationTaggingOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4151,8 +3927,6 @@ enum DeleteStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpRespons
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteStorageLensGroupInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -4209,7 +3983,6 @@ enum DeleteStorageLensGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DescribeJobInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -4287,49 +4060,6 @@ extension DescribeJobOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeJobOutputBody = try responseDecoder.decode(responseBody: data)
-            self.job = output.job
-        } else {
-            self.job = nil
-        }
-    }
-}
-
-public struct DescribeJobOutput: Swift.Equatable {
-    /// Contains the configuration parameters and status for the job specified in the Describe Job request.
-    public var job: S3ControlClientTypes.JobDescriptor?
-
-    public init(
-        job: S3ControlClientTypes.JobDescriptor? = nil
-    )
-    {
-        self.job = job
-    }
-}
-
-struct DescribeJobOutputBody: Swift.Equatable {
-    let job: S3ControlClientTypes.JobDescriptor?
-}
-
-extension DescribeJobOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case job = "Job"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let jobDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.JobDescriptor.self, forKey: .job)
-        job = jobDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum DescribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4420,49 +4150,6 @@ extension DescribeMultiRegionAccessPointOperationOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension DescribeMultiRegionAccessPointOperationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeMultiRegionAccessPointOperationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.asyncOperation = output.asyncOperation
-        } else {
-            self.asyncOperation = nil
-        }
-    }
-}
-
-public struct DescribeMultiRegionAccessPointOperationOutput: Swift.Equatable {
-    /// A container element containing the details of the asynchronous operation.
-    public var asyncOperation: S3ControlClientTypes.AsyncOperation?
-
-    public init(
-        asyncOperation: S3ControlClientTypes.AsyncOperation? = nil
-    )
-    {
-        self.asyncOperation = asyncOperation
-    }
-}
-
-struct DescribeMultiRegionAccessPointOperationOutputBody: Swift.Equatable {
-    let asyncOperation: S3ControlClientTypes.AsyncOperation?
-}
-
-extension DescribeMultiRegionAccessPointOperationOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case asyncOperation = "AsyncOperation"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let asyncOperationDecoded = try containerValues.decodeIfPresent(S3ControlClientTypes.AsyncOperation.self, forKey: .asyncOperation)
-        asyncOperation = asyncOperationDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum DescribeMultiRegionAccessPointOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4472,11 +4159,7 @@ enum DescribeMultiRegionAccessPointOperationOutputError: ClientRuntime.HttpRespo
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.Destination: Swift.Codable {
-=======
 extension S3ControlClientTypes.Destination: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlTranslation = "AccessControlTranslation"
         case account = "Account"
@@ -5629,18 +5312,6 @@ public struct GetAccessPointConfigurationForObjectLambdaInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointConfigurationForObjectLambdaInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointConfigurationForObjectLambdaInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointConfigurationForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5727,18 +5398,6 @@ public struct GetAccessPointForObjectLambdaInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointForObjectLambdaInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointForObjectLambdaInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5855,18 +5514,6 @@ public struct GetAccessPointInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6060,18 +5707,6 @@ public struct GetAccessPointPolicyForObjectLambdaInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointPolicyForObjectLambdaInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointPolicyForObjectLambdaInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointPolicyForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6158,18 +5793,6 @@ public struct GetAccessPointPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointPolicyInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6256,18 +5879,6 @@ public struct GetAccessPointPolicyStatusForObjectLambdaInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointPolicyStatusForObjectLambdaInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointPolicyStatusForObjectLambdaInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointPolicyStatusForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6354,18 +5965,6 @@ public struct GetAccessPointPolicyStatusInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccessPointPolicyStatusInputBody: Swift.Equatable {
-}
-
-extension GetAccessPointPolicyStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccessPointPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6489,18 +6088,6 @@ public struct GetBucketLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketLifecycleConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6673,18 +6260,6 @@ public struct GetBucketPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketPolicyInputBody: Swift.Equatable {
-}
-
-extension GetBucketPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6771,18 +6346,6 @@ public struct GetBucketReplicationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketReplicationInputBody: Swift.Equatable {
-}
-
-extension GetBucketReplicationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketReplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6869,18 +6432,6 @@ public struct GetBucketTaggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketTaggingInputBody: Swift.Equatable {
-}
-
-extension GetBucketTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6985,18 +6536,6 @@ public struct GetBucketVersioningInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetBucketVersioningInputBody: Swift.Equatable {
-}
-
-extension GetBucketVersioningInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetBucketVersioningOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7056,8 +6595,6 @@ enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetDataAccessInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -7216,7 +6753,6 @@ enum GetDataAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetJobTaggingInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -7254,18 +6790,6 @@ public struct GetJobTaggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetJobTaggingInputBody: Swift.Equatable {
-}
-
-extension GetJobTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetJobTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7372,18 +6896,6 @@ public struct GetMultiRegionAccessPointInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetMultiRegionAccessPointInputBody: Swift.Equatable {
-}
-
-extension GetMultiRegionAccessPointInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetMultiRegionAccessPointOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7470,18 +6982,6 @@ public struct GetMultiRegionAccessPointPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetMultiRegionAccessPointPolicyInputBody: Swift.Equatable {
-}
-
-extension GetMultiRegionAccessPointPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetMultiRegionAccessPointPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7568,18 +7068,6 @@ public struct GetMultiRegionAccessPointPolicyStatusInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetMultiRegionAccessPointPolicyStatusInputBody: Swift.Equatable {
-}
-
-extension GetMultiRegionAccessPointPolicyStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetMultiRegionAccessPointPolicyStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7666,18 +7154,6 @@ public struct GetMultiRegionAccessPointRoutesInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetMultiRegionAccessPointRoutesInputBody: Swift.Equatable {
-}
-
-extension GetMultiRegionAccessPointRoutesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetMultiRegionAccessPointRoutesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7783,18 +7259,6 @@ public struct GetPublicAccessBlockInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetPublicAccessBlockInputBody: Swift.Equatable {
-}
-
-extension GetPublicAccessBlockInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetPublicAccessBlockOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -7881,18 +7345,6 @@ public struct GetStorageLensConfigurationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetStorageLensConfigurationInputBody: Swift.Equatable {
-}
-
-extension GetStorageLensConfigurationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetStorageLensConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -7978,18 +7430,6 @@ public struct GetStorageLensConfigurationTaggingInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetStorageLensConfigurationTaggingInputBody: Swift.Equatable {
-}
-
-extension GetStorageLensConfigurationTaggingInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetStorageLensConfigurationTaggingOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8056,8 +7496,6 @@ enum GetStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetStorageLensGroupInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -8225,7 +7663,6 @@ extension S3ControlClientTypes {
     }
 }
 
->>>>>>> main
 extension IdempotencyException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -10916,18 +10353,6 @@ public struct ListAccessPointsForObjectLambdaInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListAccessPointsForObjectLambdaInputBody: Swift.Equatable {
-}
-
-extension ListAccessPointsForObjectLambdaInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListAccessPointsForObjectLambdaOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11066,18 +10491,6 @@ public struct ListAccessPointsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListAccessPointsInputBody: Swift.Equatable {
-}
-
-extension ListAccessPointsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListAccessPointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11218,18 +10631,6 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListJobsInputBody: Swift.Equatable {
-}
-
-extension ListJobsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11363,18 +10764,6 @@ public struct ListMultiRegionAccessPointsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListMultiRegionAccessPointsInputBody: Swift.Equatable {
-}
-
-extension ListMultiRegionAccessPointsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListMultiRegionAccessPointsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11512,18 +10901,6 @@ public struct ListRegionalBucketsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListRegionalBucketsInputBody: Swift.Equatable {
-}
-
-extension ListRegionalBucketsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListRegionalBucketsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11600,11 +10977,7 @@ enum ListRegionalBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.ListStorageLensConfigurationEntry: Swift.Codable {
-=======
 extension S3ControlClientTypes.ListStorageLensConfigurationEntry: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegion = "HomeRegion"
         case id = "Id"
@@ -11710,18 +11083,6 @@ public struct ListStorageLensConfigurationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListStorageLensConfigurationsInputBody: Swift.Equatable {
-}
-
-extension ListStorageLensConfigurationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListStorageLensConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11797,8 +11158,6 @@ enum ListStorageLensConfigurationsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension S3ControlClientTypes.ListStorageLensGroupEntry: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case homeRegion = "HomeRegion"
@@ -12075,7 +11434,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension S3ControlClientTypes {
     public enum MFADelete: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -13838,25 +13196,7 @@ enum PutAccessPointConfigurationForObjectLambdaOutputError: ClientRuntime.HttpRe
     }
 }
 
-<<<<<<< HEAD
-extension PutAccessPointPolicyForObjectLambdaInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutAccessPointPolicyForObjectLambdaInput: Swift.Encodable {
-=======
 extension PutAccessPointPolicyForObjectLambdaInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -13944,25 +13284,7 @@ enum PutAccessPointPolicyForObjectLambdaOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-<<<<<<< HEAD
-extension PutAccessPointPolicyInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutAccessPointPolicyInput: Swift.Encodable {
-=======
 extension PutAccessPointPolicyInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -14050,64 +13372,7 @@ enum PutAccessPointPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketLifecycleConfigurationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let lifecycleConfiguration = input.operationInput.lifecycleConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let lifecycleConfigurationData = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
-                let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
-                input.builder.withBody(lifecycleConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let lifecycleConfigurationData = "{}".data(using: .utf8)!
-                    let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
-                    input.builder.withBody(lifecycleConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketLifecycleConfigurationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketLifecycleConfigurationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketLifecycleConfigurationInput: Swift.Encodable {
-=======
 extension PutBucketLifecycleConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycleConfiguration = "LifecycleConfiguration"
     }
@@ -14194,25 +13459,7 @@ enum PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-extension PutBucketPolicyInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketPolicyInput: Swift.Encodable {
-=======
 extension PutBucketPolicyInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
     }
@@ -14307,64 +13554,7 @@ enum PutBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketReplicationInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketReplicationInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketReplicationInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketReplicationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let replicationConfiguration = input.operationInput.replicationConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let replicationConfigurationData = try xmlEncoder.encode(replicationConfiguration, withRootKey: "ReplicationConfiguration")
-                let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
-                input.builder.withBody(replicationConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let replicationConfigurationData = "{}".data(using: .utf8)!
-                    let replicationConfigurationBody = ClientRuntime.HttpBody.data(replicationConfigurationData)
-                    input.builder.withBody(replicationConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketReplicationInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketReplicationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketReplicationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketReplicationInput: Swift.Encodable {
-=======
 extension PutBucketReplicationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case replicationConfiguration = "ReplicationConfiguration"
     }
@@ -14452,64 +13642,7 @@ enum PutBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketTaggingInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketTaggingInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketTaggingOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let tagging = input.operationInput.tagging {
-                let xmlEncoder = encoder as! XMLEncoder
-                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                input.builder.withBody(taggingBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let taggingData = "{}".data(using: .utf8)!
-                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
-                    input.builder.withBody(taggingBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketTaggingInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketTaggingOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketTaggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketTaggingInput: Swift.Encodable {
-=======
 extension PutBucketTaggingInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagging = "Tagging"
     }
@@ -14597,64 +13730,7 @@ enum PutBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutBucketVersioningInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutBucketVersioningInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutBucketVersioningOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let versioningConfiguration = input.operationInput.versioningConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let versioningConfigurationData = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
-                let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
-                input.builder.withBody(versioningConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let versioningConfigurationData = "{}".data(using: .utf8)!
-                    let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
-                    input.builder.withBody(versioningConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutBucketVersioningInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutBucketVersioningOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutBucketVersioningInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutBucketVersioningInput: Swift.Encodable {
-=======
 extension PutBucketVersioningInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case versioningConfiguration = "VersioningConfiguration"
     }
@@ -14749,25 +13825,7 @@ enum PutBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension PutJobTaggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutJobTaggingInput: Swift.Encodable {
-=======
 extension PutJobTaggingInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -14876,11 +13934,7 @@ enum PutJobTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput: Swift.Codable {
-=======
 extension S3ControlClientTypes.PutMultiRegionAccessPointPolicyInput: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case policy = "Policy"
@@ -15040,64 +14094,7 @@ enum PutMultiRegionAccessPointPolicyOutputError: ClientRuntime.HttpResponseError
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
         }
-    }
-}
-
-public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutPublicAccessBlockInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let publicAccessBlockConfiguration = input.operationInput.publicAccessBlockConfiguration {
-                let xmlEncoder = encoder as! XMLEncoder
-                let publicAccessBlockConfigurationData = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
-                let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
-                input.builder.withBody(publicAccessBlockConfigurationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let publicAccessBlockConfigurationData = "{}".data(using: .utf8)!
-                    let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
-                    input.builder.withBody(publicAccessBlockConfigurationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutPublicAccessBlockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutPublicAccessBlockOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-extension PutPublicAccessBlockInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-=======
-        }
->>>>>>> main
     }
 }
 
@@ -15181,25 +14178,7 @@ enum PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension PutStorageLensConfigurationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutStorageLensConfigurationInput: Swift.Encodable {
-=======
 extension PutStorageLensConfigurationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case storageLensConfiguration = "StorageLensConfiguration"
         case tags = "Tags"
@@ -15314,25 +14293,7 @@ enum PutStorageLensConfigurationOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-<<<<<<< HEAD
-extension PutStorageLensConfigurationTaggingInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension PutStorageLensConfigurationTaggingInput: Swift.Encodable {
-=======
 extension PutStorageLensConfigurationTaggingInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
     }
@@ -15437,11 +14398,7 @@ enum PutStorageLensConfigurationTaggingOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.Region: Swift.Codable {
-=======
 extension S3ControlClientTypes.Region: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket = "Bucket"
         case bucketAccountId = "BucketAccountId"
@@ -17931,28 +16888,11 @@ extension S3ControlClientTypes.SelectionCriteria: Swift.Decodable {
         case minStorageBytesPercentage = "MinStorageBytesPercentage"
     }
 
-<<<<<<< HEAD
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("http://awss3control.amazonaws.com/doc/2018-08-20/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let delimiter = delimiter {
-            try container.encode(delimiter, forKey: ClientRuntime.Key("Delimiter"))
-        }
-        if let maxDepth = maxDepth {
-            try container.encode(maxDepth, forKey: ClientRuntime.Key("MaxDepth"))
-        }
-        if let minStorageBytesPercentage = minStorageBytesPercentage {
-            try container.encode(minStorageBytesPercentage, forKey: ClientRuntime.Key("MinStorageBytesPercentage"))
-        }
-=======
     static func writingClosure(_ value: S3ControlClientTypes.SelectionCriteria?, to writer: SmithyXML.Writer) throws {
         guard let value else { writer.detach(); return }
         try writer[.init("Delimiter")].write(value.delimiter)
         try writer[.init("MaxDepth")].write(value.maxDepth)
         try writer[.init("MinStorageBytesPercentage")].write(value.minStorageBytesPercentage)
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -18976,9 +17916,6 @@ enum SubmitMultiRegionAccessPointRoutesOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.Tagging: Swift.Codable {
-=======
 extension S3ControlClientTypes.Tag: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -19128,7 +18065,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension S3ControlClientTypes.Tagging: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagSet = "TagSet"
     }
@@ -19670,18 +18606,6 @@ public struct UpdateJobPriorityInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct UpdateJobPriorityInputBody: Swift.Equatable {
-}
-
-extension UpdateJobPriorityInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension UpdateJobPriorityOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -19812,18 +18736,6 @@ public struct UpdateJobStatusInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct UpdateJobStatusInputBody: Swift.Equatable {
-}
-
-extension UpdateJobStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension UpdateJobStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -19898,9 +18810,6 @@ enum UpdateJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension S3ControlClientTypes.VersioningConfiguration: Swift.Codable {
-=======
 extension UpdateStorageLensGroupInput {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case storageLensGroup = "StorageLensGroup"
@@ -19990,7 +18899,6 @@ enum UpdateStorageLensGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension S3ControlClientTypes.VersioningConfiguration: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mfaDelete = "MfaDelete"
         case status = "Status"

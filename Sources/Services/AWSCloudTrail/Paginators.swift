@@ -12,11 +12,7 @@ extension CloudTrailClient {
     ///     - input: A `[GetQueryResultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetQueryResultsOutput`
     public func getQueryResultsPaginated(input: GetQueryResultsInput) -> ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \GetQueryResultsInput.nextToken, outputKey: \GetQueryResultsOutput.nextToken, paginationFunction: self.getQueryResults(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getQueryResults(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListEventDataStoresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventDataStoresOutput`
     public func listEventDataStoresPaginated(input: ListEventDataStoresInput) -> ClientRuntime.PaginatorSequence<ListEventDataStoresInput, ListEventDataStoresOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEventDataStoresInput, ListEventDataStoresOutput>(input: input, inputKey: \ListEventDataStoresInput.nextToken, outputKey: \ListEventDataStoresOutput.nextToken, paginationFunction: self.listEventDataStores(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEventDataStoresInput, ListEventDataStoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventDataStores(input:))
->>>>>>> main
     }
 }
 
@@ -89,11 +77,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListImportFailuresInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportFailuresOutput`
     public func listImportFailuresPaginated(input: ListImportFailuresInput) -> ClientRuntime.PaginatorSequence<ListImportFailuresInput, ListImportFailuresOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImportFailuresInput, ListImportFailuresOutput>(input: input, inputKey: \ListImportFailuresInput.nextToken, outputKey: \ListImportFailuresOutput.nextToken, paginationFunction: self.listImportFailures(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImportFailuresInput, ListImportFailuresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImportFailures(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +90,7 @@ extension ListImportFailuresInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImportFailuresInput, Output == ListImportFailuresOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImportFailuresInput, OperationStackOutput == ListImportFailuresOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImportFailuresPaginated`
     /// to access the nested member `[CloudTrailClientTypes.ImportFailureListItem]`
     /// - Returns: `[CloudTrailClientTypes.ImportFailureListItem]`
@@ -128,11 +108,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListImportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutput`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutput.nextToken, paginationFunction: self.listImports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImports(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +122,7 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImportsInput, Output == ListImportsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImportsInput, OperationStackOutput == ListImportsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImportsPaginated`
     /// to access the nested member `[CloudTrailClientTypes.ImportsListItem]`
     /// - Returns: `[CloudTrailClientTypes.ImportsListItem]`
@@ -168,11 +140,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListPublicKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPublicKeysOutput`
     public func listPublicKeysPaginated(input: ListPublicKeysInput) -> ClientRuntime.PaginatorSequence<ListPublicKeysInput, ListPublicKeysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPublicKeysInput, ListPublicKeysOutput>(input: input, inputKey: \ListPublicKeysInput.nextToken, outputKey: \ListPublicKeysOutput.nextToken, paginationFunction: self.listPublicKeys(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPublicKeysInput, ListPublicKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPublicKeys(input:))
->>>>>>> main
     }
 }
 
@@ -185,11 +153,7 @@ extension ListPublicKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPublicKeysInput, Output == ListPublicKeysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPublicKeysInput, OperationStackOutput == ListPublicKeysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPublicKeysPaginated`
     /// to access the nested member `[CloudTrailClientTypes.PublicKey]`
     /// - Returns: `[CloudTrailClientTypes.PublicKey]`
@@ -207,11 +171,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListQueriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueriesOutput`
     public func listQueriesPaginated(input: ListQueriesInput) -> ClientRuntime.PaginatorSequence<ListQueriesInput, ListQueriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListQueriesInput, ListQueriesOutput>(input: input, inputKey: \ListQueriesInput.nextToken, outputKey: \ListQueriesOutput.nextToken, paginationFunction: self.listQueries(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListQueriesInput, ListQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueries(input:))
->>>>>>> main
     }
 }
 
@@ -236,11 +196,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
->>>>>>> main
     }
 }
 
@@ -252,11 +208,7 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsInput, Output == ListTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsInput, OperationStackOutput == ListTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsPaginated`
     /// to access the nested member `[CloudTrailClientTypes.ResourceTag]`
     /// - Returns: `[CloudTrailClientTypes.ResourceTag]`
@@ -274,11 +226,7 @@ extension CloudTrailClient {
     ///     - input: A `[ListTrailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrailsOutput`
     public func listTrailsPaginated(input: ListTrailsInput) -> ClientRuntime.PaginatorSequence<ListTrailsInput, ListTrailsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTrailsInput, ListTrailsOutput>(input: input, inputKey: \ListTrailsInput.nextToken, outputKey: \ListTrailsOutput.nextToken, paginationFunction: self.listTrails(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTrailsInput, ListTrailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrails(input:))
->>>>>>> main
     }
 }
 
@@ -289,11 +237,7 @@ extension ListTrailsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTrailsInput, Output == ListTrailsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTrailsInput, OperationStackOutput == ListTrailsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTrailsPaginated`
     /// to access the nested member `[CloudTrailClientTypes.TrailInfo]`
     /// - Returns: `[CloudTrailClientTypes.TrailInfo]`
@@ -311,11 +255,7 @@ extension CloudTrailClient {
     ///     - input: A `[LookupEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `LookupEventsOutput`
     public func lookupEventsPaginated(input: LookupEventsInput) -> ClientRuntime.PaginatorSequence<LookupEventsInput, LookupEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<LookupEventsInput, LookupEventsOutput>(input: input, inputKey: \LookupEventsInput.nextToken, outputKey: \LookupEventsOutput.nextToken, paginationFunction: self.lookupEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<LookupEventsInput, LookupEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.lookupEvents(input:))
->>>>>>> main
     }
 }
 
@@ -331,11 +271,7 @@ extension LookupEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == LookupEventsInput, Output == LookupEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == LookupEventsInput, OperationStackOutput == LookupEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `lookupEventsPaginated`
     /// to access the nested member `[CloudTrailClientTypes.Event]`
     /// - Returns: `[CloudTrailClientTypes.Event]`

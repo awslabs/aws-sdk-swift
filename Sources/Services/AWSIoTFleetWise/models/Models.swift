@@ -4790,22 +4790,6 @@ enum GetDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum GetDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
-        if let error = serviceError { return error }
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension GetEncryptionConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9611,8 +9595,6 @@ enum PutLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case offset
@@ -9750,7 +9732,6 @@ extension IoTFleetWiseClientTypes {
     }
 }
 
->>>>>>> main
 extension RegisterAccountInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case iamResources

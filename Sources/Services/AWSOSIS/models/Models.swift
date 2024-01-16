@@ -610,10 +610,7 @@ enum CreatePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -676,8 +673,6 @@ enum DeletePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension OSISClientTypes.EncryptionAtRestOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyArn = "KmsKeyArn"
@@ -714,7 +709,6 @@ extension OSISClientTypes {
 
 }
 
->>>>>>> main
 extension GetPipelineBlueprintInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let blueprintName = blueprintName else {
@@ -2725,46 +2719,6 @@ extension UpdatePipelineInputBody: Swift.Decodable {
         bufferOptions = bufferOptionsDecoded
         let encryptionAtRestOptionsDecoded = try containerValues.decodeIfPresent(OSISClientTypes.EncryptionAtRestOptions.self, forKey: .encryptionAtRestOptions)
         encryptionAtRestOptions = encryptionAtRestOptionsDecoded
-    }
-}
-
-extension UpdatePipelineOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdatePipelineOutputBody = try responseDecoder.decode(responseBody: data)
-            self.pipeline = output.pipeline
-        } else {
-            self.pipeline = nil
-        }
-    }
-}
-
-public struct UpdatePipelineOutput: Swift.Equatable {
-    /// Container for information about the updated pipeline.
-    public var pipeline: OSISClientTypes.Pipeline?
-
-    public init(
-        pipeline: OSISClientTypes.Pipeline? = nil
-    )
-    {
-        self.pipeline = pipeline
-    }
-}
-
-struct UpdatePipelineOutputBody: Swift.Equatable {
-    let pipeline: OSISClientTypes.Pipeline?
-}
-
-extension UpdatePipelineOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pipeline = "Pipeline"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pipelineDecoded = try containerValues.decodeIfPresent(OSISClientTypes.Pipeline.self, forKey: .pipeline)
-        pipeline = pipelineDecoded
     }
 }
 

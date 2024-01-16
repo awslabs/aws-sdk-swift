@@ -60,8 +60,6 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "CREATE_COMPLETE") } ?? false)
             }),
-<<<<<<< HEAD
-=======
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "allStringEquals"
@@ -158,7 +156,6 @@ extension CloudFormationClientProtocol {
                 }
                 return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
             }),
->>>>>>> main
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Result<DescribeStacksOutput, Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
                 // JMESPath comparator: "anyStringEquals"

@@ -638,8 +638,6 @@ enum DeleteKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PaymentCryptographyClientTypes.ExportAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportDukptInitialKey = "ExportDukptInitialKey"
@@ -721,7 +719,6 @@ extension PaymentCryptographyClientTypes {
 
 }
 
->>>>>>> main
 extension ExportKeyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportAttributes = "ExportAttributes"
@@ -855,11 +852,7 @@ extension ExportKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ExportKeyOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The key material under export as a TR-34 or TR-31 wrapped key block.
-=======
     /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock.
->>>>>>> main
     public var wrappedKey: PaymentCryptographyClientTypes.WrappedKey?
 
     public init(
@@ -1639,11 +1632,7 @@ extension GetPublicKeyCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPublicKeyCertificateOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The public key component of the asymmetric key pair in a certificate (PEM) format. It is signed by the root certificate authority (CA) within your service account. The certificate expires in 90 days.
-=======
     /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate expires in 90 days.
->>>>>>> main
     /// This member is required.
     public var keyCertificate: Swift.String?
     /// The root certificate authority (CA) that signed the public key certificate in PEM format (base64 encoded) of the asymmetric key pair.

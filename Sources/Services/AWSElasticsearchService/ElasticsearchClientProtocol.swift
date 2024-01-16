@@ -19,11 +19,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func acceptInboundCrossClusterSearchConnection(input: AcceptInboundCrossClusterSearchConnectionInput) async throws -> AcceptInboundCrossClusterSearchConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AddTags` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
     ///
     /// - Parameter AddTagsInput : Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain.
@@ -38,11 +35,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func addTags(input: AddTagsInput) async throws -> AddTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociatePackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Associates a package with an Amazon ES domain.
     ///
     /// - Parameter AssociatePackageInput : Container for request parameters to [AssociatePackage] operation.
@@ -59,11 +53,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AuthorizeVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
     /// - Parameter AuthorizeVpcEndpointAccessInput : Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain.
@@ -80,11 +71,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelElasticsearchServiceSoftwareUpdate` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     ///
     /// - Parameter CancelElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on.
@@ -99,11 +87,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func cancelElasticsearchServiceSoftwareUpdate(input: CancelElasticsearchServiceSoftwareUpdateInput) async throws -> CancelElasticsearchServiceSoftwareUpdateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
     ///
     /// - Parameter CreateElasticsearchDomainInput : [no documentation found]
@@ -121,11 +106,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func createElasticsearchDomain(input: CreateElasticsearchDomainInput) async throws -> CreateElasticsearchDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateOutboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
     ///
     /// - Parameter CreateOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation.
@@ -140,11 +122,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     func createOutboundCrossClusterSearchConnection(input: CreateOutboundCrossClusterSearchConnectionInput) async throws -> CreateOutboundCrossClusterSearchConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Create a package for use with Amazon ES domains.
     ///
     /// - Parameter CreatePackageInput : Container for request parameters to [CreatePackage] operation.
@@ -162,11 +141,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
     /// - Parameter CreateVpcEndpointInput : Container for the parameters to the [CreateVpcEndpointRequest] operation.
@@ -183,11 +159,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `LimitExceededException` : An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     ///
     /// - Parameter DeleteElasticsearchDomainInput : Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete.
@@ -202,11 +175,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func deleteElasticsearchDomain(input: DeleteElasticsearchDomainInput) async throws -> DeleteElasticsearchDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteElasticsearchServiceRole` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
     ///
     /// - Parameter DeleteElasticsearchServiceRoleInput : [no documentation found]
@@ -220,11 +190,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func deleteElasticsearchServiceRole(input: DeleteElasticsearchServiceRoleInput) async throws -> DeleteElasticsearchServiceRoleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
     ///
     /// - Parameter DeleteInboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation.
@@ -237,11 +204,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func deleteInboundCrossClusterSearchConnection(input: DeleteInboundCrossClusterSearchConnectionInput) async throws -> DeleteInboundCrossClusterSearchConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteOutboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
     ///
     /// - Parameter DeleteOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation.
@@ -254,11 +218,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func deleteOutboundCrossClusterSearchConnection(input: DeleteOutboundCrossClusterSearchConnectionInput) async throws -> DeleteOutboundCrossClusterSearchConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Delete the package.
     ///
     /// - Parameter DeletePackageInput : Container for request parameters to [DeletePackage] operation.
@@ -275,11 +236,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
     /// - Parameter DeleteVpcEndpointInput : Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
@@ -294,11 +252,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDomainAutoTunes` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     ///
     /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
@@ -313,11 +268,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDomainChangeProgress` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
     ///
     /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information.
@@ -332,11 +284,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     ///
     /// - Parameter DescribeElasticsearchDomainInput : Container for the parameters to the [DescribeElasticsearchDomain] operation.
@@ -351,11 +300,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeElasticsearchDomain(input: DescribeElasticsearchDomainInput) async throws -> DescribeElasticsearchDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeElasticsearchDomainConfig` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     ///
     /// - Parameter DescribeElasticsearchDomainConfigInput : Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information.
@@ -370,11 +316,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeElasticsearchDomainConfig(input: DescribeElasticsearchDomainConfigInput) async throws -> DescribeElasticsearchDomainConfigOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeElasticsearchDomains` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     ///
     /// - Parameter DescribeElasticsearchDomainsInput : Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains.
@@ -388,11 +331,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeElasticsearchDomains(input: DescribeElasticsearchDomainsInput) async throws -> DescribeElasticsearchDomainsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeElasticsearchInstanceTypeLimits` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the [DomainName] to know what Limits are supported for modifying.
     ///
     /// - Parameter DescribeElasticsearchInstanceTypeLimitsInput : Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation.
@@ -409,11 +349,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeElasticsearchInstanceTypeLimits(input: DescribeElasticsearchInstanceTypeLimitsInput) async throws -> DescribeElasticsearchInstanceTypeLimitsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeInboundCrossClusterSearchConnections` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Lists all the inbound cross-cluster search connections for a destination domain.
     ///
     /// - Parameter DescribeInboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation.
@@ -426,11 +363,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
     func describeInboundCrossClusterSearchConnections(input: DescribeInboundCrossClusterSearchConnectionsInput) async throws -> DescribeInboundCrossClusterSearchConnectionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeOutboundCrossClusterSearchConnections` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Lists all the outbound cross-cluster search connections for a source domain.
     ///
     /// - Parameter DescribeOutboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation.
@@ -443,11 +377,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InvalidPaginationTokenException` : The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
     func describeOutboundCrossClusterSearchConnections(input: DescribeOutboundCrossClusterSearchConnectionsInput) async throws -> DescribeOutboundCrossClusterSearchConnectionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePackages` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     ///
     /// - Parameter DescribePackagesInput : Container for request parameters to [DescribePackage] operation.
@@ -463,11 +394,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeReservedElasticsearchInstanceOfferings` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Lists available reserved Elasticsearch instance offerings.
     ///
     /// - Parameter DescribeReservedElasticsearchInstanceOfferingsInput : Container for parameters to DescribeReservedElasticsearchInstanceOfferings
@@ -482,11 +410,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeReservedElasticsearchInstanceOfferings(input: DescribeReservedElasticsearchInstanceOfferingsInput) async throws -> DescribeReservedElasticsearchInstanceOfferingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeReservedElasticsearchInstances` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns information about reserved Elasticsearch instances for this account.
     ///
     /// - Parameter DescribeReservedElasticsearchInstancesInput : Container for parameters to DescribeReservedElasticsearchInstances
@@ -501,11 +426,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeReservedElasticsearchInstances(input: DescribeReservedElasticsearchInstancesInput) async throws -> DescribeReservedElasticsearchInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeVpcEndpoints` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
     /// - Parameter DescribeVpcEndpointsInput : Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described.
@@ -520,11 +442,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DissociatePackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Dissociates a package from the Amazon ES domain.
     ///
     /// - Parameter DissociatePackageInput : Container for request parameters to [DissociatePackage] operation.
@@ -541,11 +460,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCompatibleElasticsearchVersions` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
     ///
     /// - Parameter GetCompatibleElasticsearchVersionsInput : Container for request parameters to [GetCompatibleElasticsearchVersions] operation.
@@ -561,11 +477,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func getCompatibleElasticsearchVersions(input: GetCompatibleElasticsearchVersionsInput) async throws -> GetCompatibleElasticsearchVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPackageVersionHistory` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns a list of versions of the package, along with their creation time and commit message.
     ///
     /// - Parameter GetPackageVersionHistoryInput : Container for request parameters to [GetPackageVersionHistory] operation.
@@ -581,11 +494,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUpgradeHistory` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     ///
     /// - Parameter GetUpgradeHistoryInput : Container for request parameters to [GetUpgradeHistory] operation.
@@ -601,11 +511,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUpgradeStatus` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
     ///
     /// - Parameter GetUpgradeStatusInput : Container for request parameters to [GetUpgradeStatus] operation.
@@ -621,11 +528,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomainNames` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
     ///
     /// - Parameter ListDomainNamesInput : Container for the parameters to the [ListDomainNames] operation.
@@ -638,11 +542,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomainsForPackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Lists all Amazon ES domains associated with the package.
     ///
     /// - Parameter ListDomainsForPackageInput : Container for request parameters to [ListDomainsForPackage] operation.
@@ -658,11 +559,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListElasticsearchInstanceTypes` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     ///
     /// - Parameter ListElasticsearchInstanceTypesInput : Container for the parameters to the [ListElasticsearchInstanceTypes] operation.
@@ -677,11 +575,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listElasticsearchInstanceTypes(input: ListElasticsearchInstanceTypesInput) async throws -> ListElasticsearchInstanceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListElasticsearchVersions` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// List all supported Elasticsearch versions
     ///
     /// - Parameter ListElasticsearchVersionsInput : Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve.
@@ -696,11 +591,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listElasticsearchVersions(input: ListElasticsearchVersionsInput) async throws -> ListElasticsearchVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPackagesForDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Lists all packages associated with the Amazon ES domain.
     ///
     /// - Parameter ListPackagesForDomainInput : Container for request parameters to [ListPackagesForDomain] operation.
@@ -716,11 +608,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTags` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Returns all tags for the given Elasticsearch domain.
     ///
     /// - Parameter ListTagsInput : Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached.
@@ -735,11 +624,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
     /// - Parameter ListVpcEndpointAccessInput : Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint
@@ -754,11 +640,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVpcEndpoints` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
     ///
     /// - Parameter ListVpcEndpointsInput : Container for request parameters to the [ListVpcEndpoints] operation.
@@ -772,11 +655,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVpcEndpointsForDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
     /// - Parameter ListVpcEndpointsForDomainInput : Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed.
@@ -791,11 +671,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PurchaseReservedElasticsearchInstanceOffering` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Allows you to purchase reserved Elasticsearch instances.
     ///
     /// - Parameter PurchaseReservedElasticsearchInstanceOfferingInput : Container for parameters to PurchaseReservedElasticsearchInstanceOffering
@@ -812,11 +689,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func purchaseReservedElasticsearchInstanceOffering(input: PurchaseReservedElasticsearchInstanceOfferingInput) async throws -> PurchaseReservedElasticsearchInstanceOfferingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RejectInboundCrossClusterSearchConnection` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     ///
     /// - Parameter RejectInboundCrossClusterSearchConnectionInput : Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation.
@@ -829,11 +703,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     func rejectInboundCrossClusterSearchConnection(input: RejectInboundCrossClusterSearchConnectionInput) async throws -> RejectInboundCrossClusterSearchConnectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveTags` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     ///
     /// - Parameter RemoveTagsInput : Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey.
@@ -847,11 +718,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RevokeVpcEndpointAccess` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
     /// - Parameter RevokeVpcEndpointAccessInput : Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
@@ -867,11 +735,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartElasticsearchServiceSoftwareUpdate` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Schedules a service software update for an Amazon ES domain.
     ///
     /// - Parameter StartElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on.
@@ -886,11 +751,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func startElasticsearchServiceSoftwareUpdate(input: StartElasticsearchServiceSoftwareUpdateInput) async throws -> StartElasticsearchServiceSoftwareUpdateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateElasticsearchDomainConfig` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     ///
     /// - Parameter UpdateElasticsearchDomainConfigInput : Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster.
@@ -907,11 +769,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func updateElasticsearchDomainConfig(input: UpdateElasticsearchDomainConfigInput) async throws -> UpdateElasticsearchDomainConfigOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePackage` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Updates a package for use with Amazon ES domains.
     ///
     /// - Parameter UpdatePackageInput : Container for request parameters to [UpdatePackage] operation.
@@ -928,11 +787,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVpcEndpoint` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
     /// - Parameter UpdateVpcEndpointInput : Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
@@ -949,11 +805,8 @@ public protocol ElasticsearchClientProtocol {
     /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
     /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
     func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpgradeElasticsearchDomain` operation on the `AmazonElasticsearchService2015` service.
     ///
->>>>>>> main
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     ///
     /// - Parameter UpgradeElasticsearchDomainInput : Container for request parameters to [UpgradeElasticsearchDomain] operation.

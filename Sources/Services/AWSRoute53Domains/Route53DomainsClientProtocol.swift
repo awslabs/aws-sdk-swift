@@ -20,11 +20,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func acceptDomainTransferFromAnotherAwsAccount(input: AcceptDomainTransferFromAnotherAwsAccountInput) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateDelegationSignerToDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see [Configuring DNSSEC signing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec.html) in the Route 53 developer guide.
     ///
     /// - Parameter AssociateDelegationSignerToDomainInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func associateDelegationSignerToDomain(input: AssociateDelegationSignerToDomainInput) async throws -> AssociateDelegationSignerToDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelDomainTransferToAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Cancels the transfer of a domain from the current Amazon Web Services account to another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). You must cancel the transfer before the other Amazon Web Services account accepts the transfer using [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
     /// - Parameter CancelDomainTransferToAnotherAwsAccountInput : The CancelDomainTransferToAnotherAwsAccount request includes the following element.
@@ -59,11 +53,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func cancelDomainTransferToAnotherAwsAccount(input: CancelDomainTransferToAnotherAwsAccountInput) async throws -> CancelDomainTransferToAnotherAwsAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CheckDomainAvailability` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
     ///
     /// - Parameter CheckDomainAvailabilityInput : The CheckDomainAvailability request contains the following elements.
@@ -76,11 +67,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func checkDomainAvailability(input: CheckDomainAvailabilityInput) async throws -> CheckDomainAvailabilityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CheckDomainTransferability` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Checks whether a domain name can be transferred to Amazon Route 53.
     ///
     /// - Parameter CheckDomainTransferabilityInput : The CheckDomainTransferability request contains the following elements.
@@ -93,11 +81,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func checkDomainTransferability(input: CheckDomainTransferabilityInput) async throws -> CheckDomainTransferabilityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation deletes the specified domain. This action is permanent. For more information, see [Deleting a domain name registration](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-delete.html). To transfer the domain registration to another registrar, use the transfer process that’s provided by the registrar to which you want to transfer the registration. Otherwise, the following apply:
     ///
     /// * You can’t get a refund for the cost of a deleted domain registration.
@@ -118,11 +103,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTagsForDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
     /// - Parameter DeleteTagsForDomainInput : The DeleteTagsForDomainRequest includes the following elements.
@@ -136,11 +118,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func deleteTagsForDomain(input: DeleteTagsForDomainInput) async throws -> DeleteTagsForDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableDomainAutoRenew` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation disables automatic renewal of domain registration for the specified domain.
     ///
     /// - Parameter DisableDomainAutoRenewInput : [no documentation found]
@@ -153,11 +132,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func disableDomainAutoRenew(input: DisableDomainAutoRenewInput) async throws -> DisableDomainAutoRenewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableDomainTransferLock` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We recommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
     /// - Parameter DisableDomainTransferLockInput : The DisableDomainTransferLock request includes the following element.
@@ -173,11 +149,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func disableDomainTransferLock(input: DisableDomainTransferLockInput) async throws -> DisableDomainTransferLockOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateDelegationSignerFromDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Deletes a delegation signer (DS) record in the registry zone for this domain name.
     ///
     /// - Parameter DisassociateDelegationSignerFromDomainInput : [no documentation found]
@@ -193,11 +166,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func disassociateDelegationSignerFromDomain(input: DisassociateDelegationSignerFromDomainInput) async throws -> DisassociateDelegationSignerFromDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableDomainAutoRenew` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your Amazon Web Services account. The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see [Domains That You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. Route 53 requires that you renew before the end of the renewal period so we can complete processing before the deadline.
     ///
     /// - Parameter EnableDomainAutoRenewInput : [no documentation found]
@@ -211,11 +181,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func enableDomainAutoRenew(input: EnableDomainAutoRenewInput) async throws -> EnableDomainAutoRenewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableDomainTransferLock` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
     /// - Parameter EnableDomainTransferLockInput : A request to set the transfer lock for the specified domain.
@@ -231,11 +198,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func enableDomainTransferLock(input: EnableDomainTransferLockInput) async throws -> EnableDomainTransferLockOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetContactReachabilityStatus` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityEmail operation.
     ///
     /// - Parameter GetContactReachabilityStatusInput : [no documentation found]
@@ -249,11 +213,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func getContactReachabilityStatus(input: GetContactReachabilityStatusInput) async throws -> GetContactReachabilityStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainDetail` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output.
     ///
     /// - Parameter GetDomainDetailInput : The GetDomainDetail request includes the following element.
@@ -266,11 +227,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func getDomainDetail(input: GetDomainDetailInput) async throws -> GetDomainDetailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainSuggestions` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
     ///
     /// - Parameter GetDomainSuggestionsInput : [no documentation found]
@@ -283,11 +241,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func getDomainSuggestions(input: GetDomainSuggestionsInput) async throws -> GetDomainSuggestionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetOperationDetail` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation returns the current status of an operation that is not completed.
     ///
     /// - Parameter GetOperationDetailInput : The [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) request includes the following element.
@@ -299,11 +254,8 @@ public protocol Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     func getOperationDetail(input: GetOperationDetailInput) async throws -> GetOperationDetailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomains` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used.
     ///
     /// - Parameter ListDomainsInput : The ListDomains request includes the following elements.
@@ -315,11 +267,8 @@ public protocol Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOperations` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. This command runs only in the us-east-1 Region.
     ///
     /// - Parameter ListOperationsInput : The ListOperations request includes the following elements.
@@ -331,11 +280,8 @@ public protocol Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPrices` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD:
     ///
     /// * Registration
@@ -358,11 +304,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func listPrices(input: ListPricesInput) async throws -> ListPricesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation returns all of the tags that are associated with the specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
     /// - Parameter ListTagsForDomainInput : The ListTagsForDomainRequest includes the following elements.
@@ -376,11 +319,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func listTagsForDomain(input: ListTagsForDomainInput) async throws -> ListTagsForDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PushDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Moves a domain from Amazon Web Services to another registrar. Supported actions:
     ///
     /// * Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the domain is ready to be transferred to another registrar.
@@ -396,11 +336,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func pushDomain(input: PushDomainInput) async throws -> PushDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RegisterDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation registers a domain. For some top-level domains (TLDs), this operation requires extra parameters. When you register a domain, Amazon Route 53 does the following:
     ///
     /// * Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four name servers to your hosted zone and automatically updates your domain registration with the names of these name servers.
@@ -427,11 +364,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RejectDomainTransferFromAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
     /// - Parameter RejectDomainTransferFromAnotherAwsAccountInput : The RejectDomainTransferFromAnotherAwsAccount request includes the following element.
@@ -445,11 +379,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func rejectDomainTransferFromAnotherAwsAccount(input: RejectDomainTransferFromAnotherAwsAccountInput) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RenewDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see [Renewing Registration for a Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html) in the Amazon Route 53 Developer Guide.
     ///
     /// - Parameter RenewDomainInput : A RenewDomain request includes the number of years that you want to renew for and the current expiration year.
@@ -465,11 +396,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func renewDomain(input: RenewDomainInput) async throws -> RenewDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ResendContactReachabilityEmail` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
     ///
     /// - Parameter ResendContactReachabilityEmailInput : [no documentation found]
@@ -483,11 +411,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput) async throws -> ResendContactReachabilityEmailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ResendOperationAuthorization` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Resend the form of authorization email for this operation.
     ///
     /// - Parameter ResendOperationAuthorizationInput : [no documentation found]
@@ -499,11 +424,8 @@ public protocol Route53DomainsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     func resendOperationAuthorization(input: ResendOperationAuthorizationInput) async throws -> ResendOperationAuthorizationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RetrieveDomainAuthCode` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.
     ///
     /// - Parameter RetrieveDomainAuthCodeInput : A request for the authorization code for the specified domain. To transfer a domain to another registrar, you provide this value to the new registrar.
@@ -516,11 +438,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput) async throws -> RetrieveDomainAuthCodeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TransferDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Transfers a domain from another registrar to Amazon Route 53. For more information about transferring domains, see the following topics:
     ///
     /// * For transfer requirements, a detailed procedure, and information about viewing the status of a domain that you're transferring to Route 53, see [Transferring Registration for a Domain to Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html) in the Amazon Route 53 Developer Guide.
@@ -546,11 +465,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func transferDomain(input: TransferDomainInput) async throws -> TransferDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TransferDomainToAnotherAwsAccount` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Transfers a domain from the current Amazon Web Services account to another Amazon Web Services account. Note the following:
     ///
     /// * The Amazon Web Services account that you're transferring the domain to must accept the transfer. If the other account doesn't accept the transfer within 3 days, we cancel the transfer. See [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html).
@@ -574,11 +490,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func transferDomainToAnotherAwsAccount(input: TransferDomainToAnotherAwsAccountInput) async throws -> TransferDomainToAnotherAwsAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainContact` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation updates the contact information for a particular domain. You must specify information for at least one contact: registrant, administrator, or technical. If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the operation. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
     /// - Parameter UpdateDomainContactInput : The UpdateDomainContact request includes the following elements.
@@ -594,11 +507,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func updateDomainContact(input: UpdateDomainContactInput) async throws -> UpdateDomainContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainContactPrivacy` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of owner." While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (administrative, registrant, or technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to track the progress and completion of the action. If the request doesn't complete successfully, the domain registrant will be notified by email. By disabling the privacy service via API, you consent to the publication of the contact information provided for this domain via the public WHOIS database. You certify that you are the registrant of this domain name and have the authority to make this decision. You may withdraw your consent at any time by enabling privacy protection using either UpdateDomainContactPrivacy or the Route 53 console. Enabling privacy protection removes the contact information provided for this domain from the WHOIS database. For more information on our privacy practices, see [https://aws.amazon.com/privacy/](https://aws.amazon.com/privacy/).
     ///
     /// - Parameter UpdateDomainContactPrivacyInput : The UpdateDomainContactPrivacy request includes the following elements.
@@ -614,11 +524,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func updateDomainContactPrivacy(input: UpdateDomainContactPrivacyInput) async throws -> UpdateDomainContactPrivacyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainNameservers` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
     /// - Parameter UpdateDomainNameserversInput : Replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
@@ -634,11 +541,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `TLDRulesViolation` : The top-level domain does not support this operation.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func updateDomainNameservers(input: UpdateDomainNameserversInput) async throws -> UpdateDomainNameserversOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTagsForDomain` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
     /// - Parameter UpdateTagsForDomainInput : The UpdateTagsForDomainRequest includes the following elements.
@@ -652,11 +556,8 @@ public protocol Route53DomainsClientProtocol {
     /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     func updateTagsForDomain(input: UpdateTagsForDomainInput) async throws -> UpdateTagsForDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ViewBilling` operation on the `Route53Domains_v20140515` service.
     ///
->>>>>>> main
     /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     ///
     /// - Parameter ViewBillingInput : The ViewBilling request includes the following elements.

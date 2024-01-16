@@ -20822,10 +20822,7 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
-<<<<<<< HEAD
-=======
         case followSource = "followSource"
->>>>>>> main
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -20850,12 +20847,9 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
         }
-<<<<<<< HEAD
-=======
         if let followSource = self.followSource {
             try encodeContainer.encode(followSource, forKey: .followSource)
         }
->>>>>>> main
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
             for input0 in inputs {
@@ -20898,11 +20892,8 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
-<<<<<<< HEAD
-=======
         let followSourceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followSource)
         followSource = followSourceDecoded
->>>>>>> main
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.Input?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.Input]? = nil
         if let inputsContainer = inputsContainer {
@@ -20951,11 +20942,8 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
-<<<<<<< HEAD
-=======
         /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs. If MediaConvert cannot follow your source, for example if you specify an audio-only input, MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding to the order of your inputs.
         public var followSource: Swift.Int?
->>>>>>> main
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public var inputs: [MediaConvertClientTypes.Input]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -20978,10 +20966,7 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
-<<<<<<< HEAD
-=======
             followSource: Swift.Int? = nil,
->>>>>>> main
             inputs: [MediaConvertClientTypes.Input]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -20996,10 +20981,7 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
-<<<<<<< HEAD
-=======
             self.followSource = followSource
->>>>>>> main
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -21266,10 +21248,7 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
-<<<<<<< HEAD
-=======
         case followSource = "followSource"
->>>>>>> main
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -21294,12 +21273,9 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
         }
-<<<<<<< HEAD
-=======
         if let followSource = self.followSource {
             try encodeContainer.encode(followSource, forKey: .followSource)
         }
->>>>>>> main
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
             for inputtemplate0 in inputs {
@@ -21342,11 +21318,8 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
-<<<<<<< HEAD
-=======
         let followSourceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followSource)
         followSource = followSourceDecoded
->>>>>>> main
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.InputTemplate?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.InputTemplate]? = nil
         if let inputsContainer = inputsContainer {
@@ -21395,11 +21368,8 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
-<<<<<<< HEAD
-=======
         /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs. If MediaConvert cannot follow your source, for example if you specify an audio-only input, MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding to the order of your inputs.
         public var followSource: Swift.Int?
->>>>>>> main
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public var inputs: [MediaConvertClientTypes.InputTemplate]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -21422,10 +21392,7 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
-<<<<<<< HEAD
-=======
             followSource: Swift.Int? = nil,
->>>>>>> main
             inputs: [MediaConvertClientTypes.InputTemplate]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -21440,10 +21407,7 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
-<<<<<<< HEAD
-=======
             self.followSource = followSource
->>>>>>> main
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -33372,11 +33336,7 @@ extension MediaConvertClientTypes.VideoOverlay: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
-<<<<<<< HEAD
-    /// Overlay one or more videos on top of your input video.
-=======
     /// Overlay one or more videos on top of your input video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
->>>>>>> main
     public struct VideoOverlay: Swift.Equatable {
         /// Enter the end timecode in the underlying input video for this overlay. Your overlay will be active through this frame. To display your video overlay for the duration of the underlying video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When entering this value, take into account your choice for the underlying Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your overlay to end ten minutes into the video, enter 01:10:00:00.
         public var endTimecode: Swift.String?
@@ -33455,11 +33415,7 @@ extension MediaConvertClientTypes {
         public var fileInput: Swift.String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
         public var inputClippings: [MediaConvertClientTypes.VideoOverlayInputClipping]?
-<<<<<<< HEAD
-        /// Specify the starting timecode for your video overlay. To use the timecode present in your video overlay: Choose Embedded. To use a zerobased timecode: Choose Start at 0. To choose a timecode: Choose Specified start. When you do, enter the starting timecode in Start timecode. If you don't specify a value for Timecode source, MediaConvert uses Embedded by default.
-=======
         /// Specify the timecode source for your video overlay input clips. To use the timecode present in your video overlay: Choose Embedded. To use a zerobased timecode: Choose Start at 0. To choose a timecode: Choose Specified start. When you do, enter the starting timecode in Start timecode. If you don't specify a value for Timecode source, MediaConvert uses Embedded by default.
->>>>>>> main
         public var timecodeSource: MediaConvertClientTypes.InputTimecodeSource?
         /// Specify the starting timecode for this video overlay. To use this setting, you must set Timecode source to Specified start.
         public var timecodeStart: Swift.String?

@@ -47,13 +47,9 @@ public protocol PersonalizeEventsClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     func putEvents(input: PutEventsInput) async throws -> PutEventsOutput
-<<<<<<< HEAD
-    /// Adds one or more items to an Items dataset. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
-=======
     /// Performs the `PutItems` operation on the `AmazonPersonalizeEvents` service.
     ///
     /// Adds one or more items to an Items dataset. For more information see [Importing items individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
->>>>>>> main
     ///
     /// - Parameter PutItemsInput : [no documentation found]
     ///
@@ -66,13 +62,9 @@ public protocol PersonalizeEventsClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : Could not find the specified resource.
     func putItems(input: PutItemsInput) async throws -> PutItemsOutput
-<<<<<<< HEAD
-    /// Adds one or more users to a Users dataset. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
-=======
     /// Performs the `PutUsers` operation on the `AmazonPersonalizeEvents` service.
     ///
     /// Adds one or more users to a Users dataset. For more information see [Importing users individually](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
->>>>>>> main
     ///
     /// - Parameter PutUsersInput : [no documentation found]
     ///

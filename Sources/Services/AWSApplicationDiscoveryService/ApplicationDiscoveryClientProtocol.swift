@@ -70,11 +70,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func associateConfigurationItemsToApplication(input: AssociateConfigurationItemsToApplicationInput) async throws -> AssociateConfigurationItemsToApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDeleteAgents` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
     ///
     /// - Parameter BatchDeleteAgentsInput : [no documentation found]
@@ -89,11 +86,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func batchDeleteAgents(input: BatchDeleteAgentsInput) async throws -> BatchDeleteAgentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDeleteImportData` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
     /// - Parameter BatchDeleteImportDataInput : [no documentation found]
@@ -109,11 +103,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func batchDeleteImportData(input: BatchDeleteImportDataInput) async throws -> BatchDeleteImportDataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Creates an application with the given name and description.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -129,11 +120,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTags` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. Do not store sensitive information (like personal data) in tags.
     ///
     /// - Parameter CreateTagsInput : [no documentation found]
@@ -150,11 +138,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplications` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Deletes a list of applications and their associations with configuration items.
     ///
     /// - Parameter DeleteApplicationsInput : [no documentation found]
@@ -170,11 +155,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func deleteApplications(input: DeleteApplicationsInput) async throws -> DeleteApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTags` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
     ///
     /// - Parameter DeleteTagsInput : [no documentation found]
@@ -191,11 +173,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAgents` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
     ///
     /// - Parameter DescribeAgentsInput : [no documentation found]
@@ -211,11 +190,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeAgents(input: DescribeAgentsInput) async throws -> DescribeAgentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBatchDeleteConfigurationTask` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
     ///
     /// - Parameter DescribeBatchDeleteConfigurationTaskInput : [no documentation found]
@@ -230,11 +206,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeBatchDeleteConfigurationTask(input: DescribeBatchDeleteConfigurationTaskInput) async throws -> DescribeBatchDeleteConfigurationTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieves attributes for a list of configuration item IDs. All of the supplied IDs must be for the same asset type from one of the following:
     ///
     /// * server
@@ -261,11 +234,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeConfigurations(input: DescribeConfigurationsInput) async throws -> DescribeConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeContinuousExports` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     ///
     /// - Parameter DescribeContinuousExportsInput : [no documentation found]
@@ -283,11 +253,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeContinuousExports(input: DescribeContinuousExportsInput) async throws -> DescribeContinuousExportsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeExportConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// DescribeExportConfigurations is deprecated. Use [DescribeExportTasks](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html), instead.
     @available(*, deprecated)
     ///
@@ -305,11 +272,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeExportConfigurations(input: DescribeExportConfigurationsInput) async throws -> DescribeExportConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeExportTasks` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     ///
     /// - Parameter DescribeExportTasksInput : [no documentation found]
@@ -325,11 +289,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeImportTasks` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     ///
     /// - Parameter DescribeImportTasksInput : [no documentation found]
@@ -345,11 +306,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeImportTasks(input: DescribeImportTasksInput) async throws -> DescribeImportTasksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTags` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:
     ///
     /// * tagKey
@@ -375,11 +333,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateConfigurationItemsFromApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Disassociates one or more configuration items from an application.
     ///
     /// - Parameter DisassociateConfigurationItemsFromApplicationInput : [no documentation found]
@@ -395,11 +350,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func disassociateConfigurationItemsFromApplication(input: DisassociateConfigurationItemsFromApplicationInput) async throws -> DisassociateConfigurationItemsFromApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExportConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated)
     ///
@@ -417,11 +369,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func exportConfigurations(input: ExportConfigurationsInput) async throws -> ExportConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDiscoverySummary` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     ///
     /// - Parameter GetDiscoverySummaryInput : [no documentation found]
@@ -437,11 +386,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func getDiscoverySummary(input: GetDiscoverySummaryInput) async throws -> GetDiscoverySummaryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfigurations` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
     ///
     /// - Parameter ListConfigurationsInput : [no documentation found]
@@ -458,11 +404,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListServerNeighbors` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Retrieves a list of servers that are one network hop away from a specified server.
     ///
     /// - Parameter ListServerNeighborsInput : [no documentation found]
@@ -478,19 +421,12 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func listServerNeighbors(input: ListServerNeighborsInput) async throws -> ListServerNeighborsOutput
-<<<<<<< HEAD
-    /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
-    ///
-    /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
-    ///
-=======
     /// Performs the `StartBatchDeleteConfigurationTask` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
     /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
     ///
     /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
     ///
->>>>>>> main
     /// - Returns: `StartBatchDeleteConfigurationTaskOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
@@ -503,11 +439,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func startBatchDeleteConfigurationTask(input: StartBatchDeleteConfigurationTaskInput) async throws -> StartBatchDeleteConfigurationTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartContinuousExport` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
     /// - Parameter StartContinuousExportInput : [no documentation found]
@@ -526,11 +459,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func startContinuousExport(input: StartContinuousExportInput) async throws -> StartContinuousExportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartDataCollectionByAgentIds` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Instructs the specified agents to start collecting data.
     ///
     /// - Parameter StartDataCollectionByAgentIdsInput : [no documentation found]
@@ -546,11 +476,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func startDataCollectionByAgentIds(input: StartDataCollectionByAgentIdsInput) async throws -> StartDataCollectionByAgentIdsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartExportTask` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports. Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated. Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
     ///
     /// - Parameter StartExportTaskInput : [no documentation found]
@@ -567,11 +494,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `OperationNotPermittedException` : This operation is not permitted.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func startExportTask(input: StartExportTaskInput) async throws -> StartExportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartImportTask` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Starts an import task, which allows you to import details of your on-premises environment directly into Amazon Web Services Migration Hub without having to use the Amazon Web Services Application Discovery Service (Application Discovery Service) tools such as the Amazon Web Services Application Discovery Service Agentless Collector or Application Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:
     ///
     /// * Download the specially formatted comma separated value (CSV) import template, which you can find here: [https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv](https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv).
@@ -599,11 +523,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceInUseException` : This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func startImportTask(input: StartImportTaskInput) async throws -> StartImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopContinuousExport` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
     ///
     /// - Parameter StopContinuousExportInput : [no documentation found]
@@ -622,11 +543,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `ResourceNotFoundException` : The specified configuration ID was not located. Verify the configuration ID and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func stopContinuousExport(input: StopContinuousExportInput) async throws -> StopContinuousExportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopDataCollectionByAgentIds` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Instructs the specified agents to stop collecting data.
     ///
     /// - Parameter StopDataCollectionByAgentIdsInput : [no documentation found]
@@ -642,11 +560,8 @@ public protocol ApplicationDiscoveryClientProtocol {
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `ServerInternalErrorException` : The server experienced an internal error. Try again.
     func stopDataCollectionByAgentIds(input: StopDataCollectionByAgentIdsInput) async throws -> StopDataCollectionByAgentIdsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `AWSPoseidonService_V2015_11_01` service.
     ///
->>>>>>> main
     /// Updates metadata about an application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]

@@ -11207,11 +11207,8 @@ extension GuardDutyClientTypes {
         public var sourceIps: [Swift.String]?
         /// The resulting HTTP response code of the Kubernetes API call action.
         public var statusCode: Swift.Int?
-<<<<<<< HEAD
-=======
         /// The name of the sub-resource in the Kubernetes API call action.
         public var subresource: Swift.String?
->>>>>>> main
         /// The user agent of the caller of the Kubernetes API.
         public var userAgent: Swift.String?
         /// The Kubernetes API request HTTP verb.
@@ -11226,10 +11223,7 @@ extension GuardDutyClientTypes {
             resourceName: Swift.String? = nil,
             sourceIps: [Swift.String]? = nil,
             statusCode: Swift.Int? = nil,
-<<<<<<< HEAD
-=======
             subresource: Swift.String? = nil,
->>>>>>> main
             userAgent: Swift.String? = nil,
             verb: Swift.String? = nil
         )
@@ -11790,12 +11784,9 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
                 try containersContainer.encode(container0)
             }
         }
-<<<<<<< HEAD
-=======
         if let hostIPC = self.hostIPC {
             try encodeContainer.encode(hostIPC, forKey: .hostIPC)
         }
->>>>>>> main
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
         }
@@ -11877,11 +11868,8 @@ extension GuardDutyClientTypes {
         public var hostIPC: Swift.Bool?
         /// Whether the hostNetwork flag is enabled for the pods included in the workload.
         public var hostNetwork: Swift.Bool?
-<<<<<<< HEAD
-=======
         /// Whether the host PID flag is enabled for the pods in the workload.
         public var hostPID: Swift.Bool?
->>>>>>> main
         /// Kubernetes workload name.
         public var name: Swift.String?
         /// Kubernetes namespace that the workload is part of.
@@ -11897,13 +11885,9 @@ extension GuardDutyClientTypes {
 
         public init(
             containers: [GuardDutyClientTypes.Container]? = nil,
-<<<<<<< HEAD
-            hostNetwork: Swift.Bool? = nil,
-=======
             hostIPC: Swift.Bool? = nil,
             hostNetwork: Swift.Bool? = nil,
             hostPID: Swift.Bool? = nil,
->>>>>>> main
             name: Swift.String? = nil,
             namespace: Swift.String? = nil,
             serviceAccountName: Swift.String? = nil,
@@ -13167,11 +13151,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListMembersOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of members.
-=======
     /// A list of members. The values for email and invitedAt are available only if the member accounts are added by invitation.
->>>>>>> main
     public var members: [GuardDutyClientTypes.Member]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
@@ -18337,12 +18317,9 @@ extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-<<<<<<< HEAD
-=======
         if let allowPrivilegeEscalation = self.allowPrivilegeEscalation {
             try encodeContainer.encode(allowPrivilegeEscalation, forKey: .allowPrivilegeEscalation)
         }
->>>>>>> main
         if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
@@ -18366,10 +18343,7 @@ extension GuardDutyClientTypes {
         public var privileged: Swift.Bool?
 
         public init(
-<<<<<<< HEAD
-=======
             allowPrivilegeEscalation: Swift.Bool? = nil,
->>>>>>> main
             privileged: Swift.Bool? = nil
         )
         {
@@ -18539,11 +18513,8 @@ extension GuardDutyClientTypes {
         public var archived: Swift.Bool?
         /// The total count of the occurrences of this finding type.
         public var count: Swift.Int?
-<<<<<<< HEAD
-=======
         /// Contains information about the detected unusual behavior.
         public var detection: GuardDutyClientTypes.Detection?
->>>>>>> main
         /// The detector ID for the GuardDuty service.
         public var detectorId: Swift.String?
         /// Returns details from the malware scan that created a finding.
@@ -18570,10 +18541,7 @@ extension GuardDutyClientTypes {
             additionalInfo: GuardDutyClientTypes.ServiceAdditionalInfo? = nil,
             archived: Swift.Bool? = nil,
             count: Swift.Int? = nil,
-<<<<<<< HEAD
-=======
             detection: GuardDutyClientTypes.Detection? = nil,
->>>>>>> main
             detectorId: Swift.String? = nil,
             ebsVolumeScanDetails: GuardDutyClientTypes.EbsVolumeScanDetails? = nil,
             eventFirstSeen: Swift.String? = nil,

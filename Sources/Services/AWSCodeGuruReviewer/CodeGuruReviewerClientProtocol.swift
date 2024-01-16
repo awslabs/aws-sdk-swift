@@ -21,11 +21,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func associateRepository(input: AssociateRepositoryInput) async throws -> AssociateRepositoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCodeReview` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Use to create a code review with a [CodeReviewType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReviewType.html) of RepositoryAnalysis. This type of code review analyzes all code under a specified branch in an associated repository. PullRequest code reviews are automatically triggered by a pull request.
     ///
     /// - Parameter CreateCodeReviewInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createCodeReview(input: CreateCodeReviewInput) async throws -> CreateCodeReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeCodeReview` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns the metadata associated with the code review along with its status.
     ///
     /// - Parameter DescribeCodeReviewInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func describeCodeReview(input: DescribeCodeReviewInput) async throws -> DescribeCodeReviewOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Describes the customer feedback for a CodeGuru Reviewer recommendation.
     ///
     /// - Parameter DescribeRecommendationFeedbackInput : [no documentation found]
@@ -82,11 +73,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func describeRecommendationFeedback(input: DescribeRecommendationFeedbackInput) async throws -> DescribeRecommendationFeedbackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRepositoryAssociation` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns a [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object that contains information about the requested repository association.
     ///
     /// - Parameter DescribeRepositoryAssociationInput : [no documentation found]
@@ -102,11 +90,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func describeRepositoryAssociation(input: DescribeRepositoryAssociationInput) async throws -> DescribeRepositoryAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateRepository` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Removes the association between Amazon CodeGuru Reviewer and a repository.
     ///
     /// - Parameter DisassociateRepositoryInput : [no documentation found]
@@ -123,11 +108,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func disassociateRepository(input: DisassociateRepositoryInput) async throws -> DisassociateRepositoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCodeReviews` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Lists all the code reviews that the customer has created in the past 90 days.
     ///
     /// - Parameter ListCodeReviewsInput : [no documentation found]
@@ -142,11 +124,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listCodeReviews(input: ListCodeReviewsInput) async throws -> ListCodeReviewsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns a list of [RecommendationFeedbackSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RecommendationFeedbackSummary.html) objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     ///
     /// - Parameter ListRecommendationFeedbackInput : [no documentation found]
@@ -162,11 +141,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listRecommendationFeedback(input: ListRecommendationFeedbackInput) async throws -> ListRecommendationFeedbackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecommendations` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns the list of all recommendations for a completed code review.
     ///
     /// - Parameter ListRecommendationsInput : [no documentation found]
@@ -182,11 +158,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRepositoryAssociations` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association. You can filter the returned list by [ProviderType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-ProviderType), [Name](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Name), [State](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-State), and [Owner](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Owner).
     ///
     /// - Parameter ListRepositoryAssociationsInput : [no documentation found]
@@ -200,11 +173,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listRepositoryAssociations(input: ListRepositoryAssociationsInput) async throws -> ListRepositoryAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Returns the list of tags associated with an associated repository resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -218,11 +188,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRecommendationFeedback` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten.
     ///
     /// - Parameter PutRecommendationFeedbackInput : [no documentation found]
@@ -238,11 +205,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func putRecommendationFeedback(input: PutRecommendationFeedbackInput) async throws -> PutRecommendationFeedbackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Adds one or more tags to an associated repository.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -256,11 +220,8 @@ public protocol CodeGuruReviewerClientProtocol {
     /// - `ResourceNotFoundException` : The resource specified in the request was not found.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSGuruFrontendService` service.
     ///
->>>>>>> main
     /// Removes a tag from an associated repository.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

@@ -114,11 +114,7 @@ extension DeleteThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
     }
@@ -358,11 +354,7 @@ extension GetThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
     }
@@ -880,35 +872,6 @@ extension IoTDataPlaneClientTypes {
     }
 }
 
-<<<<<<< HEAD
-public struct PublishInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PublishInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PublishInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PublishOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PublishInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PublishOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension PublishInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
@@ -1472,35 +1435,6 @@ extension UnsupportedDocumentEncodingExceptionBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-public struct UpdateThingShadowInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateThingShadowInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateThingShadowInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateThingShadowOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateThingShadowInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateThingShadowOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UpdateThingShadowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case payload
@@ -1582,11 +1516,7 @@ extension UpdateThingShadowOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
     }

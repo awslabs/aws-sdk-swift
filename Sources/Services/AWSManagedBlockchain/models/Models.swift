@@ -580,59 +580,6 @@ extension CreateAccessorOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateAccessorOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateAccessorOutputBody = try responseDecoder.decode(responseBody: data)
-            self.accessorId = output.accessorId
-            self.billingToken = output.billingToken
-        } else {
-            self.accessorId = nil
-            self.billingToken = nil
-        }
-    }
-}
-
-public struct CreateAccessorOutput: Swift.Equatable {
-    /// The unique identifier of the accessor.
-    public var accessorId: Swift.String?
-    /// The billing token is a property of the Accessor. Use this token to make Ethereum API calls to your Ethereum node. The billing token is used to track your accessor object for billing Ethereum API requests made to your Ethereum nodes.
-    public var billingToken: Swift.String?
-
-    public init(
-        accessorId: Swift.String? = nil,
-        billingToken: Swift.String? = nil
-    )
-    {
-        self.accessorId = accessorId
-        self.billingToken = billingToken
-    }
-}
-
-struct CreateAccessorOutputBody: Swift.Equatable {
-    let accessorId: Swift.String?
-    let billingToken: Swift.String?
-}
-
-extension CreateAccessorOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case accessorId = "AccessorId"
-        case billingToken = "BillingToken"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let accessorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessorId)
-        accessorId = accessorIdDecoded
-        let billingTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .billingToken)
-        billingToken = billingTokenDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum CreateAccessorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

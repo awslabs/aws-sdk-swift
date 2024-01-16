@@ -12,11 +12,7 @@ extension TranscribeClient {
     ///     - input: A `[ListCallAnalyticsCategoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCallAnalyticsCategoriesOutput`
     public func listCallAnalyticsCategoriesPaginated(input: ListCallAnalyticsCategoriesInput) -> ClientRuntime.PaginatorSequence<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(input: input, inputKey: \ListCallAnalyticsCategoriesInput.nextToken, outputKey: \ListCallAnalyticsCategoriesOutput.nextToken, paginationFunction: self.listCallAnalyticsCategories(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCallAnalyticsCategories(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension TranscribeClient {
     ///     - input: A `[ListCallAnalyticsJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCallAnalyticsJobsOutput`
     public func listCallAnalyticsJobsPaginated(input: ListCallAnalyticsJobsInput) -> ClientRuntime.PaginatorSequence<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(input: input, inputKey: \ListCallAnalyticsJobsInput.nextToken, outputKey: \ListCallAnalyticsJobsOutput.nextToken, paginationFunction: self.listCallAnalyticsJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCallAnalyticsJobs(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension TranscribeClient {
     ///     - input: A `[ListLanguageModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLanguageModelsOutput`
     public func listLanguageModelsPaginated(input: ListLanguageModelsInput) -> ClientRuntime.PaginatorSequence<ListLanguageModelsInput, ListLanguageModelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLanguageModelsInput, ListLanguageModelsOutput>(input: input, inputKey: \ListLanguageModelsInput.nextToken, outputKey: \ListLanguageModelsOutput.nextToken, paginationFunction: self.listLanguageModels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLanguageModelsInput, ListLanguageModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLanguageModels(input:))
->>>>>>> main
     }
 }
 
@@ -82,8 +70,6 @@ extension ListLanguageModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension TranscribeClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListMedicalScribeJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -107,7 +93,6 @@ extension ListMedicalScribeJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension TranscribeClient {
->>>>>>> main
     /// Paginate over `[ListMedicalTranscriptionJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -117,11 +102,7 @@ extension TranscribeClient {
     ///     - input: A `[ListMedicalTranscriptionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMedicalTranscriptionJobsOutput`
     public func listMedicalTranscriptionJobsPaginated(input: ListMedicalTranscriptionJobsInput) -> ClientRuntime.PaginatorSequence<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(input: input, inputKey: \ListMedicalTranscriptionJobsInput.nextToken, outputKey: \ListMedicalTranscriptionJobsOutput.nextToken, paginationFunction: self.listMedicalTranscriptionJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMedicalTranscriptionJobs(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +125,7 @@ extension TranscribeClient {
     ///     - input: A `[ListMedicalVocabulariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMedicalVocabulariesOutput`
     public func listMedicalVocabulariesPaginated(input: ListMedicalVocabulariesInput) -> ClientRuntime.PaginatorSequence<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(input: input, inputKey: \ListMedicalVocabulariesInput.nextToken, outputKey: \ListMedicalVocabulariesOutput.nextToken, paginationFunction: self.listMedicalVocabularies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMedicalVocabularies(input:))
->>>>>>> main
     }
 }
 
@@ -171,11 +148,7 @@ extension TranscribeClient {
     ///     - input: A `[ListTranscriptionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTranscriptionJobsOutput`
     public func listTranscriptionJobsPaginated(input: ListTranscriptionJobsInput) -> ClientRuntime.PaginatorSequence<ListTranscriptionJobsInput, ListTranscriptionJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(input: input, inputKey: \ListTranscriptionJobsInput.nextToken, outputKey: \ListTranscriptionJobsOutput.nextToken, paginationFunction: self.listTranscriptionJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTranscriptionJobs(input:))
->>>>>>> main
     }
 }
 
@@ -198,11 +171,7 @@ extension TranscribeClient {
     ///     - input: A `[ListVocabulariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVocabulariesOutput`
     public func listVocabulariesPaginated(input: ListVocabulariesInput) -> ClientRuntime.PaginatorSequence<ListVocabulariesInput, ListVocabulariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVocabulariesInput, ListVocabulariesOutput>(input: input, inputKey: \ListVocabulariesInput.nextToken, outputKey: \ListVocabulariesOutput.nextToken, paginationFunction: self.listVocabularies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVocabulariesInput, ListVocabulariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVocabularies(input:))
->>>>>>> main
     }
 }
 
@@ -225,11 +194,7 @@ extension TranscribeClient {
     ///     - input: A `[ListVocabularyFiltersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVocabularyFiltersOutput`
     public func listVocabularyFiltersPaginated(input: ListVocabularyFiltersInput) -> ClientRuntime.PaginatorSequence<ListVocabularyFiltersInput, ListVocabularyFiltersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(input: input, inputKey: \ListVocabularyFiltersInput.nextToken, outputKey: \ListVocabularyFiltersOutput.nextToken, paginationFunction: self.listVocabularyFilters(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVocabularyFilters(input:))
->>>>>>> main
     }
 }
 

@@ -22,11 +22,8 @@ public protocol EBSClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     func completeSnapshot(input: CompleteSnapshotInput) async throws -> CompleteSnapshotOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSnapshotBlock` operation on the `Ebs` service.
     ///
->>>>>>> main
     /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter GetSnapshotBlockInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol EBSClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     func getSnapshotBlock(input: GetSnapshotBlockInput) async throws -> GetSnapshotBlockOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListChangedBlocks` operation on the `Ebs` service.
     ///
->>>>>>> main
     /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter ListChangedBlocksInput : [no documentation found]
@@ -64,11 +58,8 @@ public protocol EBSClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     func listChangedBlocks(input: ListChangedBlocksInput) async throws -> ListChangedBlocksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSnapshotBlocks` operation on the `Ebs` service.
     ///
->>>>>>> main
     /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter ListSnapshotBlocksInput : [no documentation found]
@@ -85,11 +76,8 @@ public protocol EBSClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     func listSnapshotBlocks(input: ListSnapshotBlocksInput) async throws -> ListSnapshotBlocksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutSnapshotBlock` operation on the `Ebs` service.
     ///
->>>>>>> main
     /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter PutSnapshotBlockInput : [no documentation found]
@@ -106,11 +94,8 @@ public protocol EBSClientProtocol {
     /// - `ServiceQuotaExceededException` : Your current service quotas do not allow you to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints of the EBS direct APIs.
     func putSnapshotBlock(input: PutSnapshotBlockInput) async throws -> PutSnapshotBlockOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSnapshot` operation on the `Ebs` service.
     ///
->>>>>>> main
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// - Parameter StartSnapshotInput : [no documentation found]

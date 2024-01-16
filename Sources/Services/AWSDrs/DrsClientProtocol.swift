@@ -23,11 +23,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateExtendedSourceServer` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Create an extended source server in the target Account based on the source server in staging account.
     ///
     /// - Parameter CreateExtendedSourceServerInput : [no documentation found]
@@ -45,11 +42,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Creates a new Launch Configuration Template.
     ///
     /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
@@ -66,11 +60,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Creates a new ReplicationConfigurationTemplate.
     ///
     /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
@@ -87,11 +78,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSourceNetwork` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Create a new Source Network resource for a provided VPC ID.
     ///
     /// - Parameter CreateSourceNetworkInput : [no documentation found]
@@ -109,11 +97,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteJob` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a single Job by ID.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
@@ -129,11 +114,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLaunchAction` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a resource launch action.
     ///
     /// - Parameter DeleteLaunchActionInput : [no documentation found]
@@ -149,11 +131,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a single Launch Configuration Template by ID.
     ///
     /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
@@ -169,11 +148,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRecoveryInstance` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     ///
     /// - Parameter DeleteRecoveryInstanceInput : [no documentation found]
@@ -189,11 +165,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a single Replication Configuration Template by ID
     ///
     /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
@@ -209,11 +182,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSourceNetwork` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Delete Source Network resource.
     ///
     /// - Parameter DeleteSourceNetworkInput : [no documentation found]
@@ -229,11 +199,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSourceServer` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
     ///
     /// - Parameter DeleteSourceServerInput : [no documentation found]
@@ -249,11 +216,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeJobLogItems` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Retrieves a detailed Job log with pagination.
     ///
     /// - Parameter DescribeJobLogItemsInput : [no documentation found]
@@ -268,11 +232,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeJobs` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// - Parameter DescribeJobsInput : [no documentation found]
@@ -287,11 +248,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
     /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
@@ -307,11 +265,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRecoveryInstances` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     ///
     /// - Parameter DescribeRecoveryInstancesInput : [no documentation found]
@@ -326,11 +281,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRecoverySnapshots` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Recovery Snapshots for a single Source Server.
     ///
     /// - Parameter DescribeRecoverySnapshotsInput : [no documentation found]
@@ -346,11 +298,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
     /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
@@ -366,11 +315,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSourceNetworks` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Source Networks or multiple Source Networks filtered by ID.
     ///
     /// - Parameter DescribeSourceNetworksInput : [no documentation found]
@@ -385,11 +331,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSourceServers` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     ///
     /// - Parameter DescribeSourceServersInput : [no documentation found]
@@ -404,11 +347,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisconnectRecoveryInstance` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter DisconnectRecoveryInstanceInput : [no documentation found]
@@ -425,11 +365,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisconnectSourceServer` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter DisconnectSourceServerInput : [no documentation found]
@@ -445,11 +382,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExportSourceNetworkCfnTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Export the Source Network CloudFormation template to an S3 bucket.
     ///
     /// - Parameter ExportSourceNetworkCfnTemplateInput : [no documentation found]
@@ -466,11 +400,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFailbackReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
     ///
     /// - Parameter GetFailbackReplicationConfigurationInput : [no documentation found]
@@ -485,11 +416,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLaunchConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
     ///
     /// - Parameter GetLaunchConfigurationInput : [no documentation found]
@@ -504,11 +432,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     ///
     /// - Parameter GetReplicationConfigurationInput : [no documentation found]
@@ -524,11 +449,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `InitializeService` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Initialize Elastic Disaster Recovery.
     ///
     /// - Parameter InitializeServiceInput : [no documentation found]
@@ -543,11 +465,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListExtensibleSourceServers` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     ///
     /// - Parameter ListExtensibleSourceServersInput : [no documentation found]
@@ -563,11 +482,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLaunchActions` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Lists resource launch actions.
     ///
     /// - Parameter ListLaunchActionsInput : [no documentation found]
@@ -583,11 +499,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListStagingAccounts` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Returns an array of staging accounts for existing extended source servers.
     ///
     /// - Parameter ListStagingAccountsInput : [no documentation found]
@@ -603,11 +516,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// List all tags for your Elastic Disaster Recovery resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -623,11 +533,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutLaunchAction` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Puts a resource launch action.
     ///
     /// - Parameter PutLaunchActionInput : [no documentation found]
@@ -644,11 +551,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RetryDataReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     ///
@@ -665,11 +569,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ReverseReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     ///
     /// - Parameter ReverseReplicationInput : [no documentation found]
@@ -687,11 +588,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartFailbackLaunch` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
     ///
     /// - Parameter StartFailbackLaunchInput : [no documentation found]
@@ -708,11 +606,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartRecovery` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
     ///
     /// - Parameter StartRecoveryInput : [no documentation found]
@@ -728,11 +623,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
     ///
     /// - Parameter StartReplicationInput : [no documentation found]
@@ -748,11 +640,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSourceNetworkRecovery` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
     ///
     /// - Parameter StartSourceNetworkRecoveryInput : [no documentation found]
@@ -769,11 +658,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSourceNetworkReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Starts replication for a Source Network. This action would make the Source Network protected.
     ///
     /// - Parameter StartSourceNetworkReplicationInput : [no documentation found]
@@ -789,11 +675,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopFailback` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     ///
     /// - Parameter StopFailbackInput : [no documentation found]
@@ -808,11 +691,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     ///
     /// - Parameter StopReplicationInput : [no documentation found]
@@ -828,11 +708,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopSourceNetworkReplication` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Stops replication for a Source Network. This action would make the Source Network unprotected.
     ///
     /// - Parameter StopSourceNetworkReplicationInput : [no documentation found]
@@ -849,11 +726,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -869,11 +743,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TerminateRecoveryInstances` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
     ///
     /// - Parameter TerminateRecoveryInstancesInput : [no documentation found]
@@ -889,11 +760,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -909,11 +777,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFailbackReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
     ///
     /// - Parameter UpdateFailbackReplicationConfigurationInput : [no documentation found]
@@ -929,11 +794,8 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLaunchConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Updates a LaunchConfiguration by Source Server ID.
     ///
     /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
@@ -950,11 +812,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Updates an existing Launch Configuration Template by ID.
     ///
     /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
@@ -971,11 +830,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReplicationConfiguration` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     ///
     /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
@@ -993,11 +849,8 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `ElasticDisasterRecoveryService` service.
     ///
->>>>>>> main
     /// Updates a ReplicationConfigurationTemplate by ID.
     ///
     /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]

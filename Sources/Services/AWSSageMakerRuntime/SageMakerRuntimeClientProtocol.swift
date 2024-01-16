@@ -22,11 +22,8 @@ public protocol SageMakerRuntimeClientProtocol {
     /// - `ServiceUnavailable` : The service is unavailable. Try your call again.
     /// - `ValidationError` : Inspect your request and try again.
     func invokeEndpoint(input: InvokeEndpointInput) async throws -> InvokeEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `InvokeEndpointAsync` operation on the `AmazonSageMakerRuntime` service.
     ///
->>>>>>> main
     /// After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
     ///
     /// - Parameter InvokeEndpointAsyncInput : [no documentation found]
@@ -40,11 +37,8 @@ public protocol SageMakerRuntimeClientProtocol {
     /// - `ServiceUnavailable` : The service is unavailable. Try your call again.
     /// - `ValidationError` : Inspect your request and try again.
     func invokeEndpointAsync(input: InvokeEndpointAsyncInput) async throws -> InvokeEndpointAsyncOutput
-<<<<<<< HEAD
-=======
     /// Performs the `InvokeEndpointWithResponseStream` operation on the `AmazonSageMakerRuntime` service.
     ///
->>>>>>> main
     /// Invokes a model at the specified endpoint to return the inference response as a stream. The inference stream provides the response payload incrementally as a series of parts. Before you can get an inference stream, you must have access to a model that's deployed using Amazon SageMaker hosting services, and the container for that model must support inference streaming. For more information that can help you use this API, see the following sections in the Amazon SageMaker Developer Guide:
     ///
     /// * For information about how to add streaming support to a model, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-code-how-containe-serves-requests).

@@ -12,11 +12,7 @@ extension MediaLiveClient {
     ///     - input: A `[DescribeScheduleInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduleOutput`
     public func describeSchedulePaginated(input: DescribeScheduleInput) -> ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutput>(input: input, inputKey: \DescribeScheduleInput.nextToken, outputKey: \DescribeScheduleOutput.nextToken, paginationFunction: self.describeSchedule(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeScheduleInput, DescribeScheduleOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeSchedule(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeScheduleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeScheduleInput, Output == DescribeScheduleOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeScheduleInput, OperationStackOutput == DescribeScheduleOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSchedulePaginated`
     /// to access the nested member `[MediaLiveClientTypes.ScheduleAction]`
     /// - Returns: `[MediaLiveClientTypes.ScheduleAction]`
@@ -51,11 +43,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutput`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutput.nextToken, paginationFunction: self.listChannels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChannels(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListChannelsInput, Output == ListChannelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListChannelsInput, OperationStackOutput == ListChannelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.ChannelSummary]`
     /// - Returns: `[MediaLiveClientTypes.ChannelSummary]`
@@ -89,11 +73,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListInputDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInputDevicesOutput`
     public func listInputDevicesPaginated(input: ListInputDevicesInput) -> ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutput>(input: input, inputKey: \ListInputDevicesInput.nextToken, outputKey: \ListInputDevicesOutput.nextToken, paginationFunction: self.listInputDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInputDevicesInput, ListInputDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInputDevices(input:))
->>>>>>> main
     }
 }
 
@@ -105,11 +85,7 @@ extension ListInputDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInputDevicesInput, Output == ListInputDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInputDevicesInput, OperationStackOutput == ListInputDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInputDevicesPaginated`
     /// to access the nested member `[MediaLiveClientTypes.InputDeviceSummary]`
     /// - Returns: `[MediaLiveClientTypes.InputDeviceSummary]`
@@ -127,11 +103,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListInputDeviceTransfersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInputDeviceTransfersOutput`
     public func listInputDeviceTransfersPaginated(input: ListInputDeviceTransfersInput) -> ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>(input: input, inputKey: \ListInputDeviceTransfersInput.nextToken, outputKey: \ListInputDeviceTransfersOutput.nextToken, paginationFunction: self.listInputDeviceTransfers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInputDeviceTransfers(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +116,7 @@ extension ListInputDeviceTransfersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInputDeviceTransfersInput, Output == ListInputDeviceTransfersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInputDeviceTransfersInput, OperationStackOutput == ListInputDeviceTransfersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInputDeviceTransfersPaginated`
     /// to access the nested member `[MediaLiveClientTypes.TransferringInputDeviceSummary]`
     /// - Returns: `[MediaLiveClientTypes.TransferringInputDeviceSummary]`
@@ -166,11 +134,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListInputsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInputsOutput`
     public func listInputsPaginated(input: ListInputsInput) -> ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutput>(input: input, inputKey: \ListInputsInput.nextToken, outputKey: \ListInputsOutput.nextToken, paginationFunction: self.listInputs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInputsInput, ListInputsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInputs(input:))
->>>>>>> main
     }
 }
 
@@ -182,11 +146,7 @@ extension ListInputsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInputsInput, Output == ListInputsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInputsInput, OperationStackOutput == ListInputsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInputsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Input]`
     /// - Returns: `[MediaLiveClientTypes.Input]`
@@ -204,11 +164,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListInputSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInputSecurityGroupsOutput`
     public func listInputSecurityGroupsPaginated(input: ListInputSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>(input: input, inputKey: \ListInputSecurityGroupsInput.nextToken, outputKey: \ListInputSecurityGroupsOutput.nextToken, paginationFunction: self.listInputSecurityGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInputSecurityGroups(input:))
->>>>>>> main
     }
 }
 
@@ -220,11 +176,7 @@ extension ListInputSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInputSecurityGroupsInput, Output == ListInputSecurityGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInputSecurityGroupsInput, OperationStackOutput == ListInputSecurityGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInputSecurityGroupsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.InputSecurityGroup]`
     /// - Returns: `[MediaLiveClientTypes.InputSecurityGroup]`
@@ -242,11 +194,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListMultiplexesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexesOutput`
     public func listMultiplexesPaginated(input: ListMultiplexesInput) -> ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutput>(input: input, inputKey: \ListMultiplexesInput.nextToken, outputKey: \ListMultiplexesOutput.nextToken, paginationFunction: self.listMultiplexes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMultiplexesInput, ListMultiplexesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMultiplexes(input:))
->>>>>>> main
     }
 }
 
@@ -258,11 +206,7 @@ extension ListMultiplexesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMultiplexesInput, Output == ListMultiplexesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMultiplexesInput, OperationStackOutput == ListMultiplexesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMultiplexesPaginated`
     /// to access the nested member `[MediaLiveClientTypes.MultiplexSummary]`
     /// - Returns: `[MediaLiveClientTypes.MultiplexSummary]`
@@ -280,11 +224,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListMultiplexProgramsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexProgramsOutput`
     public func listMultiplexProgramsPaginated(input: ListMultiplexProgramsInput) -> ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>(input: input, inputKey: \ListMultiplexProgramsInput.nextToken, outputKey: \ListMultiplexProgramsOutput.nextToken, paginationFunction: self.listMultiplexPrograms(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMultiplexPrograms(input:))
->>>>>>> main
     }
 }
 
@@ -297,11 +237,7 @@ extension ListMultiplexProgramsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMultiplexProgramsInput, Output == ListMultiplexProgramsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMultiplexProgramsInput, OperationStackOutput == ListMultiplexProgramsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMultiplexProgramsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.MultiplexProgramSummary]`
     /// - Returns: `[MediaLiveClientTypes.MultiplexProgramSummary]`
@@ -319,11 +255,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutput`
     public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutput.nextToken, paginationFunction: self.listOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -345,11 +277,7 @@ extension ListOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOfferingsInput, OperationStackOutput == ListOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Offering]`
     /// - Returns: `[MediaLiveClientTypes.Offering]`
@@ -367,11 +295,7 @@ extension MediaLiveClient {
     ///     - input: A `[ListReservationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutput`
     public func listReservationsPaginated(input: ListReservationsInput) -> ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput>(input: input, inputKey: \ListReservationsInput.nextToken, outputKey: \ListReservationsOutput.nextToken, paginationFunction: self.listReservations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReservations(input:))
->>>>>>> main
     }
 }
 
@@ -391,11 +315,7 @@ extension ListReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListReservationsInput, Output == ListReservationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListReservationsInput, OperationStackOutput == ListReservationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReservationsPaginated`
     /// to access the nested member `[MediaLiveClientTypes.Reservation]`
     /// - Returns: `[MediaLiveClientTypes.Reservation]`

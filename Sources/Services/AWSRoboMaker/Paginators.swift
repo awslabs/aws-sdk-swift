@@ -12,11 +12,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListDeploymentJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentJobsOutput`
     public func listDeploymentJobsPaginated(input: ListDeploymentJobsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutput>(input: input, inputKey: \ListDeploymentJobsInput.nextToken, outputKey: \ListDeploymentJobsOutput.nextToken, paginationFunction: self.listDeploymentJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeploymentJobsInput, ListDeploymentJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeploymentJobs(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListDeploymentJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDeploymentJobsInput, Output == ListDeploymentJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDeploymentJobsInput, OperationStackOutput == ListDeploymentJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentJobsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.DeploymentJob]`
     /// - Returns: `[RoboMakerClientTypes.DeploymentJob]`
@@ -51,11 +43,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutput`
     public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutput.nextToken, paginationFunction: self.listFleets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFleets(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFleetsInput, OperationStackOutput == ListFleetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFleetsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.Fleet]`
     /// - Returns: `[RoboMakerClientTypes.Fleet]`
@@ -90,11 +74,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListRobotApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRobotApplicationsOutput`
     public func listRobotApplicationsPaginated(input: ListRobotApplicationsInput) -> ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutput>(input: input, inputKey: \ListRobotApplicationsInput.nextToken, outputKey: \ListRobotApplicationsOutput.nextToken, paginationFunction: self.listRobotApplications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRobotApplicationsInput, ListRobotApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRobotApplications(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension ListRobotApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRobotApplicationsInput, Output == ListRobotApplicationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRobotApplicationsInput, OperationStackOutput == ListRobotApplicationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRobotApplicationsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.RobotApplicationSummary]`
     /// - Returns: `[RoboMakerClientTypes.RobotApplicationSummary]`
@@ -130,11 +106,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListRobotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRobotsOutput`
     public func listRobotsPaginated(input: ListRobotsInput) -> ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutput>(input: input, inputKey: \ListRobotsInput.nextToken, outputKey: \ListRobotsOutput.nextToken, paginationFunction: self.listRobots(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRobotsInput, ListRobotsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRobots(input:))
->>>>>>> main
     }
 }
 
@@ -147,11 +119,7 @@ extension ListRobotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRobotsInput, Output == ListRobotsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRobotsInput, OperationStackOutput == ListRobotsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRobotsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.Robot]`
     /// - Returns: `[RoboMakerClientTypes.Robot]`
@@ -169,11 +137,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListSimulationApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationApplicationsOutput`
     public func listSimulationApplicationsPaginated(input: ListSimulationApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(input: input, inputKey: \ListSimulationApplicationsInput.nextToken, outputKey: \ListSimulationApplicationsOutput.nextToken, paginationFunction: self.listSimulationApplications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationApplications(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +151,7 @@ extension ListSimulationApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSimulationApplicationsInput, Output == ListSimulationApplicationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSimulationApplicationsInput, OperationStackOutput == ListSimulationApplicationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSimulationApplicationsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.SimulationApplicationSummary]`
     /// - Returns: `[RoboMakerClientTypes.SimulationApplicationSummary]`
@@ -209,11 +169,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListSimulationJobBatchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobBatchesOutput`
     public func listSimulationJobBatchesPaginated(input: ListSimulationJobBatchesInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(input: input, inputKey: \ListSimulationJobBatchesInput.nextToken, outputKey: \ListSimulationJobBatchesOutput.nextToken, paginationFunction: self.listSimulationJobBatches(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationJobBatches(input:))
->>>>>>> main
     }
 }
 
@@ -226,11 +182,7 @@ extension ListSimulationJobBatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSimulationJobBatchesInput, Output == ListSimulationJobBatchesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSimulationJobBatchesInput, OperationStackOutput == ListSimulationJobBatchesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobBatchesPaginated`
     /// to access the nested member `[RoboMakerClientTypes.SimulationJobBatchSummary]`
     /// - Returns: `[RoboMakerClientTypes.SimulationJobBatchSummary]`
@@ -248,11 +200,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListSimulationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSimulationJobsOutput`
     public func listSimulationJobsPaginated(input: ListSimulationJobsInput) -> ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutput>(input: input, inputKey: \ListSimulationJobsInput.nextToken, outputKey: \ListSimulationJobsOutput.nextToken, paginationFunction: self.listSimulationJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSimulationJobsInput, ListSimulationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSimulationJobs(input:))
->>>>>>> main
     }
 }
 
@@ -265,11 +213,7 @@ extension ListSimulationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSimulationJobsInput, Output == ListSimulationJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSimulationJobsInput, OperationStackOutput == ListSimulationJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.SimulationJobSummary]`
     /// - Returns: `[RoboMakerClientTypes.SimulationJobSummary]`
@@ -287,11 +231,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListWorldExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorldExportJobsOutput`
     public func listWorldExportJobsPaginated(input: ListWorldExportJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutput>(input: input, inputKey: \ListWorldExportJobsInput.nextToken, outputKey: \ListWorldExportJobsOutput.nextToken, paginationFunction: self.listWorldExportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorldExportJobsInput, ListWorldExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldExportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -304,11 +244,7 @@ extension ListWorldExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorldExportJobsInput, Output == ListWorldExportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorldExportJobsInput, OperationStackOutput == ListWorldExportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorldExportJobsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.WorldExportJobSummary]`
     /// - Returns: `[RoboMakerClientTypes.WorldExportJobSummary]`
@@ -326,11 +262,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListWorldGenerationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorldGenerationJobsOutput`
     public func listWorldGenerationJobsPaginated(input: ListWorldGenerationJobsInput) -> ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(input: input, inputKey: \ListWorldGenerationJobsInput.nextToken, outputKey: \ListWorldGenerationJobsOutput.nextToken, paginationFunction: self.listWorldGenerationJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldGenerationJobs(input:))
->>>>>>> main
     }
 }
 
@@ -343,11 +275,7 @@ extension ListWorldGenerationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorldGenerationJobsInput, Output == ListWorldGenerationJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorldGenerationJobsInput, OperationStackOutput == ListWorldGenerationJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorldGenerationJobsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.WorldGenerationJobSummary]`
     /// - Returns: `[RoboMakerClientTypes.WorldGenerationJobSummary]`
@@ -365,11 +293,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListWorldsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorldsOutput`
     public func listWorldsPaginated(input: ListWorldsInput) -> ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutput>(input: input, inputKey: \ListWorldsInput.nextToken, outputKey: \ListWorldsOutput.nextToken, paginationFunction: self.listWorlds(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorldsInput, ListWorldsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorlds(input:))
->>>>>>> main
     }
 }
 
@@ -382,11 +306,7 @@ extension ListWorldsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorldsInput, Output == ListWorldsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorldsInput, OperationStackOutput == ListWorldsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorldsPaginated`
     /// to access the nested member `[RoboMakerClientTypes.WorldSummary]`
     /// - Returns: `[RoboMakerClientTypes.WorldSummary]`
@@ -404,11 +324,7 @@ extension RoboMakerClient {
     ///     - input: A `[ListWorldTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorldTemplatesOutput`
     public func listWorldTemplatesPaginated(input: ListWorldTemplatesInput) -> ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutput>(input: input, inputKey: \ListWorldTemplatesInput.nextToken, outputKey: \ListWorldTemplatesOutput.nextToken, paginationFunction: self.listWorldTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorldTemplatesInput, ListWorldTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorldTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -420,11 +336,7 @@ extension ListWorldTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorldTemplatesInput, Output == ListWorldTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorldTemplatesInput, OperationStackOutput == ListWorldTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorldTemplatesPaginated`
     /// to access the nested member `[RoboMakerClientTypes.TemplateSummary]`
     /// - Returns: `[RoboMakerClientTypes.TemplateSummary]`

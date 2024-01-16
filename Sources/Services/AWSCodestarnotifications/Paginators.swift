@@ -12,11 +12,7 @@ extension CodestarnotificationsClient {
     ///     - input: A `[ListEventTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventTypesOutput`
     public func listEventTypesPaginated(input: ListEventTypesInput) -> ClientRuntime.PaginatorSequence<ListEventTypesInput, ListEventTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEventTypesInput, ListEventTypesOutput>(input: input, inputKey: \ListEventTypesInput.nextToken, outputKey: \ListEventTypesOutput.nextToken, paginationFunction: self.listEventTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEventTypesInput, ListEventTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventTypes(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListEventTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEventTypesInput, Output == ListEventTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEventTypesInput, OperationStackOutput == ListEventTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventTypesPaginated`
     /// to access the nested member `[CodestarnotificationsClientTypes.EventTypeSummary]`
     /// - Returns: `[CodestarnotificationsClientTypes.EventTypeSummary]`
@@ -51,11 +43,7 @@ extension CodestarnotificationsClient {
     ///     - input: A `[ListNotificationRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationRulesOutput`
     public func listNotificationRulesPaginated(input: ListNotificationRulesInput) -> ClientRuntime.PaginatorSequence<ListNotificationRulesInput, ListNotificationRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotificationRulesInput, ListNotificationRulesOutput>(input: input, inputKey: \ListNotificationRulesInput.nextToken, outputKey: \ListNotificationRulesOutput.nextToken, paginationFunction: self.listNotificationRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotificationRulesInput, ListNotificationRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotificationRules(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension ListNotificationRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNotificationRulesInput, Output == ListNotificationRulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNotificationRulesInput, OperationStackOutput == ListNotificationRulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNotificationRulesPaginated`
     /// to access the nested member `[CodestarnotificationsClientTypes.NotificationRuleSummary]`
     /// - Returns: `[CodestarnotificationsClientTypes.NotificationRuleSummary]`
@@ -90,11 +74,7 @@ extension CodestarnotificationsClient {
     ///     - input: A `[ListTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTargetsOutput`
     public func listTargetsPaginated(input: ListTargetsInput) -> ClientRuntime.PaginatorSequence<ListTargetsInput, ListTargetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTargetsInput, ListTargetsOutput>(input: input, inputKey: \ListTargetsInput.nextToken, outputKey: \ListTargetsOutput.nextToken, paginationFunction: self.listTargets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTargetsInput, ListTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTargets(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +87,7 @@ extension ListTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTargetsInput, Output == ListTargetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTargetsInput, OperationStackOutput == ListTargetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTargetsPaginated`
     /// to access the nested member `[CodestarnotificationsClientTypes.TargetSummary]`
     /// - Returns: `[CodestarnotificationsClientTypes.TargetSummary]`

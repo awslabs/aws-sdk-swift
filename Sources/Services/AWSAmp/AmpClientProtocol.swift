@@ -23,11 +23,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createAlertManagerDefinition(input: CreateAlertManagerDefinitionInput) async throws -> CreateAlertManagerDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLoggingConfiguration` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Create logging configuration.
     ///
     /// - Parameter CreateLoggingConfigurationInput : Represents the input of a CreateLoggingConfiguration operation.
@@ -42,11 +39,8 @@ public protocol AmpClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Create a rule group namespace.
     ///
     /// - Parameter CreateRuleGroupsNamespaceInput : Represents the input of a CreateRuleGroupsNamespace operation.
@@ -64,8 +58,6 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createRuleGroupsNamespace(input: CreateRuleGroupsNamespaceInput) async throws -> CreateRuleGroupsNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateScraper` operation on the `AmazonPrometheusService` service.
     ///
     /// Create a scraper.
@@ -87,7 +79,6 @@ public protocol AmpClientProtocol {
     func createScraper(input: CreateScraperInput) async throws -> CreateScraperOutput
     /// Performs the `CreateWorkspace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Creates a new AMP workspace.
     ///
     /// - Parameter CreateWorkspaceInput : Represents the input of a CreateWorkspace operation.
@@ -104,11 +95,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Deletes an alert manager definition.
     ///
     /// - Parameter DeleteAlertManagerDefinitionInput : Represents the input of a DeleteAlertManagerDefinition operation.
@@ -125,11 +113,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteAlertManagerDefinition(input: DeleteAlertManagerDefinitionInput) async throws -> DeleteAlertManagerDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLoggingConfiguration` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Delete logging configuration.
     ///
     /// - Parameter DeleteLoggingConfigurationInput : Represents the input of a DeleteLoggingConfiguration operation.
@@ -145,11 +130,8 @@ public protocol AmpClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Delete a rule groups namespace.
     ///
     /// - Parameter DeleteRuleGroupsNamespaceInput : Represents the input of a DeleteRuleGroupsNamespace operation.
@@ -166,8 +148,6 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRuleGroupsNamespace(input: DeleteRuleGroupsNamespaceInput) async throws -> DeleteRuleGroupsNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteScraper` operation on the `AmazonPrometheusService` service.
     ///
     /// Deletes a scraper.
@@ -188,7 +168,6 @@ public protocol AmpClientProtocol {
     func deleteScraper(input: DeleteScraperInput) async throws -> DeleteScraperOutput
     /// Performs the `DeleteWorkspace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Deletes an AMP workspace.
     ///
     /// - Parameter DeleteWorkspaceInput : Represents the input of a DeleteWorkspace operation.
@@ -205,11 +184,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Describes an alert manager definition.
     ///
     /// - Parameter DescribeAlertManagerDefinitionInput : Represents the input of a DescribeAlertManagerDefinition operation.
@@ -225,11 +201,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func describeAlertManagerDefinition(input: DescribeAlertManagerDefinitionInput) async throws -> DescribeAlertManagerDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeLoggingConfiguration` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Describes logging configuration.
     ///
     /// - Parameter DescribeLoggingConfigurationInput : Represents the input of a DescribeLoggingConfiguration operation.
@@ -244,11 +217,8 @@ public protocol AmpClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Describe a rule groups namespace.
     ///
     /// - Parameter DescribeRuleGroupsNamespaceInput : Represents the input of a DescribeRuleGroupsNamespace operation.
@@ -264,8 +234,6 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func describeRuleGroupsNamespace(input: DescribeRuleGroupsNamespaceInput) async throws -> DescribeRuleGroupsNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeScraper` operation on the `AmazonPrometheusService` service.
     ///
     /// Describe an existing scraper.
@@ -285,7 +253,6 @@ public protocol AmpClientProtocol {
     func describeScraper(input: DescribeScraperInput) async throws -> DescribeScraperOutput
     /// Performs the `DescribeWorkspace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Describes an existing AMP workspace.
     ///
     /// - Parameter DescribeWorkspaceInput : Represents the input of a DescribeWorkspace operation.
@@ -301,8 +268,6 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDefaultScraperConfiguration` operation on the `AmazonPrometheusService` service.
     ///
     /// Gets a default configuration.
@@ -320,7 +285,6 @@ public protocol AmpClientProtocol {
     func getDefaultScraperConfiguration(input: GetDefaultScraperConfigurationInput) async throws -> GetDefaultScraperConfigurationOutput
     /// Performs the `ListRuleGroupsNamespaces` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Lists rule groups namespaces.
     ///
     /// - Parameter ListRuleGroupsNamespacesInput : Represents the input of a ListRuleGroupsNamespaces operation.
@@ -336,8 +300,6 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRuleGroupsNamespaces(input: ListRuleGroupsNamespacesInput) async throws -> ListRuleGroupsNamespacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListScrapers` operation on the `AmazonPrometheusService` service.
     ///
     /// Lists all scrapers in a customer account, including scrapers being created or deleted. You may provide filters to return a more specific list of results.
@@ -356,7 +318,6 @@ public protocol AmpClientProtocol {
     func listScrapers(input: ListScrapersInput) async throws -> ListScrapersOutput
     /// Performs the `ListTagsForResource` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Lists the tags you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -372,11 +333,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWorkspaces` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Lists all AMP workspaces, including workspaces being created or deleted.
     ///
     /// - Parameter ListWorkspacesInput : Represents the input of a ListWorkspaces operation.
@@ -391,11 +349,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAlertManagerDefinition` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Update an alert manager definition.
     ///
     /// - Parameter PutAlertManagerDefinitionInput : Represents the input of a PutAlertManagerDefinition operation.
@@ -413,11 +368,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func putAlertManagerDefinition(input: PutAlertManagerDefinitionInput) async throws -> PutAlertManagerDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRuleGroupsNamespace` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Update a rule groups namespace.
     ///
     /// - Parameter PutRuleGroupsNamespaceInput : Represents the input of a PutRuleGroupsNamespace operation.
@@ -435,11 +387,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func putRuleGroupsNamespace(input: PutRuleGroupsNamespaceInput) async throws -> PutRuleGroupsNamespaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Creates tags for the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -455,11 +404,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Deletes tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -475,11 +421,8 @@ public protocol AmpClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLoggingConfiguration` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Update logging configuration.
     ///
     /// - Parameter UpdateLoggingConfigurationInput : Represents the input of an UpdateLoggingConfiguration operation.
@@ -495,11 +438,8 @@ public protocol AmpClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkspaceAlias` operation on the `AmazonPrometheusService` service.
     ///
->>>>>>> main
     /// Updates an AMP workspace alias.
     ///
     /// - Parameter UpdateWorkspaceAliasInput : Represents the input of an UpdateWorkspaceAlias operation.

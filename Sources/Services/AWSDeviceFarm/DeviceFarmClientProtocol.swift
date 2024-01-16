@@ -24,11 +24,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createDevicePool(input: CreateDevicePoolInput) async throws -> CreateDevicePoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateInstanceProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a profile that can be applied to one or more private fleet device instances.
     ///
     /// - Parameter CreateInstanceProfileInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createInstanceProfile(input: CreateInstanceProfileInput) async throws -> CreateInstanceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateNetworkProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a network profile.
     ///
     /// - Parameter CreateNetworkProfileInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createNetworkProfile(input: CreateNetworkProfileInput) async throws -> CreateNetworkProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a project.
     ///
     /// - Parameter CreateProjectInput : Represents a request to the create project operation.
@@ -82,11 +73,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `ServiceAccountException` : There was a problem with the service account.
     /// - `TagOperationException` : The operation was not successful. Try again.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Specifies and starts a remote access session.
     ///
     /// - Parameter CreateRemoteAccessSessionInput : Creates and submits a request to start a remote access session.
@@ -101,11 +89,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createRemoteAccessSession(input: CreateRemoteAccessSessionInput) async throws -> CreateRemoteAccessSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTestGridProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a Selenium testing project. Projects are used to track [TestGridSession] instances.
     ///
     /// - Parameter CreateTestGridProjectInput : [no documentation found]
@@ -119,11 +104,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `LimitExceededException` : A limit was exceeded.
     func createTestGridProject(input: CreateTestGridProjectInput) async throws -> CreateTestGridProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTestGridUrl` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor.
     ///
     /// - Parameter CreateTestGridUrlInput : [no documentation found]
@@ -137,11 +119,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func createTestGridUrl(input: CreateTestGridUrlInput) async throws -> CreateTestGridUrlOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUpload` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Uploads an app or test scripts.
     ///
     /// - Parameter CreateUploadInput : Represents a request to the create upload operation.
@@ -156,11 +135,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createUpload(input: CreateUploadInput) async throws -> CreateUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
     /// - Parameter CreateVPCEConfigurationInput : [no documentation found]
@@ -174,11 +150,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func createVPCEConfiguration(input: CreateVPCEConfigurationInput) async throws -> CreateVPCEConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDevicePool` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
     ///
     /// - Parameter DeleteDevicePoolInput : Represents a request to the delete device pool operation.
@@ -193,11 +166,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteDevicePool(input: DeleteDevicePoolInput) async throws -> DeleteDevicePoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteInstanceProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a profile that can be applied to one or more private device instances.
     ///
     /// - Parameter DeleteInstanceProfileInput : [no documentation found]
@@ -212,11 +182,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteInstanceProfile(input: DeleteInstanceProfileInput) async throws -> DeleteInstanceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteNetworkProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a network profile.
     ///
     /// - Parameter DeleteNetworkProfileInput : [no documentation found]
@@ -231,11 +198,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteNetworkProfile(input: DeleteNetworkProfileInput) async throws -> DeleteNetworkProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
     ///
     /// - Parameter DeleteProjectInput : Represents a request to the delete project operation.
@@ -250,11 +214,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a completed remote access session and its results.
     ///
     /// - Parameter DeleteRemoteAccessSessionInput : Represents the request to delete the specified remote access session.
@@ -269,11 +230,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteRemoteAccessSession(input: DeleteRemoteAccessSessionInput) async throws -> DeleteRemoteAccessSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRun` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
     ///
     /// - Parameter DeleteRunInput : Represents a request to the delete run operation.
@@ -288,11 +246,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTestGridProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a Selenium testing project and all content generated under it. You cannot undo this operation. You cannot delete a project if it has active sessions.
     ///
     /// - Parameter DeleteTestGridProjectInput : [no documentation found]
@@ -307,11 +262,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func deleteTestGridProject(input: DeleteTestGridProjectInput) async throws -> DeleteTestGridProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUpload` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes an upload given the upload ARN.
     ///
     /// - Parameter DeleteUploadInput : Represents a request to the delete upload operation.
@@ -326,11 +278,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteUpload(input: DeleteUploadInput) async throws -> DeleteUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
     /// - Parameter DeleteVPCEConfigurationInput : [no documentation found]
@@ -345,11 +294,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func deleteVPCEConfiguration(input: DeleteVPCEConfigurationInput) async throws -> DeleteVPCEConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAccountSettings` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
     ///
     /// - Parameter GetAccountSettingsInput : Represents the request sent to retrieve the account settings.
@@ -364,11 +310,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDevice` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a unique device type.
     ///
     /// - Parameter GetDeviceInput : Represents a request to the get device request.
@@ -383,11 +326,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getDevice(input: GetDeviceInput) async throws -> GetDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeviceInstance` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about a device instance that belongs to a private device fleet.
     ///
     /// - Parameter GetDeviceInstanceInput : [no documentation found]
@@ -402,11 +342,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getDeviceInstance(input: GetDeviceInstanceInput) async throws -> GetDeviceInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDevicePool` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a device pool.
     ///
     /// - Parameter GetDevicePoolInput : Represents a request to the get device pool operation.
@@ -421,11 +358,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getDevicePool(input: GetDevicePoolInput) async throws -> GetDevicePoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDevicePoolCompatibility` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about compatibility with a device pool.
     ///
     /// - Parameter GetDevicePoolCompatibilityInput : Represents a request to the get device pool compatibility operation.
@@ -440,11 +374,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getDevicePoolCompatibility(input: GetDevicePoolCompatibilityInput) async throws -> GetDevicePoolCompatibilityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetInstanceProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about the specified instance profile.
     ///
     /// - Parameter GetInstanceProfileInput : [no documentation found]
@@ -459,11 +390,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getInstanceProfile(input: GetInstanceProfileInput) async throws -> GetInstanceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJob` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a job.
     ///
     /// - Parameter GetJobInput : Represents a request to the get job operation.
@@ -478,11 +406,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getJob(input: GetJobInput) async throws -> GetJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetNetworkProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about a network profile.
     ///
     /// - Parameter GetNetworkProfileInput : [no documentation found]
@@ -497,11 +422,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getNetworkProfile(input: GetNetworkProfileInput) async throws -> GetNetworkProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetOfferingStatus` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
     /// - Parameter GetOfferingStatusInput : Represents the request to retrieve the offering status for the specified customer or account.
@@ -517,11 +439,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getOfferingStatus(input: GetOfferingStatusInput) async throws -> GetOfferingStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a project.
     ///
     /// - Parameter GetProjectInput : Represents a request to the get project operation.
@@ -536,11 +455,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getProject(input: GetProjectInput) async throws -> GetProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a link to a currently running remote access session.
     ///
     /// - Parameter GetRemoteAccessSessionInput : Represents the request to get information about the specified remote access session.
@@ -555,11 +471,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getRemoteAccessSession(input: GetRemoteAccessSessionInput) async throws -> GetRemoteAccessSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRun` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a run.
     ///
     /// - Parameter GetRunInput : Represents a request to the get run operation.
@@ -574,11 +487,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getRun(input: GetRunInput) async throws -> GetRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSuite` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a suite.
     ///
     /// - Parameter GetSuiteInput : Represents a request to the get suite operation.
@@ -593,11 +503,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getSuite(input: GetSuiteInput) async throws -> GetSuiteOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTest` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about a test.
     ///
     /// - Parameter GetTestInput : Represents a request to the get test operation.
@@ -612,11 +519,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getTest(input: GetTestInput) async throws -> GetTestOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTestGridProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Retrieves information about a Selenium testing project.
     ///
     /// - Parameter GetTestGridProjectInput : [no documentation found]
@@ -630,11 +534,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func getTestGridProject(input: GetTestGridProjectInput) async throws -> GetTestGridProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTestGridSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// A session is an instance of a browser created through a RemoteWebDriver with the URL from [CreateTestGridUrlResult$url]. You can use the following to look up sessions:
     ///
     /// * The session ARN ([GetTestGridSessionRequest$sessionArn]).
@@ -652,11 +553,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func getTestGridSession(input: GetTestGridSessionInput) async throws -> GetTestGridSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUpload` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about an upload.
     ///
     /// - Parameter GetUploadInput : Represents a request to the get upload operation.
@@ -671,11 +569,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getUpload(input: GetUploadInput) async throws -> GetUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about the configuration settings for your Amazon Virtual Private Cloud (VPC) endpoint.
     ///
     /// - Parameter GetVPCEConfigurationInput : [no documentation found]
@@ -689,11 +584,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func getVPCEConfiguration(input: GetVPCEConfigurationInput) async throws -> GetVPCEConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `InstallToRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
     ///
     /// - Parameter InstallToRemoteAccessSessionInput : Represents the request to install an Android application (in .apk format) or an iOS application (in .ipa format) as part of a remote access session.
@@ -708,11 +600,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func installToRemoteAccessSession(input: InstallToRemoteAccessSessionInput) async throws -> InstallToRemoteAccessSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListArtifacts` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about artifacts.
     ///
     /// - Parameter ListArtifactsInput : Represents a request to the list artifacts operation.
@@ -727,11 +616,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listArtifacts(input: ListArtifactsInput) async throws -> ListArtifactsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDeviceInstances` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about the private device instances associated with one or more AWS accounts.
     ///
     /// - Parameter ListDeviceInstancesInput : [no documentation found]
@@ -746,11 +632,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listDeviceInstances(input: ListDeviceInstancesInput) async throws -> ListDeviceInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevicePools` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about device pools.
     ///
     /// - Parameter ListDevicePoolsInput : Represents the result of a list device pools request.
@@ -765,11 +648,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listDevicePools(input: ListDevicePoolsInput) async throws -> ListDevicePoolsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevices` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about unique device types.
     ///
     /// - Parameter ListDevicesInput : Represents the result of a list devices request.
@@ -784,11 +664,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListInstanceProfiles` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about all the instance profiles in an AWS account.
     ///
     /// - Parameter ListInstanceProfilesInput : [no documentation found]
@@ -803,11 +680,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listInstanceProfiles(input: ListInstanceProfilesInput) async throws -> ListInstanceProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListJobs` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about jobs for a given test run.
     ///
     /// - Parameter ListJobsInput : Represents a request to the list jobs operation.
@@ -822,11 +696,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNetworkProfiles` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns the list of available network profiles.
     ///
     /// - Parameter ListNetworkProfilesInput : [no documentation found]
@@ -841,11 +712,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listNetworkProfiles(input: ListNetworkProfilesInput) async throws -> ListNetworkProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOfferingPromotions` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you must be able to invoke this operation.
     ///
     /// - Parameter ListOfferingPromotionsInput : [no documentation found]
@@ -861,11 +729,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listOfferingPromotions(input: ListOfferingPromotionsInput) async throws -> ListOfferingPromotionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOfferings` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
     /// - Parameter ListOfferingsInput : Represents the request to list all offerings.
@@ -881,11 +746,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOfferingTransactions` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
     /// - Parameter ListOfferingTransactionsInput : Represents the request to list the offering transaction history.
@@ -901,11 +763,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listOfferingTransactions(input: ListOfferingTransactionsInput) async throws -> ListOfferingTransactionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProjects` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about projects.
     ///
     /// - Parameter ListProjectsInput : Represents a request to the list projects operation.
@@ -920,11 +779,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRemoteAccessSessions` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a list of all currently running remote access sessions.
     ///
     /// - Parameter ListRemoteAccessSessionsInput : Represents the request to return information about the remote access session.
@@ -939,11 +795,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listRemoteAccessSessions(input: ListRemoteAccessSessionsInput) async throws -> ListRemoteAccessSessionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRuns` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about runs, given an AWS Device Farm project ARN.
     ///
     /// - Parameter ListRunsInput : Represents a request to the list runs operation.
@@ -958,11 +811,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listRuns(input: ListRunsInput) async throws -> ListRunsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSamples` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about samples, given an AWS Device Farm job ARN.
     ///
     /// - Parameter ListSamplesInput : Represents a request to the list samples operation.
@@ -977,11 +827,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listSamples(input: ListSamplesInput) async throws -> ListSamplesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSuites` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about test suites for a given job.
     ///
     /// - Parameter ListSuitesInput : Represents a request to the list suites operation.
@@ -996,11 +843,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listSuites(input: ListSuitesInput) async throws -> ListSuitesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// List the tags for an AWS Device Farm resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1014,11 +858,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTestGridProjects` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets a list of all Selenium testing projects in your account.
     ///
     /// - Parameter ListTestGridProjectsInput : [no documentation found]
@@ -1031,11 +872,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     func listTestGridProjects(input: ListTestGridProjectsInput) async throws -> ListTestGridProjectsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTestGridSessionActions` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns a list of the actions taken in a [TestGridSession].
     ///
     /// - Parameter ListTestGridSessionActionsInput : [no documentation found]
@@ -1049,11 +887,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func listTestGridSessionActions(input: ListTestGridSessionActionsInput) async throws -> ListTestGridSessionActionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTestGridSessionArtifacts` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Retrieves a list of artifacts created during the session.
     ///
     /// - Parameter ListTestGridSessionArtifactsInput : [no documentation found]
@@ -1067,11 +902,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func listTestGridSessionArtifacts(input: ListTestGridSessionArtifactsInput) async throws -> ListTestGridSessionArtifactsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTestGridSessions` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Retrieves a list of sessions for a [TestGridProject].
     ///
     /// - Parameter ListTestGridSessionsInput : [no documentation found]
@@ -1085,11 +917,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `InternalServiceException` : An internal exception was raised in the service. Contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com) if you see this error.
     /// - `NotFoundException` : The specified entity was not found.
     func listTestGridSessions(input: ListTestGridSessionsInput) async throws -> ListTestGridSessionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTests` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about tests in a given test suite.
     ///
     /// - Parameter ListTestsInput : Represents a request to the list tests operation.
@@ -1104,11 +933,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listTests(input: ListTestsInput) async throws -> ListTestsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUniqueProblems` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386), ListUniqueProblems returns a single entry instead of many individual entries for that exception.
     ///
     /// - Parameter ListUniqueProblemsInput : Represents a request to the list unique problems operation.
@@ -1123,11 +949,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listUniqueProblems(input: ListUniqueProblemsInput) async throws -> ListUniqueProblemsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUploads` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Gets information about uploads, given an AWS Device Farm project ARN.
     ///
     /// - Parameter ListUploadsInput : Represents a request to the list uploads operation.
@@ -1142,11 +965,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listUploads(input: ListUploadsInput) async throws -> ListUploadsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVPCEConfigurations` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account.
     ///
     /// - Parameter ListVPCEConfigurationsInput : [no documentation found]
@@ -1159,11 +979,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `ArgumentException` : An invalid argument was specified.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func listVPCEConfigurations(input: ListVPCEConfigurationsInput) async throws -> ListVPCEConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PurchaseOffering` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
     /// - Parameter PurchaseOfferingInput : Represents a request for a purchase offering.
@@ -1179,11 +996,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RenewOffering` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact [aws-devicefarm-support@amazon.com](mailto:aws-devicefarm-support@amazon.com).
     ///
     /// - Parameter RenewOfferingInput : A request that represents an offering renewal.
@@ -1199,11 +1013,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func renewOffering(input: RenewOfferingInput) async throws -> RenewOfferingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ScheduleRun` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Schedules a run.
     ///
     /// - Parameter ScheduleRunInput : Represents a request to the schedule run operation.
@@ -1219,11 +1030,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func scheduleRun(input: ScheduleRunInput) async throws -> ScheduleRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopJob` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
     /// - Parameter StopJobInput : [no documentation found]
@@ -1238,11 +1046,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func stopJob(input: StopJobInput) async throws -> StopJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopRemoteAccessSession` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Ends a specified remote access session.
     ///
     /// - Parameter StopRemoteAccessSessionInput : Represents the request to stop the remote access session.
@@ -1257,11 +1062,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func stopRemoteAccessSession(input: StopRemoteAccessSessionInput) async throws -> StopRemoteAccessSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopRun` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed.
     ///
     /// - Parameter StopRunInput : Represents the request to stop a specific run.
@@ -1276,11 +1078,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func stopRun(input: StopRunInput) async throws -> StopRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1296,11 +1095,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `TagPolicyException` : The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
     /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Deletes the specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1314,11 +1110,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `TagOperationException` : The operation was not successful. Try again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDeviceInstance` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Updates information about a private device instance.
     ///
     /// - Parameter UpdateDeviceInstanceInput : [no documentation found]
@@ -1333,11 +1126,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateDeviceInstance(input: UpdateDeviceInstanceInput) async throws -> UpdateDeviceInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDevicePool` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
     ///
     /// - Parameter UpdateDevicePoolInput : Represents a request to the update device pool operation.
@@ -1352,11 +1142,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateDevicePool(input: UpdateDevicePoolInput) async throws -> UpdateDevicePoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateInstanceProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Updates information about an existing private device instance profile.
     ///
     /// - Parameter UpdateInstanceProfileInput : [no documentation found]
@@ -1371,11 +1158,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateInstanceProfile(input: UpdateInstanceProfileInput) async throws -> UpdateInstanceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateNetworkProfile` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Updates the network profile.
     ///
     /// - Parameter UpdateNetworkProfileInput : [no documentation found]
@@ -1390,11 +1174,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateNetworkProfile(input: UpdateNetworkProfileInput) async throws -> UpdateNetworkProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Modifies the specified project name, given the project ARN and a new name.
     ///
     /// - Parameter UpdateProjectInput : Represents a request to the update project operation.
@@ -1409,11 +1190,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTestGridProject` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Change details of a project.
     ///
     /// - Parameter UpdateTestGridProjectInput : [no documentation found]
@@ -1428,11 +1206,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `LimitExceededException` : A limit was exceeded.
     /// - `NotFoundException` : The specified entity was not found.
     func updateTestGridProject(input: UpdateTestGridProjectInput) async throws -> UpdateTestGridProjectOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUpload` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Updates an uploaded test spec.
     ///
     /// - Parameter UpdateUploadInput : [no documentation found]
@@ -1447,11 +1222,8 @@ public protocol DeviceFarmClientProtocol {
     /// - `NotFoundException` : The specified entity was not found.
     /// - `ServiceAccountException` : There was a problem with the service account.
     func updateUpload(input: UpdateUploadInput) async throws -> UpdateUploadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateVPCEConfiguration` operation on the `DeviceFarm_20150623` service.
     ///
->>>>>>> main
     /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
     ///
     /// - Parameter UpdateVPCEConfigurationInput : [no documentation found]

@@ -1054,8 +1054,6 @@ enum DisassociateDefaultViewOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetAccountLevelServiceConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/GetAccountLevelServiceConfiguration"
@@ -1130,7 +1128,6 @@ enum GetAccountLevelServiceConfigurationOutputError: ClientRuntime.HttpResponseE
     }
 }
 
->>>>>>> main
 extension GetDefaultViewInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/GetDefaultView"
@@ -1226,14 +1223,11 @@ extension GetIndexInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetIndexOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetIndexOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), replicatingFrom: \(Swift.String(describing: replicatingFrom)), replicatingTo: \(Swift.String(describing: replicatingTo)), state: \(Swift.String(describing: state)), type: \(Swift.String(describing: type)), tags: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension GetIndexOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1434,14 +1428,11 @@ extension GetViewInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetViewOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetViewOutput(view: \(Swift.String(describing: view)), tags: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension GetViewOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2148,11 +2139,7 @@ extension ListSupportedResourceTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSupportedResourceTypesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-=======
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
->>>>>>> main
     public var nextToken: Swift.String?
     /// The list of resource types supported by Resource Explorer.
     public var resourceTypes: [ResourceExplorer2ClientTypes.SupportedResourceType]?
@@ -2241,14 +2228,11 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListTagsForResourceOutput(tags: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2388,11 +2372,7 @@ extension ListViewsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListViewsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-=======
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
->>>>>>> main
     public var nextToken: Swift.String?
     /// The list of views available in the Amazon Web Services Region in which you called this operation.
     public var views: [Swift.String]?
@@ -2450,8 +2430,6 @@ enum ListViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ResourceExplorer2ClientTypes.MemberIndex: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -2567,7 +2545,6 @@ extension ResourceExplorer2ClientTypes {
 
 }
 
->>>>>>> main
 extension ResourceExplorer2ClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

@@ -12,11 +12,7 @@ extension XRayClient {
     ///     - input: A `[BatchGetTracesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `BatchGetTracesOutput`
     public func batchGetTracesPaginated(input: BatchGetTracesInput) -> ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutput>(input: input, inputKey: \BatchGetTracesInput.nextToken, outputKey: \BatchGetTracesOutput.nextToken, paginationFunction: self.batchGetTraces(input:))
-=======
         return ClientRuntime.PaginatorSequence<BatchGetTracesInput, BatchGetTracesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.batchGetTraces(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension BatchGetTracesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == BatchGetTracesInput, Output == BatchGetTracesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == BatchGetTracesInput, OperationStackOutput == BatchGetTracesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `batchGetTracesPaginated`
     /// to access the nested member `[XRayClientTypes.Trace]`
     /// - Returns: `[XRayClientTypes.Trace]`
@@ -50,11 +42,7 @@ extension XRayClient {
     ///     - input: A `[GetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetGroupsOutput`
     public func getGroupsPaginated(input: GetGroupsInput) -> ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutput>(input: input, inputKey: \GetGroupsInput.nextToken, outputKey: \GetGroupsOutput.nextToken, paginationFunction: self.getGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetGroupsInput, GetGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getGroups(input:))
->>>>>>> main
     }
 }
 
@@ -65,11 +53,7 @@ extension GetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetGroupsInput, Output == GetGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetGroupsInput, OperationStackOutput == GetGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getGroupsPaginated`
     /// to access the nested member `[XRayClientTypes.GroupSummary]`
     /// - Returns: `[XRayClientTypes.GroupSummary]`
@@ -87,11 +71,7 @@ extension XRayClient {
     ///     - input: A `[GetInsightEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInsightEventsOutput`
     public func getInsightEventsPaginated(input: GetInsightEventsInput) -> ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutput>(input: input, inputKey: \GetInsightEventsInput.nextToken, outputKey: \GetInsightEventsOutput.nextToken, paginationFunction: self.getInsightEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetInsightEventsInput, GetInsightEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInsightEvents(input:))
->>>>>>> main
     }
 }
 
@@ -113,11 +93,7 @@ extension XRayClient {
     ///     - input: A `[GetInsightSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInsightSummariesOutput`
     public func getInsightSummariesPaginated(input: GetInsightSummariesInput) -> ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutput>(input: input, inputKey: \GetInsightSummariesInput.nextToken, outputKey: \GetInsightSummariesOutput.nextToken, paginationFunction: self.getInsightSummaries(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetInsightSummariesInput, GetInsightSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInsightSummaries(input:))
->>>>>>> main
     }
 }
 
@@ -143,11 +119,7 @@ extension XRayClient {
     ///     - input: A `[GetSamplingRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingRulesOutput`
     public func getSamplingRulesPaginated(input: GetSamplingRulesInput) -> ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutput>(input: input, inputKey: \GetSamplingRulesInput.nextToken, outputKey: \GetSamplingRulesOutput.nextToken, paginationFunction: self.getSamplingRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSamplingRulesInput, GetSamplingRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSamplingRules(input:))
->>>>>>> main
     }
 }
 
@@ -158,11 +130,7 @@ extension GetSamplingRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSamplingRulesInput, Output == GetSamplingRulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSamplingRulesInput, OperationStackOutput == GetSamplingRulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSamplingRulesPaginated`
     /// to access the nested member `[XRayClientTypes.SamplingRuleRecord]`
     /// - Returns: `[XRayClientTypes.SamplingRuleRecord]`
@@ -180,11 +148,7 @@ extension XRayClient {
     ///     - input: A `[GetSamplingStatisticSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetSamplingStatisticSummariesOutput`
     public func getSamplingStatisticSummariesPaginated(input: GetSamplingStatisticSummariesInput) -> ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutput>(input: input, inputKey: \GetSamplingStatisticSummariesInput.nextToken, outputKey: \GetSamplingStatisticSummariesOutput.nextToken, paginationFunction: self.getSamplingStatisticSummaries(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetSamplingStatisticSummariesInput, GetSamplingStatisticSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSamplingStatisticSummaries(input:))
->>>>>>> main
     }
 }
 
@@ -195,11 +159,7 @@ extension GetSamplingStatisticSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetSamplingStatisticSummariesInput, Output == GetSamplingStatisticSummariesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetSamplingStatisticSummariesInput, OperationStackOutput == GetSamplingStatisticSummariesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getSamplingStatisticSummariesPaginated`
     /// to access the nested member `[XRayClientTypes.SamplingStatisticSummary]`
     /// - Returns: `[XRayClientTypes.SamplingStatisticSummary]`
@@ -217,11 +177,7 @@ extension XRayClient {
     ///     - input: A `[GetServiceGraphInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetServiceGraphOutput`
     public func getServiceGraphPaginated(input: GetServiceGraphInput) -> ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutput>(input: input, inputKey: \GetServiceGraphInput.nextToken, outputKey: \GetServiceGraphOutput.nextToken, paginationFunction: self.getServiceGraph(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetServiceGraphInput, GetServiceGraphOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getServiceGraph(input:))
->>>>>>> main
     }
 }
 
@@ -236,11 +192,7 @@ extension GetServiceGraphInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetServiceGraphInput, Output == GetServiceGraphOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetServiceGraphInput, OperationStackOutput == GetServiceGraphOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getServiceGraphPaginated`
     /// to access the nested member `[XRayClientTypes.Service]`
     /// - Returns: `[XRayClientTypes.Service]`
@@ -258,11 +210,7 @@ extension XRayClient {
     ///     - input: A `[GetTimeSeriesServiceStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTimeSeriesServiceStatisticsOutput`
     public func getTimeSeriesServiceStatisticsPaginated(input: GetTimeSeriesServiceStatisticsInput) -> ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutput>(input: input, inputKey: \GetTimeSeriesServiceStatisticsInput.nextToken, outputKey: \GetTimeSeriesServiceStatisticsOutput.nextToken, paginationFunction: self.getTimeSeriesServiceStatistics(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTimeSeriesServiceStatisticsInput, GetTimeSeriesServiceStatisticsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTimeSeriesServiceStatistics(input:))
->>>>>>> main
     }
 }
 
@@ -280,11 +228,7 @@ extension GetTimeSeriesServiceStatisticsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTimeSeriesServiceStatisticsInput, Output == GetTimeSeriesServiceStatisticsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTimeSeriesServiceStatisticsInput, OperationStackOutput == GetTimeSeriesServiceStatisticsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTimeSeriesServiceStatisticsPaginated`
     /// to access the nested member `[XRayClientTypes.TimeSeriesServiceStatistics]`
     /// - Returns: `[XRayClientTypes.TimeSeriesServiceStatistics]`
@@ -302,11 +246,7 @@ extension XRayClient {
     ///     - input: A `[GetTraceGraphInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTraceGraphOutput`
     public func getTraceGraphPaginated(input: GetTraceGraphInput) -> ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutput>(input: input, inputKey: \GetTraceGraphInput.nextToken, outputKey: \GetTraceGraphOutput.nextToken, paginationFunction: self.getTraceGraph(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTraceGraphInput, GetTraceGraphOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTraceGraph(input:))
->>>>>>> main
     }
 }
 
@@ -318,11 +258,7 @@ extension GetTraceGraphInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTraceGraphInput, Output == GetTraceGraphOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTraceGraphInput, OperationStackOutput == GetTraceGraphOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTraceGraphPaginated`
     /// to access the nested member `[XRayClientTypes.Service]`
     /// - Returns: `[XRayClientTypes.Service]`
@@ -340,11 +276,7 @@ extension XRayClient {
     ///     - input: A `[GetTraceSummariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTraceSummariesOutput`
     public func getTraceSummariesPaginated(input: GetTraceSummariesInput) -> ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutput>(input: input, inputKey: \GetTraceSummariesInput.nextToken, outputKey: \GetTraceSummariesOutput.nextToken, paginationFunction: self.getTraceSummaries(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTraceSummariesInput, GetTraceSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTraceSummaries(input:))
->>>>>>> main
     }
 }
 
@@ -361,11 +293,7 @@ extension GetTraceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetTraceSummariesInput, Output == GetTraceSummariesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetTraceSummariesInput, OperationStackOutput == GetTraceSummariesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getTraceSummariesPaginated`
     /// to access the nested member `[XRayClientTypes.TraceSummary]`
     /// - Returns: `[XRayClientTypes.TraceSummary]`
@@ -383,11 +311,7 @@ extension XRayClient {
     ///     - input: A `[ListResourcePoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourcePoliciesOutput`
     public func listResourcePoliciesPaginated(input: ListResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput>(input: input, inputKey: \ListResourcePoliciesInput.nextToken, outputKey: \ListResourcePoliciesOutput.nextToken, paginationFunction: self.listResourcePolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListResourcePoliciesInput, ListResourcePoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourcePolicies(input:))
->>>>>>> main
     }
 }
 
@@ -398,11 +322,7 @@ extension ListResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListResourcePoliciesInput, Output == ListResourcePoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListResourcePoliciesInput, OperationStackOutput == ListResourcePoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourcePoliciesPaginated`
     /// to access the nested member `[XRayClientTypes.ResourcePolicy]`
     /// - Returns: `[XRayClientTypes.ResourcePolicy]`
@@ -420,11 +340,7 @@ extension XRayClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -436,11 +352,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[XRayClientTypes.Tag]`
     /// - Returns: `[XRayClientTypes.Tag]`

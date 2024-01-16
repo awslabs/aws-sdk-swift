@@ -12,11 +12,7 @@ extension MobileClient {
     ///     - input: A `[ListBundlesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBundlesOutput`
     public func listBundlesPaginated(input: ListBundlesInput) -> ClientRuntime.PaginatorSequence<ListBundlesInput, ListBundlesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListBundlesInput, ListBundlesOutput>(input: input, inputKey: \ListBundlesInput.nextToken, outputKey: \ListBundlesOutput.nextToken, paginationFunction: self.listBundles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListBundlesInput, ListBundlesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBundles(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension MobileClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
->>>>>>> main
     }
 }
 

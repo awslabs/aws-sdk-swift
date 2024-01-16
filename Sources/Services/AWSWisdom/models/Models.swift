@@ -529,11 +529,7 @@ extension WisdomClientTypes {
         /// The name.
         /// This member is required.
         public var name: Swift.String?
-<<<<<<< HEAD
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -744,11 +740,7 @@ extension WisdomClientTypes {
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
-<<<<<<< HEAD
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -1667,11 +1659,7 @@ public struct CreateAssistantInput: Swift.Equatable {
     /// The name of the assistant.
     /// This member is required.
     public var name: Swift.String?
-<<<<<<< HEAD
-    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant and  kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
     /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
@@ -2067,11 +2055,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     public var name: Swift.String?
     /// Information about how to render the content.
     public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-<<<<<<< HEAD
-    /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
     /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
     public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
     /// The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
     public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -2161,8 +2145,6 @@ extension CreateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
             self.knowledgeBase = output.knowledgeBase
         } else {
             self.knowledgeBase = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -2264,30 +2246,10 @@ extension CreateQuickResponseInput: Swift.Encodable {
             for (dictKey0, tags0) in tags {
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct CreateKnowledgeBaseOutput: Swift.Equatable {
-    /// The knowledge base.
-    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-
-    public init(
-        knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
-    )
-    {
-        self.knowledgeBase = knowledgeBase
-    }
-}
-
-struct CreateKnowledgeBaseOutputBody: Swift.Equatable {
-    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-}
-
-extension CreateKnowledgeBaseOutputBody: Swift.Decodable {
-=======
 extension CreateQuickResponseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -2375,7 +2337,6 @@ struct CreateQuickResponseInputBody: Swift.Equatable {
 }
 
 extension CreateQuickResponseInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channels
         case clientToken
@@ -2483,20 +2444,6 @@ enum CreateQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum CreateKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2839,8 +2786,6 @@ enum DeleteContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteImportJobInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -2904,7 +2849,6 @@ enum DeleteImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteKnowledgeBaseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -2960,8 +2904,6 @@ enum DeleteKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteQuickResponseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -3024,7 +2966,6 @@ enum DeleteQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension WisdomClientTypes.Document: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentReference
@@ -3643,13 +3584,6 @@ extension GetContentSummaryInputBody: Swift.Decodable {
 }
 
 extension GetContentSummaryOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetContentSummaryOutputBody = try responseDecoder.decode(responseBody: data)
-            self.contentSummary = output.contentSummary
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3747,22 +3681,15 @@ extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetImportJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.importJob = output.importJob
->>>>>>> main
         } else {
             self.importJob = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetContentSummaryOutput: Swift.Equatable {
-    /// The content summary.
-    public var contentSummary: WisdomClientTypes.ContentSummary?
-=======
 public struct GetImportJobOutput: Swift.Equatable {
     /// The import job.
     public var importJob: WisdomClientTypes.ImportJobData?
->>>>>>> main
 
     public init(
         importJob: WisdomClientTypes.ImportJobData? = nil
@@ -3772,19 +3699,11 @@ public struct GetImportJobOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetContentSummaryOutputBody: Swift.Equatable {
-    let contentSummary: WisdomClientTypes.ContentSummary?
-}
-
-extension GetContentSummaryOutputBody: Swift.Decodable {
-=======
 struct GetImportJobOutputBody: Swift.Equatable {
     let importJob: WisdomClientTypes.ImportJobData?
 }
 
 extension GetImportJobOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importJob
     }
@@ -3797,19 +3716,6 @@ extension GetImportJobOutputBody: Swift.Decodable {
 }
 
 enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetContentSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -3854,13 +3760,6 @@ extension GetKnowledgeBaseInputBody: Swift.Decodable {
 }
 
 extension GetKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetKnowledgeBaseOutputBody = try responseDecoder.decode(responseBody: data)
-            self.knowledgeBase = output.knowledgeBase
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3958,22 +3857,15 @@ extension GetQuickResponseOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetQuickResponseOutputBody = try responseDecoder.decode(responseBody: data)
             self.quickResponse = output.quickResponse
->>>>>>> main
         } else {
             self.quickResponse = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetKnowledgeBaseOutput: Swift.Equatable {
-    /// The knowledge base.
-    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-=======
 public struct GetQuickResponseOutput: Swift.Equatable {
     /// The quick response.
     public var quickResponse: WisdomClientTypes.QuickResponseData?
->>>>>>> main
 
     public init(
         quickResponse: WisdomClientTypes.QuickResponseData? = nil
@@ -3983,19 +3875,11 @@ public struct GetQuickResponseOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetKnowledgeBaseOutputBody: Swift.Equatable {
-    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-}
-
-extension GetKnowledgeBaseOutputBody: Swift.Decodable {
-=======
 struct GetQuickResponseOutputBody: Swift.Equatable {
     let quickResponse: WisdomClientTypes.QuickResponseData?
 }
 
 extension GetQuickResponseOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case quickResponse
     }
@@ -4008,19 +3892,6 @@ extension GetQuickResponseOutputBody: Swift.Decodable {
 }
 
 enum GetQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4247,8 +4118,6 @@ struct GetSessionOutputBody: Swift.Equatable {
 }
 
 extension GetSessionOutputBody: Swift.Decodable {
-<<<<<<< HEAD
-=======
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case session
     }
@@ -4274,7 +4143,6 @@ enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension WisdomClientTypes.GroupingConfiguration: Swift.Codable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case criteria
         case values
@@ -4311,19 +4179,6 @@ extension WisdomClientTypes.GroupingConfiguration: Swift.Codable {
     }
 }
 
-<<<<<<< HEAD
-enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-=======
 extension WisdomClientTypes.GroupingConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GroupingConfiguration(values: \(Swift.String(describing: values)), criteria: \"CONTENT_REDACTED\")"}
@@ -4351,7 +4206,6 @@ extension WisdomClientTypes {
         }
     }
 
->>>>>>> main
 }
 
 extension WisdomClientTypes.Highlight: Swift.Codable {
@@ -4956,11 +4810,7 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-<<<<<<< HEAD
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Source configuration information about the knowledge base.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -5148,11 +4998,7 @@ extension WisdomClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: WisdomClientTypes.RenderingConfiguration?
-<<<<<<< HEAD
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant and kms:DescribeKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
-=======
         /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt/kms:GenerateDataKey permissions to the IAM identity using the key to invoke Wisdom. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
->>>>>>> main
         public var serverSideEncryptionConfiguration: WisdomClientTypes.ServerSideEncryptionConfiguration?
         /// Configuration information about the external data source.
         public var sourceConfiguration: WisdomClientTypes.SourceConfiguration?
@@ -5603,8 +5449,6 @@ enum ListContentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListImportJobsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5733,7 +5577,6 @@ enum ListImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListKnowledgeBasesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5854,8 +5697,6 @@ enum ListKnowledgeBasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListQuickResponsesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5985,7 +5826,6 @@ enum ListQuickResponsesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -6279,8 +6119,6 @@ enum NotifyRecommendationsReceivedOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension WisdomClientTypes {
     public enum Order: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case asc
@@ -6313,7 +6151,6 @@ extension WisdomClientTypes {
     }
 }
 
->>>>>>> main
 extension PreconditionFailedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6555,10 +6392,7 @@ enum QueryAssistantOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "RequestTimeoutException": return try await RequestTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -9579,8 +9413,6 @@ enum StartContentUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension StartImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -9757,7 +9589,6 @@ enum StartImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
@@ -10240,8 +10071,6 @@ extension UpdateKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
             self.knowledgeBase = output.knowledgeBase
         } else {
             self.knowledgeBase = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -10343,30 +10172,10 @@ extension UpdateQuickResponseInput: Swift.Encodable {
         }
         if let shortcutKey = self.shortcutKey {
             try encodeContainer.encode(shortcutKey, forKey: .shortcutKey)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
-    /// The knowledge base to update.
-    public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-
-    public init(
-        knowledgeBase: WisdomClientTypes.KnowledgeBaseData? = nil
-    )
-    {
-        self.knowledgeBase = knowledgeBase
-    }
-}
-
-struct UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Equatable {
-    let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
-}
-
-extension UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Decodable {
-=======
 extension UpdateQuickResponseInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let knowledgeBaseId = knowledgeBaseId else {
@@ -10465,7 +10274,6 @@ struct UpdateQuickResponseInputBody: Swift.Equatable {
 }
 
 extension UpdateQuickResponseInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channels
         case content
@@ -10567,19 +10375,6 @@ enum UpdateQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum UpdateKnowledgeBaseTemplateUriOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

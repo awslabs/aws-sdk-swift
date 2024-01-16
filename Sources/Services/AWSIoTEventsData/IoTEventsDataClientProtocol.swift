@@ -20,11 +20,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchAcknowledgeAlarm(input: BatchAcknowledgeAlarmInput) async throws -> BatchAcknowledgeAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDeleteDetector` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the [ListDetectors](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html) API call.
     ///
     /// - Parameter BatchDeleteDetectorInput : [no documentation found]
@@ -39,11 +36,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchDeleteDetector(input: BatchDeleteDetectorInput) async throws -> BatchDeleteDetectorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDisableAlarm` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
     ///
     /// - Parameter BatchDisableAlarmInput : [no documentation found]
@@ -58,11 +52,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchDisableAlarm(input: BatchDisableAlarmInput) async throws -> BatchDisableAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchEnableAlarm` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
     ///
     /// - Parameter BatchEnableAlarmInput : [no documentation found]
@@ -77,11 +68,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchEnableAlarm(input: BatchEnableAlarmInput) async throws -> BatchEnableAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchPutMessage` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Sends a set of messages to the IoT Events system. Each message payload is transformed into the input you specify ("inputName") and ingested into any detectors that monitor that input. If multiple messages are sent, the order in which the messages are processed isn't guaranteed. To guarantee ordering, you must send messages one at a time and wait for a successful response.
     ///
     /// - Parameter BatchPutMessageInput : [no documentation found]
@@ -96,11 +84,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchPutMessage(input: BatchPutMessageInput) async throws -> BatchPutMessageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchResetAlarm` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
     ///
     /// - Parameter BatchResetAlarmInput : [no documentation found]
@@ -115,11 +100,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchResetAlarm(input: BatchResetAlarmInput) async throws -> BatchResetAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchSnoozeAlarm` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE_DISABLED state after you set them to the snooze mode.
     ///
     /// - Parameter BatchSnoozeAlarmInput : [no documentation found]
@@ -134,11 +116,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchSnoozeAlarm(input: BatchSnoozeAlarmInput) async throws -> BatchSnoozeAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchUpdateDetector` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Updates the state, variable values, and timer settings of one or more detectors (instances) of a specified detector model.
     ///
     /// - Parameter BatchUpdateDetectorInput : [no documentation found]
@@ -153,11 +132,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func batchUpdateDetector(input: BatchUpdateDetectorInput) async throws -> BatchUpdateDetectorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAlarm` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Retrieves information about an alarm.
     ///
     /// - Parameter DescribeAlarmInput : [no documentation found]
@@ -173,11 +149,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeAlarm(input: DescribeAlarmInput) async throws -> DescribeAlarmOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDetector` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Returns information about the specified detector (instance).
     ///
     /// - Parameter DescribeDetectorInput : [no documentation found]
@@ -193,11 +166,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func describeDetector(input: DescribeDetectorInput) async throws -> DescribeDetectorOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAlarms` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Lists one or more alarms. The operation returns only the metadata associated with each alarm.
     ///
     /// - Parameter ListAlarmsInput : [no documentation found]
@@ -213,11 +183,8 @@ public protocol IoTEventsDataClientProtocol {
     /// - `ServiceUnavailableException` : The service is currently unavailable.
     /// - `ThrottlingException` : The request could not be completed due to throttling.
     func listAlarms(input: ListAlarmsInput) async throws -> ListAlarmsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDetectors` operation on the `IotColumboDataService` service.
     ///
->>>>>>> main
     /// Lists detectors (the instances of a detector model).
     ///
     /// - Parameter ListDetectorsInput : [no documentation found]

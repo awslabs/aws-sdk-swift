@@ -42,11 +42,8 @@ public protocol MarketplaceMeteringClientProtocol {
     /// - `ThrottlingException` : The calls to the API are throttled.
     /// - `TimestampOutOfBoundsException` : The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
     func batchMeterUsage(input: BatchMeterUsageInput) async throws -> BatchMeterUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `MeterUsage` operation on the `AWSMPMeteringService` service.
     ///
->>>>>>> main
     /// API to emit metering records. For identical requests, the API is idempotent. It simply returns the metering record ID. MeterUsage is authenticated on the buyer's AWS account using credentials from the EC2 instance, ECS task, or EKS pod. MeterUsage can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define (or allow the customer to define). Usage records are expected to be submitted as quickly as possible after the event that is being recorded, and are not accepted more than 6 hours after the event.
     ///
     /// - Parameter MeterUsageInput : [no documentation found]
@@ -67,11 +64,8 @@ public protocol MarketplaceMeteringClientProtocol {
     /// - `ThrottlingException` : The calls to the API are throttled.
     /// - `TimestampOutOfBoundsException` : The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
     func meterUsage(input: MeterUsageInput) async throws -> MeterUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RegisterUsage` operation on the `AWSMPMeteringService` service.
     ///
->>>>>>> main
     /// Paid container software products sold through AWS Marketplace must integrate with the AWS Marketplace Metering Service and call the RegisterUsage operation for software entitlement and metering. Free and BYOL products for Amazon ECS or Amazon EKS aren't required to call RegisterUsage, but you may choose to do so if you would like to receive usage data in your seller reports. The sections below explain the behavior of RegisterUsage. RegisterUsage performs two primary functions: metering and entitlement.
     ///
     /// * Entitlement: RegisterUsage allows you to verify that the customer running your paid software is subscribed to your product on AWS Marketplace, enabling you to guard against unauthorized use. Your container image that integrates with RegisterUsage is only required to guard against unauthorized use at container startup, as such a CustomerNotSubscribedException or PlatformNotSupportedException will only be thrown on the initial call to RegisterUsage. Subsequent calls from the same Amazon ECS task instance (e.g. task-id) or Amazon EKS pod will not throw a CustomerNotSubscribedException, even if the customer unsubscribes while the Amazon ECS task or Amazon EKS pod is still running.
@@ -94,11 +88,8 @@ public protocol MarketplaceMeteringClientProtocol {
     /// - `PlatformNotSupportedException` : AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
     /// - `ThrottlingException` : The calls to the API are throttled.
     func registerUsage(input: RegisterUsageInput) async throws -> RegisterUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ResolveCustomer` operation on the `AWSMPMeteringService` service.
     ///
->>>>>>> main
     /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode. The API needs to called from the seller account id used to publish the SaaS application to successfully resolve the token. For an example of using ResolveCustomer, see [ ResolveCustomer code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-resolvecustomer-example) in the AWS Marketplace Seller Guide.
     ///
     /// - Parameter ResolveCustomerInput : Contains input to the ResolveCustomer operation.

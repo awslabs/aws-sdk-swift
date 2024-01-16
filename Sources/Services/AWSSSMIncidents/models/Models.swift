@@ -2512,11 +2512,7 @@ extension GetResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetResourcePoliciesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The pagination token to continue to the next page of results.
-=======
     /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
->>>>>>> main
     public var nextToken: Swift.String?
     /// Details about the resource policy attached to the response plan.
     /// This member is required.
@@ -4081,11 +4077,7 @@ extension ListRelatedItemsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListRelatedItemsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The pagination token to continue to the next page of results.
-=======
     /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
->>>>>>> main
     public var nextToken: Swift.String?
     /// Details about each related item.
     /// This member is required.
@@ -4218,11 +4210,7 @@ extension ListReplicationSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListReplicationSetsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The pagination token to continue to the next page of results.
-=======
     /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
->>>>>>> main
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the list replication set.
     /// This member is required.
@@ -4355,11 +4343,7 @@ extension ListResponsePlansOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListResponsePlansOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The pagination token to continue to the next page of results.
-=======
     /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
->>>>>>> main
     public var nextToken: Swift.String?
     /// Details of each response plan.
     /// This member is required.
@@ -4462,11 +4446,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of tags for the response plan.
-=======
     /// A list of tags for the response plan or incident.
->>>>>>> main
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 

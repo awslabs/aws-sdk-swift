@@ -38,8 +38,6 @@ public protocol SSOOIDCClientProtocol {
     /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
     func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTokenWithIAM` operation on the `AWSSSOOIDCService` service.
     ///
     /// Creates and returns access and refresh tokens for clients and applications that are authenticated using IAM entities. The access token can be used to fetch short-term credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
@@ -66,7 +64,6 @@ public protocol SSOOIDCClientProtocol {
     func createTokenWithIAM(input: CreateTokenWithIAMInput) async throws -> CreateTokenWithIAMOutput
     /// Performs the `RegisterClient` operation on the `AWSSSOOIDCService` service.
     ///
->>>>>>> main
     /// Registers a client with IAM Identity Center. This allows clients to initiate device authorization. The output should be persisted for reuse through many authentication requests.
     ///
     /// - Parameter RegisterClientInput : [no documentation found]
@@ -81,11 +78,8 @@ public protocol SSOOIDCClientProtocol {
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
     func registerClient(input: RegisterClientInput) async throws -> RegisterClientOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartDeviceAuthorization` operation on the `AWSSSOOIDCService` service.
     ///
->>>>>>> main
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
     ///
     /// - Parameter StartDeviceAuthorizationInput : [no documentation found]

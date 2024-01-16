@@ -2204,39 +2204,8 @@ enum CreateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct CreateHostedConfigurationVersionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateHostedConfigurationVersionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateHostedConfigurationVersionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateHostedConfigurationVersionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let content = input.operationInput.content {
-            let contentData = content
-            let contentBody = ClientRuntime.HttpBody.data(contentData)
-            input.builder.withBody(contentBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateHostedConfigurationVersionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateHostedConfigurationVersionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension CreateHostedConfigurationVersionInput: Swift.CustomDebugStringConvertible {

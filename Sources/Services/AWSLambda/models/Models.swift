@@ -3255,25 +3255,6 @@ enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension CreateFunctionUrlConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authType = "AuthType"
@@ -8196,20 +8177,6 @@ enum GetFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-enum GetFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension GetFunctionEventInvokeConfigInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10267,34 +10234,6 @@ extension LambdaClientTypes {
     }
 }
 
-<<<<<<< HEAD
-public struct InvokeAsyncInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeAsyncInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeAsyncInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeAsyncOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let invokeArgs = input.operationInput.invokeArgs {
-            let invokeArgsBody = ClientRuntime.HttpBody(byteStream: invokeArgs)
-            input.builder.withBody(invokeArgsBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeAsyncInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeAsyncOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InvokeAsyncInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case invokeArgs = "InvokeArgs"
@@ -10412,35 +10351,6 @@ enum InvokeAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct InvokeInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InvokeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
@@ -10620,11 +10530,7 @@ extension InvokeOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.payload = nil
         }
         self.statusCode = httpResponse.statusCode.rawValue
@@ -10814,35 +10720,6 @@ extension LambdaClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeWithResponseStreamInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeWithResponseStreamOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let payload = input.operationInput.payload {
-            let payloadData = payload
-            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
-            input.builder.withBody(payloadBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeWithResponseStreamOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InvokeWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeWithResponseStreamInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
@@ -13476,8 +13353,6 @@ enum ListVersionsByFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension LambdaClientTypes {
     public enum LogFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case json
@@ -13510,7 +13385,6 @@ extension LambdaClientTypes {
     }
 }
 
->>>>>>> main
 extension LambdaClientTypes {
     public enum LogType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`
@@ -14824,23 +14698,6 @@ extension PublishVersionOutputBody: Swift.Decodable {
         runtimeVersionConfig = runtimeVersionConfigDecoded
         let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
         loggingConfig = loggingConfigDecoded
-    }
-}
-
-enum PublishVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -19470,26 +19327,6 @@ enum UpdateFunctionCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum UpdateFunctionCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CodeStorageExceededException": return try await CodeStorageExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension UpdateFunctionConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deadLetterConfig = "DeadLetterConfig"
@@ -20197,25 +20034,6 @@ extension UpdateFunctionConfigurationOutputBody: Swift.Decodable {
         runtimeVersionConfig = runtimeVersionConfigDecoded
         let loggingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.LoggingConfig.self, forKey: .loggingConfig)
         loggingConfig = loggingConfigDecoded
-    }
-}
-
-enum UpdateFunctionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CodeSigningConfigNotFoundException": return try await CodeSigningConfigNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "CodeVerificationFailedException": return try await CodeVerificationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidCodeSignatureException": return try await InvalidCodeSignatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 

@@ -12,11 +12,7 @@ extension ServiceCatalogAppRegistryClient {
     ///     - input: A `[ListApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutput`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutput.nextToken, paginationFunction: self.listApplications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplications(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListApplicationsInput, OperationStackOutput == ListApplicationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
     /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
     /// - Returns: `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
@@ -50,11 +42,7 @@ extension ServiceCatalogAppRegistryClient {
     ///     - input: A `[ListAssociatedAttributeGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAttributeGroupsOutput`
     public func listAssociatedAttributeGroupsPaginated(input: ListAssociatedAttributeGroupsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutput>(input: input, inputKey: \ListAssociatedAttributeGroupsInput.nextToken, outputKey: \ListAssociatedAttributeGroupsOutput.nextToken, paginationFunction: self.listAssociatedAttributeGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedAttributeGroups(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListAssociatedAttributeGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssociatedAttributeGroupsInput, Output == ListAssociatedAttributeGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssociatedAttributeGroupsInput, OperationStackOutput == ListAssociatedAttributeGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAttributeGroupsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -89,11 +73,7 @@ extension ServiceCatalogAppRegistryClient {
     ///     - input: A `[ListAssociatedResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedResourcesOutput`
     public func listAssociatedResourcesPaginated(input: ListAssociatedResourcesInput) -> ClientRuntime.PaginatorSequence<ListAssociatedResourcesInput, ListAssociatedResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociatedResourcesInput, ListAssociatedResourcesOutput>(input: input, inputKey: \ListAssociatedResourcesInput.nextToken, outputKey: \ListAssociatedResourcesOutput.nextToken, paginationFunction: self.listAssociatedResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociatedResourcesInput, ListAssociatedResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedResources(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +86,7 @@ extension ListAssociatedResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssociatedResourcesInput, Output == ListAssociatedResourcesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssociatedResourcesInput, OperationStackOutput == ListAssociatedResourcesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociatedResourcesPaginated`
     /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
     /// - Returns: `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
@@ -128,11 +104,7 @@ extension ServiceCatalogAppRegistryClient {
     ///     - input: A `[ListAttributeGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsOutput`
     public func listAttributeGroupsPaginated(input: ListAttributeGroupsInput) -> ClientRuntime.PaginatorSequence<ListAttributeGroupsInput, ListAttributeGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttributeGroupsInput, ListAttributeGroupsOutput>(input: input, inputKey: \ListAttributeGroupsInput.nextToken, outputKey: \ListAttributeGroupsOutput.nextToken, paginationFunction: self.listAttributeGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttributeGroupsInput, ListAttributeGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttributeGroups(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +116,7 @@ extension ListAttributeGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttributeGroupsInput, Output == ListAttributeGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttributeGroupsInput, OperationStackOutput == ListAttributeGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsPaginated`
     /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
     /// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
@@ -166,11 +134,7 @@ extension ServiceCatalogAppRegistryClient {
     ///     - input: A `[ListAttributeGroupsForApplicationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsForApplicationOutput`
     public func listAttributeGroupsForApplicationPaginated(input: ListAttributeGroupsForApplicationInput) -> ClientRuntime.PaginatorSequence<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutput>(input: input, inputKey: \ListAttributeGroupsForApplicationInput.nextToken, outputKey: \ListAttributeGroupsForApplicationOutput.nextToken, paginationFunction: self.listAttributeGroupsForApplication(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttributeGroupsForApplication(input:))
->>>>>>> main
     }
 }
 
@@ -183,11 +147,7 @@ extension ListAttributeGroupsForApplicationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAttributeGroupsForApplicationInput, Output == ListAttributeGroupsForApplicationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAttributeGroupsForApplicationInput, OperationStackOutput == ListAttributeGroupsForApplicationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsForApplicationPaginated`
     /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`
     /// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`

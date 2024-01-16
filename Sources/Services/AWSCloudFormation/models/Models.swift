@@ -5179,16 +5179,6 @@ enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
 extension DescribeOrganizationsAccessInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)

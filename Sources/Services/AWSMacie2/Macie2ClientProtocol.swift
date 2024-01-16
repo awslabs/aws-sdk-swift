@@ -23,11 +23,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchGetCustomDataIdentifiers` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about one or more custom data identifiers.
     ///
     /// - Parameter BatchGetCustomDataIdentifiersInput : [no documentation found]
@@ -45,11 +42,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func batchGetCustomDataIdentifiers(input: BatchGetCustomDataIdentifiersInput) async throws -> BatchGetCustomDataIdentifiersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAllowList` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates and defines the settings for an allow list.
     ///
     /// - Parameter CreateAllowListInput : [no documentation found]
@@ -67,11 +61,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createAllowList(input: CreateAllowListInput) async throws -> CreateAllowListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateClassificationJob` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates and defines the settings for a classification job.
     ///
     /// - Parameter CreateClassificationJobInput : [no documentation found]
@@ -89,11 +80,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createClassificationJob(input: CreateClassificationJobInput) async throws -> CreateClassificationJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCustomDataIdentifier` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates and defines the criteria and other settings for a custom data identifier.
     ///
     /// - Parameter CreateCustomDataIdentifierInput : [no documentation found]
@@ -111,11 +99,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createCustomDataIdentifier(input: CreateCustomDataIdentifierInput) async throws -> CreateCustomDataIdentifierOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateFindingsFilter` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates and defines the criteria and other settings for a findings filter.
     ///
     /// - Parameter CreateFindingsFilterInput : [no documentation found]
@@ -133,11 +118,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createFindingsFilter(input: CreateFindingsFilterInput) async throws -> CreateFindingsFilterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateInvitations` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Sends an Amazon Macie membership invitation to one or more accounts.
     ///
     /// - Parameter CreateInvitationsInput : [no documentation found]
@@ -155,11 +137,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createInvitations(input: CreateInvitationsInput) async throws -> CreateInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMember` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Associates an account with an Amazon Macie administrator account.
     ///
     /// - Parameter CreateMemberInput : [no documentation found]
@@ -177,11 +156,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createMember(input: CreateMemberInput) async throws -> CreateMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSampleFindings` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates sample findings.
     ///
     /// - Parameter CreateSampleFindingsInput : [no documentation found]
@@ -199,11 +175,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeclineInvitations` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
     ///
     /// - Parameter DeclineInvitationsInput : [no documentation found]
@@ -221,11 +194,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAllowList` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Deletes an allow list.
     ///
     /// - Parameter DeleteAllowListInput : [no documentation found]
@@ -241,11 +211,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteAllowList(input: DeleteAllowListInput) async throws -> DeleteAllowListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCustomDataIdentifier` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Soft deletes a custom data identifier.
     ///
     /// - Parameter DeleteCustomDataIdentifierInput : [no documentation found]
@@ -263,11 +230,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteCustomDataIdentifier(input: DeleteCustomDataIdentifierInput) async throws -> DeleteCustomDataIdentifierOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFindingsFilter` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Deletes a findings filter.
     ///
     /// - Parameter DeleteFindingsFilterInput : [no documentation found]
@@ -285,11 +249,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteFindingsFilter(input: DeleteFindingsFilterInput) async throws -> DeleteFindingsFilterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteInvitations` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Deletes Amazon Macie membership invitations that were received from specific accounts.
     ///
     /// - Parameter DeleteInvitationsInput : [no documentation found]
@@ -307,11 +268,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMember` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Deletes the association between an Amazon Macie administrator account and an account.
     ///
     /// - Parameter DeleteMemberInput : [no documentation found]
@@ -329,11 +287,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBuckets` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
     /// - Parameter DescribeBucketsInput : [no documentation found]
@@ -351,11 +306,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeBuckets(input: DescribeBucketsInput) async throws -> DescribeBucketsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeClassificationJob` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the status and settings for a classification job.
     ///
     /// - Parameter DescribeClassificationJobInput : [no documentation found]
@@ -373,11 +325,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeClassificationJob(input: DescribeClassificationJobInput) async throws -> DescribeClassificationJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeOrganizationConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     ///
     /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
@@ -395,11 +344,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableMacie` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     ///
     /// - Parameter DisableMacieInput : [no documentation found]
@@ -417,11 +363,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disableMacie(input: DisableMacieInput) async throws -> DisableMacieOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisableOrganizationAdminAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
     /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
@@ -439,11 +382,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateFromAdministratorAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Disassociates a member account from its Amazon Macie administrator account.
     ///
     /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
@@ -461,11 +401,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateFromMasterAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     ///
     /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
@@ -483,11 +420,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateMember` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Disassociates an Amazon Macie administrator account from a member account.
     ///
     /// - Parameter DisassociateMemberInput : [no documentation found]
@@ -505,11 +439,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableMacie` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Enables Amazon Macie and specifies the configuration settings for a Macie account.
     ///
     /// - Parameter EnableMacieInput : [no documentation found]
@@ -527,11 +458,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func enableMacie(input: EnableMacieInput) async throws -> EnableMacieOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EnableOrganizationAdminAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
     /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
@@ -549,11 +477,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAdministratorAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about the Amazon Macie administrator account for an account.
     ///
     /// - Parameter GetAdministratorAccountInput : [no documentation found]
@@ -571,11 +496,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAllowList` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the settings and status of an allow list.
     ///
     /// - Parameter GetAllowListInput : [no documentation found]
@@ -591,11 +513,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAllowList(input: GetAllowListInput) async throws -> GetAllowListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAutomatedDiscoveryConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
     ///
     /// - Parameter GetAutomatedDiscoveryConfigurationInput : [no documentation found]
@@ -610,11 +529,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAutomatedDiscoveryConfiguration(input: GetAutomatedDiscoveryConfigurationInput) async throws -> GetAutomatedDiscoveryConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBucketStatistics` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
     /// - Parameter GetBucketStatisticsInput : [no documentation found]
@@ -632,11 +548,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getBucketStatistics(input: GetBucketStatisticsInput) async throws -> GetBucketStatisticsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetClassificationExportConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the configuration settings for storing data classification results.
     ///
     /// - Parameter GetClassificationExportConfigurationInput : [no documentation found]
@@ -654,11 +567,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getClassificationExportConfiguration(input: GetClassificationExportConfigurationInput) async throws -> GetClassificationExportConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetClassificationScope` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the classification scope settings for an account.
     ///
     /// - Parameter GetClassificationScopeInput : [no documentation found]
@@ -674,11 +584,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getClassificationScope(input: GetClassificationScopeInput) async throws -> GetClassificationScopeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCustomDataIdentifier` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the criteria and other settings for a custom data identifier.
     ///
     /// - Parameter GetCustomDataIdentifierInput : [no documentation found]
@@ -696,11 +603,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getCustomDataIdentifier(input: GetCustomDataIdentifierInput) async throws -> GetCustomDataIdentifierOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFindings` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the details of one or more findings.
     ///
     /// - Parameter GetFindingsInput : [no documentation found]
@@ -718,11 +622,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFindingsFilter` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the criteria and other settings for a findings filter.
     ///
     /// - Parameter GetFindingsFilterInput : [no documentation found]
@@ -740,11 +641,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingsFilter(input: GetFindingsFilterInput) async throws -> GetFindingsFilterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFindingsPublicationConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the configuration settings for publishing findings to Security Hub.
     ///
     /// - Parameter GetFindingsPublicationConfigurationInput : [no documentation found]
@@ -762,11 +660,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingsPublicationConfiguration(input: GetFindingsPublicationConfigurationInput) async throws -> GetFindingsPublicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFindingStatistics` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) aggregated statistical data about findings.
     ///
     /// - Parameter GetFindingStatisticsInput : [no documentation found]
@@ -784,11 +679,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingStatistics(input: GetFindingStatisticsInput) async throws -> GetFindingStatisticsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetInvitationsCount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     ///
     /// - Parameter GetInvitationsCountInput : [no documentation found]
@@ -806,11 +698,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMacieSession` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the status and configuration settings for an Amazon Macie account.
     ///
     /// - Parameter GetMacieSessionInput : [no documentation found]
@@ -828,11 +717,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMacieSession(input: GetMacieSessionInput) async throws -> GetMacieSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMasterAccount` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     ///
     /// - Parameter GetMasterAccountInput : [no documentation found]
@@ -850,11 +736,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMember` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     ///
     /// - Parameter GetMemberInput : [no documentation found]
@@ -872,11 +755,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMember(input: GetMemberInput) async throws -> GetMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResourceProfile` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
     ///
     /// - Parameter GetResourceProfileInput : [no documentation found]
@@ -893,11 +773,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getResourceProfile(input: GetResourceProfileInput) async throws -> GetResourceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRevealConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
     /// - Parameter GetRevealConfigurationInput : [no documentation found]
@@ -912,11 +789,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getRevealConfiguration(input: GetRevealConfigurationInput) async throws -> GetRevealConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSensitiveDataOccurrences` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves occurrences of sensitive data reported by a finding.
     ///
     /// - Parameter GetSensitiveDataOccurrencesInput : [no documentation found]
@@ -933,11 +807,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `UnprocessableEntityException` : Provides information about an error that occurred due to an unprocessable entity.
     func getSensitiveDataOccurrences(input: GetSensitiveDataOccurrencesInput) async throws -> GetSensitiveDataOccurrencesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSensitiveDataOccurrencesAvailability` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     ///
     /// - Parameter GetSensitiveDataOccurrencesAvailabilityInput : [no documentation found]
@@ -952,11 +823,8 @@ public protocol Macie2ClientProtocol {
     /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     func getSensitiveDataOccurrencesAvailability(input: GetSensitiveDataOccurrencesAvailabilityInput) async throws -> GetSensitiveDataOccurrencesAvailabilityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSensitivityInspectionTemplate` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the settings for the sensitivity inspection template for an account.
     ///
     /// - Parameter GetSensitivityInspectionTemplateInput : [no documentation found]
@@ -972,11 +840,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getSensitivityInspectionTemplate(input: GetSensitivityInspectionTemplateInput) async throws -> GetSensitivityInspectionTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsageStatistics` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     ///
     /// - Parameter GetUsageStatisticsInput : [no documentation found]
@@ -994,11 +859,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUsageTotals` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) aggregated usage data for an account.
     ///
     /// - Parameter GetUsageTotalsInput : [no documentation found]
@@ -1016,11 +878,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getUsageTotals(input: GetUsageTotalsInput) async throws -> GetUsageTotalsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAllowLists` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about all the allow lists for an account.
     ///
     /// - Parameter ListAllowListsInput : [no documentation found]
@@ -1035,11 +894,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listAllowLists(input: ListAllowListsInput) async throws -> ListAllowListsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListClassificationJobs` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about one or more classification jobs.
     ///
     /// - Parameter ListClassificationJobsInput : [no documentation found]
@@ -1057,11 +913,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listClassificationJobs(input: ListClassificationJobsInput) async throws -> ListClassificationJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListClassificationScopes` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about the classification scope for an account.
     ///
     /// - Parameter ListClassificationScopesInput : [no documentation found]
@@ -1076,11 +929,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listClassificationScopes(input: ListClassificationScopesInput) async throws -> ListClassificationScopesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCustomDataIdentifiers` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about all the custom data identifiers for an account.
     ///
     /// - Parameter ListCustomDataIdentifiersInput : [no documentation found]
@@ -1098,11 +948,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listCustomDataIdentifiers(input: ListCustomDataIdentifiersInput) async throws -> ListCustomDataIdentifiersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFindings` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about one or more findings.
     ///
     /// - Parameter ListFindingsInput : [no documentation found]
@@ -1120,11 +967,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFindingsFilters` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about all the findings filters for an account.
     ///
     /// - Parameter ListFindingsFiltersInput : [no documentation found]
@@ -1142,11 +986,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listFindingsFilters(input: ListFindingsFiltersInput) async throws -> ListFindingsFiltersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListInvitations` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
     ///
     /// - Parameter ListInvitationsInput : [no documentation found]
@@ -1164,22 +1005,16 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListManagedDataIdentifiers` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
     ///
     /// - Parameter ListManagedDataIdentifiersInput : [no documentation found]
     ///
     /// - Returns: `ListManagedDataIdentifiersOutput` : [no documentation found]
     func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMembers` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
@@ -1197,11 +1032,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListOrganizationAdminAccounts` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
     /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
@@ -1219,11 +1051,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceProfileArtifacts` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
     ///
     /// - Parameter ListResourceProfileArtifactsInput : [no documentation found]
@@ -1239,11 +1068,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listResourceProfileArtifacts(input: ListResourceProfileArtifactsInput) async throws -> ListResourceProfileArtifactsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourceProfileDetections` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
     ///
     /// - Parameter ListResourceProfileDetectionsInput : [no documentation found]
@@ -1260,11 +1086,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listResourceProfileDetections(input: ListResourceProfileDetectionsInput) async throws -> ListResourceProfileDetectionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSensitivityInspectionTemplates` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves a subset of information about the sensitivity inspection template for an account.
     ///
     /// - Parameter ListSensitivityInspectionTemplatesInput : [no documentation found]
@@ -1280,22 +1103,16 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listSensitivityInspectionTemplates(input: ListSensitivityInspectionTemplatesInput) async throws -> ListSensitivityInspectionTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutClassificationExportConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Creates or updates the configuration settings for storing data classification results.
     ///
     /// - Parameter PutClassificationExportConfigurationInput : [no documentation found]
@@ -1313,11 +1130,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func putClassificationExportConfiguration(input: PutClassificationExportConfigurationInput) async throws -> PutClassificationExportConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutFindingsPublicationConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the configuration settings for publishing findings to Security Hub.
     ///
     /// - Parameter PutFindingsPublicationConfigurationInput : [no documentation found]
@@ -1335,11 +1149,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func putFindingsPublicationConfiguration(input: PutFindingsPublicationConfigurationInput) async throws -> PutFindingsPublicationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SearchResources` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
     ///
     /// - Parameter SearchResourcesInput : [no documentation found]
@@ -1357,22 +1168,16 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TestCustomDataIdentifier` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Tests a custom data identifier.
     ///
     /// - Parameter TestCustomDataIdentifierInput : [no documentation found]
@@ -1390,22 +1195,16 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func testCustomDataIdentifier(input: TestCustomDataIdentifierInput) async throws -> TestCustomDataIdentifierOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Removes one or more tags (keys and values) from an Amazon Macie resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAllowList` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the settings for an allow list.
     ///
     /// - Parameter UpdateAllowListInput : [no documentation found]
@@ -1421,11 +1220,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateAllowList(input: UpdateAllowListInput) async throws -> UpdateAllowListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAutomatedDiscoveryConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Enables or disables automated sensitive data discovery for an account.
     ///
     /// - Parameter UpdateAutomatedDiscoveryConfigurationInput : [no documentation found]
@@ -1440,11 +1236,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateAutomatedDiscoveryConfiguration(input: UpdateAutomatedDiscoveryConfigurationInput) async throws -> UpdateAutomatedDiscoveryConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateClassificationJob` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Changes the status of a classification job.
     ///
     /// - Parameter UpdateClassificationJobInput : [no documentation found]
@@ -1462,11 +1255,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateClassificationJob(input: UpdateClassificationJobInput) async throws -> UpdateClassificationJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateClassificationScope` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the classification scope settings for an account.
     ///
     /// - Parameter UpdateClassificationScopeInput : [no documentation found]
@@ -1482,11 +1272,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateClassificationScope(input: UpdateClassificationScopeInput) async throws -> UpdateClassificationScopeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFindingsFilter` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the criteria and other settings for a findings filter.
     ///
     /// - Parameter UpdateFindingsFilterInput : [no documentation found]
@@ -1504,11 +1291,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateFindingsFilter(input: UpdateFindingsFilterInput) async throws -> UpdateFindingsFilterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMacieSession` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
     ///
     /// - Parameter UpdateMacieSessionInput : [no documentation found]
@@ -1526,11 +1310,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateMacieSession(input: UpdateMacieSessionInput) async throws -> UpdateMacieSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMemberSession` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
     ///
     /// - Parameter UpdateMemberSessionInput : [no documentation found]
@@ -1548,11 +1329,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateMemberSession(input: UpdateMemberSessionInput) async throws -> UpdateMemberSessionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateOrganizationConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     ///
     /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
@@ -1570,11 +1348,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResourceProfile` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the sensitivity score for an S3 bucket.
     ///
     /// - Parameter UpdateResourceProfileInput : [no documentation found]
@@ -1591,11 +1366,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateResourceProfile(input: UpdateResourceProfileInput) async throws -> UpdateResourceProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResourceProfileDetections` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the sensitivity scoring settings for an S3 bucket.
     ///
     /// - Parameter UpdateResourceProfileDetectionsInput : [no documentation found]
@@ -1612,11 +1384,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateResourceProfileDetections(input: UpdateResourceProfileDetectionsInput) async throws -> UpdateResourceProfileDetectionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRevealConfiguration` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
     /// - Parameter UpdateRevealConfigurationInput : [no documentation found]
@@ -1631,11 +1400,8 @@ public protocol Macie2ClientProtocol {
     /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateRevealConfiguration(input: UpdateRevealConfigurationInput) async throws -> UpdateRevealConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSensitivityInspectionTemplate` operation on the `Macie2` service.
     ///
->>>>>>> main
     /// Updates the settings for the sensitivity inspection template for an account.
     ///
     /// - Parameter UpdateSensitivityInspectionTemplateInput : [no documentation found]

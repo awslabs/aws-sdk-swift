@@ -12,11 +12,7 @@ extension OpsWorksCMClient {
     ///     - input: A `[DescribeBackupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutput`
     public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutput.nextToken, paginationFunction: self.describeBackups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBackups(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeBackupsInput, Output == DescribeBackupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeBackupsInput, OperationStackOutput == DescribeBackupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeBackupsPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Backup]`
     /// - Returns: `[OpsWorksCMClientTypes.Backup]`
@@ -52,11 +44,7 @@ extension OpsWorksCMClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEvents(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.ServerEvent]`
     /// - Returns: `[OpsWorksCMClientTypes.ServerEvent]`
@@ -91,11 +75,7 @@ extension OpsWorksCMClient {
     ///     - input: A `[DescribeServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeServersOutput`
     public func describeServersPaginated(input: DescribeServersInput) -> ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutput>(input: input, inputKey: \DescribeServersInput.nextToken, outputKey: \DescribeServersOutput.nextToken, paginationFunction: self.describeServers(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeServersInput, DescribeServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeServers(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension DescribeServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeServersInput, Output == DescribeServersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeServersInput, OperationStackOutput == DescribeServersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeServersPaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Server]`
     /// - Returns: `[OpsWorksCMClientTypes.Server]`
@@ -130,11 +106,7 @@ extension OpsWorksCMClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -147,11 +119,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[OpsWorksCMClientTypes.Tag]`
     /// - Returns: `[OpsWorksCMClientTypes.Tag]`

@@ -12,11 +12,7 @@ extension IvschatClient {
     ///     - input: A `[ListLoggingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLoggingConfigurationsOutput`
     public func listLoggingConfigurationsPaginated(input: ListLoggingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(input: input, inputKey: \ListLoggingConfigurationsInput.nextToken, outputKey: \ListLoggingConfigurationsOutput.nextToken, paginationFunction: self.listLoggingConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLoggingConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -37,11 +33,7 @@ extension IvschatClient {
     ///     - input: A `[ListRoomsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRoomsOutput`
     public func listRoomsPaginated(input: ListRoomsInput) -> ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput>(input: input, inputKey: \ListRoomsInput.nextToken, outputKey: \ListRoomsOutput.nextToken, paginationFunction: self.listRooms(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRoomsInput, ListRoomsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRooms(input:))
->>>>>>> main
     }
 }
 

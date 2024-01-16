@@ -22,11 +22,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Starts a data set import task for a specific application.
     ///
     /// - Parameter CreateDataSetImportTaskInput : [no documentation found]
@@ -65,11 +59,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDeployment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates and starts a deployment to deploy an application into a runtime environment.
     ///
     /// - Parameter CreateDeploymentInput : [no documentation found]
@@ -87,11 +78,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a runtime environment for a given runtime engine.
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
@@ -108,11 +96,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a specific application. You cannot delete a running application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -128,11 +113,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplicationFromEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     ///
     /// - Parameter DeleteApplicationFromEnvironmentInput : [no documentation found]
@@ -149,11 +131,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
@@ -169,11 +148,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Describes the details of a specific application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
@@ -189,11 +165,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplicationVersion` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Returns details about a specific version of a specific application.
     ///
     /// - Parameter GetApplicationVersionInput : [no documentation found]
@@ -209,11 +182,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBatchJobExecution` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the details of a specific batch job execution for a specific application.
     ///
     /// - Parameter GetBatchJobExecutionInput : [no documentation found]
@@ -229,11 +199,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDataSetDetails` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the details of a specific data set.
     ///
     /// - Parameter GetDataSetDetailsInput : [no documentation found]
@@ -252,11 +219,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDataSetImportTask` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
     ///
     /// - Parameter GetDataSetImportTaskInput : [no documentation found]
@@ -272,11 +236,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeployment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets details of a specific deployment with a given deployment identifier.
     ///
     /// - Parameter GetDeploymentInput : [no documentation found]
@@ -292,11 +253,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Describes a specific runtime environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
@@ -312,11 +270,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSignedBluinsightsUrl` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
     ///
     /// - Parameter GetSignedBluinsightsUrlInput : [no documentation found]
@@ -330,11 +285,8 @@ public protocol M2ClientProtocol {
     /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplications` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -349,11 +301,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationVersions` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Returns a list of the application versions for a specific application.
     ///
     /// - Parameter ListApplicationVersionsInput : [no documentation found]
@@ -369,11 +318,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBatchJobDefinitions` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     ///
     /// - Parameter ListBatchJobDefinitionsInput : [no documentation found]
@@ -389,11 +335,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBatchJobExecutions` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     ///
     /// - Parameter ListBatchJobExecutionsInput : [no documentation found]
@@ -409,11 +352,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDataSetImportHistory` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the data set imports for the specified application.
     ///
     /// - Parameter ListDataSetImportHistoryInput : [no documentation found]
@@ -429,11 +369,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDataSets` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
     ///
     /// - Parameter ListDataSetsInput : [no documentation found]
@@ -452,11 +389,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDeployments` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     ///
     /// - Parameter ListDeploymentsInput : [no documentation found]
@@ -472,11 +406,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListEngineVersions` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the available engine versions.
     ///
     /// - Parameter ListEngineVersionsInput : [no documentation found]
@@ -491,11 +422,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListEnvironments` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the runtime environments.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
@@ -510,11 +438,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -530,11 +455,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Starts an application that is currently stopped.
     ///
     /// - Parameter StartApplicationInput : [no documentation found]
@@ -551,11 +473,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartBatchJob` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
     ///
     /// - Parameter StartBatchJobInput : [no documentation found]
@@ -572,11 +491,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Stops a running application.
     ///
     /// - Parameter StopApplicationInput : [no documentation found]
@@ -593,11 +509,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Adds one or more tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -614,11 +527,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -634,11 +544,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates an application and creates a new version.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
@@ -655,11 +562,8 @@ public protocol M2ClientProtocol {
     /// - `ThrottlingException` : The number of requests made exceeds the limit.
     /// - `ValidationException` : One or more parameters provided in the request is not valid.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEnvironment` operation on the `AwsSupernovaControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the configuration details for a specific runtime environment.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]

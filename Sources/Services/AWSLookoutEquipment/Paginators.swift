@@ -12,11 +12,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListDataIngestionJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataIngestionJobsOutput`
     public func listDataIngestionJobsPaginated(input: ListDataIngestionJobsInput) -> ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(input: input, inputKey: \ListDataIngestionJobsInput.nextToken, outputKey: \ListDataIngestionJobsOutput.nextToken, paginationFunction: self.listDataIngestionJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataIngestionJobs(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListDatasetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasets(input:))
->>>>>>> main
     }
 }
 
@@ -65,11 +57,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListInferenceEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceEventsOutput`
     public func listInferenceEventsPaginated(input: ListInferenceEventsInput) -> ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutput>(input: input, inputKey: \ListInferenceEventsInput.nextToken, outputKey: \ListInferenceEventsOutput.nextToken, paginationFunction: self.listInferenceEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceEventsInput, ListInferenceEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceEvents(input:))
->>>>>>> main
     }
 }
 
@@ -93,11 +81,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListInferenceExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceExecutionsOutput`
     public func listInferenceExecutionsPaginated(input: ListInferenceExecutionsInput) -> ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(input: input, inputKey: \ListInferenceExecutionsInput.nextToken, outputKey: \ListInferenceExecutionsOutput.nextToken, paginationFunction: self.listInferenceExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -122,11 +106,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListInferenceSchedulersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceSchedulersOutput`
     public func listInferenceSchedulersPaginated(input: ListInferenceSchedulersInput) -> ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(input: input, inputKey: \ListInferenceSchedulersInput.nextToken, outputKey: \ListInferenceSchedulersOutput.nextToken, paginationFunction: self.listInferenceSchedulers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceSchedulers(input:))
->>>>>>> main
     }
 }
 
@@ -150,11 +130,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListLabelGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLabelGroupsOutput`
     public func listLabelGroupsPaginated(input: ListLabelGroupsInput) -> ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutput>(input: input, inputKey: \ListLabelGroupsInput.nextToken, outputKey: \ListLabelGroupsOutput.nextToken, paginationFunction: self.listLabelGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLabelGroupsInput, ListLabelGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLabelGroups(input:))
->>>>>>> main
     }
 }
 
@@ -176,11 +152,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListLabelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLabelsOutput`
     public func listLabelsPaginated(input: ListLabelsInput) -> ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutput>(input: input, inputKey: \ListLabelsInput.nextToken, outputKey: \ListLabelsOutput.nextToken, paginationFunction: self.listLabels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLabelsInput, ListLabelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLabels(input:))
->>>>>>> main
     }
 }
 
@@ -206,11 +178,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelsOutput`
     public func listModelsPaginated(input: ListModelsInput) -> ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \ListModelsInput.nextToken, outputKey: \ListModelsOutput.nextToken, paginationFunction: self.listModels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModels(input:))
->>>>>>> main
     }
 }
 
@@ -234,11 +202,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListModelVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelVersionsOutput`
     public func listModelVersionsPaginated(input: ListModelVersionsInput) -> ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutput>(input: input, inputKey: \ListModelVersionsInput.nextToken, outputKey: \ListModelVersionsOutput.nextToken, paginationFunction: self.listModelVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelVersionsInput, ListModelVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelVersions(input:))
->>>>>>> main
     }
 }
 
@@ -266,11 +230,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListRetrainingSchedulersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRetrainingSchedulersOutput`
     public func listRetrainingSchedulersPaginated(input: ListRetrainingSchedulersInput) -> ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(input: input, inputKey: \ListRetrainingSchedulersInput.nextToken, outputKey: \ListRetrainingSchedulersOutput.nextToken, paginationFunction: self.listRetrainingSchedulers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRetrainingSchedulers(input:))
->>>>>>> main
     }
 }
 
@@ -293,11 +253,7 @@ extension LookoutEquipmentClient {
     ///     - input: A `[ListSensorStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSensorStatisticsOutput`
     public func listSensorStatisticsPaginated(input: ListSensorStatisticsInput) -> ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutput>(input: input, inputKey: \ListSensorStatisticsInput.nextToken, outputKey: \ListSensorStatisticsOutput.nextToken, paginationFunction: self.listSensorStatistics(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSensorStatisticsInput, ListSensorStatisticsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSensorStatistics(input:))
->>>>>>> main
     }
 }
 

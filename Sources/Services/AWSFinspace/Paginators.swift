@@ -12,11 +12,7 @@ extension FinspaceClient {
     ///     - input: A `[ListKxChangesetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKxChangesetsOutput`
     public func listKxChangesetsPaginated(input: ListKxChangesetsInput) -> ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutput>(input: input, inputKey: \ListKxChangesetsInput.nextToken, outputKey: \ListKxChangesetsOutput.nextToken, paginationFunction: self.listKxChangesets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKxChangesetsInput, ListKxChangesetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxChangesets(input:))
->>>>>>> main
     }
 }
 
@@ -39,11 +35,7 @@ extension FinspaceClient {
     ///     - input: A `[ListKxClusterNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKxClusterNodesOutput`
     public func listKxClusterNodesPaginated(input: ListKxClusterNodesInput) -> ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutput>(input: input, inputKey: \ListKxClusterNodesInput.nextToken, outputKey: \ListKxClusterNodesOutput.nextToken, paginationFunction: self.listKxClusterNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKxClusterNodesInput, ListKxClusterNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxClusterNodes(input:))
->>>>>>> main
     }
 }
 
@@ -66,11 +58,7 @@ extension FinspaceClient {
     ///     - input: A `[ListKxDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKxDatabasesOutput`
     public func listKxDatabasesPaginated(input: ListKxDatabasesInput) -> ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutput>(input: input, inputKey: \ListKxDatabasesInput.nextToken, outputKey: \ListKxDatabasesOutput.nextToken, paginationFunction: self.listKxDatabases(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKxDatabasesInput, ListKxDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxDatabases(input:))
->>>>>>> main
     }
 }
 
@@ -83,8 +71,6 @@ extension ListKxDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListKxDataviewsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -108,7 +94,6 @@ extension ListKxDataviewsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FinspaceClient {
->>>>>>> main
     /// Paginate over `[ListKxEnvironmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -118,11 +103,7 @@ extension FinspaceClient {
     ///     - input: A `[ListKxEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKxEnvironmentsOutput`
     public func listKxEnvironmentsPaginated(input: ListKxEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutput>(input: input, inputKey: \ListKxEnvironmentsInput.nextToken, outputKey: \ListKxEnvironmentsOutput.nextToken, paginationFunction: self.listKxEnvironments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKxEnvironmentsInput, ListKxEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKxEnvironments(input:))
->>>>>>> main
     }
 }
 
@@ -134,11 +115,7 @@ extension ListKxEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListKxEnvironmentsInput, Output == ListKxEnvironmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListKxEnvironmentsInput, OperationStackOutput == ListKxEnvironmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listKxEnvironmentsPaginated`
     /// to access the nested member `[FinspaceClientTypes.KxEnvironment]`
     /// - Returns: `[FinspaceClientTypes.KxEnvironment]`

@@ -12,11 +12,7 @@ extension SMSClient {
     ///     - input: A `[GetConnectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetConnectorsOutput`
     public func getConnectorsPaginated(input: GetConnectorsInput) -> ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutput>(input: input, inputKey: \GetConnectorsInput.nextToken, outputKey: \GetConnectorsOutput.nextToken, paginationFunction: self.getConnectors(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetConnectorsInput, GetConnectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getConnectors(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension GetConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetConnectorsInput, Output == GetConnectorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetConnectorsInput, OperationStackOutput == GetConnectorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getConnectorsPaginated`
     /// to access the nested member `[SMSClientTypes.Connector]`
     /// - Returns: `[SMSClientTypes.Connector]`
@@ -50,11 +42,7 @@ extension SMSClient {
     ///     - input: A `[GetReplicationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationJobsOutput`
     public func getReplicationJobsPaginated(input: GetReplicationJobsInput) -> ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutput>(input: input, inputKey: \GetReplicationJobsInput.nextToken, outputKey: \GetReplicationJobsOutput.nextToken, paginationFunction: self.getReplicationJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetReplicationJobsInput, GetReplicationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getReplicationJobs(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension GetReplicationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetReplicationJobsInput, Output == GetReplicationJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetReplicationJobsInput, OperationStackOutput == GetReplicationJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getReplicationJobsPaginated`
     /// to access the nested member `[SMSClientTypes.ReplicationJob]`
     /// - Returns: `[SMSClientTypes.ReplicationJob]`
@@ -89,11 +73,7 @@ extension SMSClient {
     ///     - input: A `[GetReplicationRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetReplicationRunsOutput`
     public func getReplicationRunsPaginated(input: GetReplicationRunsInput) -> ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutput>(input: input, inputKey: \GetReplicationRunsInput.nextToken, outputKey: \GetReplicationRunsOutput.nextToken, paginationFunction: self.getReplicationRuns(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetReplicationRunsInput, GetReplicationRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getReplicationRuns(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +86,7 @@ extension GetReplicationRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetReplicationRunsInput, Output == GetReplicationRunsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetReplicationRunsInput, OperationStackOutput == GetReplicationRunsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getReplicationRunsPaginated`
     /// to access the nested member `[SMSClientTypes.ReplicationRun]`
     /// - Returns: `[SMSClientTypes.ReplicationRun]`
@@ -128,11 +104,7 @@ extension SMSClient {
     ///     - input: A `[GetServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetServersOutput`
     public func getServersPaginated(input: GetServersInput) -> ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutput>(input: input, inputKey: \GetServersInput.nextToken, outputKey: \GetServersOutput.nextToken, paginationFunction: self.getServers(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetServersInput, GetServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getServers(input:))
->>>>>>> main
     }
 }
 
@@ -145,11 +117,7 @@ extension GetServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetServersInput, Output == GetServersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetServersInput, OperationStackOutput == GetServersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getServersPaginated`
     /// to access the nested member `[SMSClientTypes.Server]`
     /// - Returns: `[SMSClientTypes.Server]`

@@ -12,11 +12,7 @@ extension ForecastClient {
     ///     - input: A `[ListDatasetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetGroupsOutput`
     public func listDatasetGroupsPaginated(input: ListDatasetGroupsInput) -> ClientRuntime.PaginatorSequence<ListDatasetGroupsInput, ListDatasetGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatasetGroupsInput, ListDatasetGroupsOutput>(input: input, inputKey: \ListDatasetGroupsInput.nextToken, outputKey: \ListDatasetGroupsOutput.nextToken, paginationFunction: self.listDatasetGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatasetGroupsInput, ListDatasetGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetGroups(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListDatasetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDatasetGroupsInput, Output == ListDatasetGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDatasetGroupsInput, OperationStackOutput == ListDatasetGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetGroupsPaginated`
     /// to access the nested member `[ForecastClientTypes.DatasetGroupSummary]`
     /// - Returns: `[ForecastClientTypes.DatasetGroupSummary]`
@@ -50,11 +42,7 @@ extension ForecastClient {
     ///     - input: A `[ListDatasetImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetImportJobsOutput`
     public func listDatasetImportJobsPaginated(input: ListDatasetImportJobsInput) -> ClientRuntime.PaginatorSequence<ListDatasetImportJobsInput, ListDatasetImportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(input: input, inputKey: \ListDatasetImportJobsInput.nextToken, outputKey: \ListDatasetImportJobsOutput.nextToken, paginationFunction: self.listDatasetImportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasetImportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListDatasetImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDatasetImportJobsInput, Output == ListDatasetImportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDatasetImportJobsInput, OperationStackOutput == ListDatasetImportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetImportJobsPaginated`
     /// to access the nested member `[ForecastClientTypes.DatasetImportJobSummary]`
     /// - Returns: `[ForecastClientTypes.DatasetImportJobSummary]`
@@ -89,11 +73,7 @@ extension ForecastClient {
     ///     - input: A `[ListDatasetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutput.nextToken, paginationFunction: self.listDatasets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasets(input:))
->>>>>>> main
     }
 }
 
@@ -105,11 +85,7 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDatasetsInput, Output == ListDatasetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDatasetsInput, OperationStackOutput == ListDatasetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
     /// to access the nested member `[ForecastClientTypes.DatasetSummary]`
     /// - Returns: `[ForecastClientTypes.DatasetSummary]`
@@ -127,11 +103,7 @@ extension ForecastClient {
     ///     - input: A `[ListExplainabilitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilitiesOutput`
     public func listExplainabilitiesPaginated(input: ListExplainabilitiesInput) -> ClientRuntime.PaginatorSequence<ListExplainabilitiesInput, ListExplainabilitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExplainabilitiesInput, ListExplainabilitiesOutput>(input: input, inputKey: \ListExplainabilitiesInput.nextToken, outputKey: \ListExplainabilitiesOutput.nextToken, paginationFunction: self.listExplainabilities(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExplainabilitiesInput, ListExplainabilitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExplainabilities(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +116,7 @@ extension ListExplainabilitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListExplainabilitiesInput, Output == ListExplainabilitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListExplainabilitiesInput, OperationStackOutput == ListExplainabilitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listExplainabilitiesPaginated`
     /// to access the nested member `[ForecastClientTypes.ExplainabilitySummary]`
     /// - Returns: `[ForecastClientTypes.ExplainabilitySummary]`
@@ -166,11 +134,7 @@ extension ForecastClient {
     ///     - input: A `[ListExplainabilityExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilityExportsOutput`
     public func listExplainabilityExportsPaginated(input: ListExplainabilityExportsInput) -> ClientRuntime.PaginatorSequence<ListExplainabilityExportsInput, ListExplainabilityExportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExplainabilityExportsInput, ListExplainabilityExportsOutput>(input: input, inputKey: \ListExplainabilityExportsInput.nextToken, outputKey: \ListExplainabilityExportsOutput.nextToken, paginationFunction: self.listExplainabilityExports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExplainabilityExportsInput, ListExplainabilityExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExplainabilityExports(input:))
->>>>>>> main
     }
 }
 
@@ -183,11 +147,7 @@ extension ListExplainabilityExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListExplainabilityExportsInput, Output == ListExplainabilityExportsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListExplainabilityExportsInput, OperationStackOutput == ListExplainabilityExportsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listExplainabilityExportsPaginated`
     /// to access the nested member `[ForecastClientTypes.ExplainabilityExportSummary]`
     /// - Returns: `[ForecastClientTypes.ExplainabilityExportSummary]`
@@ -205,11 +165,7 @@ extension ForecastClient {
     ///     - input: A `[ListForecastExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListForecastExportJobsOutput`
     public func listForecastExportJobsPaginated(input: ListForecastExportJobsInput) -> ClientRuntime.PaginatorSequence<ListForecastExportJobsInput, ListForecastExportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListForecastExportJobsInput, ListForecastExportJobsOutput>(input: input, inputKey: \ListForecastExportJobsInput.nextToken, outputKey: \ListForecastExportJobsOutput.nextToken, paginationFunction: self.listForecastExportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListForecastExportJobsInput, ListForecastExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listForecastExportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -222,11 +178,7 @@ extension ListForecastExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListForecastExportJobsInput, Output == ListForecastExportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListForecastExportJobsInput, OperationStackOutput == ListForecastExportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listForecastExportJobsPaginated`
     /// to access the nested member `[ForecastClientTypes.ForecastExportJobSummary]`
     /// - Returns: `[ForecastClientTypes.ForecastExportJobSummary]`
@@ -244,11 +196,7 @@ extension ForecastClient {
     ///     - input: A `[ListForecastsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListForecastsOutput`
     public func listForecastsPaginated(input: ListForecastsInput) -> ClientRuntime.PaginatorSequence<ListForecastsInput, ListForecastsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListForecastsInput, ListForecastsOutput>(input: input, inputKey: \ListForecastsInput.nextToken, outputKey: \ListForecastsOutput.nextToken, paginationFunction: self.listForecasts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListForecastsInput, ListForecastsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listForecasts(input:))
->>>>>>> main
     }
 }
 
@@ -261,11 +209,7 @@ extension ListForecastsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListForecastsInput, Output == ListForecastsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListForecastsInput, OperationStackOutput == ListForecastsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listForecastsPaginated`
     /// to access the nested member `[ForecastClientTypes.ForecastSummary]`
     /// - Returns: `[ForecastClientTypes.ForecastSummary]`
@@ -283,11 +227,7 @@ extension ForecastClient {
     ///     - input: A `[ListMonitorEvaluationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitorEvaluationsOutput`
     public func listMonitorEvaluationsPaginated(input: ListMonitorEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutput>(input: input, inputKey: \ListMonitorEvaluationsInput.nextToken, outputKey: \ListMonitorEvaluationsOutput.nextToken, paginationFunction: self.listMonitorEvaluations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitorEvaluations(input:))
->>>>>>> main
     }
 }
 
@@ -301,11 +241,7 @@ extension ListMonitorEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitorEvaluationsInput, Output == ListMonitorEvaluationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitorEvaluationsInput, OperationStackOutput == ListMonitorEvaluationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitorEvaluationsPaginated`
     /// to access the nested member `[ForecastClientTypes.PredictorMonitorEvaluation]`
     /// - Returns: `[ForecastClientTypes.PredictorMonitorEvaluation]`
@@ -323,11 +259,7 @@ extension ForecastClient {
     ///     - input: A `[ListMonitorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitorsOutput`
     public func listMonitorsPaginated(input: ListMonitorsInput) -> ClientRuntime.PaginatorSequence<ListMonitorsInput, ListMonitorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitorsInput, ListMonitorsOutput>(input: input, inputKey: \ListMonitorsInput.nextToken, outputKey: \ListMonitorsOutput.nextToken, paginationFunction: self.listMonitors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitorsInput, ListMonitorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitors(input:))
->>>>>>> main
     }
 }
 
@@ -340,11 +272,7 @@ extension ListMonitorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitorsInput, Output == ListMonitorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitorsInput, OperationStackOutput == ListMonitorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitorsPaginated`
     /// to access the nested member `[ForecastClientTypes.MonitorSummary]`
     /// - Returns: `[ForecastClientTypes.MonitorSummary]`
@@ -362,11 +290,7 @@ extension ForecastClient {
     ///     - input: A `[ListPredictorBacktestExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPredictorBacktestExportJobsOutput`
     public func listPredictorBacktestExportJobsPaginated(input: ListPredictorBacktestExportJobsInput) -> ClientRuntime.PaginatorSequence<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutput>(input: input, inputKey: \ListPredictorBacktestExportJobsInput.nextToken, outputKey: \ListPredictorBacktestExportJobsOutput.nextToken, paginationFunction: self.listPredictorBacktestExportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPredictorBacktestExportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -379,11 +303,7 @@ extension ListPredictorBacktestExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPredictorBacktestExportJobsInput, Output == ListPredictorBacktestExportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPredictorBacktestExportJobsInput, OperationStackOutput == ListPredictorBacktestExportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPredictorBacktestExportJobsPaginated`
     /// to access the nested member `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
     /// - Returns: `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
@@ -401,11 +321,7 @@ extension ForecastClient {
     ///     - input: A `[ListPredictorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPredictorsOutput`
     public func listPredictorsPaginated(input: ListPredictorsInput) -> ClientRuntime.PaginatorSequence<ListPredictorsInput, ListPredictorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPredictorsInput, ListPredictorsOutput>(input: input, inputKey: \ListPredictorsInput.nextToken, outputKey: \ListPredictorsOutput.nextToken, paginationFunction: self.listPredictors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPredictorsInput, ListPredictorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPredictors(input:))
->>>>>>> main
     }
 }
 
@@ -418,11 +334,7 @@ extension ListPredictorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPredictorsInput, Output == ListPredictorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPredictorsInput, OperationStackOutput == ListPredictorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPredictorsPaginated`
     /// to access the nested member `[ForecastClientTypes.PredictorSummary]`
     /// - Returns: `[ForecastClientTypes.PredictorSummary]`
@@ -440,11 +352,7 @@ extension ForecastClient {
     ///     - input: A `[ListWhatIfAnalysesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfAnalysesOutput`
     public func listWhatIfAnalysesPaginated(input: ListWhatIfAnalysesInput) -> ClientRuntime.PaginatorSequence<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutput>(input: input, inputKey: \ListWhatIfAnalysesInput.nextToken, outputKey: \ListWhatIfAnalysesOutput.nextToken, paginationFunction: self.listWhatIfAnalyses(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWhatIfAnalyses(input:))
->>>>>>> main
     }
 }
 
@@ -457,11 +365,7 @@ extension ListWhatIfAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWhatIfAnalysesInput, Output == ListWhatIfAnalysesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWhatIfAnalysesInput, OperationStackOutput == ListWhatIfAnalysesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWhatIfAnalysesPaginated`
     /// to access the nested member `[ForecastClientTypes.WhatIfAnalysisSummary]`
     /// - Returns: `[ForecastClientTypes.WhatIfAnalysisSummary]`
@@ -479,11 +383,7 @@ extension ForecastClient {
     ///     - input: A `[ListWhatIfForecastExportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastExportsOutput`
     public func listWhatIfForecastExportsPaginated(input: ListWhatIfForecastExportsInput) -> ClientRuntime.PaginatorSequence<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutput>(input: input, inputKey: \ListWhatIfForecastExportsInput.nextToken, outputKey: \ListWhatIfForecastExportsOutput.nextToken, paginationFunction: self.listWhatIfForecastExports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWhatIfForecastExports(input:))
->>>>>>> main
     }
 }
 
@@ -496,11 +396,7 @@ extension ListWhatIfForecastExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWhatIfForecastExportsInput, Output == ListWhatIfForecastExportsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWhatIfForecastExportsInput, OperationStackOutput == ListWhatIfForecastExportsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastExportsPaginated`
     /// to access the nested member `[ForecastClientTypes.WhatIfForecastExportSummary]`
     /// - Returns: `[ForecastClientTypes.WhatIfForecastExportSummary]`
@@ -518,11 +414,7 @@ extension ForecastClient {
     ///     - input: A `[ListWhatIfForecastsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastsOutput`
     public func listWhatIfForecastsPaginated(input: ListWhatIfForecastsInput) -> ClientRuntime.PaginatorSequence<ListWhatIfForecastsInput, ListWhatIfForecastsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWhatIfForecastsInput, ListWhatIfForecastsOutput>(input: input, inputKey: \ListWhatIfForecastsInput.nextToken, outputKey: \ListWhatIfForecastsOutput.nextToken, paginationFunction: self.listWhatIfForecasts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWhatIfForecastsInput, ListWhatIfForecastsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWhatIfForecasts(input:))
->>>>>>> main
     }
 }
 
@@ -535,11 +427,7 @@ extension ListWhatIfForecastsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWhatIfForecastsInput, Output == ListWhatIfForecastsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWhatIfForecastsInput, OperationStackOutput == ListWhatIfForecastsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastsPaginated`
     /// to access the nested member `[ForecastClientTypes.WhatIfForecastSummary]`
     /// - Returns: `[ForecastClientTypes.WhatIfForecastSummary]`

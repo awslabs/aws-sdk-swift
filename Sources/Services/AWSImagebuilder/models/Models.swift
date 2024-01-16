@@ -454,11 +454,7 @@ extension CancelImageCreationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CancelImageCreationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token that was used for this request.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The ARN of the image whose creation this request canceled.
     public var imageBuildVersionArn: Swift.String?
@@ -519,8 +515,6 @@ enum CancelImageCreationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CancelLifecycleExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -640,7 +634,6 @@ enum CancelLifecycleExecutionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension ClientException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2327,15 +2320,9 @@ extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateComponentOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the component that this request created.
-=======
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the component that the request created.
->>>>>>> main
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -2672,11 +2659,7 @@ extension CreateContainerRecipeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateContainerRecipeOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The client token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// Returns the Amazon Resource Name (ARN) of the container recipe that the request created.
     public var containerRecipeArn: Swift.String?
@@ -2879,11 +2862,7 @@ extension CreateDistributionConfigurationOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct CreateDistributionConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the distribution configuration that was created by this request.
     public var distributionConfigurationArn: Swift.String?
@@ -3200,69 +3179,6 @@ extension CreateImageOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateImageOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateImageOutputBody = try responseDecoder.decode(responseBody: data)
-            self.clientToken = output.clientToken
-            self.imageBuildVersionArn = output.imageBuildVersionArn
-            self.requestId = output.requestId
-        } else {
-            self.clientToken = nil
-            self.imageBuildVersionArn = nil
-            self.requestId = nil
-        }
-    }
-}
-
-public struct CreateImageOutput: Swift.Equatable {
-    /// The idempotency token used to make this request idempotent.
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image that this request created.
-    public var imageBuildVersionArn: Swift.String?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        imageBuildVersionArn: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.clientToken = clientToken
-        self.imageBuildVersionArn = imageBuildVersionArn
-        self.requestId = requestId
-    }
-}
-
-struct CreateImageOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let clientToken: Swift.String?
-    let imageBuildVersionArn: Swift.String?
-}
-
-extension CreateImageOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientToken
-        case imageBuildVersionArn
-        case requestId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
-        requestId = requestIdDecoded
-        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
-        clientToken = clientTokenDecoded
-        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
-        imageBuildVersionArn = imageBuildVersionArnDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum CreateImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3584,69 +3500,6 @@ extension CreateImagePipelineOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateImagePipelineOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateImagePipelineOutputBody = try responseDecoder.decode(responseBody: data)
-            self.clientToken = output.clientToken
-            self.imagePipelineArn = output.imagePipelineArn
-            self.requestId = output.requestId
-        } else {
-            self.clientToken = nil
-            self.imagePipelineArn = nil
-            self.requestId = nil
-        }
-    }
-}
-
-public struct CreateImagePipelineOutput: Swift.Equatable {
-    /// The idempotency token used to make this request idempotent.
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image pipeline that was created by this request.
-    public var imagePipelineArn: Swift.String?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        imagePipelineArn: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.clientToken = clientToken
-        self.imagePipelineArn = imagePipelineArn
-        self.requestId = requestId
-    }
-}
-
-struct CreateImagePipelineOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let clientToken: Swift.String?
-    let imagePipelineArn: Swift.String?
-}
-
-extension CreateImagePipelineOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case clientToken
-        case imagePipelineArn
-        case requestId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
-        requestId = requestIdDecoded
-        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
-        clientToken = clientTokenDecoded
-        let imagePipelineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imagePipelineArn)
-        imagePipelineArn = imagePipelineArnDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum CreateImagePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3880,11 +3733,7 @@ extension CreateImageRecipeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateImageRecipeOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that was created by this request.
     public var imageRecipeArn: Swift.String?
@@ -4214,8 +4063,6 @@ extension CreateInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
             self.clientToken = nil
             self.infrastructureConfigurationArn = nil
             self.requestId = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -4331,40 +4178,10 @@ extension CreateLifecyclePolicyInput: Swift.Encodable {
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct CreateInfrastructureConfigurationOutput: Swift.Equatable {
-    /// The idempotency token used to make this request idempotent.
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request.
-    public var infrastructureConfigurationArn: Swift.String?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        infrastructureConfigurationArn: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.clientToken = clientToken
-        self.infrastructureConfigurationArn = infrastructureConfigurationArn
-        self.requestId = requestId
-    }
-}
-
-struct CreateInfrastructureConfigurationOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let clientToken: Swift.String?
-    let infrastructureConfigurationArn: Swift.String?
-}
-
-extension CreateInfrastructureConfigurationOutputBody: Swift.Decodable {
-=======
 extension CreateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/CreateLifecyclePolicy"
@@ -4434,7 +4251,6 @@ struct CreateLifecyclePolicyInputBody: Swift.Equatable {
 }
 
 extension CreateLifecyclePolicyInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case description
@@ -4791,26 +4607,6 @@ enum CreateWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidVersionNumberException": return try await InvalidVersionNumberException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum CreateInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5740,8 +5536,6 @@ extension DeleteInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
         } else {
             self.infrastructureConfigurationArn = nil
             self.requestId = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -5810,35 +5604,10 @@ extension DeleteLifecyclePolicyInput: ClientRuntime.QueryItemProvider {
             let lifecyclePolicyArnQueryItem = ClientRuntime.URLQueryItem(name: "lifecyclePolicyArn".urlPercentEncoding(), value: Swift.String(lifecyclePolicyArn).urlPercentEncoding())
             items.append(lifecyclePolicyArnQueryItem)
             return items
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct DeleteInfrastructureConfigurationOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted.
-    public var infrastructureConfigurationArn: Swift.String?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        infrastructureConfigurationArn: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.infrastructureConfigurationArn = infrastructureConfigurationArn
-        self.requestId = requestId
-    }
-}
-
-struct DeleteInfrastructureConfigurationOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let infrastructureConfigurationArn: Swift.String?
-}
-
-extension DeleteInfrastructureConfigurationOutputBody: Swift.Decodable {
-=======
 extension DeleteLifecyclePolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/DeleteLifecyclePolicy"
@@ -5896,7 +5665,6 @@ struct DeleteLifecyclePolicyOutputBody: Swift.Equatable {
 }
 
 extension DeleteLifecyclePolicyOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecyclePolicyArn
     }
@@ -6009,23 +5777,6 @@ extension DeleteWorkflowOutputBody: Swift.Decodable {
 }
 
 enum DeleteWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceDependencyException": return try await ResourceDependencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DeleteInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -7003,11 +6754,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComponentOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The component object associated with the specified ARN.
-=======
     /// The component object specified in the request.
->>>>>>> main
     public var component: ImagebuilderClientTypes.Component?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -8093,8 +7840,6 @@ extension GetInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBindin
         } else {
             self.infrastructureConfiguration = nil
             self.requestId = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -8163,36 +7908,10 @@ extension GetLifecycleExecutionInput: ClientRuntime.QueryItemProvider {
             let lifecycleExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "lifecycleExecutionId".urlPercentEncoding(), value: Swift.String(lifecycleExecutionId).urlPercentEncoding())
             items.append(lifecycleExecutionIdQueryItem)
             return items
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-/// GetInfrastructureConfiguration response object.
-public struct GetInfrastructureConfigurationOutput: Swift.Equatable {
-    /// The infrastructure configuration object.
-    public var infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.infrastructureConfiguration = infrastructureConfiguration
-        self.requestId = requestId
-    }
-}
-
-struct GetInfrastructureConfigurationOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
-}
-
-extension GetInfrastructureConfigurationOutputBody: Swift.Decodable {
-=======
 extension GetLifecycleExecutionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/GetLifecycleExecution"
@@ -8250,7 +7969,6 @@ struct GetLifecycleExecutionOutputBody: Swift.Equatable {
 }
 
 extension GetLifecycleExecutionOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycleExecution
     }
@@ -8362,22 +8080,6 @@ extension GetLifecyclePolicyOutputBody: Swift.Decodable {
 }
 
 enum GetLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -8706,22 +8408,6 @@ extension GetWorkflowOutputBody: Swift.Decodable {
 }
 
 enum GetWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -11254,11 +10940,7 @@ extension ImportComponentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ImportComponentOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the imported component.
     public var componentBuildVersionArn: Swift.String?
@@ -11486,11 +11168,7 @@ extension ImportVmImageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ImportVmImageOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token that was used for this request.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AMI that was created during the VM import process. This AMI is used as the base image for the recipe that imported the VM.
     public var imageArn: Swift.String?
@@ -16568,8 +16246,6 @@ enum ListInfrastructureConfigurationsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListLifecycleExecutionResourcesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lifecycleExecutionId
@@ -17057,7 +16733,6 @@ enum ListLifecyclePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -17151,8 +16826,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListWaitingWorkflowStepsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -17436,7 +17109,6 @@ enum ListWorkflowBuildVersionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension ListWorkflowExecutionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case imageBuildVersionArn
@@ -17813,8 +17485,6 @@ enum ListWorkflowStepExecutionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListWorkflowsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case byName
@@ -17998,7 +17668,6 @@ enum ListWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ImagebuilderClientTypes.Logging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Logs
@@ -20078,8 +19747,6 @@ extension StartImagePipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.clientToken = nil
             self.imageBuildVersionArn = nil
             self.requestId = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -20180,40 +19847,10 @@ extension StartResourceStateUpdateInput: Swift.Encodable {
         }
         if let updateAt = self.updateAt {
             try encodeContainer.encodeTimestamp(updateAt, format: .epochSeconds, forKey: .updateAt)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct StartImagePipelineExecutionOutput: Swift.Equatable {
-    /// The idempotency token used to make this request idempotent.
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image that was created by this request.
-    public var imageBuildVersionArn: Swift.String?
-    /// The request ID that uniquely identifies this request.
-    public var requestId: Swift.String?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        imageBuildVersionArn: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.clientToken = clientToken
-        self.imageBuildVersionArn = imageBuildVersionArn
-        self.requestId = requestId
-    }
-}
-
-struct StartImagePipelineExecutionOutputBody: Swift.Equatable {
-    let requestId: Swift.String?
-    let clientToken: Swift.String?
-    let imageBuildVersionArn: Swift.String?
-}
-
-extension StartImagePipelineExecutionOutputBody: Swift.Decodable {
-=======
 extension StartResourceStateUpdateInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/StartResourceStateUpdate"
@@ -20270,7 +19907,6 @@ struct StartResourceStateUpdateInputBody: Swift.Equatable {
 }
 
 extension StartResourceStateUpdateInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case exclusionRules
@@ -20351,25 +19987,6 @@ extension StartResourceStateUpdateOutputBody: Swift.Decodable {
 }
 
 enum StartResourceStateUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum StartImagePipelineExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -20752,11 +20369,7 @@ extension UpdateDistributionConfigurationOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct UpdateDistributionConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request.
     public var distributionConfigurationArn: Swift.String?
@@ -21020,8 +20633,6 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
         imageScanningConfiguration = imageScanningConfigurationDecoded
-<<<<<<< HEAD
-=======
         let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
         var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
         if let workflowsContainer = workflowsContainer {
@@ -21035,7 +20646,6 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         workflows = workflowsDecoded0
         let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
         executionRole = executionRoleDecoded
->>>>>>> main
     }
 }
 
@@ -21056,11 +20666,7 @@ extension UpdateImagePipelineOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateImagePipelineOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this request.
     public var imagePipelineArn: Swift.String?
@@ -21372,11 +20978,7 @@ extension UpdateInfrastructureConfigurationOutput: ClientRuntime.HttpResponseBin
 }
 
 public struct UpdateInfrastructureConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The idempotency token used to make this request idempotent.
-=======
     /// The client token that uniquely identifies the request.
->>>>>>> main
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request.
     public var infrastructureConfigurationArn: Swift.String?
@@ -21437,8 +21039,6 @@ enum UpdateInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateLifecyclePolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -21647,7 +21247,6 @@ enum UpdateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ImagebuilderClientTypes.VulnerabilityIdAggregation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case severityCounts

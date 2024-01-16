@@ -2049,8 +2049,6 @@ enum AuthorizeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RedshiftClientTypes.AuthorizedTokenIssuer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedAudiencesList = "AuthorizedAudiencesList"
@@ -2122,7 +2120,6 @@ extension RedshiftClientTypes {
 
 }
 
->>>>>>> main
 extension RedshiftClientTypes.AvailabilityZone: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -6225,11 +6222,7 @@ enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
-=======
         "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
->>>>>>> main
 }
 
 extension CreateClusterInput: Swift.Encodable {
@@ -6658,10 +6651,7 @@ struct CreateClusterInputBody: Swift.Equatable {
     let masterPasswordSecretKmsKeyId: Swift.String?
     let ipAddressType: Swift.String?
     let multiAZ: Swift.Bool?
-<<<<<<< HEAD
-=======
     let redshiftIdcApplicationArn: Swift.String?
->>>>>>> main
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -6853,11 +6843,8 @@ extension CreateClusterInputBody: Swift.Decodable {
         ipAddressType = ipAddressTypeDecoded
         let multiAZDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiAZ)
         multiAZ = multiAZDecoded
-<<<<<<< HEAD
-=======
         let redshiftIdcApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftIdcApplicationArn)
         redshiftIdcApplicationArn = redshiftIdcApplicationArnDecoded
->>>>>>> main
     }
 }
 
@@ -8642,8 +8629,6 @@ extension CreateHsmConfigurationOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateHsmConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.hsmConfiguration = output.hsmConfiguration
-<<<<<<< HEAD
-=======
         } else {
             self.hsmConfiguration = nil
         }
@@ -8834,7 +8819,6 @@ extension CreateRedshiftIdcApplicationInputBody: Swift.Decodable {
             } else {
                 authorizedTokenIssuerList = []
             }
->>>>>>> main
         } else {
             authorizedTokenIssuerList = nil
         }
@@ -8860,25 +8844,6 @@ extension CreateRedshiftIdcApplicationInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-public struct CreateHsmConfigurationOutput: Swift.Equatable {
-    /// Returns information about an HSM configuration, which is an object that describes to Amazon Redshift clusters the information they require to connect to an HSM where they can store database encryption keys.
-    public var hsmConfiguration: RedshiftClientTypes.HsmConfiguration?
-
-    public init(
-        hsmConfiguration: RedshiftClientTypes.HsmConfiguration? = nil
-    )
-    {
-        self.hsmConfiguration = hsmConfiguration
-    }
-}
-
-struct CreateHsmConfigurationOutputBody: Swift.Equatable {
-    let hsmConfiguration: RedshiftClientTypes.HsmConfiguration?
-}
-
-extension CreateHsmConfigurationOutputBody: Swift.Decodable {
-=======
 extension CreateRedshiftIdcApplicationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8908,7 +8873,6 @@ struct CreateRedshiftIdcApplicationOutputBody: Swift.Equatable {
 }
 
 extension CreateRedshiftIdcApplicationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case redshiftIdcApplication = "RedshiftIdcApplication"
     }
@@ -8930,19 +8894,6 @@ enum CreateRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBin
             case "RedshiftIdcApplicationAlreadyExists": return try await RedshiftIdcApplicationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "RedshiftIdcApplicationQuotaExceeded": return try await RedshiftIdcApplicationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-enum CreateHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "HsmConfigurationAlreadyExistsFault": return try await HsmConfigurationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "HsmConfigurationQuotaExceededFault": return try await HsmConfigurationQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "TagLimitExceededFault": return try await TagLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -12187,8 +12138,6 @@ enum DeletePartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteRedshiftIdcApplicationInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12258,7 +12207,6 @@ enum DeleteRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension DeleteResourcePolicyInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -12701,8 +12649,6 @@ enum DeleteUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DependentServiceAccessDeniedFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -12757,7 +12703,6 @@ extension DependentServiceAccessDeniedFaultBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension DependentServiceRequestThrottlingFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -17916,8 +17861,6 @@ enum DescribePartnersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeRedshiftIdcApplicationsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -18066,7 +18009,6 @@ enum DescribeRedshiftIdcApplicationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension DescribeReservedNodeExchangeStatusInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -26325,8 +26267,6 @@ extension Ipv6CidrBlockNotFoundFaultBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RedshiftClientTypes.LakeFormationQuery: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorization = "Authorization"
@@ -26400,7 +26340,6 @@ extension RedshiftClientTypes {
 
 }
 
->>>>>>> main
 extension LimitExceededFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -28451,10 +28390,7 @@ enum ModifyCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBi
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "CustomCnameAssociationFault": return try await CustomCnameAssociationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-<<<<<<< HEAD
-=======
             case "CustomDomainAssociationNotFoundFault": return try await CustomDomainAssociationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
->>>>>>> main
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -28932,8 +28868,6 @@ enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ModifyRedshiftIdcApplicationInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -29141,7 +29075,6 @@ enum ModifyRedshiftIdcApplicationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ModifyScheduledActionInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -36182,8 +36115,6 @@ extension RedshiftClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension RedshiftClientTypes {
     public enum ServiceAuthorization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -36265,7 +36196,6 @@ extension RedshiftClientTypes {
 
 }
 
->>>>>>> main
 extension RedshiftClientTypes.Snapshot: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountsWithRestoreAccess = "AccountsWithRestoreAccess"

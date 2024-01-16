@@ -25,11 +25,8 @@ public protocol BedrockRuntimeClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput
-<<<<<<< HEAD
-=======
     /// Performs the `InvokeModelWithResponseStream` operation on the `AmazonBedrockFrontendService` service.
     ///
->>>>>>> main
     /// Invoke the specified Bedrock model to run inference using the input provided. Return the response in a stream. For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide. For an example request and response, see Examples (after the Errors section).
     ///
     /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]

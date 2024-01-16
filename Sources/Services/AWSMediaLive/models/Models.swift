@@ -5653,8 +5653,6 @@ enum ClaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension MediaLiveClientTypes.ColorCorrection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputColorSpace = "inputColorSpace"
@@ -5800,7 +5798,6 @@ extension MediaLiveClientTypes {
     }
 }
 
->>>>>>> main
 extension MediaLiveClientTypes.ColorSpacePassthroughSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {

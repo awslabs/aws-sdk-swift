@@ -12,11 +12,7 @@ extension BatchClient {
     ///     - input: A `[DescribeComputeEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeComputeEnvironmentsOutput`
     public func describeComputeEnvironmentsPaginated(input: DescribeComputeEnvironmentsInput) -> ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput>(input: input, inputKey: \DescribeComputeEnvironmentsInput.nextToken, outputKey: \DescribeComputeEnvironmentsOutput.nextToken, paginationFunction: self.describeComputeEnvironments(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeComputeEnvironmentsInput, DescribeComputeEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeComputeEnvironments(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeComputeEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeComputeEnvironmentsInput, Output == DescribeComputeEnvironmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeComputeEnvironmentsInput, OperationStackOutput == DescribeComputeEnvironmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeComputeEnvironmentsPaginated`
     /// to access the nested member `[BatchClientTypes.ComputeEnvironmentDetail]`
     /// - Returns: `[BatchClientTypes.ComputeEnvironmentDetail]`
@@ -51,11 +43,7 @@ extension BatchClient {
     ///     - input: A `[DescribeJobDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobDefinitionsOutput`
     public func describeJobDefinitionsPaginated(input: DescribeJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput>(input: input, inputKey: \DescribeJobDefinitionsInput.nextToken, outputKey: \DescribeJobDefinitionsOutput.nextToken, paginationFunction: self.describeJobDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeJobDefinitionsInput, DescribeJobDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeJobDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension DescribeJobDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeJobDefinitionsInput, Output == DescribeJobDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeJobDefinitionsInput, OperationStackOutput == DescribeJobDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeJobDefinitionsPaginated`
     /// to access the nested member `[BatchClientTypes.JobDefinition]`
     /// - Returns: `[BatchClientTypes.JobDefinition]`
@@ -92,11 +76,7 @@ extension BatchClient {
     ///     - input: A `[DescribeJobQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeJobQueuesOutput`
     public func describeJobQueuesPaginated(input: DescribeJobQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutput>(input: input, inputKey: \DescribeJobQueuesInput.nextToken, outputKey: \DescribeJobQueuesOutput.nextToken, paginationFunction: self.describeJobQueues(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeJobQueuesInput, DescribeJobQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeJobQueues(input:))
->>>>>>> main
     }
 }
 
@@ -109,11 +89,7 @@ extension DescribeJobQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeJobQueuesInput, Output == DescribeJobQueuesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeJobQueuesInput, OperationStackOutput == DescribeJobQueuesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeJobQueuesPaginated`
     /// to access the nested member `[BatchClientTypes.JobQueueDetail]`
     /// - Returns: `[BatchClientTypes.JobQueueDetail]`
@@ -131,11 +107,7 @@ extension BatchClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
->>>>>>> main
     }
 }
 
@@ -152,11 +124,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[BatchClientTypes.JobSummary]`
     /// - Returns: `[BatchClientTypes.JobSummary]`
@@ -174,11 +142,7 @@ extension BatchClient {
     ///     - input: A `[ListSchedulingPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchedulingPoliciesOutput`
     public func listSchedulingPoliciesPaginated(input: ListSchedulingPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput>(input: input, inputKey: \ListSchedulingPoliciesInput.nextToken, outputKey: \ListSchedulingPoliciesOutput.nextToken, paginationFunction: self.listSchedulingPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSchedulingPoliciesInput, ListSchedulingPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchedulingPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -190,11 +154,7 @@ extension ListSchedulingPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSchedulingPoliciesInput, Output == ListSchedulingPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSchedulingPoliciesInput, OperationStackOutput == ListSchedulingPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSchedulingPoliciesPaginated`
     /// to access the nested member `[BatchClientTypes.SchedulingPolicyListingDetail]`
     /// - Returns: `[BatchClientTypes.SchedulingPolicyListingDetail]`

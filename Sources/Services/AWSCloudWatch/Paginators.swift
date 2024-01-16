@@ -12,11 +12,7 @@ extension CloudWatchClient {
     ///     - input: A `[DescribeAlarmHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmHistoryOutput`
     public func describeAlarmHistoryPaginated(input: DescribeAlarmHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(input: input, inputKey: \DescribeAlarmHistoryInput.nextToken, outputKey: \DescribeAlarmHistoryOutput.nextToken, paginationFunction: self.describeAlarmHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAlarmHistory(input:))
->>>>>>> main
     }
 }
 
@@ -34,11 +30,7 @@ extension DescribeAlarmHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAlarmHistoryInput, Output == DescribeAlarmHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAlarmHistoryInput, OperationStackOutput == DescribeAlarmHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAlarmHistoryPaginated`
     /// to access the nested member `[CloudWatchClientTypes.AlarmHistoryItem]`
     /// - Returns: `[CloudWatchClientTypes.AlarmHistoryItem]`
@@ -56,11 +48,7 @@ extension CloudWatchClient {
     ///     - input: A `[DescribeAlarmsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmsOutput`
     public func describeAlarmsPaginated(input: DescribeAlarmsInput) -> ClientRuntime.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutput>(input: input, inputKey: \DescribeAlarmsInput.nextToken, outputKey: \DescribeAlarmsOutput.nextToken, paginationFunction: self.describeAlarms(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAlarms(input:))
->>>>>>> main
     }
 }
 
@@ -88,11 +76,7 @@ extension CloudWatchClient {
     ///     - input: A `[DescribeAnomalyDetectorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAnomalyDetectorsOutput`
     public func describeAnomalyDetectorsPaginated(input: DescribeAnomalyDetectorsInput) -> ClientRuntime.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(input: input, inputKey: \DescribeAnomalyDetectorsInput.nextToken, outputKey: \DescribeAnomalyDetectorsOutput.nextToken, paginationFunction: self.describeAnomalyDetectors(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAnomalyDetectors(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +92,7 @@ extension DescribeAnomalyDetectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAnomalyDetectorsInput, Output == DescribeAnomalyDetectorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAnomalyDetectorsInput, OperationStackOutput == DescribeAnomalyDetectorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAnomalyDetectorsPaginated`
     /// to access the nested member `[CloudWatchClientTypes.AnomalyDetector]`
     /// - Returns: `[CloudWatchClientTypes.AnomalyDetector]`
@@ -130,11 +110,7 @@ extension CloudWatchClient {
     ///     - input: A `[DescribeInsightRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInsightRulesOutput`
     public func describeInsightRulesPaginated(input: DescribeInsightRulesInput) -> ClientRuntime.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutput>(input: input, inputKey: \DescribeInsightRulesInput.nextToken, outputKey: \DescribeInsightRulesOutput.nextToken, paginationFunction: self.describeInsightRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInsightRules(input:))
->>>>>>> main
     }
 }
 
@@ -155,11 +131,7 @@ extension CloudWatchClient {
     ///     - input: A `[GetMetricDataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataOutput`
     public func getMetricDataPaginated(input: GetMetricDataInput) -> ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput>(input: input, inputKey: \GetMetricDataInput.nextToken, outputKey: \GetMetricDataOutput.nextToken, paginationFunction: self.getMetricData(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMetricData(input:))
->>>>>>> main
     }
 }
 
@@ -185,11 +157,7 @@ extension CloudWatchClient {
     ///     - input: A `[ListDashboardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutput`
     public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutput.nextToken, paginationFunction: self.listDashboards(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDashboards(input:))
->>>>>>> main
     }
 }
 
@@ -201,11 +169,7 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDashboardsInput, OperationStackOutput == ListDashboardsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
     /// to access the nested member `[CloudWatchClientTypes.DashboardEntry]`
     /// - Returns: `[CloudWatchClientTypes.DashboardEntry]`
@@ -223,11 +187,7 @@ extension CloudWatchClient {
     ///     - input: A `[ListManagedInsightRulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedInsightRulesOutput`
     public func listManagedInsightRulesPaginated(input: ListManagedInsightRulesInput) -> ClientRuntime.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(input: input, inputKey: \ListManagedInsightRulesInput.nextToken, outputKey: \ListManagedInsightRulesOutput.nextToken, paginationFunction: self.listManagedInsightRules(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedInsightRules(input:))
->>>>>>> main
     }
 }
 
@@ -249,11 +209,7 @@ extension CloudWatchClient {
     ///     - input: A `[ListMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMetricsOutput`
     public func listMetricsPaginated(input: ListMetricsInput) -> ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutput>(input: input, inputKey: \ListMetricsInput.nextToken, outputKey: \ListMetricsOutput.nextToken, paginationFunction: self.listMetrics(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetrics(input:))
->>>>>>> main
     }
 }
 
@@ -279,11 +235,7 @@ extension CloudWatchClient {
     ///     - input: A `[ListMetricStreamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMetricStreamsOutput`
     public func listMetricStreamsPaginated(input: ListMetricStreamsInput) -> ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput>(input: input, inputKey: \ListMetricStreamsInput.nextToken, outputKey: \ListMetricStreamsOutput.nextToken, paginationFunction: self.listMetricStreams(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetricStreams(input:))
->>>>>>> main
     }
 }
 

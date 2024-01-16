@@ -20,11 +20,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFHIRDatastore` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Deletes a data store.
     ///
     /// - Parameter DeleteFHIRDatastoreInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput) async throws -> DeleteFHIRDatastoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeFHIRDatastore` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
     ///
     /// - Parameter DescribeFHIRDatastoreInput : [no documentation found]
@@ -60,11 +54,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRDatastore(input: DescribeFHIRDatastoreInput) async throws -> DescribeFHIRDatastoreOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeFHIRExportJob` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
     ///
     /// - Parameter DescribeFHIRExportJobInput : [no documentation found]
@@ -79,11 +70,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRExportJob(input: DescribeFHIRExportJobInput) async throws -> DescribeFHIRExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeFHIRImportJob` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
     ///
     /// - Parameter DescribeFHIRImportJobInput : [no documentation found]
@@ -98,11 +86,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRImportJob(input: DescribeFHIRImportJobInput) async throws -> DescribeFHIRImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFHIRDatastores` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
     ///
     /// - Parameter ListFHIRDatastoresInput : [no documentation found]
@@ -116,11 +101,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFHIRExportJobs` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Lists all FHIR export jobs associated with an account and their statuses.
     ///
     /// - Parameter ListFHIRExportJobsInput : [no documentation found]
@@ -136,11 +118,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRExportJobs(input: ListFHIRExportJobsInput) async throws -> ListFHIRExportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFHIRImportJobs` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Lists all FHIR import jobs associated with an account and their statuses.
     ///
     /// - Parameter ListFHIRImportJobsInput : [no documentation found]
@@ -156,11 +135,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRImportJobs(input: ListFHIRImportJobsInput) async throws -> ListFHIRImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Returns a list of all existing tags associated with a data store.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -173,11 +149,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ValidationException` : The user input parameter was invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartFHIRExportJob` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Begins a FHIR export job.
     ///
     /// - Parameter StartFHIRExportJobInput : [no documentation found]
@@ -193,11 +166,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func startFHIRExportJob(input: StartFHIRExportJobInput) async throws -> StartFHIRExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartFHIRImportJob` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Begins a FHIR Import job.
     ///
     /// - Parameter StartFHIRImportJobInput : [no documentation found]
@@ -213,11 +183,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     func startFHIRImportJob(input: StartFHIRImportJobInput) async throws -> StartFHIRImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Adds a user specified key and value tag to a data store.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -230,11 +197,8 @@ public protocol HealthLakeClientProtocol {
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ValidationException` : The user input parameter was invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `HealthLake` service.
     ///
->>>>>>> main
     /// Removes tags from a data store.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

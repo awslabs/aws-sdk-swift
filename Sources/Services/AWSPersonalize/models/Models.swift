@@ -1774,46 +1774,6 @@ extension CreateBatchInferenceJobOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateBatchInferenceJobOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateBatchInferenceJobOutputBody = try responseDecoder.decode(responseBody: data)
-            self.batchInferenceJobArn = output.batchInferenceJobArn
-        } else {
-            self.batchInferenceJobArn = nil
-        }
-    }
-}
-
-public struct CreateBatchInferenceJobOutput: Swift.Equatable {
-    /// The ARN of the batch inference job.
-    public var batchInferenceJobArn: Swift.String?
-
-    public init(
-        batchInferenceJobArn: Swift.String? = nil
-    )
-    {
-        self.batchInferenceJobArn = batchInferenceJobArn
-    }
-}
-
-struct CreateBatchInferenceJobOutputBody: Swift.Equatable {
-    let batchInferenceJobArn: Swift.String?
-}
-
-extension CreateBatchInferenceJobOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case batchInferenceJobArn
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let batchInferenceJobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .batchInferenceJobArn)
-        batchInferenceJobArn = batchInferenceJobArnDecoded
-    }
-}
-
 enum CreateBatchInferenceJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13771,8 +13731,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PersonalizeClientTypes.ThemeGenerationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldsForThemeGeneration
@@ -13809,7 +13767,6 @@ extension PersonalizeClientTypes {
 
 }
 
->>>>>>> main
 extension TooManyTagKeysException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

@@ -12,11 +12,7 @@ extension EFSClient {
     ///     - input: A `[DescribeAccessPointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAccessPointsOutput`
     public func describeAccessPointsPaginated(input: DescribeAccessPointsInput) -> ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \DescribeAccessPointsInput.nextToken, outputKey: \DescribeAccessPointsOutput.nextToken, paginationFunction: self.describeAccessPoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAccessPointsInput, DescribeAccessPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAccessPoints(input:))
->>>>>>> main
     }
 }
 
@@ -48,11 +44,7 @@ extension EFSClient {
     ///     - input: A `[DescribeFileSystemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutput`
     public func describeFileSystemsPaginated(input: DescribeFileSystemsInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \DescribeFileSystemsInput.marker, outputKey: \DescribeFileSystemsOutput.nextMarker, paginationFunction: self.describeFileSystems(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeFileSystems(input:))
->>>>>>> main
     }
 }
 
@@ -75,8 +67,6 @@ extension PaginatorSequence where OperationStackInput == DescribeFileSystemsInpu
     }
 }
 extension EFSClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[DescribeMountTargetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -141,7 +131,6 @@ extension PaginatorSequence where OperationStackInput == DescribeReplicationConf
     }
 }
 extension EFSClient {
->>>>>>> main
     /// Paginate over `[DescribeTagsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -151,11 +140,7 @@ extension EFSClient {
     ///     - input: A `[DescribeTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutput`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \DescribeTagsInput.marker, outputKey: \DescribeTagsOutput.nextMarker, paginationFunction: self.describeTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.describeTags(input:))
->>>>>>> main
     }
 }
 
@@ -186,11 +171,7 @@ extension EFSClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 

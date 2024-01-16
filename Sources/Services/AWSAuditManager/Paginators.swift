@@ -12,11 +12,7 @@ extension AuditManagerClient {
     ///     - input: A `[GetChangeLogsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetChangeLogsOutput`
     public func getChangeLogsPaginated(input: GetChangeLogsInput) -> ClientRuntime.PaginatorSequence<GetChangeLogsInput, GetChangeLogsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetChangeLogsInput, GetChangeLogsOutput>(input: input, inputKey: \GetChangeLogsInput.nextToken, outputKey: \GetChangeLogsOutput.nextToken, paginationFunction: self.getChangeLogs(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetChangeLogsInput, GetChangeLogsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getChangeLogs(input:))
->>>>>>> main
     }
 }
 
@@ -40,11 +36,7 @@ extension AuditManagerClient {
     ///     - input: A `[GetDelegationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDelegationsOutput`
     public func getDelegationsPaginated(input: GetDelegationsInput) -> ClientRuntime.PaginatorSequence<GetDelegationsInput, GetDelegationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetDelegationsInput, GetDelegationsOutput>(input: input, inputKey: \GetDelegationsInput.nextToken, outputKey: \GetDelegationsOutput.nextToken, paginationFunction: self.getDelegations(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetDelegationsInput, GetDelegationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDelegations(input:))
->>>>>>> main
     }
 }
 
@@ -65,11 +57,7 @@ extension AuditManagerClient {
     ///     - input: A `[GetEvidenceByEvidenceFolderInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEvidenceByEvidenceFolderOutput`
     public func getEvidenceByEvidenceFolderPaginated(input: GetEvidenceByEvidenceFolderInput) -> ClientRuntime.PaginatorSequence<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput>(input: input, inputKey: \GetEvidenceByEvidenceFolderInput.nextToken, outputKey: \GetEvidenceByEvidenceFolderOutput.nextToken, paginationFunction: self.getEvidenceByEvidenceFolder(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEvidenceByEvidenceFolder(input:))
->>>>>>> main
     }
 }
 
@@ -93,11 +81,7 @@ extension AuditManagerClient {
     ///     - input: A `[GetEvidenceFoldersByAssessmentInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEvidenceFoldersByAssessmentOutput`
     public func getEvidenceFoldersByAssessmentPaginated(input: GetEvidenceFoldersByAssessmentInput) -> ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput>(input: input, inputKey: \GetEvidenceFoldersByAssessmentInput.nextToken, outputKey: \GetEvidenceFoldersByAssessmentOutput.nextToken, paginationFunction: self.getEvidenceFoldersByAssessment(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEvidenceFoldersByAssessment(input:))
->>>>>>> main
     }
 }
 
@@ -119,11 +103,7 @@ extension AuditManagerClient {
     ///     - input: A `[GetEvidenceFoldersByAssessmentControlInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEvidenceFoldersByAssessmentControlOutput`
     public func getEvidenceFoldersByAssessmentControlPaginated(input: GetEvidenceFoldersByAssessmentControlInput) -> ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput>(input: input, inputKey: \GetEvidenceFoldersByAssessmentControlInput.nextToken, outputKey: \GetEvidenceFoldersByAssessmentControlOutput.nextToken, paginationFunction: self.getEvidenceFoldersByAssessmentControl(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEvidenceFoldersByAssessmentControl(input:))
->>>>>>> main
     }
 }
 
@@ -147,11 +127,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListAssessmentControlInsightsByControlDomainInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentControlInsightsByControlDomainOutput`
     public func listAssessmentControlInsightsByControlDomainPaginated(input: ListAssessmentControlInsightsByControlDomainInput) -> ClientRuntime.PaginatorSequence<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput>(input: input, inputKey: \ListAssessmentControlInsightsByControlDomainInput.nextToken, outputKey: \ListAssessmentControlInsightsByControlDomainOutput.nextToken, paginationFunction: self.listAssessmentControlInsightsByControlDomain(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentControlInsightsByControlDomain(input:))
->>>>>>> main
     }
 }
 
@@ -174,11 +150,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListAssessmentFrameworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentFrameworksOutput`
     public func listAssessmentFrameworksPaginated(input: ListAssessmentFrameworksInput) -> ClientRuntime.PaginatorSequence<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput>(input: input, inputKey: \ListAssessmentFrameworksInput.nextToken, outputKey: \ListAssessmentFrameworksOutput.nextToken, paginationFunction: self.listAssessmentFrameworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentFrameworks(input:))
->>>>>>> main
     }
 }
 
@@ -200,11 +172,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListAssessmentFrameworkShareRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentFrameworkShareRequestsOutput`
     public func listAssessmentFrameworkShareRequestsPaginated(input: ListAssessmentFrameworkShareRequestsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput>(input: input, inputKey: \ListAssessmentFrameworkShareRequestsInput.nextToken, outputKey: \ListAssessmentFrameworkShareRequestsOutput.nextToken, paginationFunction: self.listAssessmentFrameworkShareRequests(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentFrameworkShareRequests(input:))
->>>>>>> main
     }
 }
 
@@ -226,11 +194,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListAssessmentReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentReportsOutput`
     public func listAssessmentReportsPaginated(input: ListAssessmentReportsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentReportsInput, ListAssessmentReportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssessmentReportsInput, ListAssessmentReportsOutput>(input: input, inputKey: \ListAssessmentReportsInput.nextToken, outputKey: \ListAssessmentReportsOutput.nextToken, paginationFunction: self.listAssessmentReports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssessmentReportsInput, ListAssessmentReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessmentReports(input:))
->>>>>>> main
     }
 }
 
@@ -251,11 +215,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListAssessmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssessmentsOutput`
     public func listAssessmentsPaginated(input: ListAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListAssessmentsInput, ListAssessmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssessmentsInput, ListAssessmentsOutput>(input: input, inputKey: \ListAssessmentsInput.nextToken, outputKey: \ListAssessmentsOutput.nextToken, paginationFunction: self.listAssessments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssessmentsInput, ListAssessmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssessments(input:))
->>>>>>> main
     }
 }
 
@@ -277,11 +237,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListControlDomainInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListControlDomainInsightsOutput`
     public func listControlDomainInsightsPaginated(input: ListControlDomainInsightsInput) -> ClientRuntime.PaginatorSequence<ListControlDomainInsightsInput, ListControlDomainInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListControlDomainInsightsInput, ListControlDomainInsightsOutput>(input: input, inputKey: \ListControlDomainInsightsInput.nextToken, outputKey: \ListControlDomainInsightsOutput.nextToken, paginationFunction: self.listControlDomainInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListControlDomainInsightsInput, ListControlDomainInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listControlDomainInsights(input:))
->>>>>>> main
     }
 }
 
@@ -302,11 +258,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListControlDomainInsightsByAssessmentInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListControlDomainInsightsByAssessmentOutput`
     public func listControlDomainInsightsByAssessmentPaginated(input: ListControlDomainInsightsByAssessmentInput) -> ClientRuntime.PaginatorSequence<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput>(input: input, inputKey: \ListControlDomainInsightsByAssessmentInput.nextToken, outputKey: \ListControlDomainInsightsByAssessmentOutput.nextToken, paginationFunction: self.listControlDomainInsightsByAssessment(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listControlDomainInsightsByAssessment(input:))
->>>>>>> main
     }
 }
 
@@ -328,11 +280,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListControlInsightsByControlDomainInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListControlInsightsByControlDomainOutput`
     public func listControlInsightsByControlDomainPaginated(input: ListControlInsightsByControlDomainInput) -> ClientRuntime.PaginatorSequence<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput>(input: input, inputKey: \ListControlInsightsByControlDomainInput.nextToken, outputKey: \ListControlInsightsByControlDomainOutput.nextToken, paginationFunction: self.listControlInsightsByControlDomain(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listControlInsightsByControlDomain(input:))
->>>>>>> main
     }
 }
 
@@ -354,11 +302,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListControlsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListControlsOutput`
     public func listControlsPaginated(input: ListControlsInput) -> ClientRuntime.PaginatorSequence<ListControlsInput, ListControlsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListControlsInput, ListControlsOutput>(input: input, inputKey: \ListControlsInput.nextToken, outputKey: \ListControlsOutput.nextToken, paginationFunction: self.listControls(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListControlsInput, ListControlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listControls(input:))
->>>>>>> main
     }
 }
 
@@ -380,11 +324,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListKeywordsForDataSourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKeywordsForDataSourceOutput`
     public func listKeywordsForDataSourcePaginated(input: ListKeywordsForDataSourceInput) -> ClientRuntime.PaginatorSequence<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput>(input: input, inputKey: \ListKeywordsForDataSourceInput.nextToken, outputKey: \ListKeywordsForDataSourceOutput.nextToken, paginationFunction: self.listKeywordsForDataSource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKeywordsForDataSource(input:))
->>>>>>> main
     }
 }
 
@@ -406,11 +346,7 @@ extension AuditManagerClient {
     ///     - input: A `[ListNotificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationsOutput`
     public func listNotificationsPaginated(input: ListNotificationsInput) -> ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \ListNotificationsInput.nextToken, outputKey: \ListNotificationsOutput.nextToken, paginationFunction: self.listNotifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotifications(input:))
->>>>>>> main
     }
 }
 

@@ -12,11 +12,7 @@ extension AppFabricClient {
     ///     - input: A `[ListAppAuthorizationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppAuthorizationsOutput`
     public func listAppAuthorizationsPaginated(input: ListAppAuthorizationsInput) -> ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutput>(input: input, inputKey: \ListAppAuthorizationsInput.nextToken, outputKey: \ListAppAuthorizationsOutput.nextToken, paginationFunction: self.listAppAuthorizations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppAuthorizationsInput, ListAppAuthorizationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppAuthorizations(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListAppAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAppAuthorizationsInput, Output == ListAppAuthorizationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAppAuthorizationsInput, OperationStackOutput == ListAppAuthorizationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppAuthorizationsPaginated`
     /// to access the nested member `[AppFabricClientTypes.AppAuthorizationSummary]`
     /// - Returns: `[AppFabricClientTypes.AppAuthorizationSummary]`
@@ -51,11 +43,7 @@ extension AppFabricClient {
     ///     - input: A `[ListAppBundlesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppBundlesOutput`
     public func listAppBundlesPaginated(input: ListAppBundlesInput) -> ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutput>(input: input, inputKey: \ListAppBundlesInput.nextToken, outputKey: \ListAppBundlesOutput.nextToken, paginationFunction: self.listAppBundles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppBundlesInput, ListAppBundlesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppBundles(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListAppBundlesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAppBundlesInput, Output == ListAppBundlesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAppBundlesInput, OperationStackOutput == ListAppBundlesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppBundlesPaginated`
     /// to access the nested member `[AppFabricClientTypes.AppBundleSummary]`
     /// - Returns: `[AppFabricClientTypes.AppBundleSummary]`
@@ -89,11 +73,7 @@ extension AppFabricClient {
     ///     - input: A `[ListIngestionDestinationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionDestinationsOutput`
     public func listIngestionDestinationsPaginated(input: ListIngestionDestinationsInput) -> ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutput>(input: input, inputKey: \ListIngestionDestinationsInput.nextToken, outputKey: \ListIngestionDestinationsOutput.nextToken, paginationFunction: self.listIngestionDestinations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListIngestionDestinationsInput, ListIngestionDestinationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIngestionDestinations(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +87,7 @@ extension ListIngestionDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListIngestionDestinationsInput, Output == ListIngestionDestinationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListIngestionDestinationsInput, OperationStackOutput == ListIngestionDestinationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionDestinationsPaginated`
     /// to access the nested member `[AppFabricClientTypes.IngestionDestinationSummary]`
     /// - Returns: `[AppFabricClientTypes.IngestionDestinationSummary]`
@@ -129,11 +105,7 @@ extension AppFabricClient {
     ///     - input: A `[ListIngestionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIngestionsOutput`
     public func listIngestionsPaginated(input: ListIngestionsInput) -> ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \ListIngestionsInput.nextToken, outputKey: \ListIngestionsOutput.nextToken, paginationFunction: self.listIngestions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListIngestionsInput, ListIngestionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIngestions(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +118,7 @@ extension ListIngestionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListIngestionsInput, Output == ListIngestionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListIngestionsInput, OperationStackOutput == ListIngestionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIngestionsPaginated`
     /// to access the nested member `[AppFabricClientTypes.IngestionSummary]`
     /// - Returns: `[AppFabricClientTypes.IngestionSummary]`

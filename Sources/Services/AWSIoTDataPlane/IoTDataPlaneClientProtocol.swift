@@ -24,11 +24,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `UnsupportedDocumentEncodingException` : The document encoding is not supported.
     func deleteThingShadow(input: DeleteThingShadowInput) async throws -> DeleteThingShadowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRetainedMessage` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Gets the details of a single retained message for the specified topic. This action returns the message payload of the retained message, which can incur messaging costs. To list only the topic names of the retained messages, call [ListRetainedMessages](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html). Requires permission to access the [GetRetainedMessage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
     /// - Parameter GetRetainedMessageInput : The input for the GetRetainedMessage operation.
@@ -46,11 +43,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func getRetainedMessage(input: GetRetainedMessageInput) async throws -> GetRetainedMessageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetThingShadow` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Gets the shadow for the specified thing. Requires permission to access the [GetThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [GetThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html) in the IoT Developer Guide.
     ///
     /// - Parameter GetThingShadowInput : The input for the GetThingShadow operation.
@@ -69,11 +63,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `UnsupportedDocumentEncodingException` : The document encoding is not supported.
     func getThingShadow(input: GetThingShadowInput) async throws -> GetThingShadowOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNamedShadowsForThing` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Lists the shadows for the specified thing. Requires permission to access the [ListNamedShadowsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter ListNamedShadowsForThingInput : [no documentation found]
@@ -91,11 +82,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listNamedShadowsForThing(input: ListNamedShadowsForThingInput) async throws -> ListNamedShadowsForThingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRetainedMessages` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Lists summary information about the retained messages stored for the account. This action returns only the topic names of the retained messages. It doesn't return any message payloads. Although this action doesn't return a message payload, it can still incur messaging costs. To get the message payload of a retained message, call [GetRetainedMessage](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_GetRetainedMessage.html) with the topic name of the retained message. Requires permission to access the [ListRetainedMessages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
     /// - Parameter ListRetainedMessagesInput : [no documentation found]
@@ -112,11 +100,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listRetainedMessages(input: ListRetainedMessagesInput) async throws -> ListRetainedMessagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `Publish` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Publishes an MQTT message. Requires permission to access the [Publish](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information about MQTT messages, see [MQTT Protocol](http://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) in the IoT Developer Guide. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
     /// - Parameter PublishInput : The input for the Publish operation.
@@ -132,11 +117,8 @@ public protocol IoTDataPlaneClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func publish(input: PublishInput) async throws -> PublishOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateThingShadow` operation on the `IotMoonrakerService` service.
     ///
->>>>>>> main
     /// Updates the shadow for the specified thing. Requires permission to access the [UpdateThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [UpdateThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html) in the IoT Developer Guide.
     ///
     /// - Parameter UpdateThingShadowInput : The input for the UpdateThingShadow operation.

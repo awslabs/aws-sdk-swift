@@ -285,13 +285,6 @@ extension CreateTokenInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateTokenOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateTokenOutputBody = try responseDecoder.decode(responseBody: data)
-=======
 extension CreateTokenOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateTokenOutput(expiresIn: \(Swift.String(describing: expiresIn)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\", idToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
@@ -592,7 +585,6 @@ extension CreateTokenWithIAMOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateTokenWithIAMOutputBody = try responseDecoder.decode(responseBody: data)
->>>>>>> main
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
             self.idToken = output.idToken
@@ -612,13 +604,8 @@ extension CreateTokenWithIAMOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct CreateTokenOutput: Swift.Equatable {
-    /// An opaque token to access IAM Identity Center resources assigned to a user.
-=======
 public struct CreateTokenWithIAMOutput: Swift.Equatable {
     /// A bearer token to access AWS accounts and applications assigned to a user.
->>>>>>> main
     public var accessToken: Swift.String?
     /// Indicates the time in seconds when an access token will expire.
     public var expiresIn: Swift.Int
@@ -653,11 +640,7 @@ public struct CreateTokenWithIAMOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct CreateTokenOutputBody: Swift.Equatable {
-=======
 struct CreateTokenWithIAMOutputBody: Swift.Equatable {
->>>>>>> main
     let accessToken: Swift.String?
     let tokenType: Swift.String?
     let expiresIn: Swift.Int
@@ -667,11 +650,7 @@ struct CreateTokenWithIAMOutputBody: Swift.Equatable {
     let scope: [Swift.String]?
 }
 
-<<<<<<< HEAD
-extension CreateTokenOutputBody: Swift.Decodable {
-=======
 extension CreateTokenWithIAMOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
         case expiresIn
@@ -723,27 +702,6 @@ enum CreateTokenWithIAMOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestRegionException": return try await InvalidRequestRegionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedGrantTypeException": return try await UnsupportedGrantTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum CreateTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "AuthorizationPendingException": return try await AuthorizationPendingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ExpiredTokenException": return try await ExpiredTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClientException": return try await InvalidClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidGrantException": return try await InvalidGrantException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidScopeException": return try await InvalidScopeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "SlowDownException": return try await SlowDownException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1386,14 +1344,11 @@ extension RegisterClientInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RegisterClientOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "RegisterClientOutput(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), clientIdIssuedAt: \(Swift.String(describing: clientIdIssuedAt)), clientSecretExpiresAt: \(Swift.String(describing: clientSecretExpiresAt)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1417,11 +1372,7 @@ extension RegisterClientOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RegisterClientOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The endpoint where the client can request authorization.
-=======
     /// An endpoint that the client can use to request authorization.
->>>>>>> main
     public var authorizationEndpoint: Swift.String?
     /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
     public var clientId: Swift.String?

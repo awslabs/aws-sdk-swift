@@ -20,11 +20,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func associateApi(input: AssociateApiInput) async throws -> AssociateApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateMergedGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates an association between a Merged API and source API using the source API's identifier.
     ///
     /// - Parameter AssociateMergedGraphqlApiInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func associateMergedGraphqlApi(input: AssociateMergedGraphqlApiInput) async throws -> AssociateMergedGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateSourceGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates an association between a Merged API and source API using the Merged API's identifier.
     ///
     /// - Parameter AssociateSourceGraphqlApiInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func associateSourceGraphqlApi(input: AssociateSourceGraphqlApiInput) async throws -> AssociateSourceGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApiCache` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a cache for the GraphQL API.
     ///
     /// - Parameter CreateApiCacheInput : Represents the input of a CreateApiCache operation.
@@ -82,11 +73,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createApiCache(input: CreateApiCacheInput) async throws -> CreateApiCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApiKey` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a unique key that you can distribute to clients who invoke your API.
     ///
     /// - Parameter CreateApiKeyInput : [no documentation found]
@@ -104,11 +92,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDataSource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a DataSource object.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
@@ -124,11 +109,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDomainName` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a custom DomainName object.
     ///
     /// - Parameter CreateDomainNameInput : [no documentation found]
@@ -142,11 +124,8 @@ public protocol AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateFunction` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
     ///
     /// - Parameter CreateFunctionInput : [no documentation found]
@@ -161,11 +140,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a GraphqlApi object.
     ///
     /// - Parameter CreateGraphqlApiInput : [no documentation found]
@@ -182,11 +158,8 @@ public protocol AppSyncClientProtocol {
     /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createGraphqlApi(input: CreateGraphqlApiInput) async throws -> CreateGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateResolver` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand, and converts the data source's responses into GraphQL.
     ///
     /// - Parameter CreateResolverInput : [no documentation found]
@@ -202,11 +175,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createResolver(input: CreateResolverInput) async throws -> CreateResolverOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateType` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Creates a Type object.
     ///
     /// - Parameter CreateTypeInput : [no documentation found]
@@ -222,11 +192,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createType(input: CreateTypeInput) async throws -> CreateTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApiCache` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes an ApiCache object.
     ///
     /// - Parameter DeleteApiCacheInput : Represents the input of a DeleteApiCache operation.
@@ -242,11 +209,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteApiCache(input: DeleteApiCacheInput) async throws -> DeleteApiCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApiKey` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes an API key.
     ///
     /// - Parameter DeleteApiKeyInput : [no documentation found]
@@ -261,11 +225,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDataSource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a DataSource object.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
@@ -281,11 +242,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDomainName` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a custom DomainName object.
     ///
     /// - Parameter DeleteDomainNameInput : [no documentation found]
@@ -301,11 +259,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFunction` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a Function.
     ///
     /// - Parameter DeleteFunctionInput : [no documentation found]
@@ -320,11 +275,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a GraphqlApi object.
     ///
     /// - Parameter DeleteGraphqlApiInput : [no documentation found]
@@ -341,11 +293,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteGraphqlApi(input: DeleteGraphqlApiInput) async throws -> DeleteGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteResolver` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a Resolver object.
     ///
     /// - Parameter DeleteResolverInput : [no documentation found]
@@ -361,11 +310,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteResolver(input: DeleteResolverInput) async throws -> DeleteResolverOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteType` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes a Type object.
     ///
     /// - Parameter DeleteTypeInput : [no documentation found]
@@ -381,11 +327,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteType(input: DeleteTypeInput) async throws -> DeleteTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Removes an ApiAssociation object from a custom domain.
     ///
     /// - Parameter DisassociateApiInput : [no documentation found]
@@ -401,11 +344,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func disassociateApi(input: DisassociateApiInput) async throws -> DisassociateApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateMergedGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
     ///
     /// - Parameter DisassociateMergedGraphqlApiInput : [no documentation found]
@@ -421,11 +361,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func disassociateMergedGraphqlApi(input: DisassociateMergedGraphqlApiInput) async throws -> DisassociateMergedGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateSourceGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
     ///
     /// - Parameter DisassociateSourceGraphqlApiInput : [no documentation found]
@@ -441,11 +378,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func disassociateSourceGraphqlApi(input: DisassociateSourceGraphqlApiInput) async throws -> DisassociateSourceGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EvaluateCode` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     ///
     /// - Parameter EvaluateCodeInput : [no documentation found]
@@ -459,11 +393,8 @@ public protocol AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func evaluateCode(input: EvaluateCodeInput) async throws -> EvaluateCodeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `EvaluateMappingTemplate` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
     ///
     /// - Parameter EvaluateMappingTemplateInput : [no documentation found]
@@ -477,11 +408,8 @@ public protocol AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func evaluateMappingTemplate(input: EvaluateMappingTemplateInput) async throws -> EvaluateMappingTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `FlushApiCache` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Flushes an ApiCache object.
     ///
     /// - Parameter FlushApiCacheInput : Represents the input of a FlushApiCache operation.
@@ -497,11 +425,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func flushApiCache(input: FlushApiCacheInput) async throws -> FlushApiCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves an ApiAssociation object.
     ///
     /// - Parameter GetApiAssociationInput : [no documentation found]
@@ -516,11 +441,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func getApiAssociation(input: GetApiAssociationInput) async throws -> GetApiAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApiCache` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves an ApiCache object.
     ///
     /// - Parameter GetApiCacheInput : Represents the input of a GetApiCache operation.
@@ -536,11 +458,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getApiCache(input: GetApiCacheInput) async throws -> GetApiCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDataSource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a DataSource object.
     ///
     /// - Parameter GetDataSourceInput : [no documentation found]
@@ -556,8 +475,6 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDataSourceIntrospection` operation on the `AWSDeepdishControlPlaneService` service.
     ///
     /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
@@ -575,7 +492,6 @@ public protocol AppSyncClientProtocol {
     func getDataSourceIntrospection(input: GetDataSourceIntrospectionInput) async throws -> GetDataSourceIntrospectionOutput
     /// Performs the `GetDomainName` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a custom DomainName object.
     ///
     /// - Parameter GetDomainNameInput : [no documentation found]
@@ -590,11 +506,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetFunction` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Get a Function.
     ///
     /// - Parameter GetFunctionInput : [no documentation found]
@@ -608,11 +521,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a GraphqlApi object.
     ///
     /// - Parameter GetGraphqlApiInput : [no documentation found]
@@ -628,11 +538,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getGraphqlApi(input: GetGraphqlApiInput) async throws -> GetGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIntrospectionSchema` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves the introspection schema for a GraphQL API.
     ///
     /// - Parameter GetIntrospectionSchemaInput : [no documentation found]
@@ -647,11 +554,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getIntrospectionSchema(input: GetIntrospectionSchemaInput) async throws -> GetIntrospectionSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetResolver` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a Resolver object.
     ///
     /// - Parameter GetResolverInput : [no documentation found]
@@ -665,11 +569,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getResolver(input: GetResolverInput) async throws -> GetResolverOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchemaCreationStatus` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves the current status of a schema creation operation.
     ///
     /// - Parameter GetSchemaCreationStatusInput : [no documentation found]
@@ -684,11 +585,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getSchemaCreationStatus(input: GetSchemaCreationStatusInput) async throws -> GetSchemaCreationStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSourceApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a SourceApiAssociation object.
     ///
     /// - Parameter GetSourceApiAssociationInput : [no documentation found]
@@ -703,11 +601,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getSourceApiAssociation(input: GetSourceApiAssociationInput) async throws -> GetSourceApiAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetType` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Retrieves a Type object.
     ///
     /// - Parameter GetTypeInput : [no documentation found]
@@ -723,11 +618,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getType(input: GetTypeInput) async throws -> GetTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApiKeys` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
     ///
     /// - Parameter ListApiKeysInput : [no documentation found]
@@ -742,11 +634,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listApiKeys(input: ListApiKeysInput) async throws -> ListApiKeysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDataSources` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the data sources for a given API.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
@@ -761,11 +650,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomainNames` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists multiple custom domain names.
     ///
     /// - Parameter ListDomainNamesInput : [no documentation found]
@@ -779,11 +665,8 @@ public protocol AppSyncClientProtocol {
     /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListFunctions` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// List multiple functions.
     ///
     /// - Parameter ListFunctionsInput : [no documentation found]
@@ -798,11 +681,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListGraphqlApis` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists your GraphQL APIs.
     ///
     /// - Parameter ListGraphqlApisInput : [no documentation found]
@@ -816,11 +696,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listGraphqlApis(input: ListGraphqlApisInput) async throws -> ListGraphqlApisOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResolvers` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the resolvers for a given API and type.
     ///
     /// - Parameter ListResolversInput : [no documentation found]
@@ -835,11 +712,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listResolvers(input: ListResolversInput) async throws -> ListResolversOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResolversByFunction` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// List the resolvers that are associated with a specific function.
     ///
     /// - Parameter ListResolversByFunctionInput : [no documentation found]
@@ -854,11 +728,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listResolversByFunction(input: ListResolversByFunctionInput) async throws -> ListResolversByFunctionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSourceApiAssociations` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the SourceApiAssociationSummary data.
     ///
     /// - Parameter ListSourceApiAssociationsInput : [no documentation found]
@@ -873,11 +744,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listSourceApiAssociations(input: ListSourceApiAssociationsInput) async throws -> ListSourceApiAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -894,11 +762,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTypes` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists the types for a given API.
     ///
     /// - Parameter ListTypesInput : [no documentation found]
@@ -914,11 +779,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTypes(input: ListTypesInput) async throws -> ListTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTypesByAssociation` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Lists Type objects by the source API association ID.
     ///
     /// - Parameter ListTypesByAssociationInput : [no documentation found]
@@ -934,8 +796,6 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTypesByAssociation(input: ListTypesByAssociationInput) async throws -> ListTypesByAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartDataSourceIntrospection` operation on the `AWSDeepdishControlPlaneService` service.
     ///
     /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
@@ -954,7 +814,6 @@ public protocol AppSyncClientProtocol {
     func startDataSourceIntrospection(input: StartDataSourceIntrospectionInput) async throws -> StartDataSourceIntrospectionOutput
     /// Performs the `StartSchemaCreation` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     ///
     /// - Parameter StartSchemaCreationInput : [no documentation found]
@@ -970,11 +829,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func startSchemaCreation(input: StartSchemaCreationInput) async throws -> StartSchemaCreationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSchemaMerge` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
     ///
     /// - Parameter StartSchemaMergeInput : [no documentation found]
@@ -990,11 +846,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func startSchemaMerge(input: StartSchemaMergeInput) async throws -> StartSchemaMergeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Tags a resource with user-supplied tags.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1011,11 +864,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Untags a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1032,11 +882,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApiCache` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates the cache for the GraphQL API.
     ///
     /// - Parameter UpdateApiCacheInput : Represents the input of a UpdateApiCache operation.
@@ -1052,11 +899,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateApiCache(input: UpdateApiCacheInput) async throws -> UpdateApiCacheOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApiKey` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates an API key. You can update the key as long as it's not deleted.
     ///
     /// - Parameter UpdateApiKeyInput : [no documentation found]
@@ -1073,11 +917,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDataSource` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a DataSource object.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
@@ -1093,11 +934,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainName` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a custom DomainName object.
     ///
     /// - Parameter UpdateDomainNameInput : [no documentation found]
@@ -1113,11 +951,8 @@ public protocol AppSyncClientProtocol {
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFunction` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a Function object.
     ///
     /// - Parameter UpdateFunctionInput : [no documentation found]
@@ -1132,11 +967,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGraphqlApi` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a GraphqlApi object.
     ///
     /// - Parameter UpdateGraphqlApiInput : [no documentation found]
@@ -1153,11 +985,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateGraphqlApi(input: UpdateGraphqlApiInput) async throws -> UpdateGraphqlApiOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateResolver` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a Resolver object.
     ///
     /// - Parameter UpdateResolverInput : [no documentation found]
@@ -1173,11 +1002,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateResolver(input: UpdateResolverInput) async throws -> UpdateResolverOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSourceApiAssociation` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates some of the configuration choices of a particular source API association.
     ///
     /// - Parameter UpdateSourceApiAssociationInput : [no documentation found]
@@ -1193,11 +1019,8 @@ public protocol AppSyncClientProtocol {
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateSourceApiAssociation(input: UpdateSourceApiAssociationInput) async throws -> UpdateSourceApiAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateType` operation on the `AWSDeepdishControlPlaneService` service.
     ///
->>>>>>> main
     /// Updates a Type object.
     ///
     /// - Parameter UpdateTypeInput : [no documentation found]

@@ -22,11 +22,8 @@ public protocol KinesisVideoSignalingClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource is not found.
     /// - `SessionExpiredException` : If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
     func getIceServerConfig(input: GetIceServerConfigInput) async throws -> GetIceServerConfigOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendAlexaOfferToMaster` operation on the `AWSAcuitySignalingService` service.
     ///
->>>>>>> main
     /// This API allows you to connect WebRTC-enabled devices with Alexa display devices. When invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer. The offer is delivered as soon as the master is connected to the specified signaling channel. This API returns the SDP answer from the connected master. If the master is not connected to the signaling channel, redelivery requests are made until the message expires.
     ///
     /// - Parameter SendAlexaOfferToMasterInput : [no documentation found]

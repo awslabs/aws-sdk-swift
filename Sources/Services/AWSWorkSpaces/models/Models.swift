@@ -3333,8 +3333,6 @@ enum CreateWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension WorkSpacesClientTypes {
     public enum DataReplication: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case noReplication
@@ -3412,7 +3410,6 @@ extension WorkSpacesClientTypes {
 
 }
 
->>>>>>> main
 extension WorkSpacesClientTypes {
     public enum DedicatedTenancyModificationStateEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed

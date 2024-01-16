@@ -12,11 +12,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListAccessorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessorsOutput`
     public func listAccessorsPaginated(input: ListAccessorsInput) -> ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput>(input: input, inputKey: \ListAccessorsInput.nextToken, outputKey: \ListAccessorsOutput.nextToken, paginationFunction: self.listAccessors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccessorsInput, ListAccessorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessors(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListAccessorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccessorsInput, Output == ListAccessorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccessorsInput, OperationStackOutput == ListAccessorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccessorsPaginated`
     /// to access the nested member `[ManagedBlockchainClientTypes.AccessorSummary]`
     /// - Returns: `[ManagedBlockchainClientTypes.AccessorSummary]`
@@ -51,11 +43,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
->>>>>>> main
     }
 }
 
@@ -76,11 +64,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
->>>>>>> main
     }
 }
 
@@ -105,11 +89,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListNetworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNetworksOutput`
     public func listNetworksPaginated(input: ListNetworksInput) -> ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \ListNetworksInput.nextToken, outputKey: \ListNetworksOutput.nextToken, paginationFunction: self.listNetworks(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNetworksInput, ListNetworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNetworks(input:))
->>>>>>> main
     }
 }
 
@@ -133,11 +113,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
     public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodes(input:))
->>>>>>> main
     }
 }
 
@@ -161,11 +137,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListProposalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProposalsOutput`
     public func listProposalsPaginated(input: ListProposalsInput) -> ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput>(input: input, inputKey: \ListProposalsInput.nextToken, outputKey: \ListProposalsOutput.nextToken, paginationFunction: self.listProposals(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProposalsInput, ListProposalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProposals(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +159,7 @@ extension ManagedBlockchainClient {
     ///     - input: A `[ListProposalVotesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProposalVotesOutput`
     public func listProposalVotesPaginated(input: ListProposalVotesInput) -> ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput>(input: input, inputKey: \ListProposalVotesInput.nextToken, outputKey: \ListProposalVotesOutput.nextToken, paginationFunction: self.listProposalVotes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProposalVotesInput, ListProposalVotesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProposalVotes(input:))
->>>>>>> main
     }
 }
 

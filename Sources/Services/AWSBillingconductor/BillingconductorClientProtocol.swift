@@ -23,11 +23,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociatePricingRules` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Connects an array of PricingRuleArns to a defined PricingPlan. The maximum number PricingRuleArn that can be associated in one call is 30.
     ///
     /// - Parameter AssociatePricingRulesInput : [no documentation found]
@@ -45,11 +42,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchAssociateResourcesToCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Associates a batch of resources to a percentage custom line item.
     ///
     /// - Parameter BatchAssociateResourcesToCustomLineItemInput : [no documentation found]
@@ -67,11 +61,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchDisassociateResourcesFromCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Disassociates a batch of resources from a percentage custom line item.
     ///
     /// - Parameter BatchDisassociateResourcesFromCustomLineItemInput : [no documentation found]
@@ -88,11 +79,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBillingGroup` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
     ///
     /// - Parameter CreateBillingGroupInput : [no documentation found]
@@ -109,11 +97,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
     ///
     /// - Parameter CreateCustomLineItemInput : [no documentation found]
@@ -130,11 +115,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePricingPlan` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
     ///
     /// - Parameter CreatePricingPlanInput : [no documentation found]
@@ -152,11 +134,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePricingRule` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
     ///
     /// - Parameter CreatePricingRuleInput : [no documentation found]
@@ -173,11 +152,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBillingGroup` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Deletes a billing group.
     ///
     /// - Parameter DeleteBillingGroupInput : [no documentation found]
@@ -192,11 +168,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Deletes the custom line item identified by the given ARN in the current, or previous billing period.
     ///
     /// - Parameter DeleteCustomLineItemInput : [no documentation found]
@@ -212,11 +185,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePricingPlan` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
     ///
     /// - Parameter DeletePricingPlanInput : [no documentation found]
@@ -232,11 +202,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePricingRule` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
     ///
     /// - Parameter DeletePricingRuleInput : [no documentation found]
@@ -252,11 +219,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateAccounts` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Removes the specified list of account IDs from the given billing group.
     ///
     /// - Parameter DisassociateAccountsInput : [no documentation found]
@@ -273,11 +237,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociatePricingRules` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Disassociates a list of pricing rules from a pricing plan.
     ///
     /// - Parameter DisassociatePricingRulesInput : [no documentation found]
@@ -294,8 +255,6 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBillingGroupCostReport` operation on the `AWSBillingConductor` service.
     ///
     /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
@@ -315,7 +274,6 @@ public protocol BillingconductorClientProtocol {
     func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput
     /// Performs the `ListAccountAssociations` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     ///
     /// - Parameter ListAccountAssociationsInput : [no documentation found]
@@ -331,11 +289,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBillingGroupCostReports` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
     ///
     /// - Parameter ListBillingGroupCostReportsInput : [no documentation found]
@@ -351,11 +306,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBillingGroups` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
     ///
     /// - Parameter ListBillingGroupsInput : [no documentation found]
@@ -371,11 +323,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCustomLineItems` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
     /// - Parameter ListCustomLineItemsInput : [no documentation found]
@@ -391,11 +340,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCustomLineItemVersions` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A paginated call to get a list of all custom line item versions.
     ///
     /// - Parameter ListCustomLineItemVersionsInput : [no documentation found]
@@ -410,11 +356,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPricingPlans` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
     /// - Parameter ListPricingPlansInput : [no documentation found]
@@ -429,11 +372,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPricingPlansAssociatedWithPricingRule` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A list of the pricing plans that are associated with a pricing rule.
     ///
     /// - Parameter ListPricingPlansAssociatedWithPricingRuleInput : [no documentation found]
@@ -449,11 +389,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPricingRules` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
     ///
     /// - Parameter ListPricingRulesInput : [no documentation found]
@@ -468,11 +405,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPricingRulesAssociatedToPricingPlan` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Lists the pricing rules that are associated with a pricing plan.
     ///
     /// - Parameter ListPricingRulesAssociatedToPricingPlanInput : [no documentation found]
@@ -488,11 +422,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourcesAssociatedToCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// List the resources that are associated to a custom line item.
     ///
     /// - Parameter ListResourcesAssociatedToCustomLineItemInput : [no documentation found]
@@ -508,11 +439,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// A list the tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -528,11 +456,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -548,11 +473,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -568,11 +490,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBillingGroup` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// This updates an existing billing group.
     ///
     /// - Parameter UpdateBillingGroupInput : [no documentation found]
@@ -589,11 +508,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateCustomLineItem` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Update an existing custom line item in the current or previous billing period.
     ///
     /// - Parameter UpdateCustomLineItemInput : [no documentation found]
@@ -609,11 +525,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePricingPlan` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// This updates an existing pricing plan.
     ///
     /// - Parameter UpdatePricingPlanInput : [no documentation found]
@@ -630,11 +543,8 @@ public protocol BillingconductorClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
     func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePricingRule` operation on the `AWSBillingConductor` service.
     ///
->>>>>>> main
     /// Updates an existing pricing rule.
     ///
     /// - Parameter UpdatePricingRuleInput : [no documentation found]

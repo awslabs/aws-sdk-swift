@@ -23,11 +23,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelSigningProfile` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
     ///
     /// - Parameter CancelSigningProfileInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSigningJob` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the [StartSigningJob] operation.
     ///
     /// - Parameter DescribeSigningJobInput : [no documentation found]
@@ -61,11 +55,8 @@ public protocol SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRevocationStatus` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Retrieves the revocation status of one or more of the signing profile, signing job, and signing certificate.
     ///
     /// - Parameter GetRevocationStatusInput : [no documentation found]
@@ -80,11 +71,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSigningPlatform` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Returns information on a specific signing platform.
     ///
     /// - Parameter GetSigningPlatformInput : [no documentation found]
@@ -99,11 +87,8 @@ public protocol SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSigningProfile` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Returns information on a specific signing profile.
     ///
     /// - Parameter GetSigningProfileInput : [no documentation found]
@@ -118,11 +103,8 @@ public protocol SignerClientProtocol {
     /// - `ResourceNotFoundException` : A specified resource could not be found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProfilePermissions` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Lists the cross-account permissions associated with a signing profile.
     ///
     /// - Parameter ListProfilePermissionsInput : [no documentation found]
@@ -138,13 +120,9 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutput
-<<<<<<< HEAD
-    /// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
-=======
     /// Performs the `ListSigningJobs` operation on the `WallabyService` service.
     ///
     /// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
->>>>>>> main
     ///
     /// - Parameter ListSigningJobsInput : [no documentation found]
     ///
@@ -158,13 +136,9 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutput
-<<<<<<< HEAD
-    /// Lists all signing platforms available in code signing that match the request parameters. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
-=======
     /// Performs the `ListSigningPlatforms` operation on the `WallabyService` service.
     ///
     /// Lists all signing platforms available in AWS Signer that match the request parameters. If additional jobs remain to be listed, Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
->>>>>>> main
     ///
     /// - Parameter ListSigningPlatformsInput : [no documentation found]
     ///
@@ -178,13 +152,9 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutput
-<<<<<<< HEAD
-    /// Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
-=======
     /// Performs the `ListSigningProfiles` operation on the `WallabyService` service.
     ///
     /// Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true. If additional jobs remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that Signer returns in the nextToken parameter until all of your signing jobs have been returned.
->>>>>>> main
     ///
     /// - Parameter ListSigningProfilesInput : [no documentation found]
     ///
@@ -197,11 +167,8 @@ public protocol SignerClientProtocol {
     /// - `InternalServiceErrorException` : An internal error occurred.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Returns a list of the tags associated with a signing profile resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -216,13 +183,9 @@ public protocol SignerClientProtocol {
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-    /// Creates a signing profile. A signing profile is a code signing template that can be used to carry out a pre-defined signing job.
-=======
     /// Performs the `PutSigningProfile` operation on the `WallabyService` service.
     ///
     /// Creates a signing profile. A signing profile is a code-signing template that can be used to carry out a pre-defined signing job.
->>>>>>> main
     ///
     /// - Parameter PutSigningProfileInput : [no documentation found]
     ///
@@ -237,11 +200,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveProfilePermission` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Removes cross-account permissions from a signing profile.
     ///
     /// - Parameter RemoveProfilePermissionInput : [no documentation found]
@@ -258,11 +218,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RevokeSignature` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Changes the state of a signing job to REVOKED. This indicates that the signature is no longer valid.
     ///
     /// - Parameter RevokeSignatureInput : [no documentation found]
@@ -278,11 +235,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RevokeSigningProfile` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures generated using the signing profile after an effective start date are no longer valid.
     ///
     /// - Parameter RevokeSigningProfileInput : [no documentation found]
@@ -298,11 +252,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SignPayload` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Signs a binary payload and returns a signature envelope.
     ///
     /// - Parameter SignPayloadInput : [no documentation found]
@@ -318,11 +269,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartSigningJob` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Initiates a signing job to be performed on the code provided. Signing jobs are viewable by the ListSigningJobs operation for two years after they are performed. Note the following requirements:
     ///
     /// * You must create an Amazon S3 source bucket. For more information, see [Creating a Bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html) in the Amazon S3 Getting Started Guide.
@@ -352,11 +300,8 @@ public protocol SignerClientProtocol {
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     /// - `ValidationException` : You signing certificate could not be validated.
     func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value pair.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -371,11 +316,8 @@ public protocol SignerClientProtocol {
     /// - `NotFoundException` : The signing profile was not found.
     /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `WallabyService` service.
     ///
->>>>>>> main
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

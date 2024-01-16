@@ -1204,11 +1204,7 @@ extension DescribePipeInputBody: Swift.Decodable {
 
 extension DescribePipeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
-=======
         "DescribePipeOutput(arn: \(Swift.String(describing: arn)), creationTime: \(Swift.String(describing: creationTime)), currentState: \(Swift.String(describing: currentState)), desiredState: \(Swift.String(describing: desiredState)), enrichment: \(Swift.String(describing: enrichment)), enrichmentParameters: \(Swift.String(describing: enrichmentParameters)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), logConfiguration: \(Swift.String(describing: logConfiguration)), name: \(Swift.String(describing: name)), roleArn: \(Swift.String(describing: roleArn)), source: \(Swift.String(describing: source)), sourceParameters: \(Swift.String(describing: sourceParameters)), stateReason: \(Swift.String(describing: stateReason)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), targetParameters: \(Swift.String(describing: targetParameters)), description: \"CONTENT_REDACTED\")"}
->>>>>>> main
 }
 
 extension DescribePipeOutput: ClientRuntime.HttpResponseBinding {
@@ -1417,20 +1413,6 @@ extension DescribePipeOutputBody: Swift.Decodable {
         lastModifiedTime = lastModifiedTimeDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(PipesClientTypes.PipeLogConfiguration.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
-    }
-}
-
-enum DescribePipeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalException": return try await InternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -2626,8 +2608,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PipesClientTypes {
     public enum LogLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case error
@@ -2666,7 +2646,6 @@ extension PipesClientTypes {
     }
 }
 
->>>>>>> main
 extension PipesClientTypes.MQBrokerAccessCredentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case basicauth = "BasicAuth"

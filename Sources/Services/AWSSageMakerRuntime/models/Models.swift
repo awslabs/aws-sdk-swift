@@ -346,39 +346,8 @@ enum InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeEndpointInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeEndpointInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension InvokeEndpointInput: Swift.CustomDebugStringConvertible {
@@ -539,11 +508,7 @@ extension InvokeEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.body = nil
         }
     }
@@ -606,35 +571,6 @@ enum InvokeEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeEndpointWithResponseStreamInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceComponentName: \(Swift.String(describing: inferenceComponentName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}

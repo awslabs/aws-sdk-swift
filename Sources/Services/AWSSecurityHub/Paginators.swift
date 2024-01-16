@@ -12,11 +12,7 @@ extension SecurityHubClient {
     ///     - input: A `[DescribeActionTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeActionTargetsOutput`
     public func describeActionTargetsPaginated(input: DescribeActionTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeActionTargetsInput, DescribeActionTargetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeActionTargetsInput, DescribeActionTargetsOutput>(input: input, inputKey: \DescribeActionTargetsInput.nextToken, outputKey: \DescribeActionTargetsOutput.nextToken, paginationFunction: self.describeActionTargets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeActionTargetsInput, DescribeActionTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeActionTargets(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeActionTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeActionTargetsInput, Output == DescribeActionTargetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeActionTargetsInput, OperationStackOutput == DescribeActionTargetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeActionTargetsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.ActionTarget]`
     /// - Returns: `[SecurityHubClientTypes.ActionTarget]`
@@ -51,11 +43,7 @@ extension SecurityHubClient {
     ///     - input: A `[DescribeProductsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeProductsOutput`
     public func describeProductsPaginated(input: DescribeProductsInput) -> ClientRuntime.PaginatorSequence<DescribeProductsInput, DescribeProductsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeProductsInput, DescribeProductsOutput>(input: input, inputKey: \DescribeProductsInput.nextToken, outputKey: \DescribeProductsOutput.nextToken, paginationFunction: self.describeProducts(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeProductsInput, DescribeProductsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeProducts(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension DescribeProductsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeProductsInput, Output == DescribeProductsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeProductsInput, OperationStackOutput == DescribeProductsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeProductsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.Product]`
     /// - Returns: `[SecurityHubClientTypes.Product]`
@@ -90,11 +74,7 @@ extension SecurityHubClient {
     ///     - input: A `[DescribeStandardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStandardsOutput`
     public func describeStandardsPaginated(input: DescribeStandardsInput) -> ClientRuntime.PaginatorSequence<DescribeStandardsInput, DescribeStandardsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeStandardsInput, DescribeStandardsOutput>(input: input, inputKey: \DescribeStandardsInput.nextToken, outputKey: \DescribeStandardsOutput.nextToken, paginationFunction: self.describeStandards(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeStandardsInput, DescribeStandardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStandards(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +86,7 @@ extension DescribeStandardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeStandardsInput, Output == DescribeStandardsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeStandardsInput, OperationStackOutput == DescribeStandardsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStandardsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.Standard]`
     /// - Returns: `[SecurityHubClientTypes.Standard]`
@@ -128,11 +104,7 @@ extension SecurityHubClient {
     ///     - input: A `[DescribeStandardsControlsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeStandardsControlsOutput`
     public func describeStandardsControlsPaginated(input: DescribeStandardsControlsInput) -> ClientRuntime.PaginatorSequence<DescribeStandardsControlsInput, DescribeStandardsControlsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(input: input, inputKey: \DescribeStandardsControlsInput.nextToken, outputKey: \DescribeStandardsControlsOutput.nextToken, paginationFunction: self.describeStandardsControls(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeStandardsControlsInput, DescribeStandardsControlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeStandardsControls(input:))
->>>>>>> main
     }
 }
 
@@ -145,11 +117,7 @@ extension DescribeStandardsControlsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeStandardsControlsInput, Output == DescribeStandardsControlsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeStandardsControlsInput, OperationStackOutput == DescribeStandardsControlsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeStandardsControlsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.StandardsControl]`
     /// - Returns: `[SecurityHubClientTypes.StandardsControl]`
@@ -167,11 +135,7 @@ extension SecurityHubClient {
     ///     - input: A `[GetEnabledStandardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetEnabledStandardsOutput`
     public func getEnabledStandardsPaginated(input: GetEnabledStandardsInput) -> ClientRuntime.PaginatorSequence<GetEnabledStandardsInput, GetEnabledStandardsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetEnabledStandardsInput, GetEnabledStandardsOutput>(input: input, inputKey: \GetEnabledStandardsInput.nextToken, outputKey: \GetEnabledStandardsOutput.nextToken, paginationFunction: self.getEnabledStandards(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetEnabledStandardsInput, GetEnabledStandardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getEnabledStandards(input:))
->>>>>>> main
     }
 }
 
@@ -184,11 +148,7 @@ extension GetEnabledStandardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetEnabledStandardsInput, Output == GetEnabledStandardsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetEnabledStandardsInput, OperationStackOutput == GetEnabledStandardsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getEnabledStandardsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.StandardsSubscription]`
     /// - Returns: `[SecurityHubClientTypes.StandardsSubscription]`
@@ -206,11 +166,7 @@ extension SecurityHubClient {
     ///     - input: A `[GetFindingHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFindingHistoryOutput`
     public func getFindingHistoryPaginated(input: GetFindingHistoryInput) -> ClientRuntime.PaginatorSequence<GetFindingHistoryInput, GetFindingHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetFindingHistoryInput, GetFindingHistoryOutput>(input: input, inputKey: \GetFindingHistoryInput.nextToken, outputKey: \GetFindingHistoryOutput.nextToken, paginationFunction: self.getFindingHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetFindingHistoryInput, GetFindingHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingHistory(input:))
->>>>>>> main
     }
 }
 
@@ -225,11 +181,7 @@ extension GetFindingHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetFindingHistoryInput, Output == GetFindingHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetFindingHistoryInput, OperationStackOutput == GetFindingHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getFindingHistoryPaginated`
     /// to access the nested member `[SecurityHubClientTypes.FindingHistoryRecord]`
     /// - Returns: `[SecurityHubClientTypes.FindingHistoryRecord]`
@@ -247,11 +199,7 @@ extension SecurityHubClient {
     ///     - input: A `[GetFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsOutput`
     public func getFindingsPaginated(input: GetFindingsInput) -> ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput>(input: input, inputKey: \GetFindingsInput.nextToken, outputKey: \GetFindingsOutput.nextToken, paginationFunction: self.getFindings(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetFindingsInput, GetFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindings(input:))
->>>>>>> main
     }
 }
 
@@ -265,11 +213,7 @@ extension GetFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetFindingsInput, Output == GetFindingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetFindingsInput, OperationStackOutput == GetFindingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getFindingsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.AwsSecurityFinding]`
     /// - Returns: `[SecurityHubClientTypes.AwsSecurityFinding]`
@@ -287,11 +231,7 @@ extension SecurityHubClient {
     ///     - input: A `[GetInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInsightsOutput`
     public func getInsightsPaginated(input: GetInsightsInput) -> ClientRuntime.PaginatorSequence<GetInsightsInput, GetInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetInsightsInput, GetInsightsOutput>(input: input, inputKey: \GetInsightsInput.nextToken, outputKey: \GetInsightsOutput.nextToken, paginationFunction: self.getInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetInsightsInput, GetInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInsights(input:))
->>>>>>> main
     }
 }
 
@@ -304,11 +244,7 @@ extension GetInsightsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetInsightsInput, Output == GetInsightsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetInsightsInput, OperationStackOutput == GetInsightsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getInsightsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.Insight]`
     /// - Returns: `[SecurityHubClientTypes.Insight]`
@@ -317,8 +253,6 @@ extension PaginatorSequence where OperationStackInput == GetInsightsInput, Opera
     }
 }
 extension SecurityHubClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListConfigurationPoliciesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -380,7 +314,6 @@ extension PaginatorSequence where OperationStackInput == ListConfigurationPolicy
     }
 }
 extension SecurityHubClient {
->>>>>>> main
     /// Paginate over `[ListEnabledProductsForImportOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -390,11 +323,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListEnabledProductsForImportInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnabledProductsForImportOutput`
     public func listEnabledProductsForImportPaginated(input: ListEnabledProductsForImportInput) -> ClientRuntime.PaginatorSequence<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(input: input, inputKey: \ListEnabledProductsForImportInput.nextToken, outputKey: \ListEnabledProductsForImportOutput.nextToken, paginationFunction: self.listEnabledProductsForImport(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEnabledProductsForImportInput, ListEnabledProductsForImportOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnabledProductsForImport(input:))
->>>>>>> main
     }
 }
 
@@ -406,11 +335,7 @@ extension ListEnabledProductsForImportInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEnabledProductsForImportInput, Output == ListEnabledProductsForImportOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEnabledProductsForImportInput, OperationStackOutput == ListEnabledProductsForImportOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEnabledProductsForImportPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -428,11 +353,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListFindingAggregatorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingAggregatorsOutput`
     public func listFindingAggregatorsPaginated(input: ListFindingAggregatorsInput) -> ClientRuntime.PaginatorSequence<ListFindingAggregatorsInput, ListFindingAggregatorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(input: input, inputKey: \ListFindingAggregatorsInput.nextToken, outputKey: \ListFindingAggregatorsOutput.nextToken, paginationFunction: self.listFindingAggregators(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFindingAggregatorsInput, ListFindingAggregatorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindingAggregators(input:))
->>>>>>> main
     }
 }
 
@@ -444,11 +365,7 @@ extension ListFindingAggregatorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFindingAggregatorsInput, Output == ListFindingAggregatorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFindingAggregatorsInput, OperationStackOutput == ListFindingAggregatorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFindingAggregatorsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.FindingAggregator]`
     /// - Returns: `[SecurityHubClientTypes.FindingAggregator]`
@@ -466,11 +383,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
->>>>>>> main
     }
 }
 
@@ -482,11 +395,7 @@ extension ListInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInvitationsInput, Output == ListInvitationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInvitationsInput, OperationStackOutput == ListInvitationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInvitationsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.Invitation]`
     /// - Returns: `[SecurityHubClientTypes.Invitation]`
@@ -504,11 +413,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
->>>>>>> main
     }
 }
 
@@ -521,11 +426,7 @@ extension ListMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMembersInput, Output == ListMembersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMembersInput, OperationStackOutput == ListMembersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMembersPaginated`
     /// to access the nested member `[SecurityHubClientTypes.Member]`
     /// - Returns: `[SecurityHubClientTypes.Member]`
@@ -543,11 +444,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListOrganizationAdminAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutput`
     public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutput.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
->>>>>>> main
     }
 }
 
@@ -559,11 +456,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, Output == ListOrganizationAdminAccountsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOrganizationAdminAccountsInput, OperationStackOutput == ListOrganizationAdminAccountsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOrganizationAdminAccountsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.AdminAccount]`
     /// - Returns: `[SecurityHubClientTypes.AdminAccount]`
@@ -581,11 +474,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListSecurityControlDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityControlDefinitionsOutput`
     public func listSecurityControlDefinitionsPaginated(input: ListSecurityControlDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(input: input, inputKey: \ListSecurityControlDefinitionsInput.nextToken, outputKey: \ListSecurityControlDefinitionsOutput.nextToken, paginationFunction: self.listSecurityControlDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityControlDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -598,11 +487,7 @@ extension ListSecurityControlDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSecurityControlDefinitionsInput, Output == ListSecurityControlDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSecurityControlDefinitionsInput, OperationStackOutput == ListSecurityControlDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSecurityControlDefinitionsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.SecurityControlDefinition]`
     /// - Returns: `[SecurityHubClientTypes.SecurityControlDefinition]`
@@ -620,11 +505,7 @@ extension SecurityHubClient {
     ///     - input: A `[ListStandardsControlAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStandardsControlAssociationsOutput`
     public func listStandardsControlAssociationsPaginated(input: ListStandardsControlAssociationsInput) -> ClientRuntime.PaginatorSequence<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(input: input, inputKey: \ListStandardsControlAssociationsInput.nextToken, outputKey: \ListStandardsControlAssociationsOutput.nextToken, paginationFunction: self.listStandardsControlAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStandardsControlAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -637,11 +518,7 @@ extension ListStandardsControlAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListStandardsControlAssociationsInput, Output == ListStandardsControlAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListStandardsControlAssociationsInput, OperationStackOutput == ListStandardsControlAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStandardsControlAssociationsPaginated`
     /// to access the nested member `[SecurityHubClientTypes.StandardsControlAssociationSummary]`
     /// - Returns: `[SecurityHubClientTypes.StandardsControlAssociationSummary]`

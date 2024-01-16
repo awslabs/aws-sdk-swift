@@ -12,11 +12,7 @@ extension SnowballClient {
     ///     - input: A `[DescribeAddressesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAddressesOutput`
     public func describeAddressesPaginated(input: DescribeAddressesInput) -> ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutput>(input: input, inputKey: \DescribeAddressesInput.nextToken, outputKey: \DescribeAddressesOutput.nextToken, paginationFunction: self.describeAddresses(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAddressesInput, DescribeAddressesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAddresses(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension DescribeAddressesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAddressesInput, Output == DescribeAddressesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAddressesInput, OperationStackOutput == DescribeAddressesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAddressesPaginated`
     /// to access the nested member `[SnowballClientTypes.Address]`
     /// - Returns: `[SnowballClientTypes.Address]`
@@ -50,11 +42,7 @@ extension SnowballClient {
     ///     - input: A `[ListClusterJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClusterJobsOutput`
     public func listClusterJobsPaginated(input: ListClusterJobsInput) -> ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutput>(input: input, inputKey: \ListClusterJobsInput.nextToken, outputKey: \ListClusterJobsOutput.nextToken, paginationFunction: self.listClusterJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClusterJobsInput, ListClusterJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterJobs(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListClusterJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClusterJobsInput, Output == ListClusterJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClusterJobsInput, OperationStackOutput == ListClusterJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClusterJobsPaginated`
     /// to access the nested member `[SnowballClientTypes.JobListEntry]`
     /// - Returns: `[SnowballClientTypes.JobListEntry]`
@@ -89,11 +73,7 @@ extension SnowballClient {
     ///     - input: A `[ListClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
     public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusters(input:))
->>>>>>> main
     }
 }
 
@@ -105,11 +85,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[SnowballClientTypes.ClusterListEntry]`
     /// - Returns: `[SnowballClientTypes.ClusterListEntry]`
@@ -127,11 +103,7 @@ extension SnowballClient {
     ///     - input: A `[ListCompatibleImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCompatibleImagesOutput`
     public func listCompatibleImagesPaginated(input: ListCompatibleImagesInput) -> ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutput>(input: input, inputKey: \ListCompatibleImagesInput.nextToken, outputKey: \ListCompatibleImagesOutput.nextToken, paginationFunction: self.listCompatibleImages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCompatibleImagesInput, ListCompatibleImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCompatibleImages(input:))
->>>>>>> main
     }
 }
 
@@ -143,11 +115,7 @@ extension ListCompatibleImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCompatibleImagesInput, Output == ListCompatibleImagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCompatibleImagesInput, OperationStackOutput == ListCompatibleImagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCompatibleImagesPaginated`
     /// to access the nested member `[SnowballClientTypes.CompatibleImage]`
     /// - Returns: `[SnowballClientTypes.CompatibleImage]`
@@ -165,11 +133,7 @@ extension SnowballClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
->>>>>>> main
     }
 }
 
@@ -181,11 +145,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[SnowballClientTypes.JobListEntry]`
     /// - Returns: `[SnowballClientTypes.JobListEntry]`
@@ -203,11 +163,7 @@ extension SnowballClient {
     ///     - input: A `[ListLongTermPricingInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLongTermPricingOutput`
     public func listLongTermPricingPaginated(input: ListLongTermPricingInput) -> ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutput>(input: input, inputKey: \ListLongTermPricingInput.nextToken, outputKey: \ListLongTermPricingOutput.nextToken, paginationFunction: self.listLongTermPricing(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLongTermPricingInput, ListLongTermPricingOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLongTermPricing(input:))
->>>>>>> main
     }
 }
 
@@ -219,11 +175,7 @@ extension ListLongTermPricingInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLongTermPricingInput, Output == ListLongTermPricingOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLongTermPricingInput, OperationStackOutput == ListLongTermPricingOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLongTermPricingPaginated`
     /// to access the nested member `[SnowballClientTypes.LongTermPricingListEntry]`
     /// - Returns: `[SnowballClientTypes.LongTermPricingListEntry]`
@@ -241,11 +193,7 @@ extension SnowballClient {
     ///     - input: A `[ListPickupLocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPickupLocationsOutput`
     public func listPickupLocationsPaginated(input: ListPickupLocationsInput) -> ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutput>(input: input, inputKey: \ListPickupLocationsInput.nextToken, outputKey: \ListPickupLocationsOutput.nextToken, paginationFunction: self.listPickupLocations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPickupLocationsInput, ListPickupLocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPickupLocations(input:))
->>>>>>> main
     }
 }
 

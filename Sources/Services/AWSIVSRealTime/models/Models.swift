@@ -941,8 +941,6 @@ enum CreateStageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateStorageConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -1158,7 +1156,6 @@ enum DeleteEncoderConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension DeleteStageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -1232,8 +1229,6 @@ enum DeleteStageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteStorageConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -1597,7 +1592,6 @@ extension IVSRealTimeClientTypes {
 
 }
 
->>>>>>> main
 extension DisconnectParticipantInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case participantId
@@ -1695,8 +1689,6 @@ enum DisconnectParticipantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IVSRealTimeClientTypes.EncoderConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -1843,7 +1835,6 @@ extension IVSRealTimeClientTypes {
 
 }
 
->>>>>>> main
 extension IVSRealTimeClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode
@@ -2512,8 +2503,6 @@ extension GetStageSessionOutput: ClientRuntime.HttpResponseBinding {
             self.stageSession = output.stageSession
         } else {
             self.stageSession = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -2568,30 +2557,10 @@ extension GetStorageConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetStageSessionOutput: Swift.Equatable {
-    /// The stage session that is returned.
-    public var stageSession: IVSRealTimeClientTypes.StageSession?
-
-    public init(
-        stageSession: IVSRealTimeClientTypes.StageSession? = nil
-    )
-    {
-        self.stageSession = stageSession
-    }
-}
-
-struct GetStageSessionOutputBody: Swift.Equatable {
-    let stageSession: IVSRealTimeClientTypes.StageSession?
-}
-
-extension GetStageSessionOutputBody: Swift.Decodable {
-=======
 extension GetStorageConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/GetStorageConfiguration"
@@ -2616,7 +2585,6 @@ struct GetStorageConfigurationInputBody: Swift.Equatable {
 }
 
 extension GetStorageConfigurationInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
     }
@@ -2628,9 +2596,6 @@ extension GetStorageConfigurationInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-enum GetStageSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-=======
 extension GetStorageConfigurationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2672,28 +2637,21 @@ extension GetStorageConfigurationOutputBody: Swift.Decodable {
 }
 
 enum GetStorageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
->>>>>>> main
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-=======
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IVSRealTimeClientTypes.GridConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case featuredParticipantAttribute
@@ -2729,7 +2687,6 @@ extension IVSRealTimeClientTypes {
 
 }
 
->>>>>>> main
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3419,11 +3376,7 @@ extension ListParticipantsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListParticipantsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
-=======
     /// If there are more participants than maxResults, use nextToken in the request to get the next set.
->>>>>>> main
     public var nextToken: Swift.String?
     /// List of the matching participants (summary information only).
     /// This member is required.
@@ -3567,11 +3520,7 @@ extension ListStageSessionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListStageSessionsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
-=======
     /// If there are more stage sessions than maxResults, use nextToken in the request to get the next set.
->>>>>>> main
     public var nextToken: Swift.String?
     /// List of matching stage sessions.
     /// This member is required.
@@ -3702,11 +3651,7 @@ extension ListStagesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListStagesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// If there are more rooms than maxResults, use nextToken in the request to get the next set.
-=======
     /// If there are more stages than maxResults, use nextToken in the request to get the next set.
->>>>>>> main
     public var nextToken: Swift.String?
     /// List of the matching stages (summary information only).
     /// This member is required.
@@ -3764,8 +3709,6 @@ enum ListStagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListStorageConfigurationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -3900,7 +3843,6 @@ enum ListStorageConfigurationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {

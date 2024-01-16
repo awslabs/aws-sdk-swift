@@ -22715,46 +22715,6 @@ extension UpdateGameSessionOutputBody: Swift.Decodable {
     }
 }
 
-extension UpdateGameSessionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateGameSessionOutputBody = try responseDecoder.decode(responseBody: data)
-            self.gameSession = output.gameSession
-        } else {
-            self.gameSession = nil
-        }
-    }
-}
-
-public struct UpdateGameSessionOutput: Swift.Equatable {
-    /// The updated game session properties.
-    public var gameSession: GameLiftClientTypes.GameSession?
-
-    public init(
-        gameSession: GameLiftClientTypes.GameSession? = nil
-    )
-    {
-        self.gameSession = gameSession
-    }
-}
-
-struct UpdateGameSessionOutputBody: Swift.Equatable {
-    let gameSession: GameLiftClientTypes.GameSession?
-}
-
-extension UpdateGameSessionOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case gameSession = "GameSession"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let gameSessionDecoded = try containerValues.decodeIfPresent(GameLiftClientTypes.GameSession.self, forKey: .gameSession)
-        gameSession = gameSessionDecoded
-    }
-}
-
 enum UpdateGameSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

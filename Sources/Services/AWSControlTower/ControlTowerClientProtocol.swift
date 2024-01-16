@@ -2,41 +2,22 @@
 
 import ClientRuntime
 
-<<<<<<< HEAD
-/// These interfaces allow you to apply the AWS library of pre-defined controls to your organizational units, programmatically. In AWS Control Tower, the terms "control" and "guardrail" are synonyms. . To call these APIs, you'll need to know:
-=======
 /// These interfaces allow you to apply the Amazon Web Services library of pre-defined controls to your organizational units, programmatically. In Amazon Web Services Control Tower, the terms "control" and "guardrail" are synonyms. To call these APIs, you'll need to know:
->>>>>>> main
 ///
 /// * the controlIdentifier for the control--or guardrail--you are targeting.
 ///
 /// * the ARN associated with the target organizational unit (OU), which we call the targetIdentifier.
-<<<<<<< HEAD
-///
-///
-/// To get the controlIdentifier for your AWS Control Tower control: The controlIdentifier is an ARN that is specified for each control. You can view the controlIdentifier in the console on the Control details page, as well as in the documentation. The controlIdentifier is unique in each AWS Region for each control. You can find the controlIdentifier for each Region and control in the [Tables of control metadata](https://docs.aws.amazon.com/controltower/latest/userguide/control-metadata-tables.html) in the AWS Control Tower User Guide. A quick-reference list of control identifers for the AWS Control Tower legacy Strongly recommended and Elective controls is given in [Resource identifiers for APIs and guardrails](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html.html) in the [Controls reference guide section](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html) of the AWS Control Tower User Guide. Remember that Mandatory controls cannot be added or removed. ARN format: arn:aws:controltower:{REGION}::control/{CONTROL_NAME} Example: arn:aws:controltower:us-west-2::control/AWS-GR_AUTOSCALING_LAUNCH_CONFIG_PUBLIC_IP_DISABLED To get the targetIdentifier: The targetIdentifier is the ARN for an OU. In the AWS Organizations console, you can find the ARN for the OU on the Organizational unit details page associated with that OU. OU ARN format: arn:${Partition}:organizations::${MasterAccountId}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId} Details and examples
-=======
 ///
 /// * the ARN associated with a resource that you wish to tag or untag.
 ///
 ///
 /// To get the controlIdentifier for your Amazon Web Services Control Tower control: The controlIdentifier is an ARN that is specified for each control. You can view the controlIdentifier in the console on the Control details page, as well as in the documentation. The controlIdentifier is unique in each Amazon Web Services Region for each control. You can find the controlIdentifier for each Region and control in the [Tables of control metadata](https://docs.aws.amazon.com/controltower/latest/userguide/control-metadata-tables.html) in the Amazon Web Services Control Tower User Guide. A quick-reference list of control identifers for the Amazon Web Services Control Tower legacy Strongly recommended and Elective controls is given in [Resource identifiers for APIs and controls](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html.html) in the [Controls reference guide section](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html) of the Amazon Web Services Control Tower User Guide. Remember that Mandatory controls cannot be added or removed. ARN format: arn:aws:controltower:{REGION}::control/{CONTROL_NAME} Example: arn:aws:controltower:us-west-2::control/AWS-GR_AUTOSCALING_LAUNCH_CONFIG_PUBLIC_IP_DISABLED To get the targetIdentifier: The targetIdentifier is the ARN for an OU. In the Amazon Web Services Organizations console, you can find the ARN for the OU on the Organizational unit details page associated with that OU. OU ARN format: arn:${Partition}:organizations::${MasterAccountId}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId} Details and examples
->>>>>>> main
 ///
 /// * [Control API input and output examples with CLI](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
 ///
 /// * [Enable controls with CloudFormation](https://docs.aws.amazon.com/controltower/latest/userguide/enable-controls.html)
 ///
 /// * [Control metadata tables](https://docs.aws.amazon.com/controltower/latest/userguide/control-metadata-tables.html)
-<<<<<<< HEAD
-///
-/// * [List of identifiers for legacy controls](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html)
-///
-/// * [Controls reference guide](https://docs.aws.amazon.com/controltower/latest/userguide/controls.html)
-///
-/// * [Controls library groupings](https://docs.aws.amazon.com/controltower/latest/userguide/controls-reference.html)
-=======
->>>>>>> main
 ///
 /// * [List of identifiers for legacy controls](https://docs.aws.amazon.com/controltower/latest/userguide/control-identifiers.html)
 ///
@@ -49,9 +30,6 @@ import ClientRuntime
 ///
 /// To view the open source resource repository on GitHub, see [aws-cloudformation/aws-cloudformation-resource-providers-controltower](https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-controltower) Recording API Requests Amazon Web Services Control Tower supports Amazon Web Services CloudTrail, a service that records Amazon Web Services API calls for your Amazon Web Services account and delivers log files to an Amazon S3 bucket. By using information collected by CloudTrail, you can determine which requests the Amazon Web Services Control Tower service received, who made the request and when, and so on. For more about Amazon Web Services Control Tower and its support for CloudTrail, see [Logging Amazon Web Services Control Tower Actions with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/controltower/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Control Tower User Guide. To learn more about CloudTrail, including how to turn it on and find your log files, see the Amazon Web Services CloudTrail User Guide.
 public protocol ControlTowerClientProtocol {
-<<<<<<< HEAD
-    /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
-=======
     /// Performs the `CreateLandingZone` operation on the `AWSControlTowerApis` service.
     ///
     /// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
@@ -90,7 +68,6 @@ public protocol ControlTowerClientProtocol {
     /// Performs the `DisableControl` operation on the `AWSControlTowerApis` service.
     ///
     /// This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter DisableControlInput : [no documentation found]
     ///
@@ -99,17 +76,6 @@ public protocol ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func disableControl(input: DisableControlInput) async throws -> DisableControlOutput
-    /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
@@ -121,7 +87,6 @@ public protocol ControlTowerClientProtocol {
     /// Performs the `EnableControl` operation on the `AWSControlTowerApis` service.
     ///
     /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter EnableControlInput : [no documentation found]
     ///
@@ -130,17 +95,6 @@ public protocol ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func enableControl(input: EnableControlInput) async throws -> EnableControlOutput
-    /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
@@ -152,7 +106,6 @@ public protocol ControlTowerClientProtocol {
     /// Performs the `GetControlOperation` operation on the `AWSControlTowerApis` service.
     ///
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter GetControlOperationInput : [no documentation found]
     ///
@@ -161,21 +114,6 @@ public protocol ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutput
-    /// Provides details about the enabled control. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html). Returned values
-    ///
-    /// * TargetRegions: Shows target AWS Regions where the enabled control is available to be deployed.
-    ///
-    /// * StatusSummary: Provides a detailed summary of the deployment status.
-    ///
-    /// * DriftSummary: Provides a detailed summary of the drifted status.
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
@@ -185,7 +123,6 @@ public protocol ControlTowerClientProtocol {
     /// Performs the `GetEnabledControl` operation on the `AWSControlTowerApis` service.
     ///
     /// Retrieves details about an enabled control. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter GetEnabledControlInput : [no documentation found]
     ///
@@ -194,15 +131,6 @@ public protocol ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func getEnabledControl(input: GetEnabledControlInput) async throws -> GetEnabledControlOutput
-    /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the AWS Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html)
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
@@ -246,7 +174,6 @@ public protocol ControlTowerClientProtocol {
     /// Performs the `ListEnabledControls` operation on the `AWSControlTowerApis` service.
     ///
     /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/control-api-examples-short.html).
->>>>>>> main
     ///
     /// - Parameter ListEnabledControlsInput : [no documentation found]
     ///
@@ -255,14 +182,6 @@ public protocol ControlTowerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-<<<<<<< HEAD
-    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
-    /// - `InternalServerException` : Unexpected error during processing of request.
-    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
-    /// - `ThrottlingException` : Request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
-    func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutput
-=======
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
@@ -385,7 +304,6 @@ public protocol ControlTowerClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     func updateLandingZone(input: UpdateLandingZoneInput) async throws -> UpdateLandingZoneOutput
->>>>>>> main
 }
 
 public enum ControlTowerClientTypes {}

@@ -2773,47 +2773,6 @@ extension GlacierClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct InitiateJobInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InitiateJobInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InitiateJobInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InitiateJobOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let jobParameters = input.operationInput.jobParameters {
-                let jobParametersData = try encoder.encode(jobParameters)
-                let jobParametersBody = ClientRuntime.HttpBody.data(jobParametersData)
-                input.builder.withBody(jobParametersBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let jobParametersData = "{}".data(using: .utf8)!
-                    let jobParametersBody = ClientRuntime.HttpBody.data(jobParametersData)
-                    input.builder.withBody(jobParametersBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InitiateJobInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InitiateJobOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InitiateJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobParameters
@@ -3038,51 +2997,8 @@ enum InitiateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct InitiateVaultLockInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InitiateVaultLockInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InitiateVaultLockInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InitiateVaultLockOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let policy = input.operationInput.policy {
-                let policyData = try encoder.encode(policy)
-                let policyBody = ClientRuntime.HttpBody.data(policyData)
-                input.builder.withBody(policyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let policyData = "{}".data(using: .utf8)!
-                    let policyBody = ClientRuntime.HttpBody.data(policyData)
-                    input.builder.withBody(policyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InitiateVaultLockInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InitiateVaultLockOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension InitiateVaultLockInput: Swift.Encodable {
@@ -5615,47 +5531,6 @@ enum SetDataRetrievalPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct SetVaultAccessPolicyInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "SetVaultAccessPolicyInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<SetVaultAccessPolicyInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SetVaultAccessPolicyOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let policy = input.operationInput.policy {
-                let policyData = try encoder.encode(policy)
-                let policyBody = ClientRuntime.HttpBody.data(policyData)
-                input.builder.withBody(policyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let policyData = "{}".data(using: .utf8)!
-                    let policyBody = ClientRuntime.HttpBody.data(policyData)
-                    input.builder.withBody(policyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<SetVaultAccessPolicyInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SetVaultAccessPolicyOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension SetVaultAccessPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy
@@ -5744,47 +5619,6 @@ enum SetVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct SetVaultNotificationsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "SetVaultNotificationsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<SetVaultNotificationsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SetVaultNotificationsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let vaultNotificationConfig = input.operationInput.vaultNotificationConfig {
-                let vaultNotificationConfigData = try encoder.encode(vaultNotificationConfig)
-                let vaultNotificationConfigBody = ClientRuntime.HttpBody.data(vaultNotificationConfigData)
-                input.builder.withBody(vaultNotificationConfigBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let vaultNotificationConfigData = "{}".data(using: .utf8)!
-                    let vaultNotificationConfigBody = ClientRuntime.HttpBody.data(vaultNotificationConfigData)
-                    input.builder.withBody(vaultNotificationConfigBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<SetVaultNotificationsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SetVaultNotificationsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension SetVaultNotificationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vaultNotificationConfig
@@ -5978,34 +5812,6 @@ extension GlacierClientTypes {
     }
 }
 
-<<<<<<< HEAD
-public struct UploadArchiveInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UploadArchiveInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UploadArchiveInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadArchiveOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UploadArchiveInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadArchiveOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UploadArchiveInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body
@@ -6222,34 +6028,6 @@ extension GlacierClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct UploadMultipartPartInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UploadMultipartPartInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UploadMultipartPartInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UploadMultipartPartOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UploadMultipartPartInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UploadMultipartPartOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UploadMultipartPartInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body

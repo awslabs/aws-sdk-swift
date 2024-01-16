@@ -12,11 +12,7 @@ extension PIClient {
     ///     - input: A `[DescribeDimensionKeysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDimensionKeysOutput`
     public func describeDimensionKeysPaginated(input: DescribeDimensionKeysInput) -> ClientRuntime.PaginatorSequence<DescribeDimensionKeysInput, DescribeDimensionKeysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(input: input, inputKey: \DescribeDimensionKeysInput.nextToken, outputKey: \DescribeDimensionKeysOutput.nextToken, paginationFunction: self.describeDimensionKeys(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeDimensionKeysInput, DescribeDimensionKeysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeDimensionKeys(input:))
->>>>>>> main
     }
 }
 
@@ -47,11 +43,7 @@ extension PIClient {
     ///     - input: A `[GetResourceMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceMetricsOutput`
     public func getResourceMetricsPaginated(input: GetResourceMetricsInput) -> ClientRuntime.PaginatorSequence<GetResourceMetricsInput, GetResourceMetricsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetResourceMetricsInput, GetResourceMetricsOutput>(input: input, inputKey: \GetResourceMetricsInput.nextToken, outputKey: \GetResourceMetricsOutput.nextToken, paginationFunction: self.getResourceMetrics(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetResourceMetricsInput, GetResourceMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceMetrics(input:))
->>>>>>> main
     }
 }
 
@@ -79,11 +71,7 @@ extension PIClient {
     ///     - input: A `[ListAvailableResourceDimensionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceDimensionsOutput`
     public func listAvailableResourceDimensionsPaginated(input: ListAvailableResourceDimensionsInput) -> ClientRuntime.PaginatorSequence<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(input: input, inputKey: \ListAvailableResourceDimensionsInput.nextToken, outputKey: \ListAvailableResourceDimensionsOutput.nextToken, paginationFunction: self.listAvailableResourceDimensions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailableResourceDimensions(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +95,7 @@ extension PIClient {
     ///     - input: A `[ListAvailableResourceMetricsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceMetricsOutput`
     public func listAvailableResourceMetricsPaginated(input: ListAvailableResourceMetricsInput) -> ClientRuntime.PaginatorSequence<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(input: input, inputKey: \ListAvailableResourceMetricsInput.nextToken, outputKey: \ListAvailableResourceMetricsOutput.nextToken, paginationFunction: self.listAvailableResourceMetrics(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAvailableResourceMetrics(input:))
->>>>>>> main
     }
 }
 
@@ -135,11 +119,7 @@ extension PIClient {
     ///     - input: A `[ListPerformanceAnalysisReportsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPerformanceAnalysisReportsOutput`
     public func listPerformanceAnalysisReportsPaginated(input: ListPerformanceAnalysisReportsInput) -> ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(input: input, inputKey: \ListPerformanceAnalysisReportsInput.nextToken, outputKey: \ListPerformanceAnalysisReportsOutput.nextToken, paginationFunction: self.listPerformanceAnalysisReports(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPerformanceAnalysisReportsInput, ListPerformanceAnalysisReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPerformanceAnalysisReports(input:))
->>>>>>> main
     }
 }
 

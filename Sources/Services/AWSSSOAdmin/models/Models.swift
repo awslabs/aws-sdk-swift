@@ -1497,8 +1497,6 @@ enum CreateAccountAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateApplicationAssignmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -1803,7 +1801,6 @@ enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
@@ -1891,8 +1888,6 @@ enum CreateInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -2032,7 +2027,6 @@ enum CreateInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreatePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -2211,8 +2205,6 @@ enum CreatePermissionSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateTrustedTokenIssuerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -2392,7 +2384,6 @@ enum CreateTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension SSOAdminClientTypes.CustomerManagedPolicyReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -2608,8 +2599,6 @@ enum DeleteAccountAssignmentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteApplicationAccessScopeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -3045,7 +3034,6 @@ enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteInlinePolicyFromPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -3207,8 +3195,6 @@ enum DeleteInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -3282,7 +3268,6 @@ enum DeleteInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeletePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -3457,8 +3442,6 @@ enum DeletePermissionsBoundaryFromPermissionSetOutputError: ClientRuntime.HttpRe
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteTrustedTokenIssuerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
@@ -3533,7 +3516,6 @@ enum DeleteTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension DescribeAccountAssignmentCreationStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountAssignmentCreationRequestId = "AccountAssignmentCreationRequestId"
@@ -3766,8 +3748,6 @@ enum DescribeAccountAssignmentDeletionStatusOutputError: ClientRuntime.HttpRespo
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeApplicationAssignmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -4234,7 +4214,6 @@ enum DescribeApplicationProviderOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension DescribeInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -4358,8 +4337,6 @@ enum DescribeInstanceAccessControlAttributeConfigurationOutputError: ClientRunti
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -4512,7 +4489,6 @@ enum DescribeInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DescribePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -4745,8 +4721,6 @@ enum DescribePermissionSetProvisioningStatusOutputError: ClientRuntime.HttpRespo
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeTrustedTokenIssuerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case trustedTokenIssuerArn = "TrustedTokenIssuerArn"
@@ -4880,7 +4854,6 @@ enum DescribeTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customerManagedPolicyReference = "CustomerManagedPolicyReference"
@@ -5081,8 +5054,6 @@ enum DetachManagedPolicyFromPermissionSetOutputError: ClientRuntime.HttpResponse
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SSOAdminClientTypes.DisplayData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -5643,7 +5614,6 @@ enum GetApplicationGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetInlinePolicyForPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -5876,8 +5846,6 @@ enum GetPermissionsBoundaryForPermissionSetOutputError: ClientRuntime.HttpRespon
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SSOAdminClientTypes.Grant: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizationcode = "AuthorizationCode"
@@ -6066,7 +6034,6 @@ extension SSOAdminClientTypes {
 
 }
 
->>>>>>> main
 extension SSOAdminClientTypes.InstanceAccessControlAttributeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControlAttributes = "AccessControlAttributes"
@@ -6717,8 +6684,6 @@ enum ListAccountAssignmentDeletionStatusOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SSOAdminClientTypes.ListAccountAssignmentsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -6938,7 +6903,6 @@ enum ListAccountAssignmentsForPrincipalOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
->>>>>>> main
 extension ListAccountAssignmentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -7282,8 +7246,6 @@ enum ListAccountsForProvisionedPermissionSetOutputError: ClientRuntime.HttpRespo
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListApplicationAccessScopesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -8399,7 +8361,6 @@ enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListCustomerManagedPolicyReferencesInPermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -9471,8 +9432,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListTrustedTokenIssuersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -9742,7 +9701,6 @@ extension SSOAdminClientTypes {
 
 }
 
->>>>>>> main
 extension SSOAdminClientTypes.OperationStatusFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
@@ -10930,8 +10888,6 @@ enum PutPermissionsBoundaryToPermissionSetOutputError: ClientRuntime.HttpRespons
     }
 }
 
-<<<<<<< HEAD
-=======
 extension SSOAdminClientTypes.RefreshTokenGrant: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10952,7 +10908,6 @@ extension SSOAdminClientTypes {
 
 }
 
->>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11862,8 +11817,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn = "ApplicationArn"
@@ -12021,7 +11974,6 @@ extension SSOAdminClientTypes {
 
 }
 
->>>>>>> main
 extension UpdateInstanceAccessControlAttributeConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceAccessControlAttributeConfiguration = "InstanceAccessControlAttributeConfiguration"
@@ -12109,8 +12061,6 @@ enum UpdateInstanceAccessControlAttributeConfigurationOutputError: ClientRuntime
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceArn = "InstanceArn"
@@ -12197,7 +12147,6 @@ enum UpdateInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdatePermissionSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -12321,8 +12270,6 @@ enum UpdatePermissionSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateTrustedTokenIssuerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -12421,7 +12368,6 @@ enum UpdateTrustedTokenIssuerOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

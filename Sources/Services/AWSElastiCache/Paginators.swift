@@ -12,11 +12,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheClustersOutput`
     public func describeCacheClustersPaginated(input: DescribeCacheClustersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutput>(input: input, inputKey: \DescribeCacheClustersInput.marker, outputKey: \DescribeCacheClustersOutput.marker, paginationFunction: self.describeCacheClusters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheClustersInput, DescribeCacheClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheClusters(input:))
->>>>>>> main
     }
 }
 
@@ -31,11 +27,7 @@ extension DescribeCacheClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheClustersInput, Output == DescribeCacheClustersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheClustersInput, OperationStackOutput == DescribeCacheClustersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheClustersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheCluster]`
     /// - Returns: `[ElastiCacheClientTypes.CacheCluster]`
@@ -53,11 +45,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheEngineVersionsOutput`
     public func describeCacheEngineVersionsPaginated(input: DescribeCacheEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>(input: input, inputKey: \DescribeCacheEngineVersionsInput.marker, outputKey: \DescribeCacheEngineVersionsOutput.marker, paginationFunction: self.describeCacheEngineVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheEngineVersions(input:))
->>>>>>> main
     }
 }
 
@@ -73,11 +61,7 @@ extension DescribeCacheEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheEngineVersionsInput, Output == DescribeCacheEngineVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheEngineVersionsInput, OperationStackOutput == DescribeCacheEngineVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheEngineVersionsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheEngineVersion]`
     /// - Returns: `[ElastiCacheClientTypes.CacheEngineVersion]`
@@ -95,11 +79,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParameterGroupsOutput`
     public func describeCacheParameterGroupsPaginated(input: DescribeCacheParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>(input: input, inputKey: \DescribeCacheParameterGroupsInput.marker, outputKey: \DescribeCacheParameterGroupsOutput.marker, paginationFunction: self.describeCacheParameterGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheParameterGroups(input:))
->>>>>>> main
     }
 }
 
@@ -112,11 +92,7 @@ extension DescribeCacheParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheParameterGroupsInput, Output == DescribeCacheParameterGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheParameterGroupsInput, OperationStackOutput == DescribeCacheParameterGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheParameterGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheParameterGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheParameterGroup]`
@@ -134,11 +110,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheParametersOutput`
     public func describeCacheParametersPaginated(input: DescribeCacheParametersInput) -> ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutput>(input: input, inputKey: \DescribeCacheParametersInput.marker, outputKey: \DescribeCacheParametersOutput.marker, paginationFunction: self.describeCacheParameters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheParametersInput, DescribeCacheParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheParameters(input:))
->>>>>>> main
     }
 }
 
@@ -152,11 +124,7 @@ extension DescribeCacheParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheParametersInput, Output == DescribeCacheParametersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheParametersInput, OperationStackOutput == DescribeCacheParametersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheParametersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Parameter]`
     /// - Returns: `[ElastiCacheClientTypes.Parameter]`
@@ -174,11 +142,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheSecurityGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSecurityGroupsOutput`
     public func describeCacheSecurityGroupsPaginated(input: DescribeCacheSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>(input: input, inputKey: \DescribeCacheSecurityGroupsInput.marker, outputKey: \DescribeCacheSecurityGroupsOutput.marker, paginationFunction: self.describeCacheSecurityGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheSecurityGroups(input:))
->>>>>>> main
     }
 }
 
@@ -191,11 +155,7 @@ extension DescribeCacheSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheSecurityGroupsInput, Output == DescribeCacheSecurityGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheSecurityGroupsInput, OperationStackOutput == DescribeCacheSecurityGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheSecurityGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheSecurityGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheSecurityGroup]`
@@ -213,11 +173,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeCacheSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCacheSubnetGroupsOutput`
     public func describeCacheSubnetGroupsPaginated(input: DescribeCacheSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>(input: input, inputKey: \DescribeCacheSubnetGroupsInput.marker, outputKey: \DescribeCacheSubnetGroupsOutput.marker, paginationFunction: self.describeCacheSubnetGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCacheSubnetGroups(input:))
->>>>>>> main
     }
 }
 
@@ -230,11 +186,7 @@ extension DescribeCacheSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeCacheSubnetGroupsInput, Output == DescribeCacheSubnetGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeCacheSubnetGroupsInput, OperationStackOutput == DescribeCacheSubnetGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeCacheSubnetGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.CacheSubnetGroup]`
     /// - Returns: `[ElastiCacheClientTypes.CacheSubnetGroup]`
@@ -252,11 +204,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeEngineDefaultParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEngineDefaultParametersOutput`
     public func describeEngineDefaultParametersPaginated(input: DescribeEngineDefaultParametersInput) -> ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \DescribeEngineDefaultParametersInput.marker, outputKey: \DescribeEngineDefaultParametersOutput.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(input: input, inputKey: \.marker, outputKey: \.engineDefaults?.marker, paginationFunction: self.describeEngineDefaultParameters(input:))
->>>>>>> main
     }
 }
 
@@ -269,11 +217,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEngineDefaultParametersInput, Output == DescribeEngineDefaultParametersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEngineDefaultParametersInput, OperationStackOutput == DescribeEngineDefaultParametersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEngineDefaultParametersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Parameter]`
     /// - Returns: `[ElastiCacheClientTypes.Parameter]`
@@ -291,11 +235,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
->>>>>>> main
     }
 }
 
@@ -312,11 +252,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Event]`
     /// - Returns: `[ElastiCacheClientTypes.Event]`
@@ -334,11 +270,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeGlobalReplicationGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalReplicationGroupsOutput`
     public func describeGlobalReplicationGroupsPaginated(input: DescribeGlobalReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>(input: input, inputKey: \DescribeGlobalReplicationGroupsInput.marker, outputKey: \DescribeGlobalReplicationGroupsOutput.marker, paginationFunction: self.describeGlobalReplicationGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeGlobalReplicationGroups(input:))
->>>>>>> main
     }
 }
 
@@ -352,11 +284,7 @@ extension DescribeGlobalReplicationGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGlobalReplicationGroupsInput, Output == DescribeGlobalReplicationGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGlobalReplicationGroupsInput, OperationStackOutput == DescribeGlobalReplicationGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalReplicationGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.GlobalReplicationGroup]`
     /// - Returns: `[ElastiCacheClientTypes.GlobalReplicationGroup]`
@@ -374,11 +302,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeReplicationGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReplicationGroupsOutput`
     public func describeReplicationGroupsPaginated(input: DescribeReplicationGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(input: input, inputKey: \DescribeReplicationGroupsInput.marker, outputKey: \DescribeReplicationGroupsOutput.marker, paginationFunction: self.describeReplicationGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReplicationGroups(input:))
->>>>>>> main
     }
 }
 
@@ -391,11 +315,7 @@ extension DescribeReplicationGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReplicationGroupsInput, Output == DescribeReplicationGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReplicationGroupsInput, OperationStackOutput == DescribeReplicationGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReplicationGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReplicationGroup]`
     /// - Returns: `[ElastiCacheClientTypes.ReplicationGroup]`
@@ -413,11 +333,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeReservedCacheNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOutput`
     public func describeReservedCacheNodesPaginated(input: DescribeReservedCacheNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>(input: input, inputKey: \DescribeReservedCacheNodesInput.marker, outputKey: \DescribeReservedCacheNodesOutput.marker, paginationFunction: self.describeReservedCacheNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedCacheNodes(input:))
->>>>>>> main
     }
 }
 
@@ -435,11 +351,7 @@ extension DescribeReservedCacheNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedCacheNodesInput, Output == DescribeReservedCacheNodesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedCacheNodesInput, OperationStackOutput == DescribeReservedCacheNodesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedCacheNodesPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReservedCacheNode]`
     /// - Returns: `[ElastiCacheClientTypes.ReservedCacheNode]`
@@ -457,11 +369,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeReservedCacheNodesOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedCacheNodesOfferingsOutput`
     public func describeReservedCacheNodesOfferingsPaginated(input: DescribeReservedCacheNodesOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>(input: input, inputKey: \DescribeReservedCacheNodesOfferingsInput.marker, outputKey: \DescribeReservedCacheNodesOfferingsOutput.marker, paginationFunction: self.describeReservedCacheNodesOfferings(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeReservedCacheNodesOfferings(input:))
->>>>>>> main
     }
 }
 
@@ -478,11 +386,7 @@ extension DescribeReservedCacheNodesOfferingsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeReservedCacheNodesOfferingsInput, Output == DescribeReservedCacheNodesOfferingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeReservedCacheNodesOfferingsInput, OperationStackOutput == DescribeReservedCacheNodesOfferingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeReservedCacheNodesOfferingsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ReservedCacheNodesOffering]`
     /// - Returns: `[ElastiCacheClientTypes.ReservedCacheNodesOffering]`
@@ -491,8 +395,6 @@ extension PaginatorSequence where OperationStackInput == DescribeReservedCacheNo
     }
 }
 extension ElastiCacheClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[DescribeServerlessCachesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -557,7 +459,6 @@ extension PaginatorSequence where OperationStackInput == DescribeServerlessCache
     }
 }
 extension ElastiCacheClient {
->>>>>>> main
     /// Paginate over `[DescribeServiceUpdatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -567,11 +468,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeServiceUpdatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeServiceUpdatesOutput`
     public func describeServiceUpdatesPaginated(input: DescribeServiceUpdatesInput) -> ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \DescribeServiceUpdatesInput.marker, outputKey: \DescribeServiceUpdatesOutput.marker, paginationFunction: self.describeServiceUpdates(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeServiceUpdates(input:))
->>>>>>> main
     }
 }
 
@@ -585,11 +482,7 @@ extension DescribeServiceUpdatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeServiceUpdatesInput, Output == DescribeServiceUpdatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeServiceUpdatesInput, OperationStackOutput == DescribeServiceUpdatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeServiceUpdatesPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.ServiceUpdate]`
     /// - Returns: `[ElastiCacheClientTypes.ServiceUpdate]`
@@ -607,11 +500,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutput`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \DescribeSnapshotsInput.marker, outputKey: \DescribeSnapshotsOutput.marker, paginationFunction: self.describeSnapshots(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeSnapshots(input:))
->>>>>>> main
     }
 }
 
@@ -628,11 +517,7 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeSnapshotsInput, Output == DescribeSnapshotsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeSnapshotsInput, OperationStackOutput == DescribeSnapshotsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.Snapshot]`
     /// - Returns: `[ElastiCacheClientTypes.Snapshot]`
@@ -650,11 +535,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeUpdateActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUpdateActionsOutput`
     public func describeUpdateActionsPaginated(input: DescribeUpdateActionsInput) -> ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>(input: input, inputKey: \DescribeUpdateActionsInput.marker, outputKey: \DescribeUpdateActionsOutput.marker, paginationFunction: self.describeUpdateActions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeUpdateActionsInput, DescribeUpdateActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeUpdateActions(input:))
->>>>>>> main
     }
 }
 
@@ -674,11 +555,7 @@ extension DescribeUpdateActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeUpdateActionsInput, Output == DescribeUpdateActionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeUpdateActionsInput, OperationStackOutput == DescribeUpdateActionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeUpdateActionsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.UpdateAction]`
     /// - Returns: `[ElastiCacheClientTypes.UpdateAction]`
@@ -696,11 +573,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeUserGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUserGroupsOutput`
     public func describeUserGroupsPaginated(input: DescribeUserGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutput>(input: input, inputKey: \DescribeUserGroupsInput.marker, outputKey: \DescribeUserGroupsOutput.marker, paginationFunction: self.describeUserGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeUserGroupsInput, DescribeUserGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeUserGroups(input:))
->>>>>>> main
     }
 }
 
@@ -713,11 +586,7 @@ extension DescribeUserGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeUserGroupsInput, Output == DescribeUserGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeUserGroupsInput, OperationStackOutput == DescribeUserGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeUserGroupsPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.UserGroup]`
     /// - Returns: `[ElastiCacheClientTypes.UserGroup]`
@@ -735,11 +604,7 @@ extension ElastiCacheClient {
     ///     - input: A `[DescribeUsersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsersOutput`
     public func describeUsersPaginated(input: DescribeUsersInput) -> ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \DescribeUsersInput.marker, outputKey: \DescribeUsersOutput.marker, paginationFunction: self.describeUsers(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeUsersInput, DescribeUsersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeUsers(input:))
->>>>>>> main
     }
 }
 
@@ -754,11 +619,7 @@ extension DescribeUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeUsersInput, Output == DescribeUsersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeUsersInput, OperationStackOutput == DescribeUsersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeUsersPaginated`
     /// to access the nested member `[ElastiCacheClientTypes.User]`
     /// - Returns: `[ElastiCacheClientTypes.User]`

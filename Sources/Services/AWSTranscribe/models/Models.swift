@@ -2026,8 +2026,6 @@ enum DeleteLanguageModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteMedicalScribeJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2087,7 +2085,6 @@ enum DeleteMedicalScribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteMedicalTranscriptionJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2603,13 +2600,6 @@ extension GetCallAnalyticsJobInputBody: Swift.Decodable {
 }
 
 extension GetCallAnalyticsJobOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCallAnalyticsJobOutputBody = try responseDecoder.decode(responseBody: data)
-            self.callAnalyticsJob = output.callAnalyticsJob
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -2705,22 +2695,15 @@ extension GetMedicalScribeJobOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetMedicalScribeJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.medicalScribeJob = output.medicalScribeJob
->>>>>>> main
         } else {
             self.medicalScribeJob = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetCallAnalyticsJobOutput: Swift.Equatable {
-    /// Provides detailed information about the specified Call Analytics job, including job status and, if applicable, failure reason.
-    public var callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob?
-=======
 public struct GetMedicalScribeJobOutput: Swift.Equatable {
     /// Provides detailed information about the specified Medical Scribe job, including job status and, if applicable, failure reason
     public var medicalScribeJob: TranscribeClientTypes.MedicalScribeJob?
->>>>>>> main
 
     public init(
         medicalScribeJob: TranscribeClientTypes.MedicalScribeJob? = nil
@@ -2730,19 +2713,11 @@ public struct GetMedicalScribeJobOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetCallAnalyticsJobOutputBody: Swift.Equatable {
-    let callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob?
-}
-
-extension GetCallAnalyticsJobOutputBody: Swift.Decodable {
-=======
 struct GetMedicalScribeJobOutputBody: Swift.Equatable {
     let medicalScribeJob: TranscribeClientTypes.MedicalScribeJob?
 }
 
 extension GetMedicalScribeJobOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case medicalScribeJob = "MedicalScribeJob"
     }
@@ -2755,20 +2730,6 @@ extension GetMedicalScribeJobOutputBody: Swift.Decodable {
 }
 
 enum GetMedicalScribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetCallAnalyticsJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -2931,11 +2892,7 @@ extension GetMedicalVocabularyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetMedicalVocabularyOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The S3 location where the specified custom medical vocabulary is stored; use this URI to view or download the custom vocabulary.
-=======
     /// The Amazon S3 location where the specified custom medical vocabulary is stored; use this URI to view or download the custom vocabulary.
->>>>>>> main
     public var downloadUri: Swift.String?
     /// If VocabularyState is FAILED, FailureReason contains information about why the custom medical vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
@@ -3285,11 +3242,7 @@ extension GetVocabularyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetVocabularyOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The S3 location where the custom vocabulary is stored; use this URI to view or download the custom vocabulary.
-=======
     /// The Amazon S3 location where the custom vocabulary is stored; use this URI to view or download the custom vocabulary.
->>>>>>> main
     public var downloadUri: Swift.String?
     /// If VocabularyState is FAILED, FailureReason contains information about why the custom vocabulary request failed. See also: [Common Errors](https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
     public var failureReason: Swift.String?
@@ -4652,8 +4605,6 @@ enum ListLanguageModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListMedicalScribeJobsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4792,7 +4743,6 @@ enum ListMedicalScribeJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListMedicalTranscriptionJobsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7679,8 +7629,6 @@ extension StartCallAnalyticsJobOutput: ClientRuntime.HttpResponseBinding {
             self.callAnalyticsJob = output.callAnalyticsJob
         } else {
             self.callAnalyticsJob = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -7773,30 +7721,10 @@ extension StartMedicalScribeJobInput: Swift.Encodable {
             for tag0 in tags {
                 try tagsContainer.encode(tag0)
             }
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct StartCallAnalyticsJobOutput: Swift.Equatable {
-    /// Provides detailed information about the current Call Analytics job, including job status and, if applicable, failure reason.
-    public var callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob?
-
-    public init(
-        callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob? = nil
-    )
-    {
-        self.callAnalyticsJob = callAnalyticsJob
-    }
-}
-
-struct StartCallAnalyticsJobOutputBody: Swift.Equatable {
-    let callAnalyticsJob: TranscribeClientTypes.CallAnalyticsJob?
-}
-
-extension StartCallAnalyticsJobOutputBody: Swift.Decodable {
-=======
 extension StartMedicalScribeJobInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/"
@@ -7882,7 +7810,6 @@ struct StartMedicalScribeJobInputBody: Swift.Equatable {
 }
 
 extension StartMedicalScribeJobInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelDefinitions = "ChannelDefinitions"
         case dataAccessRoleArn = "DataAccessRoleArn"
@@ -7983,20 +7910,6 @@ extension StartMedicalScribeJobOutputBody: Swift.Decodable {
 }
 
 enum StartMedicalScribeJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum StartCallAnalyticsJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

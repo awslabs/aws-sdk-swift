@@ -21,11 +21,8 @@ public protocol ForecastqueryClientProtocol {
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : We can't find that resource. Check the information that you've provided and try again.
     func queryForecast(input: QueryForecastInput) async throws -> QueryForecastOutput
-<<<<<<< HEAD
-=======
     /// Performs the `QueryWhatIfForecast` operation on the `AmazonForecastRuntime` service.
     ///
->>>>>>> main
     /// Retrieves a what-if forecast.
     ///
     /// - Parameter QueryWhatIfForecastInput : [no documentation found]

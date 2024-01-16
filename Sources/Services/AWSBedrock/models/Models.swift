@@ -2695,11 +2695,7 @@ extension ListFoundationModelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListFoundationModelsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of bedrock foundation models.
-=======
     /// A list of Amazon Bedrock foundation models.
->>>>>>> main
     public var modelSummaries: [BedrockClientTypes.FoundationModelSummary]?
 
     public init(

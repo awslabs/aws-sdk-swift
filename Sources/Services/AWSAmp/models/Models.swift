@@ -799,8 +799,6 @@ enum CreateRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateScraperInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
@@ -1024,7 +1022,6 @@ enum CreateScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateWorkspaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
@@ -1440,8 +1437,6 @@ enum DeleteRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteScraperInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1560,7 +1555,6 @@ enum DeleteScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteWorkspaceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -1854,13 +1848,6 @@ extension DescribeRuleGroupsNamespaceInputBody: Swift.Decodable {
 }
 
 extension DescribeRuleGroupsNamespaceOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeRuleGroupsNamespaceOutputBody = try responseDecoder.decode(responseBody: data)
-            self.ruleGroupsNamespace = output.ruleGroupsNamespace
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -1955,22 +1942,15 @@ extension DescribeScraperOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeScraperOutputBody = try responseDecoder.decode(responseBody: data)
             self.scraper = output.scraper
->>>>>>> main
         } else {
             self.scraper = nil
         }
     }
 }
 
-<<<<<<< HEAD
-/// Represents the output of a DescribeRuleGroupsNamespace operation.
-public struct DescribeRuleGroupsNamespaceOutput: Swift.Equatable {
-    /// The selected rule groups namespace.
-=======
 /// Represents the output of a DescribeScraper operation.
 public struct DescribeScraperOutput: Swift.Equatable {
     /// The properties of the selected scrapers.
->>>>>>> main
     /// This member is required.
     public var scraper: AmpClientTypes.ScraperDescription?
 
@@ -1982,19 +1962,11 @@ public struct DescribeScraperOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DescribeRuleGroupsNamespaceOutputBody: Swift.Equatable {
-    let ruleGroupsNamespace: AmpClientTypes.RuleGroupsNamespaceDescription?
-}
-
-extension DescribeRuleGroupsNamespaceOutputBody: Swift.Decodable {
-=======
 struct DescribeScraperOutputBody: Swift.Equatable {
     let scraper: AmpClientTypes.ScraperDescription?
 }
 
 extension DescribeScraperOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scraper
     }
@@ -2007,21 +1979,6 @@ extension DescribeScraperOutputBody: Swift.Decodable {
 }
 
 enum DescribeScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DescribeRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -2076,8 +2033,6 @@ extension DescribeWorkspaceOutput: ClientRuntime.HttpResponseBinding {
             self.workspace = output.workspace
         } else {
             self.workspace = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -2140,31 +2095,9 @@ extension AmpClientTypes.Destination: Swift.Codable {
                 try container.encode(ampconfiguration, forKey: .ampconfiguration)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
->>>>>>> main
         }
     }
 
-<<<<<<< HEAD
-/// Represents the output of a DescribeWorkspace operation.
-public struct DescribeWorkspaceOutput: Swift.Equatable {
-    /// The properties of the selected workspace.
-    /// This member is required.
-    public var workspace: AmpClientTypes.WorkspaceDescription?
-
-    public init(
-        workspace: AmpClientTypes.WorkspaceDescription? = nil
-    )
-    {
-        self.workspace = workspace
-    }
-}
-
-struct DescribeWorkspaceOutputBody: Swift.Equatable {
-    let workspace: AmpClientTypes.WorkspaceDescription?
-}
-
-extension DescribeWorkspaceOutputBody: Swift.Decodable {
-=======
     public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let ampconfigurationDecoded = try values.decodeIfPresent(AmpClientTypes.AmpConfiguration.self, forKey: .ampconfiguration)
@@ -2187,7 +2120,6 @@ extension AmpClientTypes {
 }
 
 extension AmpClientTypes.EksConfiguration: Swift.Codable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterArn
         case securityGroupIds
@@ -2339,21 +2271,6 @@ enum GetDefaultScraperConfigurationOutputError: ClientRuntime.HttpResponseErrorB
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DescribeWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2566,8 +2483,6 @@ enum ListRuleGroupsNamespacesOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListScrapersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -2707,7 +2622,6 @@ enum ListScrapersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {

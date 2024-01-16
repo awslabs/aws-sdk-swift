@@ -12,11 +12,7 @@ extension SageMakerClient {
     ///     - input: A `[ListActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListActionsOutput`
     public func listActionsPaginated(input: ListActionsInput) -> ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput>(input: input, inputKey: \ListActionsInput.nextToken, outputKey: \ListActionsOutput.nextToken, paginationFunction: self.listActions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListActionsInput, ListActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listActions(input:))
->>>>>>> main
     }
 }
 
@@ -34,11 +30,7 @@ extension ListActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListActionsInput, Output == ListActionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListActionsInput, OperationStackOutput == ListActionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listActionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ActionSummary]`
     /// - Returns: `[SageMakerClientTypes.ActionSummary]`
@@ -56,11 +48,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAlgorithmsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAlgorithmsOutput`
     public func listAlgorithmsPaginated(input: ListAlgorithmsInput) -> ClientRuntime.PaginatorSequence<ListAlgorithmsInput, ListAlgorithmsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAlgorithmsInput, ListAlgorithmsOutput>(input: input, inputKey: \ListAlgorithmsInput.nextToken, outputKey: \ListAlgorithmsOutput.nextToken, paginationFunction: self.listAlgorithms(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAlgorithmsInput, ListAlgorithmsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlgorithms(input:))
->>>>>>> main
     }
 }
 
@@ -77,11 +65,7 @@ extension ListAlgorithmsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAlgorithmsInput, Output == ListAlgorithmsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAlgorithmsInput, OperationStackOutput == ListAlgorithmsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAlgorithmsPaginated`
     /// to access the nested member `[SageMakerClientTypes.AlgorithmSummary]`
     /// - Returns: `[SageMakerClientTypes.AlgorithmSummary]`
@@ -99,11 +83,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutput.nextToken, paginationFunction: self.listAliases(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAliases(input:))
->>>>>>> main
     }
 }
 
@@ -118,11 +98,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAliasesInput, OperationStackOutput == ListAliasesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -140,11 +116,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAppImageConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppImageConfigsOutput`
     public func listAppImageConfigsPaginated(input: ListAppImageConfigsInput) -> ClientRuntime.PaginatorSequence<ListAppImageConfigsInput, ListAppImageConfigsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppImageConfigsInput, ListAppImageConfigsOutput>(input: input, inputKey: \ListAppImageConfigsInput.nextToken, outputKey: \ListAppImageConfigsOutput.nextToken, paginationFunction: self.listAppImageConfigs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppImageConfigsInput, ListAppImageConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAppImageConfigs(input:))
->>>>>>> main
     }
 }
 
@@ -163,11 +135,7 @@ extension ListAppImageConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAppImageConfigsInput, Output == ListAppImageConfigsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAppImageConfigsInput, OperationStackOutput == ListAppImageConfigsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppImageConfigsPaginated`
     /// to access the nested member `[SageMakerClientTypes.AppImageConfigDetails]`
     /// - Returns: `[SageMakerClientTypes.AppImageConfigDetails]`
@@ -185,11 +153,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAppsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAppsOutput`
     public func listAppsPaginated(input: ListAppsInput) -> ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \ListAppsInput.nextToken, outputKey: \ListAppsOutput.nextToken, paginationFunction: self.listApps(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAppsInput, ListAppsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApps(input:))
->>>>>>> main
     }
 }
 
@@ -206,11 +170,7 @@ extension ListAppsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAppsInput, Output == ListAppsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAppsInput, OperationStackOutput == ListAppsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAppsPaginated`
     /// to access the nested member `[SageMakerClientTypes.AppDetails]`
     /// - Returns: `[SageMakerClientTypes.AppDetails]`
@@ -228,11 +188,7 @@ extension SageMakerClient {
     ///     - input: A `[ListArtifactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListArtifactsOutput`
     public func listArtifactsPaginated(input: ListArtifactsInput) -> ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput>(input: input, inputKey: \ListArtifactsInput.nextToken, outputKey: \ListArtifactsOutput.nextToken, paginationFunction: self.listArtifacts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listArtifacts(input:))
->>>>>>> main
     }
 }
 
@@ -250,11 +206,7 @@ extension ListArtifactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListArtifactsInput, Output == ListArtifactsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListArtifactsInput, OperationStackOutput == ListArtifactsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listArtifactsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ArtifactSummary]`
     /// - Returns: `[SageMakerClientTypes.ArtifactSummary]`
@@ -272,11 +224,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociationsOutput`
     public func listAssociationsPaginated(input: ListAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput>(input: input, inputKey: \ListAssociationsInput.nextToken, outputKey: \ListAssociationsOutput.nextToken, paginationFunction: self.listAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -297,11 +245,7 @@ extension ListAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssociationsInput, Output == ListAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssociationsInput, OperationStackOutput == ListAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociationsPaginated`
     /// to access the nested member `[SageMakerClientTypes.AssociationSummary]`
     /// - Returns: `[SageMakerClientTypes.AssociationSummary]`
@@ -319,11 +263,7 @@ extension SageMakerClient {
     ///     - input: A `[ListAutoMLJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAutoMLJobsOutput`
     public func listAutoMLJobsPaginated(input: ListAutoMLJobsInput) -> ClientRuntime.PaginatorSequence<ListAutoMLJobsInput, ListAutoMLJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAutoMLJobsInput, ListAutoMLJobsOutput>(input: input, inputKey: \ListAutoMLJobsInput.nextToken, outputKey: \ListAutoMLJobsOutput.nextToken, paginationFunction: self.listAutoMLJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAutoMLJobsInput, ListAutoMLJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAutoMLJobs(input:))
->>>>>>> main
     }
 }
 
@@ -343,11 +283,7 @@ extension ListAutoMLJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAutoMLJobsInput, Output == ListAutoMLJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAutoMLJobsInput, OperationStackOutput == ListAutoMLJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAutoMLJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.AutoMLJobSummary]`
     /// - Returns: `[SageMakerClientTypes.AutoMLJobSummary]`
@@ -365,11 +301,7 @@ extension SageMakerClient {
     ///     - input: A `[ListCandidatesForAutoMLJobInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCandidatesForAutoMLJobOutput`
     public func listCandidatesForAutoMLJobPaginated(input: ListCandidatesForAutoMLJobInput) -> ClientRuntime.PaginatorSequence<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(input: input, inputKey: \ListCandidatesForAutoMLJobInput.nextToken, outputKey: \ListCandidatesForAutoMLJobOutput.nextToken, paginationFunction: self.listCandidatesForAutoMLJob(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCandidatesForAutoMLJob(input:))
->>>>>>> main
     }
 }
 
@@ -386,11 +318,7 @@ extension ListCandidatesForAutoMLJobInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCandidatesForAutoMLJobInput, Output == ListCandidatesForAutoMLJobOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCandidatesForAutoMLJobInput, OperationStackOutput == ListCandidatesForAutoMLJobOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCandidatesForAutoMLJobPaginated`
     /// to access the nested member `[SageMakerClientTypes.AutoMLCandidate]`
     /// - Returns: `[SageMakerClientTypes.AutoMLCandidate]`
@@ -408,11 +336,7 @@ extension SageMakerClient {
     ///     - input: A `[ListCodeRepositoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCodeRepositoriesOutput`
     public func listCodeRepositoriesPaginated(input: ListCodeRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListCodeRepositoriesInput, ListCodeRepositoriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(input: input, inputKey: \ListCodeRepositoriesInput.nextToken, outputKey: \ListCodeRepositoriesOutput.nextToken, paginationFunction: self.listCodeRepositories(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCodeRepositories(input:))
->>>>>>> main
     }
 }
 
@@ -431,11 +355,7 @@ extension ListCodeRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCodeRepositoriesInput, Output == ListCodeRepositoriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCodeRepositoriesInput, OperationStackOutput == ListCodeRepositoriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCodeRepositoriesPaginated`
     /// to access the nested member `[SageMakerClientTypes.CodeRepositorySummary]`
     /// - Returns: `[SageMakerClientTypes.CodeRepositorySummary]`
@@ -453,11 +373,7 @@ extension SageMakerClient {
     ///     - input: A `[ListCompilationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCompilationJobsOutput`
     public func listCompilationJobsPaginated(input: ListCompilationJobsInput) -> ClientRuntime.PaginatorSequence<ListCompilationJobsInput, ListCompilationJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCompilationJobsInput, ListCompilationJobsOutput>(input: input, inputKey: \ListCompilationJobsInput.nextToken, outputKey: \ListCompilationJobsOutput.nextToken, paginationFunction: self.listCompilationJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCompilationJobsInput, ListCompilationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCompilationJobs(input:))
->>>>>>> main
     }
 }
 
@@ -477,11 +393,7 @@ extension ListCompilationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCompilationJobsInput, Output == ListCompilationJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCompilationJobsInput, OperationStackOutput == ListCompilationJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCompilationJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.CompilationJobSummary]`
     /// - Returns: `[SageMakerClientTypes.CompilationJobSummary]`
@@ -499,11 +411,7 @@ extension SageMakerClient {
     ///     - input: A `[ListContextsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListContextsOutput`
     public func listContextsPaginated(input: ListContextsInput) -> ClientRuntime.PaginatorSequence<ListContextsInput, ListContextsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListContextsInput, ListContextsOutput>(input: input, inputKey: \ListContextsInput.nextToken, outputKey: \ListContextsOutput.nextToken, paginationFunction: self.listContexts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListContextsInput, ListContextsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContexts(input:))
->>>>>>> main
     }
 }
 
@@ -521,11 +429,7 @@ extension ListContextsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListContextsInput, Output == ListContextsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListContextsInput, OperationStackOutput == ListContextsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listContextsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ContextSummary]`
     /// - Returns: `[SageMakerClientTypes.ContextSummary]`
@@ -543,11 +447,7 @@ extension SageMakerClient {
     ///     - input: A `[ListDataQualityJobDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityJobDefinitionsOutput`
     public func listDataQualityJobDefinitionsPaginated(input: ListDataQualityJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(input: input, inputKey: \ListDataQualityJobDefinitionsInput.nextToken, outputKey: \ListDataQualityJobDefinitionsOutput.nextToken, paginationFunction: self.listDataQualityJobDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityJobDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -565,11 +465,7 @@ extension ListDataQualityJobDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataQualityJobDefinitionsInput, Output == ListDataQualityJobDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataQualityJobDefinitionsInput, OperationStackOutput == ListDataQualityJobDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataQualityJobDefinitionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
@@ -587,11 +483,7 @@ extension SageMakerClient {
     ///     - input: A `[ListDeviceFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeviceFleetsOutput`
     public func listDeviceFleetsPaginated(input: ListDeviceFleetsInput) -> ClientRuntime.PaginatorSequence<ListDeviceFleetsInput, ListDeviceFleetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeviceFleetsInput, ListDeviceFleetsOutput>(input: input, inputKey: \ListDeviceFleetsInput.nextToken, outputKey: \ListDeviceFleetsOutput.nextToken, paginationFunction: self.listDeviceFleets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeviceFleetsInput, ListDeviceFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeviceFleets(input:))
->>>>>>> main
     }
 }
 
@@ -610,11 +502,7 @@ extension ListDeviceFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDeviceFleetsInput, Output == ListDeviceFleetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDeviceFleetsInput, OperationStackOutput == ListDeviceFleetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDeviceFleetsPaginated`
     /// to access the nested member `[SageMakerClientTypes.DeviceFleetSummary]`
     /// - Returns: `[SageMakerClientTypes.DeviceFleetSummary]`
@@ -632,11 +520,7 @@ extension SageMakerClient {
     ///     - input: A `[ListDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutput`
     public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutput.nextToken, paginationFunction: self.listDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevices(input:))
->>>>>>> main
     }
 }
 
@@ -651,11 +535,7 @@ extension ListDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDevicesInput, Output == ListDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDevicesInput, OperationStackOutput == ListDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDevicesPaginated`
     /// to access the nested member `[SageMakerClientTypes.DeviceSummary]`
     /// - Returns: `[SageMakerClientTypes.DeviceSummary]`
@@ -673,11 +553,7 @@ extension SageMakerClient {
     ///     - input: A `[ListDomainsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsOutput`
     public func listDomainsPaginated(input: ListDomainsInput) -> ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \ListDomainsInput.nextToken, outputKey: \ListDomainsOutput.nextToken, paginationFunction: self.listDomains(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDomainsInput, ListDomainsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomains(input:))
->>>>>>> main
     }
 }
 
@@ -689,11 +565,7 @@ extension ListDomainsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDomainsInput, Output == ListDomainsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDomainsInput, OperationStackOutput == ListDomainsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDomainsPaginated`
     /// to access the nested member `[SageMakerClientTypes.DomainDetails]`
     /// - Returns: `[SageMakerClientTypes.DomainDetails]`
@@ -711,11 +583,7 @@ extension SageMakerClient {
     ///     - input: A `[ListEdgeDeploymentPlansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEdgeDeploymentPlansOutput`
     public func listEdgeDeploymentPlansPaginated(input: ListEdgeDeploymentPlansInput) -> ClientRuntime.PaginatorSequence<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(input: input, inputKey: \ListEdgeDeploymentPlansInput.nextToken, outputKey: \ListEdgeDeploymentPlansOutput.nextToken, paginationFunction: self.listEdgeDeploymentPlans(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEdgeDeploymentPlans(input:))
->>>>>>> main
     }
 }
 
@@ -735,11 +603,7 @@ extension ListEdgeDeploymentPlansInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEdgeDeploymentPlansInput, Output == ListEdgeDeploymentPlansOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEdgeDeploymentPlansInput, OperationStackOutput == ListEdgeDeploymentPlansOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEdgeDeploymentPlansPaginated`
     /// to access the nested member `[SageMakerClientTypes.EdgeDeploymentPlanSummary]`
     /// - Returns: `[SageMakerClientTypes.EdgeDeploymentPlanSummary]`
@@ -757,11 +621,7 @@ extension SageMakerClient {
     ///     - input: A `[ListEdgePackagingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEdgePackagingJobsOutput`
     public func listEdgePackagingJobsPaginated(input: ListEdgePackagingJobsInput) -> ClientRuntime.PaginatorSequence<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(input: input, inputKey: \ListEdgePackagingJobsInput.nextToken, outputKey: \ListEdgePackagingJobsOutput.nextToken, paginationFunction: self.listEdgePackagingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEdgePackagingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -782,11 +642,7 @@ extension ListEdgePackagingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEdgePackagingJobsInput, Output == ListEdgePackagingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEdgePackagingJobsInput, OperationStackOutput == ListEdgePackagingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEdgePackagingJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.EdgePackagingJobSummary]`
     /// - Returns: `[SageMakerClientTypes.EdgePackagingJobSummary]`
@@ -804,11 +660,7 @@ extension SageMakerClient {
     ///     - input: A `[ListEndpointConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointConfigsOutput`
     public func listEndpointConfigsPaginated(input: ListEndpointConfigsInput) -> ClientRuntime.PaginatorSequence<ListEndpointConfigsInput, ListEndpointConfigsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEndpointConfigsInput, ListEndpointConfigsOutput>(input: input, inputKey: \ListEndpointConfigsInput.nextToken, outputKey: \ListEndpointConfigsOutput.nextToken, paginationFunction: self.listEndpointConfigs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEndpointConfigsInput, ListEndpointConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpointConfigs(input:))
->>>>>>> main
     }
 }
 
@@ -825,11 +677,7 @@ extension ListEndpointConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEndpointConfigsInput, Output == ListEndpointConfigsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEndpointConfigsInput, OperationStackOutput == ListEndpointConfigsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointConfigsPaginated`
     /// to access the nested member `[SageMakerClientTypes.EndpointConfigSummary]`
     /// - Returns: `[SageMakerClientTypes.EndpointConfigSummary]`
@@ -847,11 +695,7 @@ extension SageMakerClient {
     ///     - input: A `[ListEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsOutput`
     public func listEndpointsPaginated(input: ListEndpointsInput) -> ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \ListEndpointsInput.nextToken, outputKey: \ListEndpointsOutput.nextToken, paginationFunction: self.listEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEndpointsInput, ListEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -871,11 +715,7 @@ extension ListEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEndpointsInput, Output == ListEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEndpointsInput, OperationStackOutput == ListEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointsPaginated`
     /// to access the nested member `[SageMakerClientTypes.EndpointSummary]`
     /// - Returns: `[SageMakerClientTypes.EndpointSummary]`
@@ -893,11 +733,7 @@ extension SageMakerClient {
     ///     - input: A `[ListExperimentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentsOutput`
     public func listExperimentsPaginated(input: ListExperimentsInput) -> ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput>(input: input, inputKey: \ListExperimentsInput.nextToken, outputKey: \ListExperimentsOutput.nextToken, paginationFunction: self.listExperiments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExperimentsInput, ListExperimentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperiments(input:))
->>>>>>> main
     }
 }
 
@@ -913,11 +749,7 @@ extension ListExperimentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListExperimentsInput, Output == ListExperimentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListExperimentsInput, OperationStackOutput == ListExperimentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listExperimentsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ExperimentSummary]`
     /// - Returns: `[SageMakerClientTypes.ExperimentSummary]`
@@ -926,8 +758,6 @@ extension PaginatorSequence where OperationStackInput == ListExperimentsInput, O
     }
 }
 extension SageMakerClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListFeatureGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -965,7 +795,6 @@ extension PaginatorSequence where OperationStackInput == ListFeatureGroupsInput,
     }
 }
 extension SageMakerClient {
->>>>>>> main
     /// Paginate over `[ListFlowDefinitionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -975,11 +804,7 @@ extension SageMakerClient {
     ///     - input: A `[ListFlowDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFlowDefinitionsOutput`
     public func listFlowDefinitionsPaginated(input: ListFlowDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListFlowDefinitionsInput, ListFlowDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(input: input, inputKey: \ListFlowDefinitionsInput.nextToken, outputKey: \ListFlowDefinitionsOutput.nextToken, paginationFunction: self.listFlowDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFlowDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -994,11 +819,7 @@ extension ListFlowDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFlowDefinitionsInput, Output == ListFlowDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFlowDefinitionsInput, OperationStackOutput == ListFlowDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFlowDefinitionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.FlowDefinitionSummary]`
     /// - Returns: `[SageMakerClientTypes.FlowDefinitionSummary]`
@@ -1016,11 +837,7 @@ extension SageMakerClient {
     ///     - input: A `[ListHumanTaskUisInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHumanTaskUisOutput`
     public func listHumanTaskUisPaginated(input: ListHumanTaskUisInput) -> ClientRuntime.PaginatorSequence<ListHumanTaskUisInput, ListHumanTaskUisOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListHumanTaskUisInput, ListHumanTaskUisOutput>(input: input, inputKey: \ListHumanTaskUisInput.nextToken, outputKey: \ListHumanTaskUisOutput.nextToken, paginationFunction: self.listHumanTaskUis(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListHumanTaskUisInput, ListHumanTaskUisOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHumanTaskUis(input:))
->>>>>>> main
     }
 }
 
@@ -1035,11 +852,7 @@ extension ListHumanTaskUisInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListHumanTaskUisInput, Output == ListHumanTaskUisOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListHumanTaskUisInput, OperationStackOutput == ListHumanTaskUisOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHumanTaskUisPaginated`
     /// to access the nested member `[SageMakerClientTypes.HumanTaskUiSummary]`
     /// - Returns: `[SageMakerClientTypes.HumanTaskUiSummary]`
@@ -1057,11 +870,7 @@ extension SageMakerClient {
     ///     - input: A `[ListHyperParameterTuningJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHyperParameterTuningJobsOutput`
     public func listHyperParameterTuningJobsPaginated(input: ListHyperParameterTuningJobsInput) -> ClientRuntime.PaginatorSequence<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(input: input, inputKey: \ListHyperParameterTuningJobsInput.nextToken, outputKey: \ListHyperParameterTuningJobsOutput.nextToken, paginationFunction: self.listHyperParameterTuningJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHyperParameterTuningJobs(input:))
->>>>>>> main
     }
 }
 
@@ -1081,11 +890,7 @@ extension ListHyperParameterTuningJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListHyperParameterTuningJobsInput, Output == ListHyperParameterTuningJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListHyperParameterTuningJobsInput, OperationStackOutput == ListHyperParameterTuningJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHyperParameterTuningJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.HyperParameterTuningJobSummary]`
     /// - Returns: `[SageMakerClientTypes.HyperParameterTuningJobSummary]`
@@ -1103,11 +908,7 @@ extension SageMakerClient {
     ///     - input: A `[ListImagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImagesOutput`
     public func listImagesPaginated(input: ListImagesInput) -> ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \ListImagesInput.nextToken, outputKey: \ListImagesOutput.nextToken, paginationFunction: self.listImages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImages(input:))
->>>>>>> main
     }
 }
 
@@ -1126,11 +927,7 @@ extension ListImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImagesInput, Output == ListImagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImagesInput, OperationStackOutput == ListImagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImagesPaginated`
     /// to access the nested member `[SageMakerClientTypes.Image]`
     /// - Returns: `[SageMakerClientTypes.Image]`
@@ -1148,11 +945,7 @@ extension SageMakerClient {
     ///     - input: A `[ListImageVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageVersionsOutput`
     public func listImageVersionsPaginated(input: ListImageVersionsInput) -> ClientRuntime.PaginatorSequence<ListImageVersionsInput, ListImageVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImageVersionsInput, ListImageVersionsOutput>(input: input, inputKey: \ListImageVersionsInput.nextToken, outputKey: \ListImageVersionsOutput.nextToken, paginationFunction: self.listImageVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImageVersionsInput, ListImageVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageVersions(input:))
->>>>>>> main
     }
 }
 
@@ -1171,11 +964,7 @@ extension ListImageVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImageVersionsInput, Output == ListImageVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImageVersionsInput, OperationStackOutput == ListImageVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageVersionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ImageVersion]`
     /// - Returns: `[SageMakerClientTypes.ImageVersion]`
@@ -1184,8 +973,6 @@ extension PaginatorSequence where OperationStackInput == ListImageVersionsInput,
     }
 }
 extension SageMakerClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListInferenceComponentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1226,7 +1013,6 @@ extension PaginatorSequence where OperationStackInput == ListInferenceComponents
     }
 }
 extension SageMakerClient {
->>>>>>> main
     /// Paginate over `[ListInferenceExperimentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1236,11 +1022,7 @@ extension SageMakerClient {
     ///     - input: A `[ListInferenceExperimentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceExperimentsOutput`
     public func listInferenceExperimentsPaginated(input: ListInferenceExperimentsInput) -> ClientRuntime.PaginatorSequence<ListInferenceExperimentsInput, ListInferenceExperimentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(input: input, inputKey: \ListInferenceExperimentsInput.nextToken, outputKey: \ListInferenceExperimentsOutput.nextToken, paginationFunction: self.listInferenceExperiments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceExperiments(input:))
->>>>>>> main
     }
 }
 
@@ -1261,11 +1043,7 @@ extension ListInferenceExperimentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInferenceExperimentsInput, Output == ListInferenceExperimentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInferenceExperimentsInput, OperationStackOutput == ListInferenceExperimentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInferenceExperimentsPaginated`
     /// to access the nested member `[SageMakerClientTypes.InferenceExperimentSummary]`
     /// - Returns: `[SageMakerClientTypes.InferenceExperimentSummary]`
@@ -1283,11 +1061,7 @@ extension SageMakerClient {
     ///     - input: A `[ListInferenceRecommendationsJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceRecommendationsJobsOutput`
     public func listInferenceRecommendationsJobsPaginated(input: ListInferenceRecommendationsJobsInput) -> ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(input: input, inputKey: \ListInferenceRecommendationsJobsInput.nextToken, outputKey: \ListInferenceRecommendationsJobsOutput.nextToken, paginationFunction: self.listInferenceRecommendationsJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceRecommendationsJobs(input:))
->>>>>>> main
     }
 }
 
@@ -1309,11 +1083,7 @@ extension ListInferenceRecommendationsJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInferenceRecommendationsJobsInput, Output == ListInferenceRecommendationsJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInferenceRecommendationsJobsInput, OperationStackOutput == ListInferenceRecommendationsJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInferenceRecommendationsJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.InferenceRecommendationsJob]`
     /// - Returns: `[SageMakerClientTypes.InferenceRecommendationsJob]`
@@ -1331,11 +1101,7 @@ extension SageMakerClient {
     ///     - input: A `[ListInferenceRecommendationsJobStepsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInferenceRecommendationsJobStepsOutput`
     public func listInferenceRecommendationsJobStepsPaginated(input: ListInferenceRecommendationsJobStepsInput) -> ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(input: input, inputKey: \ListInferenceRecommendationsJobStepsInput.nextToken, outputKey: \ListInferenceRecommendationsJobStepsOutput.nextToken, paginationFunction: self.listInferenceRecommendationsJobSteps(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInferenceRecommendationsJobSteps(input:))
->>>>>>> main
     }
 }
 
@@ -1350,11 +1116,7 @@ extension ListInferenceRecommendationsJobStepsInput: ClientRuntime.PaginateToken
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInferenceRecommendationsJobStepsInput, Output == ListInferenceRecommendationsJobStepsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInferenceRecommendationsJobStepsInput, OperationStackOutput == ListInferenceRecommendationsJobStepsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInferenceRecommendationsJobStepsPaginated`
     /// to access the nested member `[SageMakerClientTypes.InferenceRecommendationsJobStep]`
     /// - Returns: `[SageMakerClientTypes.InferenceRecommendationsJobStep]`
@@ -1372,11 +1134,7 @@ extension SageMakerClient {
     ///     - input: A `[ListLabelingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLabelingJobsOutput`
     public func listLabelingJobsPaginated(input: ListLabelingJobsInput) -> ClientRuntime.PaginatorSequence<ListLabelingJobsInput, ListLabelingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLabelingJobsInput, ListLabelingJobsOutput>(input: input, inputKey: \ListLabelingJobsInput.nextToken, outputKey: \ListLabelingJobsOutput.nextToken, paginationFunction: self.listLabelingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLabelingJobsInput, ListLabelingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLabelingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -1396,11 +1154,7 @@ extension ListLabelingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLabelingJobsInput, Output == ListLabelingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLabelingJobsInput, OperationStackOutput == ListLabelingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLabelingJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.LabelingJobSummary]`
     /// - Returns: `[SageMakerClientTypes.LabelingJobSummary]`
@@ -1418,11 +1172,7 @@ extension SageMakerClient {
     ///     - input: A `[ListLabelingJobsForWorkteamInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLabelingJobsForWorkteamOutput`
     public func listLabelingJobsForWorkteamPaginated(input: ListLabelingJobsForWorkteamInput) -> ClientRuntime.PaginatorSequence<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(input: input, inputKey: \ListLabelingJobsForWorkteamInput.nextToken, outputKey: \ListLabelingJobsForWorkteamOutput.nextToken, paginationFunction: self.listLabelingJobsForWorkteam(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLabelingJobsForWorkteam(input:))
->>>>>>> main
     }
 }
 
@@ -1440,11 +1190,7 @@ extension ListLabelingJobsForWorkteamInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLabelingJobsForWorkteamInput, Output == ListLabelingJobsForWorkteamOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLabelingJobsForWorkteamInput, OperationStackOutput == ListLabelingJobsForWorkteamOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLabelingJobsForWorkteamPaginated`
     /// to access the nested member `[SageMakerClientTypes.LabelingJobForWorkteamSummary]`
     /// - Returns: `[SageMakerClientTypes.LabelingJobForWorkteamSummary]`
@@ -1462,11 +1208,7 @@ extension SageMakerClient {
     ///     - input: A `[ListLineageGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLineageGroupsOutput`
     public func listLineageGroupsPaginated(input: ListLineageGroupsInput) -> ClientRuntime.PaginatorSequence<ListLineageGroupsInput, ListLineageGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLineageGroupsInput, ListLineageGroupsOutput>(input: input, inputKey: \ListLineageGroupsInput.nextToken, outputKey: \ListLineageGroupsOutput.nextToken, paginationFunction: self.listLineageGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLineageGroupsInput, ListLineageGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLineageGroups(input:))
->>>>>>> main
     }
 }
 
@@ -1482,11 +1224,7 @@ extension ListLineageGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLineageGroupsInput, Output == ListLineageGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLineageGroupsInput, OperationStackOutput == ListLineageGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLineageGroupsPaginated`
     /// to access the nested member `[SageMakerClientTypes.LineageGroupSummary]`
     /// - Returns: `[SageMakerClientTypes.LineageGroupSummary]`
@@ -1504,11 +1242,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelBiasJobDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelBiasJobDefinitionsOutput`
     public func listModelBiasJobDefinitionsPaginated(input: ListModelBiasJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(input: input, inputKey: \ListModelBiasJobDefinitionsInput.nextToken, outputKey: \ListModelBiasJobDefinitionsOutput.nextToken, paginationFunction: self.listModelBiasJobDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelBiasJobDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -1526,11 +1260,7 @@ extension ListModelBiasJobDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelBiasJobDefinitionsInput, Output == ListModelBiasJobDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelBiasJobDefinitionsInput, OperationStackOutput == ListModelBiasJobDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelBiasJobDefinitionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
@@ -1548,11 +1278,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelCardExportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelCardExportJobsOutput`
     public func listModelCardExportJobsPaginated(input: ListModelCardExportJobsInput) -> ClientRuntime.PaginatorSequence<ListModelCardExportJobsInput, ListModelCardExportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(input: input, inputKey: \ListModelCardExportJobsInput.nextToken, outputKey: \ListModelCardExportJobsOutput.nextToken, paginationFunction: self.listModelCardExportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelCardExportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -1572,11 +1298,7 @@ extension ListModelCardExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelCardExportJobsInput, Output == ListModelCardExportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelCardExportJobsInput, OperationStackOutput == ListModelCardExportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelCardExportJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelCardExportJobSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelCardExportJobSummary]`
@@ -1594,11 +1316,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelCardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelCardsOutput`
     public func listModelCardsPaginated(input: ListModelCardsInput) -> ClientRuntime.PaginatorSequence<ListModelCardsInput, ListModelCardsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelCardsInput, ListModelCardsOutput>(input: input, inputKey: \ListModelCardsInput.nextToken, outputKey: \ListModelCardsOutput.nextToken, paginationFunction: self.listModelCards(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelCardsInput, ListModelCardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelCards(input:))
->>>>>>> main
     }
 }
 
@@ -1616,11 +1334,7 @@ extension ListModelCardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelCardsInput, Output == ListModelCardsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelCardsInput, OperationStackOutput == ListModelCardsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelCardsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelCardSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelCardSummary]`
@@ -1638,11 +1352,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelCardVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelCardVersionsOutput`
     public func listModelCardVersionsPaginated(input: ListModelCardVersionsInput) -> ClientRuntime.PaginatorSequence<ListModelCardVersionsInput, ListModelCardVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelCardVersionsInput, ListModelCardVersionsOutput>(input: input, inputKey: \ListModelCardVersionsInput.nextToken, outputKey: \ListModelCardVersionsOutput.nextToken, paginationFunction: self.listModelCardVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelCardVersionsInput, ListModelCardVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelCardVersions(input:))
->>>>>>> main
     }
 }
 
@@ -1660,11 +1370,7 @@ extension ListModelCardVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelCardVersionsInput, Output == ListModelCardVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelCardVersionsInput, OperationStackOutput == ListModelCardVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelCardVersionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelCardVersionSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelCardVersionSummary]`
@@ -1682,11 +1388,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelExplainabilityJobDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelExplainabilityJobDefinitionsOutput`
     public func listModelExplainabilityJobDefinitionsPaginated(input: ListModelExplainabilityJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(input: input, inputKey: \ListModelExplainabilityJobDefinitionsInput.nextToken, outputKey: \ListModelExplainabilityJobDefinitionsOutput.nextToken, paginationFunction: self.listModelExplainabilityJobDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelExplainabilityJobDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -1704,11 +1406,7 @@ extension ListModelExplainabilityJobDefinitionsInput: ClientRuntime.PaginateToke
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelExplainabilityJobDefinitionsInput, Output == ListModelExplainabilityJobDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelExplainabilityJobDefinitionsInput, OperationStackOutput == ListModelExplainabilityJobDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelExplainabilityJobDefinitionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
@@ -1726,11 +1424,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelMetadataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelMetadataOutput`
     public func listModelMetadataPaginated(input: ListModelMetadataInput) -> ClientRuntime.PaginatorSequence<ListModelMetadataInput, ListModelMetadataOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelMetadataInput, ListModelMetadataOutput>(input: input, inputKey: \ListModelMetadataInput.nextToken, outputKey: \ListModelMetadataOutput.nextToken, paginationFunction: self.listModelMetadata(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelMetadataInput, ListModelMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelMetadata(input:))
->>>>>>> main
     }
 }
 
@@ -1743,11 +1437,7 @@ extension ListModelMetadataInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelMetadataInput, Output == ListModelMetadataOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelMetadataInput, OperationStackOutput == ListModelMetadataOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelMetadataPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelMetadataSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelMetadataSummary]`
@@ -1765,11 +1455,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelPackageGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelPackageGroupsOutput`
     public func listModelPackageGroupsPaginated(input: ListModelPackageGroupsInput) -> ClientRuntime.PaginatorSequence<ListModelPackageGroupsInput, ListModelPackageGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(input: input, inputKey: \ListModelPackageGroupsInput.nextToken, outputKey: \ListModelPackageGroupsOutput.nextToken, paginationFunction: self.listModelPackageGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelPackageGroups(input:))
->>>>>>> main
     }
 }
 
@@ -1786,11 +1472,7 @@ extension ListModelPackageGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelPackageGroupsInput, Output == ListModelPackageGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelPackageGroupsInput, OperationStackOutput == ListModelPackageGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelPackageGroupsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelPackageGroupSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelPackageGroupSummary]`
@@ -1808,11 +1490,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelPackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelPackagesOutput`
     public func listModelPackagesPaginated(input: ListModelPackagesInput) -> ClientRuntime.PaginatorSequence<ListModelPackagesInput, ListModelPackagesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelPackagesInput, ListModelPackagesOutput>(input: input, inputKey: \ListModelPackagesInput.nextToken, outputKey: \ListModelPackagesOutput.nextToken, paginationFunction: self.listModelPackages(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelPackagesInput, ListModelPackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelPackages(input:))
->>>>>>> main
     }
 }
 
@@ -1832,11 +1510,7 @@ extension ListModelPackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelPackagesInput, Output == ListModelPackagesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelPackagesInput, OperationStackOutput == ListModelPackagesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelPackagesPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelPackageSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelPackageSummary]`
@@ -1854,11 +1528,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelQualityJobDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelQualityJobDefinitionsOutput`
     public func listModelQualityJobDefinitionsPaginated(input: ListModelQualityJobDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(input: input, inputKey: \ListModelQualityJobDefinitionsInput.nextToken, outputKey: \ListModelQualityJobDefinitionsOutput.nextToken, paginationFunction: self.listModelQualityJobDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModelQualityJobDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -1876,11 +1546,7 @@ extension ListModelQualityJobDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelQualityJobDefinitionsInput, Output == ListModelQualityJobDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelQualityJobDefinitionsInput, OperationStackOutput == ListModelQualityJobDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelQualityJobDefinitionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringJobDefinitionSummary]`
@@ -1898,11 +1564,7 @@ extension SageMakerClient {
     ///     - input: A `[ListModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListModelsOutput`
     public func listModelsPaginated(input: ListModelsInput) -> ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \ListModelsInput.nextToken, outputKey: \ListModelsOutput.nextToken, paginationFunction: self.listModels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListModelsInput, ListModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listModels(input:))
->>>>>>> main
     }
 }
 
@@ -1919,11 +1581,7 @@ extension ListModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListModelsInput, Output == ListModelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListModelsInput, OperationStackOutput == ListModelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listModelsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ModelSummary]`
     /// - Returns: `[SageMakerClientTypes.ModelSummary]`
@@ -1941,11 +1599,7 @@ extension SageMakerClient {
     ///     - input: A `[ListMonitoringAlertHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoringAlertHistoryOutput`
     public func listMonitoringAlertHistoryPaginated(input: ListMonitoringAlertHistoryInput) -> ClientRuntime.PaginatorSequence<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(input: input, inputKey: \ListMonitoringAlertHistoryInput.nextToken, outputKey: \ListMonitoringAlertHistoryOutput.nextToken, paginationFunction: self.listMonitoringAlertHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitoringAlertHistory(input:))
->>>>>>> main
     }
 }
 
@@ -1964,11 +1618,7 @@ extension ListMonitoringAlertHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitoringAlertHistoryInput, Output == ListMonitoringAlertHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitoringAlertHistoryInput, OperationStackOutput == ListMonitoringAlertHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitoringAlertHistoryPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringAlertHistorySummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringAlertHistorySummary]`
@@ -1986,11 +1636,7 @@ extension SageMakerClient {
     ///     - input: A `[ListMonitoringAlertsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoringAlertsOutput`
     public func listMonitoringAlertsPaginated(input: ListMonitoringAlertsInput) -> ClientRuntime.PaginatorSequence<ListMonitoringAlertsInput, ListMonitoringAlertsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(input: input, inputKey: \ListMonitoringAlertsInput.nextToken, outputKey: \ListMonitoringAlertsOutput.nextToken, paginationFunction: self.listMonitoringAlerts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitoringAlerts(input:))
->>>>>>> main
     }
 }
 
@@ -2003,11 +1649,7 @@ extension ListMonitoringAlertsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitoringAlertsInput, Output == ListMonitoringAlertsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitoringAlertsInput, OperationStackOutput == ListMonitoringAlertsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitoringAlertsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringAlertSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringAlertSummary]`
@@ -2025,11 +1667,7 @@ extension SageMakerClient {
     ///     - input: A `[ListMonitoringExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoringExecutionsOutput`
     public func listMonitoringExecutionsPaginated(input: ListMonitoringExecutionsInput) -> ClientRuntime.PaginatorSequence<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(input: input, inputKey: \ListMonitoringExecutionsInput.nextToken, outputKey: \ListMonitoringExecutionsOutput.nextToken, paginationFunction: self.listMonitoringExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitoringExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -2054,11 +1692,7 @@ extension ListMonitoringExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitoringExecutionsInput, Output == ListMonitoringExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitoringExecutionsInput, OperationStackOutput == ListMonitoringExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitoringExecutionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringExecutionSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringExecutionSummary]`
@@ -2076,11 +1710,7 @@ extension SageMakerClient {
     ///     - input: A `[ListMonitoringSchedulesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoringSchedulesOutput`
     public func listMonitoringSchedulesPaginated(input: ListMonitoringSchedulesInput) -> ClientRuntime.PaginatorSequence<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(input: input, inputKey: \ListMonitoringSchedulesInput.nextToken, outputKey: \ListMonitoringSchedulesOutput.nextToken, paginationFunction: self.listMonitoringSchedules(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitoringSchedules(input:))
->>>>>>> main
     }
 }
 
@@ -2103,11 +1733,7 @@ extension ListMonitoringSchedulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMonitoringSchedulesInput, Output == ListMonitoringSchedulesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMonitoringSchedulesInput, OperationStackOutput == ListMonitoringSchedulesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMonitoringSchedulesPaginated`
     /// to access the nested member `[SageMakerClientTypes.MonitoringScheduleSummary]`
     /// - Returns: `[SageMakerClientTypes.MonitoringScheduleSummary]`
@@ -2125,11 +1751,7 @@ extension SageMakerClient {
     ///     - input: A `[ListNotebookInstanceLifecycleConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotebookInstanceLifecycleConfigsOutput`
     public func listNotebookInstanceLifecycleConfigsPaginated(input: ListNotebookInstanceLifecycleConfigsInput) -> ClientRuntime.PaginatorSequence<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(input: input, inputKey: \ListNotebookInstanceLifecycleConfigsInput.nextToken, outputKey: \ListNotebookInstanceLifecycleConfigsOutput.nextToken, paginationFunction: self.listNotebookInstanceLifecycleConfigs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotebookInstanceLifecycleConfigs(input:))
->>>>>>> main
     }
 }
 
@@ -2148,11 +1770,7 @@ extension ListNotebookInstanceLifecycleConfigsInput: ClientRuntime.PaginateToken
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNotebookInstanceLifecycleConfigsInput, Output == ListNotebookInstanceLifecycleConfigsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNotebookInstanceLifecycleConfigsInput, OperationStackOutput == ListNotebookInstanceLifecycleConfigsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNotebookInstanceLifecycleConfigsPaginated`
     /// to access the nested member `[SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]`
     /// - Returns: `[SageMakerClientTypes.NotebookInstanceLifecycleConfigSummary]`
@@ -2170,11 +1788,7 @@ extension SageMakerClient {
     ///     - input: A `[ListNotebookInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotebookInstancesOutput`
     public func listNotebookInstancesPaginated(input: ListNotebookInstancesInput) -> ClientRuntime.PaginatorSequence<ListNotebookInstancesInput, ListNotebookInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotebookInstancesInput, ListNotebookInstancesOutput>(input: input, inputKey: \ListNotebookInstancesInput.nextToken, outputKey: \ListNotebookInstancesOutput.nextToken, paginationFunction: self.listNotebookInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotebookInstancesInput, ListNotebookInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotebookInstances(input:))
->>>>>>> main
     }
 }
 
@@ -2197,11 +1811,7 @@ extension ListNotebookInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNotebookInstancesInput, Output == ListNotebookInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNotebookInstancesInput, OperationStackOutput == ListNotebookInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNotebookInstancesPaginated`
     /// to access the nested member `[SageMakerClientTypes.NotebookInstanceSummary]`
     /// - Returns: `[SageMakerClientTypes.NotebookInstanceSummary]`
@@ -2219,11 +1829,7 @@ extension SageMakerClient {
     ///     - input: A `[ListPipelineExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionsOutput`
     public func listPipelineExecutionsPaginated(input: ListPipelineExecutionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \ListPipelineExecutionsInput.nextToken, outputKey: \ListPipelineExecutionsOutput.nextToken, paginationFunction: self.listPipelineExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -2240,11 +1846,7 @@ extension ListPipelineExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelineExecutionsInput, Output == ListPipelineExecutionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelineExecutionsInput, OperationStackOutput == ListPipelineExecutionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionsPaginated`
     /// to access the nested member `[SageMakerClientTypes.PipelineExecutionSummary]`
     /// - Returns: `[SageMakerClientTypes.PipelineExecutionSummary]`
@@ -2262,11 +1864,7 @@ extension SageMakerClient {
     ///     - input: A `[ListPipelineExecutionStepsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineExecutionStepsOutput`
     public func listPipelineExecutionStepsPaginated(input: ListPipelineExecutionStepsInput) -> ClientRuntime.PaginatorSequence<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(input: input, inputKey: \ListPipelineExecutionStepsInput.nextToken, outputKey: \ListPipelineExecutionStepsOutput.nextToken, paginationFunction: self.listPipelineExecutionSteps(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineExecutionSteps(input:))
->>>>>>> main
     }
 }
 
@@ -2280,11 +1878,7 @@ extension ListPipelineExecutionStepsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelineExecutionStepsInput, Output == ListPipelineExecutionStepsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelineExecutionStepsInput, OperationStackOutput == ListPipelineExecutionStepsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelineExecutionStepsPaginated`
     /// to access the nested member `[SageMakerClientTypes.PipelineExecutionStep]`
     /// - Returns: `[SageMakerClientTypes.PipelineExecutionStep]`
@@ -2302,11 +1896,7 @@ extension SageMakerClient {
     ///     - input: A `[ListPipelineParametersForExecutionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineParametersForExecutionOutput`
     public func listPipelineParametersForExecutionPaginated(input: ListPipelineParametersForExecutionInput) -> ClientRuntime.PaginatorSequence<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(input: input, inputKey: \ListPipelineParametersForExecutionInput.nextToken, outputKey: \ListPipelineParametersForExecutionOutput.nextToken, paginationFunction: self.listPipelineParametersForExecution(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineParametersForExecution(input:))
->>>>>>> main
     }
 }
 
@@ -2319,11 +1909,7 @@ extension ListPipelineParametersForExecutionInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelineParametersForExecutionInput, Output == ListPipelineParametersForExecutionOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelineParametersForExecutionInput, OperationStackOutput == ListPipelineParametersForExecutionOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelineParametersForExecutionPaginated`
     /// to access the nested member `[SageMakerClientTypes.Parameter]`
     /// - Returns: `[SageMakerClientTypes.Parameter]`
@@ -2341,11 +1927,7 @@ extension SageMakerClient {
     ///     - input: A `[ListPipelinesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPipelinesOutput`
     public func listPipelinesPaginated(input: ListPipelinesInput) -> ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \ListPipelinesInput.nextToken, outputKey: \ListPipelinesOutput.nextToken, paginationFunction: self.listPipelines(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPipelinesInput, ListPipelinesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelines(input:))
->>>>>>> main
     }
 }
 
@@ -2362,11 +1944,7 @@ extension ListPipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPipelinesInput, Output == ListPipelinesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPipelinesInput, OperationStackOutput == ListPipelinesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPipelinesPaginated`
     /// to access the nested member `[SageMakerClientTypes.PipelineSummary]`
     /// - Returns: `[SageMakerClientTypes.PipelineSummary]`
@@ -2384,11 +1962,7 @@ extension SageMakerClient {
     ///     - input: A `[ListProcessingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProcessingJobsOutput`
     public func listProcessingJobsPaginated(input: ListProcessingJobsInput) -> ClientRuntime.PaginatorSequence<ListProcessingJobsInput, ListProcessingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProcessingJobsInput, ListProcessingJobsOutput>(input: input, inputKey: \ListProcessingJobsInput.nextToken, outputKey: \ListProcessingJobsOutput.nextToken, paginationFunction: self.listProcessingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProcessingJobsInput, ListProcessingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProcessingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -2408,11 +1982,7 @@ extension ListProcessingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProcessingJobsInput, Output == ListProcessingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProcessingJobsInput, OperationStackOutput == ListProcessingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProcessingJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ProcessingJobSummary]`
     /// - Returns: `[SageMakerClientTypes.ProcessingJobSummary]`
@@ -2430,11 +2000,7 @@ extension SageMakerClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
->>>>>>> main
     }
 }
 
@@ -2460,11 +2026,7 @@ extension SageMakerClient {
     ///     - input: A `[ListResourceCatalogsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceCatalogsOutput`
     public func listResourceCatalogsPaginated(input: ListResourceCatalogsInput) -> ClientRuntime.PaginatorSequence<ListResourceCatalogsInput, ListResourceCatalogsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListResourceCatalogsInput, ListResourceCatalogsOutput>(input: input, inputKey: \ListResourceCatalogsInput.nextToken, outputKey: \ListResourceCatalogsOutput.nextToken, paginationFunction: self.listResourceCatalogs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListResourceCatalogsInput, ListResourceCatalogsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceCatalogs(input:))
->>>>>>> main
     }
 }
 
@@ -2481,11 +2043,7 @@ extension ListResourceCatalogsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListResourceCatalogsInput, Output == ListResourceCatalogsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListResourceCatalogsInput, OperationStackOutput == ListResourceCatalogsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceCatalogsPaginated`
     /// to access the nested member `[SageMakerClientTypes.ResourceCatalog]`
     /// - Returns: `[SageMakerClientTypes.ResourceCatalog]`
@@ -2503,11 +2061,7 @@ extension SageMakerClient {
     ///     - input: A `[ListSpacesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSpacesOutput`
     public func listSpacesPaginated(input: ListSpacesInput) -> ClientRuntime.PaginatorSequence<ListSpacesInput, ListSpacesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSpacesInput, ListSpacesOutput>(input: input, inputKey: \ListSpacesInput.nextToken, outputKey: \ListSpacesOutput.nextToken, paginationFunction: self.listSpaces(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSpacesInput, ListSpacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSpaces(input:))
->>>>>>> main
     }
 }
 
@@ -2523,11 +2077,7 @@ extension ListSpacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSpacesInput, Output == ListSpacesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSpacesInput, OperationStackOutput == ListSpacesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSpacesPaginated`
     /// to access the nested member `[SageMakerClientTypes.SpaceDetails]`
     /// - Returns: `[SageMakerClientTypes.SpaceDetails]`
@@ -2545,11 +2095,7 @@ extension SageMakerClient {
     ///     - input: A `[ListStageDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStageDevicesOutput`
     public func listStageDevicesPaginated(input: ListStageDevicesInput) -> ClientRuntime.PaginatorSequence<ListStageDevicesInput, ListStageDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStageDevicesInput, ListStageDevicesOutput>(input: input, inputKey: \ListStageDevicesInput.nextToken, outputKey: \ListStageDevicesOutput.nextToken, paginationFunction: self.listStageDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStageDevicesInput, ListStageDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStageDevices(input:))
->>>>>>> main
     }
 }
 
@@ -2564,11 +2110,7 @@ extension ListStageDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListStageDevicesInput, Output == ListStageDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListStageDevicesInput, OperationStackOutput == ListStageDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStageDevicesPaginated`
     /// to access the nested member `[SageMakerClientTypes.DeviceDeploymentSummary]`
     /// - Returns: `[SageMakerClientTypes.DeviceDeploymentSummary]`
@@ -2586,11 +2128,7 @@ extension SageMakerClient {
     ///     - input: A `[ListStudioLifecycleConfigsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListStudioLifecycleConfigsOutput`
     public func listStudioLifecycleConfigsPaginated(input: ListStudioLifecycleConfigsInput) -> ClientRuntime.PaginatorSequence<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(input: input, inputKey: \ListStudioLifecycleConfigsInput.nextToken, outputKey: \ListStudioLifecycleConfigsOutput.nextToken, paginationFunction: self.listStudioLifecycleConfigs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStudioLifecycleConfigs(input:))
->>>>>>> main
     }
 }
 
@@ -2610,11 +2148,7 @@ extension ListStudioLifecycleConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListStudioLifecycleConfigsInput, Output == ListStudioLifecycleConfigsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListStudioLifecycleConfigsInput, OperationStackOutput == ListStudioLifecycleConfigsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listStudioLifecycleConfigsPaginated`
     /// to access the nested member `[SageMakerClientTypes.StudioLifecycleConfigDetails]`
     /// - Returns: `[SageMakerClientTypes.StudioLifecycleConfigDetails]`
@@ -2632,11 +2166,7 @@ extension SageMakerClient {
     ///     - input: A `[ListSubscribedWorkteamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscribedWorkteamsOutput`
     public func listSubscribedWorkteamsPaginated(input: ListSubscribedWorkteamsInput) -> ClientRuntime.PaginatorSequence<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(input: input, inputKey: \ListSubscribedWorkteamsInput.nextToken, outputKey: \ListSubscribedWorkteamsOutput.nextToken, paginationFunction: self.listSubscribedWorkteams(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscribedWorkteams(input:))
->>>>>>> main
     }
 }
 
@@ -2649,11 +2179,7 @@ extension ListSubscribedWorkteamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSubscribedWorkteamsInput, Output == ListSubscribedWorkteamsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSubscribedWorkteamsInput, OperationStackOutput == ListSubscribedWorkteamsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSubscribedWorkteamsPaginated`
     /// to access the nested member `[SageMakerClientTypes.SubscribedWorkteam]`
     /// - Returns: `[SageMakerClientTypes.SubscribedWorkteam]`
@@ -2671,11 +2197,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
->>>>>>> main
     }
 }
 
@@ -2688,11 +2210,7 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsInput, Output == ListTagsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsInput, OperationStackOutput == ListTagsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsPaginated`
     /// to access the nested member `[SageMakerClientTypes.Tag]`
     /// - Returns: `[SageMakerClientTypes.Tag]`
@@ -2710,11 +2228,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTrainingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrainingJobsOutput`
     public func listTrainingJobsPaginated(input: ListTrainingJobsInput) -> ClientRuntime.PaginatorSequence<ListTrainingJobsInput, ListTrainingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTrainingJobsInput, ListTrainingJobsOutput>(input: input, inputKey: \ListTrainingJobsInput.nextToken, outputKey: \ListTrainingJobsOutput.nextToken, paginationFunction: self.listTrainingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTrainingJobsInput, ListTrainingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrainingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -2735,11 +2249,7 @@ extension ListTrainingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTrainingJobsInput, Output == ListTrainingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTrainingJobsInput, OperationStackOutput == ListTrainingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTrainingJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.TrainingJobSummary]`
     /// - Returns: `[SageMakerClientTypes.TrainingJobSummary]`
@@ -2757,11 +2267,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTrainingJobsForHyperParameterTuningJobInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrainingJobsForHyperParameterTuningJobOutput`
     public func listTrainingJobsForHyperParameterTuningJobPaginated(input: ListTrainingJobsForHyperParameterTuningJobInput) -> ClientRuntime.PaginatorSequence<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(input: input, inputKey: \ListTrainingJobsForHyperParameterTuningJobInput.nextToken, outputKey: \ListTrainingJobsForHyperParameterTuningJobOutput.nextToken, paginationFunction: self.listTrainingJobsForHyperParameterTuningJob(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrainingJobsForHyperParameterTuningJob(input:))
->>>>>>> main
     }
 }
 
@@ -2777,11 +2283,7 @@ extension ListTrainingJobsForHyperParameterTuningJobInput: ClientRuntime.Paginat
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTrainingJobsForHyperParameterTuningJobInput, Output == ListTrainingJobsForHyperParameterTuningJobOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTrainingJobsForHyperParameterTuningJobInput, OperationStackOutput == ListTrainingJobsForHyperParameterTuningJobOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTrainingJobsForHyperParameterTuningJobPaginated`
     /// to access the nested member `[SageMakerClientTypes.HyperParameterTrainingJobSummary]`
     /// - Returns: `[SageMakerClientTypes.HyperParameterTrainingJobSummary]`
@@ -2799,11 +2301,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTransformJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTransformJobsOutput`
     public func listTransformJobsPaginated(input: ListTransformJobsInput) -> ClientRuntime.PaginatorSequence<ListTransformJobsInput, ListTransformJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTransformJobsInput, ListTransformJobsOutput>(input: input, inputKey: \ListTransformJobsInput.nextToken, outputKey: \ListTransformJobsOutput.nextToken, paginationFunction: self.listTransformJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTransformJobsInput, ListTransformJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTransformJobs(input:))
->>>>>>> main
     }
 }
 
@@ -2823,11 +2321,7 @@ extension ListTransformJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTransformJobsInput, Output == ListTransformJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTransformJobsInput, OperationStackOutput == ListTransformJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTransformJobsPaginated`
     /// to access the nested member `[SageMakerClientTypes.TransformJobSummary]`
     /// - Returns: `[SageMakerClientTypes.TransformJobSummary]`
@@ -2845,11 +2339,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTrialComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrialComponentsOutput`
     public func listTrialComponentsPaginated(input: ListTrialComponentsInput) -> ClientRuntime.PaginatorSequence<ListTrialComponentsInput, ListTrialComponentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTrialComponentsInput, ListTrialComponentsOutput>(input: input, inputKey: \ListTrialComponentsInput.nextToken, outputKey: \ListTrialComponentsOutput.nextToken, paginationFunction: self.listTrialComponents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTrialComponentsInput, ListTrialComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrialComponents(input:))
->>>>>>> main
     }
 }
 
@@ -2868,11 +2358,7 @@ extension ListTrialComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTrialComponentsInput, Output == ListTrialComponentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTrialComponentsInput, OperationStackOutput == ListTrialComponentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTrialComponentsPaginated`
     /// to access the nested member `[SageMakerClientTypes.TrialComponentSummary]`
     /// - Returns: `[SageMakerClientTypes.TrialComponentSummary]`
@@ -2890,11 +2376,7 @@ extension SageMakerClient {
     ///     - input: A `[ListTrialsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTrialsOutput`
     public func listTrialsPaginated(input: ListTrialsInput) -> ClientRuntime.PaginatorSequence<ListTrialsInput, ListTrialsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTrialsInput, ListTrialsOutput>(input: input, inputKey: \ListTrialsInput.nextToken, outputKey: \ListTrialsOutput.nextToken, paginationFunction: self.listTrials(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTrialsInput, ListTrialsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrials(input:))
->>>>>>> main
     }
 }
 
@@ -2912,11 +2394,7 @@ extension ListTrialsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTrialsInput, Output == ListTrialsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTrialsInput, OperationStackOutput == ListTrialsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTrialsPaginated`
     /// to access the nested member `[SageMakerClientTypes.TrialSummary]`
     /// - Returns: `[SageMakerClientTypes.TrialSummary]`
@@ -2934,11 +2412,7 @@ extension SageMakerClient {
     ///     - input: A `[ListUserProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserProfilesOutput`
     public func listUserProfilesPaginated(input: ListUserProfilesInput) -> ClientRuntime.PaginatorSequence<ListUserProfilesInput, ListUserProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListUserProfilesInput, ListUserProfilesOutput>(input: input, inputKey: \ListUserProfilesInput.nextToken, outputKey: \ListUserProfilesOutput.nextToken, paginationFunction: self.listUserProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListUserProfilesInput, ListUserProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUserProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -2954,11 +2428,7 @@ extension ListUserProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListUserProfilesInput, Output == ListUserProfilesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListUserProfilesInput, OperationStackOutput == ListUserProfilesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUserProfilesPaginated`
     /// to access the nested member `[SageMakerClientTypes.UserProfileDetails]`
     /// - Returns: `[SageMakerClientTypes.UserProfileDetails]`
@@ -2976,11 +2446,7 @@ extension SageMakerClient {
     ///     - input: A `[ListWorkforcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkforcesOutput`
     public func listWorkforcesPaginated(input: ListWorkforcesInput) -> ClientRuntime.PaginatorSequence<ListWorkforcesInput, ListWorkforcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorkforcesInput, ListWorkforcesOutput>(input: input, inputKey: \ListWorkforcesInput.nextToken, outputKey: \ListWorkforcesOutput.nextToken, paginationFunction: self.listWorkforces(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorkforcesInput, ListWorkforcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkforces(input:))
->>>>>>> main
     }
 }
 
@@ -2995,11 +2461,7 @@ extension ListWorkforcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorkforcesInput, Output == ListWorkforcesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorkforcesInput, OperationStackOutput == ListWorkforcesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkforcesPaginated`
     /// to access the nested member `[SageMakerClientTypes.Workforce]`
     /// - Returns: `[SageMakerClientTypes.Workforce]`
@@ -3017,11 +2479,7 @@ extension SageMakerClient {
     ///     - input: A `[ListWorkteamsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkteamsOutput`
     public func listWorkteamsPaginated(input: ListWorkteamsInput) -> ClientRuntime.PaginatorSequence<ListWorkteamsInput, ListWorkteamsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorkteamsInput, ListWorkteamsOutput>(input: input, inputKey: \ListWorkteamsInput.nextToken, outputKey: \ListWorkteamsOutput.nextToken, paginationFunction: self.listWorkteams(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorkteamsInput, ListWorkteamsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkteams(input:))
->>>>>>> main
     }
 }
 
@@ -3036,11 +2494,7 @@ extension ListWorkteamsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListWorkteamsInput, Output == ListWorkteamsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListWorkteamsInput, OperationStackOutput == ListWorkteamsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listWorkteamsPaginated`
     /// to access the nested member `[SageMakerClientTypes.Workteam]`
     /// - Returns: `[SageMakerClientTypes.Workteam]`
@@ -3058,11 +2512,7 @@ extension SageMakerClient {
     ///     - input: A `[QueryLineageInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `QueryLineageOutput`
     public func queryLineagePaginated(input: QueryLineageInput) -> ClientRuntime.PaginatorSequence<QueryLineageInput, QueryLineageOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<QueryLineageInput, QueryLineageOutput>(input: input, inputKey: \QueryLineageInput.nextToken, outputKey: \QueryLineageOutput.nextToken, paginationFunction: self.queryLineage(input:))
-=======
         return ClientRuntime.PaginatorSequence<QueryLineageInput, QueryLineageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.queryLineage(input:))
->>>>>>> main
     }
 }
 
@@ -3088,11 +2538,7 @@ extension SageMakerClient {
     ///     - input: A `[SearchInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchOutput`
     public func searchPaginated(input: SearchInput) -> ClientRuntime.PaginatorSequence<SearchInput, SearchOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \SearchInput.nextToken, outputKey: \SearchOutput.nextToken, paginationFunction: self.search(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.search(input:))
->>>>>>> main
     }
 }
 
@@ -3109,11 +2555,7 @@ extension SearchInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchInput, Output == SearchOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchInput, OperationStackOutput == SearchOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchPaginated`
     /// to access the nested member `[SageMakerClientTypes.SearchRecord]`
     /// - Returns: `[SageMakerClientTypes.SearchRecord]`

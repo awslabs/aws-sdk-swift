@@ -21,11 +21,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func batchGetCollaborationAnalysisTemplate(input: BatchGetCollaborationAnalysisTemplateInput) async throws -> BatchGetCollaborationAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `BatchGetSchema` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves multiple schemas by their identifiers.
     ///
     /// - Parameter BatchGetSchemaInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a new analysis template.
     ///
     /// - Parameter CreateAnalysisTemplateInput : [no documentation found]
@@ -63,11 +57,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createAnalysisTemplate(input: CreateAnalysisTemplateInput) async throws -> CreateAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a new collaboration.
     ///
     /// - Parameter CreateCollaborationInput : [no documentation found]
@@ -83,8 +74,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createCollaboration(input: CreateCollaborationInput) async throws -> CreateCollaborationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Provides the details necessary to create a configured audience model association.
@@ -106,7 +95,6 @@ public protocol CleanRoomsClientProtocol {
     func createConfiguredAudienceModelAssociation(input: CreateConfiguredAudienceModelAssociationInput) async throws -> CreateConfiguredAudienceModelAssociationOutput
     /// Performs the `CreateConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a new configured table resource.
     ///
     /// - Parameter CreateConfiguredTableInput : [no documentation found]
@@ -124,11 +112,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTable(input: CreateConfiguredTableInput) async throws -> CreateConfiguredTableOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     ///
     /// - Parameter CreateConfiguredTableAnalysisRuleInput : [no documentation found]
@@ -145,11 +130,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTableAnalysisRule(input: CreateConfiguredTableAnalysisRuleInput) async throws -> CreateConfiguredTableAnalysisRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     ///
     /// - Parameter CreateConfiguredTableAssociationInput : [no documentation found]
@@ -167,11 +149,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTableAssociation(input: CreateConfiguredTableAssociationInput) async throws -> CreateConfiguredTableAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     ///
     /// - Parameter CreateMembershipInput : [no documentation found]
@@ -189,8 +168,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the [UpdatePrivacyBudgetTemplate] operation.
@@ -211,7 +188,6 @@ public protocol CleanRoomsClientProtocol {
     func createPrivacyBudgetTemplate(input: CreatePrivacyBudgetTemplateInput) async throws -> CreatePrivacyBudgetTemplateOutput
     /// Performs the `DeleteAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes an analysis template.
     ///
     /// - Parameter DeleteAnalysisTemplateInput : [no documentation found]
@@ -227,11 +203,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteAnalysisTemplate(input: DeleteAnalysisTemplateInput) async throws -> DeleteAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     ///
     /// - Parameter DeleteCollaborationInput : [no documentation found]
@@ -246,8 +219,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteCollaboration(input: DeleteCollaborationInput) async throws -> DeleteCollaborationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Provides the information necessary to delete a configured audience model association.
@@ -267,7 +238,6 @@ public protocol CleanRoomsClientProtocol {
     func deleteConfiguredAudienceModelAssociation(input: DeleteConfiguredAudienceModelAssociationInput) async throws -> DeleteConfiguredAudienceModelAssociationOutput
     /// Performs the `DeleteConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a configured table.
     ///
     /// - Parameter DeleteConfiguredTableInput : [no documentation found]
@@ -284,11 +254,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTable(input: DeleteConfiguredTableInput) async throws -> DeleteConfiguredTableOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a configured table analysis rule.
     ///
     /// - Parameter DeleteConfiguredTableAnalysisRuleInput : [no documentation found]
@@ -305,11 +272,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTableAnalysisRule(input: DeleteConfiguredTableAnalysisRuleInput) async throws -> DeleteConfiguredTableAnalysisRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a configured table association.
     ///
     /// - Parameter DeleteConfiguredTableAssociationInput : [no documentation found]
@@ -326,11 +290,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTableAssociation(input: DeleteConfiguredTableAssociationInput) async throws -> DeleteConfiguredTableAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMember` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     ///
     /// - Parameter DeleteMemberInput : [no documentation found]
@@ -347,11 +308,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a specified membership. All resources under a membership must be deleted.
     ///
     /// - Parameter DeleteMembershipInput : [no documentation found]
@@ -368,8 +326,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Deletes a privacy budget template for a specified membership.
@@ -389,7 +345,6 @@ public protocol CleanRoomsClientProtocol {
     func deletePrivacyBudgetTemplate(input: DeletePrivacyBudgetTemplateInput) async throws -> DeletePrivacyBudgetTemplateOutput
     /// Performs the `GetAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves an analysis template.
     ///
     /// - Parameter GetAnalysisTemplateInput : [no documentation found]
@@ -405,11 +360,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getAnalysisTemplate(input: GetAnalysisTemplateInput) async throws -> GetAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Returns metadata about a collaboration.
     ///
     /// - Parameter GetCollaborationInput : [no documentation found]
@@ -424,11 +376,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getCollaboration(input: GetCollaborationInput) async throws -> GetCollaborationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCollaborationAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves an analysis template within a collaboration.
     ///
     /// - Parameter GetCollaborationAnalysisTemplateInput : [no documentation found]
@@ -444,8 +393,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getCollaborationAnalysisTemplate(input: GetCollaborationAnalysisTemplateInput) async throws -> GetCollaborationAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCollaborationConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Retrieves a configured audience model association within a collaboration.
@@ -499,7 +446,6 @@ public protocol CleanRoomsClientProtocol {
     func getConfiguredAudienceModelAssociation(input: GetConfiguredAudienceModelAssociationInput) async throws -> GetConfiguredAudienceModelAssociationOutput
     /// Performs the `GetConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves a configured table.
     ///
     /// - Parameter GetConfiguredTableInput : [no documentation found]
@@ -515,11 +461,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTable(input: GetConfiguredTableInput) async throws -> GetConfiguredTableOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves a configured table analysis rule.
     ///
     /// - Parameter GetConfiguredTableAnalysisRuleInput : [no documentation found]
@@ -535,11 +478,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTableAnalysisRule(input: GetConfiguredTableAnalysisRuleInput) async throws -> GetConfiguredTableAnalysisRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves a configured table association.
     ///
     /// - Parameter GetConfiguredTableAssociationInput : [no documentation found]
@@ -555,11 +495,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTableAssociation(input: GetConfiguredTableAssociationInput) async throws -> GetConfiguredTableAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves a specified membership for an identifier.
     ///
     /// - Parameter GetMembershipInput : [no documentation found]
@@ -575,8 +512,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getMembership(input: GetMembershipInput) async throws -> GetMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Returns details for a specified privacy budget template.
@@ -596,7 +531,6 @@ public protocol CleanRoomsClientProtocol {
     func getPrivacyBudgetTemplate(input: GetPrivacyBudgetTemplateInput) async throws -> GetPrivacyBudgetTemplateOutput
     /// Performs the `GetProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Returns query processing metadata.
     ///
     /// - Parameter GetProtectedQueryInput : [no documentation found]
@@ -612,11 +546,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getProtectedQuery(input: GetProtectedQueryInput) async throws -> GetProtectedQueryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchema` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves the schema for a relation within a collaboration.
     ///
     /// - Parameter GetSchemaInput : [no documentation found]
@@ -632,11 +563,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSchemaAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Retrieves a schema analysis rule.
     ///
     /// - Parameter GetSchemaAnalysisRuleInput : [no documentation found]
@@ -652,11 +580,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getSchemaAnalysisRule(input: GetSchemaAnalysisRuleInput) async throws -> GetSchemaAnalysisRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAnalysisTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists analysis templates that the caller owns.
     ///
     /// - Parameter ListAnalysisTemplatesInput : [no documentation found]
@@ -672,11 +597,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listAnalysisTemplates(input: ListAnalysisTemplatesInput) async throws -> ListAnalysisTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCollaborationAnalysisTemplates` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists analysis templates within a collaboration.
     ///
     /// - Parameter ListCollaborationAnalysisTemplatesInput : [no documentation found]
@@ -692,8 +614,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listCollaborationAnalysisTemplates(input: ListCollaborationAnalysisTemplatesInput) async throws -> ListCollaborationAnalysisTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCollaborationConfiguredAudienceModelAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Lists configured audience model associations within a collaboration.
@@ -747,7 +667,6 @@ public protocol CleanRoomsClientProtocol {
     func listCollaborationPrivacyBudgetTemplates(input: ListCollaborationPrivacyBudgetTemplatesInput) async throws -> ListCollaborationPrivacyBudgetTemplatesOutput
     /// Performs the `ListCollaborations` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
     /// - Parameter ListCollaborationsInput : [no documentation found]
@@ -762,8 +681,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listCollaborations(input: ListCollaborationsInput) async throws -> ListCollaborationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfiguredAudienceModelAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Lists information about requested configured audience model associations.
@@ -783,7 +700,6 @@ public protocol CleanRoomsClientProtocol {
     func listConfiguredAudienceModelAssociations(input: ListConfiguredAudienceModelAssociationsInput) async throws -> ListConfiguredAudienceModelAssociationsOutput
     /// Performs the `ListConfiguredTableAssociations` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists configured table associations for a membership.
     ///
     /// - Parameter ListConfiguredTableAssociationsInput : [no documentation found]
@@ -799,11 +715,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listConfiguredTableAssociations(input: ListConfiguredTableAssociationsInput) async throws -> ListConfiguredTableAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfiguredTables` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists configured tables.
     ///
     /// - Parameter ListConfiguredTablesInput : [no documentation found]
@@ -818,11 +731,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listConfiguredTables(input: ListConfiguredTablesInput) async throws -> ListConfiguredTablesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMembers` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists all members within a collaboration.
     ///
     /// - Parameter ListMembersInput : [no documentation found]
@@ -838,11 +748,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListMemberships` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists all memberships resources within the caller's account.
     ///
     /// - Parameter ListMembershipsInput : [no documentation found]
@@ -857,8 +764,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listMemberships(input: ListMembershipsInput) async throws -> ListMembershipsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPrivacyBudgets` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Returns detailed information about the privacy budgets in a specified membership.
@@ -895,7 +800,6 @@ public protocol CleanRoomsClientProtocol {
     func listPrivacyBudgetTemplates(input: ListPrivacyBudgetTemplatesInput) async throws -> ListPrivacyBudgetTemplatesOutput
     /// Performs the `ListProtectedQueries` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists protected queries, sorted by the most recent query.
     ///
     /// - Parameter ListProtectedQueriesInput : [no documentation found]
@@ -911,11 +815,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listProtectedQueries(input: ListProtectedQueriesInput) async throws -> ListProtectedQueriesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSchemas` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists the schemas for relations within a collaboration.
     ///
     /// - Parameter ListSchemasInput : [no documentation found]
@@ -931,11 +832,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Lists all of the tags that have been added to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -948,8 +846,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PreviewPrivacyImpact` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
@@ -969,7 +865,6 @@ public protocol CleanRoomsClientProtocol {
     func previewPrivacyImpact(input: PreviewPrivacyImpactInput) async throws -> PreviewPrivacyImpactOutput
     /// Performs the `StartProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a protected query that is started by Clean Rooms.
     ///
     /// - Parameter StartProtectedQueryInput : [no documentation found]
@@ -986,11 +881,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1003,11 +895,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Removes a tag or list of tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1020,11 +909,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAnalysisTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates the analysis template metadata.
     ///
     /// - Parameter UpdateAnalysisTemplateInput : [no documentation found]
@@ -1040,11 +926,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateAnalysisTemplate(input: UpdateAnalysisTemplateInput) async throws -> UpdateAnalysisTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateCollaboration` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
     /// - Parameter UpdateCollaborationInput : [no documentation found]
@@ -1059,8 +942,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateCollaboration(input: UpdateCollaborationInput) async throws -> UpdateCollaborationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfiguredAudienceModelAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Provides the details necessary to update a configured audience model association.
@@ -1080,7 +961,6 @@ public protocol CleanRoomsClientProtocol {
     func updateConfiguredAudienceModelAssociation(input: UpdateConfiguredAudienceModelAssociationInput) async throws -> UpdateConfiguredAudienceModelAssociationOutput
     /// Performs the `UpdateConfiguredTable` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates a configured table.
     ///
     /// - Parameter UpdateConfiguredTableInput : [no documentation found]
@@ -1097,11 +977,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTable(input: UpdateConfiguredTableInput) async throws -> UpdateConfiguredTableOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfiguredTableAnalysisRule` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates a configured table analysis rule.
     ///
     /// - Parameter UpdateConfiguredTableAnalysisRuleInput : [no documentation found]
@@ -1118,11 +995,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTableAnalysisRule(input: UpdateConfiguredTableAnalysisRuleInput) async throws -> UpdateConfiguredTableAnalysisRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfiguredTableAssociation` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates a configured table association.
     ///
     /// - Parameter UpdateConfiguredTableAssociationInput : [no documentation found]
@@ -1139,11 +1013,8 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTableAssociation(input: UpdateConfiguredTableAssociationInput) async throws -> UpdateConfiguredTableAssociationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateMembership` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates a membership.
     ///
     /// - Parameter UpdateMembershipInput : [no documentation found]
@@ -1160,8 +1031,6 @@ public protocol CleanRoomsClientProtocol {
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateMembership(input: UpdateMembershipInput) async throws -> UpdateMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdatePrivacyBudgetTemplate` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
     /// Updates the privacy budget template for the specified membership.
@@ -1182,7 +1051,6 @@ public protocol CleanRoomsClientProtocol {
     func updatePrivacyBudgetTemplate(input: UpdatePrivacyBudgetTemplateInput) async throws -> UpdatePrivacyBudgetTemplateOutput
     /// Performs the `UpdateProtectedQuery` operation on the `AWSBastionControlPlaneServiceLambda` service.
     ///
->>>>>>> main
     /// Updates the processing of a currently running query.
     ///
     /// - Parameter UpdateProtectedQueryInput : [no documentation found]

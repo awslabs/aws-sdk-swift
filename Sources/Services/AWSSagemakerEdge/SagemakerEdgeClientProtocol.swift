@@ -17,11 +17,8 @@ public protocol SagemakerEdgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeployments(input: GetDeploymentsInput) async throws -> GetDeploymentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeviceRegistration` operation on the `AmazonSageMakerEdge` service.
     ///
->>>>>>> main
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
     /// - Parameter GetDeviceRegistrationInput : [no documentation found]
@@ -33,11 +30,8 @@ public protocol SagemakerEdgeClientProtocol {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     func getDeviceRegistration(input: GetDeviceRegistrationInput) async throws -> GetDeviceRegistrationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendHeartbeat` operation on the `AmazonSageMakerEdge` service.
     ///
->>>>>>> main
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
     /// - Parameter SendHeartbeatInput : [no documentation found]

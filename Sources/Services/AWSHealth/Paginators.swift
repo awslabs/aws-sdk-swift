@@ -12,11 +12,7 @@ extension HealthClient {
     ///     - input: A `[DescribeAffectedAccountsForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedAccountsForOrganizationOutput`
     public func describeAffectedAccountsForOrganizationPaginated(input: DescribeAffectedAccountsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(input: input, inputKey: \DescribeAffectedAccountsForOrganizationInput.nextToken, outputKey: \DescribeAffectedAccountsForOrganizationOutput.nextToken, paginationFunction: self.describeAffectedAccountsForOrganization(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAffectedAccountsForOrganization(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeAffectedAccountsForOrganizationInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAffectedAccountsForOrganizationInput, Output == DescribeAffectedAccountsForOrganizationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAffectedAccountsForOrganizationInput, OperationStackOutput == DescribeAffectedAccountsForOrganizationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedAccountsForOrganizationPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -51,11 +43,7 @@ extension HealthClient {
     ///     - input: A `[DescribeAffectedEntitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesOutput`
     public func describeAffectedEntitiesPaginated(input: DescribeAffectedEntitiesInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(input: input, inputKey: \DescribeAffectedEntitiesInput.nextToken, outputKey: \DescribeAffectedEntitiesOutput.nextToken, paginationFunction: self.describeAffectedEntities(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAffectedEntities(input:))
->>>>>>> main
     }
 }
 
@@ -69,11 +57,7 @@ extension DescribeAffectedEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAffectedEntitiesInput, Output == DescribeAffectedEntitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAffectedEntitiesInput, OperationStackOutput == DescribeAffectedEntitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedEntitiesPaginated`
     /// to access the nested member `[HealthClientTypes.AffectedEntity]`
     /// - Returns: `[HealthClientTypes.AffectedEntity]`
@@ -91,11 +75,7 @@ extension HealthClient {
     ///     - input: A `[DescribeAffectedEntitiesForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeAffectedEntitiesForOrganizationOutput`
     public func describeAffectedEntitiesForOrganizationPaginated(input: DescribeAffectedEntitiesForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(input: input, inputKey: \DescribeAffectedEntitiesForOrganizationInput.nextToken, outputKey: \DescribeAffectedEntitiesForOrganizationOutput.nextToken, paginationFunction: self.describeAffectedEntitiesForOrganization(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeAffectedEntitiesForOrganization(input:))
->>>>>>> main
     }
 }
 
@@ -110,11 +90,7 @@ extension DescribeAffectedEntitiesForOrganizationInput: ClientRuntime.PaginateTo
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeAffectedEntitiesForOrganizationInput, Output == DescribeAffectedEntitiesForOrganizationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeAffectedEntitiesForOrganizationInput, OperationStackOutput == DescribeAffectedEntitiesForOrganizationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeAffectedEntitiesForOrganizationPaginated`
     /// to access the nested member `[HealthClientTypes.AffectedEntity]`
     /// - Returns: `[HealthClientTypes.AffectedEntity]`
@@ -132,11 +108,7 @@ extension HealthClient {
     ///     - input: A `[DescribeEventAggregatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventAggregatesOutput`
     public func describeEventAggregatesPaginated(input: DescribeEventAggregatesInput) -> ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(input: input, inputKey: \DescribeEventAggregatesInput.nextToken, outputKey: \DescribeEventAggregatesOutput.nextToken, paginationFunction: self.describeEventAggregates(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventAggregatesInput, DescribeEventAggregatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEventAggregates(input:))
->>>>>>> main
     }
 }
 
@@ -150,11 +122,7 @@ extension DescribeEventAggregatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventAggregatesInput, Output == DescribeEventAggregatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventAggregatesInput, OperationStackOutput == DescribeEventAggregatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventAggregatesPaginated`
     /// to access the nested member `[HealthClientTypes.EventAggregate]`
     /// - Returns: `[HealthClientTypes.EventAggregate]`
@@ -172,11 +140,7 @@ extension HealthClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.nextToken, outputKey: \DescribeEventsOutput.nextToken, paginationFunction: self.describeEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEvents(input:))
->>>>>>> main
     }
 }
 
@@ -190,11 +154,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[HealthClientTypes.Event]`
     /// - Returns: `[HealthClientTypes.Event]`
@@ -212,11 +172,7 @@ extension HealthClient {
     ///     - input: A `[DescribeEventsForOrganizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsForOrganizationOutput`
     public func describeEventsForOrganizationPaginated(input: DescribeEventsForOrganizationInput) -> ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(input: input, inputKey: \DescribeEventsForOrganizationInput.nextToken, outputKey: \DescribeEventsForOrganizationOutput.nextToken, paginationFunction: self.describeEventsForOrganization(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEventsForOrganization(input:))
->>>>>>> main
     }
 }
 
@@ -230,11 +186,7 @@ extension DescribeEventsForOrganizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventsForOrganizationInput, Output == DescribeEventsForOrganizationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventsForOrganizationInput, OperationStackOutput == DescribeEventsForOrganizationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsForOrganizationPaginated`
     /// to access the nested member `[HealthClientTypes.OrganizationEvent]`
     /// - Returns: `[HealthClientTypes.OrganizationEvent]`
@@ -252,11 +204,7 @@ extension HealthClient {
     ///     - input: A `[DescribeEventTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventTypesOutput`
     public func describeEventTypesPaginated(input: DescribeEventTypesInput) -> ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutput>(input: input, inputKey: \DescribeEventTypesInput.nextToken, outputKey: \DescribeEventTypesOutput.nextToken, paginationFunction: self.describeEventTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEventTypesInput, DescribeEventTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEventTypes(input:))
->>>>>>> main
     }
 }
 
@@ -270,11 +218,7 @@ extension DescribeEventTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEventTypesInput, Output == DescribeEventTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEventTypesInput, OperationStackOutput == DescribeEventTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEventTypesPaginated`
     /// to access the nested member `[HealthClientTypes.EventType]`
     /// - Returns: `[HealthClientTypes.EventType]`

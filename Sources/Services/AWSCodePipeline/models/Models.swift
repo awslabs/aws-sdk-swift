@@ -5297,11 +5297,7 @@ extension CodePipelineClientTypes.GitConfiguration: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-<<<<<<< HEAD
-    /// A type of trigger configuration for Git-based source actions. You can specify the Git configuration trigger type for all third-party Git-based source actions that are supported by the CodeStarSourceConnection action type.
-=======
     /// A type of trigger configuration for Git-based source actions. You can specify the Git configuration trigger type for all third-party Git-based source actions that are supported by the CodeStarSourceConnection action type. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
     public struct GitConfiguration: Swift.Equatable {
         /// The field where the repository event that will start the pipeline, such as pushing Git tags, is specified with details. Git tags is the only supported event type.
         public var push: [CodePipelineClientTypes.GitPushFilter]?
@@ -8079,11 +8075,7 @@ extension CodePipelineClientTypes {
         /// * V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.
         ///
         ///
-<<<<<<< HEAD
-        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html).
-=======
         /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html). V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
         public var pipelineType: CodePipelineClientTypes.PipelineType?
         /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         /// This member is required.
@@ -8778,11 +8770,7 @@ extension CodePipelineClientTypes {
         /// * V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.
         ///
         ///
-<<<<<<< HEAD
-        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html).
-=======
         /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html). V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
         public var pipelineType: CodePipelineClientTypes.PipelineType?
         /// The date and time of the last update to the pipeline, in timestamp format.
         public var updated: ClientRuntime.Date?
@@ -8833,11 +8821,7 @@ extension CodePipelineClientTypes.PipelineTriggerDeclaration: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-<<<<<<< HEAD
-    /// Represents information about the specified trigger configuration, such as the filter criteria and the source stage for the action that contains the trigger. This is only supported for the CodeStarSourceConnection action type. When a trigger configuration is specified, default change detection for repository and branch commits is disabled.
-=======
     /// Represents information about the specified trigger configuration, such as the filter criteria and the source stage for the action that contains the trigger. This is only supported for the CodeStarSourceConnection action type. When a trigger configuration is specified, default change detection for repository and branch commits is disabled. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
     public struct PipelineTriggerDeclaration: Swift.Equatable {
         /// Provides the filter criteria and the source stage for the repository event that starts the pipeline, such as Git tags.
         /// This member is required.
@@ -8945,11 +8929,7 @@ extension CodePipelineClientTypes.PipelineVariable: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-<<<<<<< HEAD
-    /// A pipeline-level variable used for a pipeline execution.
-=======
     /// A pipeline-level variable used for a pipeline execution. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
     public struct PipelineVariable: Swift.Equatable {
         /// The name of a pipeline-level variable.
         /// This member is required.
@@ -9002,11 +8982,7 @@ extension CodePipelineClientTypes.PipelineVariableDeclaration: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-<<<<<<< HEAD
-    /// A variable declared at the pipeline level.
-=======
     /// A variable declared at the pipeline level. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
->>>>>>> main
     public struct PipelineVariableDeclaration: Swift.Equatable {
         /// The value of a pipeline-level variable.
         public var defaultValue: Swift.String?
@@ -11331,10 +11307,7 @@ extension StartPipelineExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
         case name
-<<<<<<< HEAD
-=======
         case sourceRevisions
->>>>>>> main
         case variables
     }
 
@@ -11346,15 +11319,12 @@ extension StartPipelineExecutionInput: Swift.Encodable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-<<<<<<< HEAD
-=======
         if let sourceRevisions = sourceRevisions {
             var sourceRevisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceRevisions)
             for sourcerevisionoverride0 in sourceRevisions {
                 try sourceRevisionsContainer.encode(sourcerevisionoverride0)
             }
         }
->>>>>>> main
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
             for pipelinevariable0 in variables {
@@ -11377,30 +11347,21 @@ public struct StartPipelineExecutionInput: Swift.Equatable {
     /// The name of the pipeline to start.
     /// This member is required.
     public var name: Swift.String?
-<<<<<<< HEAD
-=======
     /// A list that allows you to specify, or override, the source revision for a pipeline execution that's being started. A source revision is the version with all the changes to your application code, or source artifact, for the pipeline execution.
     public var sourceRevisions: [CodePipelineClientTypes.SourceRevisionOverride]?
->>>>>>> main
     /// A list that overrides pipeline variables for a pipeline execution that's being started. Variable names must match [A-Za-z0-9@\-_]+, and the values can be anything except an empty string.
     public var variables: [CodePipelineClientTypes.PipelineVariable]?
 
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
-<<<<<<< HEAD
-=======
         sourceRevisions: [CodePipelineClientTypes.SourceRevisionOverride]? = nil,
->>>>>>> main
         variables: [CodePipelineClientTypes.PipelineVariable]? = nil
     )
     {
         self.clientRequestToken = clientRequestToken
         self.name = name
-<<<<<<< HEAD
-=======
         self.sourceRevisions = sourceRevisions
->>>>>>> main
         self.variables = variables
     }
 }
@@ -11416,10 +11377,7 @@ extension StartPipelineExecutionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
         case name
-<<<<<<< HEAD
-=======
         case sourceRevisions
->>>>>>> main
         case variables
     }
 
@@ -11451,47 +11409,6 @@ extension StartPipelineExecutionInputBody: Swift.Decodable {
             }
         }
         sourceRevisions = sourceRevisionsDecoded0
-    }
-}
-
-extension StartPipelineExecutionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: StartPipelineExecutionOutputBody = try responseDecoder.decode(responseBody: data)
-            self.pipelineExecutionId = output.pipelineExecutionId
-        } else {
-            self.pipelineExecutionId = nil
-        }
-    }
-}
-
-/// Represents the output of a StartPipelineExecution action.
-public struct StartPipelineExecutionOutput: Swift.Equatable {
-    /// The unique system-generated ID of the pipeline execution that was started.
-    public var pipelineExecutionId: Swift.String?
-
-    public init(
-        pipelineExecutionId: Swift.String? = nil
-    )
-    {
-        self.pipelineExecutionId = pipelineExecutionId
-    }
-}
-
-struct StartPipelineExecutionOutputBody: Swift.Equatable {
-    let pipelineExecutionId: Swift.String?
-}
-
-extension StartPipelineExecutionOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case pipelineExecutionId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineExecutionId)
-        pipelineExecutionId = pipelineExecutionIdDecoded
     }
 }
 

@@ -12,11 +12,7 @@ extension SyntheticsClient {
     ///     - input: A `[DescribeCanariesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesOutput`
     public func describeCanariesPaginated(input: DescribeCanariesInput) -> ClientRuntime.PaginatorSequence<DescribeCanariesInput, DescribeCanariesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCanariesInput, DescribeCanariesOutput>(input: input, inputKey: \DescribeCanariesInput.nextToken, outputKey: \DescribeCanariesOutput.nextToken, paginationFunction: self.describeCanaries(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCanariesInput, DescribeCanariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCanaries(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension SyntheticsClient {
     ///     - input: A `[DescribeCanariesLastRunInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesLastRunOutput`
     public func describeCanariesLastRunPaginated(input: DescribeCanariesLastRunInput) -> ClientRuntime.PaginatorSequence<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutput>(input: input, inputKey: \DescribeCanariesLastRunInput.nextToken, outputKey: \DescribeCanariesLastRunOutput.nextToken, paginationFunction: self.describeCanariesLastRun(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCanariesLastRun(input:))
->>>>>>> main
     }
 }
 
@@ -64,11 +56,7 @@ extension SyntheticsClient {
     ///     - input: A `[DescribeRuntimeVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeRuntimeVersionsOutput`
     public func describeRuntimeVersionsPaginated(input: DescribeRuntimeVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutput>(input: input, inputKey: \DescribeRuntimeVersionsInput.nextToken, outputKey: \DescribeRuntimeVersionsOutput.nextToken, paginationFunction: self.describeRuntimeVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeRuntimeVersions(input:))
->>>>>>> main
     }
 }
 
@@ -89,11 +77,7 @@ extension SyntheticsClient {
     ///     - input: A `[GetCanaryRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCanaryRunsOutput`
     public func getCanaryRunsPaginated(input: GetCanaryRunsInput) -> ClientRuntime.PaginatorSequence<GetCanaryRunsInput, GetCanaryRunsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCanaryRunsInput, GetCanaryRunsOutput>(input: input, inputKey: \GetCanaryRunsInput.nextToken, outputKey: \GetCanaryRunsOutput.nextToken, paginationFunction: self.getCanaryRuns(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCanaryRunsInput, GetCanaryRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCanaryRuns(input:))
->>>>>>> main
     }
 }
 
@@ -115,11 +99,7 @@ extension SyntheticsClient {
     ///     - input: A `[ListAssociatedGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedGroupsOutput`
     public func listAssociatedGroupsPaginated(input: ListAssociatedGroupsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedGroupsInput, ListAssociatedGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociatedGroupsInput, ListAssociatedGroupsOutput>(input: input, inputKey: \ListAssociatedGroupsInput.nextToken, outputKey: \ListAssociatedGroupsOutput.nextToken, paginationFunction: self.listAssociatedGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociatedGroupsInput, ListAssociatedGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedGroups(input:))
->>>>>>> main
     }
 }
 
@@ -141,11 +121,7 @@ extension SyntheticsClient {
     ///     - input: A `[ListGroupResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutput`
     public func listGroupResourcesPaginated(input: ListGroupResourcesInput) -> ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput>(input: input, inputKey: \ListGroupResourcesInput.nextToken, outputKey: \ListGroupResourcesOutput.nextToken, paginationFunction: self.listGroupResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupResources(input:))
->>>>>>> main
     }
 }
 
@@ -167,11 +143,7 @@ extension SyntheticsClient {
     ///     - input: A `[ListGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutput`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutput.nextToken, paginationFunction: self.listGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroups(input:))
->>>>>>> main
     }
 }
 

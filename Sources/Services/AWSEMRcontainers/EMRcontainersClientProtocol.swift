@@ -24,11 +24,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateJobTemplate` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter CreateJobTemplateInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateManagedEndpoint` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter CreateManagedEndpointInput : [no documentation found]
@@ -60,11 +54,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateVirtualCluster` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter CreateVirtualClusterInput : [no documentation found]
@@ -78,11 +69,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func createVirtualCluster(input: CreateVirtualClusterInput) async throws -> CreateVirtualClusterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteJobTemplate` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter DeleteJobTemplateInput : [no documentation found]
@@ -95,11 +83,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteManagedEndpoint` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter DeleteManagedEndpointInput : [no documentation found]
@@ -112,11 +97,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteVirtualCluster` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter DeleteVirtualClusterInput : [no documentation found]
@@ -129,11 +111,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func deleteVirtualCluster(input: DeleteVirtualClusterInput) async throws -> DeleteVirtualClusterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeJobRun` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter DescribeJobRunInput : [no documentation found]
@@ -147,11 +126,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeJobTemplate` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter DescribeJobTemplateInput : [no documentation found]
@@ -165,11 +141,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func describeJobTemplate(input: DescribeJobTemplateInput) async throws -> DescribeJobTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeManagedEndpoint` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter DescribeManagedEndpointInput : [no documentation found]
@@ -183,11 +156,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeVirtualCluster` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter DescribeVirtualClusterInput : [no documentation found]
@@ -201,11 +171,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func describeVirtualCluster(input: DescribeVirtualClusterInput) async throws -> DescribeVirtualClusterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetManagedEndpointSessionCredentials` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Generate a session token to connect to a managed endpoint.
     ///
     /// - Parameter GetManagedEndpointSessionCredentialsInput : [no documentation found]
@@ -220,11 +187,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func getManagedEndpointSessionCredentials(input: GetManagedEndpointSessionCredentialsInput) async throws -> GetManagedEndpointSessionCredentialsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListJobRuns` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter ListJobRunsInput : [no documentation found]
@@ -237,11 +201,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListJobTemplates` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
     /// - Parameter ListJobTemplatesInput : [no documentation found]
@@ -254,11 +215,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListManagedEndpoints` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
     /// - Parameter ListManagedEndpointsInput : [no documentation found]
@@ -271,11 +229,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Lists the tags assigned to the resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -289,11 +244,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListVirtualClusters` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// - Parameter ListVirtualClustersInput : [no documentation found]
@@ -306,11 +258,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func listVirtualClusters(input: ListVirtualClustersInput) async throws -> ListVirtualClustersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartJobRun` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
     /// - Parameter StartJobRunInput : [no documentation found]
@@ -324,11 +273,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -342,11 +288,8 @@ public protocol EMRcontainersClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AwsChicagoWebService` service.
     ///
->>>>>>> main
     /// Removes tags from resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]

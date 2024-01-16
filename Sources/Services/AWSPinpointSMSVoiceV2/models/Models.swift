@@ -466,8 +466,6 @@ enum AssociateOriginationIdentityOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PinpointSMSVoiceV2ClientTypes {
     public enum AttachmentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deleted
@@ -535,7 +533,6 @@ extension PinpointSMSVoiceV2ClientTypes {
     }
 }
 
->>>>>>> main
 extension PinpointSMSVoiceV2ClientTypes.CloudWatchLogsDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case iamRoleArn = "IamRoleArn"
@@ -1868,8 +1865,6 @@ enum CreatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateRegistrationAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case registrationId = "RegistrationId"
@@ -2900,7 +2895,6 @@ enum CreateVerifiedDestinationNumberOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension DeleteConfigurationSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configurationSetName = "ConfigurationSetName"
@@ -4093,8 +4087,6 @@ enum DeletePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteRegistrationAttachmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case registrationAttachmentId = "RegistrationAttachmentId"
@@ -4656,7 +4648,6 @@ enum DeleteRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteTextMessageSpendLimitOverrideInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4693,8 +4684,6 @@ extension DeleteTextMessageSpendLimitOverrideOutput: ClientRuntime.HttpResponseB
             self.monthlyLimit = output.monthlyLimit
         } else {
             self.monthlyLimit = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -4750,30 +4739,10 @@ extension DeleteVerifiedDestinationNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let verifiedDestinationNumberId = self.verifiedDestinationNumberId {
             try encodeContainer.encode(verifiedDestinationNumberId, forKey: .verifiedDestinationNumberId)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct DeleteTextMessageSpendLimitOverrideOutput: Swift.Equatable {
-    /// The current monthly limit, in US dollars.
-    public var monthlyLimit: Swift.Int?
-
-    public init(
-        monthlyLimit: Swift.Int? = nil
-    )
-    {
-        self.monthlyLimit = monthlyLimit
-    }
-}
-
-struct DeleteTextMessageSpendLimitOverrideOutputBody: Swift.Equatable {
-    let monthlyLimit: Swift.Int?
-}
-
-extension DeleteTextMessageSpendLimitOverrideOutputBody: Swift.Decodable {
-=======
 extension DeleteVerifiedDestinationNumberInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/"
@@ -4798,7 +4767,6 @@ struct DeleteVerifiedDestinationNumberInputBody: Swift.Equatable {
 }
 
 extension DeleteVerifiedDestinationNumberInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case verifiedDestinationNumberId = "VerifiedDestinationNumberId"
     }
@@ -4893,20 +4861,6 @@ enum DeleteVerifiedDestinationNumberOutputError: ClientRuntime.HttpResponseError
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DeleteTextMessageSpendLimitOverrideOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6388,8 +6342,6 @@ enum DescribePoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeRegistrationAttachmentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -7754,7 +7706,6 @@ enum DescribeRegistrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DescribeSenderIdsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -8068,8 +8019,6 @@ enum DescribeSpendLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeVerifiedDestinationNumbersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationPhoneNumbers = "DestinationPhoneNumbers"
@@ -8276,7 +8225,6 @@ enum DescribeVerifiedDestinationNumbersOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
->>>>>>> main
 extension PinpointSMSVoiceV2ClientTypes {
     public enum DestinationCountryParameterKey: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case inEntityId
@@ -8491,8 +8439,6 @@ enum DisassociateOriginationIdentityOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DiscardRegistrationVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case registrationId = "RegistrationId"
@@ -8658,7 +8604,6 @@ enum DiscardRegistrationVersionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension PinpointSMSVoiceV2ClientTypes.EventDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchLogsDestination = "CloudWatchLogsDestination"
@@ -9478,8 +9423,6 @@ enum ListPoolOriginationIdentitiesOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRegistrationAssociationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -9684,7 +9627,6 @@ enum ListRegistrationAssociationsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -11328,8 +11270,6 @@ enum PutOptedOutNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PutRegistrationFieldValueInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldPath = "FieldPath"
@@ -13356,7 +13296,6 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 }
 
->>>>>>> main
 extension ReleasePhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumberId = "PhoneNumberId"
@@ -13620,8 +13559,6 @@ enum ReleasePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ReleaseSenderIdInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isoCountryCode = "IsoCountryCode"
@@ -13814,7 +13751,6 @@ enum ReleaseSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension RequestPhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -14253,8 +14189,6 @@ enum RequestPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RequestSenderIdInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -14539,7 +14473,6 @@ enum RequestSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension PinpointSMSVoiceV2ClientTypes {
     public enum RequestableNumberType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case longCode
@@ -16952,8 +16885,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension PinpointSMSVoiceV2ClientTypes.TextValidation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxLength = "MaxLength"
@@ -17012,7 +16943,6 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 }
 
->>>>>>> main
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -18018,8 +17948,6 @@ enum UpdatePoolOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateSenderIdInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deletionProtectionEnabled = "DeletionProtectionEnabled"
@@ -18234,7 +18162,6 @@ enum UpdateSenderIdOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

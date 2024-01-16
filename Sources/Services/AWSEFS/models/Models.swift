@@ -1074,11 +1074,7 @@ extension CreateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 
 /// A description of the file system.
 public struct CreateFileSystemOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
-=======
     /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
->>>>>>> main
     public var availabilityZoneId: Swift.String?
     /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
     public var availabilityZoneName: Swift.String?
@@ -1256,23 +1252,6 @@ extension CreateFileSystemOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let fileSystemProtectionDecoded = try containerValues.decodeIfPresent(EFSClientTypes.FileSystemProtectionDescription.self, forKey: .fileSystemProtection)
         fileSystemProtection = fileSystemProtectionDecoded
-    }
-}
-
-enum CreateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemAlreadyExists": return try await FileSystemAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemLimitExceeded": return try await FileSystemLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientThroughputCapacity": return try await InsufficientThroughputCapacity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThroughputLimitExceeded": return try await ThroughputLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedAvailabilityZone": return try await UnsupportedAvailabilityZone(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -1729,10 +1708,7 @@ enum CreateReplicationConfigurationOutputError: ClientRuntime.HttpResponseErrorB
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "FileSystemLimitExceeded": return try await FileSystemLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "IncorrectFileSystemLifeCycleState": return try await IncorrectFileSystemLifeCycleState(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6075,8 +6051,6 @@ enum PutLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ReplicationAlreadyExists {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6143,7 +6117,6 @@ extension ReplicationAlreadyExistsBody: Swift.Decodable {
     }
 }
 
->>>>>>> main
 extension EFSClientTypes.ReplicationConfigurationDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
@@ -7567,11 +7540,7 @@ extension UpdateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 
 /// A description of the file system.
 public struct UpdateFileSystemOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
-=======
     /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
->>>>>>> main
     public var availabilityZoneId: Swift.String?
     /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
     public var availabilityZoneName: Swift.String?
@@ -7894,23 +7863,6 @@ enum UpdateFileSystemProtectionOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InsufficientThroughputCapacity": return try await InsufficientThroughputCapacity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ReplicationAlreadyExists": return try await ReplicationAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThroughputLimitExceeded": return try await ThroughputLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TooManyRequests": return try await TooManyRequests(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum UpdateFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "BadRequest": return try await BadRequest(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "FileSystemNotFound": return try await FileSystemNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "IncorrectFileSystemLifeCycleState": return try await IncorrectFileSystemLifeCycleState(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientThroughputCapacity": return try await InsufficientThroughputCapacity(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThroughputLimitExceeded": return try await ThroughputLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequests": return try await TooManyRequests(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

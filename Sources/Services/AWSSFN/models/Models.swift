@@ -1761,11 +1761,7 @@ extension DescribeExecutionInputBody: Swift.Decodable {
 
 extension DescribeExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "DescribeExecutionOutput(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
-=======
         "DescribeExecutionOutput(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), redriveCount: \(Swift.String(describing: redriveCount)), redriveDate: \(Swift.String(describing: redriveDate)), redriveStatus: \(Swift.String(describing: redriveStatus)), startDate: \(Swift.String(describing: startDate)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\", redriveStatusReason: \"CONTENT_REDACTED\")"}
->>>>>>> main
 }
 
 extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
@@ -2054,18 +2050,6 @@ enum DescribeExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum DescribeExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ExecutionDoesNotExist": return try await ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension DescribeMapRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mapRunArn
@@ -2270,18 +2254,6 @@ extension DescribeMapRunOutputBody: Swift.Decodable {
         redriveCount = redriveCountDecoded
         let redriveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .redriveDate)
         redriveDate = redriveDateDecoded
-    }
-}
-
-enum DescribeMapRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -7662,8 +7634,6 @@ enum PublishStateMachineVersionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-=======
 extension RedriveExecutionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -7779,7 +7749,6 @@ enum RedriveExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ResourceNotFound {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11051,10 +11020,7 @@ enum UpdateStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

@@ -12,11 +12,7 @@ extension MedicalImagingClient {
     ///     - input: A `[ListDICOMImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDICOMImportJobsOutput`
     public func listDICOMImportJobsPaginated(input: ListDICOMImportJobsInput) -> ClientRuntime.PaginatorSequence<ListDICOMImportJobsInput, ListDICOMImportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDICOMImportJobsInput, ListDICOMImportJobsOutput>(input: input, inputKey: \ListDICOMImportJobsInput.nextToken, outputKey: \ListDICOMImportJobsOutput.nextToken, paginationFunction: self.listDICOMImportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDICOMImportJobsInput, ListDICOMImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDICOMImportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension ListDICOMImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDICOMImportJobsInput, Output == ListDICOMImportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDICOMImportJobsInput, OperationStackOutput == ListDICOMImportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDICOMImportJobsPaginated`
     /// to access the nested member `[MedicalImagingClientTypes.DICOMImportJobSummary]`
     /// - Returns: `[MedicalImagingClientTypes.DICOMImportJobSummary]`
@@ -52,11 +44,7 @@ extension MedicalImagingClient {
     ///     - input: A `[ListImageSetVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListImageSetVersionsOutput`
     public func listImageSetVersionsPaginated(input: ListImageSetVersionsInput) -> ClientRuntime.PaginatorSequence<ListImageSetVersionsInput, ListImageSetVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListImageSetVersionsInput, ListImageSetVersionsOutput>(input: input, inputKey: \ListImageSetVersionsInput.nextToken, outputKey: \ListImageSetVersionsOutput.nextToken, paginationFunction: self.listImageSetVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListImageSetVersionsInput, ListImageSetVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listImageSetVersions(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension ListImageSetVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListImageSetVersionsInput, Output == ListImageSetVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListImageSetVersionsInput, OperationStackOutput == ListImageSetVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listImageSetVersionsPaginated`
     /// to access the nested member `[MedicalImagingClientTypes.ImageSetProperties]`
     /// - Returns: `[MedicalImagingClientTypes.ImageSetProperties]`
@@ -92,11 +76,7 @@ extension MedicalImagingClient {
     ///     - input: A `[SearchImageSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchImageSetsOutput`
     public func searchImageSetsPaginated(input: SearchImageSetsInput) -> ClientRuntime.PaginatorSequence<SearchImageSetsInput, SearchImageSetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchImageSetsInput, SearchImageSetsOutput>(input: input, inputKey: \SearchImageSetsInput.nextToken, outputKey: \SearchImageSetsOutput.nextToken, paginationFunction: self.searchImageSets(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchImageSetsInput, SearchImageSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchImageSets(input:))
->>>>>>> main
     }
 }
 
@@ -110,11 +90,7 @@ extension SearchImageSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchImageSetsInput, Output == SearchImageSetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchImageSetsInput, OperationStackOutput == SearchImageSetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchImageSetsPaginated`
     /// to access the nested member `[MedicalImagingClientTypes.ImageSetsMetadataSummary]`
     /// - Returns: `[MedicalImagingClientTypes.ImageSetsMetadataSummary]`

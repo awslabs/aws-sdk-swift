@@ -1193,13 +1193,6 @@ extension DeleteExperimentTemplateInputBody: Swift.Decodable {
 }
 
 extension DeleteExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteExperimentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
-            self.experimentTemplate = output.experimentTemplate
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -1296,22 +1289,15 @@ extension DeleteTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBind
             let responseDecoder = decoder {
             let output: DeleteTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetAccountConfiguration = output.targetAccountConfiguration
->>>>>>> main
         } else {
             self.targetAccountConfiguration = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct DeleteExperimentTemplateOutput: Swift.Equatable {
-    /// Information about the experiment template.
-    public var experimentTemplate: FisClientTypes.ExperimentTemplate?
-=======
 public struct DeleteTargetAccountConfigurationOutput: Swift.Equatable {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
->>>>>>> main
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
@@ -1321,19 +1307,11 @@ public struct DeleteTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DeleteExperimentTemplateOutputBody: Swift.Equatable {
-    let experimentTemplate: FisClientTypes.ExperimentTemplate?
-}
-
-extension DeleteExperimentTemplateOutputBody: Swift.Decodable {
-=======
 struct DeleteTargetAccountConfigurationOutputBody: Swift.Equatable {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
 extension DeleteTargetAccountConfigurationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetAccountConfiguration
     }
@@ -1385,18 +1363,6 @@ extension FisClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = EmptyTargetResolutionMode(rawValue: rawValue) ?? EmptyTargetResolutionMode.sdkUnknown(rawValue)
-        }
-    }
-}
-
-enum DeleteExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -3619,13 +3585,6 @@ extension GetExperimentInputBody: Swift.Decodable {
 }
 
 extension GetExperimentOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetExperimentOutputBody = try responseDecoder.decode(responseBody: data)
-            self.experiment = output.experiment
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3722,22 +3681,15 @@ extension GetExperimentTargetAccountConfigurationOutput: ClientRuntime.HttpRespo
             let responseDecoder = decoder {
             let output: GetExperimentTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetAccountConfiguration = output.targetAccountConfiguration
->>>>>>> main
         } else {
             self.targetAccountConfiguration = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetExperimentOutput: Swift.Equatable {
-    /// Information about the experiment.
-    public var experiment: FisClientTypes.Experiment?
-=======
 public struct GetExperimentTargetAccountConfigurationOutput: Swift.Equatable {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
->>>>>>> main
 
     public init(
         targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration? = nil
@@ -3747,19 +3699,11 @@ public struct GetExperimentTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetExperimentOutputBody: Swift.Equatable {
-    let experiment: FisClientTypes.Experiment?
-}
-
-extension GetExperimentOutputBody: Swift.Decodable {
-=======
 struct GetExperimentTargetAccountConfigurationOutputBody: Swift.Equatable {
     let targetAccountConfiguration: FisClientTypes.ExperimentTargetAccountConfiguration?
 }
 
 extension GetExperimentTargetAccountConfigurationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetAccountConfiguration
     }
@@ -3772,18 +3716,6 @@ extension GetExperimentTargetAccountConfigurationOutputBody: Swift.Decodable {
 }
 
 enum GetExperimentTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -3827,13 +3759,6 @@ extension GetExperimentTemplateInputBody: Swift.Decodable {
 }
 
 extension GetExperimentTemplateOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetExperimentTemplateOutputBody = try responseDecoder.decode(responseBody: data)
-            self.experimentTemplate = output.experimentTemplate
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -3930,22 +3855,15 @@ extension GetTargetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding
             let responseDecoder = decoder {
             let output: GetTargetAccountConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.targetAccountConfiguration = output.targetAccountConfiguration
->>>>>>> main
         } else {
             self.targetAccountConfiguration = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetExperimentTemplateOutput: Swift.Equatable {
-    /// Information about the experiment template.
-    public var experimentTemplate: FisClientTypes.ExperimentTemplate?
-=======
 public struct GetTargetAccountConfigurationOutput: Swift.Equatable {
     /// Information about the target account configuration.
     public var targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
->>>>>>> main
 
     public init(
         targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration? = nil
@@ -3955,19 +3873,11 @@ public struct GetTargetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetExperimentTemplateOutputBody: Swift.Equatable {
-    let experimentTemplate: FisClientTypes.ExperimentTemplate?
-}
-
-extension GetExperimentTemplateOutputBody: Swift.Decodable {
-=======
 struct GetTargetAccountConfigurationOutputBody: Swift.Equatable {
     let targetAccountConfiguration: FisClientTypes.TargetAccountConfiguration?
 }
 
 extension GetTargetAccountConfigurationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetAccountConfiguration
     }
@@ -3980,18 +3890,6 @@ extension GetTargetAccountConfigurationOutputBody: Swift.Decodable {
 }
 
 enum GetTargetAccountConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4204,8 +4102,6 @@ enum ListActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListExperimentResolvedTargetsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4460,7 +4356,6 @@ enum ListExperimentTargetAccountConfigurationsOutputError: ClientRuntime.HttpRes
     }
 }
 
->>>>>>> main
 extension ListExperimentTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4787,8 +4682,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListTargetAccountConfigurationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4916,7 +4809,6 @@ enum ListTargetAccountConfigurationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension ListTargetResourceTypesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5035,8 +4927,6 @@ enum ListTargetResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension FisClientTypes.ResolvedTarget: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceType
@@ -5104,7 +4994,6 @@ extension FisClientTypes {
 
 }
 
->>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5525,8 +5414,6 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension FisClientTypes.TargetAccountConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
@@ -5637,7 +5524,6 @@ extension FisClientTypes {
 
 }
 
->>>>>>> main
 extension FisClientTypes.TargetResourceType: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description

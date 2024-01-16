@@ -12,11 +12,7 @@ extension LicenseManagerUserSubscriptionsClient {
     ///     - input: A `[ListIdentityProvidersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIdentityProvidersOutput`
     public func listIdentityProvidersPaginated(input: ListIdentityProvidersInput) -> ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput>(input: input, inputKey: \ListIdentityProvidersInput.nextToken, outputKey: \ListIdentityProvidersOutput.nextToken, paginationFunction: self.listIdentityProviders(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListIdentityProvidersInput, ListIdentityProvidersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdentityProviders(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListIdentityProvidersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListIdentityProvidersInput, Output == ListIdentityProvidersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListIdentityProvidersInput, OperationStackOutput == ListIdentityProvidersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIdentityProvidersPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.IdentityProviderSummary]`
@@ -50,11 +42,7 @@ extension LicenseManagerUserSubscriptionsClient {
     ///     - input: A `[ListInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstancesOutput`
     public func listInstancesPaginated(input: ListInstancesInput) -> ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \ListInstancesInput.nextToken, outputKey: \ListInstancesOutput.nextToken, paginationFunction: self.listInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstancesInput, ListInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstances(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstancesInput, Output == ListInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstancesInput, OperationStackOutput == ListInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstancesPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]`
@@ -89,11 +73,7 @@ extension LicenseManagerUserSubscriptionsClient {
     ///     - input: A `[ListProductSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProductSubscriptionsOutput`
     public func listProductSubscriptionsPaginated(input: ListProductSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(input: input, inputKey: \ListProductSubscriptionsInput.nextToken, outputKey: \ListProductSubscriptionsOutput.nextToken, paginationFunction: self.listProductSubscriptions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProductSubscriptions(input:))
->>>>>>> main
     }
 }
 
@@ -108,11 +88,7 @@ extension ListProductSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProductSubscriptionsInput, Output == ListProductSubscriptionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProductSubscriptionsInput, OperationStackOutput == ListProductSubscriptionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProductSubscriptionsPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.ProductUserSummary]`
@@ -130,11 +106,7 @@ extension LicenseManagerUserSubscriptionsClient {
     ///     - input: A `[ListUserAssociationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUserAssociationsOutput`
     public func listUserAssociationsPaginated(input: ListUserAssociationsInput) -> ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutput>(input: input, inputKey: \ListUserAssociationsInput.nextToken, outputKey: \ListUserAssociationsOutput.nextToken, paginationFunction: self.listUserAssociations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListUserAssociationsInput, ListUserAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUserAssociations(input:))
->>>>>>> main
     }
 }
 
@@ -149,11 +121,7 @@ extension ListUserAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListUserAssociationsInput, Output == ListUserAssociationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListUserAssociationsInput, OperationStackOutput == ListUserAssociationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listUserAssociationsPaginated`
     /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]`
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.InstanceUserSummary]`

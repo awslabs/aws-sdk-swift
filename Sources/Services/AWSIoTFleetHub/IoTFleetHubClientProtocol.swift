@@ -20,11 +20,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `LimitExceededException` : A limit has been exceeded.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplication` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Deletes a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -39,11 +36,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplication` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Gets information about a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter DescribeApplicationInput : [no documentation found]
@@ -58,11 +52,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplications` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -76,11 +67,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Lists the tags for the specified resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -94,11 +82,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -112,11 +97,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Removes the specified tags (metadata) from the resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -130,11 +112,8 @@ public protocol IoTFleetHubClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `AWSIoTFleetHub` service.
     ///
->>>>>>> main
     /// Updates information about a Fleet Hub for a AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]

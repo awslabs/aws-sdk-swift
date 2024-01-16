@@ -892,11 +892,7 @@ extension MarketplaceCatalogClientTypes {
     public struct Change: Swift.Equatable {
         /// Optional name for the change.
         public var changeName: Swift.String?
-<<<<<<< HEAD
-        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information on change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
-=======
         /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information about change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
->>>>>>> main
         /// This member is required.
         public var changeType: Swift.String?
         /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
@@ -3678,11 +3674,7 @@ extension ListEntitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListEntitiesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Array of EntitySummary object.
-=======
     /// Array of EntitySummary objects.
->>>>>>> main
     public var entitySummaryList: [MarketplaceCatalogClientTypes.EntitySummary]?
     /// The value of the next token if it exists. Null if there is no more result.
     public var nextToken: Swift.String?
@@ -3863,8 +3855,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateRange = "DateRange"
@@ -4787,7 +4777,6 @@ extension MarketplaceCatalogClientTypes {
     }
 }
 
->>>>>>> main
 extension MarketplaceCatalogClientTypes {
     public enum OwnershipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `self`
@@ -4906,8 +4895,6 @@ enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateRange = "DateRange"
@@ -6167,7 +6154,6 @@ extension MarketplaceCatalogClientTypes {
 
 }
 
->>>>>>> main
 extension ResourceInUseException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

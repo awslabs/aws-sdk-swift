@@ -20,11 +20,8 @@ public protocol PanoramaClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateJobForDevices` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     ///
     /// - Parameter CreateJobForDevicesInput : [no documentation found]
@@ -40,11 +37,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateNodeFromTemplateJob` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a camera stream node.
     ///
     /// - Parameter CreateNodeFromTemplateJobInput : [no documentation found]
@@ -59,11 +53,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePackage` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a package and storage location in an Amazon S3 access point.
     ///
     /// - Parameter CreatePackageInput : [no documentation found]
@@ -78,11 +69,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreatePackageImportJob` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Imports a node package.
     ///
     /// - Parameter CreatePackageImportJobInput : [no documentation found]
@@ -97,11 +85,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func createPackageImportJob(input: CreatePackageImportJobInput) async throws -> CreatePackageImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDevice` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a device.
     ///
     /// - Parameter DeleteDeviceInput : [no documentation found]
@@ -117,11 +102,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePackage` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Deletes a package. To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     ///
     /// - Parameter DeletePackageInput : [no documentation found]
@@ -137,11 +119,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeregisterPackageVersion` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Deregisters a package version.
     ///
     /// - Parameter DeregisterPackageVersionInput : [no documentation found]
@@ -157,11 +136,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func deregisterPackageVersion(input: DeregisterPackageVersionInput) async throws -> DeregisterPackageVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplicationInstance` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about an application instance on a device.
     ///
     /// - Parameter DescribeApplicationInstanceInput : [no documentation found]
@@ -177,11 +153,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeApplicationInstance(input: DescribeApplicationInstanceInput) async throws -> DescribeApplicationInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplicationInstanceDetails` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about an application instance's configuration manifest.
     ///
     /// - Parameter DescribeApplicationInstanceDetailsInput : [no documentation found]
@@ -197,11 +170,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeApplicationInstanceDetails(input: DescribeApplicationInstanceDetailsInput) async throws -> DescribeApplicationInstanceDetailsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDevice` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a device.
     ///
     /// - Parameter DescribeDeviceInput : [no documentation found]
@@ -216,11 +186,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeDevice(input: DescribeDeviceInput) async throws -> DescribeDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDeviceJob` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a device job.
     ///
     /// - Parameter DescribeDeviceJobInput : [no documentation found]
@@ -236,11 +203,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeDeviceJob(input: DescribeDeviceJobInput) async throws -> DescribeDeviceJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeNode` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a node.
     ///
     /// - Parameter DescribeNodeInput : [no documentation found]
@@ -256,11 +220,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeNode(input: DescribeNodeInput) async throws -> DescribeNodeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeNodeFromTemplateJob` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a job to create a camera stream node.
     ///
     /// - Parameter DescribeNodeFromTemplateJobInput : [no documentation found]
@@ -275,11 +236,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describeNodeFromTemplateJob(input: DescribeNodeFromTemplateJobInput) async throws -> DescribeNodeFromTemplateJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePackage` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a package.
     ///
     /// - Parameter DescribePackageInput : [no documentation found]
@@ -295,11 +253,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describePackage(input: DescribePackageInput) async throws -> DescribePackageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePackageImportJob` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a package import job.
     ///
     /// - Parameter DescribePackageImportJobInput : [no documentation found]
@@ -314,11 +269,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describePackageImportJob(input: DescribePackageImportJobInput) async throws -> DescribePackageImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribePackageVersion` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns information about a package version.
     ///
     /// - Parameter DescribePackageVersionInput : [no documentation found]
@@ -334,11 +286,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func describePackageVersion(input: DescribePackageVersionInput) async throws -> DescribePackageVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationInstanceDependencies` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of application instance dependencies.
     ///
     /// - Parameter ListApplicationInstanceDependenciesInput : [no documentation found]
@@ -351,11 +300,8 @@ public protocol PanoramaClientProtocol {
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
     func listApplicationInstanceDependencies(input: ListApplicationInstanceDependenciesInput) async throws -> ListApplicationInstanceDependenciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationInstanceNodeInstances` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of application node instances.
     ///
     /// - Parameter ListApplicationInstanceNodeInstancesInput : [no documentation found]
@@ -368,11 +314,8 @@ public protocol PanoramaClientProtocol {
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
     func listApplicationInstanceNodeInstances(input: ListApplicationInstanceNodeInstancesInput) async throws -> ListApplicationInstanceNodeInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationInstances` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of application instances.
     ///
     /// - Parameter ListApplicationInstancesInput : [no documentation found]
@@ -385,11 +328,8 @@ public protocol PanoramaClientProtocol {
     /// - `AccessDeniedException` : The requestor does not have permission to access the target action or resource.
     /// - `InternalServerException` : An internal error occurred.
     func listApplicationInstances(input: ListApplicationInstancesInput) async throws -> ListApplicationInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevices` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of devices.
     ///
     /// - Parameter ListDevicesInput : [no documentation found]
@@ -404,11 +344,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDevicesJobs` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of jobs.
     ///
     /// - Parameter ListDevicesJobsInput : [no documentation found]
@@ -424,11 +361,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listDevicesJobs(input: ListDevicesJobsInput) async throws -> ListDevicesJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNodeFromTemplateJobs` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of camera stream node jobs.
     ///
     /// - Parameter ListNodeFromTemplateJobsInput : [no documentation found]
@@ -443,11 +377,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listNodeFromTemplateJobs(input: ListNodeFromTemplateJobsInput) async throws -> ListNodeFromTemplateJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListNodes` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of nodes.
     ///
     /// - Parameter ListNodesInput : [no documentation found]
@@ -461,11 +392,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listNodes(input: ListNodesInput) async throws -> ListNodesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPackageImportJobs` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of package import jobs.
     ///
     /// - Parameter ListPackageImportJobsInput : [no documentation found]
@@ -480,11 +408,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listPackageImportJobs(input: ListPackageImportJobsInput) async throws -> ListPackageImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListPackages` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of packages.
     ///
     /// - Parameter ListPackagesInput : [no documentation found]
@@ -500,11 +425,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listPackages(input: ListPackagesInput) async throws -> ListPackagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Returns a list of tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -518,11 +440,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ProvisionDevice` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     ///
     /// - Parameter ProvisionDeviceInput : [no documentation found]
@@ -538,11 +457,8 @@ public protocol PanoramaClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func provisionDevice(input: ProvisionDeviceInput) async throws -> ProvisionDeviceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RegisterPackageVersion` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Registers a package version.
     ///
     /// - Parameter RegisterPackageVersionInput : [no documentation found]
@@ -557,11 +473,8 @@ public protocol PanoramaClientProtocol {
     /// - `InternalServerException` : An internal error occurred.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func registerPackageVersion(input: RegisterPackageVersionInput) async throws -> RegisterPackageVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RemoveApplicationInstance` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Removes an application instance.
     ///
     /// - Parameter RemoveApplicationInstanceInput : [no documentation found]
@@ -577,11 +490,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func removeApplicationInstance(input: RemoveApplicationInstanceInput) async throws -> RemoveApplicationInstanceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SignalApplicationInstanceNodeInstances` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Signal camera nodes to stop or resume.
     ///
     /// - Parameter SignalApplicationInstanceNodeInstancesInput : [no documentation found]
@@ -596,11 +506,8 @@ public protocol PanoramaClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause a limit to be exceeded.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func signalApplicationInstanceNodeInstances(input: SignalApplicationInstanceNodeInstancesInput) async throws -> SignalApplicationInstanceNodeInstancesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Tags a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -614,11 +521,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Removes tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -632,11 +536,8 @@ public protocol PanoramaClientProtocol {
     /// - `ResourceNotFoundException` : The target resource was not found.
     /// - `ValidationException` : The request contains an invalid parameter value.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDeviceMetadata` operation on the `OmniCloudServiceLambda` service.
     ///
->>>>>>> main
     /// Updates a device's metadata.
     ///
     /// - Parameter UpdateDeviceMetadataInput : [no documentation found]

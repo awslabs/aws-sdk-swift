@@ -4727,16 +4727,6 @@ extension CreateCollaborationOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension CreateCollaborationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateCollaborationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.collaboration = output.collaboration
-        } else {
-            self.collaboration = nil
-=======
 enum CreateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -4780,31 +4770,10 @@ extension CreateConfiguredAudienceModelAssociationInput: Swift.Encodable {
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct CreateCollaborationOutput: Swift.Equatable {
-    /// The entire created collaboration object.
-    /// This member is required.
-    public var collaboration: CleanRoomsClientTypes.Collaboration?
-
-    public init(
-        collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
-        self.collaboration = collaboration
-    }
-}
-
-struct CreateCollaborationOutputBody: Swift.Equatable {
-    let collaboration: CleanRoomsClientTypes.Collaboration?
-}
-
-extension CreateCollaborationOutputBody: Swift.Decodable {
-=======
 extension CreateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let membershipIdentifier = membershipIdentifier else {
@@ -4859,7 +4828,6 @@ struct CreateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
 }
 
 extension CreateConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuredAudienceModelArn
         case configuredAudienceModelAssociationName
@@ -4942,21 +4910,6 @@ enum CreateConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResp
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum CreateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5610,47 +5563,6 @@ extension CreateMembershipOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateMembershipOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateMembershipOutputBody = try responseDecoder.decode(responseBody: data)
-            self.membership = output.membership
-        } else {
-            self.membership = nil
-        }
-    }
-}
-
-public struct CreateMembershipOutput: Swift.Equatable {
-    /// The membership that was created.
-    /// This member is required.
-    public var membership: CleanRoomsClientTypes.Membership?
-
-    public init(
-        membership: CleanRoomsClientTypes.Membership? = nil
-    )
-    {
-        self.membership = membership
-    }
-}
-
-struct CreateMembershipOutputBody: Swift.Equatable {
-    let membership: CleanRoomsClientTypes.Membership?
-}
-
-extension CreateMembershipOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case membership
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let membershipDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.Membership.self, forKey: .membership)
-        membership = membershipDecoded
-    }
-}
-
 enum CreateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -5668,8 +5580,6 @@ enum CreateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreatePrivacyBudgetTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoRefresh
@@ -5833,7 +5743,6 @@ enum CreatePrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension CleanRoomsClientTypes.DataEncryptionMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowCleartext
@@ -6022,8 +5931,6 @@ enum DeleteCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let membershipIdentifier = membershipIdentifier else {
@@ -6088,7 +5995,6 @@ enum DeleteConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResp
     }
 }
 
->>>>>>> main
 extension DeleteConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let configuredTableIdentifier = configuredTableIdentifier else {
@@ -6400,8 +6306,6 @@ enum DeleteMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeletePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let membershipIdentifier = membershipIdentifier else {
@@ -7115,7 +7019,6 @@ extension CleanRoomsClientTypes {
 
 }
 
->>>>>>> main
 extension CleanRoomsClientTypes {
     public enum FilterableMemberStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -7283,13 +7186,6 @@ extension GetCollaborationAnalysisTemplateInputBody: Swift.Decodable {
 }
 
 extension GetCollaborationAnalysisTemplateOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCollaborationAnalysisTemplateOutputBody = try responseDecoder.decode(responseBody: data)
-            self.collaborationAnalysisTemplate = output.collaborationAnalysisTemplate
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -7390,20 +7286,14 @@ extension GetCollaborationConfiguredAudienceModelAssociationOutput: ClientRuntim
             let responseDecoder = decoder {
             let output: GetCollaborationConfiguredAudienceModelAssociationOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaborationConfiguredAudienceModelAssociation = output.collaborationConfiguredAudienceModelAssociation
->>>>>>> main
         } else {
             self.collaborationConfiguredAudienceModelAssociation = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetCollaborationAnalysisTemplateOutput: Swift.Equatable {
-    /// The analysis template within a collaboration.
-=======
 public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Equatable {
     /// The metadata of the configured audience model association.
->>>>>>> main
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
 
@@ -7415,19 +7305,11 @@ public struct GetCollaborationConfiguredAudienceModelAssociationOutput: Swift.Eq
     }
 }
 
-<<<<<<< HEAD
-struct GetCollaborationAnalysisTemplateOutputBody: Swift.Equatable {
-    let collaborationAnalysisTemplate: CleanRoomsClientTypes.CollaborationAnalysisTemplate?
-}
-
-extension GetCollaborationAnalysisTemplateOutputBody: Swift.Decodable {
-=======
 struct GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.Equatable {
     let collaborationConfiguredAudienceModelAssociation: CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociation?
 }
 
 extension GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationConfiguredAudienceModelAssociation
     }
@@ -7440,21 +7322,6 @@ extension GetCollaborationConfiguredAudienceModelAssociationOutputBody: Swift.De
 }
 
 enum GetCollaborationConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -7501,13 +7368,6 @@ extension GetCollaborationInputBody: Swift.Decodable {
 }
 
 extension GetCollaborationOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetCollaborationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.collaboration = output.collaboration
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -7607,20 +7467,14 @@ extension GetCollaborationPrivacyBudgetTemplateOutput: ClientRuntime.HttpRespons
             let responseDecoder = decoder {
             let output: GetCollaborationPrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.collaborationPrivacyBudgetTemplate = output.collaborationPrivacyBudgetTemplate
->>>>>>> main
         } else {
             self.collaborationPrivacyBudgetTemplate = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetCollaborationOutput: Swift.Equatable {
-    /// The entire collaboration for this identifier.
-=======
 public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Equatable {
     /// Returns the details of the privacy budget template that you requested.
->>>>>>> main
     /// This member is required.
     public var collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
 
@@ -7632,19 +7486,11 @@ public struct GetCollaborationPrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetCollaborationOutputBody: Swift.Equatable {
-    let collaboration: CleanRoomsClientTypes.Collaboration?
-}
-
-extension GetCollaborationOutputBody: Swift.Decodable {
-=======
 struct GetCollaborationPrivacyBudgetTemplateOutputBody: Swift.Equatable {
     let collaborationPrivacyBudgetTemplate: CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate?
 }
 
 extension GetCollaborationPrivacyBudgetTemplateOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationPrivacyBudgetTemplate
     }
@@ -7759,20 +7605,6 @@ enum GetConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpRespons
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -8089,13 +7921,6 @@ extension GetMembershipInputBody: Swift.Decodable {
 }
 
 extension GetMembershipOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetMembershipOutputBody = try responseDecoder.decode(responseBody: data)
-            self.membership = output.membership
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -8196,20 +8021,14 @@ extension GetPrivacyBudgetTemplateOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetPrivacyBudgetTemplateOutputBody = try responseDecoder.decode(responseBody: data)
             self.privacyBudgetTemplate = output.privacyBudgetTemplate
->>>>>>> main
         } else {
             self.privacyBudgetTemplate = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct GetMembershipOutput: Swift.Equatable {
-    /// The membership retrieved for the provided identifier.
-=======
 public struct GetPrivacyBudgetTemplateOutput: Swift.Equatable {
     /// Returns the details of the privacy budget template that you requested.
->>>>>>> main
     /// This member is required.
     public var privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 
@@ -8221,19 +8040,11 @@ public struct GetPrivacyBudgetTemplateOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetMembershipOutputBody: Swift.Equatable {
-    let membership: CleanRoomsClientTypes.Membership?
-}
-
-extension GetMembershipOutputBody: Swift.Decodable {
-=======
 struct GetPrivacyBudgetTemplateOutputBody: Swift.Equatable {
     let privacyBudgetTemplate: CleanRoomsClientTypes.PrivacyBudgetTemplate?
 }
 
 extension GetPrivacyBudgetTemplateOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case privacyBudgetTemplate
     }
@@ -8246,21 +8057,6 @@ extension GetPrivacyBudgetTemplateOutputBody: Swift.Decodable {
 }
 
 enum GetPrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -8993,8 +8789,6 @@ enum ListCollaborationAnalysisTemplatesOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListCollaborationConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9399,7 +9193,6 @@ enum ListCollaborationPrivacyBudgetsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension ListCollaborationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9530,8 +9323,6 @@ enum ListCollaborationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9663,7 +9454,6 @@ enum ListConfiguredAudienceModelAssociationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
->>>>>>> main
 extension ListConfiguredTableAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10178,8 +9968,6 @@ enum ListMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListPrivacyBudgetTemplatesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10453,7 +10241,6 @@ enum ListPrivacyBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListProtectedQueriesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -14671,8 +14458,6 @@ extension UpdateCollaborationOutput: ClientRuntime.HttpResponseBinding {
             self.collaboration = output.collaboration
         } else {
             self.collaboration = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -14733,31 +14518,10 @@ extension UpdateConfiguredAudienceModelAssociationInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
->>>>>>> main
         }
     }
 }
 
-<<<<<<< HEAD
-public struct UpdateCollaborationOutput: Swift.Equatable {
-    /// The entire collaboration that has been updated.
-    /// This member is required.
-    public var collaboration: CleanRoomsClientTypes.Collaboration?
-
-    public init(
-        collaboration: CleanRoomsClientTypes.Collaboration? = nil
-    )
-    {
-        self.collaboration = collaboration
-    }
-}
-
-struct UpdateCollaborationOutputBody: Swift.Equatable {
-    let collaboration: CleanRoomsClientTypes.Collaboration?
-}
-
-extension UpdateCollaborationOutputBody: Swift.Decodable {
-=======
 extension UpdateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let membershipIdentifier = membershipIdentifier else {
@@ -14802,7 +14566,6 @@ struct UpdateConfiguredAudienceModelAssociationInputBody: Swift.Equatable {
 }
 
 extension UpdateConfiguredAudienceModelAssociationInputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
         case name
@@ -14866,20 +14629,6 @@ enum UpdateConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResp
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum UpdateCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -15388,8 +15137,6 @@ enum UpdateMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdatePrivacyBudgetTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case parameters
@@ -15523,7 +15270,6 @@ enum UpdatePrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension UpdateProtectedQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case targetStatus

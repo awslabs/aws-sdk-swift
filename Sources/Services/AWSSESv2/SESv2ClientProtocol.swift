@@ -20,11 +20,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CancelExportJob` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Cancels an export job.
     ///
     /// - Parameter CancelExportJobInput : Represents a request to cancel an export job using the export job ID.
@@ -38,11 +35,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfigurationSet` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
@@ -59,11 +53,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
@@ -79,11 +70,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateContact` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
@@ -98,11 +86,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createContact(input: CreateContactInput) async throws -> CreateContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateContactList` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates a contact list.
     ///
     /// - Parameter CreateContactListInput : [no documentation found]
@@ -117,11 +102,8 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createContactList(input: CreateContactListInput) async throws -> CreateContactListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateCustomVerificationEmailTemplateInput : Represents a request to create a custom verification email template.
@@ -137,11 +119,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createCustomVerificationEmailTemplate(input: CreateCustomVerificationEmailTemplateInput) async throws -> CreateCustomVerificationEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     ///
     /// - Parameter CreateDedicatedIpPoolInput : A request to create a new dedicated IP pool.
@@ -157,11 +136,8 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createDedicatedIpPool(input: CreateDedicatedIpPoolInput) async throws -> CreateDedicatedIpPoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDeliverabilityTestReport` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
     /// - Parameter CreateDeliverabilityTestReportInput : A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. We send that message to special email addresses spread across several major email providers around the world. The test takes about 24 hours to complete. When the test is complete, you can use the GetDeliverabilityTestReport operation to view the results of the test.
@@ -181,11 +157,8 @@ public protocol SESv2ClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createDeliverabilityTestReport(input: CreateDeliverabilityTestReportInput) async throws -> CreateDeliverabilityTestReportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEmailIdentity` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
     ///
     /// - Parameter CreateEmailIdentityInput : A request to begin the verification process for an email identity (an email address or domain).
@@ -202,11 +175,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createEmailIdentity(input: CreateEmailIdentityInput) async throws -> CreateEmailIdentityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates the specified sending authorization policy for the given identity (an email address or a domain). This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateEmailIdentityPolicyInput : Represents a request to create a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
@@ -222,11 +192,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createEmailIdentityPolicy(input: CreateEmailIdentityPolicyInput) async throws -> CreateEmailIdentityPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateEmailTemplateInput : Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
@@ -241,11 +208,8 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateExportJob` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
     ///
     /// - Parameter CreateExportJobInput : Represents a request to create an export job from a data source to a data destination.
@@ -260,11 +224,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateImportJob` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates an import job for a data destination.
     ///
     /// - Parameter CreateImportJobInput : Represents a request to create an import job from a data source for a data destination.
@@ -278,11 +239,8 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createImportJob(input: CreateImportJobInput) async throws -> CreateImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfigurationSet` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter DeleteConfigurationSetInput : A request to delete a configuration set.
@@ -297,11 +255,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
@@ -315,11 +270,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteContact` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Removes a contact from a contact list.
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
@@ -333,11 +285,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteContact(input: DeleteContactInput) async throws -> DeleteContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteContactList` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Deletes a contact list and all of the contacts on that list.
     ///
     /// - Parameter DeleteContactListInput : [no documentation found]
@@ -352,11 +301,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteContactList(input: DeleteContactListInput) async throws -> DeleteContactListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
@@ -370,11 +316,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Delete a dedicated IP pool.
     ///
     /// - Parameter DeleteDedicatedIpPoolInput : A request to delete a dedicated IP pool.
@@ -389,11 +332,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteDedicatedIpPool(input: DeleteDedicatedIpPoolInput) async throws -> DeleteDedicatedIpPoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEmailIdentity` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Deletes an email identity. An identity can be either an email address or a domain name.
     ///
     /// - Parameter DeleteEmailIdentityInput : A request to delete an existing email identity. When you delete an identity, you lose the ability to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
@@ -408,11 +348,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteEmailIdentity(input: DeleteEmailIdentityInput) async throws -> DeleteEmailIdentityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteEmailIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
@@ -426,11 +363,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteEmailIdentityPolicy(input: DeleteEmailIdentityPolicyInput) async throws -> DeleteEmailIdentityPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
     /// - Parameter DeleteEmailTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
@@ -444,11 +378,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteEmailTemplate(input: DeleteEmailTemplateInput) async throws -> DeleteEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSuppressedDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Removes an email address from the suppression list for your account.
     ///
     /// - Parameter DeleteSuppressedDestinationInput : A request to remove an email address from the suppression list for your account.
@@ -462,11 +393,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func deleteSuppressedDestination(input: DeleteSuppressedDestinationInput) async throws -> DeleteSuppressedDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetAccount` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
     ///
     /// - Parameter GetAccountInput : A request to obtain information about the email-sending capabilities of your Amazon SES account.
@@ -479,11 +407,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getAccount(input: GetAccountInput) async throws -> GetAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBlacklistReports` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
     /// - Parameter GetBlacklistReportsInput : A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
@@ -497,11 +422,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getBlacklistReports(input: GetBlacklistReportsInput) async throws -> GetBlacklistReportsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConfigurationSet` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter GetConfigurationSetInput : A request to obtain information about a configuration set.
@@ -515,11 +437,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getConfigurationSet(input: GetConfigurationSetInput) async throws -> GetConfigurationSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConfigurationSetEventDestinations` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
@@ -533,11 +452,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetContact` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Returns a contact from a contact list.
     ///
     /// - Parameter GetContactInput : [no documentation found]
@@ -551,11 +467,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getContact(input: GetContactInput) async throws -> GetContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetContactList` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Returns contact list metadata. It does not return any information about the contacts present in the list.
     ///
     /// - Parameter GetContactListInput : [no documentation found]
@@ -569,11 +482,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getContactList(input: GetContactListInput) async throws -> GetContactListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetCustomVerificationEmailTemplateInput : Represents a request to retrieve an existing custom verification email template.
@@ -587,11 +497,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getCustomVerificationEmailTemplate(input: GetCustomVerificationEmailTemplateInput) async throws -> GetCustomVerificationEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDedicatedIp` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
     /// - Parameter GetDedicatedIpInput : A request to obtain more information about a dedicated IP address.
@@ -605,11 +512,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDedicatedIp(input: GetDedicatedIpInput) async throws -> GetDedicatedIpOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDedicatedIpPool` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve information about the dedicated pool.
     ///
     /// - Parameter GetDedicatedIpPoolInput : A request to obtain more information about a dedicated IP pool.
@@ -623,11 +527,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDedicatedIpPool(input: GetDedicatedIpPoolInput) async throws -> GetDedicatedIpPoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDedicatedIps` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
     ///
     /// - Parameter GetDedicatedIpsInput : A request to obtain more information about dedicated IP pools.
@@ -641,11 +542,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDedicatedIps(input: GetDedicatedIpsInput) async throws -> GetDedicatedIpsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeliverabilityDashboardOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
     /// - Parameter GetDeliverabilityDashboardOptionsInput : Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
@@ -659,11 +557,8 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDeliverabilityDashboardOptions(input: GetDeliverabilityDashboardOptionsInput) async throws -> GetDeliverabilityDashboardOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDeliverabilityTestReport` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve the results of a predictive inbox placement test.
     ///
     /// - Parameter GetDeliverabilityTestReportInput : A request to retrieve the results of a predictive inbox placement test.
@@ -677,11 +572,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDeliverabilityTestReport(input: GetDeliverabilityTestReportInput) async throws -> GetDeliverabilityTestReportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainDeliverabilityCampaign` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
     ///
     /// - Parameter GetDomainDeliverabilityCampaignInput : Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
@@ -695,11 +587,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDomainDeliverabilityCampaign(input: GetDomainDeliverabilityCampaignInput) async throws -> GetDomainDeliverabilityCampaignOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDomainStatisticsReport` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
     /// - Parameter GetDomainStatisticsReportInput : A request to obtain deliverability metrics for a domain.
@@ -713,11 +602,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getDomainStatisticsReport(input: GetDomainStatisticsReportInput) async throws -> GetDomainStatisticsReportOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEmailIdentity` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
     ///
     /// - Parameter GetEmailIdentityInput : A request to return details about an email identity.
@@ -731,11 +617,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getEmailIdentity(input: GetEmailIdentityInput) async throws -> GetEmailIdentityOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEmailIdentityPolicies` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter GetEmailIdentityPoliciesInput : A request to return the policies of an email identity.
@@ -749,11 +632,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getEmailIdentityPolicies(input: GetEmailIdentityPoliciesInput) async throws -> GetEmailIdentityPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetEmailTemplateInput : Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify.
@@ -767,11 +647,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExportJob` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Provides information about an export job.
     ///
     /// - Parameter GetExportJobInput : Represents a request to retrieve information about an export job using the export job ID.
@@ -785,11 +662,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetImportJob` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Provides information about an import job.
     ///
     /// - Parameter GetImportJobInput : Represents a request for information about an import job using the import job ID.
@@ -803,11 +677,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetMessageInsights` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
     ///
     /// - Parameter GetMessageInsightsInput : A request to return information about a message.
@@ -821,11 +692,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSuppressedDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     ///
     /// - Parameter GetSuppressedDestinationInput : A request to retrieve information about an email address that's on the suppression list for your account.
@@ -839,11 +707,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getSuppressedDestination(input: GetSuppressedDestinationInput) async throws -> GetSuppressedDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfigurationSets` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter ListConfigurationSetsInput : A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.
@@ -856,11 +721,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListContactLists` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists all of the contact lists available.
     ///
     /// - Parameter ListContactListsInput : [no documentation found]
@@ -873,11 +735,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listContactLists(input: ListContactListsInput) async throws -> ListContactListsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListContacts` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists the contacts present in a specific contact list.
     ///
     /// - Parameter ListContactsInput : [no documentation found]
@@ -891,11 +750,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listContacts(input: ListContactsInput) async throws -> ListContactsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCustomVerificationEmailTemplates` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account.
@@ -908,11 +764,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDedicatedIpPools` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
     ///
     /// - Parameter ListDedicatedIpPoolsInput : A request to obtain a list of dedicated IP pools.
@@ -925,11 +778,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDedicatedIpPools(input: ListDedicatedIpPoolsInput) async throws -> ListDedicatedIpPoolsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDeliverabilityTestReports` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
     /// - Parameter ListDeliverabilityTestReportsInput : A request to list all of the predictive inbox placement tests that you've performed.
@@ -943,11 +793,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDeliverabilityTestReports(input: ListDeliverabilityTestReportsInput) async throws -> ListDeliverabilityTestReportsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomainDeliverabilityCampaigns` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     ///
     /// - Parameter ListDomainDeliverabilityCampaignsInput : Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard.
@@ -961,11 +808,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listDomainDeliverabilityCampaigns(input: ListDomainDeliverabilityCampaignsInput) async throws -> ListDomainDeliverabilityCampaignsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListEmailIdentities` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     ///
     /// - Parameter ListEmailIdentitiesInput : A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
@@ -978,11 +822,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListEmailTemplates` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListEmailTemplatesInput : Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
@@ -995,11 +836,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListExportJobs` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists all of the export jobs.
     ///
     /// - Parameter ListExportJobsInput : Represents a request to list all export jobs with filters.
@@ -1012,11 +850,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListImportJobs` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists all of the import jobs.
     ///
     /// - Parameter ListImportJobsInput : Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs.
@@ -1029,11 +864,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listImportJobs(input: ListImportJobsInput) async throws -> ListImportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecommendations` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
     /// - Parameter ListRecommendationsInput : Represents a request to list the existing recommendations for your account.
@@ -1047,11 +879,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listRecommendations(input: ListRecommendationsInput) async throws -> ListRecommendationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSuppressedDestinations` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     ///
     /// - Parameter ListSuppressedDestinationsInput : A request to obtain a list of email destinations that are on the suppression list for your account.
@@ -1065,11 +894,8 @@ public protocol SESv2ClientProtocol {
     /// - `InvalidNextTokenException` : The specified request includes an invalid or expired token.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listSuppressedDestinations(input: ListSuppressedDestinationsInput) async throws -> ListSuppressedDestinationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1083,11 +909,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAccountDedicatedIpWarmupAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
     /// - Parameter PutAccountDedicatedIpWarmupAttributesInput : A request to enable or disable the automatic IP address warm-up feature.
@@ -1100,11 +923,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountDedicatedIpWarmupAttributes(input: PutAccountDedicatedIpWarmupAttributesInput) async throws -> PutAccountDedicatedIpWarmupAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAccountDetails` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Update your Amazon SES account details.
     ///
     /// - Parameter PutAccountDetailsInput : A request to submit new account details.
@@ -1118,11 +938,8 @@ public protocol SESv2ClientProtocol {
     /// - `ConflictException` : If there is already an ongoing account details update under review.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountDetails(input: PutAccountDetailsInput) async throws -> PutAccountDetailsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAccountSendingAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Enable or disable the ability of your account to send email.
     ///
     /// - Parameter PutAccountSendingAttributesInput : A request to change the ability of your account to send email.
@@ -1135,11 +952,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountSendingAttributes(input: PutAccountSendingAttributesInput) async throws -> PutAccountSendingAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAccountSuppressionAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Change the settings for the account-level suppression list.
     ///
     /// - Parameter PutAccountSuppressionAttributesInput : A request to change your account's suppression preferences.
@@ -1152,11 +966,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountSuppressionAttributes(input: PutAccountSuppressionAttributesInput) async throws -> PutAccountSuppressionAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutAccountVdmAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
     ///
     /// - Parameter PutAccountVdmAttributesInput : A request to submit new account VDM attributes.
@@ -1169,11 +980,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putAccountVdmAttributes(input: PutAccountVdmAttributesInput) async throws -> PutAccountVdmAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetDeliveryOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
     /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to associate a configuration set with a dedicated IP pool.
@@ -1187,11 +995,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetDeliveryOptions(input: PutConfigurationSetDeliveryOptionsInput) async throws -> PutConfigurationSetDeliveryOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetReputationOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
     ///
     /// - Parameter PutConfigurationSetReputationOptionsInput : A request to enable or disable tracking of reputation metrics for a configuration set.
@@ -1205,11 +1010,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetReputationOptions(input: PutConfigurationSetReputationOptionsInput) async throws -> PutConfigurationSetReputationOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetSendingOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
     ///
     /// - Parameter PutConfigurationSetSendingOptionsInput : A request to enable or disable the ability of Amazon SES to send emails that use a specific configuration set.
@@ -1223,11 +1025,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetSendingOptions(input: PutConfigurationSetSendingOptionsInput) async throws -> PutConfigurationSetSendingOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetSuppressionOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Specify the account suppression list preferences for a configuration set.
     ///
     /// - Parameter PutConfigurationSetSuppressionOptionsInput : A request to change the account suppression list preferences for a specific configuration set.
@@ -1241,11 +1040,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetSuppressionOptions(input: PutConfigurationSetSuppressionOptionsInput) async throws -> PutConfigurationSetSuppressionOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetTrackingOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
     ///
     /// - Parameter PutConfigurationSetTrackingOptionsInput : A request to add a custom domain for tracking open and click events to a configuration set.
@@ -1259,11 +1055,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetTrackingOptions(input: PutConfigurationSetTrackingOptionsInput) async throws -> PutConfigurationSetTrackingOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutConfigurationSetVdmOptions` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
     ///
     /// - Parameter PutConfigurationSetVdmOptionsInput : A request to add specific VDM settings to a configuration set.
@@ -1277,11 +1070,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putConfigurationSetVdmOptions(input: PutConfigurationSetVdmOptionsInput) async throws -> PutConfigurationSetVdmOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutDedicatedIpInPool` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
     /// - Parameter PutDedicatedIpInPoolInput : A request to move a dedicated IP address to a dedicated IP pool.
@@ -1295,11 +1085,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDedicatedIpInPool(input: PutDedicatedIpInPoolInput) async throws -> PutDedicatedIpInPoolOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutDedicatedIpPoolScalingAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to convert a dedicated IP pool to a different scaling mode. MANAGED pools cannot be converted to STANDARD scaling mode.
     ///
     /// - Parameter PutDedicatedIpPoolScalingAttributesInput : A request to convert a dedicated IP pool to a different scaling mode.
@@ -1314,11 +1101,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDedicatedIpPoolScalingAttributes(input: PutDedicatedIpPoolScalingAttributesInput) async throws -> PutDedicatedIpPoolScalingAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutDedicatedIpWarmupAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     ///
     ///
     /// - Parameter PutDedicatedIpWarmupAttributesInput : A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
@@ -1332,11 +1116,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDedicatedIpWarmupAttributes(input: PutDedicatedIpWarmupAttributesInput) async throws -> PutDedicatedIpWarmupAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutDeliverabilityDashboardOption` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
     /// - Parameter PutDeliverabilityDashboardOptionInput : Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
@@ -1352,11 +1133,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putDeliverabilityDashboardOption(input: PutDeliverabilityDashboardOptionInput) async throws -> PutDeliverabilityDashboardOptionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEmailIdentityConfigurationSetAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to associate a configuration set with an email identity.
     ///
     /// - Parameter PutEmailIdentityConfigurationSetAttributesInput : A request to associate a configuration set with an email identity.
@@ -1370,11 +1148,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityConfigurationSetAttributes(input: PutEmailIdentityConfigurationSetAttributesInput) async throws -> PutEmailIdentityConfigurationSetAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEmailIdentityDkimAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
     /// - Parameter PutEmailIdentityDkimAttributesInput : A request to enable or disable DKIM signing of email that you send from an email identity.
@@ -1388,11 +1163,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityDkimAttributes(input: PutEmailIdentityDkimAttributesInput) async throws -> PutEmailIdentityDkimAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEmailIdentityDkimSigningAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:
     ///
     /// * Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).
@@ -1418,11 +1190,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityDkimSigningAttributes(input: PutEmailIdentityDkimSigningAttributesInput) async throws -> PutEmailIdentityDkimSigningAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEmailIdentityFeedbackAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     ///
     /// - Parameter PutEmailIdentityFeedbackAttributesInput : A request to set the attributes that control how bounce and complaint events are processed.
@@ -1436,11 +1205,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityFeedbackAttributes(input: PutEmailIdentityFeedbackAttributesInput) async throws -> PutEmailIdentityFeedbackAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutEmailIdentityMailFromAttributes` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
     /// - Parameter PutEmailIdentityMailFromAttributesInput : A request to configure the custom MAIL FROM domain for a verified identity.
@@ -1454,11 +1220,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putEmailIdentityMailFromAttributes(input: PutEmailIdentityMailFromAttributesInput) async throws -> PutEmailIdentityMailFromAttributesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutSuppressedDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Adds an email address to the suppression list for your account.
     ///
     /// - Parameter PutSuppressedDestinationInput : A request to add an email destination to the suppression list for your account.
@@ -1471,11 +1234,8 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func putSuppressedDestination(input: PutSuppressedDestinationInput) async throws -> PutSuppressedDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendBulkEmail` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Composes an email message to multiple destinations.
     ///
     /// - Parameter SendBulkEmailInput : Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
@@ -1494,11 +1254,8 @@ public protocol SESv2ClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func sendBulkEmail(input: SendBulkEmailInput) async throws -> SendBulkEmailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendCustomVerificationEmail` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter SendCustomVerificationEmailInput : Represents a request to send a custom verification email to a specified recipient.
@@ -1516,11 +1273,8 @@ public protocol SESv2ClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func sendCustomVerificationEmail(input: SendCustomVerificationEmailInput) async throws -> SendCustomVerificationEmailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendEmail` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:
     ///
     /// * Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.
@@ -1545,11 +1299,8 @@ public protocol SESv2ClientProtocol {
     /// - `SendingPausedException` : The message can't be sent because the account's ability to send email is currently paused.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func sendEmail(input: SendEmailInput) async throws -> SendEmailOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1564,11 +1315,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TestRenderEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
     /// - Parameter TestRenderEmailTemplateInput : >Represents a request to create a preview of the MIME content of an email when provided with a template and a set of replacement data.
@@ -1582,11 +1330,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func testRenderEmailTemplate(input: TestRenderEmailTemplateInput) async throws -> TestRenderEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1601,11 +1346,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfigurationSetEventDestination` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.
@@ -1619,11 +1361,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func updateConfigurationSetEventDestination(input: UpdateConfigurationSetEventDestinationInput) async throws -> UpdateConfigurationSetEventDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateContact` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
@@ -1638,11 +1377,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func updateContact(input: UpdateContactInput) async throws -> UpdateContactOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateContactList` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Updates contact list metadata. This operation does a complete replacement.
     ///
     /// - Parameter UpdateContactListInput : [no documentation found]
@@ -1657,11 +1393,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func updateContactList(input: UpdateContactListInput) async throws -> UpdateContactListOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateCustomVerificationEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateCustomVerificationEmailTemplateInput : Represents a request to update an existing custom verification email template.
@@ -1675,11 +1408,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func updateCustomVerificationEmailTemplate(input: UpdateCustomVerificationEmailTemplateInput) async throws -> UpdateCustomVerificationEmailTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEmailIdentityPolicy` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateEmailIdentityPolicyInput : Represents a request to update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
@@ -1693,11 +1423,8 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func updateEmailIdentityPolicy(input: UpdateEmailIdentityPolicyInput) async throws -> UpdateEmailIdentityPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateEmailTemplate` operation on the `SimpleEmailService_v2` service.
     ///
->>>>>>> main
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
     /// - Parameter UpdateEmailTemplateInput : Represents a request to update an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).

@@ -12,11 +12,7 @@ extension AthenaClient {
     ///     - input: A `[GetQueryResultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetQueryResultsOutput`
     public func getQueryResultsPaginated(input: GetQueryResultsInput) -> ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \GetQueryResultsInput.nextToken, outputKey: \GetQueryResultsOutput.nextToken, paginationFunction: self.getQueryResults(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetQueryResultsInput, GetQueryResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getQueryResults(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension AthenaClient {
     ///     - input: A `[ListApplicationDPUSizesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationDPUSizesOutput`
     public func listApplicationDPUSizesPaginated(input: ListApplicationDPUSizesInput) -> ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(input: input, inputKey: \ListApplicationDPUSizesInput.nextToken, outputKey: \ListApplicationDPUSizesOutput.nextToken, paginationFunction: self.listApplicationDPUSizes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationDPUSizes(input:))
->>>>>>> main
     }
 }
 
@@ -63,11 +55,7 @@ extension AthenaClient {
     ///     - input: A `[ListCalculationExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCalculationExecutionsOutput`
     public func listCalculationExecutionsPaginated(input: ListCalculationExecutionsInput) -> ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(input: input, inputKey: \ListCalculationExecutionsInput.nextToken, outputKey: \ListCalculationExecutionsOutput.nextToken, paginationFunction: self.listCalculationExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCalculationExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -90,11 +78,7 @@ extension AthenaClient {
     ///     - input: A `[ListCapacityReservationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityReservationsOutput`
     public func listCapacityReservationsPaginated(input: ListCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput>(input: input, inputKey: \ListCapacityReservationsInput.nextToken, outputKey: \ListCapacityReservationsOutput.nextToken, paginationFunction: self.listCapacityReservations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCapacityReservationsInput, ListCapacityReservationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCapacityReservations(input:))
->>>>>>> main
     }
 }
 
@@ -115,11 +99,7 @@ extension AthenaClient {
     ///     - input: A `[ListDatabasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutput`
     public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutput.nextToken, paginationFunction: self.listDatabases(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatabases(input:))
->>>>>>> main
     }
 }
 
@@ -133,11 +113,7 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDatabasesInput, OperationStackOutput == ListDatabasesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
     /// to access the nested member `[AthenaClientTypes.Database]`
     /// - Returns: `[AthenaClientTypes.Database]`
@@ -155,11 +131,7 @@ extension AthenaClient {
     ///     - input: A `[ListDataCatalogsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataCatalogsOutput`
     public func listDataCatalogsPaginated(input: ListDataCatalogsInput) -> ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutput>(input: input, inputKey: \ListDataCatalogsInput.nextToken, outputKey: \ListDataCatalogsOutput.nextToken, paginationFunction: self.listDataCatalogs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataCatalogsInput, ListDataCatalogsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataCatalogs(input:))
->>>>>>> main
     }
 }
 
@@ -172,11 +144,7 @@ extension ListDataCatalogsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataCatalogsInput, Output == ListDataCatalogsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataCatalogsInput, OperationStackOutput == ListDataCatalogsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataCatalogsPaginated`
     /// to access the nested member `[AthenaClientTypes.DataCatalogSummary]`
     /// - Returns: `[AthenaClientTypes.DataCatalogSummary]`
@@ -194,11 +162,7 @@ extension AthenaClient {
     ///     - input: A `[ListEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEngineVersionsOutput`
     public func listEngineVersionsPaginated(input: ListEngineVersionsInput) -> ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \ListEngineVersionsInput.nextToken, outputKey: \ListEngineVersionsOutput.nextToken, paginationFunction: self.listEngineVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEngineVersionsInput, ListEngineVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEngineVersions(input:))
->>>>>>> main
     }
 }
 
@@ -219,11 +183,7 @@ extension AthenaClient {
     ///     - input: A `[ListExecutorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListExecutorsOutput`
     public func listExecutorsPaginated(input: ListExecutorsInput) -> ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutput>(input: input, inputKey: \ListExecutorsInput.nextToken, outputKey: \ListExecutorsOutput.nextToken, paginationFunction: self.listExecutors(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListExecutorsInput, ListExecutorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExecutors(input:))
->>>>>>> main
     }
 }
 
@@ -246,11 +206,7 @@ extension AthenaClient {
     ///     - input: A `[ListNamedQueriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNamedQueriesOutput`
     public func listNamedQueriesPaginated(input: ListNamedQueriesInput) -> ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutput>(input: input, inputKey: \ListNamedQueriesInput.nextToken, outputKey: \ListNamedQueriesOutput.nextToken, paginationFunction: self.listNamedQueries(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNamedQueriesInput, ListNamedQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNamedQueries(input:))
->>>>>>> main
     }
 }
 
@@ -272,11 +228,7 @@ extension AthenaClient {
     ///     - input: A `[ListPreparedStatementsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPreparedStatementsOutput`
     public func listPreparedStatementsPaginated(input: ListPreparedStatementsInput) -> ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutput>(input: input, inputKey: \ListPreparedStatementsInput.nextToken, outputKey: \ListPreparedStatementsOutput.nextToken, paginationFunction: self.listPreparedStatements(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPreparedStatementsInput, ListPreparedStatementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPreparedStatements(input:))
->>>>>>> main
     }
 }
 
@@ -298,11 +250,7 @@ extension AthenaClient {
     ///     - input: A `[ListQueryExecutionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueryExecutionsOutput`
     public func listQueryExecutionsPaginated(input: ListQueryExecutionsInput) -> ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutput>(input: input, inputKey: \ListQueryExecutionsInput.nextToken, outputKey: \ListQueryExecutionsOutput.nextToken, paginationFunction: self.listQueryExecutions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListQueryExecutionsInput, ListQueryExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueryExecutions(input:))
->>>>>>> main
     }
 }
 
@@ -324,11 +272,7 @@ extension AthenaClient {
     ///     - input: A `[ListSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutput`
     public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutput.nextToken, paginationFunction: self.listSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSessions(input:))
->>>>>>> main
     }
 }
 
@@ -351,11 +295,7 @@ extension AthenaClient {
     ///     - input: A `[ListTableMetadataInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTableMetadataOutput`
     public func listTableMetadataPaginated(input: ListTableMetadataInput) -> ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutput>(input: input, inputKey: \ListTableMetadataInput.nextToken, outputKey: \ListTableMetadataOutput.nextToken, paginationFunction: self.listTableMetadata(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTableMetadataInput, ListTableMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTableMetadata(input:))
->>>>>>> main
     }
 }
 
@@ -371,11 +311,7 @@ extension ListTableMetadataInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTableMetadataInput, Output == ListTableMetadataOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTableMetadataInput, OperationStackOutput == ListTableMetadataOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTableMetadataPaginated`
     /// to access the nested member `[AthenaClientTypes.TableMetadata]`
     /// - Returns: `[AthenaClientTypes.TableMetadata]`
@@ -393,11 +329,7 @@ extension AthenaClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
->>>>>>> main
     }
 }
 
@@ -410,11 +342,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[AthenaClientTypes.Tag]`
     /// - Returns: `[AthenaClientTypes.Tag]`
@@ -432,11 +360,7 @@ extension AthenaClient {
     ///     - input: A `[ListWorkGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkGroupsOutput`
     public func listWorkGroupsPaginated(input: ListWorkGroupsInput) -> ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutput>(input: input, inputKey: \ListWorkGroupsInput.nextToken, outputKey: \ListWorkGroupsOutput.nextToken, paginationFunction: self.listWorkGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListWorkGroupsInput, ListWorkGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkGroups(input:))
->>>>>>> main
     }
 }
 

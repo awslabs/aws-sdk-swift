@@ -3273,8 +3273,6 @@ enum BatchGetPartitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GlueClientTypes.BatchGetTableOptimizerEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId
@@ -3554,7 +3552,6 @@ enum BatchGetTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension BatchGetTriggersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case triggerNames = "TriggerNames"
@@ -9372,9 +9369,6 @@ extension GlueClientTypes {
     public struct ConnectorDataSource: Swift.Equatable {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
-<<<<<<< HEAD
-        /// * bigquery
-=======
         /// * opensearch
         ///
         /// * azuresql
@@ -9388,7 +9382,6 @@ extension GlueClientTypes {
         /// * teradata
         ///
         /// * vertica
->>>>>>> main
         /// This member is required.
         public var connectionType: Swift.String?
         /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
@@ -9482,9 +9475,6 @@ extension GlueClientTypes {
     public struct ConnectorDataTarget: Swift.Equatable {
         /// The connectionType, as provided to the underlying Glue library. This node type supports the following connection types:
         ///
-<<<<<<< HEAD
-        /// * bigquery
-=======
         /// * opensearch
         ///
         /// * azuresql
@@ -9498,7 +9488,6 @@ extension GlueClientTypes {
         /// * teradata
         ///
         /// * vertica
->>>>>>> main
         /// This member is required.
         public var connectionType: Swift.String?
         /// A map specifying connection options for the node. You can find standard connection options for the corresponding connection type in the [ Connection parameters](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-connect.html) section of the Glue documentation.
@@ -14808,8 +14797,6 @@ extension CreateTableInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateTableOptimizerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -14935,7 +14922,6 @@ enum CreateTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
@@ -20107,8 +20093,6 @@ extension DeleteTableInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteTableOptimizerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -20220,7 +20204,6 @@ enum DeleteTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }
@@ -24998,8 +24981,6 @@ enum GetColumnStatisticsForTableOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetColumnStatisticsTaskRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case columnStatisticsTaskRunId = "ColumnStatisticsTaskRunId"
@@ -25256,7 +25237,6 @@ enum GetColumnStatisticsTaskRunsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension GetConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -26275,10 +26255,7 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetDataQualityResultOutputBody = try responseDecoder.decode(responseBody: data)
-<<<<<<< HEAD
-=======
             self.analyzerResults = output.analyzerResults
->>>>>>> main
             self.completedOn = output.completedOn
             self.dataSource = output.dataSource
             self.evaluationContext = output.evaluationContext
@@ -26310,11 +26287,8 @@ extension GetDataQualityResultOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetDataQualityResultOutput: Swift.Equatable {
-<<<<<<< HEAD
-=======
     /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
->>>>>>> main
     /// The date and time when the run for this data quality result was completed.
     public var completedOn: ClientRuntime.Date?
     /// The table associated with the data quality result, if any.
@@ -26460,20 +26434,6 @@ extension GetDataQualityResultOutputBody: Swift.Decodable {
             }
         }
         observations = observationsDecoded0
-    }
-}
-
-enum GetDataQualityResultOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -31880,8 +31840,6 @@ extension GetTableInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetTableOptimizerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -32053,7 +32011,6 @@ enum GetTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -39159,8 +39116,6 @@ enum ListBlueprintsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListColumnStatisticsTaskRunsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -39290,7 +39245,6 @@ enum ListColumnStatisticsTaskRunsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ListCrawlersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -41616,8 +41570,6 @@ enum ListStatementsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListTableOptimizerRunsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -41832,7 +41784,6 @@ enum ListTableOptimizerRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTriggersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dependentJobName = "DependentJobName"
@@ -48044,8 +47995,6 @@ enum ResumeWorkflowRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GlueClientTypes.RunMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobDurationInHour = "JobDurationInHour"
@@ -48111,7 +48060,6 @@ extension GlueClientTypes {
 
 }
 
->>>>>>> main
 extension RunStatementInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
@@ -53882,8 +53830,6 @@ enum StartBlueprintRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension StartColumnStatisticsTaskRunInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogID = "CatalogID"
@@ -54074,7 +54020,6 @@ enum StartColumnStatisticsTaskRunOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension StartCrawlerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -62414,8 +62359,6 @@ extension UpdateTableInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateTableOptimizerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -62540,7 +62483,6 @@ enum UpdateTableOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
     }

@@ -21,11 +21,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func cancelLegalHold(input: CancelLegalHoldInput) async throws -> CancelLegalHoldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBackupPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     ///
     /// - Parameter CreateBackupPlanInput : [no documentation found]
@@ -41,11 +38,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createBackupPlan(input: CreateBackupPlanInput) async throws -> CreateBackupPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBackupSelection` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see [Assigning resources programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json).
     ///
     /// - Parameter CreateBackupSelectionInput : [no documentation found]
@@ -61,11 +55,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createBackupSelection(input: CreateBackupSelectionInput) async throws -> CreateBackupSelectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateBackupVault` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     ///
     /// - Parameter CreateBackupVaultInput : [no documentation found]
@@ -81,11 +72,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createBackupVault(input: CreateBackupVaultInput) async throws -> CreateBackupVaultOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateFramework` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
     ///
     /// - Parameter CreateFrameworkInput : [no documentation found]
@@ -101,11 +89,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createFramework(input: CreateFrameworkInput) async throws -> CreateFrameworkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLegalHold` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This action creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point.
     ///
     /// - Parameter CreateLegalHoldInput : [no documentation found]
@@ -120,11 +105,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLogicallyAirGappedBackupVault` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     ///
     /// - Parameter CreateLogicallyAirGappedBackupVaultInput : [no documentation found]
@@ -141,11 +123,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createLogicallyAirGappedBackupVault(input: CreateLogicallyAirGappedBackupVaultInput) async throws -> CreateLogicallyAirGappedBackupVaultOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateReportPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     ///
     /// - Parameter CreateReportPlanInput : [no documentation found]
@@ -161,8 +140,6 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createReportPlan(input: CreateReportPlanInput) async throws -> CreateReportPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRestoreTestingPlan` operation on the `CryoControllerUserManager` service.
     ///
     /// This is the first of two steps to create a restore testing plan; once this request is successful, finish the procedure with request CreateRestoreTestingSelection. You must include the parameter RestoreTestingPlan. You may optionally include CreatorRequestId and Tags.
@@ -208,7 +185,6 @@ public protocol BackupClientProtocol {
     func createRestoreTestingSelection(input: CreateRestoreTestingSelectionInput) async throws -> CreateRestoreTestingSelectionOutput
     /// Performs the `DeleteBackupPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
     ///
     /// - Parameter DeleteBackupPlanInput : [no documentation found]
@@ -224,11 +200,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupPlan(input: DeleteBackupPlanInput) async throws -> DeleteBackupPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBackupSelection` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the resource selection associated with a backup plan that is specified by the SelectionId.
     ///
     /// - Parameter DeleteBackupSelectionInput : [no documentation found]
@@ -243,11 +216,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupSelection(input: DeleteBackupSelectionInput) async throws -> DeleteBackupSelectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBackupVault` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
     ///
     /// - Parameter DeleteBackupVaultInput : [no documentation found]
@@ -263,11 +233,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupVault(input: DeleteBackupVaultInput) async throws -> DeleteBackupVaultOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBackupVaultAccessPolicy` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the policy document that manages permissions on a backup vault.
     ///
     /// - Parameter DeleteBackupVaultAccessPolicyInput : [no documentation found]
@@ -282,11 +249,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupVaultAccessPolicy(input: DeleteBackupVaultAccessPolicyInput) async throws -> DeleteBackupVaultAccessPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBackupVaultLockConfiguration` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see [Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html) in the Backup Developer Guide.
     ///
     /// - Parameter DeleteBackupVaultLockConfigurationInput : [no documentation found]
@@ -302,11 +266,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupVaultLockConfiguration(input: DeleteBackupVaultLockConfigurationInput) async throws -> DeleteBackupVaultLockConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteBackupVaultNotifications` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes event notifications for the specified backup vault.
     ///
     /// - Parameter DeleteBackupVaultNotificationsInput : [no documentation found]
@@ -321,11 +282,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteBackupVaultNotifications(input: DeleteBackupVaultNotificationsInput) async throws -> DeleteBackupVaultNotificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteFramework` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the framework specified by a framework name.
     ///
     /// - Parameter DeleteFrameworkInput : [no documentation found]
@@ -341,11 +299,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteFramework(input: DeleteFrameworkInput) async throws -> DeleteFrameworkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRecoveryPoint` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see [ Troubleshooting manual deletions](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html#deleting-backups-troubleshooting). If the user or role is deleted or the permission within the role is removed, the deletion will not be successful and will enter an EXPIRED state.
     ///
     /// - Parameter DeleteRecoveryPointInput : [no documentation found]
@@ -362,11 +317,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteRecoveryPoint(input: DeleteRecoveryPointInput) async throws -> DeleteRecoveryPointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteReportPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the report plan specified by a report plan name.
     ///
     /// - Parameter DeleteReportPlanInput : [no documentation found]
@@ -382,176 +334,41 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func deleteReportPlan(input: DeleteReportPlanInput) async throws -> DeleteReportPlanOutput
-<<<<<<< HEAD
-    /// Returns backup job details for the specified BackupJobId.
-=======
     /// Performs the `DeleteRestoreTestingPlan` operation on the `CryoControllerUserManager` service.
->>>>>>> main
     ///
     /// This request deletes the specified restore testing plan. Deletion can only successfully occur if all associated restore testing selections are deleted first.
     ///
-<<<<<<< HEAD
-    /// - Returns: `DescribeBackupJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `DependencyFailureException` : A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeBackupJob(input: DescribeBackupJobInput) async throws -> DescribeBackupJobOutput
-    /// Returns metadata about a backup vault specified by its name.
-    ///
-    /// - Parameter DescribeBackupVaultInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeBackupVaultOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeBackupVault(input: DescribeBackupVaultInput) async throws -> DescribeBackupVaultOutput
-    /// Returns metadata associated with creating a copy of a resource.
-    ///
-    /// - Parameter DescribeCopyJobInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeCopyJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeCopyJob(input: DescribeCopyJobInput) async throws -> DescribeCopyJobOutput
-    /// Returns the framework details for the specified FrameworkName.
-    ///
-    /// - Parameter DescribeFrameworkInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeFrameworkOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeFramework(input: DescribeFrameworkInput) async throws -> DescribeFrameworkOutput
-    /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
-    ///
-    /// - Parameter DescribeGlobalSettingsInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeGlobalSettingsOutput` : [no documentation found]
-=======
     /// - Parameter DeleteRestoreTestingPlanInput : [no documentation found]
     ///
     /// - Returns: `DeleteRestoreTestingPlanOutput` : [no documentation found]
->>>>>>> main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-<<<<<<< HEAD
-    func describeGlobalSettings(input: DescribeGlobalSettingsInput) async throws -> DescribeGlobalSettingsOutput
-    /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
-=======
     func deleteRestoreTestingPlan(input: DeleteRestoreTestingPlanInput) async throws -> DeleteRestoreTestingPlanOutput
     /// Performs the `DeleteRestoreTestingSelection` operation on the `CryoControllerUserManager` service.
->>>>>>> main
     ///
     /// Input the Restore Testing Plan name and Restore Testing Selection name. All testing selections associated with a restore testing plan must be deleted before the restore testing plan can be deleted.
     ///
-<<<<<<< HEAD
-    /// - Returns: `DescribeProtectedResourceOutput` : [no documentation found]
-=======
     /// - Parameter DeleteRestoreTestingSelectionInput : [no documentation found]
     ///
     /// - Returns: `DeleteRestoreTestingSelectionOutput` : [no documentation found]
->>>>>>> main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-<<<<<<< HEAD
-    func describeProtectedResource(input: DescribeProtectedResourceInput) async throws -> DescribeProtectedResourceOutput
-    /// Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
-=======
     func deleteRestoreTestingSelection(input: DeleteRestoreTestingSelectionInput) async throws -> DeleteRestoreTestingSelectionOutput
     /// Performs the `DescribeBackupJob` operation on the `CryoControllerUserManager` service.
->>>>>>> main
     ///
     /// Returns backup job details for the specified BackupJobId.
     ///
-<<<<<<< HEAD
-    /// - Returns: `DescribeRecoveryPointOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeRecoveryPoint(input: DescribeRecoveryPointInput) async throws -> DescribeRecoveryPointOutput
-    /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
-    ///
-    /// - Parameter DescribeRegionSettingsInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeRegionSettingsOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeRegionSettings(input: DescribeRegionSettingsInput) async throws -> DescribeRegionSettingsOutput
-    /// Returns the details associated with creating a report as specified by its ReportJobId.
-    ///
-    /// - Parameter DescribeReportJobInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeReportJobOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeReportJob(input: DescribeReportJobInput) async throws -> DescribeReportJobOutput
-    /// Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
-    ///
-    /// - Parameter DescribeReportPlanInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeReportPlanOutput` : [no documentation found]
-    ///
-    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
-    ///
-    /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
-    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
-    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
-    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-    func describeReportPlan(input: DescribeReportPlanInput) async throws -> DescribeReportPlanOutput
-    /// Returns metadata associated with a restore job that is specified by a job ID.
-    ///
-    /// - Parameter DescribeRestoreJobInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeRestoreJobOutput` : [no documentation found]
-=======
     /// - Parameter DescribeBackupJobInput : [no documentation found]
     ///
     /// - Returns: `DescribeBackupJobOutput` : [no documentation found]
->>>>>>> main
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,9 +378,6 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
-<<<<<<< HEAD
-    func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutput
-=======
     func describeBackupJob(input: DescribeBackupJobInput) async throws -> DescribeBackupJobOutput
     /// Performs the `DescribeBackupVault` operation on the `CryoControllerUserManager` service.
     ///
@@ -722,7 +536,6 @@ public protocol BackupClientProtocol {
     func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutput
     /// Performs the `DisassociateRecoveryPoint` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
     ///
     /// - Parameter DisassociateRecoveryPointInput : [no documentation found]
@@ -739,11 +552,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func disassociateRecoveryPoint(input: DisassociateRecoveryPointInput) async throws -> DisassociateRecoveryPointOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateRecoveryPointFromParent` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point.
     ///
     /// - Parameter DisassociateRecoveryPointFromParentInput : [no documentation found]
@@ -759,11 +569,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func disassociateRecoveryPointFromParent(input: DisassociateRecoveryPointFromParentInput) async throws -> DisassociateRecoveryPointFromParentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ExportBackupPlanTemplate` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns the backup plan that is specified by the plan ID as a backup template.
     ///
     /// - Parameter ExportBackupPlanTemplateInput : [no documentation found]
@@ -778,11 +585,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func exportBackupPlanTemplate(input: ExportBackupPlanTemplateInput) async throws -> ExportBackupPlanTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns BackupPlan details for the specified BackupPlanId. The details are the body of a backup plan in JSON format, in addition to plan metadata.
     ///
     /// - Parameter GetBackupPlanInput : [no documentation found]
@@ -797,11 +601,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupPlan(input: GetBackupPlanInput) async throws -> GetBackupPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupPlanFromJSON` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a valid JSON document specifying a backup plan or an error.
     ///
     /// - Parameter GetBackupPlanFromJSONInput : [no documentation found]
@@ -817,11 +618,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupPlanFromJSON(input: GetBackupPlanFromJSONInput) async throws -> GetBackupPlanFromJSONOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupPlanFromTemplate` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns the template specified by its templateId as a backup plan.
     ///
     /// - Parameter GetBackupPlanFromTemplateInput : [no documentation found]
@@ -836,11 +634,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupPlanFromTemplate(input: GetBackupPlanFromTemplateInput) async throws -> GetBackupPlanFromTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupSelection` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan.
     ///
     /// - Parameter GetBackupSelectionInput : [no documentation found]
@@ -855,11 +650,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupSelection(input: GetBackupSelectionInput) async throws -> GetBackupSelectionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupVaultAccessPolicy` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns the access policy document that is associated with the named backup vault.
     ///
     /// - Parameter GetBackupVaultAccessPolicyInput : [no documentation found]
@@ -874,11 +666,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupVaultAccessPolicy(input: GetBackupVaultAccessPolicyInput) async throws -> GetBackupVaultAccessPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetBackupVaultNotifications` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns event notifications for the specified backup vault.
     ///
     /// - Parameter GetBackupVaultNotificationsInput : [no documentation found]
@@ -893,11 +682,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getBackupVaultNotifications(input: GetBackupVaultNotificationsInput) async throws -> GetBackupVaultNotificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLegalHold` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This action returns details for a specified legal hold. The details are the body of a legal hold in JSON format, in addition to metadata.
     ///
     /// - Parameter GetLegalHoldInput : [no documentation found]
@@ -912,11 +698,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getLegalHold(input: GetLegalHoldInput) async throws -> GetLegalHoldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRecoveryPointRestoreMetadata` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a set of metadata key-value pairs that were used to create the backup.
     ///
     /// - Parameter GetRecoveryPointRestoreMetadataInput : [no documentation found]
@@ -931,8 +714,6 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getRecoveryPointRestoreMetadata(input: GetRecoveryPointRestoreMetadataInput) async throws -> GetRecoveryPointRestoreMetadataOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRestoreJobMetadata` operation on the `CryoControllerUserManager` service.
     ///
     /// This request returns the metadata for the specified restore job.
@@ -995,7 +776,6 @@ public protocol BackupClientProtocol {
     func getRestoreTestingSelection(input: GetRestoreTestingSelectionInput) async throws -> GetRestoreTestingSelectionOutput
     /// Performs the `GetSupportedResourceTypes` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns the Amazon Web Services resource types supported by Backup.
     ///
     /// - Parameter GetSupportedResourceTypesInput : [no documentation found]
@@ -1007,11 +787,8 @@ public protocol BackupClientProtocol {
     /// __Possible Exceptions:__
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func getSupportedResourceTypes(input: GetSupportedResourceTypesInput) async throws -> GetSupportedResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupJobs` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these [monitoring tools](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html).
     ///
     /// - Parameter ListBackupJobsInput : [no documentation found]
@@ -1024,8 +801,6 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupJobs(input: ListBackupJobsInput) async throws -> ListBackupJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupJobSummaries` operation on the `CryoControllerUserManager` service.
     ///
     /// This is a request for a summary of backup jobs created or running within the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
@@ -1042,7 +817,6 @@ public protocol BackupClientProtocol {
     func listBackupJobSummaries(input: ListBackupJobSummariesInput) async throws -> ListBackupJobSummariesOutput
     /// Performs the `ListBackupPlans` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     ///
     /// - Parameter ListBackupPlansInput : [no documentation found]
@@ -1057,11 +831,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupPlans(input: ListBackupPlansInput) async throws -> ListBackupPlansOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupPlanTemplates` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
     ///
     /// - Parameter ListBackupPlanTemplatesInput : [no documentation found]
@@ -1076,11 +847,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupPlanTemplates(input: ListBackupPlanTemplatesInput) async throws -> ListBackupPlanTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupPlanVersions` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
     ///
     /// - Parameter ListBackupPlanVersionsInput : [no documentation found]
@@ -1095,11 +863,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupPlanVersions(input: ListBackupPlanVersionsInput) async throws -> ListBackupPlanVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupSelections` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns an array containing metadata of the resources associated with the target backup plan.
     ///
     /// - Parameter ListBackupSelectionsInput : [no documentation found]
@@ -1114,11 +879,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupSelections(input: ListBackupSelectionsInput) async throws -> ListBackupSelectionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListBackupVaults` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of recovery point storage containers along with information about them.
     ///
     /// - Parameter ListBackupVaultsInput : [no documentation found]
@@ -1133,11 +895,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listBackupVaults(input: ListBackupVaultsInput) async throws -> ListBackupVaultsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCopyJobs` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns metadata about your copy jobs.
     ///
     /// - Parameter ListCopyJobsInput : [no documentation found]
@@ -1150,8 +909,6 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listCopyJobs(input: ListCopyJobsInput) async throws -> ListCopyJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListCopyJobSummaries` operation on the `CryoControllerUserManager` service.
     ///
     /// This request obtains a list of copy jobs created or running within the the most recent 30 days. You can include parameters AccountID, State, ResourceType, MessageCategory, AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime, EndTime, and Count of included jobs.
@@ -1168,7 +925,6 @@ public protocol BackupClientProtocol {
     func listCopyJobSummaries(input: ListCopyJobSummariesInput) async throws -> ListCopyJobSummariesOutput
     /// Performs the `ListFrameworks` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
     ///
     /// - Parameter ListFrameworksInput : [no documentation found]
@@ -1181,11 +937,8 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listFrameworks(input: ListFrameworksInput) async throws -> ListFrameworksOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLegalHolds` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This action returns metadata about active and previous legal holds.
     ///
     /// - Parameter ListLegalHoldsInput : [no documentation found]
@@ -1198,11 +951,8 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listLegalHolds(input: ListLegalHoldsInput) async throws -> ListLegalHoldsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProtectedResources` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     ///
     /// - Parameter ListProtectedResourcesInput : [no documentation found]
@@ -1215,11 +965,8 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listProtectedResources(input: ListProtectedResourcesInput) async throws -> ListProtectedResourcesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListProtectedResourcesByBackupVault` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This request lists the protected resources corresponding to each backup vault.
     ///
     /// - Parameter ListProtectedResourcesByBackupVaultInput : [no documentation found]
@@ -1233,11 +980,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listProtectedResourcesByBackupVault(input: ListProtectedResourcesByBackupVaultInput) async throws -> ListProtectedResourcesByBackupVaultOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecoveryPointsByBackupVault` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns detailed information about the recovery points stored in a backup vault.
     ///
     /// - Parameter ListRecoveryPointsByBackupVaultInput : [no documentation found]
@@ -1252,11 +996,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listRecoveryPointsByBackupVault(input: ListRecoveryPointsByBackupVaultInput) async throws -> ListRecoveryPointsByBackupVaultOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecoveryPointsByLegalHold` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold.
     ///
     /// - Parameter ListRecoveryPointsByLegalHoldInput : [no documentation found]
@@ -1270,11 +1011,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listRecoveryPointsByLegalHold(input: ListRecoveryPointsByLegalHoldInput) async throws -> ListRecoveryPointsByLegalHoldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRecoveryPointsByResource` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN). For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     ///
     /// - Parameter ListRecoveryPointsByResourceInput : [no documentation found]
@@ -1289,11 +1027,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listRecoveryPointsByResource(input: ListRecoveryPointsByResourceInput) async throws -> ListRecoveryPointsByResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReportJobs` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns details about your report jobs.
     ///
     /// - Parameter ListReportJobsInput : [no documentation found]
@@ -1307,11 +1042,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listReportJobs(input: ListReportJobsInput) async throws -> ListReportJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReportPlans` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
     ///
     /// - Parameter ListReportPlansInput : [no documentation found]
@@ -1324,11 +1056,8 @@ public protocol BackupClientProtocol {
     /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listReportPlans(input: ListReportPlansInput) async throws -> ListReportPlansOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRestoreJobs` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
     ///
     /// - Parameter ListRestoreJobsInput : [no documentation found]
@@ -1343,8 +1072,6 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listRestoreJobs(input: ListRestoreJobsInput) async throws -> ListRestoreJobsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRestoreJobsByProtectedResource` operation on the `CryoControllerUserManager` service.
     ///
     /// This returns restore jobs that contain the specified protected resource. You must include ResourceArn. You can optionally include NextToken, ByStatus, MaxResults, ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore.
@@ -1406,7 +1133,6 @@ public protocol BackupClientProtocol {
     func listRestoreTestingSelections(input: ListRestoreTestingSelectionsInput) async throws -> ListRestoreTestingSelectionsOutput
     /// Performs the `ListTags` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault. ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table.
     ///
     /// - Parameter ListTagsInput : [no documentation found]
@@ -1421,11 +1147,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutBackupVaultAccessPolicy` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
     ///
     /// - Parameter PutBackupVaultAccessPolicyInput : [no documentation found]
@@ -1440,11 +1163,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func putBackupVaultAccessPolicy(input: PutBackupVaultAccessPolicyInput) async throws -> PutBackupVaultAccessPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutBackupVaultLockConfiguration` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault. Backup Vault Lock has been assessed by Cohasset Associates for use in environments that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about how Backup Vault Lock relates to these regulations, see the [Cohasset Associates Compliance Assessment.]
     ///
     /// - Parameter PutBackupVaultLockConfigurationInput : [no documentation found]
@@ -1460,11 +1180,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func putBackupVaultLockConfiguration(input: PutBackupVaultLockConfigurationInput) async throws -> PutBackupVaultLockConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutBackupVaultNotifications` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Turns on notifications on a backup vault for the specified topic and events.
     ///
     /// - Parameter PutBackupVaultNotificationsInput : [no documentation found]
@@ -1479,8 +1196,6 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func putBackupVaultNotifications(input: PutBackupVaultNotificationsInput) async throws -> PutBackupVaultNotificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutRestoreValidationResult` operation on the `CryoControllerUserManager` service.
     ///
     /// This request allows you to send your independent self-run restore test validation results. RestoreJobId and ValidationStatus are required. Optionally, you can input a ValidationStatusMessage.
@@ -1500,7 +1215,6 @@ public protocol BackupClientProtocol {
     func putRestoreValidationResult(input: PutRestoreValidationResultInput) async throws -> PutRestoreValidationResultOutput
     /// Performs the `StartBackupJob` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Starts an on-demand backup job for the specified resource.
     ///
     /// - Parameter StartBackupJobInput : [no documentation found]
@@ -1517,11 +1231,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func startBackupJob(input: StartBackupJobInput) async throws -> StartBackupJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartCopyJob` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
     ///
     /// - Parameter StartCopyJobInput : [no documentation found]
@@ -1538,11 +1249,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func startCopyJob(input: StartCopyJobInput) async throws -> StartCopyJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartReportJob` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Starts an on-demand report job for the specified report plan.
     ///
     /// - Parameter StartReportJobInput : [no documentation found]
@@ -1557,11 +1265,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func startReportJob(input: StartReportJobInput) async throws -> StartReportJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartRestoreJob` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
     ///
     /// - Parameter StartRestoreJobInput : [no documentation found]
@@ -1577,11 +1282,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func startRestoreJob(input: StartRestoreJobInput) async throws -> StartRestoreJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopBackupJob` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
     ///
     /// - Parameter StopBackupJobInput : [no documentation found]
@@ -1597,11 +1299,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func stopBackupJob(input: StopBackupJobInput) async throws -> StopBackupJobOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1617,11 +1316,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN)
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1636,11 +1332,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateBackupPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Updates an existing backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
     ///
     /// - Parameter UpdateBackupPlanInput : [no documentation found]
@@ -1655,11 +1348,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateBackupPlan(input: UpdateBackupPlanInput) async throws -> UpdateBackupPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateFramework` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Updates an existing framework identified by its FrameworkName with the input document in JSON format.
     ///
     /// - Parameter UpdateFrameworkInput : [no documentation found]
@@ -1677,11 +1367,8 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateFramework(input: UpdateFrameworkInput) async throws -> UpdateFrameworkOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGlobalSettings` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
@@ -1696,11 +1383,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRecoveryPointLifecycle` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This operation does not support continuous backups.
     ///
     /// - Parameter UpdateRecoveryPointLifecycleInput : [no documentation found]
@@ -1716,13 +1400,9 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateRecoveryPointLifecycle(input: UpdateRecoveryPointLifecycleInput) async throws -> UpdateRecoveryPointLifecycleOutput
-<<<<<<< HEAD
-    /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
-=======
     /// Performs the `UpdateRegionSettings` operation on the `CryoControllerUserManager` service.
     ///
     /// Updates the current service opt-in settings for the Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
->>>>>>> main
     ///
     /// - Parameter UpdateRegionSettingsInput : [no documentation found]
     ///
@@ -1735,11 +1415,8 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateRegionSettings(input: UpdateRegionSettingsInput) async throws -> UpdateRegionSettingsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReportPlan` operation on the `CryoControllerUserManager` service.
     ///
->>>>>>> main
     /// Updates an existing report plan identified by its ReportPlanName with the input document in JSON format.
     ///
     /// - Parameter UpdateReportPlanInput : [no documentation found]
@@ -1755,8 +1432,6 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateReportPlan(input: UpdateReportPlanInput) async throws -> UpdateReportPlanOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRestoreTestingPlan` operation on the `CryoControllerUserManager` service.
     ///
     /// This request will send changes to your specified restore testing plan. RestoreTestingPlanName cannot be updated after it is created. RecoveryPointSelection can contain:
@@ -1801,7 +1476,6 @@ public protocol BackupClientProtocol {
     /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func updateRestoreTestingSelection(input: UpdateRestoreTestingSelectionInput) async throws -> UpdateRestoreTestingSelectionOutput
->>>>>>> main
 }
 
 public enum BackupClientTypes {}

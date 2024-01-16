@@ -2800,47 +2800,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CreateComponentInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateComponentInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateComponentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateComponentOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let componentToCreate = input.operationInput.componentToCreate {
-                let componentToCreateData = try encoder.encode(componentToCreate)
-                let componentToCreateBody = ClientRuntime.HttpBody.data(componentToCreateData)
-                input.builder.withBody(componentToCreateBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let componentToCreateData = "{}".data(using: .utf8)!
-                    let componentToCreateBody = ClientRuntime.HttpBody.data(componentToCreateData)
-                    input.builder.withBody(componentToCreateBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateComponentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateComponentOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension CreateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentToCreate
@@ -3143,47 +3102,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CreateFormInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateFormInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateFormInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateFormOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let formToCreate = input.operationInput.formToCreate {
-                let formToCreateData = try encoder.encode(formToCreate)
-                let formToCreateBody = ClientRuntime.HttpBody.data(formToCreateData)
-                input.builder.withBody(formToCreateBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let formToCreateData = "{}".data(using: .utf8)!
-                    let formToCreateBody = ClientRuntime.HttpBody.data(formToCreateData)
-                    input.builder.withBody(formToCreateBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateFormInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateFormOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension CreateFormInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formToCreate
@@ -3421,47 +3339,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct CreateThemeInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateThemeInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CreateThemeInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateThemeOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let themeToCreate = input.operationInput.themeToCreate {
-                let themeToCreateData = try encoder.encode(themeToCreate)
-                let themeToCreateBody = ClientRuntime.HttpBody.data(themeToCreateData)
-                input.builder.withBody(themeToCreateBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let themeToCreateData = "{}".data(using: .utf8)!
-                    let themeToCreateBody = ClientRuntime.HttpBody.data(themeToCreateData)
-                    input.builder.withBody(themeToCreateBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CreateThemeInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateThemeOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension CreateThemeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case themeToCreate
@@ -3826,47 +3703,6 @@ enum DeleteThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-public struct ExchangeCodeForTokenInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ExchangeCodeForTokenInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<ExchangeCodeForTokenInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ExchangeCodeForTokenOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let request = input.operationInput.request {
-                let requestData = try encoder.encode(request)
-                let requestBody = ClientRuntime.HttpBody.data(requestData)
-                input.builder.withBody(requestBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let requestData = "{}".data(using: .utf8)!
-                    let requestBody = ClientRuntime.HttpBody.data(requestData)
-                    input.builder.withBody(requestBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<ExchangeCodeForTokenInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<ExchangeCodeForTokenOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension ExchangeCodeForTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case request
@@ -7523,47 +7359,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct PutMetadataFlagInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutMetadataFlagInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutMetadataFlagInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutMetadataFlagOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let body = input.operationInput.body {
-                let bodyData = try encoder.encode(body)
-                let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-                input.builder.withBody(bodyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let bodyData = "{}".data(using: .utf8)!
-                    let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-                    input.builder.withBody(bodyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutMetadataFlagInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutMetadataFlagOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension PutMetadataFlagInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body
@@ -7765,47 +7560,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct RefreshTokenInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "RefreshTokenInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<RefreshTokenInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<RefreshTokenOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let refreshTokenBody = input.operationInput.refreshTokenBody {
-                let refreshTokenBodyData = try encoder.encode(refreshTokenBody)
-                let refreshTokenBodyBody = ClientRuntime.HttpBody.data(refreshTokenBodyData)
-                input.builder.withBody(refreshTokenBodyBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let refreshTokenBodyData = "{}".data(using: .utf8)!
-                    let refreshTokenBodyBody = ClientRuntime.HttpBody.data(refreshTokenBodyData)
-                    input.builder.withBody(refreshTokenBodyBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<RefreshTokenInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<RefreshTokenOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension RefreshTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case refreshTokenBody
@@ -8399,47 +8153,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct StartCodegenJobInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartCodegenJobInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartCodegenJobInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartCodegenJobOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let codegenJobToCreate = input.operationInput.codegenJobToCreate {
-                let codegenJobToCreateData = try encoder.encode(codegenJobToCreate)
-                let codegenJobToCreateBody = ClientRuntime.HttpBody.data(codegenJobToCreateData)
-                input.builder.withBody(codegenJobToCreateBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let codegenJobToCreateData = "{}".data(using: .utf8)!
-                    let codegenJobToCreateBody = ClientRuntime.HttpBody.data(codegenJobToCreateData)
-                    input.builder.withBody(codegenJobToCreateBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartCodegenJobInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartCodegenJobOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension StartCodegenJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case codegenJobToCreate
@@ -9315,47 +9028,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct UpdateComponentInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateComponentInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateComponentInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateComponentOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let updatedComponent = input.operationInput.updatedComponent {
-                let updatedComponentData = try encoder.encode(updatedComponent)
-                let updatedComponentBody = ClientRuntime.HttpBody.data(updatedComponentData)
-                input.builder.withBody(updatedComponentBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let updatedComponentData = "{}".data(using: .utf8)!
-                    let updatedComponentBody = ClientRuntime.HttpBody.data(updatedComponentData)
-                    input.builder.withBody(updatedComponentBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateComponentInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateComponentOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UpdateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedComponent
@@ -9636,47 +9308,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct UpdateFormInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateFormInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateFormInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateFormOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let updatedForm = input.operationInput.updatedForm {
-                let updatedFormData = try encoder.encode(updatedForm)
-                let updatedFormBody = ClientRuntime.HttpBody.data(updatedFormData)
-                input.builder.withBody(updatedFormBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let updatedFormData = "{}".data(using: .utf8)!
-                    let updatedFormBody = ClientRuntime.HttpBody.data(updatedFormData)
-                    input.builder.withBody(updatedFormBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateFormInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateFormOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UpdateFormInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedForm
@@ -9908,47 +9539,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct UpdateThemeInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateThemeInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateThemeInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateThemeOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let updatedTheme = input.operationInput.updatedTheme {
-                let updatedThemeData = try encoder.encode(updatedTheme)
-                let updatedThemeBody = ClientRuntime.HttpBody.data(updatedThemeData)
-                input.builder.withBody(updatedThemeBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let updatedThemeData = "{}".data(using: .utf8)!
-                    let updatedThemeBody = ClientRuntime.HttpBody.data(updatedThemeData)
-                    input.builder.withBody(updatedThemeBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateThemeInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateThemeOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension UpdateThemeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case updatedTheme

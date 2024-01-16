@@ -12,11 +12,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeFleetAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetAttributesOutput`
     public func describeFleetAttributesPaginated(input: DescribeFleetAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(input: input, inputKey: \DescribeFleetAttributesInput.nextToken, outputKey: \DescribeFleetAttributesOutput.nextToken, paginationFunction: self.describeFleetAttributes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetAttributesInput, DescribeFleetAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetAttributes(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeFleetAttributesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFleetAttributesInput, Output == DescribeFleetAttributesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFleetAttributesInput, OperationStackOutput == DescribeFleetAttributesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetAttributesPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetAttributes]`
     /// - Returns: `[GameLiftClientTypes.FleetAttributes]`
@@ -51,11 +43,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeFleetCapacityInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetCapacityOutput`
     public func describeFleetCapacityPaginated(input: DescribeFleetCapacityInput) -> ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(input: input, inputKey: \DescribeFleetCapacityInput.nextToken, outputKey: \DescribeFleetCapacityOutput.nextToken, paginationFunction: self.describeFleetCapacity(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetCapacityInput, DescribeFleetCapacityOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetCapacity(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension DescribeFleetCapacityInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFleetCapacityInput, Output == DescribeFleetCapacityOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFleetCapacityInput, OperationStackOutput == DescribeFleetCapacityOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetCapacityPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetCapacity]`
     /// - Returns: `[GameLiftClientTypes.FleetCapacity]`
@@ -90,11 +74,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeFleetEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetEventsOutput`
     public func describeFleetEventsPaginated(input: DescribeFleetEventsInput) -> ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutput>(input: input, inputKey: \DescribeFleetEventsInput.nextToken, outputKey: \DescribeFleetEventsOutput.nextToken, paginationFunction: self.describeFleetEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetEventsInput, DescribeFleetEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetEvents(input:))
->>>>>>> main
     }
 }
 
@@ -109,11 +89,7 @@ extension DescribeFleetEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFleetEventsInput, Output == DescribeFleetEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFleetEventsInput, OperationStackOutput == DescribeFleetEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetEventsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Event]`
     /// - Returns: `[GameLiftClientTypes.Event]`
@@ -131,11 +107,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeFleetLocationAttributesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetLocationAttributesOutput`
     public func describeFleetLocationAttributesPaginated(input: DescribeFleetLocationAttributesInput) -> ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(input: input, inputKey: \DescribeFleetLocationAttributesInput.nextToken, outputKey: \DescribeFleetLocationAttributesOutput.nextToken, paginationFunction: self.describeFleetLocationAttributes(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetLocationAttributes(input:))
->>>>>>> main
     }
 }
 
@@ -158,11 +130,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeFleetUtilizationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeFleetUtilizationOutput`
     public func describeFleetUtilizationPaginated(input: DescribeFleetUtilizationInput) -> ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(input: input, inputKey: \DescribeFleetUtilizationInput.nextToken, outputKey: \DescribeFleetUtilizationOutput.nextToken, paginationFunction: self.describeFleetUtilization(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeFleetUtilization(input:))
->>>>>>> main
     }
 }
 
@@ -175,11 +143,7 @@ extension DescribeFleetUtilizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeFleetUtilizationInput, Output == DescribeFleetUtilizationOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeFleetUtilizationInput, OperationStackOutput == DescribeFleetUtilizationOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeFleetUtilizationPaginated`
     /// to access the nested member `[GameLiftClientTypes.FleetUtilization]`
     /// - Returns: `[GameLiftClientTypes.FleetUtilization]`
@@ -197,11 +161,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeGameServerInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameServerInstancesOutput`
     public func describeGameServerInstancesPaginated(input: DescribeGameServerInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(input: input, inputKey: \DescribeGameServerInstancesInput.nextToken, outputKey: \DescribeGameServerInstancesOutput.nextToken, paginationFunction: self.describeGameServerInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeGameServerInstances(input:))
->>>>>>> main
     }
 }
 
@@ -215,11 +175,7 @@ extension DescribeGameServerInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGameServerInstancesInput, Output == DescribeGameServerInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGameServerInstancesInput, OperationStackOutput == DescribeGameServerInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGameServerInstancesPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServerInstance]`
     /// - Returns: `[GameLiftClientTypes.GameServerInstance]`
@@ -237,11 +193,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeGameSessionDetailsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionDetailsOutput`
     public func describeGameSessionDetailsPaginated(input: DescribeGameSessionDetailsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(input: input, inputKey: \DescribeGameSessionDetailsInput.nextToken, outputKey: \DescribeGameSessionDetailsOutput.nextToken, paginationFunction: self.describeGameSessionDetails(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeGameSessionDetails(input:))
->>>>>>> main
     }
 }
 
@@ -258,11 +210,7 @@ extension DescribeGameSessionDetailsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGameSessionDetailsInput, Output == DescribeGameSessionDetailsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGameSessionDetailsInput, OperationStackOutput == DescribeGameSessionDetailsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionDetailsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSessionDetail]`
     /// - Returns: `[GameLiftClientTypes.GameSessionDetail]`
@@ -280,11 +228,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeGameSessionQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionQueuesOutput`
     public func describeGameSessionQueuesPaginated(input: DescribeGameSessionQueuesInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(input: input, inputKey: \DescribeGameSessionQueuesInput.nextToken, outputKey: \DescribeGameSessionQueuesOutput.nextToken, paginationFunction: self.describeGameSessionQueues(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeGameSessionQueues(input:))
->>>>>>> main
     }
 }
 
@@ -297,11 +241,7 @@ extension DescribeGameSessionQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGameSessionQueuesInput, Output == DescribeGameSessionQueuesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGameSessionQueuesInput, OperationStackOutput == DescribeGameSessionQueuesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionQueuesPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSessionQueue]`
     /// - Returns: `[GameLiftClientTypes.GameSessionQueue]`
@@ -319,11 +259,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeGameSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGameSessionsOutput`
     public func describeGameSessionsPaginated(input: DescribeGameSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutput>(input: input, inputKey: \DescribeGameSessionsInput.nextToken, outputKey: \DescribeGameSessionsOutput.nextToken, paginationFunction: self.describeGameSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeGameSessionsInput, DescribeGameSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeGameSessions(input:))
->>>>>>> main
     }
 }
 
@@ -340,11 +276,7 @@ extension DescribeGameSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeGameSessionsInput, Output == DescribeGameSessionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeGameSessionsInput, OperationStackOutput == DescribeGameSessionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeGameSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSession]`
     /// - Returns: `[GameLiftClientTypes.GameSession]`
@@ -362,11 +294,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancesOutput`
     public func describeInstancesPaginated(input: DescribeInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput>(input: input, inputKey: \DescribeInstancesInput.nextToken, outputKey: \DescribeInstancesOutput.nextToken, paginationFunction: self.describeInstances(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeInstancesInput, DescribeInstancesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstances(input:))
->>>>>>> main
     }
 }
 
@@ -381,11 +309,7 @@ extension DescribeInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeInstancesInput, Output == DescribeInstancesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeInstancesInput, OperationStackOutput == DescribeInstancesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeInstancesPaginated`
     /// to access the nested member `[GameLiftClientTypes.Instance]`
     /// - Returns: `[GameLiftClientTypes.Instance]`
@@ -403,11 +327,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeMatchmakingConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingConfigurationsOutput`
     public func describeMatchmakingConfigurationsPaginated(input: DescribeMatchmakingConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(input: input, inputKey: \DescribeMatchmakingConfigurationsInput.nextToken, outputKey: \DescribeMatchmakingConfigurationsOutput.nextToken, paginationFunction: self.describeMatchmakingConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMatchmakingConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -421,11 +341,7 @@ extension DescribeMatchmakingConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeMatchmakingConfigurationsInput, Output == DescribeMatchmakingConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeMatchmakingConfigurationsInput, OperationStackOutput == DescribeMatchmakingConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMatchmakingConfigurationsPaginated`
     /// to access the nested member `[GameLiftClientTypes.MatchmakingConfiguration]`
     /// - Returns: `[GameLiftClientTypes.MatchmakingConfiguration]`
@@ -443,11 +359,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeMatchmakingRuleSetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMatchmakingRuleSetsOutput`
     public func describeMatchmakingRuleSetsPaginated(input: DescribeMatchmakingRuleSetsInput) -> ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(input: input, inputKey: \DescribeMatchmakingRuleSetsInput.nextToken, outputKey: \DescribeMatchmakingRuleSetsOutput.nextToken, paginationFunction: self.describeMatchmakingRuleSets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMatchmakingRuleSets(input:))
->>>>>>> main
     }
 }
 
@@ -460,11 +372,7 @@ extension DescribeMatchmakingRuleSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeMatchmakingRuleSetsInput, Output == DescribeMatchmakingRuleSetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeMatchmakingRuleSetsInput, OperationStackOutput == DescribeMatchmakingRuleSetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeMatchmakingRuleSetsPaginated`
     /// to access the nested member `[GameLiftClientTypes.MatchmakingRuleSet]`
     /// - Returns: `[GameLiftClientTypes.MatchmakingRuleSet]`
@@ -482,11 +390,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribePlayerSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePlayerSessionsOutput`
     public func describePlayerSessionsPaginated(input: DescribePlayerSessionsInput) -> ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(input: input, inputKey: \DescribePlayerSessionsInput.nextToken, outputKey: \DescribePlayerSessionsOutput.nextToken, paginationFunction: self.describePlayerSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePlayerSessionsInput, DescribePlayerSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePlayerSessions(input:))
->>>>>>> main
     }
 }
 
@@ -502,11 +406,7 @@ extension DescribePlayerSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribePlayerSessionsInput, Output == DescribePlayerSessionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribePlayerSessionsInput, OperationStackOutput == DescribePlayerSessionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describePlayerSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.PlayerSession]`
     /// - Returns: `[GameLiftClientTypes.PlayerSession]`
@@ -524,11 +424,7 @@ extension GameLiftClient {
     ///     - input: A `[DescribeScalingPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingPoliciesOutput`
     public func describeScalingPoliciesPaginated(input: DescribeScalingPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(input: input, inputKey: \DescribeScalingPoliciesInput.nextToken, outputKey: \DescribeScalingPoliciesOutput.nextToken, paginationFunction: self.describeScalingPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeScalingPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -543,11 +439,7 @@ extension DescribeScalingPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeScalingPoliciesInput, Output == DescribeScalingPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeScalingPoliciesInput, OperationStackOutput == DescribeScalingPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeScalingPoliciesPaginated`
     /// to access the nested member `[GameLiftClientTypes.ScalingPolicy]`
     /// - Returns: `[GameLiftClientTypes.ScalingPolicy]`
@@ -565,11 +457,7 @@ extension GameLiftClient {
     ///     - input: A `[ListAliasesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutput`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \ListAliasesInput.nextToken, outputKey: \ListAliasesOutput.nextToken, paginationFunction: self.listAliases(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAliases(input:))
->>>>>>> main
     }
 }
 
@@ -583,11 +471,7 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAliasesInput, OperationStackOutput == ListAliasesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
     /// to access the nested member `[GameLiftClientTypes.Alias]`
     /// - Returns: `[GameLiftClientTypes.Alias]`
@@ -605,11 +489,7 @@ extension GameLiftClient {
     ///     - input: A `[ListBuildsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutput`
     public func listBuildsPaginated(input: ListBuildsInput) -> ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput>(input: input, inputKey: \ListBuildsInput.nextToken, outputKey: \ListBuildsOutput.nextToken, paginationFunction: self.listBuilds(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBuilds(input:))
->>>>>>> main
     }
 }
 
@@ -622,11 +502,7 @@ extension ListBuildsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuildsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListBuildsInput, OperationStackOutput == ListBuildsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBuildsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Build]`
     /// - Returns: `[GameLiftClientTypes.Build]`
@@ -644,11 +520,7 @@ extension GameLiftClient {
     ///     - input: A `[ListComputeInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComputeOutput`
     public func listComputePaginated(input: ListComputeInput) -> ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutput>(input: input, inputKey: \ListComputeInput.nextToken, outputKey: \ListComputeOutput.nextToken, paginationFunction: self.listCompute(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListComputeInput, ListComputeOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCompute(input:))
->>>>>>> main
     }
 }
 
@@ -662,11 +534,7 @@ extension ListComputeInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListComputeInput, Output == ListComputeOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListComputeInput, OperationStackOutput == ListComputeOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComputePaginated`
     /// to access the nested member `[GameLiftClientTypes.Compute]`
     /// - Returns: `[GameLiftClientTypes.Compute]`
@@ -684,11 +552,7 @@ extension GameLiftClient {
     ///     - input: A `[ListFleetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFleetsOutput`
     public func listFleetsPaginated(input: ListFleetsInput) -> ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \ListFleetsInput.nextToken, outputKey: \ListFleetsOutput.nextToken, paginationFunction: self.listFleets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFleetsInput, ListFleetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFleets(input:))
->>>>>>> main
     }
 }
 
@@ -702,11 +566,7 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFleetsInput, OperationStackOutput == ListFleetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFleetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -724,11 +584,7 @@ extension GameLiftClient {
     ///     - input: A `[ListGameServerGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGameServerGroupsOutput`
     public func listGameServerGroupsPaginated(input: ListGameServerGroupsInput) -> ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutput>(input: input, inputKey: \ListGameServerGroupsInput.nextToken, outputKey: \ListGameServerGroupsOutput.nextToken, paginationFunction: self.listGameServerGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGameServerGroupsInput, ListGameServerGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGameServerGroups(input:))
->>>>>>> main
     }
 }
 
@@ -740,11 +596,7 @@ extension ListGameServerGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGameServerGroupsInput, Output == ListGameServerGroupsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGameServerGroupsInput, OperationStackOutput == ListGameServerGroupsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGameServerGroupsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServerGroup]`
     /// - Returns: `[GameLiftClientTypes.GameServerGroup]`
@@ -762,11 +614,7 @@ extension GameLiftClient {
     ///     - input: A `[ListGameServersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGameServersOutput`
     public func listGameServersPaginated(input: ListGameServersInput) -> ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutput>(input: input, inputKey: \ListGameServersInput.nextToken, outputKey: \ListGameServersOutput.nextToken, paginationFunction: self.listGameServers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGameServersInput, ListGameServersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGameServers(input:))
->>>>>>> main
     }
 }
 
@@ -780,11 +628,7 @@ extension ListGameServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGameServersInput, Output == ListGameServersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGameServersInput, OperationStackOutput == ListGameServersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGameServersPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameServer]`
     /// - Returns: `[GameLiftClientTypes.GameServer]`
@@ -802,11 +646,7 @@ extension GameLiftClient {
     ///     - input: A `[ListLocationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLocationsOutput`
     public func listLocationsPaginated(input: ListLocationsInput) -> ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput>(input: input, inputKey: \ListLocationsInput.nextToken, outputKey: \ListLocationsOutput.nextToken, paginationFunction: self.listLocations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListLocationsInput, ListLocationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLocations(input:))
->>>>>>> main
     }
 }
 
@@ -819,11 +659,7 @@ extension ListLocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListLocationsInput, Output == ListLocationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListLocationsInput, OperationStackOutput == ListLocationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listLocationsPaginated`
     /// to access the nested member `[GameLiftClientTypes.LocationModel]`
     /// - Returns: `[GameLiftClientTypes.LocationModel]`
@@ -841,11 +677,7 @@ extension GameLiftClient {
     ///     - input: A `[ListScriptsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScriptsOutput`
     public func listScriptsPaginated(input: ListScriptsInput) -> ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutput>(input: input, inputKey: \ListScriptsInput.nextToken, outputKey: \ListScriptsOutput.nextToken, paginationFunction: self.listScripts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListScriptsInput, ListScriptsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScripts(input:))
->>>>>>> main
     }
 }
 
@@ -857,11 +689,7 @@ extension ListScriptsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListScriptsInput, Output == ListScriptsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListScriptsInput, OperationStackOutput == ListScriptsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listScriptsPaginated`
     /// to access the nested member `[GameLiftClientTypes.Script]`
     /// - Returns: `[GameLiftClientTypes.Script]`
@@ -879,11 +707,7 @@ extension GameLiftClient {
     ///     - input: A `[SearchGameSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchGameSessionsOutput`
     public func searchGameSessionsPaginated(input: SearchGameSessionsInput) -> ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutput>(input: input, inputKey: \SearchGameSessionsInput.nextToken, outputKey: \SearchGameSessionsOutput.nextToken, paginationFunction: self.searchGameSessions(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchGameSessionsInput, SearchGameSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchGameSessions(input:))
->>>>>>> main
     }
 }
 
@@ -900,11 +724,7 @@ extension SearchGameSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchGameSessionsInput, Output == SearchGameSessionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchGameSessionsInput, OperationStackOutput == SearchGameSessionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchGameSessionsPaginated`
     /// to access the nested member `[GameLiftClientTypes.GameSession]`
     /// - Returns: `[GameLiftClientTypes.GameSession]`

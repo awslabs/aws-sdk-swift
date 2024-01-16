@@ -1944,8 +1944,6 @@ extension CreateComponentTypeInputBody: Swift.Decodable {
         propertyGroups = propertyGroupsDecoded0
         let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
         componentTypeName = componentTypeNameDecoded
-<<<<<<< HEAD
-=======
         let compositeComponentTypesContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.CompositeComponentTypeRequest?].self, forKey: .compositeComponentTypes)
         var compositeComponentTypesDecoded0: [Swift.String:IoTTwinMakerClientTypes.CompositeComponentTypeRequest]? = nil
         if let compositeComponentTypesContainer = compositeComponentTypesContainer {
@@ -1957,7 +1955,6 @@ extension CreateComponentTypeInputBody: Swift.Decodable {
             }
         }
         compositeComponentTypes = compositeComponentTypesDecoded0
->>>>>>> main
     }
 }
 
@@ -2294,8 +2291,6 @@ enum CreateEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateMetadataTransferJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -2484,7 +2479,6 @@ enum CreateMetadataTransferJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
->>>>>>> main
 extension CreateSceneInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case capabilities
@@ -3716,8 +3710,6 @@ extension DeleteWorkspaceInputBody: Swift.Decodable {
 
 extension DeleteWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-<<<<<<< HEAD
-=======
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DeleteWorkspaceOutputBody = try responseDecoder.decode(responseBody: data)
@@ -3725,15 +3717,10 @@ extension DeleteWorkspaceOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.message = nil
         }
->>>>>>> main
     }
 }
 
 public struct DeleteWorkspaceOutput: Swift.Equatable {
-<<<<<<< HEAD
-
-    public init() { }
-=======
     /// The string that specifies the delete result for the workspace.
     public var message: Swift.String?
 
@@ -3759,7 +3746,6 @@ extension DeleteWorkspaceOutputBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
->>>>>>> main
 }
 
 enum DeleteWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -3777,8 +3763,6 @@ enum DeleteWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTTwinMakerClientTypes.DestinationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case iotTwinMakerConfiguration
@@ -3870,7 +3854,6 @@ extension IoTTwinMakerClientTypes {
     }
 }
 
->>>>>>> main
 extension IoTTwinMakerClientTypes.EntityPropertyReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName
@@ -4354,8 +4337,6 @@ enum ExecuteQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTTwinMakerClientTypes.FilterByAsset: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assetExternalId
@@ -4558,7 +4539,6 @@ extension IoTTwinMakerClientTypes {
 
 }
 
->>>>>>> main
 extension IoTTwinMakerClientTypes.FunctionRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case implementedBy
@@ -5007,21 +4987,6 @@ enum GetComponentTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum GetComponentTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension GetEntityInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let workspaceId = workspaceId else {
@@ -5066,10 +5031,7 @@ extension GetEntityOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetEntityOutputBody = try responseDecoder.decode(responseBody: data)
-<<<<<<< HEAD
-=======
             self.areAllComponentsReturned = output.areAllComponentsReturned
->>>>>>> main
             self.arn = output.arn
             self.components = output.components
             self.creationDateTime = output.creationDateTime
@@ -5101,11 +5063,8 @@ extension GetEntityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetEntityOutput: Swift.Equatable {
-<<<<<<< HEAD
-=======
     /// This flag notes whether all components are returned in the API response. The maximum number of components returned is 30.
     public var areAllComponentsReturned: Swift.Bool?
->>>>>>> main
     /// The ARN of the entity.
     /// This member is required.
     public var arn: Swift.String?
@@ -5456,21 +5415,6 @@ enum GetMetadataTransferJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum GetEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -7394,8 +7338,6 @@ enum ListComponentTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListComponentsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentPath
@@ -7558,7 +7500,6 @@ enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension IoTTwinMakerClientTypes.ListEntitiesFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componenttypeid = "componentTypeId"
@@ -7780,8 +7721,6 @@ enum ListEntitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTTwinMakerClientTypes.ListMetadataTransferJobsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sdkUnknown
@@ -8191,7 +8130,6 @@ enum ListPropertiesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListScenesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -8927,8 +8865,6 @@ enum ListWorkspacesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension IoTTwinMakerClientTypes.MetadataTransferJobProgress: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failedCount
@@ -9186,7 +9122,6 @@ extension IoTTwinMakerClientTypes {
 
 }
 
->>>>>>> main
 extension IoTTwinMakerClientTypes {
     public enum Order: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ascending
@@ -12261,8 +12196,6 @@ extension UpdateComponentTypeInputBody: Swift.Decodable {
         propertyGroups = propertyGroupsDecoded0
         let componentTypeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentTypeName)
         componentTypeName = componentTypeNameDecoded
-<<<<<<< HEAD
-=======
         let compositeComponentTypesContainer = try containerValues.decodeIfPresent([Swift.String: IoTTwinMakerClientTypes.CompositeComponentTypeRequest?].self, forKey: .compositeComponentTypes)
         var compositeComponentTypesDecoded0: [Swift.String:IoTTwinMakerClientTypes.CompositeComponentTypeRequest]? = nil
         if let compositeComponentTypesContainer = compositeComponentTypesContainer {
@@ -12274,7 +12207,6 @@ extension UpdateComponentTypeInputBody: Swift.Decodable {
             }
         }
         compositeComponentTypes = compositeComponentTypesDecoded0
->>>>>>> main
     }
 }
 
@@ -13005,47 +12937,6 @@ extension UpdateWorkspaceInputBody: Swift.Decodable {
         role = roleDecoded
         let s3LocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Location)
         s3Location = s3LocationDecoded
-    }
-}
-
-extension UpdateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateWorkspaceOutputBody = try responseDecoder.decode(responseBody: data)
-            self.updateDateTime = output.updateDateTime
-        } else {
-            self.updateDateTime = nil
-        }
-    }
-}
-
-public struct UpdateWorkspaceOutput: Swift.Equatable {
-    /// The date and time of the current update.
-    /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
-
-    public init(
-        updateDateTime: ClientRuntime.Date? = nil
-    )
-    {
-        self.updateDateTime = updateDateTime
-    }
-}
-
-struct UpdateWorkspaceOutputBody: Swift.Equatable {
-    let updateDateTime: ClientRuntime.Date?
-}
-
-extension UpdateWorkspaceOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case updateDateTime
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
-        updateDateTime = updateDateTimeDecoded
     }
 }
 

@@ -12,11 +12,7 @@ extension KafkaClient {
     ///     - input: A `[ListClientVpcConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClientVpcConnectionsOutput`
     public func listClientVpcConnectionsPaginated(input: ListClientVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput>(input: input, inputKey: \ListClientVpcConnectionsInput.nextToken, outputKey: \ListClientVpcConnectionsOutput.nextToken, paginationFunction: self.listClientVpcConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClientVpcConnections(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListClientVpcConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClientVpcConnectionsInput, Output == ListClientVpcConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClientVpcConnectionsInput, OperationStackOutput == ListClientVpcConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClientVpcConnectionsPaginated`
     /// to access the nested member `[KafkaClientTypes.ClientVpcConnection]`
     /// - Returns: `[KafkaClientTypes.ClientVpcConnection]`
@@ -51,11 +43,7 @@ extension KafkaClient {
     ///     - input: A `[ListClusterOperationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsOutput`
     public func listClusterOperationsPaginated(input: ListClusterOperationsInput) -> ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput>(input: input, inputKey: \ListClusterOperationsInput.nextToken, outputKey: \ListClusterOperationsOutput.nextToken, paginationFunction: self.listClusterOperations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClusterOperationsInput, ListClusterOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterOperations(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension ListClusterOperationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClusterOperationsInput, Output == ListClusterOperationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClusterOperationsInput, OperationStackOutput == ListClusterOperationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClusterOperationsPaginated`
     /// to access the nested member `[KafkaClientTypes.ClusterOperationInfo]`
     /// - Returns: `[KafkaClientTypes.ClusterOperationInfo]`
@@ -90,11 +74,7 @@ extension KafkaClient {
     ///     - input: A `[ListClusterOperationsV2Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClusterOperationsV2Output`
     public func listClusterOperationsV2Paginated(input: ListClusterOperationsV2Input) -> ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2Output> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2Output>(input: input, inputKey: \ListClusterOperationsV2Input.nextToken, outputKey: \ListClusterOperationsV2Output.nextToken, paginationFunction: self.listClusterOperationsV2(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClusterOperationsV2Input, ListClusterOperationsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterOperationsV2(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +87,7 @@ extension ListClusterOperationsV2Input: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClusterOperationsV2Input, Output == ListClusterOperationsV2Output {
-=======
 extension PaginatorSequence where OperationStackInput == ListClusterOperationsV2Input, OperationStackOutput == ListClusterOperationsV2Output {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClusterOperationsV2Paginated`
     /// to access the nested member `[KafkaClientTypes.ClusterOperationV2Summary]`
     /// - Returns: `[KafkaClientTypes.ClusterOperationV2Summary]`
@@ -129,11 +105,7 @@ extension KafkaClient {
     ///     - input: A `[ListClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClustersOutput`
     public func listClustersPaginated(input: ListClustersInput) -> ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \ListClustersInput.nextToken, outputKey: \ListClustersOutput.nextToken, paginationFunction: self.listClusters(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClustersInput, ListClustersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusters(input:))
->>>>>>> main
     }
 }
 
@@ -146,11 +118,7 @@ extension ListClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClustersInput, Output == ListClustersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClustersInput, OperationStackOutput == ListClustersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClustersPaginated`
     /// to access the nested member `[KafkaClientTypes.ClusterInfo]`
     /// - Returns: `[KafkaClientTypes.ClusterInfo]`
@@ -168,11 +136,7 @@ extension KafkaClient {
     ///     - input: A `[ListClustersV2Input]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClustersV2Output`
     public func listClustersV2Paginated(input: ListClustersV2Input) -> ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2Output> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2Output>(input: input, inputKey: \ListClustersV2Input.nextToken, outputKey: \ListClustersV2Output.nextToken, paginationFunction: self.listClustersV2(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClustersV2Input, ListClustersV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClustersV2(input:))
->>>>>>> main
     }
 }
 
@@ -186,11 +150,7 @@ extension ListClustersV2Input: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClustersV2Input, Output == ListClustersV2Output {
-=======
 extension PaginatorSequence where OperationStackInput == ListClustersV2Input, OperationStackOutput == ListClustersV2Output {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClustersV2Paginated`
     /// to access the nested member `[KafkaClientTypes.Cluster]`
     /// - Returns: `[KafkaClientTypes.Cluster]`
@@ -208,11 +168,7 @@ extension KafkaClient {
     ///     - input: A `[ListConfigurationRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationRevisionsOutput`
     public func listConfigurationRevisionsPaginated(input: ListConfigurationRevisionsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(input: input, inputKey: \ListConfigurationRevisionsInput.nextToken, outputKey: \ListConfigurationRevisionsOutput.nextToken, paginationFunction: self.listConfigurationRevisions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationRevisions(input:))
->>>>>>> main
     }
 }
 
@@ -225,11 +181,7 @@ extension ListConfigurationRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListConfigurationRevisionsInput, Output == ListConfigurationRevisionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListConfigurationRevisionsInput, OperationStackOutput == ListConfigurationRevisionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationRevisionsPaginated`
     /// to access the nested member `[KafkaClientTypes.ConfigurationRevision]`
     /// - Returns: `[KafkaClientTypes.ConfigurationRevision]`
@@ -247,11 +199,7 @@ extension KafkaClient {
     ///     - input: A `[ListConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationsOutput`
     public func listConfigurationsPaginated(input: ListConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \ListConfigurationsInput.nextToken, outputKey: \ListConfigurationsOutput.nextToken, paginationFunction: self.listConfigurations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurations(input:))
->>>>>>> main
     }
 }
 
@@ -263,11 +211,7 @@ extension ListConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListConfigurationsInput, Output == ListConfigurationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListConfigurationsInput, OperationStackOutput == ListConfigurationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listConfigurationsPaginated`
     /// to access the nested member `[KafkaClientTypes.Configuration]`
     /// - Returns: `[KafkaClientTypes.Configuration]`
@@ -285,11 +229,7 @@ extension KafkaClient {
     ///     - input: A `[ListKafkaVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListKafkaVersionsOutput`
     public func listKafkaVersionsPaginated(input: ListKafkaVersionsInput) -> ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutput>(input: input, inputKey: \ListKafkaVersionsInput.nextToken, outputKey: \ListKafkaVersionsOutput.nextToken, paginationFunction: self.listKafkaVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListKafkaVersionsInput, ListKafkaVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listKafkaVersions(input:))
->>>>>>> main
     }
 }
 
@@ -301,11 +241,7 @@ extension ListKafkaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListKafkaVersionsInput, Output == ListKafkaVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListKafkaVersionsInput, OperationStackOutput == ListKafkaVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listKafkaVersionsPaginated`
     /// to access the nested member `[KafkaClientTypes.KafkaVersion]`
     /// - Returns: `[KafkaClientTypes.KafkaVersion]`
@@ -323,11 +259,7 @@ extension KafkaClient {
     ///     - input: A `[ListNodesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
     public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \ListNodesInput.nextToken, outputKey: \ListNodesOutput.nextToken, paginationFunction: self.listNodes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodes(input:))
->>>>>>> main
     }
 }
 
@@ -340,11 +272,7 @@ extension ListNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNodesInput, Output == ListNodesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNodesInput, OperationStackOutput == ListNodesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNodesPaginated`
     /// to access the nested member `[KafkaClientTypes.NodeInfo]`
     /// - Returns: `[KafkaClientTypes.NodeInfo]`
@@ -362,11 +290,7 @@ extension KafkaClient {
     ///     - input: A `[ListReplicatorsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReplicatorsOutput`
     public func listReplicatorsPaginated(input: ListReplicatorsInput) -> ClientRuntime.PaginatorSequence<ListReplicatorsInput, ListReplicatorsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListReplicatorsInput, ListReplicatorsOutput>(input: input, inputKey: \ListReplicatorsInput.nextToken, outputKey: \ListReplicatorsOutput.nextToken, paginationFunction: self.listReplicators(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListReplicatorsInput, ListReplicatorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReplicators(input:))
->>>>>>> main
     }
 }
 
@@ -379,11 +303,7 @@ extension ListReplicatorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListReplicatorsInput, Output == ListReplicatorsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListReplicatorsInput, OperationStackOutput == ListReplicatorsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReplicatorsPaginated`
     /// to access the nested member `[KafkaClientTypes.ReplicatorSummary]`
     /// - Returns: `[KafkaClientTypes.ReplicatorSummary]`
@@ -401,11 +321,7 @@ extension KafkaClient {
     ///     - input: A `[ListScramSecretsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScramSecretsOutput`
     public func listScramSecretsPaginated(input: ListScramSecretsInput) -> ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutput>(input: input, inputKey: \ListScramSecretsInput.nextToken, outputKey: \ListScramSecretsOutput.nextToken, paginationFunction: self.listScramSecrets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListScramSecretsInput, ListScramSecretsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScramSecrets(input:))
->>>>>>> main
     }
 }
 
@@ -418,11 +334,7 @@ extension ListScramSecretsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListScramSecretsInput, Output == ListScramSecretsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListScramSecretsInput, OperationStackOutput == ListScramSecretsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listScramSecretsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -440,11 +352,7 @@ extension KafkaClient {
     ///     - input: A `[ListVpcConnectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectionsOutput`
     public func listVpcConnectionsPaginated(input: ListVpcConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutput>(input: input, inputKey: \ListVpcConnectionsInput.nextToken, outputKey: \ListVpcConnectionsOutput.nextToken, paginationFunction: self.listVpcConnections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListVpcConnectionsInput, ListVpcConnectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listVpcConnections(input:))
->>>>>>> main
     }
 }
 
@@ -456,11 +364,7 @@ extension ListVpcConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListVpcConnectionsInput, Output == ListVpcConnectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListVpcConnectionsInput, OperationStackOutput == ListVpcConnectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listVpcConnectionsPaginated`
     /// to access the nested member `[KafkaClientTypes.VpcConnection]`
     /// - Returns: `[KafkaClientTypes.VpcConnection]`

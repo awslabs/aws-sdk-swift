@@ -2634,47 +2634,6 @@ extension CreateDeploymentConfigOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateDeploymentConfigOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDeploymentConfigOutputBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentConfigId = output.deploymentConfigId
-        } else {
-            self.deploymentConfigId = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateDeploymentConfig operation.
-public struct CreateDeploymentConfigOutput: Swift.Equatable {
-    /// A unique deployment configuration ID.
-    public var deploymentConfigId: Swift.String?
-
-    public init(
-        deploymentConfigId: Swift.String? = nil
-    )
-    {
-        self.deploymentConfigId = deploymentConfigId
-    }
-}
-
-struct CreateDeploymentConfigOutputBody: Swift.Equatable {
-    let deploymentConfigId: Swift.String?
-}
-
-extension CreateDeploymentConfigOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentConfigId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentConfigIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentConfigId)
-        deploymentConfigId = deploymentConfigIdDecoded
-    }
-}
-
 enum CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3029,47 +2988,6 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let terminationHookEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationHookEnabled)
         terminationHookEnabled = terminationHookEnabledDecoded
-    }
-}
-
-extension CreateDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.deploymentGroupId = output.deploymentGroupId
-        } else {
-            self.deploymentGroupId = nil
-        }
-    }
-}
-
-/// Represents the output of a CreateDeploymentGroup operation.
-public struct CreateDeploymentGroupOutput: Swift.Equatable {
-    /// A unique deployment group ID.
-    public var deploymentGroupId: Swift.String?
-
-    public init(
-        deploymentGroupId: Swift.String? = nil
-    )
-    {
-        self.deploymentGroupId = deploymentGroupId
-    }
-}
-
-struct CreateDeploymentGroupOutputBody: Swift.Equatable {
-    let deploymentGroupId: Swift.String?
-}
-
-extension CreateDeploymentGroupOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case deploymentGroupId
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let deploymentGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentGroupId)
-        deploymentGroupId = deploymentGroupIdDecoded
     }
 }
 
@@ -13940,10 +13858,7 @@ enum ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidInstanceStatusException": return try await InvalidInstanceStatusException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInstanceTypeException": return try await InvalidInstanceTypeException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "InvalidTargetFilterNameException": return try await InvalidTargetFilterNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -18331,56 +18246,6 @@ extension UpdateDeploymentGroupOutputBody: Swift.Decodable {
     }
 }
 
-extension UpdateDeploymentGroupOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateDeploymentGroupOutputBody = try responseDecoder.decode(responseBody: data)
-            self.hooksNotCleanedUp = output.hooksNotCleanedUp
-        } else {
-            self.hooksNotCleanedUp = nil
-        }
-    }
-}
-
-/// Represents the output of an UpdateDeploymentGroup operation.
-public struct UpdateDeploymentGroupOutput: Swift.Equatable {
-    /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon Web Services account. If the output contains data, CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon Web Services account.
-    public var hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
-
-    public init(
-        hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]? = nil
-    )
-    {
-        self.hooksNotCleanedUp = hooksNotCleanedUp
-    }
-}
-
-struct UpdateDeploymentGroupOutputBody: Swift.Equatable {
-    let hooksNotCleanedUp: [CodeDeployClientTypes.AutoScalingGroup]?
-}
-
-extension UpdateDeploymentGroupOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case hooksNotCleanedUp
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let hooksNotCleanedUpContainer = try containerValues.decodeIfPresent([CodeDeployClientTypes.AutoScalingGroup?].self, forKey: .hooksNotCleanedUp)
-        var hooksNotCleanedUpDecoded0:[CodeDeployClientTypes.AutoScalingGroup]? = nil
-        if let hooksNotCleanedUpContainer = hooksNotCleanedUpContainer {
-            hooksNotCleanedUpDecoded0 = [CodeDeployClientTypes.AutoScalingGroup]()
-            for structure0 in hooksNotCleanedUpContainer {
-                if let structure0 = structure0 {
-                    hooksNotCleanedUpDecoded0?.append(structure0)
-                }
-            }
-        }
-        hooksNotCleanedUp = hooksNotCleanedUpDecoded0
-    }
-}
-
 enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -18421,8 +18286,6 @@ enum UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
         }
     }
 }
-<<<<<<< HEAD
-=======
 
 extension CodeDeployClientTypes.ZonalConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
@@ -18478,4 +18341,3 @@ extension CodeDeployClientTypes {
     }
 
 }
->>>>>>> main

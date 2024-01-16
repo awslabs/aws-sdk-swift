@@ -12,11 +12,7 @@ extension Macie2Client {
     ///     - input: A `[DescribeBucketsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeBucketsOutput`
     public func describeBucketsPaginated(input: DescribeBucketsInput) -> ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutput>(input: input, inputKey: \DescribeBucketsInput.nextToken, outputKey: \DescribeBucketsOutput.nextToken, paginationFunction: self.describeBuckets(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeBucketsInput, DescribeBucketsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeBuckets(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension DescribeBucketsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeBucketsInput, Output == DescribeBucketsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeBucketsInput, OperationStackOutput == DescribeBucketsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeBucketsPaginated`
     /// to access the nested member `[Macie2ClientTypes.BucketMetadata]`
     /// - Returns: `[Macie2ClientTypes.BucketMetadata]`
@@ -52,11 +44,7 @@ extension Macie2Client {
     ///     - input: A `[GetUsageStatisticsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetUsageStatisticsOutput`
     public func getUsageStatisticsPaginated(input: GetUsageStatisticsInput) -> ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput>(input: input, inputKey: \GetUsageStatisticsInput.nextToken, outputKey: \GetUsageStatisticsOutput.nextToken, paginationFunction: self.getUsageStatistics(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetUsageStatisticsInput, GetUsageStatisticsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getUsageStatistics(input:))
->>>>>>> main
     }
 }
 
@@ -71,11 +59,7 @@ extension GetUsageStatisticsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetUsageStatisticsInput, Output == GetUsageStatisticsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetUsageStatisticsInput, OperationStackOutput == GetUsageStatisticsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getUsageStatisticsPaginated`
     /// to access the nested member `[Macie2ClientTypes.UsageRecord]`
     /// - Returns: `[Macie2ClientTypes.UsageRecord]`
@@ -93,11 +77,7 @@ extension Macie2Client {
     ///     - input: A `[ListAllowListsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAllowListsOutput`
     public func listAllowListsPaginated(input: ListAllowListsInput) -> ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutput>(input: input, inputKey: \ListAllowListsInput.nextToken, outputKey: \ListAllowListsOutput.nextToken, paginationFunction: self.listAllowLists(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAllowListsInput, ListAllowListsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAllowLists(input:))
->>>>>>> main
     }
 }
 
@@ -109,11 +89,7 @@ extension ListAllowListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAllowListsInput, Output == ListAllowListsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAllowListsInput, OperationStackOutput == ListAllowListsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAllowListsPaginated`
     /// to access the nested member `[Macie2ClientTypes.AllowListSummary]`
     /// - Returns: `[Macie2ClientTypes.AllowListSummary]`
@@ -131,11 +107,7 @@ extension Macie2Client {
     ///     - input: A `[ListClassificationJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationJobsOutput`
     public func listClassificationJobsPaginated(input: ListClassificationJobsInput) -> ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutput>(input: input, inputKey: \ListClassificationJobsInput.nextToken, outputKey: \ListClassificationJobsOutput.nextToken, paginationFunction: self.listClassificationJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClassificationJobsInput, ListClassificationJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClassificationJobs(input:))
->>>>>>> main
     }
 }
 
@@ -149,11 +121,7 @@ extension ListClassificationJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClassificationJobsInput, Output == ListClassificationJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClassificationJobsInput, OperationStackOutput == ListClassificationJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClassificationJobsPaginated`
     /// to access the nested member `[Macie2ClientTypes.JobSummary]`
     /// - Returns: `[Macie2ClientTypes.JobSummary]`
@@ -171,11 +139,7 @@ extension Macie2Client {
     ///     - input: A `[ListClassificationScopesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClassificationScopesOutput`
     public func listClassificationScopesPaginated(input: ListClassificationScopesInput) -> ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutput>(input: input, inputKey: \ListClassificationScopesInput.nextToken, outputKey: \ListClassificationScopesOutput.nextToken, paginationFunction: self.listClassificationScopes(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClassificationScopesInput, ListClassificationScopesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClassificationScopes(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +151,7 @@ extension ListClassificationScopesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClassificationScopesInput, Output == ListClassificationScopesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClassificationScopesInput, OperationStackOutput == ListClassificationScopesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClassificationScopesPaginated`
     /// to access the nested member `[Macie2ClientTypes.ClassificationScopeSummary]`
     /// - Returns: `[Macie2ClientTypes.ClassificationScopeSummary]`
@@ -209,11 +169,7 @@ extension Macie2Client {
     ///     - input: A `[ListCustomDataIdentifiersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCustomDataIdentifiersOutput`
     public func listCustomDataIdentifiersPaginated(input: ListCustomDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput>(input: input, inputKey: \ListCustomDataIdentifiersInput.nextToken, outputKey: \ListCustomDataIdentifiersOutput.nextToken, paginationFunction: self.listCustomDataIdentifiers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomDataIdentifiers(input:))
->>>>>>> main
     }
 }
 
@@ -225,11 +181,7 @@ extension ListCustomDataIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCustomDataIdentifiersInput, Output == ListCustomDataIdentifiersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCustomDataIdentifiersInput, OperationStackOutput == ListCustomDataIdentifiersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCustomDataIdentifiersPaginated`
     /// to access the nested member `[Macie2ClientTypes.CustomDataIdentifierSummary]`
     /// - Returns: `[Macie2ClientTypes.CustomDataIdentifierSummary]`
@@ -247,11 +199,7 @@ extension Macie2Client {
     ///     - input: A `[ListFindingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsOutput`
     public func listFindingsPaginated(input: ListFindingsInput) -> ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \ListFindingsInput.nextToken, outputKey: \ListFindingsOutput.nextToken, paginationFunction: self.listFindings(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFindingsInput, ListFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindings(input:))
->>>>>>> main
     }
 }
 
@@ -265,11 +213,7 @@ extension ListFindingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFindingsInput, Output == ListFindingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFindingsInput, OperationStackOutput == ListFindingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -287,11 +231,7 @@ extension Macie2Client {
     ///     - input: A `[ListFindingsFiltersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFindingsFiltersOutput`
     public func listFindingsFiltersPaginated(input: ListFindingsFiltersInput) -> ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutput>(input: input, inputKey: \ListFindingsFiltersInput.nextToken, outputKey: \ListFindingsFiltersOutput.nextToken, paginationFunction: self.listFindingsFilters(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFindingsFiltersInput, ListFindingsFiltersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFindingsFilters(input:))
->>>>>>> main
     }
 }
 
@@ -303,11 +243,7 @@ extension ListFindingsFiltersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListFindingsFiltersInput, Output == ListFindingsFiltersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListFindingsFiltersInput, OperationStackOutput == ListFindingsFiltersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listFindingsFiltersPaginated`
     /// to access the nested member `[Macie2ClientTypes.FindingsFilterListItem]`
     /// - Returns: `[Macie2ClientTypes.FindingsFilterListItem]`
@@ -325,11 +261,7 @@ extension Macie2Client {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
->>>>>>> main
     }
 }
 
@@ -341,11 +273,7 @@ extension ListInvitationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInvitationsInput, Output == ListInvitationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInvitationsInput, OperationStackOutput == ListInvitationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInvitationsPaginated`
     /// to access the nested member `[Macie2ClientTypes.Invitation]`
     /// - Returns: `[Macie2ClientTypes.Invitation]`
@@ -363,11 +291,7 @@ extension Macie2Client {
     ///     - input: A `[ListManagedDataIdentifiersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListManagedDataIdentifiersOutput`
     public func listManagedDataIdentifiersPaginated(input: ListManagedDataIdentifiersInput) -> ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput>(input: input, inputKey: \ListManagedDataIdentifiersInput.nextToken, outputKey: \ListManagedDataIdentifiersOutput.nextToken, paginationFunction: self.listManagedDataIdentifiers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listManagedDataIdentifiers(input:))
->>>>>>> main
     }
 }
 
@@ -378,11 +302,7 @@ extension ListManagedDataIdentifiersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListManagedDataIdentifiersInput, Output == ListManagedDataIdentifiersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListManagedDataIdentifiersInput, OperationStackOutput == ListManagedDataIdentifiersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listManagedDataIdentifiersPaginated`
     /// to access the nested member `[Macie2ClientTypes.ManagedDataIdentifierSummary]`
     /// - Returns: `[Macie2ClientTypes.ManagedDataIdentifierSummary]`
@@ -400,11 +320,7 @@ extension Macie2Client {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
->>>>>>> main
     }
 }
 
@@ -417,11 +333,7 @@ extension ListMembersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMembersInput, Output == ListMembersOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMembersInput, OperationStackOutput == ListMembersOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMembersPaginated`
     /// to access the nested member `[Macie2ClientTypes.Member]`
     /// - Returns: `[Macie2ClientTypes.Member]`
@@ -439,11 +351,7 @@ extension Macie2Client {
     ///     - input: A `[ListOrganizationAdminAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutput`
     public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutput.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
->>>>>>> main
     }
 }
 
@@ -455,11 +363,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, Output == ListOrganizationAdminAccountsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListOrganizationAdminAccountsInput, OperationStackOutput == ListOrganizationAdminAccountsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listOrganizationAdminAccountsPaginated`
     /// to access the nested member `[Macie2ClientTypes.AdminAccount]`
     /// - Returns: `[Macie2ClientTypes.AdminAccount]`
@@ -477,11 +381,7 @@ extension Macie2Client {
     ///     - input: A `[ListResourceProfileArtifactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileArtifactsOutput`
     public func listResourceProfileArtifactsPaginated(input: ListResourceProfileArtifactsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput>(input: input, inputKey: \ListResourceProfileArtifactsInput.nextToken, outputKey: \ListResourceProfileArtifactsOutput.nextToken, paginationFunction: self.listResourceProfileArtifacts(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceProfileArtifacts(input:))
->>>>>>> main
     }
 }
 
@@ -493,11 +393,7 @@ extension ListResourceProfileArtifactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListResourceProfileArtifactsInput, Output == ListResourceProfileArtifactsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListResourceProfileArtifactsInput, OperationStackOutput == ListResourceProfileArtifactsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceProfileArtifactsPaginated`
     /// to access the nested member `[Macie2ClientTypes.ResourceProfileArtifact]`
     /// - Returns: `[Macie2ClientTypes.ResourceProfileArtifact]`
@@ -515,11 +411,7 @@ extension Macie2Client {
     ///     - input: A `[ListResourceProfileDetectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListResourceProfileDetectionsOutput`
     public func listResourceProfileDetectionsPaginated(input: ListResourceProfileDetectionsInput) -> ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput>(input: input, inputKey: \ListResourceProfileDetectionsInput.nextToken, outputKey: \ListResourceProfileDetectionsOutput.nextToken, paginationFunction: self.listResourceProfileDetections(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceProfileDetections(input:))
->>>>>>> main
     }
 }
 
@@ -532,11 +424,7 @@ extension ListResourceProfileDetectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListResourceProfileDetectionsInput, Output == ListResourceProfileDetectionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListResourceProfileDetectionsInput, OperationStackOutput == ListResourceProfileDetectionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listResourceProfileDetectionsPaginated`
     /// to access the nested member `[Macie2ClientTypes.Detection]`
     /// - Returns: `[Macie2ClientTypes.Detection]`
@@ -554,11 +442,7 @@ extension Macie2Client {
     ///     - input: A `[ListSensitivityInspectionTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSensitivityInspectionTemplatesOutput`
     public func listSensitivityInspectionTemplatesPaginated(input: ListSensitivityInspectionTemplatesInput) -> ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput>(input: input, inputKey: \ListSensitivityInspectionTemplatesInput.nextToken, outputKey: \ListSensitivityInspectionTemplatesOutput.nextToken, paginationFunction: self.listSensitivityInspectionTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSensitivityInspectionTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -570,11 +454,7 @@ extension ListSensitivityInspectionTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSensitivityInspectionTemplatesInput, Output == ListSensitivityInspectionTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSensitivityInspectionTemplatesInput, OperationStackOutput == ListSensitivityInspectionTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSensitivityInspectionTemplatesPaginated`
     /// to access the nested member `[Macie2ClientTypes.SensitivityInspectionTemplatesEntry]`
     /// - Returns: `[Macie2ClientTypes.SensitivityInspectionTemplatesEntry]`
@@ -592,11 +472,7 @@ extension Macie2Client {
     ///     - input: A `[SearchResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutput`
     public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \SearchResourcesInput.nextToken, outputKey: \SearchResourcesOutput.nextToken, paginationFunction: self.searchResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchResources(input:))
->>>>>>> main
     }
 }
 
@@ -610,11 +486,7 @@ extension SearchResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchResourcesInput, OperationStackOutput == SearchResourcesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
     /// to access the nested member `[Macie2ClientTypes.MatchingResource]`
     /// - Returns: `[Macie2ClientTypes.MatchingResource]`

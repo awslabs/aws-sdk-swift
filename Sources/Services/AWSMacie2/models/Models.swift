@@ -9540,30 +9540,15 @@ extension GetRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetRevealConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
-<<<<<<< HEAD
-        } else {
-            self.configuration = nil
-=======
             self.retrievalConfiguration = output.retrievalConfiguration
         } else {
             self.configuration = nil
             self.retrievalConfiguration = nil
->>>>>>> main
         }
     }
 }
 
 public struct GetRevealConfigurationOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The current configuration settings and the status of the configuration for the account.
-    public var configuration: Macie2ClientTypes.RevealConfiguration?
-
-    public init(
-        configuration: Macie2ClientTypes.RevealConfiguration? = nil
-    )
-    {
-        self.configuration = configuration
-=======
     /// The KMS key that's used to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
     /// The access method and settings that are used to retrieve the sensitive data.
@@ -9576,36 +9561,26 @@ public struct GetRevealConfigurationOutput: Swift.Equatable {
     {
         self.configuration = configuration
         self.retrievalConfiguration = retrievalConfiguration
->>>>>>> main
     }
 }
 
 struct GetRevealConfigurationOutputBody: Swift.Equatable {
     let configuration: Macie2ClientTypes.RevealConfiguration?
-<<<<<<< HEAD
-=======
     let retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
->>>>>>> main
 }
 
 extension GetRevealConfigurationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
-<<<<<<< HEAD
-=======
         case retrievalConfiguration = "retrievalConfiguration"
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
-<<<<<<< HEAD
-=======
         let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RetrievalConfiguration.self, forKey: .retrievalConfiguration)
         retrievalConfiguration = retrievalConfigurationDecoded
->>>>>>> main
     }
 }
 
@@ -20133,8 +20108,6 @@ enum UpdateResourceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension Macie2ClientTypes.UpdateRetrievalConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case retrievalMode = "retrievalMode"
@@ -20181,7 +20154,6 @@ extension Macie2ClientTypes {
 
 }
 
->>>>>>> main
 extension UpdateRevealConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "configuration"
@@ -20292,49 +20264,6 @@ extension UpdateRevealConfigurationOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateRevealConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
-            self.configuration = output.configuration
-        } else {
-            self.configuration = nil
-        }
-    }
-}
-
-public struct UpdateRevealConfigurationOutput: Swift.Equatable {
-    /// The new configuration settings and the status of the configuration for the account.
-    public var configuration: Macie2ClientTypes.RevealConfiguration?
-
-    public init(
-        configuration: Macie2ClientTypes.RevealConfiguration? = nil
-    )
-    {
-        self.configuration = configuration
-    }
-}
-
-struct UpdateRevealConfigurationOutputBody: Swift.Equatable {
-    let configuration: Macie2ClientTypes.RevealConfiguration?
-}
-
-extension UpdateRevealConfigurationOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case configuration = "configuration"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let configurationDecoded = try containerValues.decodeIfPresent(Macie2ClientTypes.RevealConfiguration.self, forKey: .configuration)
-        configuration = configurationDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum UpdateRevealConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)

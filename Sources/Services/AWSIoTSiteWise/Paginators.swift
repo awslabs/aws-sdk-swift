@@ -12,11 +12,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[BatchGetAssetPropertyAggregatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyAggregatesOutput`
     public func batchGetAssetPropertyAggregatesPaginated(input: BatchGetAssetPropertyAggregatesInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutput>(input: input, inputKey: \BatchGetAssetPropertyAggregatesInput.nextToken, outputKey: \BatchGetAssetPropertyAggregatesOutput.nextToken, paginationFunction: self.batchGetAssetPropertyAggregates(input:))
-=======
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.batchGetAssetPropertyAggregates(input:))
->>>>>>> main
     }
 }
 
@@ -38,11 +34,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[BatchGetAssetPropertyValueInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueOutput`
     public func batchGetAssetPropertyValuePaginated(input: BatchGetAssetPropertyValueInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutput>(input: input, inputKey: \BatchGetAssetPropertyValueInput.nextToken, outputKey: \BatchGetAssetPropertyValueOutput.nextToken, paginationFunction: self.batchGetAssetPropertyValue(input:))
-=======
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.batchGetAssetPropertyValue(input:))
->>>>>>> main
     }
 }
 
@@ -63,11 +55,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[BatchGetAssetPropertyValueHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueHistoryOutput`
     public func batchGetAssetPropertyValueHistoryPaginated(input: BatchGetAssetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutput>(input: input, inputKey: \BatchGetAssetPropertyValueHistoryInput.nextToken, outputKey: \BatchGetAssetPropertyValueHistoryOutput.nextToken, paginationFunction: self.batchGetAssetPropertyValueHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.batchGetAssetPropertyValueHistory(input:))
->>>>>>> main
     }
 }
 
@@ -80,8 +68,6 @@ extension BatchGetAssetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 extension IoTSiteWiseClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ExecuteQueryOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -113,7 +99,6 @@ extension PaginatorSequence where OperationStackInput == ExecuteQueryInput, Oper
     }
 }
 extension IoTSiteWiseClient {
->>>>>>> main
     /// Paginate over `[GetAssetPropertyAggregatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -123,11 +108,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[GetAssetPropertyAggregatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyAggregatesOutput`
     public func getAssetPropertyAggregatesPaginated(input: GetAssetPropertyAggregatesInput) -> ClientRuntime.PaginatorSequence<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutput>(input: input, inputKey: \GetAssetPropertyAggregatesInput.nextToken, outputKey: \GetAssetPropertyAggregatesOutput.nextToken, paginationFunction: self.getAssetPropertyAggregates(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAssetPropertyAggregates(input:))
->>>>>>> main
     }
 }
 
@@ -148,11 +129,7 @@ extension GetAssetPropertyAggregatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetAssetPropertyAggregatesInput, Output == GetAssetPropertyAggregatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetAssetPropertyAggregatesInput, OperationStackOutput == GetAssetPropertyAggregatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyAggregatesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AggregatedValue]`
     /// - Returns: `[IoTSiteWiseClientTypes.AggregatedValue]`
@@ -170,11 +147,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[GetAssetPropertyValueHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyValueHistoryOutput`
     public func getAssetPropertyValueHistoryPaginated(input: GetAssetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutput>(input: input, inputKey: \GetAssetPropertyValueHistoryInput.nextToken, outputKey: \GetAssetPropertyValueHistoryOutput.nextToken, paginationFunction: self.getAssetPropertyValueHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getAssetPropertyValueHistory(input:))
->>>>>>> main
     }
 }
 
@@ -193,11 +166,7 @@ extension GetAssetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetAssetPropertyValueHistoryInput, Output == GetAssetPropertyValueHistoryOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetAssetPropertyValueHistoryInput, OperationStackOutput == GetAssetPropertyValueHistoryOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyValueHistoryPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertyValue]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetPropertyValue]`
@@ -215,11 +184,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[GetInterpolatedAssetPropertyValuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetInterpolatedAssetPropertyValuesOutput`
     public func getInterpolatedAssetPropertyValuesPaginated(input: GetInterpolatedAssetPropertyValuesInput) -> ClientRuntime.PaginatorSequence<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutput>(input: input, inputKey: \GetInterpolatedAssetPropertyValuesInput.nextToken, outputKey: \GetInterpolatedAssetPropertyValuesOutput.nextToken, paginationFunction: self.getInterpolatedAssetPropertyValues(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInterpolatedAssetPropertyValues(input:))
->>>>>>> main
     }
 }
 
@@ -242,11 +207,7 @@ extension GetInterpolatedAssetPropertyValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == GetInterpolatedAssetPropertyValuesInput, Output == GetInterpolatedAssetPropertyValuesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == GetInterpolatedAssetPropertyValuesInput, OperationStackOutput == GetInterpolatedAssetPropertyValuesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `getInterpolatedAssetPropertyValuesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
     /// - Returns: `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
@@ -264,11 +225,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAccessPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPoliciesOutput`
     public func listAccessPoliciesPaginated(input: ListAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput>(input: input, inputKey: \ListAccessPoliciesInput.nextToken, outputKey: \ListAccessPoliciesOutput.nextToken, paginationFunction: self.listAccessPolicies(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPolicies(input:))
->>>>>>> main
     }
 }
 
@@ -285,11 +242,7 @@ extension ListAccessPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAccessPoliciesInput, Output == ListAccessPoliciesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAccessPoliciesInput, OperationStackOutput == ListAccessPoliciesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAccessPoliciesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AccessPolicySummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AccessPolicySummary]`
@@ -298,8 +251,6 @@ extension PaginatorSequence where OperationStackInput == ListAccessPoliciesInput
     }
 }
 extension IoTSiteWiseClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListAssetModelCompositeModelsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -331,7 +282,6 @@ extension PaginatorSequence where OperationStackInput == ListAssetModelComposite
     }
 }
 extension IoTSiteWiseClient {
->>>>>>> main
     /// Paginate over `[ListAssetModelPropertiesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -341,11 +291,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssetModelPropertiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelPropertiesOutput`
     public func listAssetModelPropertiesPaginated(input: ListAssetModelPropertiesInput) -> ClientRuntime.PaginatorSequence<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutput>(input: input, inputKey: \ListAssetModelPropertiesInput.nextToken, outputKey: \ListAssetModelPropertiesOutput.nextToken, paginationFunction: self.listAssetModelProperties(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetModelProperties(input:))
->>>>>>> main
     }
 }
 
@@ -359,11 +305,7 @@ extension ListAssetModelPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetModelPropertiesInput, Output == ListAssetModelPropertiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetModelPropertiesInput, OperationStackOutput == ListAssetModelPropertiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetModelPropertiesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
@@ -381,11 +323,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssetModelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelsOutput`
     public func listAssetModelsPaginated(input: ListAssetModelsInput) -> ClientRuntime.PaginatorSequence<ListAssetModelsInput, ListAssetModelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetModelsInput, ListAssetModelsOutput>(input: input, inputKey: \ListAssetModelsInput.nextToken, outputKey: \ListAssetModelsOutput.nextToken, paginationFunction: self.listAssetModels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetModelsInput, ListAssetModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetModels(input:))
->>>>>>> main
     }
 }
 
@@ -398,11 +336,7 @@ extension ListAssetModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetModelsInput, Output == ListAssetModelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetModelsInput, OperationStackOutput == ListAssetModelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetModelsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetModelSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetModelSummary]`
@@ -420,11 +354,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssetPropertiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetPropertiesOutput`
     public func listAssetPropertiesPaginated(input: ListAssetPropertiesInput) -> ClientRuntime.PaginatorSequence<ListAssetPropertiesInput, ListAssetPropertiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetPropertiesInput, ListAssetPropertiesOutput>(input: input, inputKey: \ListAssetPropertiesInput.nextToken, outputKey: \ListAssetPropertiesOutput.nextToken, paginationFunction: self.listAssetProperties(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetPropertiesInput, ListAssetPropertiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetProperties(input:))
->>>>>>> main
     }
 }
 
@@ -438,11 +368,7 @@ extension ListAssetPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetPropertiesInput, Output == ListAssetPropertiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetPropertiesInput, OperationStackOutput == ListAssetPropertiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetPropertiesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertySummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetPropertySummary]`
@@ -460,11 +386,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssetRelationshipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetRelationshipsOutput`
     public func listAssetRelationshipsPaginated(input: ListAssetRelationshipsInput) -> ClientRuntime.PaginatorSequence<ListAssetRelationshipsInput, ListAssetRelationshipsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetRelationshipsInput, ListAssetRelationshipsOutput>(input: input, inputKey: \ListAssetRelationshipsInput.nextToken, outputKey: \ListAssetRelationshipsOutput.nextToken, paginationFunction: self.listAssetRelationships(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetRelationshipsInput, ListAssetRelationshipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetRelationships(input:))
->>>>>>> main
     }
 }
 
@@ -478,11 +400,7 @@ extension ListAssetRelationshipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetRelationshipsInput, Output == ListAssetRelationshipsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetRelationshipsInput, OperationStackOutput == ListAssetRelationshipsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetRelationshipsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
@@ -500,11 +418,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutput`
     public func listAssetsPaginated(input: ListAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \ListAssetsInput.nextToken, outputKey: \ListAssetsOutput.nextToken, paginationFunction: self.listAssets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssets(input:))
->>>>>>> main
     }
 }
 
@@ -518,11 +432,7 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetsInput, OperationStackOutput == ListAssetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssetSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssetSummary]`
@@ -540,11 +450,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListAssociatedAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAssetsOutput`
     public func listAssociatedAssetsPaginated(input: ListAssociatedAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAssetsInput, ListAssociatedAssetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociatedAssetsInput, ListAssociatedAssetsOutput>(input: input, inputKey: \ListAssociatedAssetsInput.nextToken, outputKey: \ListAssociatedAssetsOutput.nextToken, paginationFunction: self.listAssociatedAssets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociatedAssetsInput, ListAssociatedAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedAssets(input:))
->>>>>>> main
     }
 }
 
@@ -559,11 +465,7 @@ extension ListAssociatedAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssociatedAssetsInput, Output == ListAssociatedAssetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssociatedAssetsInput, OperationStackOutput == ListAssociatedAssetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAssetsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
@@ -581,11 +483,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListBulkImportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBulkImportJobsOutput`
     public func listBulkImportJobsPaginated(input: ListBulkImportJobsInput) -> ClientRuntime.PaginatorSequence<ListBulkImportJobsInput, ListBulkImportJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListBulkImportJobsInput, ListBulkImportJobsOutput>(input: input, inputKey: \ListBulkImportJobsInput.nextToken, outputKey: \ListBulkImportJobsOutput.nextToken, paginationFunction: self.listBulkImportJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListBulkImportJobsInput, ListBulkImportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBulkImportJobs(input:))
->>>>>>> main
     }
 }
 
@@ -598,11 +496,7 @@ extension ListBulkImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListBulkImportJobsInput, Output == ListBulkImportJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListBulkImportJobsInput, OperationStackOutput == ListBulkImportJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBulkImportJobsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.JobSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.JobSummary]`
@@ -611,8 +505,6 @@ extension PaginatorSequence where OperationStackInput == ListBulkImportJobsInput
     }
 }
 extension IoTSiteWiseClient {
-<<<<<<< HEAD
-=======
     /// Paginate over `[ListCompositionRelationshipsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -644,7 +536,6 @@ extension PaginatorSequence where OperationStackInput == ListCompositionRelation
     }
 }
 extension IoTSiteWiseClient {
->>>>>>> main
     /// Paginate over `[ListDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -654,11 +545,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListDashboardsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutput`
     public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutput.nextToken, paginationFunction: self.listDashboards(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDashboards(input:))
->>>>>>> main
     }
 }
 
@@ -671,11 +558,7 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDashboardsInput, OperationStackOutput == ListDashboardsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.DashboardSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.DashboardSummary]`
@@ -693,11 +576,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListGatewaysInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutput`
     public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutput.nextToken, paginationFunction: self.listGateways(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGateways(input:))
->>>>>>> main
     }
 }
 
@@ -709,11 +588,7 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListGatewaysInput, OperationStackOutput == ListGatewaysOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.GatewaySummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.GatewaySummary]`
@@ -731,11 +606,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListPortalsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPortalsOutput`
     public func listPortalsPaginated(input: ListPortalsInput) -> ClientRuntime.PaginatorSequence<ListPortalsInput, ListPortalsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPortalsInput, ListPortalsOutput>(input: input, inputKey: \ListPortalsInput.nextToken, outputKey: \ListPortalsOutput.nextToken, paginationFunction: self.listPortals(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPortalsInput, ListPortalsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPortals(input:))
->>>>>>> main
     }
 }
 
@@ -747,11 +618,7 @@ extension ListPortalsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPortalsInput, Output == ListPortalsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPortalsInput, OperationStackOutput == ListPortalsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPortalsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.PortalSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.PortalSummary]`
@@ -769,11 +636,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListProjectAssetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectAssetsOutput`
     public func listProjectAssetsPaginated(input: ListProjectAssetsInput) -> ClientRuntime.PaginatorSequence<ListProjectAssetsInput, ListProjectAssetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectAssetsInput, ListProjectAssetsOutput>(input: input, inputKey: \ListProjectAssetsInput.nextToken, outputKey: \ListProjectAssetsOutput.nextToken, paginationFunction: self.listProjectAssets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectAssetsInput, ListProjectAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjectAssets(input:))
->>>>>>> main
     }
 }
 
@@ -786,11 +649,7 @@ extension ListProjectAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProjectAssetsInput, Output == ListProjectAssetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProjectAssetsInput, OperationStackOutput == ListProjectAssetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectAssetsPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -808,11 +667,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
->>>>>>> main
     }
 }
 
@@ -825,11 +680,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.ProjectSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.ProjectSummary]`
@@ -847,11 +698,7 @@ extension IoTSiteWiseClient {
     ///     - input: A `[ListTimeSeriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTimeSeriesOutput`
     public func listTimeSeriesPaginated(input: ListTimeSeriesInput) -> ClientRuntime.PaginatorSequence<ListTimeSeriesInput, ListTimeSeriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListTimeSeriesInput, ListTimeSeriesOutput>(input: input, inputKey: \ListTimeSeriesInput.nextToken, outputKey: \ListTimeSeriesOutput.nextToken, paginationFunction: self.listTimeSeries(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListTimeSeriesInput, ListTimeSeriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTimeSeries(input:))
->>>>>>> main
     }
 }
 
@@ -866,11 +713,7 @@ extension ListTimeSeriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListTimeSeriesInput, Output == ListTimeSeriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListTimeSeriesInput, OperationStackOutput == ListTimeSeriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listTimeSeriesPaginated`
     /// to access the nested member `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
     /// - Returns: `[IoTSiteWiseClientTypes.TimeSeriesSummary]`

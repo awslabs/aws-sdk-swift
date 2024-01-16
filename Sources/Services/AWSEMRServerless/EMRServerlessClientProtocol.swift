@@ -25,11 +25,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Creates an application.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -44,11 +41,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Deletes an application. An application has to be in a stopped or created state in order to be deleted.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a specified application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
@@ -80,11 +71,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetDashboardForJobRun` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     ///
     /// - Parameter GetDashboardForJobRunInput : [no documentation found]
@@ -98,11 +86,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getDashboardForJobRun(input: GetDashboardForJobRunInput) async throws -> GetDashboardForJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetJobRun` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Displays detailed information about a job run.
     ///
     /// - Parameter GetJobRunInput : [no documentation found]
@@ -116,11 +101,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplications` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Lists applications based on a set of parameters.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -133,11 +115,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListJobRuns` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Lists job runs based on a set of parameters.
     ///
     /// - Parameter ListJobRunsInput : [no documentation found]
@@ -150,11 +129,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Lists the tags assigned to the resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -168,11 +144,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Starts a specified application and initializes initial capacity if configured.
     ///
     /// - Parameter StartApplicationInput : [no documentation found]
@@ -187,11 +160,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartJobRun` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Starts a job run.
     ///
     /// - Parameter StartJobRunInput : [no documentation found]
@@ -206,11 +176,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
     ///
     /// - Parameter StopApplicationInput : [no documentation found]
@@ -224,11 +191,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -242,11 +206,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Removes tags from resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -260,11 +221,8 @@ public protocol EMRServerlessClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `AwsToledoWebService` service.
     ///
->>>>>>> main
     /// Updates a specified application. An application has to be in a stopped or created state in order to be updated.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]

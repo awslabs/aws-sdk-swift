@@ -20,11 +20,8 @@ public protocol ApplicationCostProfilerClientProtocol {
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetReportDefinition` operation on the `AWSApplicationCostProfiler` service.
     ///
->>>>>>> main
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
     ///
     /// - Parameter GetReportDefinitionInput : [no documentation found]
@@ -39,11 +36,8 @@ public protocol ApplicationCostProfilerClientProtocol {
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     func getReportDefinition(input: GetReportDefinitionInput) async throws -> GetReportDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportApplicationUsage` operation on the `AWSApplicationCostProfiler` service.
     ///
->>>>>>> main
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
     ///
     /// - Parameter ImportApplicationUsageInput : [no documentation found]
@@ -58,11 +52,8 @@ public protocol ApplicationCostProfilerClientProtocol {
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     func importApplicationUsage(input: ImportApplicationUsageInput) async throws -> ImportApplicationUsageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListReportDefinitions` operation on the `AWSApplicationCostProfiler` service.
     ///
->>>>>>> main
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
     ///
     /// - Parameter ListReportDefinitionsInput : [no documentation found]
@@ -77,11 +68,8 @@ public protocol ApplicationCostProfilerClientProtocol {
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     func listReportDefinitions(input: ListReportDefinitionsInput) async throws -> ListReportDefinitionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutReportDefinition` operation on the `AWSApplicationCostProfiler` service.
     ///
->>>>>>> main
     /// Creates the report definition for a report in Application Cost Profiler.
     ///
     /// - Parameter PutReportDefinitionInput : [no documentation found]
@@ -97,11 +85,8 @@ public protocol ApplicationCostProfilerClientProtocol {
     /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
     /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateReportDefinition` operation on the `AWSApplicationCostProfiler` service.
     ///
->>>>>>> main
     /// Updates existing report in AWS Application Cost Profiler.
     ///
     /// - Parameter UpdateReportDefinitionInput : [no documentation found]

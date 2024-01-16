@@ -21,11 +21,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func createConfigurationSet(input: CreateConfigurationSetInput) async throws -> CreateConfigurationSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConfigurationSetEventDestination` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Create a new event destination in a configuration set.
     ///
     /// - Parameter CreateConfigurationSetEventDestinationInput : Create a new event destination in a configuration set.
@@ -42,11 +39,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func createConfigurationSetEventDestination(input: CreateConfigurationSetEventDestinationInput) async throws -> CreateConfigurationSetEventDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfigurationSet` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Deletes an existing configuration set.
     ///
     /// - Parameter DeleteConfigurationSetInput : [no documentation found]
@@ -61,11 +55,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func deleteConfigurationSet(input: DeleteConfigurationSetInput) async throws -> DeleteConfigurationSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConfigurationSetEventDestination` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Deletes an event destination in a configuration set.
     ///
     /// - Parameter DeleteConfigurationSetEventDestinationInput : [no documentation found]
@@ -80,11 +71,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func deleteConfigurationSetEventDestination(input: DeleteConfigurationSetEventDestinationInput) async throws -> DeleteConfigurationSetEventDestinationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetConfigurationSetEventDestinations` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
     ///
     /// - Parameter GetConfigurationSetEventDestinationsInput : [no documentation found]
@@ -99,11 +87,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func getConfigurationSetEventDestinations(input: GetConfigurationSetEventDestinationsInput) async throws -> GetConfigurationSetEventDestinationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListConfigurationSets` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region.
     ///
     /// - Parameter ListConfigurationSetsInput : [no documentation found]
@@ -117,11 +102,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendVoiceMessage` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Create a new voice message and send it to a recipient's phone number.
     ///
     /// - Parameter SendVoiceMessageInput : SendVoiceMessageRequest
@@ -135,11 +117,8 @@ public protocol PinpointSMSVoiceClientProtocol {
     /// - `InternalServiceErrorException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     /// - `TooManyRequestsException` : You've issued too many requests to the resource. Wait a few minutes, and then try again.
     func sendVoiceMessage(input: SendVoiceMessageInput) async throws -> SendVoiceMessageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConfigurationSetEventDestination` operation on the `PinpointSMSVoice` service.
     ///
->>>>>>> main
     /// Update an event destination in a configuration set. An event destination is a location that you publish information about your voice calls to. For example, you can log an event to an Amazon CloudWatch destination when a call fails.
     ///
     /// - Parameter UpdateConfigurationSetEventDestinationInput : UpdateConfigurationSetEventDestinationRequest

@@ -23,11 +23,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateApplicationVersion` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Creates an application version.
     ///
     /// - Parameter CreateApplicationVersionInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func createApplicationVersion(input: CreateApplicationVersionInput) async throws -> CreateApplicationVersionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCloudFormationChangeSet` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Creates an AWS CloudFormation change set for the given application.
     ///
     /// - Parameter CreateCloudFormationChangeSetInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func createCloudFormationChangeSet(input: CreateCloudFormationChangeSetInput) async throws -> CreateCloudFormationChangeSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateCloudFormationTemplate` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Creates an AWS CloudFormation template.
     ///
     /// - Parameter CreateCloudFormationTemplateInput : [no documentation found]
@@ -82,11 +73,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func createCloudFormationTemplate(input: CreateCloudFormationTemplateInput) async throws -> CreateCloudFormationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteApplication` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Deletes the specified application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -103,11 +91,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplication` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Gets the specified application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
@@ -123,11 +108,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetApplicationPolicy` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Retrieves the policy for the application.
     ///
     /// - Parameter GetApplicationPolicyInput : [no documentation found]
@@ -143,11 +125,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func getApplicationPolicy(input: GetApplicationPolicyInput) async throws -> GetApplicationPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetCloudFormationTemplate` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Gets the specified AWS CloudFormation template.
     ///
     /// - Parameter GetCloudFormationTemplateInput : [no documentation found]
@@ -163,11 +142,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func getCloudFormationTemplate(input: GetCloudFormationTemplateInput) async throws -> GetCloudFormationTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationDependencies` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Retrieves the list of applications nested in the containing application.
     ///
     /// - Parameter ListApplicationDependenciesInput : [no documentation found]
@@ -183,11 +159,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func listApplicationDependencies(input: ListApplicationDependenciesInput) async throws -> ListApplicationDependenciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplications` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Lists applications owned by the requester.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -202,11 +175,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `InternalServerErrorException` : The AWS Serverless Application Repository service encountered an internal error.
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListApplicationVersions` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Lists versions for the specified application.
     ///
     /// - Parameter ListApplicationVersionsInput : [no documentation found]
@@ -222,11 +192,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutApplicationPolicy` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Sets the permission policy for an application. For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions) .
     ///
     /// - Parameter PutApplicationPolicyInput : [no documentation found]
@@ -242,11 +209,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func putApplicationPolicy(input: PutApplicationPolicyInput) async throws -> PutApplicationPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UnshareApplication` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
     ///
     /// - Parameter UnshareApplicationInput : [no documentation found]
@@ -262,11 +226,8 @@ public protocol ServerlessApplicationRepositoryClientProtocol {
     /// - `NotFoundException` : The resource (for example, an access policy statement) specified in the request doesn't exist.
     /// - `TooManyRequestsException` : The client is sending more than the allowed number of requests per unit of time.
     func unshareApplication(input: UnshareApplicationInput) async throws -> UnshareApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateApplication` operation on the `ServerlessApplicationRepository` service.
     ///
->>>>>>> main
     /// Updates the specified application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]

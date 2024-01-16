@@ -12,11 +12,7 @@ extension SageMakerA2IRuntimeClient {
     ///     - input: A `[ListHumanLoopsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHumanLoopsOutput`
     public func listHumanLoopsPaginated(input: ListHumanLoopsInput) -> ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutput>(input: input, inputKey: \ListHumanLoopsInput.nextToken, outputKey: \ListHumanLoopsOutput.nextToken, paginationFunction: self.listHumanLoops(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListHumanLoopsInput, ListHumanLoopsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHumanLoops(input:))
->>>>>>> main
     }
 }
 
@@ -32,11 +28,7 @@ extension ListHumanLoopsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListHumanLoopsInput, Output == ListHumanLoopsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListHumanLoopsInput, OperationStackOutput == ListHumanLoopsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listHumanLoopsPaginated`
     /// to access the nested member `[SageMakerA2IRuntimeClientTypes.HumanLoopSummary]`
     /// - Returns: `[SageMakerA2IRuntimeClientTypes.HumanLoopSummary]`

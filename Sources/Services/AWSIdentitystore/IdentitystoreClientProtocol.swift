@@ -27,11 +27,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateGroupMembership` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
     /// - Parameter CreateGroupMembershipInput : [no documentation found]
@@ -53,11 +50,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createGroupMembership(input: CreateGroupMembershipInput) async throws -> CreateGroupMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUser` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Creates a user within the specified identity store.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -79,11 +73,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGroup` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Delete a group within an identity store given GroupId.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
@@ -104,11 +95,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGroupMembership` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Delete a membership within a group given MembershipId.
     ///
     /// - Parameter DeleteGroupMembershipInput : [no documentation found]
@@ -129,11 +117,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteGroupMembership(input: DeleteGroupMembershipInput) async throws -> DeleteGroupMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteUser` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Deletes a user within an identity store given UserId.
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
@@ -154,11 +139,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeGroup` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
@@ -174,11 +156,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeGroupMembership` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupMembershipInput : [no documentation found]
@@ -194,11 +173,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeUser` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
@@ -214,11 +190,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGroupId` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupIdInput : [no documentation found]
@@ -234,11 +207,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGroupMembershipId` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupMembershipIdInput : [no documentation found]
@@ -254,11 +224,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetUserId` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetUserIdInput : [no documentation found]
@@ -274,11 +241,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutput
-<<<<<<< HEAD
-=======
     /// Performs the `IsMemberInGroups` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter IsMemberInGroupsInput : [no documentation found]
@@ -294,11 +258,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListGroupMemberships` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsInput : [no documentation found]
@@ -314,11 +275,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListGroupMembershipsForMember` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
@@ -334,11 +292,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListGroups` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
@@ -354,11 +309,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListUsers` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
@@ -374,11 +326,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGroup` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
@@ -400,11 +349,8 @@ public protocol IdentitystoreClientProtocol {
     /// - `ServiceQuotaExceededException` : The request would cause the number of users or groups in the identity store to exceed the maximum allowed.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateUser` operation on the `AWSIdentityStore` service.
     ///
->>>>>>> main
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]

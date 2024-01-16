@@ -611,7 +611,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         case errors = "Errors"
         case lastUpdatedTime = "LastUpdatedTime"
         case name = "Name"
-        case options = "Options"
         case sheets = "Sheets"
         case status = "Status"
         case themeArn = "ThemeArn"
@@ -645,9 +644,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -712,8 +708,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -734,8 +728,6 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The descriptive name of the analysis.
         public var name: Swift.String?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Status associated with the analysis.
@@ -751,7 +743,6 @@ extension QuickSightClientTypes {
             errors: [QuickSightClientTypes.AnalysisError]? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil
@@ -764,7 +755,6 @@ extension QuickSightClientTypes {
             self.errors = errors
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
-            self.options = options
             self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
@@ -5278,8 +5268,6 @@ extension QuickSightClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case permissions = "Permissions"
@@ -5386,7 +5374,6 @@ extension QuickSightClientTypes {
 
 }
 
->>>>>>> main
 extension QuickSightClientTypes.AssetOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case timezone = "Timezone"
@@ -12603,11 +12590,8 @@ extension CreateDashboardInput: Swift.Encodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
-<<<<<<< HEAD
-=======
         case linkEntities = "LinkEntities"
         case linkSharingConfiguration = "LinkSharingConfiguration"
->>>>>>> main
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -12632,8 +12616,6 @@ extension CreateDashboardInput: Swift.Encodable {
                 try folderArnsContainer.encode(arn0)
             }
         }
-<<<<<<< HEAD
-=======
         if let linkEntities = linkEntities {
             var linkEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkEntities)
             for linkentityarn0 in linkEntities {
@@ -12643,7 +12625,6 @@ extension CreateDashboardInput: Swift.Encodable {
         if let linkSharingConfiguration = self.linkSharingConfiguration {
             try encodeContainer.encode(linkSharingConfiguration, forKey: .linkSharingConfiguration)
         }
->>>>>>> main
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -12708,13 +12689,10 @@ public struct CreateDashboardInput: Swift.Equatable {
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
     /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
     public var folderArns: [Swift.String]?
-<<<<<<< HEAD
-=======
     /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
     public var linkEntities: [Swift.String]?
     /// A structure that contains the permissions of a shareable link to the dashboard.
     public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
->>>>>>> main
     /// The display name of the dashboard.
     /// This member is required.
     public var name: Swift.String?
@@ -12739,11 +12717,8 @@ public struct CreateDashboardInput: Swift.Equatable {
         dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
         definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
         folderArns: [Swift.String]? = nil,
-<<<<<<< HEAD
-=======
         linkEntities: [Swift.String]? = nil,
         linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration? = nil,
->>>>>>> main
         name: Swift.String? = nil,
         parameters: QuickSightClientTypes.Parameters? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
@@ -12759,11 +12734,8 @@ public struct CreateDashboardInput: Swift.Equatable {
         self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
         self.folderArns = folderArns
-<<<<<<< HEAD
-=======
         self.linkEntities = linkEntities
         self.linkSharingConfiguration = linkSharingConfiguration
->>>>>>> main
         self.name = name
         self.parameters = parameters
         self.permissions = permissions
@@ -12787,11 +12759,8 @@ struct CreateDashboardInputBody: Swift.Equatable {
     let definition: QuickSightClientTypes.DashboardVersionDefinition?
     let validationStrategy: QuickSightClientTypes.ValidationStrategy?
     let folderArns: [Swift.String]?
-<<<<<<< HEAD
-=======
     let linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
     let linkEntities: [Swift.String]?
->>>>>>> main
 }
 
 extension CreateDashboardInputBody: Swift.Decodable {
@@ -12799,11 +12768,8 @@ extension CreateDashboardInputBody: Swift.Decodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
-<<<<<<< HEAD
-=======
         case linkEntities = "LinkEntities"
         case linkSharingConfiguration = "LinkSharingConfiguration"
->>>>>>> main
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -12865,8 +12831,6 @@ extension CreateDashboardInputBody: Swift.Decodable {
             }
         }
         folderArns = folderArnsDecoded0
-<<<<<<< HEAD
-=======
         let linkSharingConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
         linkSharingConfiguration = linkSharingConfigurationDecoded
         let linkEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .linkEntities)
@@ -12880,7 +12844,6 @@ extension CreateDashboardInputBody: Swift.Decodable {
             }
         }
         linkEntities = linkEntitiesDecoded0
->>>>>>> main
     }
 }
 
@@ -15190,8 +15153,6 @@ enum CreateRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateRoleMembershipInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -15313,7 +15274,6 @@ enum CreateRoleMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateTemplateAliasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateVersionNumber = "TemplateVersionNumber"
@@ -18675,7 +18635,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
         case dataSetArns = "DataSetArns"
         case description = "Description"
         case errors = "Errors"
-        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -18705,9 +18664,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             for dashboarderror0 in errors {
                 try errorsContainer.encode(dashboarderror0)
             }
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -18778,8 +18734,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -18796,8 +18750,6 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this dashboard version.
         public var errors: [QuickSightClientTypes.DashboardError]?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Source entity ARN.
@@ -18815,7 +18767,6 @@ extension QuickSightClientTypes {
             dataSetArns: [Swift.String]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.DashboardError]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -18828,7 +18779,6 @@ extension QuickSightClientTypes {
             self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
-            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -21616,14 +21566,11 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
             self = .trinoparameters(trinoparameters)
             return
         }
-<<<<<<< HEAD
-=======
         let bigqueryparametersDecoded = try values.decodeIfPresent(QuickSightClientTypes.BigQueryParameters.self, forKey: .bigqueryparameters)
         if let bigqueryparameters = bigqueryparametersDecoded {
             self = .bigqueryparameters(bigqueryparameters)
             return
         }
->>>>>>> main
         self = .sdkUnknown("")
     }
 }
@@ -21681,11 +21628,8 @@ extension QuickSightClientTypes {
         case starburstparameters(QuickSightClientTypes.StarburstParameters)
         /// The parameters that are required to connect to a Trino data source.
         case trinoparameters(QuickSightClientTypes.TrinoParameters)
-<<<<<<< HEAD
-=======
         /// The parameters that are required to connect to a Google BigQuery data source.
         case bigqueryparameters(QuickSightClientTypes.BigQueryParameters)
->>>>>>> main
         case sdkUnknown(Swift.String)
     }
 
@@ -25379,8 +25323,6 @@ enum DeleteIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteIdentityPropagationConfigInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -25484,7 +25426,6 @@ enum DeleteIdentityPropagationConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -25722,8 +25663,6 @@ enum DeleteRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -25959,7 +25898,6 @@ enum DeleteRoleMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteTemplateAliasInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -28034,14 +27972,11 @@ extension DescribeAssetBundleExportJobInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeAssetBundleExportJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DescribeAssetBundleExportJobOutput(arn: \(Swift.String(describing: arn)), assetBundleExportJobId: \(Swift.String(describing: assetBundleExportJobId)), awsAccountId: \(Swift.String(describing: awsAccountId)), cloudFormationOverridePropertyConfiguration: \(Swift.String(describing: cloudFormationOverridePropertyConfiguration)), createdTime: \(Swift.String(describing: createdTime)), errors: \(Swift.String(describing: errors)), exportFormat: \(Swift.String(describing: exportFormat)), includeAllDependencies: \(Swift.String(describing: includeAllDependencies)), includePermissions: \(Swift.String(describing: includePermissions)), includeTags: \(Swift.String(describing: includeTags)), jobStatus: \(Swift.String(describing: jobStatus)), requestId: \(Swift.String(describing: requestId)), resourceArns: \(Swift.String(describing: resourceArns)), status: \(Swift.String(describing: status)), validationStrategy: \(Swift.String(describing: validationStrategy)), warnings: \(Swift.String(describing: warnings)), downloadUrl: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension DescribeAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -28265,19 +28200,6 @@ extension DescribeAssetBundleExportJobOutputBody: Swift.Decodable {
             }
         }
         warnings = warningsDecoded0
-    }
-}
-
-enum DescribeAssetBundleExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -28535,19 +28457,6 @@ extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
         overrideTags = overrideTagsDecoded
         let overrideValidationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy.self, forKey: .overrideValidationStrategy)
         overrideValidationStrategy = overrideValidationStrategyDecoded
-    }
-}
-
-enum DescribeAssetBundleImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -31459,8 +31368,6 @@ enum DescribeRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -31585,7 +31492,6 @@ enum DescribeRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension DescribeTemplateAliasInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -49193,8 +49099,6 @@ enum ListIAMPolicyAssignmentsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListIdentityPropagationConfigsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -49344,7 +49248,6 @@ enum ListIdentityPropagationConfigsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
->>>>>>> main
 extension ListIngestionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -49779,8 +49682,6 @@ enum ListRefreshSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListRoleMembershipsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -49950,7 +49851,6 @@ enum ListRoleMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -60180,10 +60080,7 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         case database = "Database"
         case host = "Host"
         case iamParameters = "IAMParameters"
-<<<<<<< HEAD
-=======
         case identityCenterConfiguration = "IdentityCenterConfiguration"
->>>>>>> main
         case port = "Port"
     }
 
@@ -60201,12 +60098,9 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         if let iamParameters = self.iamParameters {
             try encodeContainer.encode(iamParameters, forKey: .iamParameters)
         }
-<<<<<<< HEAD
-=======
         if let identityCenterConfiguration = self.identityCenterConfiguration {
             try encodeContainer.encode(identityCenterConfiguration, forKey: .identityCenterConfiguration)
         }
->>>>>>> main
         if port != 0 {
             try encodeContainer.encode(port, forKey: .port)
         }
@@ -60224,11 +60118,8 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         clusterId = clusterIdDecoded
         let iamParametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RedshiftIAMParameters.self, forKey: .iamParameters)
         iamParameters = iamParametersDecoded
-<<<<<<< HEAD
-=======
         let identityCenterConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IdentityCenterConfiguration.self, forKey: .identityCenterConfiguration)
         identityCenterConfiguration = identityCenterConfigurationDecoded
->>>>>>> main
     }
 }
 
@@ -60244,11 +60135,8 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// An optional parameter that uses IAM authentication to grant Amazon QuickSight access to your cluster. This parameter can be used instead of [DataSourceCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DataSourceCredentials.html).
         public var iamParameters: QuickSightClientTypes.RedshiftIAMParameters?
-<<<<<<< HEAD
-=======
         /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your cluster. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
         public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
->>>>>>> main
         /// Port. This field can be blank if the ClusterId is provided.
         public var port: Swift.Int
 
@@ -60257,10 +60145,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             iamParameters: QuickSightClientTypes.RedshiftIAMParameters? = nil,
-<<<<<<< HEAD
-=======
             identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration? = nil,
->>>>>>> main
             port: Swift.Int = 0
         )
         {
@@ -60268,10 +60153,7 @@ extension QuickSightClientTypes {
             self.database = database
             self.host = host
             self.iamParameters = iamParameters
-<<<<<<< HEAD
-=======
             self.identityCenterConfiguration = identityCenterConfiguration
->>>>>>> main
             self.port = port
         }
     }
@@ -62714,8 +62596,6 @@ enum RestoreAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension QuickSightClientTypes {
     public enum Role: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case admin
@@ -62751,7 +62631,6 @@ extension QuickSightClientTypes {
     }
 }
 
->>>>>>> main
 extension QuickSightClientTypes.RollingDateConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetIdentifier = "DataSetIdentifier"
@@ -67804,8 +67683,6 @@ extension QuickSightClientTypes {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension QuickSightClientTypes.SingleAxisOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case yAxisOptions = "YAxisOptions"
@@ -67870,7 +67747,6 @@ extension QuickSightClientTypes {
     }
 }
 
->>>>>>> main
 extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case infoIconLabelOptions = "InfoIconLabelOptions"
@@ -73193,7 +73069,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
         case dataSetConfigurations = "DataSetConfigurations"
         case description = "Description"
         case errors = "Errors"
-        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -73220,9 +73095,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             for templateerror0 in errors {
                 try errorsContainer.encode(templateerror0)
             }
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -73291,8 +73163,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -73307,8 +73177,6 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this template version.
         public var errors: [QuickSightClientTypes.TemplateError]?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
@@ -73339,7 +73207,6 @@ extension QuickSightClientTypes {
             dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.TemplateError]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -73351,7 +73218,6 @@ extension QuickSightClientTypes {
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
-            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -79944,8 +79810,6 @@ extension UpdateDashboardInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateDashboardLinksInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case linkEntities = "LinkEntities"
@@ -80116,7 +79980,6 @@ enum UpdateDashboardLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdateDashboardOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -82327,8 +82190,6 @@ enum UpdateIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateIdentityPropagationConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedTargets = "AuthorizedTargets"
@@ -82468,7 +82329,6 @@ enum UpdateIdentityPropagationConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
->>>>>>> main
 extension UpdateIpRestrictionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -82893,8 +82753,6 @@ enum UpdateRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateRoleCustomPermissionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customPermissionsName = "CustomPermissionsName"
@@ -83034,7 +82892,6 @@ enum UpdateRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
->>>>>>> main
 extension UpdateTemplateAliasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateVersionNumber = "TemplateVersionNumber"
@@ -85939,11 +85796,7 @@ extension QuickSightClientTypes.ValidationStrategy: Swift.Codable {
 extension QuickSightClientTypes {
     /// The option to relax the validation that is required to create and update analyses, dashboards, and templates with definition objects. When you set this value to LENIENT, validation is skipped for specific errors.
     public struct ValidationStrategy: Swift.Equatable {
-<<<<<<< HEAD
-        /// The mode of validation for the asset to be creaed or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
-=======
         /// The mode of validation for the asset to be created or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
->>>>>>> main
         /// This member is required.
         public var mode: QuickSightClientTypes.ValidationStrategyMode?
 

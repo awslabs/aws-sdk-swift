@@ -731,34 +731,6 @@ extension ObjectNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-public struct PutObjectInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PutObjectInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension PutObjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"

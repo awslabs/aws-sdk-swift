@@ -12,11 +12,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListIdMappingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIdMappingJobsOutput`
     public func listIdMappingJobsPaginated(input: ListIdMappingJobsInput) -> ClientRuntime.PaginatorSequence<ListIdMappingJobsInput, ListIdMappingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListIdMappingJobsInput, ListIdMappingJobsOutput>(input: input, inputKey: \ListIdMappingJobsInput.nextToken, outputKey: \ListIdMappingJobsOutput.nextToken, paginationFunction: self.listIdMappingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListIdMappingJobsInput, ListIdMappingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdMappingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListIdMappingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListIdMappingJobsInput, Output == ListIdMappingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListIdMappingJobsInput, OperationStackOutput == ListIdMappingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIdMappingJobsPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.JobSummary]`
     /// - Returns: `[EntityResolutionClientTypes.JobSummary]`
@@ -51,11 +43,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListIdMappingWorkflowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListIdMappingWorkflowsOutput`
     public func listIdMappingWorkflowsPaginated(input: ListIdMappingWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput>(input: input, inputKey: \ListIdMappingWorkflowsInput.nextToken, outputKey: \ListIdMappingWorkflowsOutput.nextToken, paginationFunction: self.listIdMappingWorkflows(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdMappingWorkflows(input:))
->>>>>>> main
     }
 }
 
@@ -67,11 +55,7 @@ extension ListIdMappingWorkflowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListIdMappingWorkflowsInput, Output == ListIdMappingWorkflowsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListIdMappingWorkflowsInput, OperationStackOutput == ListIdMappingWorkflowsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listIdMappingWorkflowsPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.IdMappingWorkflowSummary]`
     /// - Returns: `[EntityResolutionClientTypes.IdMappingWorkflowSummary]`
@@ -89,11 +73,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListMatchingJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMatchingJobsOutput`
     public func listMatchingJobsPaginated(input: ListMatchingJobsInput) -> ClientRuntime.PaginatorSequence<ListMatchingJobsInput, ListMatchingJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMatchingJobsInput, ListMatchingJobsOutput>(input: input, inputKey: \ListMatchingJobsInput.nextToken, outputKey: \ListMatchingJobsOutput.nextToken, paginationFunction: self.listMatchingJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMatchingJobsInput, ListMatchingJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMatchingJobs(input:))
->>>>>>> main
     }
 }
 
@@ -106,11 +86,7 @@ extension ListMatchingJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMatchingJobsInput, Output == ListMatchingJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMatchingJobsInput, OperationStackOutput == ListMatchingJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMatchingJobsPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.JobSummary]`
     /// - Returns: `[EntityResolutionClientTypes.JobSummary]`
@@ -128,11 +104,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListMatchingWorkflowsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMatchingWorkflowsOutput`
     public func listMatchingWorkflowsPaginated(input: ListMatchingWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput>(input: input, inputKey: \ListMatchingWorkflowsInput.nextToken, outputKey: \ListMatchingWorkflowsOutput.nextToken, paginationFunction: self.listMatchingWorkflows(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMatchingWorkflows(input:))
->>>>>>> main
     }
 }
 
@@ -144,11 +116,7 @@ extension ListMatchingWorkflowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListMatchingWorkflowsInput, Output == ListMatchingWorkflowsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListMatchingWorkflowsInput, OperationStackOutput == ListMatchingWorkflowsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listMatchingWorkflowsPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.MatchingWorkflowSummary]`
     /// - Returns: `[EntityResolutionClientTypes.MatchingWorkflowSummary]`
@@ -166,11 +134,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListProviderServicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProviderServicesOutput`
     public func listProviderServicesPaginated(input: ListProviderServicesInput) -> ClientRuntime.PaginatorSequence<ListProviderServicesInput, ListProviderServicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProviderServicesInput, ListProviderServicesOutput>(input: input, inputKey: \ListProviderServicesInput.nextToken, outputKey: \ListProviderServicesOutput.nextToken, paginationFunction: self.listProviderServices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProviderServicesInput, ListProviderServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProviderServices(input:))
->>>>>>> main
     }
 }
 
@@ -183,11 +147,7 @@ extension ListProviderServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProviderServicesInput, Output == ListProviderServicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProviderServicesInput, OperationStackOutput == ListProviderServicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProviderServicesPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.ProviderServiceSummary]`
     /// - Returns: `[EntityResolutionClientTypes.ProviderServiceSummary]`
@@ -205,11 +165,7 @@ extension EntityResolutionClient {
     ///     - input: A `[ListSchemaMappingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaMappingsOutput`
     public func listSchemaMappingsPaginated(input: ListSchemaMappingsInput) -> ClientRuntime.PaginatorSequence<ListSchemaMappingsInput, ListSchemaMappingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSchemaMappingsInput, ListSchemaMappingsOutput>(input: input, inputKey: \ListSchemaMappingsInput.nextToken, outputKey: \ListSchemaMappingsOutput.nextToken, paginationFunction: self.listSchemaMappings(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSchemaMappingsInput, ListSchemaMappingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSchemaMappings(input:))
->>>>>>> main
     }
 }
 
@@ -221,11 +177,7 @@ extension ListSchemaMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSchemaMappingsInput, Output == ListSchemaMappingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSchemaMappingsInput, OperationStackOutput == ListSchemaMappingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSchemaMappingsPaginated`
     /// to access the nested member `[EntityResolutionClientTypes.SchemaMappingSummary]`
     /// - Returns: `[EntityResolutionClientTypes.SchemaMappingSummary]`

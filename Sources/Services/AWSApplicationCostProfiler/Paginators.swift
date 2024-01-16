@@ -12,11 +12,7 @@ extension ApplicationCostProfilerClient {
     ///     - input: A `[ListReportDefinitionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportDefinitionsOutput`
     public func listReportDefinitionsPaginated(input: ListReportDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListReportDefinitionsInput, ListReportDefinitionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListReportDefinitionsInput, ListReportDefinitionsOutput>(input: input, inputKey: \ListReportDefinitionsInput.nextToken, outputKey: \ListReportDefinitionsOutput.nextToken, paginationFunction: self.listReportDefinitions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListReportDefinitionsInput, ListReportDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReportDefinitions(input:))
->>>>>>> main
     }
 }
 
@@ -28,11 +24,7 @@ extension ListReportDefinitionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListReportDefinitionsInput, Output == ListReportDefinitionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListReportDefinitionsInput, OperationStackOutput == ListReportDefinitionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listReportDefinitionsPaginated`
     /// to access the nested member `[ApplicationCostProfilerClientTypes.ReportDefinition]`
     /// - Returns: `[ApplicationCostProfilerClientTypes.ReportDefinition]`

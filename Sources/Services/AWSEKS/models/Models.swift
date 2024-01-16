@@ -1469,8 +1469,6 @@ enum AssociateIdentityProviderConfigOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-<<<<<<< HEAD
-=======
 extension EKSClientTypes.AssociatedAccessPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessScope
@@ -1571,7 +1569,6 @@ extension EKSClientTypes {
     }
 }
 
->>>>>>> main
 extension EKSClientTypes.AutoScalingGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -3353,46 +3350,6 @@ extension CreateClusterOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateClusterOutputBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-        } else {
-            self.cluster = nil
-        }
-    }
-}
-
-public struct CreateClusterOutput: Swift.Equatable {
-    /// The full description of your new cluster.
-    public var cluster: EKSClientTypes.Cluster?
-
-    public init(
-        cluster: EKSClientTypes.Cluster? = nil
-    )
-    {
-        self.cluster = cluster
-    }
-}
-
-struct CreateClusterOutputBody: Swift.Equatable {
-    let cluster: EKSClientTypes.Cluster?
-}
-
-extension CreateClusterOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cluster
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let clusterDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Cluster.self, forKey: .cluster)
-        cluster = clusterDecoded
-    }
-}
-
 enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3410,8 +3367,6 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateEksAnywhereSubscriptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoRenew
@@ -3600,7 +3555,6 @@ enum CreateEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension CreateFargateProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
@@ -4177,8 +4131,6 @@ enum CreateNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreatePodIdentityAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken
@@ -4429,7 +4381,6 @@ enum DeleteAccessEntryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DeleteAddonInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4627,8 +4578,6 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -4714,7 +4663,6 @@ enum DeleteEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension DeleteFargateProfileInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -4903,8 +4851,6 @@ enum DeleteNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeletePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -4998,7 +4944,6 @@ enum DeletePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension DeregisterClusterInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let name = name else {
@@ -5086,8 +5031,6 @@ enum DeregisterClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeAccessEntryInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -5180,7 +5123,6 @@ enum DescribeAccessEntryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension DescribeAddonConfigurationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5600,13 +5542,6 @@ extension DescribeClusterInputBody: Swift.Decodable {
 }
 
 extension DescribeClusterOutput: ClientRuntime.HttpResponseBinding {
-<<<<<<< HEAD
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DescribeClusterOutputBody = try responseDecoder.decode(responseBody: data)
-            self.cluster = output.cluster
-=======
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
@@ -5697,22 +5632,15 @@ extension DescribeEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBindi
             let responseDecoder = decoder {
             let output: DescribeEksAnywhereSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.subscription = output.subscription
->>>>>>> main
         } else {
             self.subscription = nil
         }
     }
 }
 
-<<<<<<< HEAD
-public struct DescribeClusterOutput: Swift.Equatable {
-    /// The full description of your specified cluster.
-    public var cluster: EKSClientTypes.Cluster?
-=======
 public struct DescribeEksAnywhereSubscriptionOutput: Swift.Equatable {
     /// The full description of the subscription.
     public var subscription: EKSClientTypes.EksAnywhereSubscription?
->>>>>>> main
 
     public init(
         subscription: EKSClientTypes.EksAnywhereSubscription? = nil
@@ -5722,19 +5650,11 @@ public struct DescribeEksAnywhereSubscriptionOutput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DescribeClusterOutputBody: Swift.Equatable {
-    let cluster: EKSClientTypes.Cluster?
-}
-
-extension DescribeClusterOutputBody: Swift.Decodable {
-=======
 struct DescribeEksAnywhereSubscriptionOutputBody: Swift.Equatable {
     let subscription: EKSClientTypes.EksAnywhereSubscription?
 }
 
 extension DescribeEksAnywhereSubscriptionOutputBody: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case subscription
     }
@@ -5747,20 +5667,6 @@ extension DescribeEksAnywhereSubscriptionOutputBody: Swift.Decodable {
 }
 
 enum DescribeEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -6072,8 +5978,6 @@ enum DescribeNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -6167,7 +6071,6 @@ enum DescribePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
->>>>>>> main
 extension DescribeUpdateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6241,8 +6144,6 @@ extension DescribeUpdateOutput: ClientRuntime.HttpResponseBinding {
             self.update = output.update
         } else {
             self.update = nil
-<<<<<<< HEAD
-=======
         }
     }
 }
@@ -6293,7 +6194,6 @@ extension DisassociateAccessPolicyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
             return nil
->>>>>>> main
         }
         guard let principalArn = principalArn else {
             return nil
@@ -6305,11 +6205,6 @@ extension DisassociateAccessPolicyInput: ClientRuntime.URLPathProvider {
     }
 }
 
-<<<<<<< HEAD
-public struct DescribeUpdateOutput: Swift.Equatable {
-    /// The full description of the specified update.
-    public var update: EKSClientTypes.Update?
-=======
 public struct DisassociateAccessPolicyInput: Swift.Equatable {
     /// The name of your cluster.
     /// This member is required.
@@ -6320,7 +6215,6 @@ public struct DisassociateAccessPolicyInput: Swift.Equatable {
     /// The ARN of the IAM principal for the AccessEntry.
     /// This member is required.
     public var principalArn: Swift.String?
->>>>>>> main
 
     public init(
         clusterName: Swift.String? = nil,
@@ -6334,21 +6228,10 @@ public struct DisassociateAccessPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct DescribeUpdateOutputBody: Swift.Equatable {
-    let update: EKSClientTypes.Update?
-}
-
-extension DescribeUpdateOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case update
-    }
-=======
 struct DisassociateAccessPolicyInputBody: Swift.Equatable {
 }
 
 extension DisassociateAccessPolicyInputBody: Swift.Decodable {
->>>>>>> main
 
     public init(from decoder: Swift.Decoder) throws {
     }
@@ -6370,20 +6253,6 @@ enum DisassociateAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBinding
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
-enum DescribeUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6515,8 +6384,6 @@ enum DisassociateIdentityProviderConfigOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-<<<<<<< HEAD
-=======
 extension EKSClientTypes.EksAnywhereSubscription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -6833,7 +6700,6 @@ extension EKSClientTypes {
     }
 }
 
->>>>>>> main
 extension EKSClientTypes.EncryptionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case provider
@@ -8236,11 +8102,7 @@ extension ListAddonsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAddonsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of available add-ons.
-=======
     /// A list of installed add-ons.
->>>>>>> main
     public var addons: [Swift.String]?
     /// The nextToken value to include in a future ListAddons request. When the results of a ListAddons request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
@@ -8299,8 +8161,6 @@ enum ListAddonsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListAssociatedAccessPoliciesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8457,7 +8317,6 @@ enum ListAssociatedAccessPoliciesOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ListClustersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8531,11 +8390,7 @@ extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListClustersOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A list of all of the clusters for your account in the specified Region.
-=======
     /// A list of all of the clusters for your account in the specified Amazon Web Services Region.
->>>>>>> main
     public var clusters: [Swift.String]?
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
@@ -8593,8 +8448,6 @@ enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListEksAnywhereSubscriptionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -8726,7 +8579,6 @@ enum ListEksAnywhereSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
->>>>>>> main
 extension ListFargateProfilesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9057,11 +8909,7 @@ extension ListNodegroupsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListNodegroupsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The nextToken value to include in a future ListNodegroups request. When the results of a ListNodegroups request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
-=======
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
->>>>>>> main
     public var nextToken: Swift.String?
     /// A list of all of the node groups associated with the specified cluster.
     public var nodegroups: [Swift.String]?
@@ -9120,8 +8968,6 @@ enum ListNodegroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListPodIdentityAssociationsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -9275,7 +9121,6 @@ enum ListPodIdentityAssociationsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -9455,11 +9300,7 @@ extension ListUpdatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListUpdatesOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The nextToken value to include in a future ListUpdates request. When the results of a ListUpdates request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
-=======
     /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
->>>>>>> main
     public var nextToken: Swift.String?
     /// A list of all the updates for the specified cluster and Region.
     public var updateIds: [Swift.String]?
@@ -12859,46 +12700,6 @@ extension UpdateClusterConfigOutputBody: Swift.Decodable {
     }
 }
 
-extension UpdateClusterConfigOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateClusterConfigOutputBody = try responseDecoder.decode(responseBody: data)
-            self.update = output.update
-        } else {
-            self.update = nil
-        }
-    }
-}
-
-public struct UpdateClusterConfigOutput: Swift.Equatable {
-    /// An object representing an asynchronous update.
-    public var update: EKSClientTypes.Update?
-
-    public init(
-        update: EKSClientTypes.Update? = nil
-    )
-    {
-        self.update = update
-    }
-}
-
-struct UpdateClusterConfigOutputBody: Swift.Equatable {
-    let update: EKSClientTypes.Update?
-}
-
-extension UpdateClusterConfigOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case update
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let updateDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Update.self, forKey: .update)
-        update = updateDecoded
-    }
-}
-
 enum UpdateClusterConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13039,8 +12840,6 @@ enum UpdateClusterVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateEksAnywhereSubscriptionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoRenew
@@ -13164,7 +12963,6 @@ enum UpdateEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
->>>>>>> main
 extension EKSClientTypes.UpdateLabelsPayload: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addOrUpdateLabels

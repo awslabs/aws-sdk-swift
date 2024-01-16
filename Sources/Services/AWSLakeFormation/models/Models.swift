@@ -1617,8 +1617,6 @@ enum CreateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -1746,7 +1744,6 @@ enum CreateLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.Ht
     }
 }
 
->>>>>>> main
 extension CreateLakeFormationOptInInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case principal = "Principal"
@@ -2611,8 +2608,6 @@ enum DeleteLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -2686,7 +2681,6 @@ enum DeleteLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.Ht
     }
 }
 
->>>>>>> main
 extension DeleteLakeFormationOptInInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case principal = "Principal"
@@ -3053,8 +3047,6 @@ enum DeregisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DescribeLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -3187,7 +3179,6 @@ enum DescribeLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.
     }
 }
 
->>>>>>> main
 extension DescribeResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -3757,8 +3748,6 @@ enum ExtendTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension LakeFormationClientTypes.ExternalFilteringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedTargets = "AuthorizedTargets"
@@ -3818,7 +3807,6 @@ extension LakeFormationClientTypes {
 
 }
 
->>>>>>> main
 extension LakeFormationClientTypes {
     public enum FieldNameString: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case lastModified
@@ -5610,11 +5598,7 @@ extension GetWorkUnitResultsOutput: ClientRuntime.HttpResponseBinding {
             self.resultStream = .data(data)
         case .stream(let stream):
             self.resultStream = .stream(stream)
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.resultStream = nil
         }
     }
@@ -9573,11 +9557,7 @@ extension SearchTablesByLFTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct SearchTablesByLFTagsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// A continuation token, present if the current list segment is not the last.
-=======
     /// A continuation token, present if the current list segment is not the last. On the first run, if you include a not null (a value) token you can get empty pages.
->>>>>>> main
     public var nextToken: Swift.String?
     /// A list of tables that meet the LF-tag conditions.
     public var tableList: [LakeFormationClientTypes.TaggedTable]?
@@ -10997,8 +10977,6 @@ enum UpdateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationStatus = "ApplicationStatus"
@@ -11096,7 +11074,6 @@ enum UpdateLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.Ht
     }
 }
 
->>>>>>> main
 extension UpdateResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hybridAccessEnabled = "HybridAccessEnabled"

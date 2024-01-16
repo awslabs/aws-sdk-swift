@@ -22,11 +22,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func associateConnectionAlias(input: AssociateConnectionAliasInput) async throws -> AssociateConnectionAliasOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateIpGroups` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Associates the specified IP access control group with the specified directory.
     ///
     /// - Parameter AssociateIpGroupsInput : [no documentation found]
@@ -43,11 +40,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func associateIpGroups(input: AssociateIpGroupsInput) async throws -> AssociateIpGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AssociateWorkspaceApplication` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Associates the specified application to the specified WorkSpace.
     ///
     /// - Parameter AssociateWorkspaceApplicationInput : [no documentation found]
@@ -68,11 +62,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func associateWorkspaceApplication(input: AssociateWorkspaceApplicationInput) async throws -> AssociateWorkspaceApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `AuthorizeIpRules` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Adds one or more rules to the specified IP access control group. This action gives users permission to access their WorkSpaces from the CIDR address ranges specified in the rules.
     ///
     /// - Parameter AuthorizeIpRulesInput : [no documentation found]
@@ -88,11 +79,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func authorizeIpRules(input: AuthorizeIpRulesInput) async throws -> AuthorizeIpRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CopyWorkspaceImage` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see [ Copy a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html). In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the [DescribeWorkSpaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html) and [DescribeWorkspaceImagePermissions](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html) API operations.
     ///
     /// - Parameter CopyWorkspaceImageInput : [no documentation found]
@@ -110,11 +98,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func copyWorkspaceImage(input: CopyWorkspaceImageInput) async throws -> CopyWorkspaceImageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConnectClientAddIn` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
     ///
     /// - Parameter CreateConnectClientAddInInput : [no documentation found]
@@ -130,11 +115,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceCreationFailedException` : The resource could not be created.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func createConnectClientAddIn(input: CreateConnectClientAddInInput) async throws -> CreateConnectClientAddInOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateConnectionAlias` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates the specified connection alias for use with cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
     /// - Parameter CreateConnectionAliasInput : [no documentation found]
@@ -151,11 +133,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     func createConnectionAlias(input: CreateConnectionAliasInput) async throws -> CreateConnectionAliasOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIpGroup` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using [AuthorizeIpRules]. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     ///
     /// - Parameter CreateIpGroupInput : [no documentation found]
@@ -171,11 +150,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceCreationFailedException` : The resource could not be created.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     func createIpGroup(input: CreateIpGroupInput) async throws -> CreateIpGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateStandbyWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates a standby WorkSpace in a secondary Region.
     ///
     /// - Parameter CreateStandbyWorkspacesInput : [no documentation found]
@@ -191,11 +167,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTags` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates the specified tags for the specified WorkSpaces resource.
     ///
     /// - Parameter CreateTagsInput : [no documentation found]
@@ -209,11 +182,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateUpdatedWorkspaceImage` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use [ DescribeWorkspaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html).
     ///
     /// * Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.
@@ -237,11 +207,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func createUpdatedWorkspaceImage(input: CreateUpdatedWorkspaceImageInput) async throws -> CreateUpdatedWorkspaceImageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkspaceBundle` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see [ Create a Custom WorkSpaces Image and Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html).
     ///
     /// - Parameter CreateWorkspaceBundleInput : [no documentation found]
@@ -258,11 +225,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func createWorkspaceBundle(input: CreateWorkspaceBundleInput) async throws -> CreateWorkspaceBundleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkspaceImage` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates a new WorkSpace image from an existing WorkSpace.
     ///
     /// - Parameter CreateWorkspaceImageInput : [no documentation found]
@@ -280,21 +244,15 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func createWorkspaceImage(input: CreateWorkspaceImageInput) async throws -> CreateWorkspaceImageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created.
     ///
     /// * The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
     ///
     /// * You don't need to specify the PCOIP protocol for Linux bundles because WSP is the default protocol for those bundles.
-<<<<<<< HEAD
-=======
     ///
     /// * Ensure you review your running mode to ensure you are using a running mode that is optimal for your needs and budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](https://aws.amazon.com/workspaces/faqs/#:~:text=Q%3A%20Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%3F)
->>>>>>> main
     ///
     /// - Parameter CreateWorkspacesInput : [no documentation found]
     ///
@@ -306,11 +264,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     func createWorkspaces(input: CreateWorkspacesInput) async throws -> CreateWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteClientBranding` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding.
     ///
     /// - Parameter DeleteClientBrandingInput : [no documentation found]
@@ -324,11 +279,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteClientBranding(input: DeleteClientBrandingInput) async throws -> DeleteClientBrandingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConnectClientAddIn` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
     ///
     /// - Parameter DeleteConnectClientAddInInput : [no documentation found]
@@ -342,11 +294,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteConnectClientAddIn(input: DeleteConnectClientAddInInput) async throws -> DeleteConnectClientAddInOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteConnectionAlias` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see [ Security Considerations if You Stop Using Cross-Region Redirection](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html#cross-region-redirection-security-considerations). To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.
     ///
     /// - Parameter DeleteConnectionAliasInput : [no documentation found]
@@ -363,11 +312,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteConnectionAlias(input: DeleteConnectionAliasInput) async throws -> DeleteConnectionAliasOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIpGroup` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
     ///
     /// - Parameter DeleteIpGroupInput : [no documentation found]
@@ -382,11 +328,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteIpGroup(input: DeleteIpGroupInput) async throws -> DeleteIpGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTags` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes the specified tags from the specified WorkSpaces resource.
     ///
     /// - Parameter DeleteTagsInput : [no documentation found]
@@ -399,11 +342,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWorkspaceBundle` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace bundles, see [ Delete a Custom WorkSpaces Bundle or Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete_bundle.html).
     ///
     /// - Parameter DeleteWorkspaceBundleInput : [no documentation found]
@@ -418,11 +358,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deleteWorkspaceBundle(input: DeleteWorkspaceBundleInput) async throws -> DeleteWorkspaceBundleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWorkspaceImage` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and unshare the image if it is shared with other accounts.
     ///
     /// - Parameter DeleteWorkspaceImageInput : [no documentation found]
@@ -436,11 +373,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceAssociatedException` : The resource is associated with a directory.
     func deleteWorkspaceImage(input: DeleteWorkspaceImageInput) async throws -> DeleteWorkspaceImageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeployWorkspaceApplications` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deploys associated applications to the specified WorkSpace
     ///
     /// - Parameter DeployWorkspaceApplicationsInput : [no documentation found]
@@ -457,11 +391,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deployWorkspaceApplications(input: DeployWorkspaceApplicationsInput) async throws -> DeployWorkspaceApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeregisterWorkspaceDirectory` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory. Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/). To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html). If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     ///
     /// - Parameter DeregisterWorkspaceDirectoryInput : [no documentation found]
@@ -477,11 +408,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func deregisterWorkspaceDirectory(input: DeregisterWorkspaceDirectoryInput) async throws -> DeregisterWorkspaceDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAccount` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
     /// - Parameter DescribeAccountInput : [no documentation found]
@@ -493,11 +421,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     func describeAccount(input: DescribeAccountInput) async throws -> DescribeAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAccountModifications` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
     /// - Parameter DescribeAccountModificationsInput : [no documentation found]
@@ -509,11 +434,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     func describeAccountModifications(input: DescribeAccountModificationsInput) async throws -> DescribeAccountModificationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplicationAssociations` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the associations between the application and the specified associated resources.
     ///
     /// - Parameter DescribeApplicationAssociationsInput : [no documentation found]
@@ -528,11 +450,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeApplicationAssociations(input: DescribeApplicationAssociationsInput) async throws -> DescribeApplicationAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeApplications` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
     ///
     /// - Parameter DescribeApplicationsInput : [no documentation found]
@@ -547,11 +466,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeBundleAssociations` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the associations between the applications and the specified bundle.
     ///
     /// - Parameter DescribeBundleAssociationsInput : [no documentation found]
@@ -566,11 +482,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeBundleAssociations(input: DescribeBundleAssociationsInput) async throws -> DescribeBundleAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeClientBranding` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the specified client branding. Client branding allows you to customize the log in page of various device types for your users. You can add your company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. Only device types that have branding information configured will be shown in the response.
     ///
     /// - Parameter DescribeClientBrandingInput : [no documentation found]
@@ -584,11 +497,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeClientBranding(input: DescribeClientBrandingInput) async throws -> DescribeClientBrandingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeClientProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
     ///
     /// - Parameter DescribeClientPropertiesInput : [no documentation found]
@@ -602,11 +512,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeClientProperties(input: DescribeClientPropertiesInput) async throws -> DescribeClientPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConnectClientAddIns` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list of Amazon Connect client add-ins that have been created.
     ///
     /// - Parameter DescribeConnectClientAddInsInput : [no documentation found]
@@ -620,11 +527,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeConnectClientAddIns(input: DescribeConnectClientAddInsInput) async throws -> DescribeConnectClientAddInsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConnectionAliases` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
     /// - Parameter DescribeConnectionAliasesInput : [no documentation found]
@@ -638,11 +542,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `OperationNotSupportedException` : This operation is not supported.
     func describeConnectionAliases(input: DescribeConnectionAliasesInput) async throws -> DescribeConnectionAliasesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeConnectionAliasPermissions` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
     /// - Parameter DescribeConnectionAliasPermissionsInput : [no documentation found]
@@ -657,11 +558,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeConnectionAliasPermissions(input: DescribeConnectionAliasPermissionsInput) async throws -> DescribeConnectionAliasPermissionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeImageAssociations` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the associations between the applications and the specified image.
     ///
     /// - Parameter DescribeImageAssociationsInput : [no documentation found]
@@ -676,11 +574,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeImageAssociations(input: DescribeImageAssociationsInput) async throws -> DescribeImageAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeIpGroups` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes one or more of your IP access control groups.
     ///
     /// - Parameter DescribeIpGroupsInput : [no documentation found]
@@ -693,11 +588,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     func describeIpGroups(input: DescribeIpGroupsInput) async throws -> DescribeIpGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeTags` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the specified tags for the specified WorkSpaces resource.
     ///
     /// - Parameter DescribeTagsInput : [no documentation found]
@@ -709,11 +601,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceAssociations` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the associations betweens applications and the specified WorkSpace.
     ///
     /// - Parameter DescribeWorkspaceAssociationsInput : [no documentation found]
@@ -728,11 +617,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeWorkspaceAssociations(input: DescribeWorkspaceAssociationsInput) async throws -> DescribeWorkspaceAssociationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceBundles` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
     ///
     /// - Parameter DescribeWorkspaceBundlesInput : [no documentation found]
@@ -744,11 +630,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     func describeWorkspaceBundles(input: DescribeWorkspaceBundlesInput) async throws -> DescribeWorkspaceBundlesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceDirectories` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the available directories that are registered with Amazon WorkSpaces.
     ///
     /// - Parameter DescribeWorkspaceDirectoriesInput : [no documentation found]
@@ -760,11 +643,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     func describeWorkspaceDirectories(input: DescribeWorkspaceDirectoriesInput) async throws -> DescribeWorkspaceDirectoriesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceImagePermissions` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
     ///
     /// - Parameter DescribeWorkspaceImagePermissionsInput : [no documentation found]
@@ -778,11 +658,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeWorkspaceImagePermissions(input: DescribeWorkspaceImagePermissionsInput) async throws -> DescribeWorkspaceImagePermissionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceImages` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list that describes one or more specified images, if the image identifiers are provided. Otherwise, all images in the account are described.
     ///
     /// - Parameter DescribeWorkspaceImagesInput : [no documentation found]
@@ -794,11 +671,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     func describeWorkspaceImages(input: DescribeWorkspaceImagesInput) async throws -> DescribeWorkspaceImagesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
     ///
     /// - Parameter DescribeWorkspacesInput : [no documentation found]
@@ -811,11 +685,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func describeWorkspaces(input: DescribeWorkspacesInput) async throws -> DescribeWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspacesConnectionStatus` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the connection status of the specified WorkSpaces.
     ///
     /// - Parameter DescribeWorkspacesConnectionStatusInput : [no documentation found]
@@ -827,11 +698,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     func describeWorkspacesConnectionStatus(input: DescribeWorkspacesConnectionStatusInput) async throws -> DescribeWorkspacesConnectionStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeWorkspaceSnapshots` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Describes the snapshots for the specified WorkSpace.
     ///
     /// - Parameter DescribeWorkspaceSnapshotsInput : [no documentation found]
@@ -845,11 +713,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func describeWorkspaceSnapshots(input: DescribeWorkspaceSnapshotsInput) async throws -> DescribeWorkspaceSnapshotsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateConnectionAlias` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
     ///
     /// - Parameter DisassociateConnectionAliasInput : [no documentation found]
@@ -865,11 +730,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func disassociateConnectionAlias(input: DisassociateConnectionAliasInput) async throws -> DisassociateConnectionAliasOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateIpGroups` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Disassociates the specified IP access control group from the specified directory.
     ///
     /// - Parameter DisassociateIpGroupsInput : [no documentation found]
@@ -884,11 +746,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func disassociateIpGroups(input: DisassociateIpGroupsInput) async throws -> DisassociateIpGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWorkspaceApplication` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Disassociates the specified application from a WorkSpace.
     ///
     /// - Parameter DisassociateWorkspaceApplicationInput : [no documentation found]
@@ -904,11 +763,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceInUseException` : The specified resource is currently in use.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func disassociateWorkspaceApplication(input: DisassociateWorkspaceApplicationInput) async throws -> DisassociateWorkspaceApplicationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportClientBranding` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience
     ///
     /// * You must specify at least one platform type when importing client branding.
@@ -931,11 +787,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func importClientBranding(input: ImportClientBrandingInput) async throws -> ImportClientBrandingOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ImportWorkspaceImage` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     ///
     /// - Parameter ImportWorkspaceImageInput : [no documentation found]
@@ -952,11 +805,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func importWorkspaceImage(input: ImportWorkspaceImageInput) async throws -> ImportWorkspaceImageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListAvailableManagementCidrRanges` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL). This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     ///
     /// - Parameter ListAvailableManagementCidrRangesInput : [no documentation found]
@@ -969,11 +819,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     func listAvailableManagementCidrRanges(input: ListAvailableManagementCidrRangesInput) async throws -> ListAvailableManagementCidrRangesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `MigrateWorkspace` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see [Migrate a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/migrate-workspaces.html).
     ///
     /// - Parameter MigrateWorkspaceInput : [no documentation found]
@@ -990,11 +837,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func migrateWorkspace(input: MigrateWorkspaceInput) async throws -> MigrateWorkspaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyAccount` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
     /// - Parameter ModifyAccountInput : [no documentation found]
@@ -1010,11 +854,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func modifyAccount(input: ModifyAccountInput) async throws -> ModifyAccountOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyCertificateBasedAuthProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies the properties of the certificate-based authentication you want to use with your WorkSpaces.
     ///
     /// - Parameter ModifyCertificateBasedAuthPropertiesInput : [no documentation found]
@@ -1029,11 +870,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifyCertificateBasedAuthProperties(input: ModifyCertificateBasedAuthPropertiesInput) async throws -> ModifyCertificateBasedAuthPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyClientProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies the properties of the specified Amazon WorkSpaces clients.
     ///
     /// - Parameter ModifyClientPropertiesInput : [no documentation found]
@@ -1047,11 +885,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifyClientProperties(input: ModifyClientPropertiesInput) async throws -> ModifyClientPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifySamlProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.
     ///
     /// - Parameter ModifySamlPropertiesInput : [no documentation found]
@@ -1066,11 +901,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifySamlProperties(input: ModifySamlPropertiesInput) async throws -> ModifySamlPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifySelfservicePermissions` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see [Enable Self-Service WorkSpace Management Capabilities for Your Users](https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html).
     ///
     /// - Parameter ModifySelfservicePermissionsInput : [no documentation found]
@@ -1084,11 +916,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifySelfservicePermissions(input: ModifySelfservicePermissionsInput) async throws -> ModifySelfservicePermissionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyWorkspaceAccessProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Specifies which devices and operating systems users can use to access their WorkSpaces. For more information, see [ Control Device Access](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html#control-device-access).
     ///
     /// - Parameter ModifyWorkspaceAccessPropertiesInput : [no documentation found]
@@ -1101,11 +930,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `AccessDeniedException` : The user is not authorized to access a resource.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifyWorkspaceAccessProperties(input: ModifyWorkspaceAccessPropertiesInput) async throws -> ModifyWorkspaceAccessPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyWorkspaceCreationProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modify the default properties used to create WorkSpaces.
     ///
     /// - Parameter ModifyWorkspaceCreationPropertiesInput : [no documentation found]
@@ -1120,11 +946,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifyWorkspaceCreationProperties(input: ModifyWorkspaceCreationPropertiesInput) async throws -> ModifyWorkspaceCreationPropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyWorkspaceProperties` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see [ Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html). The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
     ///
     /// - Parameter ModifyWorkspacePropertiesInput : [no documentation found]
@@ -1145,11 +968,8 @@ public protocol WorkSpacesClientProtocol {
     ///
     /// [Required Configuration and Service Components for WorkSpaces ](https://docs.aws.amazon.com/workspaces/latest/adminguide/required-service-components.html).
     func modifyWorkspaceProperties(input: ModifyWorkspacePropertiesInput) async throws -> ModifyWorkspacePropertiesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ModifyWorkspaceState` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state.
     ///
     /// - Parameter ModifyWorkspaceStateInput : [no documentation found]
@@ -1164,11 +984,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func modifyWorkspaceState(input: ModifyWorkspaceStateInput) async throws -> ModifyWorkspaceStateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RebootWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE or UNHEALTHY. This operation is asynchronous and returns before the WorkSpaces have rebooted.
     ///
     /// - Parameter RebootWorkspacesInput : [no documentation found]
@@ -1180,11 +997,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : This operation is not supported.
     func rebootWorkspaces(input: RebootWorkspacesInput) async throws -> RebootWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RebuildWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, STOPPED, or REBOOTING. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see [Rebuild a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/reset-workspace.html). This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     ///
     /// - Parameter RebuildWorkspacesInput : [no documentation found]
@@ -1196,11 +1010,8 @@ public protocol WorkSpacesClientProtocol {
     /// __Possible Exceptions:__
     /// - `OperationNotSupportedException` : This operation is not supported.
     func rebuildWorkspaces(input: RebuildWorkspacesInput) async throws -> RebuildWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RegisterWorkspaceDirectory` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Registers the specified directory. This operation is asynchronous and returns before the WorkSpace directory is registered. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [ Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
     ///
     /// - Parameter RegisterWorkspaceDirectoryInput : [no documentation found]
@@ -1219,11 +1030,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `UnsupportedNetworkConfigurationException` : The configuration of this network is not supported for this operation, or your network configuration conflicts with the Amazon WorkSpaces management network IP range. For more information, see [ Configure a VPC for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html).
     /// - `WorkspacesDefaultRoleNotFoundException` : The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
     func registerWorkspaceDirectory(input: RegisterWorkspaceDirectoryInput) async throws -> RegisterWorkspaceDirectoryOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RestoreWorkspace` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is  AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see [Restore a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/restore-workspace.html). This operation is asynchronous and returns before the WorkSpace is completely restored.
     ///
     /// - Parameter RestoreWorkspaceInput : [no documentation found]
@@ -1238,11 +1046,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `OperationNotSupportedException` : This operation is not supported.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func restoreWorkspace(input: RestoreWorkspaceInput) async throws -> RestoreWorkspaceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `RevokeIpRules` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Removes one or more rules from the specified IP access control group.
     ///
     /// - Parameter RevokeIpRulesInput : [no documentation found]
@@ -1257,44 +1062,32 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidResourceStateException` : The state of the resource is not valid for this operation.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func revokeIpRules(input: RevokeIpRulesInput) async throws -> RevokeIpRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop and a state of STOPPED.
     ///
     /// - Parameter StartWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `StartWorkspacesOutput` : [no documentation found]
     func startWorkspaces(input: StartWorkspacesInput) async throws -> StartWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
     /// - Parameter StopWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `StopWorkspacesOutput` : [no documentation found]
     func stopWorkspaces(input: StopWorkspacesInput) async throws -> StopWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TerminateWorkspaces` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html). If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated. Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/). To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html). If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     ///
     /// - Parameter TerminateWorkspacesInput : [no documentation found]
     ///
     /// - Returns: `TerminateWorkspacesOutput` : [no documentation found]
     func terminateWorkspaces(input: TerminateWorkspacesInput) async throws -> TerminateWorkspacesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConnectClientAddIn` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.
     ///
     /// - Parameter UpdateConnectClientAddInInput : [no documentation found]
@@ -1308,11 +1101,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func updateConnectClientAddIn(input: UpdateConnectClientAddInInput) async throws -> UpdateConnectClientAddInOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateConnectionAliasPermission` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
     /// * Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
@@ -1334,11 +1124,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func updateConnectionAliasPermission(input: UpdateConnectionAliasPermissionInput) async throws -> UpdateConnectionAliasPermissionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRulesOfIpGroup` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Replaces the current rules of the specified IP access control group with the specified rules.
     ///
     /// - Parameter UpdateRulesOfIpGroupInput : [no documentation found]
@@ -1354,11 +1141,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ResourceNotFoundException` : The resource could not be found.
     func updateRulesOfIpGroup(input: UpdateRulesOfIpGroupInput) async throws -> UpdateRulesOfIpGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkspaceBundle` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see [ Update a Custom WorkSpaces Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-custom-bundle.html). Existing WorkSpaces aren't automatically updated when you update the bundle that they're based on. To update existing WorkSpaces that are based on a bundle that you've updated, you must either rebuild the WorkSpaces or delete and recreate them.
     ///
     /// - Parameter UpdateWorkspaceBundleInput : [no documentation found]
@@ -1374,11 +1158,8 @@ public protocol WorkSpacesClientProtocol {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ResourceUnavailableException` : The specified resource is not available.
     func updateWorkspaceBundle(input: UpdateWorkspaceBundleInput) async throws -> UpdateWorkspaceBundleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWorkspaceImagePermission` operation on the `WorkspacesService` service.
     ///
->>>>>>> main
     /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. For more information about sharing images, see [ Share or Unshare a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html).
     ///
     /// * To delete an image that has been shared, you must unshare the image before you delete it.

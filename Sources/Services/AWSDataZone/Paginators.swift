@@ -12,11 +12,7 @@ extension DataZoneClient {
     ///     - input: A `[ListAssetRevisionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssetRevisionsOutput`
     public func listAssetRevisionsPaginated(input: ListAssetRevisionsInput) -> ClientRuntime.PaginatorSequence<ListAssetRevisionsInput, ListAssetRevisionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssetRevisionsInput, ListAssetRevisionsOutput>(input: input, inputKey: \ListAssetRevisionsInput.nextToken, outputKey: \ListAssetRevisionsOutput.nextToken, paginationFunction: self.listAssetRevisions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssetRevisionsInput, ListAssetRevisionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssetRevisions(input:))
->>>>>>> main
     }
 }
 
@@ -30,11 +26,7 @@ extension ListAssetRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListAssetRevisionsInput, Output == ListAssetRevisionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListAssetRevisionsInput, OperationStackOutput == ListAssetRevisionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listAssetRevisionsPaginated`
     /// to access the nested member `[DataZoneClientTypes.AssetRevision]`
     /// - Returns: `[DataZoneClientTypes.AssetRevision]`
@@ -52,11 +44,7 @@ extension DataZoneClient {
     ///     - input: A `[ListDataSourceRunActivitiesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourceRunActivitiesOutput`
     public func listDataSourceRunActivitiesPaginated(input: ListDataSourceRunActivitiesInput) -> ClientRuntime.PaginatorSequence<ListDataSourceRunActivitiesInput, ListDataSourceRunActivitiesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDataSourceRunActivitiesInput, ListDataSourceRunActivitiesOutput>(input: input, inputKey: \ListDataSourceRunActivitiesInput.nextToken, outputKey: \ListDataSourceRunActivitiesOutput.nextToken, paginationFunction: self.listDataSourceRunActivities(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDataSourceRunActivitiesInput, ListDataSourceRunActivitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataSourceRunActivities(input:))
->>>>>>> main
     }
 }
 
@@ -71,11 +59,7 @@ extension ListDataSourceRunActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDataSourceRunActivitiesInput, Output == ListDataSourceRunActivitiesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDataSourceRunActivitiesInput, OperationStackOutput == ListDataSourceRunActivitiesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDataSourceRunActivitiesPaginated`
     /// to access the nested member `[DataZoneClientTypes.DataSourceRunActivity]`
     /// - Returns: `[DataZoneClientTypes.DataSourceRunActivity]`
@@ -93,11 +77,7 @@ extension DataZoneClient {
     ///     - input: A `[ListEnvironmentBlueprintsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentBlueprintsOutput`
     public func listEnvironmentBlueprintsPaginated(input: ListEnvironmentBlueprintsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentBlueprintsInput, ListEnvironmentBlueprintsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEnvironmentBlueprintsInput, ListEnvironmentBlueprintsOutput>(input: input, inputKey: \ListEnvironmentBlueprintsInput.nextToken, outputKey: \ListEnvironmentBlueprintsOutput.nextToken, paginationFunction: self.listEnvironmentBlueprints(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEnvironmentBlueprintsInput, ListEnvironmentBlueprintsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironmentBlueprints(input:))
->>>>>>> main
     }
 }
 
@@ -112,11 +92,7 @@ extension ListEnvironmentBlueprintsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEnvironmentBlueprintsInput, Output == ListEnvironmentBlueprintsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEnvironmentBlueprintsInput, OperationStackOutput == ListEnvironmentBlueprintsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentBlueprintsPaginated`
     /// to access the nested member `[DataZoneClientTypes.EnvironmentBlueprintSummary]`
     /// - Returns: `[DataZoneClientTypes.EnvironmentBlueprintSummary]`
@@ -134,11 +110,7 @@ extension DataZoneClient {
     ///     - input: A `[ListEnvironmentProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentProfilesOutput`
     public func listEnvironmentProfilesPaginated(input: ListEnvironmentProfilesInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentProfilesInput, ListEnvironmentProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEnvironmentProfilesInput, ListEnvironmentProfilesOutput>(input: input, inputKey: \ListEnvironmentProfilesInput.nextToken, outputKey: \ListEnvironmentProfilesOutput.nextToken, paginationFunction: self.listEnvironmentProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEnvironmentProfilesInput, ListEnvironmentProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironmentProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -156,11 +128,7 @@ extension ListEnvironmentProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEnvironmentProfilesInput, Output == ListEnvironmentProfilesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEnvironmentProfilesInput, OperationStackOutput == ListEnvironmentProfilesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentProfilesPaginated`
     /// to access the nested member `[DataZoneClientTypes.EnvironmentProfileSummary]`
     /// - Returns: `[DataZoneClientTypes.EnvironmentProfileSummary]`
@@ -178,11 +146,7 @@ extension DataZoneClient {
     ///     - input: A `[ListEnvironmentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEnvironmentsOutput`
     public func listEnvironmentsPaginated(input: ListEnvironmentsInput) -> ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \ListEnvironmentsInput.nextToken, outputKey: \ListEnvironmentsOutput.nextToken, paginationFunction: self.listEnvironments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEnvironmentsInput, ListEnvironmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEnvironments(input:))
->>>>>>> main
     }
 }
 
@@ -203,11 +167,7 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, OperationStackOutput == ListEnvironmentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
     /// to access the nested member `[DataZoneClientTypes.EnvironmentSummary]`
     /// - Returns: `[DataZoneClientTypes.EnvironmentSummary]`
@@ -225,11 +185,7 @@ extension DataZoneClient {
     ///     - input: A `[ListNotificationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationsOutput`
     public func listNotificationsPaginated(input: ListNotificationsInput) -> ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \ListNotificationsInput.nextToken, outputKey: \ListNotificationsOutput.nextToken, paginationFunction: self.listNotifications(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotificationsInput, ListNotificationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotifications(input:))
->>>>>>> main
     }
 }
 
@@ -247,11 +203,7 @@ extension ListNotificationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNotificationsInput, Output == ListNotificationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNotificationsInput, OperationStackOutput == ListNotificationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNotificationsPaginated`
     /// to access the nested member `[DataZoneClientTypes.NotificationOutput]`
     /// - Returns: `[DataZoneClientTypes.NotificationOutput]`
@@ -269,11 +221,7 @@ extension DataZoneClient {
     ///     - input: A `[ListProjectMembershipsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectMembershipsOutput`
     public func listProjectMembershipsPaginated(input: ListProjectMembershipsInput) -> ClientRuntime.PaginatorSequence<ListProjectMembershipsInput, ListProjectMembershipsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectMembershipsInput, ListProjectMembershipsOutput>(input: input, inputKey: \ListProjectMembershipsInput.nextToken, outputKey: \ListProjectMembershipsOutput.nextToken, paginationFunction: self.listProjectMemberships(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectMembershipsInput, ListProjectMembershipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjectMemberships(input:))
->>>>>>> main
     }
 }
 
@@ -289,11 +237,7 @@ extension ListProjectMembershipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProjectMembershipsInput, Output == ListProjectMembershipsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProjectMembershipsInput, OperationStackOutput == ListProjectMembershipsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectMembershipsPaginated`
     /// to access the nested member `[DataZoneClientTypes.ProjectMember]`
     /// - Returns: `[DataZoneClientTypes.ProjectMember]`
@@ -311,11 +255,7 @@ extension DataZoneClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
->>>>>>> main
     }
 }
 
@@ -331,11 +271,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[DataZoneClientTypes.ProjectSummary]`
     /// - Returns: `[DataZoneClientTypes.ProjectSummary]`
@@ -353,11 +289,7 @@ extension DataZoneClient {
     ///     - input: A `[ListSubscriptionGrantsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionGrantsOutput`
     public func listSubscriptionGrantsPaginated(input: ListSubscriptionGrantsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionGrantsInput, ListSubscriptionGrantsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSubscriptionGrantsInput, ListSubscriptionGrantsOutput>(input: input, inputKey: \ListSubscriptionGrantsInput.nextToken, outputKey: \ListSubscriptionGrantsOutput.nextToken, paginationFunction: self.listSubscriptionGrants(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSubscriptionGrantsInput, ListSubscriptionGrantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptionGrants(input:))
->>>>>>> main
     }
 }
 
@@ -376,11 +308,7 @@ extension ListSubscriptionGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSubscriptionGrantsInput, Output == ListSubscriptionGrantsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSubscriptionGrantsInput, OperationStackOutput == ListSubscriptionGrantsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionGrantsPaginated`
     /// to access the nested member `[DataZoneClientTypes.SubscriptionGrantSummary]`
     /// - Returns: `[DataZoneClientTypes.SubscriptionGrantSummary]`
@@ -398,11 +326,7 @@ extension DataZoneClient {
     ///     - input: A `[ListSubscriptionRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionRequestsOutput`
     public func listSubscriptionRequestsPaginated(input: ListSubscriptionRequestsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionRequestsInput, ListSubscriptionRequestsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSubscriptionRequestsInput, ListSubscriptionRequestsOutput>(input: input, inputKey: \ListSubscriptionRequestsInput.nextToken, outputKey: \ListSubscriptionRequestsOutput.nextToken, paginationFunction: self.listSubscriptionRequests(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSubscriptionRequestsInput, ListSubscriptionRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptionRequests(input:))
->>>>>>> main
     }
 }
 
@@ -421,11 +345,7 @@ extension ListSubscriptionRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSubscriptionRequestsInput, Output == ListSubscriptionRequestsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSubscriptionRequestsInput, OperationStackOutput == ListSubscriptionRequestsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionRequestsPaginated`
     /// to access the nested member `[DataZoneClientTypes.SubscriptionRequestSummary]`
     /// - Returns: `[DataZoneClientTypes.SubscriptionRequestSummary]`
@@ -443,11 +363,7 @@ extension DataZoneClient {
     ///     - input: A `[ListSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionsOutput`
     public func listSubscriptionsPaginated(input: ListSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \ListSubscriptionsInput.nextToken, outputKey: \ListSubscriptionsOutput.nextToken, paginationFunction: self.listSubscriptions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptions(input:))
->>>>>>> main
     }
 }
 
@@ -467,11 +383,7 @@ extension ListSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSubscriptionsInput, Output == ListSubscriptionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSubscriptionsInput, OperationStackOutput == ListSubscriptionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionsPaginated`
     /// to access the nested member `[DataZoneClientTypes.SubscriptionSummary]`
     /// - Returns: `[DataZoneClientTypes.SubscriptionSummary]`
@@ -489,11 +401,7 @@ extension DataZoneClient {
     ///     - input: A `[ListSubscriptionTargetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionTargetsOutput`
     public func listSubscriptionTargetsPaginated(input: ListSubscriptionTargetsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionTargetsInput, ListSubscriptionTargetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListSubscriptionTargetsInput, ListSubscriptionTargetsOutput>(input: input, inputKey: \ListSubscriptionTargetsInput.nextToken, outputKey: \ListSubscriptionTargetsOutput.nextToken, paginationFunction: self.listSubscriptionTargets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListSubscriptionTargetsInput, ListSubscriptionTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptionTargets(input:))
->>>>>>> main
     }
 }
 
@@ -509,11 +417,7 @@ extension ListSubscriptionTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListSubscriptionTargetsInput, Output == ListSubscriptionTargetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListSubscriptionTargetsInput, OperationStackOutput == ListSubscriptionTargetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionTargetsPaginated`
     /// to access the nested member `[DataZoneClientTypes.SubscriptionTargetSummary]`
     /// - Returns: `[DataZoneClientTypes.SubscriptionTargetSummary]`
@@ -531,11 +435,7 @@ extension DataZoneClient {
     ///     - input: A `[SearchInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchOutput`
     public func searchPaginated(input: SearchInput) -> ClientRuntime.PaginatorSequence<SearchInput, SearchOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \SearchInput.nextToken, outputKey: \SearchOutput.nextToken, paginationFunction: self.search(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.search(input:))
->>>>>>> main
     }
 }
 
@@ -555,11 +455,7 @@ extension SearchInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchInput, Output == SearchOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchInput, OperationStackOutput == SearchOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchPaginated`
     /// to access the nested member `[DataZoneClientTypes.SearchInventoryResultItem]`
     /// - Returns: `[DataZoneClientTypes.SearchInventoryResultItem]`
@@ -577,11 +473,7 @@ extension DataZoneClient {
     ///     - input: A `[SearchGroupProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchGroupProfilesOutput`
     public func searchGroupProfilesPaginated(input: SearchGroupProfilesInput) -> ClientRuntime.PaginatorSequence<SearchGroupProfilesInput, SearchGroupProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchGroupProfilesInput, SearchGroupProfilesOutput>(input: input, inputKey: \SearchGroupProfilesInput.nextToken, outputKey: \SearchGroupProfilesOutput.nextToken, paginationFunction: self.searchGroupProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchGroupProfilesInput, SearchGroupProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchGroupProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -596,11 +488,7 @@ extension SearchGroupProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchGroupProfilesInput, Output == SearchGroupProfilesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchGroupProfilesInput, OperationStackOutput == SearchGroupProfilesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchGroupProfilesPaginated`
     /// to access the nested member `[DataZoneClientTypes.GroupProfileSummary]`
     /// - Returns: `[DataZoneClientTypes.GroupProfileSummary]`
@@ -618,11 +506,7 @@ extension DataZoneClient {
     ///     - input: A `[SearchListingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchListingsOutput`
     public func searchListingsPaginated(input: SearchListingsInput) -> ClientRuntime.PaginatorSequence<SearchListingsInput, SearchListingsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchListingsInput, SearchListingsOutput>(input: input, inputKey: \SearchListingsInput.nextToken, outputKey: \SearchListingsOutput.nextToken, paginationFunction: self.searchListings(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchListingsInput, SearchListingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchListings(input:))
->>>>>>> main
     }
 }
 
@@ -640,11 +524,7 @@ extension SearchListingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchListingsInput, Output == SearchListingsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchListingsInput, OperationStackOutput == SearchListingsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchListingsPaginated`
     /// to access the nested member `[DataZoneClientTypes.SearchResultItem]`
     /// - Returns: `[DataZoneClientTypes.SearchResultItem]`
@@ -662,11 +542,7 @@ extension DataZoneClient {
     ///     - input: A `[SearchTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchTypesOutput`
     public func searchTypesPaginated(input: SearchTypesInput) -> ClientRuntime.PaginatorSequence<SearchTypesInput, SearchTypesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchTypesInput, SearchTypesOutput>(input: input, inputKey: \SearchTypesInput.nextToken, outputKey: \SearchTypesOutput.nextToken, paginationFunction: self.searchTypes(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchTypesInput, SearchTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTypes(input:))
->>>>>>> main
     }
 }
 
@@ -685,11 +561,7 @@ extension SearchTypesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchTypesInput, Output == SearchTypesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchTypesInput, OperationStackOutput == SearchTypesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchTypesPaginated`
     /// to access the nested member `[DataZoneClientTypes.SearchTypesResultItem]`
     /// - Returns: `[DataZoneClientTypes.SearchTypesResultItem]`
@@ -707,11 +579,7 @@ extension DataZoneClient {
     ///     - input: A `[SearchUserProfilesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchUserProfilesOutput`
     public func searchUserProfilesPaginated(input: SearchUserProfilesInput) -> ClientRuntime.PaginatorSequence<SearchUserProfilesInput, SearchUserProfilesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchUserProfilesInput, SearchUserProfilesOutput>(input: input, inputKey: \SearchUserProfilesInput.nextToken, outputKey: \SearchUserProfilesOutput.nextToken, paginationFunction: self.searchUserProfiles(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchUserProfilesInput, SearchUserProfilesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchUserProfiles(input:))
->>>>>>> main
     }
 }
 
@@ -726,11 +594,7 @@ extension SearchUserProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == SearchUserProfilesInput, Output == SearchUserProfilesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == SearchUserProfilesInput, OperationStackOutput == SearchUserProfilesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `searchUserProfilesPaginated`
     /// to access the nested member `[DataZoneClientTypes.UserProfileSummary]`
     /// - Returns: `[DataZoneClientTypes.UserProfileSummary]`

@@ -12,11 +12,7 @@ extension MediaConvertClient {
     ///     - input: A `[DescribeEndpointsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointsOutput`
     public func describeEndpointsPaginated(input: DescribeEndpointsInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput>(input: input, inputKey: \DescribeEndpointsInput.nextToken, outputKey: \DescribeEndpointsOutput.nextToken, paginationFunction: self.describeEndpoints(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeEndpointsInput, DescribeEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeEndpoints(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension DescribeEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == DescribeEndpointsInput, Output == DescribeEndpointsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == DescribeEndpointsInput, OperationStackOutput == DescribeEndpointsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `describeEndpointsPaginated`
     /// to access the nested member `[MediaConvertClientTypes.Endpoint]`
     /// - Returns: `[MediaConvertClientTypes.Endpoint]`
@@ -51,11 +43,7 @@ extension MediaConvertClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
->>>>>>> main
     }
 }
 
@@ -70,11 +58,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[MediaConvertClientTypes.Job]`
     /// - Returns: `[MediaConvertClientTypes.Job]`
@@ -92,11 +76,7 @@ extension MediaConvertClient {
     ///     - input: A `[ListJobTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobTemplatesOutput`
     public func listJobTemplatesPaginated(input: ListJobTemplatesInput) -> ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \ListJobTemplatesInput.nextToken, outputKey: \ListJobTemplatesOutput.nextToken, paginationFunction: self.listJobTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListJobTemplatesInput, ListJobTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -111,11 +91,7 @@ extension ListJobTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListJobTemplatesInput, Output == ListJobTemplatesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListJobTemplatesInput, OperationStackOutput == ListJobTemplatesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listJobTemplatesPaginated`
     /// to access the nested member `[MediaConvertClientTypes.JobTemplate]`
     /// - Returns: `[MediaConvertClientTypes.JobTemplate]`
@@ -133,11 +109,7 @@ extension MediaConvertClient {
     ///     - input: A `[ListPresetsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPresetsOutput`
     public func listPresetsPaginated(input: ListPresetsInput) -> ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput>(input: input, inputKey: \ListPresetsInput.nextToken, outputKey: \ListPresetsOutput.nextToken, paginationFunction: self.listPresets(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPresetsInput, ListPresetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPresets(input:))
->>>>>>> main
     }
 }
 
@@ -152,11 +124,7 @@ extension ListPresetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListPresetsInput, Output == ListPresetsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListPresetsInput, OperationStackOutput == ListPresetsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listPresetsPaginated`
     /// to access the nested member `[MediaConvertClientTypes.Preset]`
     /// - Returns: `[MediaConvertClientTypes.Preset]`
@@ -174,11 +142,7 @@ extension MediaConvertClient {
     ///     - input: A `[ListQueuesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQueuesOutput`
     public func listQueuesPaginated(input: ListQueuesInput) -> ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \ListQueuesInput.nextToken, outputKey: \ListQueuesOutput.nextToken, paginationFunction: self.listQueues(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListQueuesInput, ListQueuesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQueues(input:))
->>>>>>> main
     }
 }
 
@@ -192,11 +156,7 @@ extension ListQueuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListQueuesInput, Output == ListQueuesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListQueuesInput, OperationStackOutput == ListQueuesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listQueuesPaginated`
     /// to access the nested member `[MediaConvertClientTypes.Queue]`
     /// - Returns: `[MediaConvertClientTypes.Queue]`

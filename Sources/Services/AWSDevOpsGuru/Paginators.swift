@@ -12,11 +12,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[DescribeOrganizationResourceCollectionHealthInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationResourceCollectionHealthOutput`
     public func describeOrganizationResourceCollectionHealthPaginated(input: DescribeOrganizationResourceCollectionHealthInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutput>(input: input, inputKey: \DescribeOrganizationResourceCollectionHealthInput.nextToken, outputKey: \DescribeOrganizationResourceCollectionHealthOutput.nextToken, paginationFunction: self.describeOrganizationResourceCollectionHealth(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeOrganizationResourceCollectionHealth(input:))
->>>>>>> main
     }
 }
 
@@ -40,11 +36,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[DescribeResourceCollectionHealthInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeResourceCollectionHealthOutput`
     public func describeResourceCollectionHealthPaginated(input: DescribeResourceCollectionHealthInput) -> ClientRuntime.PaginatorSequence<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutput>(input: input, inputKey: \DescribeResourceCollectionHealthInput.nextToken, outputKey: \DescribeResourceCollectionHealthOutput.nextToken, paginationFunction: self.describeResourceCollectionHealth(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeResourceCollectionHealth(input:))
->>>>>>> main
     }
 }
 
@@ -65,11 +57,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[GetCostEstimationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCostEstimationOutput`
     public func getCostEstimationPaginated(input: GetCostEstimationInput) -> ClientRuntime.PaginatorSequence<GetCostEstimationInput, GetCostEstimationOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCostEstimationInput, GetCostEstimationOutput>(input: input, inputKey: \GetCostEstimationInput.nextToken, outputKey: \GetCostEstimationOutput.nextToken, paginationFunction: self.getCostEstimation(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCostEstimationInput, GetCostEstimationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCostEstimation(input:))
->>>>>>> main
     }
 }
 
@@ -89,11 +77,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[GetResourceCollectionInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetResourceCollectionOutput`
     public func getResourceCollectionPaginated(input: GetResourceCollectionInput) -> ClientRuntime.PaginatorSequence<GetResourceCollectionInput, GetResourceCollectionOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetResourceCollectionInput, GetResourceCollectionOutput>(input: input, inputKey: \GetResourceCollectionInput.nextToken, outputKey: \GetResourceCollectionOutput.nextToken, paginationFunction: self.getResourceCollection(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetResourceCollectionInput, GetResourceCollectionOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceCollection(input:))
->>>>>>> main
     }
 }
 
@@ -114,11 +98,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListAnomaliesForInsightInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomaliesForInsightOutput`
     public func listAnomaliesForInsightPaginated(input: ListAnomaliesForInsightInput) -> ClientRuntime.PaginatorSequence<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutput>(input: input, inputKey: \ListAnomaliesForInsightInput.nextToken, outputKey: \ListAnomaliesForInsightOutput.nextToken, paginationFunction: self.listAnomaliesForInsight(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomaliesForInsight(input:))
->>>>>>> main
     }
 }
 
@@ -143,11 +123,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListAnomalousLogGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalousLogGroupsOutput`
     public func listAnomalousLogGroupsPaginated(input: ListAnomalousLogGroupsInput) -> ClientRuntime.PaginatorSequence<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutput>(input: input, inputKey: \ListAnomalousLogGroupsInput.nextToken, outputKey: \ListAnomalousLogGroupsOutput.nextToken, paginationFunction: self.listAnomalousLogGroups(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAnomalousLogGroups(input:))
->>>>>>> main
     }
 }
 
@@ -169,11 +145,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEventsOutput`
     public func listEventsPaginated(input: ListEventsInput) -> ClientRuntime.PaginatorSequence<ListEventsInput, ListEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEventsInput, ListEventsOutput>(input: input, inputKey: \ListEventsInput.nextToken, outputKey: \ListEventsOutput.nextToken, paginationFunction: self.listEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEventsInput, ListEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEvents(input:))
->>>>>>> main
     }
 }
 
@@ -187,11 +159,7 @@ extension ListEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEventsInput, Output == ListEventsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEventsInput, OperationStackOutput == ListEventsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEventsPaginated`
     /// to access the nested member `[DevOpsGuruClientTypes.Event]`
     /// - Returns: `[DevOpsGuruClientTypes.Event]`
@@ -209,11 +177,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInsightsOutput`
     public func listInsightsPaginated(input: ListInsightsInput) -> ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutput>(input: input, inputKey: \ListInsightsInput.nextToken, outputKey: \ListInsightsOutput.nextToken, paginationFunction: self.listInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInsights(input:))
->>>>>>> main
     }
 }
 
@@ -235,11 +199,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListMonitoredResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoredResourcesOutput`
     public func listMonitoredResourcesPaginated(input: ListMonitoredResourcesInput) -> ClientRuntime.PaginatorSequence<ListMonitoredResourcesInput, ListMonitoredResourcesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListMonitoredResourcesInput, ListMonitoredResourcesOutput>(input: input, inputKey: \ListMonitoredResourcesInput.nextToken, outputKey: \ListMonitoredResourcesOutput.nextToken, paginationFunction: self.listMonitoredResources(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListMonitoredResourcesInput, ListMonitoredResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMonitoredResources(input:))
->>>>>>> main
     }
 }
 
@@ -261,11 +221,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListNotificationChannelsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationChannelsOutput`
     public func listNotificationChannelsPaginated(input: ListNotificationChannelsInput) -> ClientRuntime.PaginatorSequence<ListNotificationChannelsInput, ListNotificationChannelsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListNotificationChannelsInput, ListNotificationChannelsOutput>(input: input, inputKey: \ListNotificationChannelsInput.nextToken, outputKey: \ListNotificationChannelsOutput.nextToken, paginationFunction: self.listNotificationChannels(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListNotificationChannelsInput, ListNotificationChannelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNotificationChannels(input:))
->>>>>>> main
     }
 }
 
@@ -276,11 +232,7 @@ extension ListNotificationChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListNotificationChannelsInput, Output == ListNotificationChannelsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListNotificationChannelsInput, OperationStackOutput == ListNotificationChannelsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listNotificationChannelsPaginated`
     /// to access the nested member `[DevOpsGuruClientTypes.NotificationChannel]`
     /// - Returns: `[DevOpsGuruClientTypes.NotificationChannel]`
@@ -298,11 +250,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListOrganizationInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationInsightsOutput`
     public func listOrganizationInsightsPaginated(input: ListOrganizationInsightsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationInsightsInput, ListOrganizationInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListOrganizationInsightsInput, ListOrganizationInsightsOutput>(input: input, inputKey: \ListOrganizationInsightsInput.nextToken, outputKey: \ListOrganizationInsightsOutput.nextToken, paginationFunction: self.listOrganizationInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListOrganizationInsightsInput, ListOrganizationInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationInsights(input:))
->>>>>>> main
     }
 }
 
@@ -326,11 +274,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[ListRecommendationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutput`
     public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutput.nextToken, paginationFunction: self.listRecommendations(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecommendations(input:))
->>>>>>> main
     }
 }
 
@@ -344,11 +288,7 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRecommendationsInput, Output == ListRecommendationsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRecommendationsInput, OperationStackOutput == ListRecommendationsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRecommendationsPaginated`
     /// to access the nested member `[DevOpsGuruClientTypes.Recommendation]`
     /// - Returns: `[DevOpsGuruClientTypes.Recommendation]`
@@ -366,11 +306,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[SearchInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchInsightsOutput`
     public func searchInsightsPaginated(input: SearchInsightsInput) -> ClientRuntime.PaginatorSequence<SearchInsightsInput, SearchInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchInsightsInput, SearchInsightsOutput>(input: input, inputKey: \SearchInsightsInput.nextToken, outputKey: \SearchInsightsOutput.nextToken, paginationFunction: self.searchInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchInsightsInput, SearchInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchInsights(input:))
->>>>>>> main
     }
 }
 
@@ -394,11 +330,7 @@ extension DevOpsGuruClient {
     ///     - input: A `[SearchOrganizationInsightsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `SearchOrganizationInsightsOutput`
     public func searchOrganizationInsightsPaginated(input: SearchOrganizationInsightsInput) -> ClientRuntime.PaginatorSequence<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutput>(input: input, inputKey: \SearchOrganizationInsightsInput.nextToken, outputKey: \SearchOrganizationInsightsOutput.nextToken, paginationFunction: self.searchOrganizationInsights(input:))
-=======
         return ClientRuntime.PaginatorSequence<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchOrganizationInsights(input:))
->>>>>>> main
     }
 }
 

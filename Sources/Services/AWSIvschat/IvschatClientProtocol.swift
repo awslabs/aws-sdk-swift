@@ -97,11 +97,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func createChatToken(input: CreateChatTokenInput) async throws -> CreateChatTokenOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Creates a logging configuration that allows clients to store and record sent messages.
     ///
     /// - Parameter CreateLoggingConfigurationInput : [no documentation found]
@@ -118,11 +115,8 @@ public protocol IvschatClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Creates a room that allows clients to connect and pass messages.
     ///
     /// - Parameter CreateRoomInput : [no documentation found]
@@ -139,11 +133,8 @@ public protocol IvschatClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createRoom(input: CreateRoomInput) async throws -> CreateRoomOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Deletes the specified logging configuration.
     ///
     /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
@@ -159,11 +150,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteMessage` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Sends an event to a specific room which directs clients to delete a specific message; that is, unrender it from view and delete it from the client’s chat history. This event’s EventName is aws:DELETE_MESSAGE. This replicates the [ DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
     /// - Parameter DeleteMessageInput : [no documentation found]
@@ -179,11 +167,8 @@ public protocol IvschatClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func deleteMessage(input: DeleteMessageInput) async throws -> DeleteMessageOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Deletes the specified room.
     ///
     /// - Parameter DeleteRoomInput : [no documentation found]
@@ -198,11 +183,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteRoom(input: DeleteRoomInput) async throws -> DeleteRoomOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisconnectUser` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Disconnects all connections using a specified user ID from a room. This replicates the [ DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
     /// - Parameter DisconnectUserInput : [no documentation found]
@@ -218,11 +200,8 @@ public protocol IvschatClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func disconnectUser(input: DisconnectUserInput) async throws -> DisconnectUserOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Gets the specified logging configuration.
     ///
     /// - Parameter GetLoggingConfigurationInput : [no documentation found]
@@ -236,11 +215,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Gets the specified room.
     ///
     /// - Parameter GetRoomInput : [no documentation found]
@@ -254,11 +230,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getRoom(input: GetRoomInput) async throws -> GetRoomOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLoggingConfigurations` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
     ///
     /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
@@ -271,11 +244,8 @@ public protocol IvschatClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRooms` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     ///
     /// - Parameter ListRoomsInput : [no documentation found]
@@ -289,11 +259,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listRooms(input: ListRoomsInput) async throws -> ListRoomsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Gets information about AWS tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -307,11 +274,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `SendEvent` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Sends an event to a room. Use this within your application’s business logic to send events to clients of a room; e.g., to notify clients to change the way the chat UI is rendered.
     ///
     /// - Parameter SendEventInput : [no documentation found]
@@ -327,11 +291,8 @@ public protocol IvschatClientProtocol {
     /// - `ThrottlingException` :
     /// - `ValidationException` :
     func sendEvent(input: SendEventInput) async throws -> SendEventOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -345,11 +306,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -363,11 +321,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateLoggingConfiguration` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Updates a specified logging configuration.
     ///
     /// - Parameter UpdateLoggingConfigurationInput : [no documentation found]
@@ -383,11 +338,8 @@ public protocol IvschatClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRoom` operation on the `AmazonInteractiveVideoServiceChat` service.
     ///
->>>>>>> main
     /// Updates a room’s configuration.
     ///
     /// - Parameter UpdateRoomInput : [no documentation found]

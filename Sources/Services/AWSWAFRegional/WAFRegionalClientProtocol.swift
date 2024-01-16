@@ -39,11 +39,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFUnavailableEntityException` : The operation failed because the entity referenced is temporarily unavailable. Retry your request.
     func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateByteMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a ByteMatchSet. You then use [UpdateByteMatchSet] to identify the part of a web request that you want AWS WAF to inspect, such as the values of the User-Agent header or the query string. For example, you can create a ByteMatchSet that matches any requests with User-Agent headers that contain the string BadBot. You can then configure AWS WAF to reject those requests. To create and configure a ByteMatchSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateByteMatchSet request.
@@ -89,11 +86,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createByteMatchSet(input: CreateByteMatchSetInput) async throws -> CreateByteMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateGeoMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an [GeoMatchSet], which you use to specify which web requests you want to allow or block based on the country that the requests originate from. For example, if you're receiving a lot of requests from one or more countries and you want to block the requests, you can create an GeoMatchSet that contains those countries and then configure AWS WAF to block the requests. To create and configure a GeoMatchSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateGeoMatchSet request.
@@ -139,11 +133,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createGeoMatchSet(input: CreateGeoMatchSetInput) async throws -> CreateGeoMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateIPSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an [IPSet], which you use to specify which web requests that you want to allow or block based on the IP addresses that the requests originate from. For example, if you're receiving a lot of requests from one or more individual IP addresses or one or more ranges of IP addresses and you want to block the requests, you can create an IPSet that contains those IP addresses and then configure AWS WAF to block the requests. To create and configure an IPSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateIPSet request.
@@ -189,11 +180,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRateBasedRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a [RateBasedRule]. The RateBasedRule contains a RateLimit, which specifies the maximum number of requests that AWS WAF allows from a specified IP address in a five-minute period. The RateBasedRule also contains the IPSet objects, ByteMatchSet objects, and other predicates that identify the requests that you want to count or block if these requests exceed the RateLimit. If you add more than one predicate to a RateBasedRule, a request not only must exceed the RateLimit, but it also must match all the conditions to be counted or blocked. For example, suppose you add the following to a RateBasedRule:
     ///
     /// * An IPSet that matches the IP address 192.0.2.44/32
@@ -261,11 +249,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func createRateBasedRule(input: CreateRateBasedRuleInput) async throws -> CreateRateBasedRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRegexMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a [RegexMatchSet]. You then use [UpdateRegexMatchSet] to identify the part of a web request that you want AWS WAF to inspect, such as the values of the User-Agent header or the query string. For example, you can create a RegexMatchSet that contains a RegexMatchTuple that looks for any requests with User-Agent headers that match a RegexPatternSet with pattern B[a@]dB[o0]t. You can then configure AWS WAF to reject those requests. To create and configure a RegexMatchSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateRegexMatchSet request.
@@ -291,11 +276,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createRegexMatchSet(input: CreateRegexMatchSetInput) async throws -> CreateRegexMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRegexPatternSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a RegexPatternSet. You then use [UpdateRegexPatternSet] to specify the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t. You can then configure AWS WAF to reject those requests. To create and configure a RegexPatternSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateRegexPatternSet request.
@@ -321,11 +303,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createRegexPatternSet(input: CreateRegexPatternSetInput) async throws -> CreateRegexPatternSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a Rule, which contains the IPSet objects, ByteMatchSet objects, and other predicates that identify the requests that you want to block. If you add more than one predicate to a Rule, a request must match all of the specifications to be allowed or blocked. For example, suppose that you add the following to a Rule:
     ///
     /// * An IPSet that matches the IP address 192.0.2.44/32
@@ -384,11 +363,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func createRule(input: CreateRuleInput) async throws -> CreateRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateRuleGroup` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a RuleGroup. A rule group is a collection of predefined rules that you add to a web ACL. You use [UpdateRuleGroup] to add rules to the rule group. Rule groups are subject to the following limits:
     ///
     /// * Three rule groups per account. You can request an increase to this limit by contacting customer support.
@@ -415,11 +391,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSizeConstraintSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a SizeConstraintSet. You then use [UpdateSizeConstraintSet] to identify the part of a web request that you want AWS WAF to check for length, such as the length of the User-Agent header or the length of the query string. For example, you can create a SizeConstraintSet that matches any requests that have a query string that is longer than 100 bytes. You can then configure AWS WAF to reject those requests. To create and configure a SizeConstraintSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateSizeConstraintSet request.
@@ -465,11 +438,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createSizeConstraintSet(input: CreateSizeConstraintSetInput) async throws -> CreateSizeConstraintSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateSqlInjectionMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a [SqlInjectionMatchSet], which you use to allow, block, or count requests that contain snippets of SQL code in a specified part of web requests. AWS WAF searches for character sequences that are likely to be malicious strings. To create and configure a SqlInjectionMatchSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateSqlInjectionMatchSet request.
@@ -515,11 +485,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createSqlInjectionMatchSet(input: CreateSqlInjectionMatchSetInput) async throws -> CreateSqlInjectionMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates a WebACL, which contains the Rules that identify the CloudFront web requests that you want to allow, block, or count. AWS WAF evaluates Rules in order based on the value of Priority for each Rule. You also specify a default action, either ALLOW or BLOCK. If a web request doesn't match any of the Rules in a WebACL, AWS WAF responds to the request with the default action. To create and configure a WebACL, perform the following steps:
     ///
     /// * Create and update the ByteMatchSet objects and other predicates that you want to include in Rules. For more information, see [CreateByteMatchSet], [UpdateByteMatchSet], [CreateIPSet], [UpdateIPSet], [CreateSqlInjectionMatchSet], and [UpdateSqlInjectionMatchSet].
@@ -572,11 +539,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func createWebACL(input: CreateWebACLInput) async throws -> CreateWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateWebACLMigrationStack` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the latest version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, including caveats and manual steps to complete the migration and switch over to the new web ACL, see [Migrating your AWS WAF Classic resources to AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-migrating-from-classic.html) in the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
     ///
     /// - Parameter CreateWebACLMigrationStackInput : [no documentation found]
@@ -634,11 +598,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func createWebACLMigrationStack(input: CreateWebACLMigrationStackInput) async throws -> CreateWebACLMigrationStackOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateXssMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Creates an [XssMatchSet], which you use to allow, block, or count requests that contain cross-site scripting attacks in the specified part of web requests. AWS WAF searches for character sequences that are likely to be malicious strings. To create and configure an XssMatchSet, perform the following steps:
     ///
     /// * Use [GetChangeToken] to get the change token that you provide in the ChangeToken parameter of a CreateXssMatchSet request.
@@ -684,11 +645,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFLimitsExceededException` : The operation exceeds a resource limit, for example, the maximum number of WebACL objects that you can create for an AWS account. For more information, see [Limits](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the AWS WAF Developer Guide.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func createXssMatchSet(input: CreateXssMatchSetInput) async throws -> CreateXssMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteByteMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [ByteMatchSet]. You can't delete a ByteMatchSet if it's still used in any Rules or if it still includes any [ByteMatchTuple] objects (any filters). If you just want to remove a ByteMatchSet from a Rule, use [UpdateRule]. To permanently delete a ByteMatchSet, perform the following steps:
     ///
     /// * Update the ByteMatchSet to remove filters, if any. For more information, see [UpdateByteMatchSet].
@@ -723,11 +681,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteByteMatchSet(input: DeleteByteMatchSetInput) async throws -> DeleteByteMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteGeoMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [GeoMatchSet]. You can't delete a GeoMatchSet if it's still used in any Rules or if it still includes any countries. If you just want to remove a GeoMatchSet from a Rule, use [UpdateRule]. To permanently delete a GeoMatchSet from AWS WAF, perform the following steps:
     ///
     /// * Update the GeoMatchSet to remove any countries. For more information, see [UpdateGeoMatchSet].
@@ -762,11 +717,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteGeoMatchSet(input: DeleteGeoMatchSetInput) async throws -> DeleteGeoMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIPSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes an [IPSet]. You can't delete an IPSet if it's still used in any Rules or if it still includes any IP addresses. If you just want to remove an IPSet from a Rule, use [UpdateRule]. To permanently delete an IPSet from AWS WAF, perform the following steps:
     ///
     /// * Update the IPSet to remove IP address ranges, if any. For more information, see [UpdateIPSet].
@@ -801,11 +753,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteLoggingConfiguration` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes the [LoggingConfiguration] from the specified web ACL.
     ///
     /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
@@ -819,11 +768,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeletePermissionPolicy` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes an IAM policy from the specified RuleGroup. The user making the request must be the owner of the RuleGroup.
     ///
     /// - Parameter DeletePermissionPolicyInput : [no documentation found]
@@ -837,11 +783,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deletePermissionPolicy(input: DeletePermissionPolicyInput) async throws -> DeletePermissionPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRateBasedRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [RateBasedRule]. You can't delete a rule if it's still used in any WebACL objects or if it still includes any predicates, such as ByteMatchSet objects. If you just want to remove a rule from a WebACL, use [UpdateWebACL]. To permanently delete a RateBasedRule from AWS WAF, perform the following steps:
     ///
     /// * Update the RateBasedRule to remove predicates, if any. For more information, see [UpdateRateBasedRule].
@@ -878,11 +821,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func deleteRateBasedRule(input: DeleteRateBasedRuleInput) async throws -> DeleteRateBasedRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRegexMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [RegexMatchSet]. You can't delete a RegexMatchSet if it's still used in any Rules or if it still includes any RegexMatchTuples objects (any filters). If you just want to remove a RegexMatchSet from a Rule, use [UpdateRule]. To permanently delete a RegexMatchSet, perform the following steps:
     ///
     /// * Update the RegexMatchSet to remove filters, if any. For more information, see [UpdateRegexMatchSet].
@@ -917,11 +857,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteRegexMatchSet(input: DeleteRegexMatchSetInput) async throws -> DeleteRegexMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRegexPatternSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [RegexPatternSet]. You can't delete a RegexPatternSet if it's still used in any RegexMatchSet or if the RegexPatternSet is not empty.
     ///
     /// - Parameter DeleteRegexPatternSetInput : [no documentation found]
@@ -950,11 +887,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteRegexPatternSet(input: DeleteRegexPatternSetInput) async throws -> DeleteRegexPatternSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [Rule]. You can't delete a Rule if it's still used in any WebACL objects or if it still includes any predicates, such as ByteMatchSet objects. If you just want to remove a Rule from a WebACL, use [UpdateWebACL]. To permanently delete a Rule from AWS WAF, perform the following steps:
     ///
     /// * Update the Rule to remove predicates, if any. For more information, see [UpdateRule].
@@ -991,11 +925,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func deleteRule(input: DeleteRuleInput) async throws -> DeleteRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteRuleGroup` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [RuleGroup]. You can't delete a RuleGroup if it's still used in any WebACL objects or if it still includes any rules. If you just want to remove a RuleGroup from a WebACL, use [UpdateWebACL]. To permanently delete a RuleGroup from AWS WAF, perform the following steps:
     ///
     /// * Update the RuleGroup to remove rules, if any. For more information, see [UpdateRuleGroup].
@@ -1042,11 +973,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSizeConstraintSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [SizeConstraintSet]. You can't delete a SizeConstraintSet if it's still used in any Rules or if it still includes any [SizeConstraint] objects (any filters). If you just want to remove a SizeConstraintSet from a Rule, use [UpdateRule]. To permanently delete a SizeConstraintSet, perform the following steps:
     ///
     /// * Update the SizeConstraintSet to remove filters, if any. For more information, see [UpdateSizeConstraintSet].
@@ -1081,11 +1009,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteSizeConstraintSet(input: DeleteSizeConstraintSetInput) async throws -> DeleteSizeConstraintSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSqlInjectionMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [SqlInjectionMatchSet]. You can't delete a SqlInjectionMatchSet if it's still used in any Rules or if it still contains any [SqlInjectionMatchTuple] objects. If you just want to remove a SqlInjectionMatchSet from a Rule, use [UpdateRule]. To permanently delete a SqlInjectionMatchSet from AWS WAF, perform the following steps:
     ///
     /// * Update the SqlInjectionMatchSet to remove filters, if any. For more information, see [UpdateSqlInjectionMatchSet].
@@ -1120,11 +1045,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteSqlInjectionMatchSet(input: DeleteSqlInjectionMatchSetInput) async throws -> DeleteSqlInjectionMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [WebACL]. You can't delete a WebACL if it still contains any Rules. To delete a WebACL, perform the following steps:
     ///
     /// * Update the WebACL to remove Rules, if any. For more information, see [UpdateWebACL].
@@ -1161,11 +1083,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func deleteWebACL(input: DeleteWebACLInput) async throws -> DeleteWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteXssMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes an [XssMatchSet]. You can't delete an XssMatchSet if it's still used in any Rules or if it still contains any [XssMatchTuple] objects. If you just want to remove an XssMatchSet from a Rule, use [UpdateRule]. To permanently delete an XssMatchSet from AWS WAF, perform the following steps:
     ///
     /// * Update the XssMatchSet to remove filters, if any. For more information, see [UpdateXssMatchSet].
@@ -1200,11 +1119,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func deleteXssMatchSet(input: DeleteXssMatchSetInput) async throws -> DeleteXssMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DisassociateWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic Regional documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Removes a web ACL from the specified resource, either an application load balancer or Amazon API Gateway stage.
     ///
     /// - Parameter DisassociateWebACLInput : [no documentation found]
@@ -1237,11 +1153,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func disassociateWebACL(input: DisassociateWebACLInput) async throws -> DisassociateWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetByteMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [ByteMatchSet] specified by ByteMatchSetId.
     ///
     /// - Parameter GetByteMatchSetInput : [no documentation found]
@@ -1255,11 +1168,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getByteMatchSet(input: GetByteMatchSetInput) async throws -> GetByteMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetChangeToken` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. When you want to create, update, or delete AWS WAF objects, get a change token and include the change token in the create, update, or delete request. Change tokens ensure that your application doesn't submit conflicting requests to AWS WAF. Each create, update, or delete request must use a unique change token. If your application submits a GetChangeToken request and then submits a second GetChangeToken request before submitting a create, update, or delete request, the second GetChangeToken request returns the same value as the first GetChangeToken request. When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING, which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the status of your change token.
     ///
     /// - Parameter GetChangeTokenInput : [no documentation found]
@@ -1271,11 +1181,8 @@ public protocol WAFRegionalClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     func getChangeToken(input: GetChangeTokenInput) async throws -> GetChangeTokenOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetChangeTokenStatus` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the status of a ChangeToken that you got by calling [GetChangeToken]. ChangeTokenStatus is one of the following values:
     ///
     /// * PROVISIONED: You requested the change token by calling GetChangeToken, but you haven't used it yet in a call to create, update, or delete an AWS WAF object.
@@ -1294,11 +1201,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getChangeTokenStatus(input: GetChangeTokenStatusInput) async throws -> GetChangeTokenStatusOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetGeoMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [GeoMatchSet] that is specified by GeoMatchSetId.
     ///
     /// - Parameter GetGeoMatchSetInput : [no documentation found]
@@ -1312,11 +1216,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getGeoMatchSet(input: GetGeoMatchSetInput) async throws -> GetGeoMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetIPSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [IPSet] that is specified by IPSetId.
     ///
     /// - Parameter GetIPSetInput : [no documentation found]
@@ -1330,11 +1231,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetLoggingConfiguration` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [LoggingConfiguration] for the specified web ACL.
     ///
     /// - Parameter GetLoggingConfigurationInput : [no documentation found]
@@ -1347,11 +1245,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getLoggingConfiguration(input: GetLoggingConfigurationInput) async throws -> GetLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPermissionPolicy` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the IAM policy attached to the RuleGroup.
     ///
     /// - Parameter GetPermissionPolicyInput : [no documentation found]
@@ -1364,11 +1259,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getPermissionPolicy(input: GetPermissionPolicyInput) async throws -> GetPermissionPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRateBasedRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RateBasedRule] that is specified by the RuleId that you included in the GetRateBasedRule request.
     ///
     /// - Parameter GetRateBasedRuleInput : [no documentation found]
@@ -1382,11 +1274,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRateBasedRule(input: GetRateBasedRuleInput) async throws -> GetRateBasedRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRateBasedRuleManagedKeys` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the [RateBasedRule] that is specified by the RuleId. The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 addresses exceed the rate limit, the 10,000 addresses with the highest rates will be blocked.
     ///
     /// - Parameter GetRateBasedRuleManagedKeysInput : [no documentation found]
@@ -1419,11 +1308,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRateBasedRuleManagedKeys(input: GetRateBasedRuleManagedKeysInput) async throws -> GetRateBasedRuleManagedKeysOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRegexMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RegexMatchSet] specified by RegexMatchSetId.
     ///
     /// - Parameter GetRegexMatchSetInput : [no documentation found]
@@ -1437,11 +1323,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRegexMatchSet(input: GetRegexMatchSetInput) async throws -> GetRegexMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRegexPatternSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RegexPatternSet] specified by RegexPatternSetId.
     ///
     /// - Parameter GetRegexPatternSetInput : [no documentation found]
@@ -1455,11 +1338,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRegexPatternSet(input: GetRegexPatternSetInput) async throws -> GetRegexPatternSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [Rule] that is specified by the RuleId that you included in the GetRule request.
     ///
     /// - Parameter GetRuleInput : [no documentation found]
@@ -1473,11 +1353,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRule(input: GetRuleInput) async throws -> GetRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetRuleGroup` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RuleGroup] that is specified by the RuleGroupId that you included in the GetRuleGroup request. To view the rules in a rule group, use [ListActivatedRulesInRuleGroup].
     ///
     /// - Parameter GetRuleGroupInput : [no documentation found]
@@ -1490,11 +1367,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getRuleGroup(input: GetRuleGroupInput) async throws -> GetRuleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSampledRequests` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
     ///
     /// - Parameter GetSampledRequestsInput : [no documentation found]
@@ -1507,11 +1381,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getSampledRequests(input: GetSampledRequestsInput) async throws -> GetSampledRequestsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSizeConstraintSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [SizeConstraintSet] specified by SizeConstraintSetId.
     ///
     /// - Parameter GetSizeConstraintSetInput : [no documentation found]
@@ -1525,11 +1396,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getSizeConstraintSet(input: GetSizeConstraintSetInput) async throws -> GetSizeConstraintSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetSqlInjectionMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [SqlInjectionMatchSet] that is specified by SqlInjectionMatchSetId.
     ///
     /// - Parameter GetSqlInjectionMatchSetInput : A request to get a [SqlInjectionMatchSet].
@@ -1543,11 +1411,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getSqlInjectionMatchSet(input: GetSqlInjectionMatchSetInput) async throws -> GetSqlInjectionMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [WebACL] that is specified by WebACLId.
     ///
     /// - Parameter GetWebACLInput : [no documentation found]
@@ -1561,11 +1426,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getWebACL(input: GetWebACLInput) async throws -> GetWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetWebACLForResource` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic Regional documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage.
     ///
     /// - Parameter GetWebACLForResourceInput : [no documentation found]
@@ -1599,11 +1461,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFUnavailableEntityException` : The operation failed because the entity referenced is temporarily unavailable. Retry your request.
     func getWebACLForResource(input: GetWebACLForResourceInput) async throws -> GetWebACLForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetXssMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [XssMatchSet] that is specified by XssMatchSetId.
     ///
     /// - Parameter GetXssMatchSetInput : A request to get an [XssMatchSet].
@@ -1617,11 +1476,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func getXssMatchSet(input: GetXssMatchSetInput) async throws -> GetXssMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListActivatedRulesInRuleGroup` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [ActivatedRule] objects.
     ///
     /// - Parameter ListActivatedRulesInRuleGroupInput : [no documentation found]
@@ -1653,11 +1509,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func listActivatedRulesInRuleGroup(input: ListActivatedRulesInRuleGroupInput) async throws -> ListActivatedRulesInRuleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListByteMatchSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [ByteMatchSetSummary] objects.
     ///
     /// - Parameter ListByteMatchSetsInput : [no documentation found]
@@ -1670,11 +1523,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listByteMatchSets(input: ListByteMatchSetsInput) async throws -> ListByteMatchSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListGeoMatchSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [GeoMatchSetSummary] objects in the response.
     ///
     /// - Parameter ListGeoMatchSetsInput : [no documentation found]
@@ -1687,11 +1537,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listGeoMatchSets(input: ListGeoMatchSetsInput) async throws -> ListGeoMatchSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListIPSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [IPSetSummary] objects in the response.
     ///
     /// - Parameter ListIPSetsInput : [no documentation found]
@@ -1704,11 +1551,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listIPSets(input: ListIPSetsInput) async throws -> ListIPSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListLoggingConfigurations` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [LoggingConfiguration] objects.
     ///
     /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
@@ -1740,11 +1584,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func listLoggingConfigurations(input: ListLoggingConfigurationsInput) async throws -> ListLoggingConfigurationsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRateBasedRules` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleSummary] objects.
     ///
     /// - Parameter ListRateBasedRulesInput : [no documentation found]
@@ -1757,11 +1598,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listRateBasedRules(input: ListRateBasedRulesInput) async throws -> ListRateBasedRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRegexMatchSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RegexMatchSetSummary] objects.
     ///
     /// - Parameter ListRegexMatchSetsInput : [no documentation found]
@@ -1774,11 +1612,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listRegexMatchSets(input: ListRegexMatchSetsInput) async throws -> ListRegexMatchSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRegexPatternSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RegexPatternSetSummary] objects.
     ///
     /// - Parameter ListRegexPatternSetsInput : [no documentation found]
@@ -1791,11 +1626,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listRegexPatternSets(input: ListRegexPatternSetsInput) async throws -> ListRegexPatternSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListResourcesForWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic Regional documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of resources associated with the specified web ACL.
     ///
     /// - Parameter ListResourcesForWebACLInput : [no documentation found]
@@ -1828,11 +1660,8 @@ public protocol WAFRegionalClientProtocol {
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL cannot be associated.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func listResourcesForWebACL(input: ListResourcesForWebACLInput) async throws -> ListResourcesForWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRuleGroups` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleGroup] objects.
     ///
     /// - Parameter ListRuleGroupsInput : [no documentation found]
@@ -1844,11 +1673,8 @@ public protocol WAFRegionalClientProtocol {
     /// __Possible Exceptions:__
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListRules` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleSummary] objects.
     ///
     /// - Parameter ListRulesInput : [no documentation found]
@@ -1861,11 +1687,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listRules(input: ListRulesInput) async throws -> ListRulesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSizeConstraintSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [SizeConstraintSetSummary] objects.
     ///
     /// - Parameter ListSizeConstraintSetsInput : [no documentation found]
@@ -1878,11 +1701,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listSizeConstraintSets(input: ListSizeConstraintSetsInput) async throws -> ListSizeConstraintSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSqlInjectionMatchSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [SqlInjectionMatchSet] objects.
     ///
     /// - Parameter ListSqlInjectionMatchSetsInput : A request to list the [SqlInjectionMatchSet] objects created by the current AWS account.
@@ -1895,11 +1715,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listSqlInjectionMatchSets(input: ListSqlInjectionMatchSetsInput) async throws -> ListSqlInjectionMatchSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListSubscribedRuleGroups` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleGroup] objects that you are subscribed to.
     ///
     /// - Parameter ListSubscribedRuleGroupsInput : [no documentation found]
@@ -1912,11 +1729,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     func listSubscribedRuleGroups(input: ListSubscribedRuleGroupsInput) async throws -> ListSubscribedRuleGroupsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Retrieves the tags associated with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1951,11 +1765,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListWebACLs` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [WebACLSummary] objects in the response.
     ///
     /// - Parameter ListWebACLsInput : [no documentation found]
@@ -1968,11 +1779,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listWebACLs(input: ListWebACLsInput) async throws -> ListWebACLsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListXssMatchSets` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [XssMatchSet] objects.
     ///
     /// - Parameter ListXssMatchSetsInput : A request to list the [XssMatchSet] objects created by the current AWS account.
@@ -1985,11 +1793,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFInternalErrorException` : The operation failed because of a system problem, even though the request was valid. Retry your request.
     /// - `WAFInvalidAccountException` : The operation failed because you tried to create, update, or delete an object by using an invalid account identifier.
     func listXssMatchSets(input: ListXssMatchSetsInput) async throws -> ListXssMatchSetsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutLoggingConfiguration` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates a [LoggingConfiguration] with a specified web ACL. You can access information about all traffic that AWS WAF inspects using the following steps:
     ///
     /// * Create an Amazon Kinesis Data Firehose. Create the data firehose with a PUT source and in the region that you are operating. However, if you are capturing logs for Amazon CloudFront, always create the firehose in US East (N. Virginia). Do not create the data firehose using a Kinesis stream as your source.
@@ -2011,11 +1816,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFServiceLinkedRoleErrorException` : AWS WAF is not able to access the service linked role. This can be caused by a previous PutLoggingConfiguration request, which can lock the service linked role for about 20 seconds. Please try your request again. The service linked role can also be locked by a previous DeleteServiceLinkedRole request, which can lock the role for 15 minutes or more. If you recently made a DeleteServiceLinkedRole, wait at least 15 minutes and try the request again. If you receive this same exception again, you will have to wait additional time until the role is unlocked.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func putLoggingConfiguration(input: PutLoggingConfigurationInput) async throws -> PutLoggingConfigurationOutput
-<<<<<<< HEAD
-=======
     /// Performs the `PutPermissionPolicy` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Attaches an IAM policy to the specified resource. The only supported use for this action is to share a RuleGroup across accounts. The PutPermissionPolicy is subject to the following restrictions:
     ///
     /// * You can attach only one policy with each PutPermissionPolicy request.
@@ -2068,11 +1870,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func putPermissionPolicy(input: PutPermissionPolicyInput) async throws -> PutPermissionPolicyOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates tags with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2108,11 +1907,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2147,11 +1943,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFTagOperationException` :
     /// - `WAFTagOperationInternalErrorException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateByteMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [ByteMatchTuple] objects (filters) in a [ByteMatchSet]. For each ByteMatchTuple object, you specify the following values:
     ///
     /// * Whether to insert or delete the object from the array. If you want to change a ByteMatchSetUpdate object, you delete the existing object and add a new one.
@@ -2228,11 +2021,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateByteMatchSet(input: UpdateByteMatchSetInput) async throws -> UpdateByteMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateGeoMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [GeoMatchConstraint] objects in an GeoMatchSet. For each GeoMatchConstraint object, you specify the following values:
     ///
     /// * Whether to insert or delete the object from the array. If you want to change an GeoMatchConstraint object, you delete the existing object and add a new one.
@@ -2310,11 +2100,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateGeoMatchSet(input: UpdateGeoMatchSetInput) async throws -> UpdateGeoMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateIPSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [IPSetDescriptor] objects in an IPSet. For each IPSetDescriptor object, you specify the following values:
     ///
     /// * Whether to insert or delete the object from the array. If you want to change an IPSetDescriptor object, you delete the existing object and add a new one.
@@ -2403,11 +2190,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRateBasedRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [Predicate] objects in a rule and updates the RateLimit in the rule. Each Predicate object identifies a predicate, such as a [ByteMatchSet] or an [IPSet], that specifies the web requests that you want to block or count. The RateLimit specifies the number of requests every five minutes that triggers the rule. If you add more than one predicate to a RateBasedRule, a request must match all the predicates and exceed the RateLimit to be counted or blocked. For example, suppose you add the following to a RateBasedRule:
     ///
     /// * An IPSet that matches the IP address 192.0.2.44/32
@@ -2483,11 +2267,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateRateBasedRule(input: UpdateRateBasedRuleInput) async throws -> UpdateRateBasedRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRegexMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [RegexMatchTuple] objects (filters) in a [RegexMatchSet]. For each RegexMatchSetUpdate object, you specify the following values:
     ///
     /// * Whether to insert or delete the object from the array. If you want to change a RegexMatchSetUpdate object, you delete the existing object and add a new one.
@@ -2544,11 +2325,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateRegexMatchSet(input: UpdateRegexMatchSetInput) async throws -> UpdateRegexMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRegexPatternSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a [RegexPatternSet]. For each RegexPatternString object, you specify the following values:
     ///
     /// * Whether to insert or delete the RegexPatternString.
@@ -2612,11 +2390,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateRegexPatternSet(input: UpdateRegexPatternSetInput) async throws -> UpdateRegexPatternSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRule` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [Predicate] objects in a Rule. Each Predicate object identifies a predicate, such as a [ByteMatchSet] or an [IPSet], that specifies the web requests that you want to allow, block, or count. If you add more than one predicate to a Rule, a request must match all of the specifications to be allowed, blocked, or counted. For example, suppose that you add the following to a Rule:
     ///
     /// * A ByteMatchSet that matches the value BadBot in the User-Agent header
@@ -2696,11 +2471,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateRule(input: UpdateRuleInput) async throws -> UpdateRuleOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateRuleGroup` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [ActivatedRule] objects in a RuleGroup. You can only insert REGULAR rules into a rule group. You can have a maximum of ten rules per rule group. To create and configure a RuleGroup, perform the following steps:
     ///
     /// * Create and update the Rules that you want to include in the RuleGroup. See [CreateRule].
@@ -2765,11 +2537,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSizeConstraintSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [SizeConstraint] objects (filters) in a [SizeConstraintSet]. For each SizeConstraint object, you specify the following values:
     ///
     /// * Whether to insert or delete the object from the array. If you want to change a SizeConstraintSetUpdate object, you delete the existing object and add a new one.
@@ -2851,11 +2620,8 @@ public protocol WAFRegionalClientProtocol {
     /// * You tried to delete a Rule that is still referenced by a WebACL.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateSizeConstraintSet(input: UpdateSizeConstraintSetInput) async throws -> UpdateSizeConstraintSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateSqlInjectionMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [SqlInjectionMatchTuple] objects (filters) in a [SqlInjectionMatchSet]. For each SqlInjectionMatchTuple object, you specify the following values:
     ///
     /// * Action: Whether to insert the object into or delete the object from the array. To change a SqlInjectionMatchTuple, you delete the existing object and add a new one.
@@ -2928,11 +2694,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFNonexistentItemException` : The operation failed because the referenced object doesn't exist.
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     func updateSqlInjectionMatchSet(input: UpdateSqlInjectionMatchSetInput) async throws -> UpdateSqlInjectionMatchSetOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateWebACL` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [ActivatedRule] objects in a WebACL. Each Rule identifies web requests that you want to allow, block, or count. When you update a WebACL, you specify the following values:
     ///
     /// * A default action for the WebACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the Rules in a WebACL.
@@ -3017,11 +2780,8 @@ public protocol WAFRegionalClientProtocol {
     /// - `WAFStaleDataException` : The operation failed because you tried to create, update, or delete an object by using a change token that has already been used.
     /// - `WAFSubscriptionNotFoundException` : The specified subscription does not exist.
     func updateWebACL(input: UpdateWebACLInput) async throws -> UpdateWebACLOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateXssMatchSet` operation on the `AWSWAF_Regional_20161128` service.
     ///
->>>>>>> main
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes [XssMatchTuple] objects (filters) in an [XssMatchSet]. For each XssMatchTuple object, you specify the following values:
     ///
     /// * Action: Whether to insert the object into or delete the object from the array. To change an XssMatchTuple, you delete the existing object and add a new one.

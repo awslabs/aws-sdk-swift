@@ -29,8 +29,6 @@ public protocol FisClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Simulator User Guide.
@@ -49,7 +47,6 @@ public protocol FisClientProtocol {
     func createTargetAccountConfiguration(input: CreateTargetAccountConfigurationInput) async throws -> CreateTargetAccountConfigurationOutput
     /// Performs the `DeleteExperimentTemplate` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Deletes the specified experiment template.
     ///
     /// - Parameter DeleteExperimentTemplateInput : [no documentation found]
@@ -62,8 +59,6 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func deleteExperimentTemplate(input: DeleteExperimentTemplateInput) async throws -> DeleteExperimentTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
     /// Deletes the specified target account configuration of the experiment template.
@@ -80,7 +75,6 @@ public protocol FisClientProtocol {
     func deleteTargetAccountConfiguration(input: DeleteTargetAccountConfigurationInput) async throws -> DeleteTargetAccountConfigurationOutput
     /// Performs the `GetAction` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Gets information about the specified FIS action.
     ///
     /// - Parameter GetActionInput : [no documentation found]
@@ -93,11 +87,8 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getAction(input: GetActionInput) async throws -> GetActionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExperiment` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Gets information about the specified experiment.
     ///
     /// - Parameter GetExperimentInput : [no documentation found]
@@ -110,8 +101,6 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetExperimentTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
     /// Gets information about the specified target account configuration of the experiment.
@@ -128,7 +117,6 @@ public protocol FisClientProtocol {
     func getExperimentTargetAccountConfiguration(input: GetExperimentTargetAccountConfigurationInput) async throws -> GetExperimentTargetAccountConfigurationOutput
     /// Performs the `GetExperimentTemplate` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Gets information about the specified experiment template.
     ///
     /// - Parameter GetExperimentTemplateInput : [no documentation found]
@@ -141,8 +129,6 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getExperimentTemplate(input: GetExperimentTemplateInput) async throws -> GetExperimentTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
     /// Gets information about the specified target account configuration of the experiment template.
@@ -159,7 +145,6 @@ public protocol FisClientProtocol {
     func getTargetAccountConfiguration(input: GetTargetAccountConfigurationInput) async throws -> GetTargetAccountConfigurationOutput
     /// Performs the `GetTargetResourceType` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Gets information about the specified resource type.
     ///
     /// - Parameter GetTargetResourceTypeInput : [no documentation found]
@@ -172,11 +157,8 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getTargetResourceType(input: GetTargetResourceTypeInput) async throws -> GetTargetResourceTypeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListActions` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Lists the available FIS actions.
     ///
     /// - Parameter ListActionsInput : [no documentation found]
@@ -188,8 +170,6 @@ public protocol FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listActions(input: ListActionsInput) async throws -> ListActionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListExperimentResolvedTargets` operation on the `FaultInjectionSimulator` service.
     ///
     /// Lists the resolved targets information of the specified experiment.
@@ -206,7 +186,6 @@ public protocol FisClientProtocol {
     func listExperimentResolvedTargets(input: ListExperimentResolvedTargetsInput) async throws -> ListExperimentResolvedTargetsOutput
     /// Performs the `ListExperiments` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Lists your experiments.
     ///
     /// - Parameter ListExperimentsInput : [no documentation found]
@@ -218,8 +197,6 @@ public protocol FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListExperimentTargetAccountConfigurations` operation on the `FaultInjectionSimulator` service.
     ///
     /// Lists the target account configurations of the specified experiment.
@@ -236,7 +213,6 @@ public protocol FisClientProtocol {
     func listExperimentTargetAccountConfigurations(input: ListExperimentTargetAccountConfigurationsInput) async throws -> ListExperimentTargetAccountConfigurationsOutput
     /// Performs the `ListExperimentTemplates` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Lists your experiment templates.
     ///
     /// - Parameter ListExperimentTemplatesInput : [no documentation found]
@@ -248,19 +224,14 @@ public protocol FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listExperimentTemplates(input: ListExperimentTemplatesInput) async throws -> ListExperimentTemplatesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTagsForResource` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
     /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListTargetAccountConfigurations` operation on the `FaultInjectionSimulator` service.
     ///
     /// Lists the target account configurations of the specified experiment template.
@@ -277,7 +248,6 @@ public protocol FisClientProtocol {
     func listTargetAccountConfigurations(input: ListTargetAccountConfigurationsInput) async throws -> ListTargetAccountConfigurationsOutput
     /// Performs the `ListTargetResourceTypes` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Lists the target resource types.
     ///
     /// - Parameter ListTargetResourceTypesInput : [no documentation found]
@@ -289,11 +259,8 @@ public protocol FisClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listTargetResourceTypes(input: ListTargetResourceTypesInput) async throws -> ListTargetResourceTypesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartExperiment` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Starts running an experiment from the specified experiment template.
     ///
     /// - Parameter StartExperimentInput : [no documentation found]
@@ -308,11 +275,8 @@ public protocol FisClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StopExperiment` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Stops the specified experiment.
     ///
     /// - Parameter StopExperimentInput : [no documentation found]
@@ -325,33 +289,24 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutput
-<<<<<<< HEAD
-=======
     /// Performs the `TagResource` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Applies the specified tags to the specified resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
     /// - Returns: `TagResourceOutput` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UntagResource` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Removes the specified tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
     /// - Returns: `UntagResourceOutput` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateExperimentTemplate` operation on the `FaultInjectionSimulator` service.
     ///
->>>>>>> main
     /// Updates the specified experiment template.
     ///
     /// - Parameter UpdateExperimentTemplateInput : [no documentation found]
@@ -365,8 +320,6 @@ public protocol FisClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func updateExperimentTemplate(input: UpdateExperimentTemplateInput) async throws -> UpdateExperimentTemplateOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
     /// Updates the target account configuration for the specified experiment template.
@@ -381,7 +334,6 @@ public protocol FisClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
     /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func updateTargetAccountConfiguration(input: UpdateTargetAccountConfigurationInput) async throws -> UpdateTargetAccountConfigurationOutput
->>>>>>> main
 }
 
 public enum FisClientTypes {}

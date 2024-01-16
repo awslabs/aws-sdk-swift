@@ -1674,23 +1674,6 @@ enum CreateKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum CreateKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension CreateKxDatabaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -1904,8 +1887,6 @@ enum CreateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateKxDataviewInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoUpdate
@@ -2283,7 +2264,6 @@ enum CreateKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateKxEnvironmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2510,8 +2490,6 @@ enum CreateKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateKxScalingGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZoneId
@@ -2764,7 +2742,6 @@ enum CreateKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension CreateKxUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2958,8 +2935,6 @@ enum CreateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreateKxVolumeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZoneIds
@@ -3312,7 +3287,6 @@ enum CreateKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension FinspaceClientTypes.CustomDNSServer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customDNSServerIP
@@ -3584,8 +3558,6 @@ enum DeleteKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteKxDataviewInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3692,7 +3664,6 @@ extension DeleteKxEnvironmentInput: ClientRuntime.QueryItemProvider {
     }
 }
 
->>>>>>> main
 extension DeleteKxEnvironmentInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -3754,8 +3725,6 @@ enum DeleteKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteKxScalingGroupInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3852,7 +3821,6 @@ extension DeleteKxUserInput: ClientRuntime.QueryItemProvider {
     }
 }
 
->>>>>>> main
 extension DeleteKxUserInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -3922,8 +3890,6 @@ enum DeleteKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DeleteKxVolumeInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4007,7 +3973,6 @@ enum DeleteKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension FinspaceClientTypes {
     public enum DnsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failedUpdate
@@ -5149,23 +5114,6 @@ enum GetKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-enum GetKxClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        switch restJSONError.errorType {
-            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
-    }
-}
-
 extension GetKxConnectionStringInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5472,8 +5420,6 @@ enum GetKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetKxDataviewInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -5734,7 +5680,6 @@ enum GetKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetKxEnvironmentInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -5990,10 +5935,7 @@ enum GetKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-<<<<<<< HEAD
-=======
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6002,8 +5944,6 @@ enum GetKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetKxScalingGroupInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -6205,7 +6145,6 @@ enum GetKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension GetKxUserInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -6330,8 +6269,6 @@ enum GetKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetKxVolumeInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -6584,7 +6521,6 @@ enum GetKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension FinspaceClientTypes {
     public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ipV4
@@ -7236,11 +7172,8 @@ extension FinspaceClientTypes {
         ///
         /// * ROLLING – This options updates the cluster by stopping the exiting q process and starting a new q process with updated configuration.
         ///
-<<<<<<< HEAD
-=======
         /// * NO_RESTART – This option updates the cluster without stopping the running q process. It is only available for GP type cluster. This option is quicker as it reduces the turn around time to update configuration on a cluster. With this deployment mode, you cannot update the initializationScript and commandLineArguments parameters.
         ///
->>>>>>> main
         /// * FORCE – This option updates the cluster by immediately stopping all the running processes before starting up new ones with the updated configuration.
         /// This member is required.
         public var deploymentStrategy: FinspaceClientTypes.KxClusterCodeDeploymentStrategy?
@@ -7258,20 +7191,14 @@ extension FinspaceClientTypes {
 extension FinspaceClientTypes {
     public enum KxClusterCodeDeploymentStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case force
-<<<<<<< HEAD
-=======
         case noRestart
->>>>>>> main
         case rolling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KxClusterCodeDeploymentStrategy] {
             return [
                 .force,
-<<<<<<< HEAD
-=======
                 .noRestart,
->>>>>>> main
                 .rolling,
                 .sdkUnknown("")
             ]
@@ -7283,10 +7210,7 @@ extension FinspaceClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .force: return "FORCE"
-<<<<<<< HEAD
-=======
             case .noRestart: return "NO_RESTART"
->>>>>>> main
             case .rolling: return "ROLLING"
             case let .sdkUnknown(s): return s
             }
@@ -8597,10 +8521,6 @@ extension FinspaceClientTypes {
     /// The size and type of temporary storage that is used to hold data during the savedown process. All the data written to this storage space is lost when the cluster node is restarted.
     public struct KxSavedownStorageConfiguration: Swift.Equatable {
         /// The size of temporary storage in gibibytes.
-<<<<<<< HEAD
-        /// This member is required.
-=======
->>>>>>> main
         public var size: Swift.Int?
         /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:
         ///
@@ -8611,12 +8531,8 @@ extension FinspaceClientTypes {
 
         public init(
             size: Swift.Int? = nil,
-<<<<<<< HEAD
-            type: FinspaceClientTypes.KxSavedownStorageType? = nil
-=======
             type: FinspaceClientTypes.KxSavedownStorageType? = nil,
             volumeName: Swift.String? = nil
->>>>>>> main
         )
         {
             self.size = size
@@ -9364,10 +9280,7 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -9932,8 +9845,6 @@ enum ListKxDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListKxDataviewsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10072,7 +9983,6 @@ enum ListKxDataviewsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListKxEnvironmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10185,10 +10095,7 @@ enum ListKxEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-<<<<<<< HEAD
-=======
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
->>>>>>> main
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -10196,8 +10103,6 @@ enum ListKxEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListKxScalingGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10330,7 +10235,6 @@ enum ListKxScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListKxUsersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10461,8 +10365,6 @@ enum ListKxUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListKxVolumesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10603,7 +10505,6 @@ enum ListKxVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -11675,22 +11576,14 @@ public struct UpdateKxClusterCodeConfigurationInput: Swift.Equatable {
     /// The structure of the customer code available within the running cluster.
     /// This member is required.
     public var code: FinspaceClientTypes.CodeConfiguration?
-<<<<<<< HEAD
-    /// Specifies the key-value pairs to make them available inside the cluster.
-=======
     /// Specifies the key-value pairs to make them available inside the cluster. You cannot update this parameter for a NO_RESTART deployment.
->>>>>>> main
     public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
     /// The configuration that allows you to choose how you want to update the code on a cluster.
     public var deploymentConfiguration: FinspaceClientTypes.KxClusterCodeDeploymentConfiguration?
     /// A unique identifier of the kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
-<<<<<<< HEAD
-    /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
-=======
     /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q. You cannot update this parameter for a NO_RESTART deployment.
->>>>>>> main
     public var initializationScript: Swift.String?
 
     public init(
@@ -12070,8 +11963,6 @@ enum UpdateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateKxDataviewInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changesetId
@@ -12397,7 +12288,6 @@ enum UpdateKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension UpdateKxEnvironmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -13179,8 +13069,6 @@ enum UpdateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateKxVolumeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -13481,7 +13369,6 @@ enum UpdateKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

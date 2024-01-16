@@ -12,11 +12,7 @@ extension CodeCommitClient {
     ///     - input: A `[DescribeMergeConflictsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeMergeConflictsOutput`
     public func describeMergeConflictsPaginated(input: DescribeMergeConflictsInput) -> ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(input: input, inputKey: \DescribeMergeConflictsInput.nextToken, outputKey: \DescribeMergeConflictsOutput.nextToken, paginationFunction: self.describeMergeConflicts(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribeMergeConflictsInput, DescribeMergeConflictsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMergeConflicts(input:))
->>>>>>> main
     }
 }
 
@@ -44,11 +40,7 @@ extension CodeCommitClient {
     ///     - input: A `[DescribePullRequestEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePullRequestEventsOutput`
     public func describePullRequestEventsPaginated(input: DescribePullRequestEventsInput) -> ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(input: input, inputKey: \DescribePullRequestEventsInput.nextToken, outputKey: \DescribePullRequestEventsOutput.nextToken, paginationFunction: self.describePullRequestEvents(input:))
-=======
         return ClientRuntime.PaginatorSequence<DescribePullRequestEventsInput, DescribePullRequestEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describePullRequestEvents(input:))
->>>>>>> main
     }
 }
 
@@ -72,11 +64,7 @@ extension CodeCommitClient {
     ///     - input: A `[GetCommentReactionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCommentReactionsOutput`
     public func getCommentReactionsPaginated(input: GetCommentReactionsInput) -> ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput>(input: input, inputKey: \GetCommentReactionsInput.nextToken, outputKey: \GetCommentReactionsOutput.nextToken, paginationFunction: self.getCommentReactions(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCommentReactionsInput, GetCommentReactionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCommentReactions(input:))
->>>>>>> main
     }
 }
 
@@ -99,11 +87,7 @@ extension CodeCommitClient {
     ///     - input: A `[GetCommentsForComparedCommitInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForComparedCommitOutput`
     public func getCommentsForComparedCommitPaginated(input: GetCommentsForComparedCommitInput) -> ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(input: input, inputKey: \GetCommentsForComparedCommitInput.nextToken, outputKey: \GetCommentsForComparedCommitOutput.nextToken, paginationFunction: self.getCommentsForComparedCommit(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCommentsForComparedCommit(input:))
->>>>>>> main
     }
 }
 
@@ -127,11 +111,7 @@ extension CodeCommitClient {
     ///     - input: A `[GetCommentsForPullRequestInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetCommentsForPullRequestOutput`
     public func getCommentsForPullRequestPaginated(input: GetCommentsForPullRequestInput) -> ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(input: input, inputKey: \GetCommentsForPullRequestInput.nextToken, outputKey: \GetCommentsForPullRequestOutput.nextToken, paginationFunction: self.getCommentsForPullRequest(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCommentsForPullRequest(input:))
->>>>>>> main
     }
 }
 
@@ -156,11 +136,7 @@ extension CodeCommitClient {
     ///     - input: A `[GetDifferencesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetDifferencesOutput`
     public func getDifferencesPaginated(input: GetDifferencesInput) -> ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput>(input: input, inputKey: \GetDifferencesInput.nextToken, outputKey: \GetDifferencesOutput.nextToken, paginationFunction: self.getDifferences(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetDifferencesInput, GetDifferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getDifferences(input:))
->>>>>>> main
     }
 }
 
@@ -186,11 +162,7 @@ extension CodeCommitClient {
     ///     - input: A `[GetMergeConflictsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetMergeConflictsOutput`
     public func getMergeConflictsPaginated(input: GetMergeConflictsInput) -> ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput>(input: input, inputKey: \GetMergeConflictsInput.nextToken, outputKey: \GetMergeConflictsOutput.nextToken, paginationFunction: self.getMergeConflicts(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetMergeConflictsInput, GetMergeConflictsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getMergeConflicts(input:))
->>>>>>> main
     }
 }
 
@@ -217,11 +189,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListApprovalRuleTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListApprovalRuleTemplatesOutput`
     public func listApprovalRuleTemplatesPaginated(input: ListApprovalRuleTemplatesInput) -> ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(input: input, inputKey: \ListApprovalRuleTemplatesInput.nextToken, outputKey: \ListApprovalRuleTemplatesOutput.nextToken, paginationFunction: self.listApprovalRuleTemplates(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApprovalRuleTemplates(input:))
->>>>>>> main
     }
 }
 
@@ -242,11 +210,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListAssociatedApprovalRuleTemplatesForRepositoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedApprovalRuleTemplatesForRepositoryOutput`
     public func listAssociatedApprovalRuleTemplatesForRepositoryPaginated(input: ListAssociatedApprovalRuleTemplatesForRepositoryInput) -> ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(input: input, inputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryInput.nextToken, outputKey: \ListAssociatedApprovalRuleTemplatesForRepositoryOutput.nextToken, paginationFunction: self.listAssociatedApprovalRuleTemplatesForRepository(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssociatedApprovalRuleTemplatesForRepository(input:))
->>>>>>> main
     }
 }
 
@@ -268,11 +232,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListBranchesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBranchesOutput`
     public func listBranchesPaginated(input: ListBranchesInput) -> ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput>(input: input, inputKey: \ListBranchesInput.nextToken, outputKey: \ListBranchesOutput.nextToken, paginationFunction: self.listBranches(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListBranchesInput, ListBranchesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBranches(input:))
->>>>>>> main
     }
 }
 
@@ -284,11 +244,7 @@ extension ListBranchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListBranchesInput, Output == ListBranchesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListBranchesInput, OperationStackOutput == ListBranchesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listBranchesPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -306,11 +262,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListFileCommitHistoryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFileCommitHistoryOutput`
     public func listFileCommitHistoryPaginated(input: ListFileCommitHistoryInput) -> ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(input: input, inputKey: \ListFileCommitHistoryInput.nextToken, outputKey: \ListFileCommitHistoryOutput.nextToken, paginationFunction: self.listFileCommitHistory(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFileCommitHistory(input:))
->>>>>>> main
     }
 }
 
@@ -334,11 +286,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListPullRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPullRequestsOutput`
     public func listPullRequestsPaginated(input: ListPullRequestsInput) -> ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput>(input: input, inputKey: \ListPullRequestsInput.nextToken, outputKey: \ListPullRequestsOutput.nextToken, paginationFunction: self.listPullRequests(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListPullRequestsInput, ListPullRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPullRequests(input:))
->>>>>>> main
     }
 }
 
@@ -362,11 +310,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListRepositoriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesOutput`
     public func listRepositoriesPaginated(input: ListRepositoriesInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput>(input: input, inputKey: \ListRepositoriesInput.nextToken, outputKey: \ListRepositoriesOutput.nextToken, paginationFunction: self.listRepositories(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRepositories(input:))
->>>>>>> main
     }
 }
 
@@ -379,11 +323,7 @@ extension ListRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListRepositoriesInput, Output == ListRepositoriesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListRepositoriesInput, OperationStackOutput == ListRepositoriesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listRepositoriesPaginated`
     /// to access the nested member `[CodeCommitClientTypes.RepositoryNameIdPair]`
     /// - Returns: `[CodeCommitClientTypes.RepositoryNameIdPair]`
@@ -401,11 +341,7 @@ extension CodeCommitClient {
     ///     - input: A `[ListRepositoriesForApprovalRuleTemplateInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRepositoriesForApprovalRuleTemplateOutput`
     public func listRepositoriesForApprovalRuleTemplatePaginated(input: ListRepositoriesForApprovalRuleTemplateInput) -> ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(input: input, inputKey: \ListRepositoriesForApprovalRuleTemplateInput.nextToken, outputKey: \ListRepositoriesForApprovalRuleTemplateOutput.nextToken, paginationFunction: self.listRepositoriesForApprovalRuleTemplate(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRepositoriesForApprovalRuleTemplate(input:))
->>>>>>> main
     }
 }
 

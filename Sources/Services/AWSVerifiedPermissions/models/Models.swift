@@ -202,13 +202,8 @@ extension VerifiedPermissionsClientTypes.AttributeValue: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-<<<<<<< HEAD
-    /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
-    public enum AttributeValue: Swift.Equatable {
-=======
     /// The value of an attribute. Contains information about the runtime context for a request for which an authorization decision is made. This data type is used as a member of the [ContextDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ContextDefinition.html) structure which is uses as a request parameter for the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html), [BatchIsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_BatchIsAuthorized.html), and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations.
     public indirect enum AttributeValue: Swift.Equatable {
->>>>>>> main
         /// An attribute value of [Boolean](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#boolean) type. Example: {"boolean": true}
         case boolean(Swift.Bool)
         /// An attribute value of type [EntityIdentifier](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntityIdentifier.html). Example: "entityIdentifier": { "entityId": "<id>", "entityType": "<entity type>"}
@@ -1124,14 +1119,11 @@ enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension CreatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2547,14 +2539,11 @@ extension GetPolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension GetPolicyStoreOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2647,19 +2636,6 @@ extension GetPolicyStoreOutputBody: Swift.Decodable {
         lastUpdatedDate = lastUpdatedDateDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-    }
-}
-
-enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
-        if let error = serviceError { return error }
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -2900,11 +2876,7 @@ extension GetSchemaInputBody: Swift.Decodable {
 
 extension GetSchemaOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-<<<<<<< HEAD
-        "GetSchemaOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
-=======
         "GetSchemaOutput(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), namespaces: \(Swift.String(describing: namespaces)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
->>>>>>> main
 }
 
 extension GetSchemaOutput: ClientRuntime.HttpResponseBinding {
@@ -2997,19 +2969,6 @@ extension GetSchemaOutputBody: Swift.Decodable {
             }
         }
         namespaces = namespacesDecoded0
-    }
-}
-
-enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
-        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
-        if let error = serviceError { return error }
-        switch restJSONError.errorType {
-            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-        }
     }
 }
 
@@ -6313,14 +6272,11 @@ enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdatePolicyStoreInput(policyStoreId: \(Swift.String(describing: policyStoreId)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
->>>>>>> main
 extension UpdatePolicyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description

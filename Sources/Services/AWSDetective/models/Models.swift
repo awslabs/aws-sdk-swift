@@ -1665,8 +1665,6 @@ enum EnableOrganizationAdminAccountOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DetectiveClientTypes {
     public enum EntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case iamRole
@@ -1699,7 +1697,6 @@ extension DetectiveClientTypes {
     }
 }
 
->>>>>>> main
 extension DetectiveClientTypes {
     public enum ErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case internalerror
@@ -3029,8 +3026,6 @@ enum ListGraphsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListIndicatorsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case graphArn = "GraphArn"
@@ -3392,7 +3387,6 @@ enum ListInvestigationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ListInvitationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -4528,8 +4522,6 @@ enum RejectInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DetectiveClientTypes.RelatedFindingDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -4620,7 +4612,6 @@ extension DetectiveClientTypes {
 
 }
 
->>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5103,8 +5094,6 @@ enum StartMonitoringMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension DetectiveClientTypes {
     public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -5303,7 +5292,6 @@ extension DetectiveClientTypes {
 
 }
 
->>>>>>> main
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"
@@ -5751,8 +5739,6 @@ enum UpdateDatasourcePackagesOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-<<<<<<< HEAD
-=======
 extension UpdateInvestigationStateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case graphArn = "GraphArn"
@@ -5852,7 +5838,6 @@ enum UpdateInvestigationStateOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
->>>>>>> main
 extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "AutoEnable"

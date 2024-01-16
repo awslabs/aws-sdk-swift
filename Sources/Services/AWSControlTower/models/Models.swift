@@ -540,11 +540,7 @@ extension DisableControlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisableControlInput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-=======
     /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
->>>>>>> main
     /// This member is required.
     public var controlIdentifier: Swift.String?
     /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
@@ -697,19 +693,6 @@ extension ControlTowerClientTypes.DriftStatusSummary: Swift.Codable {
 }
 
 extension ControlTowerClientTypes {
-<<<<<<< HEAD
-    /// The drift summary of the enabled control. AWS Control Tower expects the enabled control configuration to include all supported and governed Regions. If the enabled control differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the enabled control.
-    public struct DriftStatusSummary: Swift.Equatable {
-        /// The drift status of the enabled control. Valid values:
-        ///
-        /// * DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that AWS Control Tower expected.
-        ///
-        /// * IN_SYNC: The enabledControl deployed in this configuration matches the configuration that AWS Control Tower expected.
-        ///
-        /// * NOT_CHECKING: AWS Control Tower does not check drift for this enabled control. Drift is not supported for the control type.
-        ///
-        /// * UNKNOWN: AWS Control Tower is not able to check the drift status for the enabled control.
-=======
     /// The drift summary of the enabled control. Amazon Web Services Control Tower expects the enabled control configuration to include all supported and governed Regions. If the enabled control differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the enabled control.
     public struct DriftStatusSummary: Swift.Equatable {
         /// The drift status of the enabled control. Valid values:
@@ -721,7 +704,6 @@ extension ControlTowerClientTypes {
         /// * NOT_CHECKING: Amazon Web Services Control Tower does not check drift for this enabled control. Drift is not supported for the control type.
         ///
         /// * UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
->>>>>>> main
         public var driftStatus: ControlTowerClientTypes.DriftStatus?
 
         public init(
@@ -772,11 +754,6 @@ extension EnableControlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableControlInput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-    /// This member is required.
-    public var controlIdentifier: Swift.String?
-=======
     /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
@@ -784,7 +761,6 @@ public struct EnableControlInput: Swift.Equatable {
     public var parameters: [ControlTowerClientTypes.EnabledControlParameter]?
     /// Tags to be applied to the EnabledControl resource.
     public var tags: [Swift.String:Swift.String]?
->>>>>>> main
     /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var targetIdentifier: Swift.String?
@@ -900,47 +876,6 @@ extension EnableControlOutputBody: Swift.Decodable {
     }
 }
 
-extension EnableControlOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableControlOutputBody = try responseDecoder.decode(responseBody: data)
-            self.operationIdentifier = output.operationIdentifier
-        } else {
-            self.operationIdentifier = nil
-        }
-    }
-}
-
-public struct EnableControlOutput: Swift.Equatable {
-    /// The ID of the asynchronous operation, which is used to track status. The operation is available for 90 days.
-    /// This member is required.
-    public var operationIdentifier: Swift.String?
-
-    public init(
-        operationIdentifier: Swift.String? = nil
-    )
-    {
-        self.operationIdentifier = operationIdentifier
-    }
-}
-
-struct EnableControlOutputBody: Swift.Equatable {
-    let operationIdentifier: Swift.String?
-}
-
-extension EnableControlOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case operationIdentifier
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
-        operationIdentifier = operationIdentifierDecoded
-    }
-}
-
 enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -963,10 +898,7 @@ extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
         case arn
         case controlIdentifier
         case driftStatusSummary
-<<<<<<< HEAD
-=======
         case parameters
->>>>>>> main
         case statusSummary
         case targetIdentifier
         case targetRegions
@@ -983,15 +915,12 @@ extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
         if let driftStatusSummary = self.driftStatusSummary {
             try encodeContainer.encode(driftStatusSummary, forKey: .driftStatusSummary)
         }
-<<<<<<< HEAD
-=======
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
             for enabledcontrolparametersummary0 in parameters {
                 try parametersContainer.encode(enabledcontrolparametersummary0)
             }
         }
->>>>>>> main
         if let statusSummary = self.statusSummary {
             try encodeContainer.encode(statusSummary, forKey: .statusSummary)
         }
@@ -1029,8 +958,6 @@ extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
         statusSummary = statusSummaryDecoded
         let driftStatusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.DriftStatusSummary.self, forKey: .driftStatusSummary)
         driftStatusSummary = driftStatusSummaryDecoded
-<<<<<<< HEAD
-=======
         let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledControlParameterSummary?].self, forKey: .parameters)
         var parametersDecoded0:[ControlTowerClientTypes.EnabledControlParameterSummary]? = nil
         if let parametersContainer = parametersContainer {
@@ -1042,7 +969,6 @@ extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
             }
         }
         parameters = parametersDecoded0
->>>>>>> main
     }
 }
 
@@ -1055,30 +981,20 @@ extension ControlTowerClientTypes {
         public var controlIdentifier: Swift.String?
         /// The drift status of the enabled control.
         public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
-<<<<<<< HEAD
-=======
         /// Array of EnabledControlParameter objects.
         public var parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]?
->>>>>>> main
         /// The deployment summary of the enabled control.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
         public var targetIdentifier: Swift.String?
-<<<<<<< HEAD
-        /// Target AWS Regions for the enabled control.
-=======
         /// Target Amazon Web Services Regions for the enabled control.
->>>>>>> main
         public var targetRegions: [ControlTowerClientTypes.Region]?
 
         public init(
             arn: Swift.String? = nil,
             controlIdentifier: Swift.String? = nil,
             driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
-<<<<<<< HEAD
-=======
             parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]? = nil,
->>>>>>> main
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil,
             targetRegions: [ControlTowerClientTypes.Region]? = nil
@@ -1087,10 +1003,7 @@ extension ControlTowerClientTypes {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
-<<<<<<< HEAD
-=======
             self.parameters = parameters
->>>>>>> main
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
             self.targetRegions = targetRegions
@@ -1099,8 +1012,6 @@ extension ControlTowerClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension ControlTowerClientTypes.EnabledControlParameter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -1195,7 +1106,6 @@ extension ControlTowerClientTypes {
 
 }
 
->>>>>>> main
 extension ControlTowerClientTypes.EnabledControlSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -1244,19 +1154,11 @@ extension ControlTowerClientTypes {
     public struct EnabledControlSummary: Swift.Equatable {
         /// The ARN of the enabled control.
         public var arn: Swift.String?
-<<<<<<< HEAD
-        /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-        public var controlIdentifier: Swift.String?
-        /// The drift status of the enabled control.
-        public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
-        ///
-=======
         /// The controlIdentifier of the enabled control.
         public var controlIdentifier: Swift.String?
         /// The drift status of the enabled control.
         public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
         /// A short description of the status of the enabled control.
->>>>>>> main
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The ARN of the organizational unit.
         public var targetIdentifier: Swift.String?
@@ -1489,11 +1391,7 @@ extension GetEnabledControlInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetEnabledControlInput: Swift.Equatable {
-<<<<<<< HEAD
-    /// The ARN of the enabled control.
-=======
     /// The controlIdentifier of the enabled control.
->>>>>>> main
     /// This member is required.
     public var enabledControlIdentifier: Swift.String?
 
@@ -1574,8 +1472,6 @@ enum GetEnabledControlOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
-<<<<<<< HEAD
-=======
     }
 }
 
@@ -1784,7 +1680,6 @@ enum GetLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
->>>>>>> main
     }
 }
 
@@ -2321,11 +2216,7 @@ extension ListEnabledControlsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListEnabledControlsOutput: Swift.Equatable {
-<<<<<<< HEAD
-    /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
-=======
     /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains.
->>>>>>> main
     /// This member is required.
     public var enabledControls: [ControlTowerClientTypes.EnabledControlSummary]?
     /// Retrieves the next page of results. If the string is empty, the response is the end of the results.
@@ -2385,8 +2276,6 @@ enum ListEnabledControlsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-=======
 extension ListLandingZonesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -2614,7 +2503,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ControlTowerClientTypes.Region: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -2635,15 +2523,9 @@ extension ControlTowerClientTypes.Region: Swift.Codable {
 }
 
 extension ControlTowerClientTypes {
-<<<<<<< HEAD
-    /// An AWS Region in which AWS Control Tower expects to find the control deployed. The expected Regions are based on the Regions that are governed by the landing zone. In certain cases, a control is not actually enabled in the Region as expected, such as during drift, or [mixed governance](https://docs.aws.amazon.com/controltower/latest/userguide/region-how.html#mixed-governance).
-    public struct Region: Swift.Equatable {
-        /// The AWS Region name.
-=======
     /// An Amazon Web Services Region in which Amazon Web Services Control Tower expects to find the control deployed. The expected Regions are based on the Regions that are governed by the landing zone. In certain cases, a control is not actually enabled in the Region as expected, such as during drift, or [mixed governance](https://docs.aws.amazon.com/controltower/latest/userguide/region-how.html#mixed-governance).
     public struct Region: Swift.Equatable {
         /// The Amazon Web Services Region name.
->>>>>>> main
         public var name: Swift.String?
 
         public init(
@@ -2656,8 +2538,6 @@ extension ControlTowerClientTypes {
 
 }
 
-<<<<<<< HEAD
-=======
 extension ResetLandingZoneInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case landingZoneIdentifier
@@ -2763,7 +2643,6 @@ enum ResetLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
->>>>>>> main
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

@@ -1636,47 +1636,6 @@ extension CreateServerOutputBody: Swift.Decodable {
     }
 }
 
-extension CreateServerOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: CreateServerOutputBody = try responseDecoder.decode(responseBody: data)
-            self.serverId = output.serverId
-        } else {
-            self.serverId = nil
-        }
-    }
-}
-
-public struct CreateServerOutput: Swift.Equatable {
-    /// The service-assigned identifier of the server that is created.
-    /// This member is required.
-    public var serverId: Swift.String?
-
-    public init(
-        serverId: Swift.String? = nil
-    )
-    {
-        self.serverId = serverId
-    }
-}
-
-struct CreateServerOutputBody: Swift.Equatable {
-    let serverId: Swift.String?
-}
-
-extension CreateServerOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serverId = "ServerId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serverIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverId)
-        serverId = serverIdDecoded
-    }
-}
-
 enum CreateServerOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -13682,47 +13641,6 @@ extension UpdateServerInputBody: Swift.Decodable {
         structuredLogDestinations = structuredLogDestinationsDecoded0
         let s3StorageOptionsDecoded = try containerValues.decodeIfPresent(TransferClientTypes.S3StorageOptions.self, forKey: .s3StorageOptions)
         s3StorageOptions = s3StorageOptionsDecoded
-    }
-}
-
-extension UpdateServerOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: UpdateServerOutputBody = try responseDecoder.decode(responseBody: data)
-            self.serverId = output.serverId
-        } else {
-            self.serverId = nil
-        }
-    }
-}
-
-public struct UpdateServerOutput: Swift.Equatable {
-    /// A system-assigned unique identifier for a server that the Transfer Family user is assigned to.
-    /// This member is required.
-    public var serverId: Swift.String?
-
-    public init(
-        serverId: Swift.String? = nil
-    )
-    {
-        self.serverId = serverId
-    }
-}
-
-struct UpdateServerOutputBody: Swift.Equatable {
-    let serverId: Swift.String?
-}
-
-extension UpdateServerOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case serverId = "ServerId"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let serverIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverId)
-        serverId = serverIdDecoded
     }
 }
 

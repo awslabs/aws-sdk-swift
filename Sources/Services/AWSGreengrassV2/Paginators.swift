@@ -12,11 +12,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListClientDevicesAssociatedWithCoreDeviceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListClientDevicesAssociatedWithCoreDeviceOutput`
     public func listClientDevicesAssociatedWithCoreDevicePaginated(input: ListClientDevicesAssociatedWithCoreDeviceInput) -> ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput>(input: input, inputKey: \ListClientDevicesAssociatedWithCoreDeviceInput.nextToken, outputKey: \ListClientDevicesAssociatedWithCoreDeviceOutput.nextToken, paginationFunction: self.listClientDevicesAssociatedWithCoreDevice(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClientDevicesAssociatedWithCoreDevice(input:))
->>>>>>> main
     }
 }
 
@@ -29,11 +25,7 @@ extension ListClientDevicesAssociatedWithCoreDeviceInput: ClientRuntime.Paginate
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListClientDevicesAssociatedWithCoreDeviceInput, Output == ListClientDevicesAssociatedWithCoreDeviceOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListClientDevicesAssociatedWithCoreDeviceInput, OperationStackOutput == ListClientDevicesAssociatedWithCoreDeviceOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listClientDevicesAssociatedWithCoreDevicePaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.AssociatedClientDevice]`
     /// - Returns: `[GreengrassV2ClientTypes.AssociatedClientDevice]`
@@ -51,11 +43,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutput`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutput.nextToken, paginationFunction: self.listComponents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponents(input:))
->>>>>>> main
     }
 }
 
@@ -68,11 +56,7 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListComponentsInput, OperationStackOutput == ListComponentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.Component]`
     /// - Returns: `[GreengrassV2ClientTypes.Component]`
@@ -90,11 +74,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListComponentVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListComponentVersionsOutput`
     public func listComponentVersionsPaginated(input: ListComponentVersionsInput) -> ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutput>(input: input, inputKey: \ListComponentVersionsInput.nextToken, outputKey: \ListComponentVersionsOutput.nextToken, paginationFunction: self.listComponentVersions(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListComponentVersionsInput, ListComponentVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listComponentVersions(input:))
->>>>>>> main
     }
 }
 
@@ -107,11 +87,7 @@ extension ListComponentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListComponentVersionsInput, Output == ListComponentVersionsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListComponentVersionsInput, OperationStackOutput == ListComponentVersionsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listComponentVersionsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.ComponentVersionListItem]`
     /// - Returns: `[GreengrassV2ClientTypes.ComponentVersionListItem]`
@@ -129,11 +105,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListCoreDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCoreDevicesOutput`
     public func listCoreDevicesPaginated(input: ListCoreDevicesInput) -> ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutput>(input: input, inputKey: \ListCoreDevicesInput.nextToken, outputKey: \ListCoreDevicesOutput.nextToken, paginationFunction: self.listCoreDevices(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListCoreDevicesInput, ListCoreDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoreDevices(input:))
->>>>>>> main
     }
 }
 
@@ -147,11 +119,7 @@ extension ListCoreDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListCoreDevicesInput, Output == ListCoreDevicesOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListCoreDevicesInput, OperationStackOutput == ListCoreDevicesOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listCoreDevicesPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.CoreDevice]`
     /// - Returns: `[GreengrassV2ClientTypes.CoreDevice]`
@@ -169,11 +137,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDeploymentsOutput`
     public func listDeploymentsPaginated(input: ListDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \ListDeploymentsInput.nextToken, outputKey: \ListDeploymentsOutput.nextToken, paginationFunction: self.listDeployments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListDeploymentsInput, ListDeploymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDeployments(input:))
->>>>>>> main
     }
 }
 
@@ -188,11 +152,7 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListDeploymentsInput, OperationStackOutput == ListDeploymentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.Deployment]`
     /// - Returns: `[GreengrassV2ClientTypes.Deployment]`
@@ -210,11 +170,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListEffectiveDeploymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEffectiveDeploymentsOutput`
     public func listEffectiveDeploymentsPaginated(input: ListEffectiveDeploymentsInput) -> ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput>(input: input, inputKey: \ListEffectiveDeploymentsInput.nextToken, outputKey: \ListEffectiveDeploymentsOutput.nextToken, paginationFunction: self.listEffectiveDeployments(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEffectiveDeployments(input:))
->>>>>>> main
     }
 }
 
@@ -227,11 +183,7 @@ extension ListEffectiveDeploymentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListEffectiveDeploymentsInput, Output == ListEffectiveDeploymentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListEffectiveDeploymentsInput, OperationStackOutput == ListEffectiveDeploymentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listEffectiveDeploymentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.EffectiveDeployment]`
     /// - Returns: `[GreengrassV2ClientTypes.EffectiveDeployment]`
@@ -249,11 +201,7 @@ extension GreengrassV2Client {
     ///     - input: A `[ListInstalledComponentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInstalledComponentsOutput`
     public func listInstalledComponentsPaginated(input: ListInstalledComponentsInput) -> ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutput>(input: input, inputKey: \ListInstalledComponentsInput.nextToken, outputKey: \ListInstalledComponentsOutput.nextToken, paginationFunction: self.listInstalledComponents(input:))
-=======
         return ClientRuntime.PaginatorSequence<ListInstalledComponentsInput, ListInstalledComponentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstalledComponents(input:))
->>>>>>> main
     }
 }
 
@@ -267,11 +215,7 @@ extension ListInstalledComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-<<<<<<< HEAD
-extension PaginatorSequence where Input == ListInstalledComponentsInput, Output == ListInstalledComponentsOutput {
-=======
 extension PaginatorSequence where OperationStackInput == ListInstalledComponentsInput, OperationStackOutput == ListInstalledComponentsOutput {
->>>>>>> main
     /// This paginator transforms the `AsyncSequence` returned by `listInstalledComponentsPaginated`
     /// to access the nested member `[GreengrassV2ClientTypes.InstalledComponent]`
     /// - Returns: `[GreengrassV2ClientTypes.InstalledComponent]`

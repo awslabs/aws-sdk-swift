@@ -12,11 +12,7 @@ extension ConnectParticipantClient {
     ///     - input: A `[GetTranscriptInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetTranscriptOutput`
     public func getTranscriptPaginated(input: GetTranscriptInput) -> ClientRuntime.PaginatorSequence<GetTranscriptInput, GetTranscriptOutput> {
-<<<<<<< HEAD
-        return ClientRuntime.PaginatorSequence<GetTranscriptInput, GetTranscriptOutput>(input: input, inputKey: \GetTranscriptInput.nextToken, outputKey: \GetTranscriptOutput.nextToken, paginationFunction: self.getTranscript(input:))
-=======
         return ClientRuntime.PaginatorSequence<GetTranscriptInput, GetTranscriptOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getTranscript(input:))
->>>>>>> main
     }
 }
 

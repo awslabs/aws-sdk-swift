@@ -9,24 +9,10 @@ extension Route53ClientTypes.AccountLimit: Swift.Decodable {
         case value = "Value"
     }
 
-<<<<<<< HEAD
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("https://route53.amazonaws.com/doc/2013-04-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let type = type {
-            try container.encode(type, forKey: ClientRuntime.Key("Type"))
-        }
-        if let value = value {
-            try container.encode(value, forKey: ClientRuntime.Key("Value"))
-        }
-=======
     static func writingClosure(_ value: Route53ClientTypes.AccountLimit?, to writer: SmithyXML.Writer) throws {
         guard let value else { writer.detach(); return }
         try writer[.init("Type")].write(value.type)
         try writer[.init("Value")].write(value.value)
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -207,50 +193,6 @@ extension ActivateKeySigningKeyOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension ActivateKeySigningKeyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ActivateKeySigningKeyOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-public struct ActivateKeySigningKeyOutput: Swift.Equatable {
-    /// A complex type that describes change information about changes made to your hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct ActivateKeySigningKeyOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension ActivateKeySigningKeyOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum ActivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -266,11 +208,7 @@ enum ActivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.AlarmIdentifier: Swift.Codable {
-=======
 extension Route53ClientTypes.AlarmIdentifier: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case region = "Region"
@@ -612,11 +550,7 @@ enum AssociateVPCWithHostedZoneOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.Change: Swift.Codable {
-=======
 extension Route53ClientTypes.Change: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "Action"
         case resourceRecordSet = "ResourceRecordSet"
@@ -900,11 +834,7 @@ enum ChangeCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.ChangeInfo: Swift.Codable {
-=======
 extension Route53ClientTypes.ChangeInfo: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment = "Comment"
         case id = "Id"
@@ -2399,22 +2329,6 @@ enum CreateCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "LimitsExceeded": return try await LimitsExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateHealthCheckInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -2548,22 +2462,6 @@ enum CreateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyHealthChecks": return try await TooManyHealthChecks(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateHostedZoneInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -2761,22 +2659,6 @@ enum CreateHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NoSuchDelegationSet": return try await NoSuchDelegationSet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyHostedZones": return try await TooManyHostedZones(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateKeySigningKeyInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -2962,22 +2844,6 @@ enum CreateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NoSuchHostedZone": return try await NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyKeySigningKeys": return try await TooManyKeySigningKeys(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateQueryLoggingConfigInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -3101,22 +2967,6 @@ enum CreateQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding
             case "NoSuchHostedZone": return try await NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "QueryLoggingConfigAlreadyExists": return try await QueryLoggingConfigAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateReusableDelegationSetInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -3240,22 +3090,6 @@ enum CreateReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBind
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "LimitsExceeded": return try await LimitsExceeded(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateTrafficPolicyInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -3546,22 +3380,6 @@ enum CreateTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyTrafficPolicies": return try await TooManyTrafficPolicies(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TrafficPolicyAlreadyExists": return try await TrafficPolicyAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateTrafficPolicyVersionInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -3693,22 +3511,6 @@ enum CreateTrafficPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBindi
             case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "TooManyTrafficPolicyVersionsForCurrentPolicy": return try await TooManyTrafficPolicyVersionsForCurrentPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension CreateVPCAssociationAuthorizationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -4051,47 +3853,6 @@ extension DeactivateKeySigningKeyOutputBody: Swift.Decodable {
     }
 }
 
-extension DeactivateKeySigningKeyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeactivateKeySigningKeyOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-public struct DeactivateKeySigningKeyOutput: Swift.Equatable {
-    /// A complex type that describes change information about changes made to your hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct DeactivateKeySigningKeyOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension DeactivateKeySigningKeyOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
-    }
-}
-
 enum DeactivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4108,11 +3869,7 @@ enum DeactivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.DelegationSet: Swift.Codable {
-=======
 extension Route53ClientTypes.DelegationSet: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
         case id = "Id"
@@ -4486,16 +4243,6 @@ public struct DeleteCidrCollectionOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteCidrCollectionOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteCidrCollectionOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4543,17 +4290,6 @@ public struct DeleteHealthCheckOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteHealthCheckOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element.
-public struct DeleteHealthCheckOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4586,48 +4322,6 @@ public struct DeleteHostedZoneInput: Swift.Equatable {
     )
     {
         self.id = id
-    }
-}
-
-extension DeleteHostedZoneOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteHostedZoneOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-/// A complex type that contains the response to a DeleteHostedZone request.
-public struct DeleteHostedZoneOutput: Swift.Equatable {
-    /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct DeleteHostedZoneOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension DeleteHostedZoneOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
     }
 }
 
@@ -4783,50 +4477,6 @@ extension DeleteKeySigningKeyOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension DeleteKeySigningKeyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DeleteKeySigningKeyOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-public struct DeleteKeySigningKeyOutput: Swift.Equatable {
-    /// A complex type that describes change information about changes made to your hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct DeleteKeySigningKeyOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension DeleteKeySigningKeyOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum DeleteKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4874,16 +4524,6 @@ public struct DeleteQueryLoggingConfigOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteQueryLoggingConfigOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-public struct DeleteQueryLoggingConfigOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -4917,17 +4557,6 @@ public struct DeleteReusableDelegationSetInput: Swift.Equatable {
     {
         self.id = id
     }
-}
-
-extension DeleteReusableDelegationSetOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element.
-public struct DeleteReusableDelegationSetOutput: Swift.Equatable {
-
-    public init() { }
 }
 
 extension DeleteReusableDelegationSetOutput: ClientRuntime.HttpResponseBinding {
@@ -5019,17 +4648,6 @@ public struct DeleteTrafficPolicyInstanceOutput: Swift.Equatable {
     public init() { }
 }
 
-extension DeleteTrafficPolicyInstanceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-    }
-}
-
-/// An empty element.
-public struct DeleteTrafficPolicyInstanceOutput: Swift.Equatable {
-
-    public init() { }
-}
-
 enum DeleteTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5066,25 +4684,7 @@ enum DeleteTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension DeleteVPCAssociationAuthorizationInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension DeleteVPCAssociationAuthorizationInput: Swift.Encodable {
-=======
 extension DeleteVPCAssociationAuthorizationInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vpc = "VPC"
     }
@@ -5189,11 +4789,7 @@ enum DeleteVPCAssociationAuthorizationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.Dimension: Swift.Codable {
-=======
 extension Route53ClientTypes.Dimension: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
         case value = "Value"
@@ -5324,47 +4920,6 @@ extension DisableHostedZoneDNSSECOutputBody: Swift.Decodable {
     }
 }
 
-extension DisableHostedZoneDNSSECOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: DisableHostedZoneDNSSECOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-public struct DisableHostedZoneDNSSECOutput: Swift.Equatable {
-    /// A complex type that describes change information about changes made to your hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct DisableHostedZoneDNSSECOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension DisableHostedZoneDNSSECOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
-    }
-}
-
 enum DisableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5382,25 +4937,7 @@ enum DisableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-<<<<<<< HEAD
-extension DisassociateVPCFromHostedZoneInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension DisassociateVPCFromHostedZoneInput: Swift.Encodable {
-=======
 extension DisassociateVPCFromHostedZoneInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case comment = "Comment"
         case vpc = "VPC"
@@ -5634,47 +5171,6 @@ extension EnableHostedZoneDNSSECOutputBody: Swift.Decodable {
     }
 }
 
-extension EnableHostedZoneDNSSECOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: EnableHostedZoneDNSSECOutputBody = try responseDecoder.decode(responseBody: data)
-            self.changeInfo = output.changeInfo
-        } else {
-            self.changeInfo = nil
-        }
-    }
-}
-
-public struct EnableHostedZoneDNSSECOutput: Swift.Equatable {
-    /// A complex type that describes change information about changes made to your hosted zone.
-    /// This member is required.
-    public var changeInfo: Route53ClientTypes.ChangeInfo?
-
-    public init(
-        changeInfo: Route53ClientTypes.ChangeInfo? = nil
-    )
-    {
-        self.changeInfo = changeInfo
-    }
-}
-
-struct EnableHostedZoneDNSSECOutputBody: Swift.Equatable {
-    let changeInfo: Route53ClientTypes.ChangeInfo?
-}
-
-extension EnableHostedZoneDNSSECOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case changeInfo = "ChangeInfo"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let changeInfoDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ChangeInfo.self, forKey: .changeInfo)
-        changeInfo = changeInfoDecoded
-    }
-}
-
 enum EnableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -5693,11 +5189,7 @@ enum EnableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.GeoLocation: Swift.Codable {
-=======
 extension Route53ClientTypes.GeoLocation: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case continentCode = "ContinentCode"
         case countryCode = "CountryCode"
@@ -5869,18 +5361,6 @@ public struct GetAccountLimitInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetAccountLimitInputBody: Swift.Equatable {
-}
-
-extension GetAccountLimitInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetAccountLimitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5967,18 +5447,6 @@ public struct GetChangeInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetChangeInputBody: Swift.Equatable {
-}
-
-extension GetChangeInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetChangeOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6044,18 +5512,6 @@ public struct GetCheckerIpRangesInput: Swift.Equatable {
     public init() { }
 }
 
-<<<<<<< HEAD
-struct GetCheckerIpRangesInputBody: Swift.Equatable {
-}
-
-extension GetCheckerIpRangesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetCheckerIpRangesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6171,18 +5627,6 @@ public struct GetDNSSECInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetDNSSECInputBody: Swift.Equatable {
-}
-
-extension GetDNSSECInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetDNSSECOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6326,18 +5770,6 @@ public struct GetGeoLocationInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetGeoLocationInputBody: Swift.Equatable {
-}
-
-extension GetGeoLocationInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetGeoLocationOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6403,18 +5835,6 @@ public struct GetHealthCheckCountInput: Swift.Equatable {
     public init() { }
 }
 
-<<<<<<< HEAD
-struct GetHealthCheckCountInputBody: Swift.Equatable {
-}
-
-extension GetHealthCheckCountInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetHealthCheckCountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6512,18 +5932,6 @@ public struct GetHealthCheckLastFailureReasonInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetHealthCheckLastFailureReasonInputBody: Swift.Equatable {
-}
-
-extension GetHealthCheckLastFailureReasonInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetHealthCheckLastFailureReasonOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6671,18 +6079,6 @@ public struct GetHealthCheckStatusInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetHealthCheckStatusInputBody: Swift.Equatable {
-}
-
-extension GetHealthCheckStatusInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetHealthCheckStatusOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6765,18 +6161,6 @@ public struct GetHostedZoneCountInput: Swift.Equatable {
     public init() { }
 }
 
-<<<<<<< HEAD
-struct GetHostedZoneCountInputBody: Swift.Equatable {
-}
-
-extension GetHostedZoneCountInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetHostedZoneCountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6912,18 +6296,6 @@ public struct GetHostedZoneLimitInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetHostedZoneLimitInputBody: Swift.Equatable {
-}
-
-extension GetHostedZoneLimitInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetHostedZoneLimitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7101,18 +6473,6 @@ public struct GetQueryLoggingConfigInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetQueryLoggingConfigInputBody: Swift.Equatable {
-}
-
-extension GetQueryLoggingConfigInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetQueryLoggingConfigOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7219,18 +6579,6 @@ public struct GetReusableDelegationSetLimitInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct GetReusableDelegationSetLimitInputBody: Swift.Equatable {
-}
-
-extension GetReusableDelegationSetLimitInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetReusableDelegationSetLimitOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7392,18 +6740,6 @@ public struct GetTrafficPolicyInstanceCountInput: Swift.Equatable {
     public init() { }
 }
 
-<<<<<<< HEAD
-struct GetTrafficPolicyInstanceCountInputBody: Swift.Equatable {
-}
-
-extension GetTrafficPolicyInstanceCountInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension GetTrafficPolicyInstanceCountOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7520,14 +6856,6 @@ extension GetTrafficPolicyInstanceOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension GetTrafficPolicyInstanceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTrafficPolicyInstanceOutputBody = try responseDecoder.decode(responseBody: data)
-            self.trafficPolicyInstance = output.trafficPolicyInstance
-=======
 enum GetTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -7539,75 +6867,6 @@ enum GetTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetTrafficPolicyOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: GetTrafficPolicyOutputBody = try responseDecoder.decode(responseBody: data)
-            self.trafficPolicy = output.trafficPolicy
->>>>>>> main
-        } else {
-            self.trafficPolicy = nil
-        }
-    }
-}
-
-<<<<<<< HEAD
-/// A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
-public struct GetTrafficPolicyInstanceOutput: Swift.Equatable {
-    /// A complex type that contains settings for the traffic policy instance.
-=======
-/// A complex type that contains the response information for the request.
-public struct GetTrafficPolicyOutput: Swift.Equatable {
-    /// A complex type that contains settings for the specified traffic policy.
->>>>>>> main
-    /// This member is required.
-    public var trafficPolicy: Route53ClientTypes.TrafficPolicy?
-
-    public init(
-        trafficPolicy: Route53ClientTypes.TrafficPolicy? = nil
-    )
-    {
-        self.trafficPolicy = trafficPolicy
-    }
-}
-
-<<<<<<< HEAD
-struct GetTrafficPolicyInstanceOutputBody: Swift.Equatable {
-    let trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance?
-}
-
-extension GetTrafficPolicyInstanceOutputBody: Swift.Decodable {
-=======
-struct GetTrafficPolicyOutputBody: Swift.Equatable {
-    let trafficPolicy: Route53ClientTypes.TrafficPolicy?
-}
-
-extension GetTrafficPolicyOutputBody: Swift.Decodable {
->>>>>>> main
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case trafficPolicy = "TrafficPolicy"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let trafficPolicyDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.TrafficPolicy.self, forKey: .trafficPolicy)
-        trafficPolicy = trafficPolicyDecoded
-    }
-}
-
-enum GetTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
-        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-        switch restXMLError.errorCode {
-            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            case "NoSuchTrafficPolicyInstance": return try await NoSuchTrafficPolicyInstance(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
-            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-        }
-    }
-}
-
-<<<<<<< HEAD
 extension GetTrafficPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7661,10 +6920,7 @@ enum GetTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension Route53ClientTypes.HealthCheck: Swift.Codable {
-=======
 extension Route53ClientTypes.HealthCheck: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callerReference = "CallerReference"
         case cloudWatchAlarmConfiguration = "CloudWatchAlarmConfiguration"
@@ -8504,24 +7760,10 @@ extension Route53ClientTypes.HostedZoneLimit: Swift.Decodable {
         case value = "Value"
     }
 
-<<<<<<< HEAD
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("https://route53.amazonaws.com/doc/2013-04-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let type = type {
-            try container.encode(type, forKey: ClientRuntime.Key("Type"))
-        }
-        if let value = value {
-            try container.encode(value, forKey: ClientRuntime.Key("Value"))
-        }
-=======
     static func writingClosure(_ value: Route53ClientTypes.HostedZoneLimit?, to writer: SmithyXML.Writer) throws {
         guard let value else { writer.detach(); return }
         try writer[.init("Type")].write(value.type)
         try writer[.init("Value")].write(value.value)
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -10300,18 +9542,6 @@ public struct ListCidrBlocksInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListCidrBlocksInputBody: Swift.Equatable {
-}
-
-extension ListCidrBlocksInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListCidrBlocksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10430,18 +9660,6 @@ public struct ListCidrCollectionsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListCidrCollectionsInputBody: Swift.Equatable {
-}
-
-extension ListCidrCollectionsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListCidrCollectionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10566,18 +9784,6 @@ public struct ListCidrLocationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListCidrLocationsInputBody: Swift.Equatable {
-}
-
-extension ListCidrLocationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListCidrLocationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10712,18 +9918,6 @@ public struct ListGeoLocationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListGeoLocationsInputBody: Swift.Equatable {
-}
-
-extension ListGeoLocationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListGeoLocationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10885,18 +10079,6 @@ public struct ListHealthChecksInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListHealthChecksInputBody: Swift.Equatable {
-}
-
-extension ListHealthChecksInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListHealthChecksOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11058,18 +10240,6 @@ public struct ListHostedZonesByNameInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListHostedZonesByNameInputBody: Swift.Equatable {
-}
-
-extension ListHostedZonesByNameInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListHostedZonesByNameOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11264,18 +10434,6 @@ public struct ListHostedZonesByVPCInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListHostedZonesByVPCInputBody: Swift.Equatable {
-}
-
-extension ListHostedZonesByVPCInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListHostedZonesByVPCOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11422,18 +10580,6 @@ public struct ListHostedZonesInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListHostedZonesInputBody: Swift.Equatable {
-}
-
-extension ListHostedZonesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListHostedZonesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11594,18 +10740,6 @@ public struct ListQueryLoggingConfigsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListQueryLoggingConfigsInputBody: Swift.Equatable {
-}
-
-extension ListQueryLoggingConfigsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListQueryLoggingConfigsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11792,18 +10926,6 @@ public struct ListResourceRecordSetsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListResourceRecordSetsInputBody: Swift.Equatable {
-}
-
-extension ListResourceRecordSetsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListResourceRecordSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -11966,18 +11088,6 @@ public struct ListReusableDelegationSetsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListReusableDelegationSetsInputBody: Swift.Equatable {
-}
-
-extension ListReusableDelegationSetsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListReusableDelegationSetsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12167,51 +11277,6 @@ extension ListTagsForResourceOutputBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
-            self.resourceTagSet = output.resourceTagSet
-        } else {
-            self.resourceTagSet = nil
-        }
-    }
-}
-
-/// A complex type that contains information about the health checks or hosted zones for which you want to list tags.
-public struct ListTagsForResourceOutput: Swift.Equatable {
-    /// A ResourceTagSet containing tags associated with the specified resource.
-    /// This member is required.
-    public var resourceTagSet: Route53ClientTypes.ResourceTagSet?
-
-    public init(
-        resourceTagSet: Route53ClientTypes.ResourceTagSet? = nil
-    )
-    {
-        self.resourceTagSet = resourceTagSet
-    }
-}
-
-struct ListTagsForResourceOutputBody: Swift.Equatable {
-    let resourceTagSet: Route53ClientTypes.ResourceTagSet?
-}
-
-extension ListTagsForResourceOutputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case resourceTagSet = "ResourceTagSet"
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourceTagSetDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ResourceTagSet.self, forKey: .resourceTagSet)
-        resourceTagSet = resourceTagSetDecoded
-    }
-}
-
-=======
->>>>>>> main
 enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
@@ -12226,25 +11291,7 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-<<<<<<< HEAD
-extension ListTagsForResourcesInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-        }
-        return .element
-    }
-}
-
-extension ListTagsForResourcesInput: Swift.Encodable {
-=======
 extension ListTagsForResourcesInput {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceIds = "ResourceIds"
     }
@@ -12433,18 +11480,6 @@ public struct ListTrafficPoliciesInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListTrafficPoliciesInputBody: Swift.Equatable {
-}
-
-extension ListTrafficPoliciesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListTrafficPoliciesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12606,18 +11641,6 @@ public struct ListTrafficPolicyInstancesByHostedZoneInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListTrafficPolicyInstancesByHostedZoneInputBody: Swift.Equatable {
-}
-
-extension ListTrafficPolicyInstancesByHostedZoneInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListTrafficPolicyInstancesByHostedZoneOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -12809,18 +11832,6 @@ public struct ListTrafficPolicyInstancesByPolicyInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListTrafficPolicyInstancesByPolicyInputBody: Swift.Equatable {
-}
-
-extension ListTrafficPolicyInstancesByPolicyInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListTrafficPolicyInstancesByPolicyOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13000,18 +12011,6 @@ public struct ListTrafficPolicyInstancesInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListTrafficPolicyInstancesInputBody: Swift.Equatable {
-}
-
-extension ListTrafficPolicyInstancesInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListTrafficPolicyInstancesOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13182,18 +12181,6 @@ public struct ListTrafficPolicyVersionsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListTrafficPolicyVersionsInputBody: Swift.Equatable {
-}
-
-extension ListTrafficPolicyVersionsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListTrafficPolicyVersionsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13370,18 +12357,6 @@ public struct ListVPCAssociationAuthorizationsInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct ListVPCAssociationAuthorizationsInputBody: Swift.Equatable {
-}
-
-extension ListVPCAssociationAuthorizationsInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension ListVPCAssociationAuthorizationsOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13474,11 +12449,7 @@ enum ListVPCAssociationAuthorizationsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.LocationSummary: Swift.Codable {
-=======
 extension Route53ClientTypes.LocationSummary: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case locationName = "LocationName"
     }
@@ -15082,24 +14053,10 @@ extension Route53ClientTypes.ReusableDelegationSetLimit: Swift.Decodable {
         case value = "Value"
     }
 
-<<<<<<< HEAD
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if encoder.codingPath.isEmpty {
-            try container.encode("https://route53.amazonaws.com/doc/2013-04-01/", forKey: ClientRuntime.Key("xmlns"))
-        }
-        if let type = type {
-            try container.encode(type, forKey: ClientRuntime.Key("Type"))
-        }
-        if let value = value {
-            try container.encode(value, forKey: ClientRuntime.Key("Value"))
-        }
-=======
     static func writingClosure(_ value: Route53ClientTypes.ReusableDelegationSetLimit?, to writer: SmithyXML.Writer) throws {
         guard let value else { writer.detach(); return }
         try writer[.init("Type")].write(value.type)
         try writer[.init("Value")].write(value.value)
->>>>>>> main
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15414,18 +14371,6 @@ public struct TestDNSAnswerInput: Swift.Equatable {
     }
 }
 
-<<<<<<< HEAD
-struct TestDNSAnswerInputBody: Swift.Equatable {
-}
-
-extension TestDNSAnswerInputBody: Swift.Decodable {
-
-    public init(from decoder: Swift.Decoder) throws {
-    }
-}
-
-=======
->>>>>>> main
 extension TestDNSAnswerOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -16772,22 +15717,6 @@ enum UpdateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NoSuchHealthCheck": return try await NoSuchHealthCheck(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension UpdateHostedZoneCommentInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -16896,22 +15825,6 @@ enum UpdateHostedZoneCommentOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "NoSuchHostedZone": return try await NoSuchHostedZone(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "PriorRequestNotComplete": return try await PriorRequestNotComplete(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension UpdateTrafficPolicyCommentInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -17029,22 +15942,6 @@ enum UpdateTrafficPolicyCommentOutputError: ClientRuntime.HttpResponseErrorBindi
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "NoSuchTrafficPolicy": return try await NoSuchTrafficPolicy(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
-<<<<<<< HEAD
-        }
-    }
-}
-
-extension UpdateTrafficPolicyInstanceInput: ClientRuntime.DynamicNodeEncoding {
-    public static func nodeEncoding(for key: Swift.CodingKey) -> ClientRuntime.NodeEncoding {
-        let xmlNamespaceValues = [
-            "xmlns"
-        ]
-        if let key = key as? ClientRuntime.Key {
-            if xmlNamespaceValues.contains(key.stringValue) {
-                return .attribute
-            }
-=======
->>>>>>> main
         }
     }
 }
@@ -17182,11 +16079,7 @@ enum UpdateTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-<<<<<<< HEAD
-extension Route53ClientTypes.VPC: Swift.Codable {
-=======
 extension Route53ClientTypes.VPC: Swift.Decodable {
->>>>>>> main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case vpcId = "VPCId"
         case vpcRegion = "VPCRegion"

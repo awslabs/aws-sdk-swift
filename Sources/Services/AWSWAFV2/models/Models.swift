@@ -12594,11 +12594,7 @@ extension WAFV2ClientTypes {
             customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int? = nil,
-<<<<<<< HEAD
-            scopeDownStatement: Box<WAFV2ClientTypes.Statement>? = nil
-=======
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil
->>>>>>> main
         )
         {
             self.aggregateKeyType = aggregateKeyType

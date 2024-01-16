@@ -20,11 +20,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func buildSuggesters(input: BuildSuggestersInput) async throws -> BuildSuggestersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `CreateDomain` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Creates a new search domain. For more information, see [Creating a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/creating-domains.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter CreateDomainInput : Container for the parameters to the [CreateDomain] operation. Specifies a name for the new search domain.
@@ -40,11 +37,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DefineAnalysisScheme` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures an analysis scheme that can be applied to a text or text-array field to define language-specific text processing options. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DefineAnalysisSchemeInput : Container for the parameters to the [DefineAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme configuration.
@@ -61,11 +55,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func defineAnalysisScheme(input: DefineAnalysisSchemeInput) async throws -> DefineAnalysisSchemeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DefineExpression` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures an [Expression] for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DefineExpressionInput : Container for the parameters to the [DefineExpression] operation. Specifies the name of the domain you want to update and the expression you want to configure.
@@ -82,11 +73,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func defineExpression(input: DefineExpressionInput) async throws -> DefineExpressionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DefineIndexField` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures an [IndexField] for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the [IndexFieldType]. If the field exists, the new configuration replaces the old one. For more information, see [Configuring Index Fields](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DefineIndexFieldInput : Container for the parameters to the [DefineIndexField] operation. Specifies the name of the domain you want to update and the index field configuration.
@@ -103,11 +91,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func defineIndexField(input: DefineIndexFieldInput) async throws -> DefineIndexFieldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DefineSuggester` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DefineSuggesterInput : Container for the parameters to the [DefineSuggester] operation. Specifies the name of the domain you want to update and the suggester configuration.
@@ -124,11 +109,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func defineSuggester(input: DefineSuggesterInput) async throws -> DefineSuggesterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteAnalysisScheme` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Deletes an analysis scheme. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DeleteAnalysisSchemeInput : Container for the parameters to the [DeleteAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme you want to delete.
@@ -144,11 +126,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func deleteAnalysisScheme(input: DeleteAnalysisSchemeInput) async throws -> DeleteAnalysisSchemeOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteDomain` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information, see [Deleting a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/deleting-domains.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DeleteDomainInput : Container for the parameters to the [DeleteDomain] operation. Specifies the name of the domain you want to delete.
@@ -161,11 +140,8 @@ public protocol CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteExpression` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Removes an [Expression] from the search domain. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DeleteExpressionInput : Container for the parameters to the [DeleteExpression] operation. Specifies the name of the domain you want to update and the name of the expression you want to delete.
@@ -181,11 +157,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func deleteExpression(input: DeleteExpressionInput) async throws -> DeleteExpressionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteIndexField` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Removes an [IndexField] from the search domain. For more information, see [Configuring Index Fields](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DeleteIndexFieldInput : Container for the parameters to the [DeleteIndexField] operation. Specifies the name of the domain you want to update and the name of the index field you want to delete.
@@ -201,11 +174,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func deleteIndexField(input: DeleteIndexFieldInput) async throws -> DeleteIndexFieldOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DeleteSuggester` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Deletes a suggester. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DeleteSuggesterInput : Container for the parameters to the [DeleteSuggester] operation. Specifies the name of the domain you want to update and name of the suggester you want to delete.
@@ -221,11 +191,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func deleteSuggester(input: DeleteSuggesterInput) async throws -> DeleteSuggesterOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAnalysisSchemes` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a text field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeAnalysisSchemesInput : Container for the parameters to the [DescribeAnalysisSchemes] operation. Specifies the name of the domain you want to describe. To limit the response to particular analysis schemes, specify the names of the analysis schemes you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -239,11 +206,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeAnalysisSchemes(input: DescribeAnalysisSchemesInput) async throws -> DescribeAnalysisSchemesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeAvailabilityOptions` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Availability Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-availability-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeAvailabilityOptionsInput : Container for the parameters to the [DescribeAvailabilityOptions] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -260,11 +224,8 @@ public protocol CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeAvailabilityOptions(input: DescribeAvailabilityOptionsInput) async throws -> DescribeAvailabilityOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDomainEndpointOptions` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see [Configuring Domain Endpoint Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-domain-endpoint-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeDomainEndpointOptionsInput : Container for the parameters to the [DescribeDomainEndpointOptions] operation. Specify the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -280,11 +241,8 @@ public protocol CloudSearchClientProtocol {
     /// - `LimitExceededException` : The request was rejected because a resource limit has already been met.
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeDomainEndpointOptions(input: DescribeDomainEndpointOptionsInput) async throws -> DescribeDomainEndpointOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeDomains` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets information about the search domains owned by this account. Can be limited to specific domains. Shows all domains by default. To get the number of searchable documents in a domain, use the console or submit a matchall request to your domain's search endpoint: q=matchall&q.parser=structured&size=0. For more information, see [Getting Information about a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeDomainsInput : Container for the parameters to the [DescribeDomains] operation. By default shows the status of all domains. To restrict the response to particular domains, specify the names of the domains you want to describe.
@@ -297,11 +255,8 @@ public protocol CloudSearchClientProtocol {
     /// - `BaseException` : An error occurred while processing the request.
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeExpressions` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeExpressionsInput : Container for the parameters to the [DescribeDomains] operation. Specifies the name of the domain you want to describe. To restrict the response to particular expressions, specify the names of the expressions you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -315,11 +270,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeExpressions(input: DescribeExpressionsInput) async throws -> DescribeExpressionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeIndexFields` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets information about the index fields configured for the search domain. Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Getting Domain Information](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeIndexFieldsInput : Container for the parameters to the [DescribeIndexFields] operation. Specifies the name of the domain you want to describe. To restrict the response to particular index fields, specify the names of the index fields you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -333,11 +285,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeIndexFields(input: DescribeIndexFieldsInput) async throws -> DescribeIndexFieldsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeScalingParameters` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see [Configuring Scaling Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-scaling-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeScalingParametersInput : Container for the parameters to the [DescribeScalingParameters] operation. Specifies the name of the domain you want to describe.
@@ -351,11 +300,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeScalingParameters(input: DescribeScalingParametersInput) async throws -> DescribeScalingParametersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeServiceAccessPolicies` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Access for a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-access.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeServiceAccessPoliciesInput : Container for the parameters to the [DescribeServiceAccessPolicies] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -369,11 +315,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeServiceAccessPolicies(input: DescribeServiceAccessPoliciesInput) async throws -> DescribeServiceAccessPoliciesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `DescribeSuggesters` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter DescribeSuggestersInput : Container for the parameters to the [DescribeSuggester] operation. Specifies the name of the domain you want to describe. To restrict the response to particular suggesters, specify the names of the suggesters you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
@@ -387,11 +330,8 @@ public protocol CloudSearchClientProtocol {
     /// - `InternalException` : An internal error occurred while processing the request. If this problem persists, report an issue from the [Service Health Dashboard](http://status.aws.amazon.com/).
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     func describeSuggesters(input: DescribeSuggestersInput) async throws -> DescribeSuggestersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `IndexDocuments` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose [OptionStatus] is RequiresIndexDocuments.
     ///
     /// - Parameter IndexDocumentsInput : Container for the parameters to the [IndexDocuments] operation. Specifies the name of the domain you want to re-index.
@@ -406,11 +346,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func indexDocuments(input: IndexDocumentsInput) async throws -> IndexDocumentsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `ListDomainNames` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Lists all search domains owned by an account.
     ///
     /// - Parameter ListDomainNamesInput : [no documentation found]
@@ -422,11 +359,8 @@ public protocol CloudSearchClientProtocol {
     /// __Possible Exceptions:__
     /// - `BaseException` : An error occurred while processing the request.
     func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateAvailabilityOptions` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see [Configuring Availability Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-availability-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter UpdateAvailabilityOptionsInput : Container for the parameters to the [UpdateAvailabilityOptions] operation. Specifies the name of the domain you want to update and the Multi-AZ availability option.
@@ -444,11 +378,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func updateAvailabilityOptions(input: UpdateAvailabilityOptionsInput) async throws -> UpdateAvailabilityOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateDomainEndpointOptions` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see [Configuring Domain Endpoint Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-domain-endpoint-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter UpdateDomainEndpointOptionsInput : Container for the parameters to the [UpdateDomainEndpointOptions] operation. Specifies the name of the domain you want to update and the domain endpoint options.
@@ -466,11 +397,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func updateDomainEndpointOptions(input: UpdateDomainEndpointOptionsInput) async throws -> UpdateDomainEndpointOptionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateScalingParameters` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see [Configuring Scaling Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-scaling-options.html) in the Amazon CloudSearch Developer Guide.
     ///
     /// - Parameter UpdateScalingParametersInput : Container for the parameters to the [UpdateScalingParameters] operation. Specifies the name of the domain you want to update and the scaling parameters you want to configure.
@@ -487,11 +415,8 @@ public protocol CloudSearchClientProtocol {
     /// - `ResourceNotFoundException` : The request was rejected because it attempted to reference a resource that does not exist.
     /// - `ValidationException` : The request was rejected because it has invalid parameters.
     func updateScalingParameters(input: UpdateScalingParametersInput) async throws -> UpdateScalingParametersOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateServiceAccessPolicies` operation on the `A9SearchCloudConfigService2013` service.
     ///
->>>>>>> main
     /// Configures the access rules that control access to the domain's document and search endpoints. For more information, see [ Configuring Access for an Amazon CloudSearch Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-access.html).
     ///
     /// - Parameter UpdateServiceAccessPoliciesInput : Container for the parameters to the [UpdateServiceAccessPolicies] operation. Specifies the name of the domain you want to update and the access rules you want to configure.

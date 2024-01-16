@@ -22,11 +22,8 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `TerminalStateException` : The job is in a terminal state.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `GetPendingJobExecutions` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
->>>>>>> main
     /// Gets the list of all jobs for a thing that are not in a terminal status.
     ///
     /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
@@ -42,11 +39,8 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutput
-<<<<<<< HEAD
-=======
     /// Performs the `StartNextPendingJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
->>>>>>> main
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
     ///
     /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
@@ -62,11 +56,8 @@ public protocol IoTJobsDataPlaneClientProtocol {
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
     func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutput
-<<<<<<< HEAD
-=======
     /// Performs the `UpdateJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
->>>>>>> main
     /// Updates the status of a job execution.
     ///
     /// - Parameter UpdateJobExecutionInput : [no documentation found]

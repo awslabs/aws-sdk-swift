@@ -131,35 +131,6 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-<<<<<<< HEAD
-public struct InvokeModelInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeModelInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeModelInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeModelInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension InvokeModelInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), modelId: \(Swift.String(describing: modelId)), body: \"CONTENT_REDACTED\")"}
@@ -259,11 +230,7 @@ extension InvokeModelOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-<<<<<<< HEAD
-        case .none:
-=======
         case .noStream:
->>>>>>> main
             self.body = nil
         }
     }
@@ -318,39 +285,8 @@ enum InvokeModelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
-<<<<<<< HEAD
         }
     }
-}
-
-public struct InvokeModelWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "InvokeModelWithResponseStreamInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<InvokeModelWithResponseStreamInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyData = body
-            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
-            input.builder.withBody(bodyBody)
-=======
->>>>>>> main
-        }
-    }
-<<<<<<< HEAD
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeModelWithResponseStreamInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<InvokeModelWithResponseStreamOutput>
-    public typealias Context = ClientRuntime.HttpContext
-=======
->>>>>>> main
 }
 
 extension InvokeModelWithResponseStreamInput: Swift.CustomDebugStringConvertible {

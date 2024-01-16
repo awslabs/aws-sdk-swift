@@ -6548,34 +6548,6 @@ extension CodeartifactClientTypes {
 
 }
 
-<<<<<<< HEAD
-public struct PublishPackageVersionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "PublishPackageVersionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<PublishPackageVersionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<PublishPackageVersionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let assetContent = input.operationInput.assetContent {
-            let assetContentBody = ClientRuntime.HttpBody(byteStream: assetContent)
-            input.builder.withBody(assetContentBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<PublishPackageVersionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<PublishPackageVersionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
-=======
->>>>>>> main
 extension PublishPackageVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assetContent
