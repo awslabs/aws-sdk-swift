@@ -1555,7 +1555,7 @@ extension CloudFormationClientTypes {
         public var description: Swift.String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
         public var executionStatus: CloudFormationClientTypes.ExecutionStatus?
-        /// Indicates if the stack set imports resources that already exist.
+        /// Indicates if the change set imports resources that already exist.
         public var importExistingResources: Swift.Bool?
         /// Specifies the current setting of IncludeNestedStacks for the change set.
         public var includeNestedStacks: Swift.Bool?
@@ -2041,7 +2041,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description to help you identify this change set.
     public var description: Swift.String?
-    /// Indicates if the stack set imports resources that already exist. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the resource import feature instead. For more information, see [Bringing existing resources into CloudFormation management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) in the CloudFormation User Guide.
+    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the resource import feature instead. For more information, see [Bringing existing resources into CloudFormation management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) in the CloudFormation User Guide.
     public var importExistingResources: Swift.Bool?
     /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
     public var includeNestedStacks: Swift.Bool?
@@ -4904,7 +4904,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
     public var description: Swift.String?
     /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
     public var executionStatus: CloudFormationClientTypes.ExecutionStatus?
-    /// Indicates if the stack set imports resources that already exist. This parameter can only import resources that have [custom names](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in templates. To import resources that do not accept custom names, such as EC2 instances, use the [resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) feature instead.
+    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have [custom names](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in templates. To import resources that do not accept custom names, such as EC2 instances, use the [resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) feature instead.
     public var importExistingResources: Swift.Bool?
     /// Verifies if IncludeNestedStacks is set to True.
     public var includeNestedStacks: Swift.Bool?

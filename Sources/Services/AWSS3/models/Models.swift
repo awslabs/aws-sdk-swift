@@ -10430,7 +10430,7 @@ extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -10608,7 +10608,7 @@ extension GetObjectOutputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -10953,7 +10953,7 @@ extension GetObjectTorrentOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -10991,7 +10991,7 @@ extension GetObjectTorrentOutputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -20484,6 +20484,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
@@ -20532,6 +20533,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutObjectOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: PutObjectOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
@@ -20797,7 +20799,7 @@ extension PutObjectInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -24989,6 +24991,7 @@ extension UploadPartInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadPartOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutput>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartOutput>())
         let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: UploadPartOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
@@ -25124,7 +25127,7 @@ extension UploadPartInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -25745,7 +25748,7 @@ extension WriteGetObjectResponseInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil

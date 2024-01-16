@@ -2932,6 +2932,51 @@ extension RDSClientTypes {
 
 }
 
+extension RDSClientTypes.ContextAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let key = key {
+            try container.encode(key, forKey: ClientRuntime.Key("Key"))
+        }
+        if let value = value {
+            try container.encode(value, forKey: ClientRuntime.Key("Value"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The additional attributes of RecommendedAction data type.
+    public struct ContextAttribute: Swift.Equatable {
+        /// The key of ContextAttribute.
+        public var key: Swift.String?
+        /// The value of ContextAttribute.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension CopyDBClusterParameterGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -6772,7 +6817,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// RDS for Db2 Constraints to the amount of storage for each storage type are the following:
     ///
-    /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 64000.
+    /// * General Purpose (SSD) storage (gp3): Must be an integer from 20 to 64000.
     ///
     /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 64000.
     ///
@@ -19006,6 +19051,311 @@ extension DBProxyTargetNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.DBRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalInfo = "AdditionalInfo"
+        case category = "Category"
+        case createdTime = "CreatedTime"
+        case description = "Description"
+        case detection = "Detection"
+        case impact = "Impact"
+        case issueDetails = "IssueDetails"
+        case links = "Links"
+        case reason = "Reason"
+        case recommendation = "Recommendation"
+        case recommendationId = "RecommendationId"
+        case recommendedActions = "RecommendedActions"
+        case resourceArn = "ResourceArn"
+        case severity = "Severity"
+        case source = "Source"
+        case status = "Status"
+        case typeDetection = "TypeDetection"
+        case typeId = "TypeId"
+        case typeRecommendation = "TypeRecommendation"
+        case updatedTime = "UpdatedTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let additionalInfo = additionalInfo {
+            try container.encode(additionalInfo, forKey: ClientRuntime.Key("AdditionalInfo"))
+        }
+        if let category = category {
+            try container.encode(category, forKey: ClientRuntime.Key("Category"))
+        }
+        if let createdTime = createdTime {
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let detection = detection {
+            try container.encode(detection, forKey: ClientRuntime.Key("Detection"))
+        }
+        if let impact = impact {
+            try container.encode(impact, forKey: ClientRuntime.Key("Impact"))
+        }
+        if let issueDetails = issueDetails {
+            try container.encode(issueDetails, forKey: ClientRuntime.Key("IssueDetails"))
+        }
+        if let links = links {
+            if !links.isEmpty {
+                var linksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Links"))
+                for (index0, doclink0) in links.enumerated() {
+                    try linksContainer.encode(doclink0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var linksContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Links"))
+                try linksContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let reason = reason {
+            try container.encode(reason, forKey: ClientRuntime.Key("Reason"))
+        }
+        if let recommendation = recommendation {
+            try container.encode(recommendation, forKey: ClientRuntime.Key("Recommendation"))
+        }
+        if let recommendationId = recommendationId {
+            try container.encode(recommendationId, forKey: ClientRuntime.Key("RecommendationId"))
+        }
+        if let recommendedActions = recommendedActions {
+            if !recommendedActions.isEmpty {
+                var recommendedActionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActions"))
+                for (index0, recommendedaction0) in recommendedActions.enumerated() {
+                    try recommendedActionsContainer.encode(recommendedaction0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var recommendedActionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActions"))
+                try recommendedActionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let resourceArn = resourceArn {
+            try container.encode(resourceArn, forKey: ClientRuntime.Key("ResourceArn"))
+        }
+        if let severity = severity {
+            try container.encode(severity, forKey: ClientRuntime.Key("Severity"))
+        }
+        if let source = source {
+            try container.encode(source, forKey: ClientRuntime.Key("Source"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let typeDetection = typeDetection {
+            try container.encode(typeDetection, forKey: ClientRuntime.Key("TypeDetection"))
+        }
+        if let typeId = typeId {
+            try container.encode(typeId, forKey: ClientRuntime.Key("TypeId"))
+        }
+        if let typeRecommendation = typeRecommendation {
+            try container.encode(typeRecommendation, forKey: ClientRuntime.Key("TypeRecommendation"))
+        }
+        if let updatedTime = updatedTime {
+            try container.encodeTimestamp(updatedTime, format: .dateTime, forKey: ClientRuntime.Key("UpdatedTime"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let typeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeId)
+        typeId = typeIdDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
+        severity = severityDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let updatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTime)
+        updatedTime = updatedTimeDecoded
+        let detectionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detection)
+        detection = detectionDecoded
+        let recommendationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendation)
+        recommendation = recommendationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        if containerValues.contains(.recommendedActions) {
+            struct KeyVal0{struct member{}}
+            let recommendedActionsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .recommendedActions)
+            if let recommendedActionsWrappedContainer = recommendedActionsWrappedContainer {
+                let recommendedActionsContainer = try recommendedActionsWrappedContainer.decodeIfPresent([RDSClientTypes.RecommendedAction].self, forKey: .member)
+                var recommendedActionsBuffer:[RDSClientTypes.RecommendedAction]? = nil
+                if let recommendedActionsContainer = recommendedActionsContainer {
+                    recommendedActionsBuffer = [RDSClientTypes.RecommendedAction]()
+                    for structureContainer0 in recommendedActionsContainer {
+                        recommendedActionsBuffer?.append(structureContainer0)
+                    }
+                }
+                recommendedActions = recommendedActionsBuffer
+            } else {
+                recommendedActions = []
+            }
+        } else {
+            recommendedActions = nil
+        }
+        let categoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .category)
+        category = categoryDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let typeDetectionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeDetection)
+        typeDetection = typeDetectionDecoded
+        let typeRecommendationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeRecommendation)
+        typeRecommendation = typeRecommendationDecoded
+        let impactDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .impact)
+        impact = impactDecoded
+        let additionalInfoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .additionalInfo)
+        additionalInfo = additionalInfoDecoded
+        if containerValues.contains(.links) {
+            struct KeyVal0{struct member{}}
+            let linksWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .links)
+            if let linksWrappedContainer = linksWrappedContainer {
+                let linksContainer = try linksWrappedContainer.decodeIfPresent([RDSClientTypes.DocLink].self, forKey: .member)
+                var linksBuffer:[RDSClientTypes.DocLink]? = nil
+                if let linksContainer = linksContainer {
+                    linksBuffer = [RDSClientTypes.DocLink]()
+                    for structureContainer0 in linksContainer {
+                        linksBuffer?.append(structureContainer0)
+                    }
+                }
+                links = linksBuffer
+            } else {
+                links = []
+            }
+        } else {
+            links = nil
+        }
+        let issueDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IssueDetails.self, forKey: .issueDetails)
+        issueDetails = issueDetailsDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The recommendation for your DB instances, DB clusters, and DB parameter groups.
+    public struct DBRecommendation: Swift.Equatable {
+        /// Additional information about the recommendation. The information might contain markdown.
+        public var additionalInfo: Swift.String?
+        /// The category of the recommendation. Valid values:
+        ///
+        /// * performance efficiency
+        ///
+        /// * security
+        ///
+        /// * reliability
+        ///
+        /// * cost optimization
+        ///
+        /// * operational excellence
+        ///
+        /// * sustainability
+        public var category: Swift.String?
+        /// The time when the recommendation was created. For example, 2023-09-28T01:13:53.931000+00:00.
+        public var createdTime: ClientRuntime.Date?
+        /// A detailed description of the recommendation. The description might contain markdown.
+        public var description: Swift.String?
+        /// A short description of the issue identified for this recommendation. The description might contain markdown.
+        public var detection: Swift.String?
+        /// A short description that explains the possible impact of an issue.
+        public var impact: Swift.String?
+        /// Details of the issue that caused the recommendation.
+        public var issueDetails: RDSClientTypes.IssueDetails?
+        /// A link to documentation that provides additional information about the recommendation.
+        public var links: [RDSClientTypes.DocLink]?
+        /// The reason why this recommendation was created. The information might contain markdown.
+        public var reason: Swift.String?
+        /// A short description of the recommendation to resolve an issue. The description might contain markdown.
+        public var recommendation: Swift.String?
+        /// The unique identifier of the recommendation.
+        public var recommendationId: Swift.String?
+        /// A list of recommended actions.
+        public var recommendedActions: [RDSClientTypes.RecommendedAction]?
+        /// The Amazon Resource Name (ARN) of the RDS resource associated with the recommendation.
+        public var resourceArn: Swift.String?
+        /// The severity level of the recommendation. The severity level can help you decide the urgency with which to address the recommendation. Valid values:
+        ///
+        /// * high
+        ///
+        /// * medium
+        ///
+        /// * low
+        ///
+        /// * informational
+        public var severity: Swift.String?
+        /// The Amazon Web Services service that generated the recommendations.
+        public var source: Swift.String?
+        /// The current status of the recommendation. Valid values:
+        ///
+        /// * active - The recommendations which are ready for you to apply.
+        ///
+        /// * pending - The applied or scheduled recommendations which are in progress.
+        ///
+        /// * resolved - The recommendations which are completed.
+        ///
+        /// * dismissed - The recommendations that you dismissed.
+        public var status: Swift.String?
+        /// A short description of the recommendation type. The description might contain markdown.
+        public var typeDetection: Swift.String?
+        /// A value that indicates the type of recommendation. This value determines how the description is rendered.
+        public var typeId: Swift.String?
+        /// A short description that summarizes the recommendation to fix all the issues of the recommendation type. The description might contain markdown.
+        public var typeRecommendation: Swift.String?
+        /// The time when the recommendation was last updated.
+        public var updatedTime: ClientRuntime.Date?
+
+        public init(
+            additionalInfo: Swift.String? = nil,
+            category: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            detection: Swift.String? = nil,
+            impact: Swift.String? = nil,
+            issueDetails: RDSClientTypes.IssueDetails? = nil,
+            links: [RDSClientTypes.DocLink]? = nil,
+            reason: Swift.String? = nil,
+            recommendation: Swift.String? = nil,
+            recommendationId: Swift.String? = nil,
+            recommendedActions: [RDSClientTypes.RecommendedAction]? = nil,
+            resourceArn: Swift.String? = nil,
+            severity: Swift.String? = nil,
+            source: Swift.String? = nil,
+            status: Swift.String? = nil,
+            typeDetection: Swift.String? = nil,
+            typeId: Swift.String? = nil,
+            typeRecommendation: Swift.String? = nil,
+            updatedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.additionalInfo = additionalInfo
+            self.category = category
+            self.createdTime = createdTime
+            self.description = description
+            self.detection = detection
+            self.impact = impact
+            self.issueDetails = issueDetails
+            self.links = links
+            self.reason = reason
+            self.recommendation = recommendation
+            self.recommendationId = recommendationId
+            self.recommendedActions = recommendedActions
+            self.resourceArn = resourceArn
+            self.severity = severity
+            self.source = source
+            self.status = status
+            self.typeDetection = typeDetection
+            self.typeId = typeId
+            self.typeRecommendation = typeRecommendation
+            self.updatedTime = updatedTime
+        }
+    }
+
+}
+
 extension RDSClientTypes.DBSecurityGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSecurityGroupArn = "DBSecurityGroupArn"
@@ -28004,6 +28354,271 @@ enum DescribeDBProxyTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeDBRecommendationsInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let lastUpdatedAfter = lastUpdatedAfter {
+            try container.encodeTimestamp(lastUpdatedAfter, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedAfter"))
+        }
+        if let lastUpdatedBefore = lastUpdatedBefore {
+            try container.encodeTimestamp(lastUpdatedBefore, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedBefore"))
+        }
+        if let locale = locale {
+            try container.encode(locale, forKey: ClientRuntime.Key("Locale"))
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeDBRecommendations", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeDBRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDBRecommendationsInput: Swift.Equatable {
+    /// A filter that specifies one or more recommendations to describe. Supported Filters:
+    ///
+    /// * recommendation-id - Accepts a list of recommendation identifiers. The results list only includes the recommendations whose identifier is one of the specified filter values.
+    ///
+    /// * status - Accepts a list of recommendation statuses. Valid values:
+    ///
+    /// * active - The recommendations which are ready for you to apply.
+    ///
+    /// * pending - The applied or scheduled recommendations which are in progress.
+    ///
+    /// * resolved - The recommendations which are completed.
+    ///
+    /// * dismissed - The recommendations that you dismissed.
+    ///
+    ///
+    /// The results list only includes the recommendations whose status is one of the specified filter values.
+    ///
+    /// * severity - Accepts a list of recommendation severities. The results list only includes the recommendations whose severity is one of the specified filter values. Valid values:
+    ///
+    /// * high
+    ///
+    /// * medium
+    ///
+    /// * low
+    ///
+    /// * informational
+    ///
+    ///
+    ///
+    ///
+    /// * type-id - Accepts a list of recommendation type identifiers. The results list only includes the recommendations whose type is one of the specified filter values.
+    ///
+    /// * dbi-resource-id - Accepts a list of database resource identifiers. The results list only includes the recommendations that generated for the specified databases.
+    ///
+    /// * cluster-resource-id - Accepts a list of cluster resource identifiers. The results list only includes the recommendations that generated for the specified clusters.
+    ///
+    /// * pg-arn - Accepts a list of parameter group ARNs. The results list only includes the recommendations that generated for the specified parameter groups.
+    ///
+    /// * cluster-pg-arn - Accepts a list of cluster parameter group ARNs. The results list only includes the recommendations that generated for the specified cluster parameter groups.
+    public var filters: [RDSClientTypes.Filter]?
+    /// A filter to include only the recommendations that were updated after this specified time.
+    public var lastUpdatedAfter: ClientRuntime.Date?
+    /// A filter to include only the recommendations that were updated before this specified time.
+    public var lastUpdatedBefore: ClientRuntime.Date?
+    /// The language that you choose to return the list of recommendations. Valid values:
+    ///
+    /// * en
+    ///
+    /// * en_UK
+    ///
+    /// * de
+    ///
+    /// * es
+    ///
+    /// * fr
+    ///
+    /// * id
+    ///
+    /// * it
+    ///
+    /// * ja
+    ///
+    /// * ko
+    ///
+    /// * pt_BR
+    ///
+    /// * zh_TW
+    ///
+    /// * zh_CN
+    public var locale: Swift.String?
+    /// An optional pagination token provided by a previous DescribeDBRecommendations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of recommendations to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [RDSClientTypes.Filter]? = nil,
+        lastUpdatedAfter: ClientRuntime.Date? = nil,
+        lastUpdatedBefore: ClientRuntime.Date? = nil,
+        locale: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.lastUpdatedAfter = lastUpdatedAfter
+        self.lastUpdatedBefore = lastUpdatedBefore
+        self.locale = locale
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeDBRecommendationsInputBody: Swift.Equatable {
+    let lastUpdatedAfter: ClientRuntime.Date?
+    let lastUpdatedBefore: ClientRuntime.Date?
+    let locale: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeDBRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case lastUpdatedAfter = "LastUpdatedAfter"
+        case lastUpdatedBefore = "LastUpdatedBefore"
+        case locale = "Locale"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lastUpdatedAfterDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedAfter)
+        lastUpdatedAfter = lastUpdatedAfterDecoded
+        let lastUpdatedBeforeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedBefore)
+        lastUpdatedBefore = lastUpdatedBeforeDecoded
+        let localeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locale)
+        locale = localeDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension DescribeDBRecommendationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDBRecommendationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbRecommendations = output.dbRecommendations
+            self.marker = output.marker
+        } else {
+            self.dbRecommendations = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeDBRecommendationsOutput: Swift.Equatable {
+    /// A list of recommendations which is returned from DescribeDBRecommendations API request.
+    public var dbRecommendations: [RDSClientTypes.DBRecommendation]?
+    /// An optional pagination token provided by a previous DBRecommendationsMessage request. This token can be used later in a DescribeDBRecomendations request.
+    public var marker: Swift.String?
+
+    public init(
+        dbRecommendations: [RDSClientTypes.DBRecommendation]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.dbRecommendations = dbRecommendations
+        self.marker = marker
+    }
+}
+
+struct DescribeDBRecommendationsOutputBody: Swift.Equatable {
+    let dbRecommendations: [RDSClientTypes.DBRecommendation]?
+    let marker: Swift.String?
+}
+
+extension DescribeDBRecommendationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbRecommendations = "DBRecommendations"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBRecommendationsResult"))
+        if containerValues.contains(.dbRecommendations) {
+            struct KeyVal0{struct member{}}
+            let dbRecommendationsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .dbRecommendations)
+            if let dbRecommendationsWrappedContainer = dbRecommendationsWrappedContainer {
+                let dbRecommendationsContainer = try dbRecommendationsWrappedContainer.decodeIfPresent([RDSClientTypes.DBRecommendation].self, forKey: .member)
+                var dbRecommendationsBuffer:[RDSClientTypes.DBRecommendation]? = nil
+                if let dbRecommendationsContainer = dbRecommendationsContainer {
+                    dbRecommendationsBuffer = [RDSClientTypes.DBRecommendation]()
+                    for structureContainer0 in dbRecommendationsContainer {
+                        dbRecommendationsBuffer?.append(structureContainer0)
+                    }
+                }
+                dbRecommendations = dbRecommendationsBuffer
+            } else {
+                dbRecommendations = []
+            }
+        } else {
+            dbRecommendations = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+enum DescribeDBRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeDBSecurityGroupsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -32491,6 +33106,51 @@ enum DescribeValidDBInstanceModificationsOutputError: ClientRuntime.HttpResponse
     }
 }
 
+extension RDSClientTypes.DocLink: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text = "Text"
+        case url = "Url"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let text = text {
+            try container.encode(text, forKey: ClientRuntime.Key("Text"))
+        }
+        if let url = url {
+            try container.encode(url, forKey: ClientRuntime.Key("Url"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// A link to documentation that provides additional information for a recommendation.
+    public struct DocLink: Swift.Equatable {
+        /// The text with the link to documentation for the recommendation.
+        public var text: Swift.String?
+        /// The URL for the documentation for the recommendation.
+        public var url: Swift.String?
+
+        public init(
+            text: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.text = text
+            self.url = url
+        }
+    }
+
+}
+
 extension RDSClientTypes.DomainMembership: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authSecretArn = "AuthSecretArn"
@@ -34386,6 +35046,8 @@ extension RDSClientTypes {
     /// * DescribeDBClusters
     ///
     /// * DescribeDBInstances
+    ///
+    /// * DescribeDBRecommendations
     ///
     /// * DescribePendingMaintenanceActions
     public struct Filter: Swift.Equatable {
@@ -37346,6 +38008,41 @@ extension InvalidVPCNetworkStateFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.IssueDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case performanceIssueDetails = "PerformanceIssueDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let performanceIssueDetails = performanceIssueDetails {
+            try container.encode(performanceIssueDetails, forKey: ClientRuntime.Key("PerformanceIssueDetails"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let performanceIssueDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.PerformanceIssueDetails.self, forKey: .performanceIssueDetails)
+        performanceIssueDetails = performanceIssueDetailsDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The details of an issue with your DB instances, DB clusters, and DB parameter groups.
+    public struct IssueDetails: Swift.Equatable {
+        /// A detailed description of the issue when the recommendation category is performance.
+        public var performanceIssueDetails: RDSClientTypes.PerformanceIssueDetails?
+
+        public init(
+            performanceIssueDetails: RDSClientTypes.PerformanceIssueDetails? = nil
+        )
+        {
+            self.performanceIssueDetails = performanceIssueDetails
+        }
+    }
+
+}
+
 extension KMSKeyNotAccessibleFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -37660,6 +38357,177 @@ extension RDSClientTypes {
             self.kmsKeyId = kmsKeyId
             self.secretArn = secretArn
             self.secretStatus = secretStatus
+        }
+    }
+
+}
+
+extension RDSClientTypes.Metric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metricQuery = "MetricQuery"
+        case name = "Name"
+        case references = "References"
+        case statisticsDetails = "StatisticsDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let metricQuery = metricQuery {
+            try container.encode(metricQuery, forKey: ClientRuntime.Key("MetricQuery"))
+        }
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let references = references {
+            if !references.isEmpty {
+                var referencesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("References"))
+                for (index0, metricreference0) in references.enumerated() {
+                    try referencesContainer.encode(metricreference0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var referencesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("References"))
+                try referencesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let statisticsDetails = statisticsDetails {
+            try container.encode(statisticsDetails, forKey: ClientRuntime.Key("StatisticsDetails"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        if containerValues.contains(.references) {
+            struct KeyVal0{struct member{}}
+            let referencesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .references)
+            if let referencesWrappedContainer = referencesWrappedContainer {
+                let referencesContainer = try referencesWrappedContainer.decodeIfPresent([RDSClientTypes.MetricReference].self, forKey: .member)
+                var referencesBuffer:[RDSClientTypes.MetricReference]? = nil
+                if let referencesContainer = referencesContainer {
+                    referencesBuffer = [RDSClientTypes.MetricReference]()
+                    for structureContainer0 in referencesContainer {
+                        referencesBuffer?.append(structureContainer0)
+                    }
+                }
+                references = referencesBuffer
+            } else {
+                references = []
+            }
+        } else {
+            references = nil
+        }
+        let statisticsDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statisticsDetails)
+        statisticsDetails = statisticsDetailsDecoded
+        let metricQueryDecoded = try containerValues.decodeIfPresent(RDSClientTypes.MetricQuery.self, forKey: .metricQuery)
+        metricQuery = metricQueryDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The representation of a metric.
+    public struct Metric: Swift.Equatable {
+        /// The query to retrieve metric data points.
+        public var metricQuery: RDSClientTypes.MetricQuery?
+        /// The name of a metric.
+        public var name: Swift.String?
+        /// A list of metric references (thresholds).
+        public var references: [RDSClientTypes.MetricReference]?
+        /// The details of different statistics for a metric. The description might contain markdown.
+        public var statisticsDetails: Swift.String?
+
+        public init(
+            metricQuery: RDSClientTypes.MetricQuery? = nil,
+            name: Swift.String? = nil,
+            references: [RDSClientTypes.MetricReference]? = nil,
+            statisticsDetails: Swift.String? = nil
+        )
+        {
+            self.metricQuery = metricQuery
+            self.name = name
+            self.references = references
+            self.statisticsDetails = statisticsDetails
+        }
+    }
+
+}
+
+extension RDSClientTypes.MetricQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case performanceInsightsMetricQuery = "PerformanceInsightsMetricQuery"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let performanceInsightsMetricQuery = performanceInsightsMetricQuery {
+            try container.encode(performanceInsightsMetricQuery, forKey: ClientRuntime.Key("PerformanceInsightsMetricQuery"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let performanceInsightsMetricQueryDecoded = try containerValues.decodeIfPresent(RDSClientTypes.PerformanceInsightsMetricQuery.self, forKey: .performanceInsightsMetricQuery)
+        performanceInsightsMetricQuery = performanceInsightsMetricQueryDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The query to retrieve metric data points.
+    public struct MetricQuery: Swift.Equatable {
+        /// The Performance Insights query that you can use to retrieve Performance Insights metric data points.
+        public var performanceInsightsMetricQuery: RDSClientTypes.PerformanceInsightsMetricQuery?
+
+        public init(
+            performanceInsightsMetricQuery: RDSClientTypes.PerformanceInsightsMetricQuery? = nil
+        )
+        {
+            self.performanceInsightsMetricQuery = performanceInsightsMetricQuery
+        }
+    }
+
+}
+
+extension RDSClientTypes.MetricReference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case referenceDetails = "ReferenceDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let name = name {
+            try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let referenceDetails = referenceDetails {
+            try container.encode(referenceDetails, forKey: ClientRuntime.Key("ReferenceDetails"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let referenceDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ReferenceDetails.self, forKey: .referenceDetails)
+        referenceDetails = referenceDetailsDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The reference (threshold) for a metric.
+    public struct MetricReference: Swift.Equatable {
+        /// The name of the metric reference.
+        public var name: Swift.String?
+        /// The details of a performance issue.
+        public var referenceDetails: RDSClientTypes.ReferenceDetails?
+
+        public init(
+            name: Swift.String? = nil,
+            referenceDetails: RDSClientTypes.ReferenceDetails? = nil
+        )
+        {
+            self.name = name
+            self.referenceDetails = referenceDetails
         }
     }
 
@@ -41815,6 +42683,165 @@ enum ModifyDBProxyTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension ModifyDBRecommendationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let locale = locale {
+            try container.encode(locale, forKey: ClientRuntime.Key("Locale"))
+        }
+        if let recommendationId = recommendationId {
+            try container.encode(recommendationId, forKey: ClientRuntime.Key("RecommendationId"))
+        }
+        if let recommendedActionUpdates = recommendedActionUpdates {
+            if !recommendedActionUpdates.isEmpty {
+                var recommendedActionUpdatesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActionUpdates"))
+                for (index0, recommendedactionupdate0) in recommendedActionUpdates.enumerated() {
+                    try recommendedActionUpdatesContainer.encode(recommendedactionupdate0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var recommendedActionUpdatesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RecommendedActionUpdates"))
+                try recommendedActionUpdatesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        try container.encode("ModifyDBRecommendation", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyDBRecommendationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyDBRecommendationInput: Swift.Equatable {
+    /// The language of the modified recommendation.
+    public var locale: Swift.String?
+    /// The identifier of the recommendation to update.
+    /// This member is required.
+    public var recommendationId: Swift.String?
+    /// The list of recommended action status to update. You can update multiple recommended actions at one time.
+    public var recommendedActionUpdates: [RDSClientTypes.RecommendedActionUpdate]?
+    /// The recommendation status to update. Valid values:
+    ///
+    /// * active
+    ///
+    /// * dismissed
+    public var status: Swift.String?
+
+    public init(
+        locale: Swift.String? = nil,
+        recommendationId: Swift.String? = nil,
+        recommendedActionUpdates: [RDSClientTypes.RecommendedActionUpdate]? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.locale = locale
+        self.recommendationId = recommendationId
+        self.recommendedActionUpdates = recommendedActionUpdates
+        self.status = status
+    }
+}
+
+struct ModifyDBRecommendationInputBody: Swift.Equatable {
+    let recommendationId: Swift.String?
+    let locale: Swift.String?
+    let status: Swift.String?
+    let recommendedActionUpdates: [RDSClientTypes.RecommendedActionUpdate]?
+}
+
+extension ModifyDBRecommendationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case locale = "Locale"
+        case recommendationId = "RecommendationId"
+        case recommendedActionUpdates = "RecommendedActionUpdates"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendationId)
+        recommendationId = recommendationIdDecoded
+        let localeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .locale)
+        locale = localeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        if containerValues.contains(.recommendedActionUpdates) {
+            struct KeyVal0{struct member{}}
+            let recommendedActionUpdatesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .recommendedActionUpdates)
+            if let recommendedActionUpdatesWrappedContainer = recommendedActionUpdatesWrappedContainer {
+                let recommendedActionUpdatesContainer = try recommendedActionUpdatesWrappedContainer.decodeIfPresent([RDSClientTypes.RecommendedActionUpdate].self, forKey: .member)
+                var recommendedActionUpdatesBuffer:[RDSClientTypes.RecommendedActionUpdate]? = nil
+                if let recommendedActionUpdatesContainer = recommendedActionUpdatesContainer {
+                    recommendedActionUpdatesBuffer = [RDSClientTypes.RecommendedActionUpdate]()
+                    for structureContainer0 in recommendedActionUpdatesContainer {
+                        recommendedActionUpdatesBuffer?.append(structureContainer0)
+                    }
+                }
+                recommendedActionUpdates = recommendedActionUpdatesBuffer
+            } else {
+                recommendedActionUpdates = []
+            }
+        } else {
+            recommendedActionUpdates = nil
+        }
+    }
+}
+
+extension ModifyDBRecommendationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDBRecommendationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbRecommendation = output.dbRecommendation
+        } else {
+            self.dbRecommendation = nil
+        }
+    }
+}
+
+public struct ModifyDBRecommendationOutput: Swift.Equatable {
+    /// The recommendation for your DB instances, DB clusters, and DB parameter groups.
+    public var dbRecommendation: RDSClientTypes.DBRecommendation?
+
+    public init(
+        dbRecommendation: RDSClientTypes.DBRecommendation? = nil
+    )
+    {
+        self.dbRecommendation = dbRecommendation
+    }
+}
+
+struct ModifyDBRecommendationOutputBody: Swift.Equatable {
+    let dbRecommendation: RDSClientTypes.DBRecommendation?
+}
+
+extension ModifyDBRecommendationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbRecommendation = "DBRecommendation"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyDBRecommendationResult"))
+        let dbRecommendationDecoded = try containerValues.decodeIfPresent(RDSClientTypes.DBRecommendation.self, forKey: .dbRecommendation)
+        dbRecommendation = dbRecommendationDecoded
+    }
+}
+
+enum ModifyDBRecommendationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension ModifyDBSnapshotAttributeInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -45482,6 +46509,245 @@ extension RDSClientTypes {
 
 }
 
+extension RDSClientTypes.PerformanceInsightsMetricDimensionGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dimensions = "Dimensions"
+        case group = "Group"
+        case limit = "Limit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dimensions = dimensions {
+            if !dimensions.isEmpty {
+                var dimensionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Dimensions"))
+                for (index0, string0) in dimensions.enumerated() {
+                    try dimensionsContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var dimensionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Dimensions"))
+                try dimensionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let group = group {
+            try container.encode(group, forKey: ClientRuntime.Key("Group"))
+        }
+        if let limit = limit {
+            try container.encode(limit, forKey: ClientRuntime.Key("Limit"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        if containerValues.contains(.dimensions) {
+            struct KeyVal0{struct member{}}
+            let dimensionsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .dimensions)
+            if let dimensionsWrappedContainer = dimensionsWrappedContainer {
+                let dimensionsContainer = try dimensionsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var dimensionsBuffer:[Swift.String]? = nil
+                if let dimensionsContainer = dimensionsContainer {
+                    dimensionsBuffer = [Swift.String]()
+                    for stringContainer0 in dimensionsContainer {
+                        dimensionsBuffer?.append(stringContainer0)
+                    }
+                }
+                dimensions = dimensionsBuffer
+            } else {
+                dimensions = []
+            }
+        } else {
+            dimensions = nil
+        }
+        let groupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .group)
+        group = groupDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// A logical grouping of Performance Insights metrics for a related subject area. For example, the db.sql dimension group consists of the following dimensions:
+    ///
+    /// * db.sql.id - The hash of a running SQL statement, generated by Performance Insights.
+    ///
+    /// * db.sql.db_id - Either the SQL ID generated by the database engine, or a value generated by Performance Insights that begins with pi-.
+    ///
+    /// * db.sql.statement - The full text of the SQL statement that is running, for example, SELECT * FROM employees.
+    ///
+    /// * db.sql_tokenized.id - The hash of the SQL digest generated by Performance Insights.
+    ///
+    ///
+    /// Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
+    public struct PerformanceInsightsMetricDimensionGroup: Swift.Equatable {
+        /// A list of specific dimensions from a dimension group. If this list isn't included, then all of the dimensions in the group were requested, or are present in the response.
+        public var dimensions: [Swift.String]?
+        /// The available dimension groups for Performance Insights metric type.
+        public var group: Swift.String?
+        /// The maximum number of items to fetch for this dimension group.
+        public var limit: Swift.Int?
+
+        public init(
+            dimensions: [Swift.String]? = nil,
+            group: Swift.String? = nil,
+            limit: Swift.Int? = nil
+        )
+        {
+            self.dimensions = dimensions
+            self.group = group
+            self.limit = limit
+        }
+    }
+
+}
+
+extension RDSClientTypes.PerformanceInsightsMetricQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupBy = "GroupBy"
+        case metric = "Metric"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let groupBy = groupBy {
+            try container.encode(groupBy, forKey: ClientRuntime.Key("GroupBy"))
+        }
+        if let metric = metric {
+            try container.encode(metric, forKey: ClientRuntime.Key("Metric"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupByDecoded = try containerValues.decodeIfPresent(RDSClientTypes.PerformanceInsightsMetricDimensionGroup.self, forKey: .groupBy)
+        groupBy = groupByDecoded
+        let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
+        metric = metricDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// A single Performance Insights metric query to process. You must provide the metric to the query. If other parameters aren't specified, Performance Insights returns all data points for the specified metric. Optionally, you can request the data points to be aggregated by dimension group (GroupBy) and return only those data points that match your criteria (Filter). Constraints:
+    ///
+    /// * Must be a valid Performance Insights query.
+    public struct PerformanceInsightsMetricQuery: Swift.Equatable {
+        /// A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights will return all of the dimensions within that group, unless you provide the names of specific dimensions within that group. You can also request that Performance Insights return a limited number of values for a dimension.
+        public var groupBy: RDSClientTypes.PerformanceInsightsMetricDimensionGroup?
+        /// The name of a Performance Insights metric to be measured. Valid Values:
+        ///
+        /// * db.load.avg - A scaled representation of the number of active sessions for the database engine.
+        ///
+        /// * db.sampledload.avg - The raw number of active sessions for the database engine.
+        ///
+        /// * The counter metrics listed in [Performance Insights operating system counters](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS) in the Amazon Aurora User Guide.
+        ///
+        ///
+        /// If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg. For most use cases, you can query db.load.avg only.
+        public var metric: Swift.String?
+
+        public init(
+            groupBy: RDSClientTypes.PerformanceInsightsMetricDimensionGroup? = nil,
+            metric: Swift.String? = nil
+        )
+        {
+            self.groupBy = groupBy
+            self.metric = metric
+        }
+    }
+
+}
+
+extension RDSClientTypes.PerformanceIssueDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysis = "Analysis"
+        case endTime = "EndTime"
+        case metrics = "Metrics"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let analysis = analysis {
+            try container.encode(analysis, forKey: ClientRuntime.Key("Analysis"))
+        }
+        if let endTime = endTime {
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
+        }
+        if let metrics = metrics {
+            if !metrics.isEmpty {
+                var metricsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Metrics"))
+                for (index0, metric0) in metrics.enumerated() {
+                    try metricsContainer.encode(metric0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var metricsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Metrics"))
+                try metricsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let startTime = startTime {
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        if containerValues.contains(.metrics) {
+            struct KeyVal0{struct member{}}
+            let metricsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .metrics)
+            if let metricsWrappedContainer = metricsWrappedContainer {
+                let metricsContainer = try metricsWrappedContainer.decodeIfPresent([RDSClientTypes.Metric].self, forKey: .member)
+                var metricsBuffer:[RDSClientTypes.Metric]? = nil
+                if let metricsContainer = metricsContainer {
+                    metricsBuffer = [RDSClientTypes.Metric]()
+                    for structureContainer0 in metricsContainer {
+                        metricsBuffer?.append(structureContainer0)
+                    }
+                }
+                metrics = metricsBuffer
+            } else {
+                metrics = []
+            }
+        } else {
+            metrics = nil
+        }
+        let analysisDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .analysis)
+        analysis = analysisDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Details of the performance issue.
+    public struct PerformanceIssueDetails: Swift.Equatable {
+        /// The analysis of the performance issue. The information might contain markdown.
+        public var analysis: Swift.String?
+        /// The time when the performance issue stopped.
+        public var endTime: ClientRuntime.Date?
+        /// The metrics that are relevant to the performance issue.
+        public var metrics: [RDSClientTypes.Metric]?
+        /// The time when the performance issue started.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            analysis: Swift.String? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            metrics: [RDSClientTypes.Metric]? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.analysis = analysis
+            self.endTime = endTime
+            self.metrics = metrics
+            self.startTime = startTime
+        }
+    }
+
+}
+
 extension PointInTimeRestoreNotEnabledFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
@@ -46390,6 +47656,309 @@ enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension RDSClientTypes.RecommendedAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId = "ActionId"
+        case applyModes = "ApplyModes"
+        case contextAttributes = "ContextAttributes"
+        case description = "Description"
+        case issueDetails = "IssueDetails"
+        case operation = "Operation"
+        case parameters = "Parameters"
+        case status = "Status"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let actionId = actionId {
+            try container.encode(actionId, forKey: ClientRuntime.Key("ActionId"))
+        }
+        if let applyModes = applyModes {
+            if !applyModes.isEmpty {
+                var applyModesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ApplyModes"))
+                for (index0, string0) in applyModes.enumerated() {
+                    try applyModesContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var applyModesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ApplyModes"))
+                try applyModesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let contextAttributes = contextAttributes {
+            if !contextAttributes.isEmpty {
+                var contextAttributesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ContextAttributes"))
+                for (index0, contextattribute0) in contextAttributes.enumerated() {
+                    try contextAttributesContainer.encode(contextattribute0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var contextAttributesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ContextAttributes"))
+                try contextAttributesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let issueDetails = issueDetails {
+            try container.encode(issueDetails, forKey: ClientRuntime.Key("IssueDetails"))
+        }
+        if let operation = operation {
+            try container.encode(operation, forKey: ClientRuntime.Key("Operation"))
+        }
+        if let parameters = parameters {
+            if !parameters.isEmpty {
+                var parametersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Parameters"))
+                for (index0, recommendedactionparameter0) in parameters.enumerated() {
+                    try parametersContainer.encode(recommendedactionparameter0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var parametersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Parameters"))
+                try parametersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let title = title {
+            try container.encode(title, forKey: ClientRuntime.Key("Title"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let operationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operation)
+        operation = operationDecoded
+        if containerValues.contains(.parameters) {
+            struct KeyVal0{struct member{}}
+            let parametersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .parameters)
+            if let parametersWrappedContainer = parametersWrappedContainer {
+                let parametersContainer = try parametersWrappedContainer.decodeIfPresent([RDSClientTypes.RecommendedActionParameter].self, forKey: .member)
+                var parametersBuffer:[RDSClientTypes.RecommendedActionParameter]? = nil
+                if let parametersContainer = parametersContainer {
+                    parametersBuffer = [RDSClientTypes.RecommendedActionParameter]()
+                    for structureContainer0 in parametersContainer {
+                        parametersBuffer?.append(structureContainer0)
+                    }
+                }
+                parameters = parametersBuffer
+            } else {
+                parameters = []
+            }
+        } else {
+            parameters = nil
+        }
+        if containerValues.contains(.applyModes) {
+            struct KeyVal0{struct member{}}
+            let applyModesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .applyModes)
+            if let applyModesWrappedContainer = applyModesWrappedContainer {
+                let applyModesContainer = try applyModesWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var applyModesBuffer:[Swift.String]? = nil
+                if let applyModesContainer = applyModesContainer {
+                    applyModesBuffer = [Swift.String]()
+                    for stringContainer0 in applyModesContainer {
+                        applyModesBuffer?.append(stringContainer0)
+                    }
+                }
+                applyModes = applyModesBuffer
+            } else {
+                applyModes = []
+            }
+        } else {
+            applyModes = nil
+        }
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let issueDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.IssueDetails.self, forKey: .issueDetails)
+        issueDetails = issueDetailsDecoded
+        if containerValues.contains(.contextAttributes) {
+            struct KeyVal0{struct member{}}
+            let contextAttributesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .contextAttributes)
+            if let contextAttributesWrappedContainer = contextAttributesWrappedContainer {
+                let contextAttributesContainer = try contextAttributesWrappedContainer.decodeIfPresent([RDSClientTypes.ContextAttribute].self, forKey: .member)
+                var contextAttributesBuffer:[RDSClientTypes.ContextAttribute]? = nil
+                if let contextAttributesContainer = contextAttributesContainer {
+                    contextAttributesBuffer = [RDSClientTypes.ContextAttribute]()
+                    for structureContainer0 in contextAttributesContainer {
+                        contextAttributesBuffer?.append(structureContainer0)
+                    }
+                }
+                contextAttributes = contextAttributesBuffer
+            } else {
+                contextAttributes = []
+            }
+        } else {
+            contextAttributes = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// The recommended actions to apply to resolve the issues associated with your DB instances, DB clusters, and DB parameter groups.
+    public struct RecommendedAction: Swift.Equatable {
+        /// The unique identifier of the recommended action.
+        public var actionId: Swift.String?
+        /// The methods to apply the recommended action. Valid values:
+        ///
+        /// * manual - The action requires you to resolve the recommendation manually.
+        ///
+        /// * immediately - The action is applied immediately.
+        ///
+        /// * next-maintainance-window - The action is applied during the next scheduled maintainance.
+        public var applyModes: [Swift.String]?
+        /// The supporting attributes to explain the recommended action.
+        public var contextAttributes: [RDSClientTypes.ContextAttribute]?
+        /// A detailed description of the action. The description might contain markdown.
+        public var description: Swift.String?
+        /// The details of the issue.
+        public var issueDetails: RDSClientTypes.IssueDetails?
+        /// An API operation for the action.
+        public var operation: Swift.String?
+        /// The parameters for the API operation.
+        public var parameters: [RDSClientTypes.RecommendedActionParameter]?
+        /// The status of the action.
+        ///
+        /// * ready
+        ///
+        /// * applied
+        ///
+        /// * scheduled
+        ///
+        /// * resolved
+        public var status: Swift.String?
+        /// A short description to summarize the action. The description might contain markdown.
+        public var title: Swift.String?
+
+        public init(
+            actionId: Swift.String? = nil,
+            applyModes: [Swift.String]? = nil,
+            contextAttributes: [RDSClientTypes.ContextAttribute]? = nil,
+            description: Swift.String? = nil,
+            issueDetails: RDSClientTypes.IssueDetails? = nil,
+            operation: Swift.String? = nil,
+            parameters: [RDSClientTypes.RecommendedActionParameter]? = nil,
+            status: Swift.String? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.actionId = actionId
+            self.applyModes = applyModes
+            self.contextAttributes = contextAttributes
+            self.description = description
+            self.issueDetails = issueDetails
+            self.operation = operation
+            self.parameters = parameters
+            self.status = status
+            self.title = title
+        }
+    }
+
+}
+
+extension RDSClientTypes.RecommendedActionParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let key = key {
+            try container.encode(key, forKey: ClientRuntime.Key("Key"))
+        }
+        if let value = value {
+            try container.encode(value, forKey: ClientRuntime.Key("Value"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// A single parameter to use with the RecommendedAction API operation to apply the action.
+    public struct RecommendedActionParameter: Swift.Equatable {
+        /// The key of the parameter to use with the RecommendedAction API operation.
+        public var key: Swift.String?
+        /// The value of the parameter to use with the RecommendedAction API operation.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension RDSClientTypes.RecommendedActionUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId = "ActionId"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let actionId = actionId {
+            try container.encode(actionId, forKey: ClientRuntime.Key("ActionId"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The recommended status to update for the specified recommendation action ID.
+    public struct RecommendedActionUpdate: Swift.Equatable {
+        /// A unique identifier of the updated recommendation action.
+        /// This member is required.
+        public var actionId: Swift.String?
+        /// The status of the updated recommendation action.
+        ///
+        /// * applied
+        ///
+        /// * scheduled
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            actionId: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.actionId = actionId
+            self.status = status
+        }
+    }
+
+}
+
 extension RDSClientTypes.RecurringCharge: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recurringChargeAmount = "RecurringChargeAmount"
@@ -46430,6 +47999,41 @@ extension RDSClientTypes {
         {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
+        }
+    }
+
+}
+
+extension RDSClientTypes.ReferenceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scalarReferenceDetails = "ScalarReferenceDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let scalarReferenceDetails = scalarReferenceDetails {
+            try container.encode(scalarReferenceDetails, forKey: ClientRuntime.Key("ScalarReferenceDetails"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalarReferenceDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ScalarReferenceDetails.self, forKey: .scalarReferenceDetails)
+        scalarReferenceDetails = scalarReferenceDetailsDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The reference details of a metric.
+    public struct ReferenceDetails: Swift.Equatable {
+        /// The metric reference details when the reference is a scalar.
+        public var scalarReferenceDetails: RDSClientTypes.ScalarReferenceDetails?
+
+        public init(
+            scalarReferenceDetails: RDSClientTypes.ScalarReferenceDetails? = nil
+        )
+        {
+            self.scalarReferenceDetails = scalarReferenceDetails
         }
     }
 
@@ -52857,6 +54461,41 @@ extension SNSTopicArnNotFoundFaultBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension RDSClientTypes.ScalarReferenceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let value = value {
+            try container.encode(value, forKey: ClientRuntime.Key("Value"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// The metric reference details when the reference is a scalar.
+    public struct ScalarReferenceDetails: Swift.Equatable {
+        /// The value of a scalar reference.
+        public var value: Swift.Double?
+
+        public init(
+            value: Swift.Double? = nil
+        )
+        {
+            self.value = value
+        }
+    }
+
 }
 
 extension RDSClientTypes.ScalingConfiguration: Swift.Codable {

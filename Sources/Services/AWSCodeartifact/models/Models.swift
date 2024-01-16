@@ -3543,7 +3543,7 @@ extension GetPackageVersionAssetOutput: ClientRuntime.HttpResponseBinding {
             self.asset = .data(data)
         case .stream(let stream):
             self.asset = .stream(stream)
-        case .none:
+        case .noStream:
             self.asset = nil
         }
     }

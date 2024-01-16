@@ -2221,7 +2221,7 @@ extension ExecuteGremlinExplainQueryOutput: ClientRuntime.HttpResponseBinding {
             self.output = data
         case .stream(let stream):
             self.output = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.output = nil
         }
     }
@@ -2388,7 +2388,7 @@ extension ExecuteGremlinProfileQueryOutput: ClientRuntime.HttpResponseBinding {
             self.output = data
         case .stream(let stream):
             self.output = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.output = nil
         }
     }
@@ -2694,7 +2694,7 @@ extension ExecuteOpenCypherExplainQueryOutput: ClientRuntime.HttpResponseBinding
             self.results = data
         case .stream(let stream):
             self.results = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.results = nil
         }
     }

@@ -5368,6 +5368,80 @@ extension IoTClientTypes {
     }
 }
 
+extension IoTClientTypes {
+    public enum CertificateProviderOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createcertificatefromcsr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateProviderOperation] {
+            return [
+                .createcertificatefromcsr,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createcertificatefromcsr: return "CreateCertificateFromCsr"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateProviderOperation(rawValue: rawValue) ?? CertificateProviderOperation.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTClientTypes.CertificateProviderSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateProviderArn = self.certificateProviderArn {
+            try encodeContainer.encode(certificateProviderArn, forKey: .certificateProviderArn)
+        }
+        if let certificateProviderName = self.certificateProviderName {
+            try encodeContainer.encode(certificateProviderName, forKey: .certificateProviderName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// The certificate provider summary.
+    public struct CertificateProviderSummary: Swift.Equatable {
+        /// The ARN of the certificate provider.
+        public var certificateProviderArn: Swift.String?
+        /// The name of the certificate provider.
+        public var certificateProviderName: Swift.String?
+
+        public init(
+            certificateProviderArn: Swift.String? = nil,
+            certificateProviderName: Swift.String? = nil
+        )
+        {
+            self.certificateProviderArn = certificateProviderArn
+            self.certificateProviderName = certificateProviderName
+        }
+    }
+
+}
+
 extension CertificateStateException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6910,6 +6984,190 @@ enum CreateCertificateFromCsrOutputError: ClientRuntime.HttpResponseErrorBinding
         switch restJSONError.errorType {
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateCertificateProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case clientToken
+        case lambdaFunctionArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountDefaultForOperations = accountDefaultForOperations {
+            var accountDefaultForOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountDefaultForOperations)
+            for certificateprovideroperation0 in accountDefaultForOperations {
+                try accountDefaultForOperationsContainer.encode(certificateprovideroperation0.rawValue)
+            }
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let lambdaFunctionArn = self.lambdaFunctionArn {
+            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateCertificateProviderInput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    /// This member is required.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+    /// A string that you can optionally pass in the CreateCertificateProvider request to make sure the request is idempotent.
+    public var clientToken: Swift.String?
+    /// The ARN of the Lambda function that defines the authentication logic.
+    /// This member is required.
+    public var lambdaFunctionArn: Swift.String?
+    /// Metadata which can be used to manage the certificate provider.
+    public var tags: [IoTClientTypes.Tag]?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        lambdaFunctionArn: Swift.String? = nil,
+        tags: [IoTClientTypes.Tag]? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderName = certificateProviderName
+        self.clientToken = clientToken
+        self.lambdaFunctionArn = lambdaFunctionArn
+        self.tags = tags
+    }
+}
+
+struct CreateCertificateProviderInputBody: Swift.Equatable {
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    let clientToken: Swift.String?
+    let tags: [IoTClientTypes.Tag]?
+}
+
+extension CreateCertificateProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case clientToken
+        case lambdaFunctionArn
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([IoTClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[IoTClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [IoTClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+        } else {
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+        }
+    }
+}
+
+public struct CreateCertificateProviderOutput: Swift.Equatable {
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct CreateCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+}
+
+extension CreateCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+enum CreateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -12553,6 +12811,64 @@ enum DeleteCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteCertificateProviderInput: Swift.Equatable {
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct DeleteCertificateProviderInputBody: Swift.Equatable {
+}
+
+extension DeleteCertificateProviderInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCertificateProviderOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DeleteConflictException": return try await DeleteConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -15575,6 +15891,152 @@ extension DescribeCertificateOutputBody: Swift.Decodable {
 }
 
 enum DescribeCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeCertificateProviderInput: Swift.Equatable {
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct DescribeCertificateProviderInputBody: Swift.Equatable {
+}
+
+extension DescribeCertificateProviderInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountDefaultForOperations = output.accountDefaultForOperations
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+            self.creationDate = output.creationDate
+            self.lambdaFunctionArn = output.lambdaFunctionArn
+            self.lastModifiedDate = output.lastModifiedDate
+        } else {
+            self.accountDefaultForOperations = nil
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+            self.creationDate = nil
+            self.lambdaFunctionArn = nil
+            self.lastModifiedDate = nil
+        }
+    }
+}
+
+public struct DescribeCertificateProviderOutput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+    /// The date-time string that indicates when the certificate provider was created.
+    public var creationDate: ClientRuntime.Date?
+    /// The Lambda function ARN that's associated with the certificate provider.
+    public var lambdaFunctionArn: Swift.String?
+    /// The date-time string that indicates when the certificate provider was last updated.
+    public var lastModifiedDate: ClientRuntime.Date?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        lambdaFunctionArn: Swift.String? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+        self.creationDate = creationDate
+        self.lambdaFunctionArn = lambdaFunctionArn
+        self.lastModifiedDate = lastModifiedDate
+    }
+}
+
+struct DescribeCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    let creationDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension DescribeCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case certificateProviderArn
+        case certificateProviderName
+        case creationDate
+        case lambdaFunctionArn
+        case lastModifiedDate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+enum DescribeCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -28032,6 +28494,128 @@ enum ListCACertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListCertificateProvidersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let ascendingOrder = ascendingOrder {
+                let ascendingOrderQueryItem = ClientRuntime.URLQueryItem(name: "isAscendingOrder".urlPercentEncoding(), value: Swift.String(ascendingOrder).urlPercentEncoding())
+                items.append(ascendingOrderQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListCertificateProvidersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/certificate-providers"
+    }
+}
+
+public struct ListCertificateProvidersInput: Swift.Equatable {
+    /// Returns the list of certificate providers in ascending alphabetical order.
+    public var ascendingOrder: Swift.Bool?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        ascendingOrder: Swift.Bool? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.ascendingOrder = ascendingOrder
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCertificateProvidersInputBody: Swift.Equatable {
+}
+
+extension ListCertificateProvidersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCertificateProvidersOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCertificateProvidersOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviders = output.certificateProviders
+            self.nextToken = output.nextToken
+        } else {
+            self.certificateProviders = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCertificateProvidersOutput: Swift.Equatable {
+    /// The list of certificate providers in your Amazon Web Services account.
+    public var certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        certificateProviders: [IoTClientTypes.CertificateProviderSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.certificateProviders = certificateProviders
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCertificateProvidersOutputBody: Swift.Equatable {
+    let certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCertificateProvidersOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviders
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProvidersContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderSummary?].self, forKey: .certificateProviders)
+        var certificateProvidersDecoded0:[IoTClientTypes.CertificateProviderSummary]? = nil
+        if let certificateProvidersContainer = certificateProvidersContainer {
+            certificateProvidersDecoded0 = [IoTClientTypes.CertificateProviderSummary]()
+            for structure0 in certificateProvidersContainer {
+                if let structure0 = structure0 {
+                    certificateProvidersDecoded0?.append(structure0)
+                }
+            }
+        }
+        certificateProviders = certificateProvidersDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCertificateProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListCertificatesByCAInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -35392,7 +35976,7 @@ extension IoTClientTypes.MetricToRetain: Swift.Codable {
 extension IoTClientTypes {
     /// The metric you want to retain. Dimensions are optional.
     public struct MetricToRetain: Swift.Equatable {
-        /// Value added in both Behavior and AdditionalMetricsToRetainV2 to indicate if Device Defender Detect should export the corresponding metrics.
+        /// The value indicates exporting metrics related to the MetricToRetain  when it's true.
         public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
         /// This member is required.
@@ -46608,6 +47192,151 @@ enum UpdateCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "CertificateStateException": return try await CertificateStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateCertificateProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case lambdaFunctionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountDefaultForOperations = accountDefaultForOperations {
+            var accountDefaultForOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountDefaultForOperations)
+            for certificateprovideroperation0 in accountDefaultForOperations {
+                try accountDefaultForOperationsContainer.encode(certificateprovideroperation0.rawValue)
+            }
+        }
+        if let lambdaFunctionArn = self.lambdaFunctionArn {
+            try encodeContainer.encode(lambdaFunctionArn, forKey: .lambdaFunctionArn)
+        }
+    }
+}
+
+extension UpdateCertificateProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let certificateProviderName = certificateProviderName else {
+            return nil
+        }
+        return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateCertificateProviderInput: Swift.Equatable {
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
+    public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+    /// The name of the certificate provider.
+    /// This member is required.
+    public var certificateProviderName: Swift.String?
+    /// The Lambda function ARN that's associated with the certificate provider.
+    public var lambdaFunctionArn: Swift.String?
+
+    public init(
+        accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]? = nil,
+        certificateProviderName: Swift.String? = nil,
+        lambdaFunctionArn: Swift.String? = nil
+    )
+    {
+        self.accountDefaultForOperations = accountDefaultForOperations
+        self.certificateProviderName = certificateProviderName
+        self.lambdaFunctionArn = lambdaFunctionArn
+    }
+}
+
+struct UpdateCertificateProviderInputBody: Swift.Equatable {
+    let lambdaFunctionArn: Swift.String?
+    let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
+}
+
+extension UpdateCertificateProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountDefaultForOperations
+        case lambdaFunctionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lambdaFunctionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaFunctionArn)
+        lambdaFunctionArn = lambdaFunctionArnDecoded
+        let accountDefaultForOperationsContainer = try containerValues.decodeIfPresent([IoTClientTypes.CertificateProviderOperation?].self, forKey: .accountDefaultForOperations)
+        var accountDefaultForOperationsDecoded0:[IoTClientTypes.CertificateProviderOperation]? = nil
+        if let accountDefaultForOperationsContainer = accountDefaultForOperationsContainer {
+            accountDefaultForOperationsDecoded0 = [IoTClientTypes.CertificateProviderOperation]()
+            for enum0 in accountDefaultForOperationsContainer {
+                if let enum0 = enum0 {
+                    accountDefaultForOperationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        accountDefaultForOperations = accountDefaultForOperationsDecoded0
+    }
+}
+
+extension UpdateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCertificateProviderOutputBody = try responseDecoder.decode(responseBody: data)
+            self.certificateProviderArn = output.certificateProviderArn
+            self.certificateProviderName = output.certificateProviderName
+        } else {
+            self.certificateProviderArn = nil
+            self.certificateProviderName = nil
+        }
+    }
+}
+
+public struct UpdateCertificateProviderOutput: Swift.Equatable {
+    /// The ARN of the certificate provider.
+    public var certificateProviderArn: Swift.String?
+    /// The name of the certificate provider.
+    public var certificateProviderName: Swift.String?
+
+    public init(
+        certificateProviderArn: Swift.String? = nil,
+        certificateProviderName: Swift.String? = nil
+    )
+    {
+        self.certificateProviderArn = certificateProviderArn
+        self.certificateProviderName = certificateProviderName
+    }
+}
+
+struct UpdateCertificateProviderOutputBody: Swift.Equatable {
+    let certificateProviderName: Swift.String?
+    let certificateProviderArn: Swift.String?
+}
+
+extension UpdateCertificateProviderOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProviderArn
+        case certificateProviderName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderName)
+        certificateProviderName = certificateProviderNameDecoded
+        let certificateProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateProviderArn)
+        certificateProviderArn = certificateProviderArnDecoded
+    }
+}
+
+enum UpdateCertificateProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

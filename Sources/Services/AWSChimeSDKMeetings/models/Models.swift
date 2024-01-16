@@ -51,6 +51,10 @@ extension ChimeSDKMeetingsClientTypes {
         public var attendeeId: Swift.String?
         /// The capabilities assigned to an attendee: audio, video, or content. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
         ///
+        /// * If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
+        ///
+        /// * If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
+        ///
         /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
         ///
         /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
@@ -110,13 +114,17 @@ extension ChimeSDKMeetingsClientTypes.AttendeeCapabilities: Swift.Codable {
 }
 
 extension ChimeSDKMeetingsClientTypes {
-    /// The media capabilities of an attendee: audio, video, or content. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
+    /// The media capabilities of an attendee: audio, video, or content. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information, refer to and . When using capabilities, be aware of these corner cases:
+    ///
+    /// * If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
+    ///
+    /// * If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
-    /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
+    /// * When you change an audio capability from None or Receive to Send or SendReceive , and an attendee unmutes their microphone, audio flows from the attendee to the other meeting participants.
     ///
-    /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
+    /// * When you change a video or content capability from None or Receive to Send or SendReceive , and the attendee turns on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     public struct AttendeeCapabilities: Swift.Equatable {
         /// The audio capability assigned to an attendee.
         /// This member is required.
@@ -137,6 +145,41 @@ extension ChimeSDKMeetingsClientTypes {
             self.audio = audio
             self.content = content
             self.video = video
+        }
+    }
+
+}
+
+extension ChimeSDKMeetingsClientTypes.AttendeeFeatures: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxCount = "MaxCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxCount = self.maxCount {
+            try encodeContainer.encode(maxCount, forKey: .maxCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCount)
+        maxCount = maxCountDecoded
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes {
+    /// Lists the maximum number of attendees allowed into the meeting. If you specify FHD for MeetingFeatures:Video:MaxResolution, or if you specify UHD for MeetingFeatures:Content:MaxResolution, the maximum number of attendees changes from the default of 250 to 25.
+    public struct AttendeeFeatures: Swift.Equatable {
+        /// The maximum number of attendees allowed into the meeting.
+        public var maxCount: Swift.Int?
+
+        public init(
+            maxCount: Swift.Int? = nil
+        )
+        {
+            self.maxCount = maxCount
         }
     }
 
@@ -645,6 +688,76 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension ChimeSDKMeetingsClientTypes.ContentFeatures: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResolution = "MaxResolution"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResolution = self.maxResolution {
+            try encodeContainer.encode(maxResolution.rawValue, forKey: .maxResolution)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResolutionDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.ContentResolution.self, forKey: .maxResolution)
+        maxResolution = maxResolutionDecoded
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes {
+    /// Lists the content (screen share) features for the meeting. Applies to all attendees. If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
+    public struct ContentFeatures: Swift.Equatable {
+        /// The maximum resolution for the meeting content. Defaults to FHD. To use UHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees.
+        public var maxResolution: ChimeSDKMeetingsClientTypes.ContentResolution?
+
+        public init(
+            maxResolution: ChimeSDKMeetingsClientTypes.ContentResolution? = nil
+        )
+        {
+            self.maxResolution = maxResolution
+        }
+    }
+
+}
+
+extension ChimeSDKMeetingsClientTypes {
+    public enum ContentResolution: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fhd
+        case `none`
+        case uhd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentResolution] {
+            return [
+                .fhd,
+                .none,
+                .uhd,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fhd: return "FHD"
+            case .none: return "None"
+            case .uhd: return "UHD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContentResolution(rawValue: rawValue) ?? ContentResolution.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKMeetingsClientTypes.CreateAttendeeError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode = "ErrorCode"
@@ -738,6 +851,10 @@ extension CreateAttendeeInput: ClientRuntime.URLPathProvider {
 
 public struct CreateAttendeeInput: Swift.Equatable {
     /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on all media channels by default. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
+    ///
+    /// * If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
+    ///
+    /// * If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
@@ -963,7 +1080,7 @@ public struct CreateMeetingInput: Swift.Equatable {
     /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
-    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
     /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -980,7 +1097,7 @@ public struct CreateMeetingInput: Swift.Equatable {
     ///
     /// * Each resource can have up to 50 tags. For other limits, see [Tag Naming and Usage Conventions](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html#tag-conventions) in the AWS General Reference.
     ///
-    /// * You can only tag resources that are located in the specified AWS Region for the AWS account.
+    /// * You can only tag resources that are located in the specified Amazon Web Services Region for the Amazon Web Services account.
     ///
     /// * To add tags to a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for adding tags. For more information, see the documentation for each service.
     ///
@@ -1227,7 +1344,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Equatable {
     /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
-    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
     /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -1625,7 +1742,7 @@ extension ChimeSDKMeetingsClientTypes {
         /// The language code specified for the Amazon Transcribe Medical engine.
         /// This member is required.
         public var languageCode: ChimeSDKMeetingsClientTypes.TranscribeMedicalLanguageCode?
-        /// The AWS Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region.
+        /// The Amazon Web Services Region passed to Amazon Transcribe Medical. If you don't specify a Region, Amazon Chime uses the meeting's Region.
         public var region: ChimeSDKMeetingsClientTypes.TranscribeMedicalRegion?
         /// The specialty specified for the Amazon Transcribe Medical engine.
         /// This member is required.
@@ -1788,7 +1905,7 @@ extension ChimeSDKMeetingsClientTypes {
         public var piiEntityTypes: Swift.String?
         /// Specify a preferred language from the subset of languages codes you specified in LanguageOptions. You can only use this parameter if you include IdentifyLanguage and LanguageOptions.
         public var preferredLanguage: ChimeSDKMeetingsClientTypes.TranscribeLanguageCode?
-        /// The AWS Region in which to use Amazon Transcribe. If you don't specify a Region, then the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html) of the meeting is used. However, if Amazon Transcribe is not available in the MediaRegion, then a TranscriptFailed event is sent. Use auto to use Amazon Transcribe in a Region near the meeting’s MediaRegion. For more information, refer to [Choosing a transcription Region](https://docs.aws.amazon.com/chime-sdk/latest/dg/transcription-options.html#choose-region) in the Amazon Chime SDK Developer Guide.
+        /// The Amazon Web Services Region in which to use Amazon Transcribe. If you don't specify a Region, then the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html) of the meeting is used. However, if Amazon Transcribe is not available in the MediaRegion, then a TranscriptFailed event is sent. Use auto to use Amazon Transcribe in a Region near the meeting’s MediaRegion. For more information, refer to [Choosing a transcription Region](https://docs.aws.amazon.com/chime-sdk/latest/dg/transcription-options.html#choose-region) in the Amazon Chime SDK Developer Guide.
         public var region: ChimeSDKMeetingsClientTypes.TranscribeRegion?
         /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public var vocabularyFilterMethod: ChimeSDKMeetingsClientTypes.TranscribeVocabularyFilterMethod?
@@ -2523,15 +2640,15 @@ extension ChimeSDKMeetingsClientTypes {
         public var audioHostUrl: Swift.String?
         /// The event ingestion URL.
         public var eventIngestionUrl: Swift.String?
-        /// The screen data URL.
+        /// The screen data URL. This parameter is deprecated and no longer used by the Amazon Chime SDK.
         public var screenDataUrl: Swift.String?
-        /// The screen sharing URL.
+        /// The screen sharing URL. This parameter is deprecated and no longer used by the Amazon Chime SDK.
         public var screenSharingUrl: Swift.String?
-        /// The screen viewing URL.
+        /// The screen viewing URL. This parameter is deprecated and no longer used by the Amazon Chime SDK.
         public var screenViewingUrl: Swift.String?
         /// The signaling URL.
         public var signalingUrl: Swift.String?
-        /// The turn control URL.
+        /// The turn control URL. This parameter is deprecated and no longer used by the Amazon Chime SDK.
         public var turnControlUrl: Swift.String?
 
         public init(
@@ -2649,7 +2766,7 @@ extension ChimeSDKMeetingsClientTypes {
         public var externalMeetingId: Swift.String?
         /// The media placement for the meeting.
         public var mediaPlacement: ChimeSDKMeetingsClientTypes.MediaPlacement?
-        /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+        /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public var mediaRegion: Swift.String?
         /// The ARN of the meeting.
         public var meetingArn: Swift.String?
@@ -2724,13 +2841,25 @@ extension ChimeSDKMeetingsClientTypes {
 
 extension ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attendee = "Attendee"
         case audio = "Audio"
+        case content = "Content"
+        case video = "Video"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attendee = self.attendee {
+            try encodeContainer.encode(attendee, forKey: .attendee)
+        }
         if let audio = self.audio {
             try encodeContainer.encode(audio, forKey: .audio)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let video = self.video {
+            try encodeContainer.encode(video, forKey: .video)
         }
     }
 
@@ -2738,20 +2867,38 @@ extension ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration: Swift.Codabl
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let audioDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.AudioFeatures.self, forKey: .audio)
         audio = audioDecoded
+        let videoDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.VideoFeatures.self, forKey: .video)
+        video = videoDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.ContentFeatures.self, forKey: .content)
+        content = contentDecoded
+        let attendeeDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.AttendeeFeatures.self, forKey: .attendee)
+        attendee = attendeeDecoded
     }
 }
 
 extension ChimeSDKMeetingsClientTypes {
     /// The configuration settings of the features available to a meeting.
     public struct MeetingFeaturesConfiguration: Swift.Equatable {
+        /// The configuration settings for the attendee features available to a meeting.
+        public var attendee: ChimeSDKMeetingsClientTypes.AttendeeFeatures?
         /// The configuration settings for the audio features available to a meeting.
         public var audio: ChimeSDKMeetingsClientTypes.AudioFeatures?
+        /// The configuration settings for the content features available to a meeting.
+        public var content: ChimeSDKMeetingsClientTypes.ContentFeatures?
+        /// The configuration settings for the video features available to a meeting.
+        public var video: ChimeSDKMeetingsClientTypes.VideoFeatures?
 
         public init(
-            audio: ChimeSDKMeetingsClientTypes.AudioFeatures? = nil
+            attendee: ChimeSDKMeetingsClientTypes.AttendeeFeatures? = nil,
+            audio: ChimeSDKMeetingsClientTypes.AudioFeatures? = nil,
+            content: ChimeSDKMeetingsClientTypes.ContentFeatures? = nil,
+            video: ChimeSDKMeetingsClientTypes.VideoFeatures? = nil
         )
         {
+            self.attendee = attendee
             self.audio = audio
+            self.content = content
+            self.video = video
         }
     }
 
@@ -2870,7 +3017,7 @@ extension ChimeSDKMeetingsClientTypes.NotificationsConfiguration: Swift.CustomDe
 extension ChimeSDKMeetingsClientTypes {
     /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
     public struct NotificationsConfiguration: Swift.Equatable {
-        /// The ARN of the AWS Lambda function in the notifications configuration.
+        /// The ARN of the Amazon Web Services Lambda function in the notifications configuration.
         public var lambdaFunctionArn: Swift.String?
         /// The ARN of the SNS topic.
         public var snsTopicArn: Swift.String?
@@ -4477,6 +4624,76 @@ enum UpdateAttendeeCapabilitiesOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes.VideoFeatures: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResolution = "MaxResolution"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResolution = self.maxResolution {
+            try encodeContainer.encode(maxResolution.rawValue, forKey: .maxResolution)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResolutionDecoded = try containerValues.decodeIfPresent(ChimeSDKMeetingsClientTypes.VideoResolution.self, forKey: .maxResolution)
+        maxResolution = maxResolutionDecoded
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes {
+    /// The video features set for the meeting. Applies to all attendees. If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
+    public struct VideoFeatures: Swift.Equatable {
+        /// The maximum video resolution for the meeting. Applies to all attendees. Defaults to HD. To use FHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees.
+        public var maxResolution: ChimeSDKMeetingsClientTypes.VideoResolution?
+
+        public init(
+            maxResolution: ChimeSDKMeetingsClientTypes.VideoResolution? = nil
+        )
+        {
+            self.maxResolution = maxResolution
+        }
+    }
+
+}
+
+extension ChimeSDKMeetingsClientTypes {
+    public enum VideoResolution: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fhd
+        case hd
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoResolution] {
+            return [
+                .fhd,
+                .hd,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fhd: return "FHD"
+            case .hd: return "HD"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VideoResolution(rawValue: rawValue) ?? VideoResolution.sdkUnknown(rawValue)
         }
     }
 }

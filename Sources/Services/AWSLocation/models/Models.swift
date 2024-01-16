@@ -1742,11 +1742,12 @@ extension LocationClientTypes {
 
 extension CalculateRouteInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), waypointPositions: \(Swift.String(describing: waypointPositions)), departurePosition: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
+        "CalculateRouteInput(arrivalTime: \(Swift.String(describing: arrivalTime)), calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), optimizeFor: \(Swift.String(describing: optimizeFor)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), waypointPositions: \(Swift.String(describing: waypointPositions)), departurePosition: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 extension CalculateRouteInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arrivalTime = "ArrivalTime"
         case carModeOptions = "CarModeOptions"
         case departNow = "DepartNow"
         case departurePosition = "DeparturePosition"
@@ -1754,6 +1755,7 @@ extension CalculateRouteInput: Swift.Encodable {
         case destinationPosition = "DestinationPosition"
         case distanceUnit = "DistanceUnit"
         case includeLegGeometry = "IncludeLegGeometry"
+        case optimizeFor = "OptimizeFor"
         case travelMode = "TravelMode"
         case truckModeOptions = "TruckModeOptions"
         case waypointPositions = "WaypointPositions"
@@ -1761,6 +1763,9 @@ extension CalculateRouteInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arrivalTime = self.arrivalTime {
+            try encodeContainer.encodeTimestamp(arrivalTime, format: .dateTime, forKey: .arrivalTime)
+        }
         if let carModeOptions = self.carModeOptions {
             try encodeContainer.encode(carModeOptions, forKey: .carModeOptions)
         }
@@ -1787,6 +1792,9 @@ extension CalculateRouteInput: Swift.Encodable {
         }
         if let includeLegGeometry = self.includeLegGeometry {
             try encodeContainer.encode(includeLegGeometry, forKey: .includeLegGeometry)
+        }
+        if let optimizeFor = self.optimizeFor {
+            try encodeContainer.encode(optimizeFor.rawValue, forKey: .optimizeFor)
         }
         if let travelMode = self.travelMode {
             try encodeContainer.encode(travelMode.rawValue, forKey: .travelMode)
@@ -1829,6 +1837,8 @@ extension CalculateRouteInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CalculateRouteInput: Swift.Equatable {
+    /// Specifies the desired time of arrival. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. ArrivalTime is not supported Esri.
+    public var arrivalTime: ClientRuntime.Date?
     /// The name of the route calculator resource that you want to use to calculate the route.
     /// This member is required.
     public var calculatorName: Swift.String?
@@ -1844,7 +1854,7 @@ public struct CalculateRouteInput: Swift.Equatable {
     /// If you specify a departure that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var departurePosition: [Swift.Double]?
-    /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. Setting a departure time in the past returns a 400 ValidationException error.
+    /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.
     ///
     /// * In [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
     public var departureTime: ClientRuntime.Date?
@@ -1862,6 +1872,8 @@ public struct CalculateRouteInput: Swift.Equatable {
     public var includeLegGeometry: Swift.Bool?
     /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
+    /// Specifies the distance to optimize for when calculating a route.
+    public var optimizeFor: LocationClientTypes.OptimizationMode?
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode. Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. The TravelMode you specify also determines how you specify route preferences:
     ///
     /// * If traveling by Car use the CarModeOptions parameter.
@@ -1882,6 +1894,7 @@ public struct CalculateRouteInput: Swift.Equatable {
     public var waypointPositions: [[Swift.Double]]?
 
     public init(
+        arrivalTime: ClientRuntime.Date? = nil,
         calculatorName: Swift.String? = nil,
         carModeOptions: LocationClientTypes.CalculateRouteCarModeOptions? = nil,
         departNow: Swift.Bool? = nil,
@@ -1891,11 +1904,13 @@ public struct CalculateRouteInput: Swift.Equatable {
         distanceUnit: LocationClientTypes.DistanceUnit? = nil,
         includeLegGeometry: Swift.Bool? = nil,
         key: Swift.String? = nil,
+        optimizeFor: LocationClientTypes.OptimizationMode? = nil,
         travelMode: LocationClientTypes.TravelMode? = nil,
         truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions? = nil,
         waypointPositions: [[Swift.Double]]? = nil
     )
     {
+        self.arrivalTime = arrivalTime
         self.calculatorName = calculatorName
         self.carModeOptions = carModeOptions
         self.departNow = departNow
@@ -1905,6 +1920,7 @@ public struct CalculateRouteInput: Swift.Equatable {
         self.distanceUnit = distanceUnit
         self.includeLegGeometry = includeLegGeometry
         self.key = key
+        self.optimizeFor = optimizeFor
         self.travelMode = travelMode
         self.truckModeOptions = truckModeOptions
         self.waypointPositions = waypointPositions
@@ -1922,10 +1938,13 @@ struct CalculateRouteInputBody: Swift.Equatable {
     let includeLegGeometry: Swift.Bool?
     let carModeOptions: LocationClientTypes.CalculateRouteCarModeOptions?
     let truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions?
+    let arrivalTime: ClientRuntime.Date?
+    let optimizeFor: LocationClientTypes.OptimizationMode?
 }
 
 extension CalculateRouteInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arrivalTime = "ArrivalTime"
         case carModeOptions = "CarModeOptions"
         case departNow = "DepartNow"
         case departurePosition = "DeparturePosition"
@@ -1933,6 +1952,7 @@ extension CalculateRouteInputBody: Swift.Decodable {
         case destinationPosition = "DestinationPosition"
         case distanceUnit = "DistanceUnit"
         case includeLegGeometry = "IncludeLegGeometry"
+        case optimizeFor = "OptimizeFor"
         case travelMode = "TravelMode"
         case truckModeOptions = "TruckModeOptions"
         case waypointPositions = "WaypointPositions"
@@ -1996,6 +2016,10 @@ extension CalculateRouteInputBody: Swift.Decodable {
         carModeOptions = carModeOptionsDecoded
         let truckModeOptionsDecoded = try containerValues.decodeIfPresent(LocationClientTypes.CalculateRouteTruckModeOptions.self, forKey: .truckModeOptions)
         truckModeOptions = truckModeOptionsDecoded
+        let arrivalTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .arrivalTime)
+        arrivalTime = arrivalTimeDecoded
+        let optimizeForDecoded = try containerValues.decodeIfPresent(LocationClientTypes.OptimizationMode.self, forKey: .optimizeFor)
+        optimizeFor = optimizeForDecoded
     }
 }
 
@@ -6844,7 +6868,7 @@ extension GetMapGlyphsOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -6990,7 +7014,7 @@ extension GetMapSpritesOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -7117,7 +7141,7 @@ extension GetMapStyleDescriptorOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -7268,7 +7292,7 @@ extension GetMapTileOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -7776,7 +7800,7 @@ extension ListDevicePositionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDevicePositionsInput: Swift.Equatable {
-    /// The geomerty used to filter device positions.
+    /// The geometry used to filter device positions.
     public var filterGeometry: LocationClientTypes.TrackingFilterGeometry?
     /// An optional limit for the number of entries returned in a single call. Default value: 100
     public var maxResults: Swift.Int?
@@ -10006,6 +10030,38 @@ extension LocationClientTypes {
 
 }
 
+extension LocationClientTypes {
+    public enum OptimizationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fastestroute
+        case shortestroute
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OptimizationMode] {
+            return [
+                .fastestroute,
+                .shortestroute,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fastestroute: return "FastestRoute"
+            case .shortestroute: return "ShortestRoute"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OptimizationMode(rawValue: rawValue) ?? OptimizationMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LocationClientTypes.Place: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressNumber = "AddressNumber"
@@ -10019,6 +10075,7 @@ extension LocationClientTypes.Place: Swift.Codable {
         case postalCode = "PostalCode"
         case region = "Region"
         case street = "Street"
+        case subMunicipality = "SubMunicipality"
         case subRegion = "SubRegion"
         case supplementalCategories = "SupplementalCategories"
         case timeZone = "TimeZone"
@@ -10063,6 +10120,9 @@ extension LocationClientTypes.Place: Swift.Codable {
         }
         if let street = self.street {
             try encodeContainer.encode(street, forKey: .street)
+        }
+        if let subMunicipality = self.subMunicipality {
+            try encodeContainer.encode(subMunicipality, forKey: .subMunicipality)
         }
         if let subRegion = self.subRegion {
             try encodeContainer.encode(subRegion, forKey: .subRegion)
@@ -10136,6 +10196,8 @@ extension LocationClientTypes.Place: Swift.Codable {
             }
         }
         supplementalCategories = supplementalCategoriesDecoded0
+        let subMunicipalityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subMunicipality)
+        subMunicipality = subMunicipalityDecoded
     }
 }
 
@@ -10165,6 +10227,8 @@ extension LocationClientTypes {
         public var region: Swift.String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public var street: Swift.String?
+        /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York. This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
+        public var subMunicipality: Swift.String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?
         /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
@@ -10188,6 +10252,7 @@ extension LocationClientTypes {
             postalCode: Swift.String? = nil,
             region: Swift.String? = nil,
             street: Swift.String? = nil,
+            subMunicipality: Swift.String? = nil,
             subRegion: Swift.String? = nil,
             supplementalCategories: [Swift.String]? = nil,
             timeZone: LocationClientTypes.TimeZone? = nil,
@@ -10206,6 +10271,7 @@ extension LocationClientTypes {
             self.postalCode = postalCode
             self.region = region
             self.street = street
+            self.subMunicipality = subMunicipality
             self.subRegion = subRegion
             self.supplementalCategories = supplementalCategories
             self.timeZone = timeZone

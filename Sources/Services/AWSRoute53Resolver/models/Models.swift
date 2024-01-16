@@ -1506,6 +1506,7 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         case name = "Name"
         case outpostArn = "OutpostArn"
         case preferredInstanceType = "PreferredInstanceType"
+        case protocols = "Protocols"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
@@ -1533,6 +1534,12 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         }
         if let preferredInstanceType = self.preferredInstanceType {
             try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
+        }
+        if let protocols = protocols {
+            var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
+            }
         }
         if let resolverEndpointType = self.resolverEndpointType {
             try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
@@ -1569,7 +1576,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
     /// * OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network
     /// This member is required.
     public var direction: Route53ResolverClientTypes.ResolverEndpointDirection?
-    /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC.
+    /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. Even though the minimum is 1, Route 53 requires that you create at least two.
     /// This member is required.
     public var ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
     /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
@@ -1578,6 +1585,31 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
     public var outpostArn: Swift.String?
     /// The instance type. If you specify this, you must also specify a value for the OutpostArn.
     public var preferredInstanceType: Swift.String?
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+    ///
+    /// * Do53 and DoH in combination.
+    ///
+    /// * Do53 and DoH-FIPS in combination.
+    ///
+    /// * Do53 alone.
+    ///
+    /// * DoH alone.
+    ///
+    /// * DoH-FIPS alone.
+    ///
+    /// * None, which is treated as Do53.
+    ///
+    ///
+    /// For an outbound endpoint you can apply the protocols as follows:
+    ///
+    /// * Do53 and DoH in combination.
+    ///
+    /// * Do53 alone.
+    ///
+    /// * DoH alone.
+    ///
+    /// * None, which is treated as Do53.
+    public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
     /// For the endpoint type you can choose either IPv4, IPv6, or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses.
     public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
     /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
@@ -1593,6 +1625,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         name: Swift.String? = nil,
         outpostArn: Swift.String? = nil,
         preferredInstanceType: Swift.String? = nil,
+        protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         securityGroupIds: [Swift.String]? = nil,
         tags: [Route53ResolverClientTypes.Tag]? = nil
@@ -1604,6 +1637,7 @@ public struct CreateResolverEndpointInput: Swift.Equatable {
         self.name = name
         self.outpostArn = outpostArn
         self.preferredInstanceType = preferredInstanceType
+        self.protocols = protocols
         self.resolverEndpointType = resolverEndpointType
         self.securityGroupIds = securityGroupIds
         self.tags = tags
@@ -1616,10 +1650,11 @@ struct CreateResolverEndpointInputBody: Swift.Equatable {
     let securityGroupIds: [Swift.String]?
     let direction: Route53ResolverClientTypes.ResolverEndpointDirection?
     let ipAddresses: [Route53ResolverClientTypes.IpAddressRequest]?
-    let tags: [Route53ResolverClientTypes.Tag]?
-    let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
     let outpostArn: Swift.String?
     let preferredInstanceType: Swift.String?
+    let tags: [Route53ResolverClientTypes.Tag]?
+    let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
+    let protocols: [Route53ResolverClientTypes.ModelProtocol]?
 }
 
 extension CreateResolverEndpointInputBody: Swift.Decodable {
@@ -1630,6 +1665,7 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         case name = "Name"
         case outpostArn = "OutpostArn"
         case preferredInstanceType = "PreferredInstanceType"
+        case protocols = "Protocols"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case tags = "Tags"
@@ -1665,6 +1701,10 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
             }
         }
         ipAddresses = ipAddressesDecoded0
+        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
+        outpostArn = outpostArnDecoded
+        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
+        preferredInstanceType = preferredInstanceTypeDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[Route53ResolverClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -1678,10 +1718,17 @@ extension CreateResolverEndpointInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
         resolverEndpointType = resolverEndpointTypeDecoded
-        let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
-        outpostArn = outpostArnDecoded
-        let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
-        preferredInstanceType = preferredInstanceTypeDecoded
+        let protocolsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.ModelProtocol?].self, forKey: .protocols)
+        var protocolsDecoded0:[Route53ResolverClientTypes.ModelProtocol]? = nil
+        if let protocolsContainer = protocolsContainer {
+            protocolsDecoded0 = [Route53ResolverClientTypes.ModelProtocol]()
+            for enum0 in protocolsContainer {
+                if let enum0 = enum0 {
+                    protocolsDecoded0?.append(enum0)
+                }
+            }
+        }
+        protocols = protocolsDecoded0
     }
 }
 
@@ -1730,6 +1777,7 @@ enum CreateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1958,7 +2006,6 @@ public struct CreateResolverRuleInput: Swift.Equatable {
     /// This member is required.
     public var creatorRequestId: Swift.String?
     /// DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
-    /// This member is required.
     public var domainName: Swift.String?
     /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
     public var name: Swift.String?
@@ -2095,6 +2142,7 @@ enum CreateResolverRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8132,7 +8180,7 @@ extension ListResolverDnssecConfigsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListResolverDnssecConfigsOutput: Swift.Equatable {
     /// If a response includes the last of the DNSSEC configurations that are associated with the current Amazon Web Services account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another [ListResolverDnssecConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResolverDnssecConfigs.html) request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
     public var nextToken: Swift.String?
-    /// An array that contains one [ResolverDnssecConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html) element for each configuration for DNSSEC validation that is associated with the current Amazon Web Services account.
+    /// An array that contains one [ResolverDnssecConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html) element for each configuration for DNSSEC validation that is associated with the current Amazon Web Services account. It doesn't contain disabled DNSSEC configurations for the resource.
     public var resolverDnssecConfigs: [Route53ResolverClientTypes.ResolverDnssecConfig]?
 
     public init(
@@ -9675,6 +9723,41 @@ extension Route53ResolverClientTypes {
     }
 }
 
+extension Route53ResolverClientTypes {
+    public enum ModelProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case do53
+        case doh
+        case dohfips
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .do53,
+                .doh,
+                .dohfips,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .do53: return "Do53"
+            case .doh: return "DoH"
+            case .dohfips: return "DoH-FIPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelProtocol(rawValue: rawValue) ?? ModelProtocol.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension PutFirewallRuleGroupPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -10295,6 +10378,7 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         case name = "Name"
         case outpostArn = "OutpostArn"
         case preferredInstanceType = "PreferredInstanceType"
+        case protocols = "Protocols"
         case resolverEndpointType = "ResolverEndpointType"
         case securityGroupIds = "SecurityGroupIds"
         case status = "Status"
@@ -10335,6 +10419,12 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         }
         if let preferredInstanceType = self.preferredInstanceType {
             try encodeContainer.encode(preferredInstanceType, forKey: .preferredInstanceType)
+        }
+        if let protocols = protocols {
+            var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
+            }
         }
         if let resolverEndpointType = self.resolverEndpointType {
             try encodeContainer.encode(resolverEndpointType.rawValue, forKey: .resolverEndpointType)
@@ -10388,12 +10478,23 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         creationTime = creationTimeDecoded
         let modificationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modificationTime)
         modificationTime = modificationTimeDecoded
-        let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
-        resolverEndpointType = resolverEndpointTypeDecoded
         let outpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostArn)
         outpostArn = outpostArnDecoded
         let preferredInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredInstanceType)
         preferredInstanceType = preferredInstanceTypeDecoded
+        let resolverEndpointTypeDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ResolverEndpointType.self, forKey: .resolverEndpointType)
+        resolverEndpointType = resolverEndpointTypeDecoded
+        let protocolsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.ModelProtocol?].self, forKey: .protocols)
+        var protocolsDecoded0:[Route53ResolverClientTypes.ModelProtocol]? = nil
+        if let protocolsContainer = protocolsContainer {
+            protocolsDecoded0 = [Route53ResolverClientTypes.ModelProtocol]()
+            for enum0 in protocolsContainer {
+                if let enum0 = enum0 {
+                    protocolsDecoded0?.append(enum0)
+                }
+            }
+        }
+        protocols = protocolsDecoded0
     }
 }
 
@@ -10426,6 +10527,31 @@ extension Route53ResolverClientTypes {
         public var outpostArn: Swift.String?
         /// The Amazon EC2 instance type.
         public var preferredInstanceType: Swift.String?
+        /// Protocols used for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+        ///
+        /// * Do53 and DoH in combination.
+        ///
+        /// * Do53 and DoH-FIPS in combination.
+        ///
+        /// * Do53 alone.
+        ///
+        /// * DoH alone.
+        ///
+        /// * DoH-FIPS alone.
+        ///
+        /// * None, which is treated as Do53.
+        ///
+        ///
+        /// For an outbound endpoint you can apply the protocols as follows:
+        ///
+        /// * Do53 and DoH in combination.
+        ///
+        /// * Do53 alone.
+        ///
+        /// * DoH alone.
+        ///
+        /// * None, which is treated as Do53.
+        public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
         /// The Resolver endpoint IP address type.
         public var resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
         /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules (for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
@@ -10466,6 +10592,7 @@ extension Route53ResolverClientTypes {
             name: Swift.String? = nil,
             outpostArn: Swift.String? = nil,
             preferredInstanceType: Swift.String? = nil,
+            protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
             resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: Route53ResolverClientTypes.ResolverEndpointStatus? = nil,
@@ -10483,6 +10610,7 @@ extension Route53ResolverClientTypes {
             self.name = name
             self.outpostArn = outpostArn
             self.preferredInstanceType = preferredInstanceType
+            self.protocols = protocols
             self.resolverEndpointType = resolverEndpointType
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -11956,6 +12084,7 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
         case ip = "Ip"
         case ipv6 = "Ipv6"
         case port = "Port"
+        case `protocol` = "Protocol"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11969,6 +12098,9 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
         }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11979,6 +12111,8 @@ extension Route53ResolverClientTypes.TargetAddress: Swift.Codable {
         port = portDecoded
         let ipv6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipv6)
         ipv6 = ipv6Decoded
+        let protocolDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
     }
 }
 
@@ -11991,16 +12125,43 @@ extension Route53ResolverClientTypes {
         public var ipv6: Swift.String?
         /// The port at Ip that you want to forward DNS queries to.
         public var port: Swift.Int?
+        /// The protocols for the Resolver endpoints. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+        ///
+        /// * Do53 and DoH in combination.
+        ///
+        /// * Do53 and DoH-FIPS in combination.
+        ///
+        /// * Do53 alone.
+        ///
+        /// * DoH alone.
+        ///
+        /// * DoH-FIPS alone.
+        ///
+        /// * None, which is treated as Do53.
+        ///
+        ///
+        /// For an outbound endpoint you can apply the protocols as follows:
+        ///
+        /// * Do53 and DoH in combination.
+        ///
+        /// * Do53 alone.
+        ///
+        /// * DoH alone.
+        ///
+        /// * None, which is treated as Do53.
+        public var `protocol`: Route53ResolverClientTypes.ModelProtocol?
 
         public init(
             ip: Swift.String? = nil,
             ipv6: Swift.String? = nil,
-            port: Swift.Int? = nil
+            port: Swift.Int? = nil,
+            `protocol`: Route53ResolverClientTypes.ModelProtocol? = nil
         )
         {
             self.ip = ip
             self.ipv6 = ipv6
             self.port = port
+            self.`protocol` = `protocol`
         }
     }
 
@@ -13315,6 +13476,7 @@ enum UpdateResolverDnssecConfigOutputError: ClientRuntime.HttpResponseErrorBindi
 extension UpdateResolverEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case protocols = "Protocols"
         case resolverEndpointId = "ResolverEndpointId"
         case resolverEndpointType = "ResolverEndpointType"
         case updateIpAddresses = "UpdateIpAddresses"
@@ -13324,6 +13486,12 @@ extension UpdateResolverEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let protocols = protocols {
+            var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
+            }
         }
         if let resolverEndpointId = self.resolverEndpointId {
             try encodeContainer.encode(resolverEndpointId, forKey: .resolverEndpointId)
@@ -13349,6 +13517,34 @@ extension UpdateResolverEndpointInput: ClientRuntime.URLPathProvider {
 public struct UpdateResolverEndpointInput: Swift.Equatable {
     /// The name of the Resolver endpoint that you want to update.
     public var name: Swift.String?
+    /// The protocols you want to use for the endpoint. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
+    ///
+    /// * Do53 and DoH in combination.
+    ///
+    /// * Do53 and DoH-FIPS in combination.
+    ///
+    /// * Do53 alone.
+    ///
+    /// * DoH alone.
+    ///
+    /// * DoH-FIPS alone.
+    ///
+    /// * None, which is treated as Do53.
+    ///
+    ///
+    /// For an outbound endpoint you can apply the protocols as follows:
+    ///
+    /// * Do53 and DoH in combination.
+    ///
+    /// * Do53 alone.
+    ///
+    /// * DoH alone.
+    ///
+    /// * None, which is treated as Do53.
+    ///
+    ///
+    /// You can't change the protocol of an inbound endpoint directly from only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption to incoming traffic that relies on Do53. To change the protocol from Do53 to DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and then remove the Do53.
+    public var protocols: [Route53ResolverClientTypes.ModelProtocol]?
     /// The ID of the Resolver endpoint that you want to update.
     /// This member is required.
     public var resolverEndpointId: Swift.String?
@@ -13359,12 +13555,14 @@ public struct UpdateResolverEndpointInput: Swift.Equatable {
 
     public init(
         name: Swift.String? = nil,
+        protocols: [Route53ResolverClientTypes.ModelProtocol]? = nil,
         resolverEndpointId: Swift.String? = nil,
         resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType? = nil,
         updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]? = nil
     )
     {
         self.name = name
+        self.protocols = protocols
         self.resolverEndpointId = resolverEndpointId
         self.resolverEndpointType = resolverEndpointType
         self.updateIpAddresses = updateIpAddresses
@@ -13376,11 +13574,13 @@ struct UpdateResolverEndpointInputBody: Swift.Equatable {
     let name: Swift.String?
     let resolverEndpointType: Route53ResolverClientTypes.ResolverEndpointType?
     let updateIpAddresses: [Route53ResolverClientTypes.UpdateIpAddress]?
+    let protocols: [Route53ResolverClientTypes.ModelProtocol]?
 }
 
 extension UpdateResolverEndpointInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case protocols = "Protocols"
         case resolverEndpointId = "ResolverEndpointId"
         case resolverEndpointType = "ResolverEndpointType"
         case updateIpAddresses = "UpdateIpAddresses"
@@ -13405,6 +13605,17 @@ extension UpdateResolverEndpointInputBody: Swift.Decodable {
             }
         }
         updateIpAddresses = updateIpAddressesDecoded0
+        let protocolsContainer = try containerValues.decodeIfPresent([Route53ResolverClientTypes.ModelProtocol?].self, forKey: .protocols)
+        var protocolsDecoded0:[Route53ResolverClientTypes.ModelProtocol]? = nil
+        if let protocolsContainer = protocolsContainer {
+            protocolsDecoded0 = [Route53ResolverClientTypes.ModelProtocol]()
+            for enum0 in protocolsContainer {
+                if let enum0 = enum0 {
+                    protocolsDecoded0?.append(enum0)
+                }
+            }
+        }
+        protocols = protocolsDecoded0
     }
 }
 
@@ -13453,6 +13664,7 @@ enum UpdateResolverEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -13569,6 +13781,7 @@ enum UpdateResolverRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceErrorException": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -13631,7 +13844,7 @@ extension ValidationException {
     }
 }
 
-/// You have provided an invalid command. Supported values are ADD, REMOVE, or REPLACE a domain.
+/// You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

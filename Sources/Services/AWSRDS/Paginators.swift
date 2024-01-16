@@ -636,6 +636,40 @@ extension PaginatorSequence where OperationStackInput == DescribeDBProxyTargetsI
     }
 }
 extension RDSClient {
+    /// Paginate over `[DescribeDBRecommendationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBRecommendationsOutput`
+    public func describeDBRecommendationsPaginated(input: DescribeDBRecommendationsInput) -> ClientRuntime.PaginatorSequence<DescribeDBRecommendationsInput, DescribeDBRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBRecommendationsInput, DescribeDBRecommendationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBRecommendations(input:))
+    }
+}
+
+extension DescribeDBRecommendationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeDBRecommendationsInput {
+        return DescribeDBRecommendationsInput(
+            filters: self.filters,
+            lastUpdatedAfter: self.lastUpdatedAfter,
+            lastUpdatedBefore: self.lastUpdatedBefore,
+            locale: self.locale,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeDBRecommendationsInput, OperationStackOutput == DescribeDBRecommendationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBRecommendationsPaginated`
+    /// to access the nested member `[RDSClientTypes.DBRecommendation]`
+    /// - Returns: `[RDSClientTypes.DBRecommendation]`
+    public func dbRecommendations() async throws -> [RDSClientTypes.DBRecommendation] {
+        return try await self.asyncCompactMap { item in item.dbRecommendations }
+    }
+}
+extension RDSClient {
     /// Paginate over `[DescribeDBSecurityGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

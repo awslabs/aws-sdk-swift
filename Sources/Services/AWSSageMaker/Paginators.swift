@@ -758,6 +758,43 @@ extension PaginatorSequence where OperationStackInput == ListExperimentsInput, O
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListFeatureGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFeatureGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFeatureGroupsOutput`
+    public func listFeatureGroupsPaginated(input: ListFeatureGroupsInput) -> ClientRuntime.PaginatorSequence<ListFeatureGroupsInput, ListFeatureGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFeatureGroupsInput, ListFeatureGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFeatureGroups(input:))
+    }
+}
+
+extension ListFeatureGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFeatureGroupsInput {
+        return ListFeatureGroupsInput(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            featureGroupStatusEquals: self.featureGroupStatusEquals,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            offlineStoreStatusEquals: self.offlineStoreStatusEquals,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFeatureGroupsInput, OperationStackOutput == ListFeatureGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFeatureGroupsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.FeatureGroupSummary]`
+    /// - Returns: `[SageMakerClientTypes.FeatureGroupSummary]`
+    public func featureGroupSummaries() async throws -> [SageMakerClientTypes.FeatureGroupSummary] {
+        return try await self.asyncCompactMap { item in item.featureGroupSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListFlowDefinitionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -2134,7 +2134,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
             self.profile = data
         case .stream(let stream):
             self.profile = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.profile = nil
         }
     }

@@ -11196,7 +11196,7 @@ extension GetFunctionOutput: ClientRuntime.HttpResponseBinding {
             self.functionCode = data
         case .stream(let stream):
             self.functionCode = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.functionCode = nil
         }
     }

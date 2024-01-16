@@ -4,6 +4,22 @@ import ClientRuntime
 
 /// Catalog API actions allow you to manage your entities through list, describe, and update capabilities. An entity can be a product or an offer on AWS Marketplace. You can automate your entity update process by integrating the AWS Marketplace Catalog API with your AWS Marketplace product build or deployment pipelines. You can also create your own applications on top of the Catalog API to manage your products on AWS Marketplace.
 public protocol MarketplaceCatalogClientProtocol {
+    /// Performs the `BatchDescribeEntities` operation on the `AWSMPSeymour` service.
+    ///
+    /// Returns metadata and content for multiple entities.
+    ///
+    /// - Parameter BatchDescribeEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDescribeEntitiesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. HTTP status code: 403
+    /// - `InternalServiceException` : There was an internal service exception. HTTP status code: 500
+    /// - `ThrottlingException` : Too many requests. HTTP status code: 429
+    /// - `ValidationException` : An error occurred during validation. HTTP status code: 422
+    func batchDescribeEntities(input: BatchDescribeEntitiesInput) async throws -> BatchDescribeEntitiesOutput
     /// Performs the `CancelChangeSet` operation on the `AWSMPSeymour` service.
     ///
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.

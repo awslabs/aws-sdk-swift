@@ -1210,7 +1210,7 @@ public struct CreateLogAnomalyDetectorInput: Swift.Equatable {
     public var filterPattern: Swift.String?
     /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
     public var kmsKeyId: Swift.String?
-    /// An array containing the ARNs of the log groups that this anomaly detector will watch. You must specify at least one ARN.
+    /// An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN.
     /// This member is required.
     public var logGroupArnList: [Swift.String]?
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
@@ -1393,7 +1393,7 @@ public struct CreateLogGroupInput: Swift.Equatable {
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     ///
-    /// If you omit this parameter, the default of STANDARD is used. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+    /// If you omit this parameter, the default of STANDARD is used. After a log group is created, its class can't be changed. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
     /// A name for the log group.
     /// This member is required.
@@ -2994,7 +2994,7 @@ extension CloudWatchLogsClientTypes {
     ///
     /// * Create a delivery destination, which is a logical object that represents the actual delivery destination.
     ///
-    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
     ///
     /// * Create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
     ///
@@ -3185,7 +3185,7 @@ extension CloudWatchLogsClientTypes {
     ///
     /// * Create a delivery destination, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
     ///
-    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
     ///
     /// * Create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
     ///
@@ -8254,6 +8254,294 @@ enum ListTagsLogGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CloudWatchLogsClientTypes.LiveTailSessionLogEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ingestionTime
+        case logGroupIdentifier
+        case logStreamName
+        case message
+        case timestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ingestionTime = self.ingestionTime {
+            try encodeContainer.encode(ingestionTime, forKey: .ingestionTime)
+        }
+        if let logGroupIdentifier = self.logGroupIdentifier {
+            try encodeContainer.encode(logGroupIdentifier, forKey: .logGroupIdentifier)
+        }
+        if let logStreamName = self.logStreamName {
+            try encodeContainer.encode(logStreamName, forKey: .logStreamName)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encode(timestamp, forKey: .timestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamName)
+        logStreamName = logStreamNameDecoded
+        let logGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupIdentifier)
+        logGroupIdentifier = logGroupIdentifierDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let timestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let ingestionTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ingestionTime)
+        ingestionTime = ingestionTimeDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This object contains the information for one log event returned in a Live Tail stream.
+    public struct LiveTailSessionLogEvent: Swift.Equatable {
+        /// The timestamp specifying when this log event was ingested into the log group.
+        public var ingestionTime: Swift.Int?
+        /// The name or ARN of the log group that ingested this log event.
+        public var logGroupIdentifier: Swift.String?
+        /// The name of the log stream that ingested this log event.
+        public var logStreamName: Swift.String?
+        /// The log event message text.
+        public var message: Swift.String?
+        /// The timestamp specifying when this log event was created.
+        public var timestamp: Swift.Int?
+
+        public init(
+            ingestionTime: Swift.Int? = nil,
+            logGroupIdentifier: Swift.String? = nil,
+            logStreamName: Swift.String? = nil,
+            message: Swift.String? = nil,
+            timestamp: Swift.Int? = nil
+        )
+        {
+            self.ingestionTime = ingestionTime
+            self.logGroupIdentifier = logGroupIdentifier
+            self.logStreamName = logStreamName
+            self.message = message
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.LiveTailSessionMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sampled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if sampled != false {
+            try encodeContainer.encode(sampled, forKey: .sampled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sampledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sampled) ?? false
+        sampled = sampledDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This object contains the metadata for one LiveTailSessionUpdate structure. It indicates whether that update includes only a sample of 500 log events out of a larger number of ingested log events, or if it contains all of the matching log events ingested during that second of time.
+    public struct LiveTailSessionMetadata: Swift.Equatable {
+        /// If this is true, then more than 500 log events matched the request for this update, and the sessionResults includes a sample of 500 of those events. If this is false, then 500 or fewer log events matched the request for this update, so no sampling was necessary. In this case, the sessionResults array includes all log events that matched your request during this time.
+        public var sampled: Swift.Bool
+
+        public init(
+            sampled: Swift.Bool = false
+        )
+        {
+            self.sampled = sampled
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.LiveTailSessionStart: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logEventFilterPattern
+        case logGroupIdentifiers
+        case logStreamNamePrefixes
+        case logStreamNames
+        case requestId
+        case sessionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logEventFilterPattern = self.logEventFilterPattern {
+            try encodeContainer.encode(logEventFilterPattern, forKey: .logEventFilterPattern)
+        }
+        if let logGroupIdentifiers = logGroupIdentifiers {
+            var logGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupIdentifiers)
+            for loggroupidentifier0 in logGroupIdentifiers {
+                try logGroupIdentifiersContainer.encode(loggroupidentifier0)
+            }
+        }
+        if let logStreamNamePrefixes = logStreamNamePrefixes {
+            var logStreamNamePrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreamNamePrefixes)
+            for logstreamname0 in logStreamNamePrefixes {
+                try logStreamNamePrefixesContainer.encode(logstreamname0)
+            }
+        }
+        if let logStreamNames = logStreamNames {
+            var logStreamNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreamNames)
+            for logstreamname0 in logStreamNames {
+                try logStreamNamesContainer.encode(logstreamname0)
+            }
+        }
+        if let requestId = self.requestId {
+            try encodeContainer.encode(requestId, forKey: .requestId)
+        }
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let logGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupIdentifiers)
+        var logGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let logGroupIdentifiersContainer = logGroupIdentifiersContainer {
+            logGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in logGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    logGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupIdentifiers = logGroupIdentifiersDecoded0
+        let logStreamNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logStreamNames)
+        var logStreamNamesDecoded0:[Swift.String]? = nil
+        if let logStreamNamesContainer = logStreamNamesContainer {
+            logStreamNamesDecoded0 = [Swift.String]()
+            for string0 in logStreamNamesContainer {
+                if let string0 = string0 {
+                    logStreamNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        logStreamNames = logStreamNamesDecoded0
+        let logStreamNamePrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logStreamNamePrefixes)
+        var logStreamNamePrefixesDecoded0:[Swift.String]? = nil
+        if let logStreamNamePrefixesContainer = logStreamNamePrefixesContainer {
+            logStreamNamePrefixesDecoded0 = [Swift.String]()
+            for string0 in logStreamNamePrefixesContainer {
+                if let string0 = string0 {
+                    logStreamNamePrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        logStreamNamePrefixes = logStreamNamePrefixesDecoded0
+        let logEventFilterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logEventFilterPattern)
+        logEventFilterPattern = logEventFilterPatternDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This object contains information about this Live Tail session, including the log groups included and the log stream filters, if any.
+    public struct LiveTailSessionStart: Swift.Equatable {
+        /// An optional pattern to filter the results to include only log events that match the pattern. For example, a filter pattern of error 404 displays only log events that include both error and 404. For more information about filter pattern syntax, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+        public var logEventFilterPattern: Swift.String?
+        /// An array of the names and ARNs of the log groups included in this Live Tail session.
+        public var logGroupIdentifiers: [Swift.String]?
+        /// If your StartLiveTail operation request included a logStreamNamePrefixes parameter that filtered the session to only include log streams that have names that start with certain prefixes, these prefixes are listed here.
+        public var logStreamNamePrefixes: [Swift.String]?
+        /// If your StartLiveTail operation request included a logStreamNames parameter that filtered the session to only include certain log streams, these streams are listed here.
+        public var logStreamNames: [Swift.String]?
+        /// The unique ID generated by CloudWatch Logs to identify this Live Tail session request.
+        public var requestId: Swift.String?
+        /// The unique ID generated by CloudWatch Logs to identify this Live Tail session.
+        public var sessionId: Swift.String?
+
+        public init(
+            logEventFilterPattern: Swift.String? = nil,
+            logGroupIdentifiers: [Swift.String]? = nil,
+            logStreamNamePrefixes: [Swift.String]? = nil,
+            logStreamNames: [Swift.String]? = nil,
+            requestId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        )
+        {
+            self.logEventFilterPattern = logEventFilterPattern
+            self.logGroupIdentifiers = logGroupIdentifiers
+            self.logStreamNamePrefixes = logStreamNamePrefixes
+            self.logStreamNames = logStreamNames
+            self.requestId = requestId
+            self.sessionId = sessionId
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.LiveTailSessionUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionMetadata
+        case sessionResults
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionMetadata = self.sessionMetadata {
+            try encodeContainer.encode(sessionMetadata, forKey: .sessionMetadata)
+        }
+        if let sessionResults = sessionResults {
+            var sessionResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sessionResults)
+            for livetailsessionlogevent0 in sessionResults {
+                try sessionResultsContainer.encode(livetailsessionlogevent0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionMetadataDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.LiveTailSessionMetadata.self, forKey: .sessionMetadata)
+        sessionMetadata = sessionMetadataDecoded
+        let sessionResultsContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.LiveTailSessionLogEvent?].self, forKey: .sessionResults)
+        var sessionResultsDecoded0:[CloudWatchLogsClientTypes.LiveTailSessionLogEvent]? = nil
+        if let sessionResultsContainer = sessionResultsContainer {
+            sessionResultsDecoded0 = [CloudWatchLogsClientTypes.LiveTailSessionLogEvent]()
+            for structure0 in sessionResultsContainer {
+                if let structure0 = structure0 {
+                    sessionResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sessionResults = sessionResultsDecoded0
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This object contains the log events and metadata for a Live Tail session.
+    public struct LiveTailSessionUpdate: Swift.Equatable {
+        /// This object contains the session metadata for a Live Tail session.
+        public var sessionMetadata: CloudWatchLogsClientTypes.LiveTailSessionMetadata?
+        /// An array, where each member of the array includes the information for one log event in the Live Tail session. A sessionResults array can include as many as 500 log events. If the number of log events matching the request exceeds 500 per second, the log events are sampled down to 500 log events to be included in each sessionUpdate structure.
+        public var sessionResults: [CloudWatchLogsClientTypes.LiveTailSessionLogEvent]?
+
+        public init(
+            sessionMetadata: CloudWatchLogsClientTypes.LiveTailSessionMetadata? = nil,
+            sessionResults: [CloudWatchLogsClientTypes.LiveTailSessionLogEvent]? = nil
+        )
+        {
+            self.sessionMetadata = sessionMetadata
+            self.sessionResults = sessionResults
+        }
+    }
+
+}
+
 extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -11778,6 +12066,92 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+extension SessionStreamingException: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.properties.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        properties.message = messageDecoded
+    }
+}
+
+/// his exception is returned if an unknown error occurs during a Live Tail session.
+public struct SessionStreamingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SessionStreamingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension SessionTimeoutException: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.properties.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        properties.message = messageDecoded
+    }
+}
+
+/// This exception is returned in a Live Tail stream when the Live Tail session times out. Live Tail sessions time out after three hours.
+public struct SessionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SessionTimeoutException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension CloudWatchLogsClientTypes {
     public enum StandardUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bits
@@ -11883,6 +12257,212 @@ extension CloudWatchLogsClientTypes {
             self = StandardUnit(rawValue: rawValue) ?? StandardUnit.sdkUnknown(rawValue)
         }
     }
+}
+
+extension StartLiveTailInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logEventFilterPattern
+        case logGroupIdentifiers
+        case logStreamNamePrefixes
+        case logStreamNames
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logEventFilterPattern = self.logEventFilterPattern {
+            try encodeContainer.encode(logEventFilterPattern, forKey: .logEventFilterPattern)
+        }
+        if let logGroupIdentifiers = logGroupIdentifiers {
+            var logGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupIdentifiers)
+            for loggroupidentifier0 in logGroupIdentifiers {
+                try logGroupIdentifiersContainer.encode(loggroupidentifier0)
+            }
+        }
+        if let logStreamNamePrefixes = logStreamNamePrefixes {
+            var logStreamNamePrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreamNamePrefixes)
+            for logstreamname0 in logStreamNamePrefixes {
+                try logStreamNamePrefixesContainer.encode(logstreamname0)
+            }
+        }
+        if let logStreamNames = logStreamNames {
+            var logStreamNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreamNames)
+            for logstreamname0 in logStreamNames {
+                try logStreamNamesContainer.encode(logstreamname0)
+            }
+        }
+    }
+}
+
+extension StartLiveTailInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartLiveTailInput: Swift.Equatable {
+    /// An optional pattern to use to filter the results to include only log events that match the pattern. For example, a filter pattern of error 404 causes only log events that include both error and 404 to be included in the Live Tail stream. Regular expression filter patterns are supported. For more information about filter pattern syntax, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+    public var logEventFilterPattern: Swift.String?
+    /// An array where each item in the array is a log group to include in the Live Tail session. Specify each log group by its ARN. If you specify an ARN, the ARN can't end with an asterisk (*). You can include up to 10 log groups.
+    /// This member is required.
+    public var logGroupIdentifiers: [Swift.String]?
+    /// If you specify this parameter, then only log events in the log streams that have names that start with the prefixes that you specify here are included in the Live Tail session. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
+    public var logStreamNamePrefixes: [Swift.String]?
+    /// If you specify this parameter, then only log events in the log streams that you specify here are included in the Live Tail session. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
+    public var logStreamNames: [Swift.String]?
+
+    public init(
+        logEventFilterPattern: Swift.String? = nil,
+        logGroupIdentifiers: [Swift.String]? = nil,
+        logStreamNamePrefixes: [Swift.String]? = nil,
+        logStreamNames: [Swift.String]? = nil
+    )
+    {
+        self.logEventFilterPattern = logEventFilterPattern
+        self.logGroupIdentifiers = logGroupIdentifiers
+        self.logStreamNamePrefixes = logStreamNamePrefixes
+        self.logStreamNames = logStreamNames
+    }
+}
+
+struct StartLiveTailInputBody: Swift.Equatable {
+    let logGroupIdentifiers: [Swift.String]?
+    let logStreamNames: [Swift.String]?
+    let logStreamNamePrefixes: [Swift.String]?
+    let logEventFilterPattern: Swift.String?
+}
+
+extension StartLiveTailInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logEventFilterPattern
+        case logGroupIdentifiers
+        case logStreamNamePrefixes
+        case logStreamNames
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupIdentifiers)
+        var logGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let logGroupIdentifiersContainer = logGroupIdentifiersContainer {
+            logGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in logGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    logGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupIdentifiers = logGroupIdentifiersDecoded0
+        let logStreamNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logStreamNames)
+        var logStreamNamesDecoded0:[Swift.String]? = nil
+        if let logStreamNamesContainer = logStreamNamesContainer {
+            logStreamNamesDecoded0 = [Swift.String]()
+            for string0 in logStreamNamesContainer {
+                if let string0 = string0 {
+                    logStreamNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        logStreamNames = logStreamNamesDecoded0
+        let logStreamNamePrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logStreamNamePrefixes)
+        var logStreamNamePrefixesDecoded0:[Swift.String]? = nil
+        if let logStreamNamePrefixesContainer = logStreamNamePrefixesContainer {
+            logStreamNamePrefixesDecoded0 = [Swift.String]()
+            for string0 in logStreamNamePrefixesContainer {
+                if let string0 = string0 {
+                    logStreamNamePrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        logStreamNamePrefixes = logStreamNamePrefixesDecoded0
+        let logEventFilterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logEventFilterPattern)
+        logEventFilterPattern = logEventFilterPatternDecoded
+    }
+}
+
+extension StartLiveTailOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.responseStream = decoderStream.toAsyncStream()
+        } else {
+            self.responseStream = nil
+        }
+    }
+}
+
+public struct StartLiveTailOutput: Swift.Equatable {
+    /// An object that includes the stream returned by your request. It can include both log events and exceptions.
+    public var responseStream: AsyncThrowingStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream, Swift.Error>?
+
+    public init(
+        responseStream: AsyncThrowingStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream, Swift.Error>? = nil
+    )
+    {
+        self.responseStream = responseStream
+    }
+}
+
+enum StartLiveTailOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes.StartLiveTailResponseStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "sessionStart":
+                self = .sessionstart(try decoder.decode(responseBody: message.payload))
+            case "sessionUpdate":
+                self = .sessionupdate(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "SessionTimeoutException":
+                    return try decoder.decode(responseBody: message.payload) as SessionTimeoutException
+                case "SessionStreamingException":
+                    return try decoder.decode(responseBody: message.payload) as SessionStreamingException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This object includes the stream returned by your [StartLiveTail](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTail.html) request.
+    public enum StartLiveTailResponseStream: Swift.Equatable {
+        /// This object contains information about this Live Tail session, including the log groups included and the log stream filters, if any.
+        case sessionstart(CloudWatchLogsClientTypes.LiveTailSessionStart)
+        /// This object contains the log events and session metadata.
+        case sessionupdate(CloudWatchLogsClientTypes.LiveTailSessionUpdate)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension StartQueryInput: Swift.Encodable {
