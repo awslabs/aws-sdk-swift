@@ -29,7 +29,23 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             )
         }
 
-        let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
+        var signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
+
+        // Used to fix signingConfig.date for testing signRequest().
+        if let date = signingProperties.get(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests")) {
+            signingConfig = AWSSigningConfig(
+                credentials: signingConfig.credentials,
+                expiration: signingConfig.expiration,
+                signedBodyHeader: signingConfig.signedBodyHeader,
+                signedBodyValue: signingConfig.signedBodyValue,
+                flags: signingConfig.flags,
+                date: date,
+                service: signingConfig.service,
+                region: signingConfig.region,
+                signatureType: signingConfig.signatureType,
+                signingAlgorithm: signingConfig.signingAlgorithm
+            )
+        }
 
         let unsignedRequest = requestBuilder.build()
         let crtUnsignedRequest: HTTPRequestBase = isBidirectionalStreamingEnabled ?

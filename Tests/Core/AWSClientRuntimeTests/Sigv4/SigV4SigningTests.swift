@@ -9,6 +9,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTimestamps
 import XCTest
+import SmithyTestUtil
 
 @testable import AWSClientRuntime
 
@@ -19,27 +20,274 @@ class Sigv4SigningTests: XCTestCase {
 
     // Test success case
     func testSignRequestSuccess() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        let signedRequest = try await AWSSigV4Signer().signRequest(
+            requestBuilder: requestBuilder,
+            identity: credentials,
+            signingProperties: signingProperties
+        )
+
+        let expectedSignature = "68a60ecd39081e56bc2413c3397669c72ba61642c5d283aa15ad2f7e155c3e04"
+        XCTAssertEqual(expectedSignature, signedRequest.signature)
     }
 
     // Test exception cases
     func testSignRequestMissingBidirecitonalSteamingFlag() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
+
     func testSignRequestWrongTypeOfIdentity() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = MockIdentity()
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Identity passed to the AWSSigV4Signer must be of type Credentials."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
+
     func testSignRequestMissingUnsignedBodyFlag() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
+
     func testSignRequestMissingSigningName() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing name."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
+
     func testSignRequestMissingSigningRegion() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing region."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
+
     func testSignRequestMissingSigningAlgorithm() async throws {
-        
+        let dateString = "2024-01-16T12:36:00Z"
+        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
+            XCTFail("Unable to parse date")
+            return
+        }
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("The code did not throw expected type of error.")
+        }
     }
 
     func testPresigner() async throws {
