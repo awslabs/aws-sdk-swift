@@ -16,7 +16,8 @@ import software.amazon.smithy.swift.codegen.model.expectShape
 
 class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
-        return model.expectShape<ServiceShape>(settings.service).isRoute53
+//        return model.expectShape<ServiceShape>(settings.service).isRoute53
+        return false
     }
 
     override val sectionWriters: List<SectionWriterBinding>

@@ -5,9 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct Ec2Response: Decodable {
-    public let errors: Ec2Errors
-    public let requestId: String
+import SmithyReadWrite
+import SmithyXML
+@testable import ClientRuntime
+
+public struct Ec2Response {
+    public var errors: Ec2Errors?
+    public var requestId: String?
 
     enum CodingKeys: String, CodingKey {
         case errors = "Errors"
@@ -15,13 +19,13 @@ public struct Ec2Response: Decodable {
         case requestID = "RequestID"
     }
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.errors = try container.decode(Ec2Errors.self, forKey: .errors)
-
-        // Attempt to decode the requestId with the key "RequestID"
-        // if that is not present, then fallback to the key "RequestId"
-        self.requestId = try container.decodeIfPresent(String.self, forKey: .requestID)
-            ?? container.decode(String.self, forKey: .requestId)
+    public static var httpBinding: HTTPResponseOutputBinding<Ec2Response, Reader> {
+        return { httpResponse, responseReader in
+            let reader = responseReader
+            var value = Ec2Response()
+            value.errors = try reader["Errors"].readIfPresent(readingClosure: Ec2Errors.readingClosure)
+            value.requestId = try reader["RequestId"].readIfPresent() ?? reader["RequestID"].readIfPresent()
+            return value
+        }
     }
 }
