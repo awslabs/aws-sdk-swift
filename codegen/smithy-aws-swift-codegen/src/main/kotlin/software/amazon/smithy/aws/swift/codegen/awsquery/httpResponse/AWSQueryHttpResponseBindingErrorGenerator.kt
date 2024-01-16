@@ -89,11 +89,10 @@ class AWSQueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenera
                                 write("if let error = serviceError { return error }")
                             }
                             writer.write("let reader = responseReader[\"Error\"]")
-                            writer.write("let type: String? = try reader[\"Type\"].readIfPresent()")
                             writer.write("let requestID: String? = try responseReader[\"RequestId\"].readIfPresent()")
-                            writer.write("let errorCode: String? = try reader[\"Code\"].readIfPresent()")
+                            writer.write("let code: String? = try reader[\"Code\"].readIfPresent()")
                             writer.write("let message: String? = try reader[\"Message\"].readIfPresent()")
-                            openBlock("switch errorCode {", "}") {
+                            openBlock("switch code {", "}") {
                                 val errorShapes = op.errors
                                     .map { ctx.model.expectShape(it) as StructureShape }
                                     .toSet()
@@ -108,7 +107,7 @@ class AWSQueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenera
                                     )
                                 }
                                 write(
-                                    "default: return try await \$N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)",
+                                    "default: return try await \$N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)",
                                     unknownServiceErrorSymbol
                                 )
                             }

@@ -5,7 +5,6 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.knowledge.HttpBinding
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.traits.HttpQueryTrait
@@ -36,15 +35,6 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
     private fun writeNonStreamingMembers(members: Set<HttpBindingDescriptor>) {
         members.sortedBy { it.memberName }.forEach {
             MemberShapeDecodeXMLGenerator(ctx, writer, outputShape).render(it.member)
-        }
-    }
-
-    fun renderWithoutErrorResponseContainer(outputShape: Shape, bodyMembersWithoutQueryTrait: Set<String>) {
-        val outputShapeName = ctx.symbolProvider.toSymbol(outputShape).name
-        writer.addImport(AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
-        writer.write("// let output: \$N<${outputShapeName}Body> = try responseDecoder.decode(responseBody: data)", AWSClientRuntimeTypes.EC2Query.Ec2NarrowedResponse)
-        bodyMembersWithoutQueryTrait.sorted().forEach {
-            writer.write("// self.properties.$it = output.errors.error.$it")
         }
     }
 }
