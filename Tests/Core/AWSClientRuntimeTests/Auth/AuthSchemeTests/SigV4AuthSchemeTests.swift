@@ -306,7 +306,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         do {
-            let updatedProperties = sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
+            let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
             XCTAssertEqual(false, updatedProperties.get(key: AttributeKeys.useDoubleURIEncode))
         } catch {
             XCTFail()
