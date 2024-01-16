@@ -9,7 +9,7 @@ import Foundation
 import ClientRuntime
 
 public class SigV4Util {
-    static let signedBodyHeader = ["S3", "Glacier", "S3 Control"]
+    static let usesSignedBodyHeader = ["S3", "Glacier", "S3 Control"]
     static let forceUnsignedBodyForPresigningURL = [
         "S3": ["getObject", "putObject"]
     ]
@@ -21,7 +21,7 @@ public class SigV4Util {
     }
 
     static func serviceUsesSignedBodyHeader(serviceName: String) -> Bool {
-        return signedBodyHeader.contains(serviceName)
+        return usesSignedBodyHeader.contains(serviceName)
     }
 
     static func setS3SpecificFlags(signingProperties: inout Attributes, serviceName: String) {

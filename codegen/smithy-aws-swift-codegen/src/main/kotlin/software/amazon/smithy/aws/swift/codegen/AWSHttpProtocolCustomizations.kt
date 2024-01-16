@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -28,8 +27,8 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
         writer.write("  .withIdentityResolver(value: config.credentialsProvider, type: IdentityKind.aws)")
         writer.write("  .withRegion(value: config.region)")
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
-            val signingName = AWSSigningMiddleware.signingServiceName(serviceShape)
+        if (SigV4Utils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
+            val signingName = SigV4Utils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }

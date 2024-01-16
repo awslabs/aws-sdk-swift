@@ -1,6 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
+import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -93,9 +94,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
-                        // sigv4a trait is not yet implemented by Smithy
-                        // This is a SDK-level customization until the trait is added
-                        write("var sigV4Option = AuthOption(schemeID: \"${SigV4Trait.ID}a\")")
+                        write("var sigV4Option = AuthOption(schemeID: \"${SigV4ATrait.ID}\")")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])")
                         write("validAuthOptions.append(sigV4Option)")

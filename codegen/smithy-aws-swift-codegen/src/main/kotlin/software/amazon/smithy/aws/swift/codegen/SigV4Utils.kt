@@ -3,62 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.middleware
+package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Signing.SigV4Config
-import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
-import software.amazon.smithy.aws.swift.codegen.SigV4Configurator
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
-import software.amazon.smithy.codegen.core.SymbolProvider
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
-import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
-import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-open class AWSSigningMiddleware(
-    val model: Model,
-    val symbolProvider: SymbolProvider,
-    val params: AWSSigningParams
-) : MiddlewareRenderable {
-
-    override val name = "AWSSigningMiddleware"
-
-    override val middlewareStep = MiddlewareStep.FINALIZESTEP
-
-    override val position = MiddlewarePosition.BEFORE
-
-    override fun render(
-        ctx: ProtocolGenerator.GenerationContext,
-        writer: SwiftWriter,
-        op: OperationShape,
-        operationStackName: String,
-    ) {
-        renderConfigDeclaration(writer)
-        val output = MiddlewareShapeUtils.outputSymbol(symbolProvider, model, op)
-        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
-        writer.write(
-            "$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>(config: sigv4Config))",
-            AWSClientRuntimeTypes.Signing.SigV4Middleware,
-            output
-        )
-    }
-
-    private fun renderConfigDeclaration(writer: SwiftWriter) {
-        writer.addImport(SigV4Config)
-        val paramString = SigV4Configurator(params).swiftParamsString
-        writer.write("let sigv4Config = \$N(\$L)", SigV4Config, paramString)
-    }
-
+open class SigV4Utils() {
     companion object {
         /**
          * Returns if the SigV4Trait is a auth scheme supported by the service.
