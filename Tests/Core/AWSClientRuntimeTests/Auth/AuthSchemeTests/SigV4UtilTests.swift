@@ -50,4 +50,29 @@ class SigV4UtilTests: XCTestCase {
     func testUseSignedBodyHeaderIsTrueWhenServiceIsNotApplicable() {
         XCTAssertFalse(SigV4Util.serviceUsesSignedBodyHeader(serviceName: "RandomService"))
     }
+
+    // Test setS3SpecificFlags
+    func testUseDoubleURIEncodeSetToFalseIfS3() {
+        var config = Attributes()
+        SigV4Util.setS3SpecificFlags(signingProperties: &config, serviceName: "S3")
+        XCTAssertFalse(config.get(key: AttributeKeys.useDoubleURIEncode)!)
+    }
+
+    func testUseDoubleURIEncodeSetToTrueIfNotS3() {
+        var config = Attributes()
+        SigV4Util.setS3SpecificFlags(signingProperties: &config, serviceName: "Test")
+        XCTAssertTrue(config.get(key: AttributeKeys.useDoubleURIEncode)!)
+    }
+
+    func testShouldNormalizeURIPathSetToFalseIfS3() {
+        var config = Attributes()
+        SigV4Util.setS3SpecificFlags(signingProperties: &config, serviceName: "S3")
+        XCTAssertFalse(config.get(key: AttributeKeys.shouldNormalizeURIPath)!)
+    }
+
+    func testShouldNormalizeURIPathSetToTrueIfNotS3() {
+        var config = Attributes()
+        SigV4Util.setS3SpecificFlags(signingProperties: &config, serviceName: "Test")
+        XCTAssertTrue(config.get(key: AttributeKeys.shouldNormalizeURIPath)!)
+    }
 }
