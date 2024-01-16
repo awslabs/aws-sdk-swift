@@ -174,7 +174,7 @@ extension AWSClientConfiguration {
         if let region = region {
             resolvedRegion = region
         } else {
-            resolvedRegion = await resolvedRegionResolver.resolveRegion()
+            resolvedRegion = await resolvedRegionResolver.getRegion()
         }
         let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
         if let credentialsProvider = credentialsProvider {

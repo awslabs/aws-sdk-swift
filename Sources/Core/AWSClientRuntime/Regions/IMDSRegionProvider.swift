@@ -14,7 +14,7 @@ public struct IMDSRegionProvider: RegionProvider {
         self.imdsClient = try IMDSClient()
     }
 
-    public func resolveRegion() async throws -> String? {
+    public func getRegion() async throws -> String? {
         return try await imdsClient.get(path: REGION_PATH)
     }
 }

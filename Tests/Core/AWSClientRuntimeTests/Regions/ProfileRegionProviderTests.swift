@@ -23,7 +23,7 @@ class ProfileRegionProviderTests: XCTestCase {
             fileBasedConfigurationProvider: fileBasedConfigProvider,
             configFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-east-2")
     }
     
@@ -33,7 +33,7 @@ class ProfileRegionProviderTests: XCTestCase {
             profileName: "west",
             configFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-west-2")
     }
     
@@ -44,7 +44,7 @@ class ProfileRegionProviderTests: XCTestCase {
             },
             credentialsFilePath: configPath
         )
-        let region = try! await provider.resolveRegion()
+        let region = try! await provider.getRegion()
         XCTAssertEqual(region, "us-east-2")
     }
 }
