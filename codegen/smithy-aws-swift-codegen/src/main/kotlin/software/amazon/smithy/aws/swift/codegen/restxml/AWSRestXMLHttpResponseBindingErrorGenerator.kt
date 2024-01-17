@@ -114,7 +114,7 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                                 }
                                 if (ctx.service.errors.isNotEmpty()) {
                                     openBlock(
-                                        "if let serviceError = try await \$NTypes.responseServiceErrorBinding(httpResponse, errorBodyReader)",
+                                        "if let serviceError = try await \$NTypes.responseServiceErrorBinding(httpResponse, errorBodyReader) {",
                                         "}",
                                         ctx.symbolProvider.toSymbol(ctx.service),
                                     ) {

@@ -21,20 +21,10 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
     val writer: SwiftWriter
 ) : HttpResponseBindingRenderable {
     override fun render() {
-        val bodyMembers = responseBindings.filter { it.location == HttpBinding.Location.DOCUMENT }
-
-        val bodyMembersWithoutQueryTrait = bodyMembers
+        val bodyMembersWithoutQueryTrait = responseBindings.filter { it.location == HttpBinding.Location.DOCUMENT }
             .filter { !it.member.hasTrait(HttpQueryTrait::class.java) }
             .toMutableSet()
-
-        if (bodyMembersWithoutQueryTrait.isNotEmpty()) {
-            writeNonStreamingMembers(bodyMembersWithoutQueryTrait)
-        }
-    }
-
-    private fun writeNonStreamingMembers(members: Set<HttpBindingDescriptor>) {
-        members.sortedBy { it.memberName }.forEach {
-            MemberShapeDecodeXMLGenerator(ctx, writer, outputShape).render(it.member)
-        }
+        val generator = MemberShapeDecodeXMLGenerator(ctx, writer, outputShape)
+        bodyMembersWithoutQueryTrait.sortedBy { it.memberName }.forEach { generator.render(it.member) }
     }
 }

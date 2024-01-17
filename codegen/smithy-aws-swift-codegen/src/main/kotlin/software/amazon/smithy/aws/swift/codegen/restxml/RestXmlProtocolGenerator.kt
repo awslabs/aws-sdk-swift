@@ -35,10 +35,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     )
     override val shouldRenderDecodableBodyStructForInputShapes = false
     override val shouldRenderCodingKeysForEncodable = false
-    override val testsToIgnore = setOf(
+    override val testsToIgnore: Set<String> = setOf(
         "S3DefaultAddressing",
         "S3VirtualHostAddressing",
-        "S3PathAddressing",
         "S3VirtualHostDualstackAddressing",
         "S3VirtualHostAccelerateAddressing",
         "S3VirtualHostDualstackAccelerateAddressing",

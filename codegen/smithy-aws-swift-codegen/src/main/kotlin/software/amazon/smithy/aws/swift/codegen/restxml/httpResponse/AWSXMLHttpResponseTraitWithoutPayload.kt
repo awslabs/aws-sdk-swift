@@ -25,7 +25,7 @@ class AWSXMLHttpResponseTraitWithoutPayload(
             .filter { !it.member.hasTrait(HttpQueryTrait::class.java) }
             .map { it.member }
             .toSet()
-        val memberWriter = MemberShapeDecodeXMLGenerator(ctx, writer, outputShape)
-        bodyMembersWithoutQueryTrait.sorted().forEach { memberWriter.render(it) }
+        val generator = MemberShapeDecodeXMLGenerator(ctx, writer, outputShape)
+        bodyMembersWithoutQueryTrait.sortedBy { it.memberName }.forEach { generator.render(it) }
     }
 }

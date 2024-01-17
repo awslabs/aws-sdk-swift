@@ -12,23 +12,21 @@ class S3UnwrappedXMLOutputTraitTests {
     @Test
     fun `001 S3UnwrappedXmlOutputTrait`() {
         val context = setupTests("restxml/serde/s3unwrappedxmloutput.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/GetBucketLocationOutputBody+Decodable.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/GetBucketLocationOutput+HttpResponseBinding.swift")
 
-        val expectedContents =
-            """
-            extension GetBucketLocationOutputBody: Swift.Decodable {
-                enum CodingKeys: Swift.String, Swift.CodingKey {
-                    case locationConstraint = "LocationConstraint"
-                }
-            
-                public init(from decoder: Swift.Decoder) throws {
-                    var containerValues = try decoder.unkeyedContainer()
-                    let locationConstraintDecoded = try containerValues.decodeIfPresent(S3ClientTypes.BucketLocationConstraint.self)
-                    locationConstraint = locationConstraintDecoded
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension GetBucketLocationOutput {
 
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLocationOutput, SmithyXML.Reader> {
+        { httpResponse, responseReader in
+            let reader = responseReader.unwrap()
+            var value = GetBucketLocationOutput()
+            value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
+            return value
+        }
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

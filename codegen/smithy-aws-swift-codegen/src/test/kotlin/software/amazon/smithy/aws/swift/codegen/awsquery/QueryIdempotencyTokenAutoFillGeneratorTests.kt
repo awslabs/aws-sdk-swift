@@ -20,19 +20,22 @@ class QueryIdempotencyTokenAutoFillGeneratorTests {
         val context = setupTests("awsquery/query-idempotency-token.smithy", "aws.protocoltests.query#AwsQuery")
         val contents = getFileContents(context.manifest, "/Example/models/QueryIdempotencyTokenAutoFillInput+Encodable.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension QueryIdempotencyTokenAutoFillInput: Swift.Encodable {
-                public func encode(to encoder: Swift.Encoder) throws {
-                    var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-                    if let token = token {
-                        try container.encode(token, forKey: ClientRuntime.Key("token"))
-                    }
-                    try container.encode("QueryIdempotencyTokenAutoFill", forKey:ClientRuntime.Key("Action"))
-                    try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension QueryIdempotencyTokenAutoFillInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case token
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let token = token {
+            try container.encode(token, forKey: ClientRuntime.Key("token"))
+        }
+        try container.encode("QueryIdempotencyTokenAutoFill", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
