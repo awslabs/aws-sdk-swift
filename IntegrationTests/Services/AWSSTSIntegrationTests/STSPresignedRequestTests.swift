@@ -11,7 +11,7 @@ import ClientRuntime
 import AWSClientRuntime
 
 /// Tests presigned request using STS::getCallerIdentity.
-class STSTests: XCTestCase {
+class STSPresignedRequestTests: XCTestCase {
     private var stsConfig: STSClient.STSClientConfiguration!
 
     override func setUp() async throws {
