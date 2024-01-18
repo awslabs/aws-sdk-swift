@@ -381,6 +381,7 @@ extension ConnectParticipantClient: ConnectParticipantClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : An attachment with that identifier is already being uploaded.
     /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.

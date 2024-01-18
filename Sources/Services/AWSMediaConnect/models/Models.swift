@@ -3905,6 +3905,132 @@ enum DescribeFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeFlowSourceMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let flowArn = flowArn else {
+            return nil
+        }
+        return "/v1/flows/\(flowArn.urlPercentEncoding())/source-metadata"
+    }
+}
+
+public struct DescribeFlowSourceMetadataInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var flowArn: Swift.String?
+
+    public init(
+        flowArn: Swift.String? = nil
+    )
+    {
+        self.flowArn = flowArn
+    }
+}
+
+struct DescribeFlowSourceMetadataInputBody: Swift.Equatable {
+}
+
+extension DescribeFlowSourceMetadataInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeFlowSourceMetadataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeFlowSourceMetadataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.flowArn = output.flowArn
+            self.messages = output.messages
+            self.timestamp = output.timestamp
+            self.transportMediaInfo = output.transportMediaInfo
+        } else {
+            self.flowArn = nil
+            self.messages = nil
+            self.timestamp = nil
+            self.transportMediaInfo = nil
+        }
+    }
+}
+
+public struct DescribeFlowSourceMetadataOutput: Swift.Equatable {
+    /// The ARN of the flow that DescribeFlowSourceMetadata was performed on.
+    public var flowArn: Swift.String?
+    /// Provides a status code and message regarding issues found with the flow source metadata.
+    public var messages: [MediaConnectClientTypes.MessageDetail]?
+    /// The timestamp of the most recent change in metadata for this flow’s source.
+    public var timestamp: ClientRuntime.Date?
+    /// The metadata of the transport stream in the current flow's source.
+    public var transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo?
+
+    public init(
+        flowArn: Swift.String? = nil,
+        messages: [MediaConnectClientTypes.MessageDetail]? = nil,
+        timestamp: ClientRuntime.Date? = nil,
+        transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo? = nil
+    )
+    {
+        self.flowArn = flowArn
+        self.messages = messages
+        self.timestamp = timestamp
+        self.transportMediaInfo = transportMediaInfo
+    }
+}
+
+struct DescribeFlowSourceMetadataOutputBody: Swift.Equatable {
+    let flowArn: Swift.String?
+    let messages: [MediaConnectClientTypes.MessageDetail]?
+    let timestamp: ClientRuntime.Date?
+    let transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo?
+}
+
+extension DescribeFlowSourceMetadataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case messages = "messages"
+        case timestamp = "timestamp"
+        case transportMediaInfo = "transportMediaInfo"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let messagesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.MessageDetail?].self, forKey: .messages)
+        var messagesDecoded0:[MediaConnectClientTypes.MessageDetail]? = nil
+        if let messagesContainer = messagesContainer {
+            messagesDecoded0 = [MediaConnectClientTypes.MessageDetail]()
+            for structure0 in messagesContainer {
+                if let structure0 = structure0 {
+                    messagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        messages = messagesDecoded0
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let transportMediaInfoDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.TransportMediaInfo.self, forKey: .transportMediaInfo)
+        transportMediaInfo = transportMediaInfoDecoded
+    }
+}
+
+enum DescribeFlowSourceMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeGatewayInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let gatewayArn = gatewayArn else {
@@ -5483,6 +5609,53 @@ extension ForbiddenExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension MediaConnectClientTypes.FrameResolution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case frameHeight = "frameHeight"
+        case frameWidth = "frameWidth"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let frameHeight = self.frameHeight {
+            try encodeContainer.encode(frameHeight, forKey: .frameHeight)
+        }
+        if let frameWidth = self.frameWidth {
+            try encodeContainer.encode(frameWidth, forKey: .frameWidth)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let frameHeightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .frameHeight)
+        frameHeight = frameHeightDecoded
+        let frameWidthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .frameWidth)
+        frameWidth = frameWidthDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The frame resolution used by the video stream.
+    public struct FrameResolution: Swift.Equatable {
+        /// The number of pixels in the height of the video frame.
+        /// This member is required.
+        public var frameHeight: Swift.Int?
+        /// The number of pixels in the width of the video frame.
+        /// This member is required.
+        public var frameWidth: Swift.Int?
+
+        public init(
+            frameHeight: Swift.Int? = nil,
+            frameWidth: Swift.Int? = nil
+        )
+        {
+            self.frameHeight = frameHeight
+            self.frameWidth = frameWidth
+        }
+    }
+
 }
 
 extension MediaConnectClientTypes.Gateway: Swift.Codable {
@@ -11550,6 +11723,252 @@ extension MediaConnectClientTypes {
             self.sourceListenerAddress = sourceListenerAddress
             self.sourceListenerPort = sourceListenerPort
             self.streamId = streamId
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.TransportMediaInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case programs = "programs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let programs = programs {
+            var programsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .programs)
+            for transportstreamprogram0 in programs {
+                try programsContainer.encode(transportstreamprogram0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let programsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.TransportStreamProgram?].self, forKey: .programs)
+        var programsDecoded0:[MediaConnectClientTypes.TransportStreamProgram]? = nil
+        if let programsContainer = programsContainer {
+            programsDecoded0 = [MediaConnectClientTypes.TransportStreamProgram]()
+            for structure0 in programsContainer {
+                if let structure0 = structure0 {
+                    programsDecoded0?.append(structure0)
+                }
+            }
+        }
+        programs = programsDecoded0
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The metadata of the transport stream in the current flow's source.
+    public struct TransportMediaInfo: Swift.Equatable {
+        /// The list of transport stream programs in the current flow's source.
+        /// This member is required.
+        public var programs: [MediaConnectClientTypes.TransportStreamProgram]?
+
+        public init(
+            programs: [MediaConnectClientTypes.TransportStreamProgram]? = nil
+        )
+        {
+            self.programs = programs
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.TransportStream: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channels = "channels"
+        case codec = "codec"
+        case frameRate = "frameRate"
+        case frameResolution = "frameResolution"
+        case pid = "pid"
+        case sampleRate = "sampleRate"
+        case sampleSize = "sampleSize"
+        case streamType = "streamType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channels = self.channels {
+            try encodeContainer.encode(channels, forKey: .channels)
+        }
+        if let codec = self.codec {
+            try encodeContainer.encode(codec, forKey: .codec)
+        }
+        if let frameRate = self.frameRate {
+            try encodeContainer.encode(frameRate, forKey: .frameRate)
+        }
+        if let frameResolution = self.frameResolution {
+            try encodeContainer.encode(frameResolution, forKey: .frameResolution)
+        }
+        if let pid = self.pid {
+            try encodeContainer.encode(pid, forKey: .pid)
+        }
+        if let sampleRate = self.sampleRate {
+            try encodeContainer.encode(sampleRate, forKey: .sampleRate)
+        }
+        if let sampleSize = self.sampleSize {
+            try encodeContainer.encode(sampleSize, forKey: .sampleSize)
+        }
+        if let streamType = self.streamType {
+            try encodeContainer.encode(streamType, forKey: .streamType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .channels)
+        channels = channelsDecoded
+        let codecDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .codec)
+        codec = codecDecoded
+        let frameRateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .frameRate)
+        frameRate = frameRateDecoded
+        let frameResolutionDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.FrameResolution.self, forKey: .frameResolution)
+        frameResolution = frameResolutionDecoded
+        let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
+        pid = pidDecoded
+        let sampleRateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sampleRate)
+        sampleRate = sampleRateDecoded
+        let sampleSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sampleSize)
+        sampleSize = sampleSizeDecoded
+        let streamTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamType)
+        streamType = streamTypeDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The metadata of an elementary transport stream.
+    public struct TransportStream: Swift.Equatable {
+        /// The number of channels in the audio stream.
+        public var channels: Swift.Int?
+        /// The codec used by the stream.
+        public var codec: Swift.String?
+        /// The frame rate used by the video stream.
+        public var frameRate: Swift.String?
+        /// The frame resolution used by the video stream.
+        public var frameResolution: MediaConnectClientTypes.FrameResolution?
+        /// The Packet ID (PID) as it is reported in the Program Map Table.
+        /// This member is required.
+        public var pid: Swift.Int?
+        /// The sample rate used by the audio stream.
+        public var sampleRate: Swift.Int?
+        /// The sample bit size used by the audio stream.
+        public var sampleSize: Swift.Int?
+        /// The Stream Type as it is reported in the Program Map Table.
+        /// This member is required.
+        public var streamType: Swift.String?
+
+        public init(
+            channels: Swift.Int? = nil,
+            codec: Swift.String? = nil,
+            frameRate: Swift.String? = nil,
+            frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
+            pid: Swift.Int? = nil,
+            sampleRate: Swift.Int? = nil,
+            sampleSize: Swift.Int? = nil,
+            streamType: Swift.String? = nil
+        )
+        {
+            self.channels = channels
+            self.codec = codec
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.pid = pid
+            self.sampleRate = sampleRate
+            self.sampleSize = sampleSize
+            self.streamType = streamType
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.TransportStreamProgram: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pcrPid = "pcrPid"
+        case programName = "programName"
+        case programNumber = "programNumber"
+        case programPid = "programPid"
+        case streams = "streams"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pcrPid = self.pcrPid {
+            try encodeContainer.encode(pcrPid, forKey: .pcrPid)
+        }
+        if let programName = self.programName {
+            try encodeContainer.encode(programName, forKey: .programName)
+        }
+        if let programNumber = self.programNumber {
+            try encodeContainer.encode(programNumber, forKey: .programNumber)
+        }
+        if let programPid = self.programPid {
+            try encodeContainer.encode(programPid, forKey: .programPid)
+        }
+        if let streams = streams {
+            var streamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streams)
+            for transportstream0 in streams {
+                try streamsContainer.encode(transportstream0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pcrPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pcrPid)
+        pcrPid = pcrPidDecoded
+        let programNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .programName)
+        programName = programNameDecoded
+        let programNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programNumber)
+        programNumber = programNumberDecoded
+        let programPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programPid)
+        programPid = programPidDecoded
+        let streamsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.TransportStream?].self, forKey: .streams)
+        var streamsDecoded0:[MediaConnectClientTypes.TransportStream]? = nil
+        if let streamsContainer = streamsContainer {
+            streamsDecoded0 = [MediaConnectClientTypes.TransportStream]()
+            for structure0 in streamsContainer {
+                if let structure0 = structure0 {
+                    streamsDecoded0?.append(structure0)
+                }
+            }
+        }
+        streams = streamsDecoded0
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The metadata of a single transport stream program.
+    public struct TransportStreamProgram: Swift.Equatable {
+        /// The Program Clock Reference (PCR) Packet ID (PID) as it is reported in the Program Association Table.
+        /// This member is required.
+        public var pcrPid: Swift.Int?
+        /// The program name as it is reported in the Program Association Table.
+        public var programName: Swift.String?
+        /// The program number as it is reported in the Program Association Table.
+        /// This member is required.
+        public var programNumber: Swift.Int?
+        /// The program Packet ID (PID) as it is reported in the Program Association Table.
+        /// This member is required.
+        public var programPid: Swift.Int?
+        /// The list of elementary transport streams in the program. The list includes video, audio, and data streams.
+        /// This member is required.
+        public var streams: [MediaConnectClientTypes.TransportStream]?
+
+        public init(
+            pcrPid: Swift.Int? = nil,
+            programName: Swift.String? = nil,
+            programNumber: Swift.Int? = nil,
+            programPid: Swift.Int? = nil,
+            streams: [MediaConnectClientTypes.TransportStream]? = nil
+        )
+        {
+            self.pcrPid = pcrPid
+            self.programName = programName
+            self.programNumber = programNumber
+            self.programPid = programPid
+            self.streams = streams
         }
     }
 

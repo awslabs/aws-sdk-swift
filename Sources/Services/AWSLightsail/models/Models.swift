@@ -895,7 +895,7 @@ extension LightsailClientTypes {
         public var notificationTriggers: [LightsailClientTypes.AlarmState]?
         /// The period, in seconds, over which the statistic is applied.
         public var period: Swift.Int?
-        /// The Lightsail resource type (e.g., Alarm).
+        /// The Lightsail resource type of the alarm.
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The current state of the alarm. An alarm has the following possible states:
         ///
@@ -1311,10 +1311,10 @@ extension AttachDiskInput: ClientRuntime.URLPathProvider {
 public struct AttachDiskInput: Swift.Equatable {
     /// A Boolean value used to determine the automatic mounting of a storage volume to a virtual computer. The default value is False. This value only applies to Lightsail for Research resources.
     public var autoMounting: Swift.Bool?
-    /// The unique Lightsail disk name (e.g., my-disk).
+    /// The unique Lightsail disk name (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
-    /// The disk path to expose to the instance (e.g., /dev/xvdf).
+    /// The disk path to expose to the instance (/dev/xvdf).
     /// This member is required.
     public var diskPath: Swift.String?
     /// The name of the Lightsail instance where you want to utilize the storage disk.
@@ -1850,7 +1850,7 @@ extension LightsailClientTypes.AttachedDisk: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a block storage disk that is attached to an instance, and is included in an automatic snapshot.
     public struct AttachedDisk: Swift.Equatable {
-        /// The path of the disk (e.g., /dev/xvdf).
+        /// The path of the disk (/dev/xvdf).
         public var path: Swift.String?
         /// The size of the disk in GB.
         public var sizeInGb: Swift.Int?
@@ -2280,11 +2280,11 @@ extension LightsailClientTypes {
     public struct Blueprint: Swift.Equatable {
         /// Virtual computer blueprints that are supported by Lightsail for Research. This parameter only applies to Lightsail for Research resources.
         public var appCategory: LightsailClientTypes.AppCategory?
-        /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
+        /// The ID for the virtual private server image (app_wordpress_4_4 or app_lamp_7_0).
         public var blueprintId: Swift.String?
         /// The description of the blueprint.
         public var description: Swift.String?
-        /// The group name of the blueprint (e.g., amazon-linux).
+        /// The group name of the blueprint (amazon-linux).
         public var group: Swift.String?
         /// A Boolean value indicating whether the blueprint is active. Inactive blueprints are listed to support customers with existing instances but are not necessarily available for launch of new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
         public var isActive: Swift.Bool?
@@ -2292,15 +2292,15 @@ extension LightsailClientTypes {
         public var licenseUrl: Swift.String?
         /// The minimum bundle power required to run this blueprint. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500. 0 indicates that the blueprint runs on all instance sizes.
         public var minPower: Swift.Int?
-        /// The friendly name of the blueprint (e.g., Amazon Linux).
+        /// The friendly name of the blueprint (Amazon Linux).
         public var name: Swift.String?
         /// The operating system platform (either Linux/Unix-based or Windows Server-based) of the blueprint.
         public var platform: LightsailClientTypes.InstancePlatform?
         /// The product URL to learn more about the image or blueprint.
         public var productUrl: Swift.String?
-        /// The type of the blueprint (e.g., os or app).
+        /// The type of the blueprint (os or app).
         public var type: LightsailClientTypes.BlueprintType?
-        /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
+        /// The version number of the operating system, application, or stack ( 2016.03.0).
         public var version: Swift.String?
         /// The version code.
         public var versionCode: Swift.String?
@@ -2545,7 +2545,7 @@ extension LightsailClientTypes {
         public var objectVersioning: Swift.String?
         /// An array of strings that specify the Amazon Web Services account IDs that have read-only access to the bucket.
         public var readonlyAccessAccounts: [Swift.String]?
-        /// The Lightsail resource type of the bucket (for example, Bucket).
+        /// The Lightsail resource type of the bucket.
         public var resourceType: Swift.String?
         /// An array of objects that describe Lightsail instances that have access to the bucket. Use the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html) action to update the instances that have access to a bucket.
         public var resourcesReceivingAccess: [LightsailClientTypes.ResourceReceivingAccess]?
@@ -2932,29 +2932,29 @@ extension LightsailClientTypes.Bundle: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a bundle, which is a set of specs describing your virtual private server (or instance).
     public struct Bundle: Swift.Equatable {
-        /// The bundle ID (e.g., micro_1_0).
+        /// The bundle ID (micro_1_0).
         public var bundleId: Swift.String?
-        /// The number of vCPUs included in the bundle (e.g., 2).
+        /// The number of vCPUs included in the bundle (2).
         public var cpuCount: Swift.Int?
-        /// The size of the SSD (e.g., 30).
+        /// The size of the SSD (30).
         public var diskSizeInGb: Swift.Int?
-        /// The Amazon EC2 instance type (e.g., t2.micro).
+        /// The Amazon EC2 instance type (t2.micro).
         public var instanceType: Swift.String?
         /// A Boolean value indicating whether the bundle is active.
         public var isActive: Swift.Bool?
-        /// A friendly name for the bundle (e.g., Micro).
+        /// A friendly name for the bundle (Micro).
         public var name: Swift.String?
-        /// A numeric value that represents the power of the bundle (e.g., 500). You can use the bundle's power value in conjunction with a blueprint's minimum power value to determine whether the blueprint will run on the bundle. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500.
+        /// A numeric value that represents the power of the bundle (500). You can use the bundle's power value in conjunction with a blueprint's minimum power value to determine whether the blueprint will run on the bundle. For example, you need a bundle with a power value of 500 or more to create an instance that uses a blueprint with a minimum power value of 500.
         public var power: Swift.Int?
-        /// The price in US dollars (e.g., 5.0) of the bundle.
+        /// The price in US dollars (5.0) of the bundle.
         public var price: Swift.Float?
-        /// The amount of RAM in GB (e.g., 2.0).
+        /// The amount of RAM in GB (2.0).
         public var ramSizeInGb: Swift.Float?
         /// Virtual computer blueprints that are supported by a Lightsail for Research bundle. This parameter only applies to Lightsail for Research resources.
         public var supportedAppCategories: [LightsailClientTypes.AppCategory]?
         /// The operating system platform (Linux/Unix-based or Windows Server-based) that the bundle supports. You can only launch a WINDOWS bundle on a blueprint that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX bundle.
         public var supportedPlatforms: [LightsailClientTypes.InstancePlatform]?
-        /// The data transfer rate per month in GB (e.g., 2000).
+        /// The data transfer rate per month in GB (2000).
         public var transferPerMonthInGb: Swift.Int?
 
         public init(
@@ -3399,7 +3399,7 @@ extension LightsailClientTypes {
         public var issuerCA: Swift.String?
         /// The algorithm used to generate the key pair (the public and private key) of the certificate.
         public var keyAlgorithm: Swift.String?
-        /// The name of the certificate (e.g., my-certificate).
+        /// The name of the certificate (my-certificate).
         public var name: Swift.String?
         /// The timestamp when the certificate expires.
         public var notAfter: ClientRuntime.Date?
@@ -3427,7 +3427,7 @@ extension LightsailClientTypes {
         public var serialNumber: Swift.String?
         /// The validation status of the certificate.
         public var status: LightsailClientTypes.CertificateStatus?
-        /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) of the certificate.
+        /// An array of strings that specify the alternate domains (example2.com) and subdomains (blog.example.com) of the certificate.
         public var subjectAlternativeNames: [Swift.String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail certificate. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
@@ -3515,6 +3515,35 @@ extension LightsailClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CertificateDomainValidationStatus(rawValue: rawValue) ?? CertificateDomainValidationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LightsailClientTypes {
+    public enum CertificateProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case letsencrypt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateProvider] {
+            return [
+                .letsencrypt,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .letsencrypt: return "LetsEncrypt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateProvider(rawValue: rawValue) ?? CertificateProvider.sdkUnknown(rawValue)
         }
     }
 }
@@ -3857,7 +3886,7 @@ extension LightsailClientTypes {
         public var location: LightsailClientTypes.ResourceLocation?
         /// The name of the CloudFormation stack record. It starts with CloudFormationStackRecord followed by a GUID.
         public var name: Swift.String?
-        /// The Lightsail resource type (e.g., CloudFormationStackRecord).
+        /// The Lightsail resource type (CloudFormationStackRecord).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// A list of objects describing the source of the CloudFormation stack record.
         public var sourceInfo: [LightsailClientTypes.CloudFormationStackRecordSourceInfo]?
@@ -3926,7 +3955,7 @@ extension LightsailClientTypes {
         public var arn: Swift.String?
         /// The name of the record.
         public var name: Swift.String?
-        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
+        /// The Lightsail resource type (ExportSnapshotRecord).
         public var resourceType: LightsailClientTypes.CloudFormationStackRecordSourceType?
 
         public init(
@@ -4092,7 +4121,7 @@ extension LightsailClientTypes {
         public var name: Swift.String?
         /// The protocol of the contact method, such as email or SMS (text messaging).
         public var `protocol`: LightsailClientTypes.ContactProtocol?
-        /// The Lightsail resource type (e.g., ContactMethod).
+        /// The Lightsail resource type of the contact method.
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The current status of the contact method. A contact method has the following possible status:
         ///
@@ -4573,7 +4602,7 @@ extension LightsailClientTypes {
         public var privateRegistryAccess: LightsailClientTypes.PrivateRegistryAccess?
         /// The public domain name of the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service. You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. See CreateContainerService or UpdateContainerService for information about how to specify public domain names for your Lightsail container service.
         public var publicDomainNames: [Swift.String:[Swift.String]]?
-        /// The Lightsail resource type of the container service (i.e., ContainerService).
+        /// The Lightsail resource type of the container service.
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The scale specification of the container service. The scale specifies the allocated compute nodes of the container service.
         public var scale: Swift.Int?
@@ -4712,13 +4741,13 @@ extension LightsailClientTypes {
         public var publicEndpoint: LightsailClientTypes.ContainerServiceEndpoint?
         /// The state of the deployment. A deployment can be in one of the following states:
         ///
-        /// * Activating - The deployment is being created.
+        /// * ACTIVATING - The deployment is being created.
         ///
-        /// * Active - The deployment was successfully created, and it's currently running on the container service. The container service can have only one deployment in an active state at a time.
+        /// * ACTIVE - The deployment was successfully created, and it's currently running on the container service. The container service can have only one deployment in an active state at a time.
         ///
-        /// * Inactive - The deployment was previously successfully created, but it is not currently running on the container service.
+        /// * INACTIVE - The deployment was previously successfully created, but it is not currently running on the container service.
         ///
-        /// * Failed - The deployment failed. Use the GetContainerLog action to view the log events for the containers in the deployment to try to determine the reason for the failure.
+        /// * FAILED - The deployment failed. Use the GetContainerLog action to view the log events for the containers in the deployment to try to determine the reason for the failure.
         public var state: LightsailClientTypes.ContainerServiceDeploymentState?
         /// The version number of the deployment.
         public var version: Swift.Int?
@@ -5189,9 +5218,9 @@ extension LightsailClientTypes {
         public var cpuCount: Swift.Float?
         /// A Boolean value indicating whether the power is active and can be specified for container services.
         public var isActive: Swift.Bool?
-        /// The friendly name of the power (e.g., nano).
+        /// The friendly name of the power (nano).
         public var name: Swift.String?
-        /// The ID of the power (e.g., nano-1).
+        /// The ID of the power (nano-1).
         public var powerId: Swift.String?
         /// The monthly price of the power in USD.
         public var price: Swift.Float?
@@ -6171,10 +6200,10 @@ public struct CreateCertificateInput: Swift.Equatable {
     /// The name for the certificate.
     /// This member is required.
     public var certificateName: Swift.String?
-    /// The domain name (e.g., example.com) for the certificate.
+    /// The domain name (example.com) for the certificate.
     /// This member is required.
     public var domainName: Swift.String?
-    /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate. You can specify a maximum of nine alternate domains (in addition to the primary domain name). Wildcard domain entries (e.g., *.example.com) are not supported.
+    /// An array of strings that specify the alternate domains (example2.com) and subdomains (blog.example.com) for the certificate. You can specify a maximum of nine alternate domains (in addition to the primary domain name). Wildcard domain entries (*.example.com) are not supported.
     public var subjectAlternativeNames: [Swift.String]?
     /// The tag keys and optional values to add to the certificate during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
@@ -7073,13 +7102,13 @@ extension CreateDiskFromSnapshotInput: ClientRuntime.URLPathProvider {
 public struct CreateDiskFromSnapshotInput: Swift.Equatable {
     /// An array of objects that represent the add-ons to enable for the new disk.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
-    /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+    /// The Availability Zone where you want to create the disk (us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to create the disk. Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The unique Lightsail disk name (e.g., my-disk).
+    /// The unique Lightsail disk name (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
-    /// The name of the disk snapshot (e.g., my-snapshot) from which to create the new storage disk. Constraint:
+    /// The name of the disk snapshot (my-snapshot) from which to create the new storage disk. Constraint:
     ///
     /// * This parameter cannot be defined together with the source disk name parameter. The disk snapshot name and source disk name parameters are mutually exclusive.
     public var diskSnapshotName: Swift.String?
@@ -7091,7 +7120,7 @@ public struct CreateDiskFromSnapshotInput: Swift.Equatable {
     ///
     /// * Define this parameter only when creating a new disk from an automatic snapshot. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
     public var restoreDate: Swift.String?
-    /// The size of the disk in GB (e.g., 32).
+    /// The size of the disk in GB (32).
     /// This member is required.
     public var sizeInGb: Swift.Int?
     /// The name of the source disk from which the source automatic snapshot was created. Constraints:
@@ -7309,13 +7338,13 @@ extension CreateDiskInput: ClientRuntime.URLPathProvider {
 public struct CreateDiskInput: Swift.Equatable {
     /// An array of objects that represent the add-ons to enable for the new disk.
     public var addOns: [LightsailClientTypes.AddOnRequest]?
-    /// The Availability Zone where you want to create the disk (e.g., us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available.
+    /// The Availability Zone where you want to create the disk (us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to attach the disk. Use the get regions operation to list the Availability Zones where Lightsail is currently available.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The unique Lightsail disk name (e.g., my-disk).
+    /// The unique Lightsail disk name (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
-    /// The size of the disk in GB (e.g., 32).
+    /// The size of the disk in GB (32).
     /// This member is required.
     public var sizeInGb: Swift.Int?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -7488,12 +7517,12 @@ extension CreateDiskSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDiskSnapshotInput: Swift.Equatable {
-    /// The unique name of the source disk (e.g., Disk-Virginia-1). This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive.
+    /// The unique name of the source disk (Disk-Virginia-1). This parameter cannot be defined together with the instance name parameter. The disk name and instance name parameters are mutually exclusive.
     public var diskName: Swift.String?
-    /// The name of the destination disk snapshot (e.g., my-disk-snapshot) based on the source disk.
+    /// The name of the destination disk snapshot (my-disk-snapshot) based on the source disk.
     /// This member is required.
     public var diskSnapshotName: Swift.String?
-    /// The unique name of the source instance (e.g., Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system volume is created. This parameter cannot be defined together with the disk name parameter. The instance name and disk name parameters are mutually exclusive.
+    /// The unique name of the source instance (Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system volume is created. This parameter cannot be defined together with the disk name parameter. The instance name and disk name parameters are mutually exclusive.
     public var instanceName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
@@ -7867,7 +7896,7 @@ public struct CreateDomainEntryInput: Swift.Equatable {
     /// An array of key-value pairs containing information about the domain entry request.
     /// This member is required.
     public var domainEntry: LightsailClientTypes.DomainEntry?
-    /// The domain name (e.g., example.com) for which you want to create the domain entry.
+    /// The domain name (example.com) for which you want to create the domain entry.
     /// This member is required.
     public var domainName: Swift.String?
 
@@ -7985,7 +8014,7 @@ extension CreateDomainInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDomainInput: Swift.Equatable {
-    /// The domain name to manage (e.g., example.com).
+    /// The domain name to manage (example.com).
     /// This member is required.
     public var domainName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -8480,7 +8509,7 @@ public struct CreateInstancesFromSnapshotInput: Swift.Equatable {
     /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of Availability Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html) operation. Be sure to add the include Availability Zones parameter to your request.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
+    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
     /// This member is required.
     public var bundleId: Swift.String?
     /// The names for your new instances.
@@ -8794,13 +8823,13 @@ public struct CreateInstancesInput: Swift.Equatable {
     /// The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of Availability Zones by using the [get regions](http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html) operation. Be sure to add the include Availability Zones parameter to your request.
     /// This member is required.
     public var availabilityZone: Swift.String?
-    /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints). Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
+    /// The ID for a virtual private server image (app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints). Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
     /// This member is required.
     public var blueprintId: Swift.String?
-    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
+    /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (micro_1_0).
     /// This member is required.
     public var bundleId: Swift.String?
-    /// (Deprecated) The name for your custom image. In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated.
+    /// (Discontinued) The name for your custom image. In releases prior to June 12, 2017, this parameter was ignored by the API. It is now discontinued.
     @available(*, deprecated)
     public var customImageName: Swift.String?
     /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
@@ -9203,13 +9232,13 @@ extension CreateLoadBalancerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLoadBalancerInput: Swift.Equatable {
-    /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
+    /// The optional alternative domains and subdomains to use with your SSL/TLS certificate (www.example.com, example.com, m.example.com, blog.example.com).
     public var certificateAlternativeNames: [Swift.String]?
-    /// The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
+    /// The domain name with which your certificate is associated (example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
     public var certificateDomainName: Swift.String?
     /// The name of the SSL/TLS certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
     public var certificateName: Swift.String?
-    /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., "/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
+    /// The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website ("/"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
     public var healthCheckPath: Swift.String?
     /// The instance port where you're creating your load balancer.
     /// This member is required.
@@ -9422,9 +9451,9 @@ extension CreateLoadBalancerTlsCertificateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLoadBalancerTlsCertificateInput: Swift.Equatable {
-    /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com).
+    /// An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (*.example.com).
     public var certificateAlternativeNames: [Swift.String]?
-    /// The domain name (e.g., example.com) for your SSL/TLS certificate.
+    /// The domain name (example.com) for your SSL/TLS certificate.
     /// This member is required.
     public var certificateDomainName: Swift.String?
     /// The SSL/TLS certificate name. You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more information, see [Limits](http://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html).
@@ -11172,7 +11201,7 @@ extension DeleteDiskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDiskInput: Swift.Equatable {
-    /// The unique name of the disk you want to delete (e.g., my-disk).
+    /// The unique name of the disk you want to delete (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
     /// A Boolean value to indicate whether to delete all add-ons for the disk.
@@ -11294,7 +11323,7 @@ extension DeleteDiskSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDiskSnapshotInput: Swift.Equatable {
-    /// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
+    /// The name of the disk snapshot you want to delete (my-disk-snapshot).
     /// This member is required.
     public var diskSnapshotName: Swift.String?
 
@@ -12863,7 +12892,7 @@ extension DetachDiskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DetachDiskInput: Swift.Equatable {
-    /// The unique name of the disk you want to detach from your instance (e.g., my-disk).
+    /// The unique name of the disk you want to detach from your instance (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
 
@@ -13490,14 +13519,14 @@ extension LightsailClientTypes {
         public var arn: Swift.String?
         /// The resources to which the disk is attached.
         public var attachedTo: Swift.String?
-        /// (Deprecated) The attachment state of the disk. In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now deprecated, but still included in the response. Use isAttached instead.
+        /// (Discontinued) The attachment state of the disk. In releases prior to November 14, 2017, this parameter returned attached for system disks in the API response. It is now discontinued, but still included in the response. Use isAttached instead.
         @available(*, deprecated)
         public var attachmentState: Swift.String?
         /// The status of automatically mounting a storage disk to a virtual computer. This parameter only applies to Lightsail for Research resources.
         public var autoMountStatus: LightsailClientTypes.AutoMountStatus?
         /// The date when the disk was created.
         public var createdAt: ClientRuntime.Date?
-        /// (Deprecated) The number of GB in use by the disk. In releases prior to November 14, 2017, this parameter was not included in the API response. It is now deprecated.
+        /// (Discontinued) The number of GB in use by the disk. In releases prior to November 14, 2017, this parameter was not included in the API response. It is now discontinued.
         @available(*, deprecated)
         public var gbInUse: Swift.Int?
         /// The input/output operations per second (IOPS) of the disk.
@@ -13512,7 +13541,7 @@ extension LightsailClientTypes {
         public var name: Swift.String?
         /// The disk path.
         public var path: Swift.String?
-        /// The Lightsail resource type (e.g., Disk).
+        /// The Lightsail resource type (Disk).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The size of the disk in GB.
         public var sizeInGb: Swift.Int?
@@ -13613,7 +13642,7 @@ extension LightsailClientTypes {
         public var name: Swift.String?
         /// The disk path.
         public var path: Swift.String?
-        /// The size of the disk in GB (e.g., 32).
+        /// The size of the disk in GB (32).
         public var sizeInGb: Swift.Int?
 
         public init(
@@ -13660,7 +13689,7 @@ extension LightsailClientTypes.DiskMap: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a block storage disk mapping.
     public struct DiskMap: Swift.Equatable {
-        /// The new disk name (e.g., my-new-disk).
+        /// The new disk name (my-new-disk).
         public var newDiskName: Swift.String?
         /// The original disk path exposed to the instance (for example, /dev/sdh).
         public var originalDiskPath: Swift.String?
@@ -13811,11 +13840,11 @@ extension LightsailClientTypes {
         public var isFromAutoSnapshot: Swift.Bool?
         /// The AWS Region and Availability Zone where the disk snapshot was created.
         public var location: LightsailClientTypes.ResourceLocation?
-        /// The name of the disk snapshot (e.g., my-disk-snapshot).
+        /// The name of the disk snapshot (my-disk-snapshot).
         public var name: Swift.String?
         /// The progress of the snapshot.
         public var progress: Swift.String?
-        /// The Lightsail resource type (e.g., DiskSnapshot).
+        /// The Lightsail resource type (DiskSnapshot).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The size of the disk in GB.
         public var sizeInGb: Swift.Int?
@@ -13886,7 +13915,7 @@ extension LightsailClientTypes.DiskSnapshotInfo: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a disk snapshot.
     public struct DiskSnapshotInfo: Swift.Equatable {
-        /// The size of the disk in GB (e.g., 32).
+        /// The size of the disk in GB (32).
         public var sizeInGb: Swift.Int?
 
         public init(
@@ -14277,7 +14306,7 @@ extension LightsailClientTypes.Domain: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a domain where you are storing recordsets.
     public struct Domain: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the domain recordset (arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
         public var arn: Swift.String?
         /// The date when the domain recordset was created.
         public var createdAt: ClientRuntime.Date?
@@ -14392,10 +14421,10 @@ extension LightsailClientTypes {
         public var isAlias: Swift.Bool?
         /// The name of the domain.
         public var name: Swift.String?
-        /// (Deprecated) The options for the domain entry. In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated.
+        /// (Discontinued) The options for the domain entry. In releases prior to November 29, 2017, this parameter was not included in the API response. It is now discontinued.
         @available(*, deprecated)
         public var options: [Swift.String:Swift.String]?
-        /// The target IP address (e.g., 192.0.2.0), or AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. For Lightsail distributions, the value looks like exampled1182ne.cloudfront.net. For Lightsail container services, the value looks like container-service-1.example23scljs.us-west-2.cs.amazonlightsail.com. Be sure to also set isAlias to true when setting up an A record for a Lightsail load balancer, distribution, or container service.
+        /// The target IP address (192.0.2.0), or AWS name server (ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. For Lightsail distributions, the value looks like exampled1182ne.cloudfront.net. For Lightsail container services, the value looks like container-service-1.example23scljs.us-west-2.cs.amazonlightsail.com. Be sure to also set isAlias to true when setting up an A record for a Lightsail load balancer, distribution, or container service.
         public var target: Swift.String?
         /// The type of domain entry, such as address for IPv4 (A), address for IPv6 (AAAA), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:
         ///
@@ -15052,7 +15081,7 @@ extension LightsailClientTypes {
         public var location: LightsailClientTypes.ResourceLocation?
         /// The export snapshot record name.
         public var name: Swift.String?
-        /// The Lightsail resource type (e.g., ExportSnapshotRecord).
+        /// The Lightsail resource type (ExportSnapshotRecord).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// A list of objects describing the source of the export snapshot record.
         public var sourceInfo: LightsailClientTypes.ExportSnapshotRecordSourceInfo?
@@ -15161,7 +15190,7 @@ extension LightsailClientTypes {
         public var instanceSnapshotInfo: LightsailClientTypes.InstanceSnapshotInfo?
         /// The name of the source instance or disk snapshot.
         public var name: Swift.String?
-        /// The Lightsail resource type (e.g., InstanceSnapshot or DiskSnapshot).
+        /// The Lightsail resource type (InstanceSnapshot or DiskSnapshot).
         public var resourceType: LightsailClientTypes.ExportSnapshotRecordSourceType?
 
         public init(
@@ -15593,7 +15622,7 @@ public struct GetAutoSnapshotsOutput: Swift.Equatable {
     public var autoSnapshots: [LightsailClientTypes.AutoSnapshotDetails]?
     /// The name of the source instance or disk for the automatic snapshots.
     public var resourceName: Swift.String?
-    /// The resource type (e.g., Instance or Disk).
+    /// The resource type of the automatic snapshot. The possible values are Instance, and Disk.
     public var resourceType: LightsailClientTypes.ResourceType?
 
     public init(
@@ -17963,7 +17992,7 @@ extension GetDiskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDiskInput: Swift.Equatable {
-    /// The name of the disk (e.g., my-disk).
+    /// The name of the disk (my-disk).
     /// This member is required.
     public var diskName: Swift.String?
 
@@ -18068,7 +18097,7 @@ extension GetDiskSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDiskSnapshotInput: Swift.Equatable {
-    /// The name of the disk snapshot (e.g., my-disk-snapshot).
+    /// The name of the disk snapshot (my-disk-snapshot).
     /// This member is required.
     public var diskSnapshotName: Swift.String?
 
@@ -18554,7 +18583,7 @@ extension GetDistributionLatestCacheResetOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct GetDistributionLatestCacheResetOutput: Swift.Equatable {
-    /// The timestamp of the last cache reset (e.g., 1479734909.17) in Unix time format.
+    /// The timestamp of the last cache reset (1479734909.17) in Unix time format.
     public var createTime: ClientRuntime.Date?
     /// The status of the last cache reset.
     public var status: Swift.String?
@@ -21506,7 +21535,7 @@ extension GetOperationsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetOperationsForResourceOutput: Swift.Equatable {
-    /// (Deprecated) Returns the number of pages of results that remain. In releases prior to June 12, 2017, this parameter returned null by the API. It is now deprecated, and the API returns the next page token parameter instead.
+    /// (Discontinued) Returns the number of pages of results that remain. In releases prior to June 12, 2017, this parameter returned null by the API. It is now discontinued, and the API returns the next page token parameter instead.
     @available(*, deprecated)
     public var nextPageCount: Swift.String?
     /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetOperationsForResource request and specify the next page token using the pageToken parameter.
@@ -21723,9 +21752,9 @@ extension GetRegionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRegionsInput: Swift.Equatable {
-    /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
+    /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a.
     public var includeAvailabilityZones: Swift.Bool?
-    /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
+    /// A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (us-east-2a).
     public var includeRelationalDatabaseAvailabilityZones: Swift.Bool?
 
     public init(
@@ -23515,6 +23544,140 @@ enum GetRelationalDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetSetupHistoryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pageToken
+        case resourceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pageToken = self.pageToken {
+            try encodeContainer.encode(pageToken, forKey: .pageToken)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+    }
+}
+
+extension GetSetupHistoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetSetupHistoryInput: Swift.Equatable {
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSetupHistory request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+    public var pageToken: Swift.String?
+    /// The name of the resource for which you are requesting information.
+    /// This member is required.
+    public var resourceName: Swift.String?
+
+    public init(
+        pageToken: Swift.String? = nil,
+        resourceName: Swift.String? = nil
+    )
+    {
+        self.pageToken = pageToken
+        self.resourceName = resourceName
+    }
+}
+
+struct GetSetupHistoryInputBody: Swift.Equatable {
+    let resourceName: Swift.String?
+    let pageToken: Swift.String?
+}
+
+extension GetSetupHistoryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pageToken
+        case resourceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+        let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
+        pageToken = pageTokenDecoded
+    }
+}
+
+extension GetSetupHistoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSetupHistoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextPageToken = output.nextPageToken
+            self.setupHistory = output.setupHistory
+        } else {
+            self.nextPageToken = nil
+            self.setupHistory = nil
+        }
+    }
+}
+
+public struct GetSetupHistoryOutput: Swift.Equatable {
+    /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetSetupHistory request and specify the next page token using the pageToken parameter.
+    public var nextPageToken: Swift.String?
+    /// The historical information that's returned.
+    public var setupHistory: [LightsailClientTypes.SetupHistory]?
+
+    public init(
+        nextPageToken: Swift.String? = nil,
+        setupHistory: [LightsailClientTypes.SetupHistory]? = nil
+    )
+    {
+        self.nextPageToken = nextPageToken
+        self.setupHistory = setupHistory
+    }
+}
+
+struct GetSetupHistoryOutputBody: Swift.Equatable {
+    let setupHistory: [LightsailClientTypes.SetupHistory]?
+    let nextPageToken: Swift.String?
+}
+
+extension GetSetupHistoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextPageToken
+        case setupHistory
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let setupHistoryContainer = try containerValues.decodeIfPresent([LightsailClientTypes.SetupHistory?].self, forKey: .setupHistory)
+        var setupHistoryDecoded0:[LightsailClientTypes.SetupHistory]? = nil
+        if let setupHistoryContainer = setupHistoryContainer {
+            setupHistoryDecoded0 = [LightsailClientTypes.SetupHistory]()
+            for structure0 in setupHistoryContainer {
+                if let structure0 = structure0 {
+                    setupHistoryDecoded0?.append(structure0)
+                }
+            }
+        }
+        setupHistory = setupHistoryDecoded0
+        let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
+        nextPageToken = nextPageTokenDecoded
+    }
+}
+
+enum GetSetupHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthenticatedException": return try await UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetStaticIpInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case staticIpName
@@ -24226,7 +24389,7 @@ extension LightsailClientTypes.InputOrigin: Swift.Codable {
 }
 
 extension LightsailClientTypes {
-    /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
+    /// Describes the origin resource of an Amazon Lightsail content delivery network (CDN) distribution. An origin can be a Lightsail instance, bucket, container service, or load balancer. A distribution pulls content from an origin, caches it, and serves it to viewers via a worldwide network of edge servers.
     public struct InputOrigin: Swift.Equatable {
         /// The name of the origin resource.
         public var name: Swift.String?
@@ -24435,15 +24598,15 @@ extension LightsailClientTypes {
     public struct Instance: Swift.Equatable {
         /// An array of objects representing the add-ons enabled on the instance.
         public var addOns: [LightsailClientTypes.AddOn]?
-        /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the instance (arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
         public var arn: Swift.String?
-        /// The blueprint ID (e.g., os_amlinux_2016_03).
+        /// The blueprint ID (os_amlinux_2016_03).
         public var blueprintId: Swift.String?
-        /// The friendly name of the blueprint (e.g., Amazon Linux).
+        /// The friendly name of the blueprint (Amazon Linux).
         public var blueprintName: Swift.String?
-        /// The bundle for the instance (e.g., micro_1_0).
+        /// The bundle for the instance (micro_1_0).
         public var bundleId: Swift.String?
-        /// The timestamp when the instance was created (e.g., 1479734909.17) in Unix time format.
+        /// The timestamp when the instance was created (1479734909.17) in Unix time format.
         public var createdAt: ClientRuntime.Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public var hardware: LightsailClientTypes.InstanceHardware?
@@ -24457,7 +24620,7 @@ extension LightsailClientTypes {
         public var location: LightsailClientTypes.ResourceLocation?
         /// The metadata options for the Amazon Lightsail instance.
         public var metadataOptions: LightsailClientTypes.InstanceMetadataOptions?
-        /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Ohio-1).
+        /// The name the user gave the instance (Amazon_Linux-1GB-Ohio-1).
         public var name: Swift.String?
         /// Information about the public ports and monthly data transfer rates for the instance.
         public var networking: LightsailClientTypes.InstanceNetworking?
@@ -24467,15 +24630,15 @@ extension LightsailClientTypes {
         public var publicIpAddress: Swift.String?
         /// The type of resource (usually Instance).
         public var resourceType: LightsailClientTypes.ResourceType?
-        /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
+        /// The name of the SSH key being used to connect to the instance (LightsailDefaultKeyPair).
         public var sshKeyName: Swift.String?
-        /// The status code and the state (e.g., running) for the instance.
+        /// The status code and the state (running) for the instance.
         public var state: LightsailClientTypes.InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
-        /// The user name for connecting to the instance (e.g., ec2-user).
+        /// The user name for connecting to the instance (ec2-user).
         public var username: Swift.String?
 
         public init(
@@ -24618,7 +24781,7 @@ extension LightsailClientTypes.InstanceAccessDetails: Swift.Codable {
 extension LightsailClientTypes {
     /// The parameters for gaining temporary access to one of your Amazon Lightsail instances.
     public struct InstanceAccessDetails: Swift.Equatable {
-        /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
+        /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (command line SSH), you should save this value to tempkey-cert.pub.
         public var certKey: Swift.String?
         /// For SSH access, the date on which the temporary keys expire.
         public var expiresAt: ClientRuntime.Date?
@@ -24632,7 +24795,7 @@ extension LightsailClientTypes {
         public var password: Swift.String?
         /// For a Windows Server-based instance, an object with the data you can use to retrieve your password. This is only needed if password is empty and the instance is not new (and therefore the password is not ready yet). When you create an instance, it can take up to 15 minutes for the instance to be ready.
         public var passwordData: LightsailClientTypes.PasswordData?
-        /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
+        /// For SSH access, the temporary private key. For OpenSSH clients (command line SSH), you should save this value to tempkey).
         public var privateKey: Swift.String?
         /// The protocol for these Amazon Lightsail instance access details.
         public var `protocol`: LightsailClientTypes.InstanceAccessProtocol?
@@ -24748,7 +24911,7 @@ extension LightsailClientTypes {
         /// The Availability Zone for the new Amazon EC2 instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
-        /// The instance type (e.g., t2.micro) to use for the new Amazon EC2 instance.
+        /// The instance type (t2.micro) to use for the new Amazon EC2 instance.
         /// This member is required.
         public var instanceType: Swift.String?
         /// The port configuration to use for the new Amazon EC2 instance. The following configuration options are available:
@@ -24839,7 +25002,7 @@ extension LightsailClientTypes {
         public var cpuCount: Swift.Int?
         /// The disks attached to the instance.
         public var disks: [LightsailClientTypes.Disk]?
-        /// The amount of RAM in GB on the instance (e.g., 1.0).
+        /// The amount of RAM in GB on the instance (1.0).
         public var ramSizeInGb: Swift.Float?
 
         public init(
@@ -25766,17 +25929,17 @@ extension LightsailClientTypes.InstanceSnapshot: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes an instance snapshot.
     public struct InstanceSnapshot: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the snapshot (arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
         public var arn: Swift.String?
-        /// The timestamp when the snapshot was created (e.g., 1479907467.024).
+        /// The timestamp when the snapshot was created (1479907467.024).
         public var createdAt: ClientRuntime.Date?
         /// An array of disk objects containing information about all block storage disks.
         public var fromAttachedDisks: [LightsailClientTypes.Disk]?
-        /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
+        /// The blueprint ID from which you created the snapshot (os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
         public var fromBlueprintId: Swift.String?
-        /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
+        /// The bundle ID from which you created the snapshot (micro_1_0).
         public var fromBundleId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
         public var fromInstanceArn: Swift.String?
         /// The instance from which the snapshot was created.
         public var fromInstanceName: Swift.String?
@@ -25885,9 +26048,9 @@ extension LightsailClientTypes.InstanceSnapshotInfo: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes an instance snapshot.
     public struct InstanceSnapshotInfo: Swift.Equatable {
-        /// The blueprint ID from which the source instance (e.g., os_debian_8_3).
+        /// The blueprint ID from which the source instance (os_debian_8_3).
         public var fromBlueprintId: Swift.String?
-        /// The bundle ID from which the source instance was created (e.g., micro_1_0).
+        /// The bundle ID from which the source instance was created (micro_1_0).
         public var fromBundleId: Swift.String?
         /// A list of objects describing the disks that were attached to the source instance.
         public var fromDiskInfo: [LightsailClientTypes.DiskInfo]?
@@ -25971,7 +26134,7 @@ extension LightsailClientTypes {
     public struct InstanceState: Swift.Equatable {
         /// The status code for the instance.
         public var code: Swift.Int?
-        /// The state of the instance (e.g., running or pending).
+        /// The state of the instance (running or pending).
         public var name: Swift.String?
 
         public init(
@@ -26261,9 +26424,9 @@ extension LightsailClientTypes.KeyPair: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes an SSH key pair.
     public struct KeyPair: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the key pair (arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
         public var arn: Swift.String?
-        /// The timestamp when the key pair was created (e.g., 1479816991.349).
+        /// The timestamp when the key pair was created (1479816991.349).
         public var createdAt: ClientRuntime.Date?
         /// The RSA fingerprint of the key pair.
         public var fingerprint: Swift.String?
@@ -26506,7 +26669,7 @@ extension LightsailClientTypes {
         public var origin: LightsailClientTypes.Origin?
         /// The public DNS of the origin.
         public var originPublicDNS: Swift.String?
-        /// The Lightsail resource type (e.g., Distribution).
+        /// The Lightsail resource type (Distribution).
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The status of the distribution.
         public var status: Swift.String?
@@ -26771,15 +26934,15 @@ extension LightsailClientTypes {
         public var instancePort: Swift.Int?
         /// The IP address type of the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.IpAddressType?
-        /// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
+        /// The AWS Region where your load balancer was created (us-east-2a). Lightsail automatically creates your load balancer across Availability Zones.
         public var location: LightsailClientTypes.ResourceLocation?
-        /// The name of the load balancer (e.g., my-load-balancer).
+        /// The name of the load balancer (my-load-balancer).
         public var name: Swift.String?
         /// The protocol you have enabled for your load balancer. Valid values are below. You can't just have HTTP_HTTPS, but you can have just HTTP.
         public var `protocol`: LightsailClientTypes.LoadBalancerProtocol?
         /// An array of public port settings for your load balancer. For HTTP, use port 80. For HTTPS, use port 443.
         public var publicPorts: [Swift.Int]?
-        /// The resource type (e.g., LoadBalancer.
+        /// The resource type (LoadBalancer.
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The status of your load balancer. Valid values are below.
         public var state: LightsailClientTypes.LoadBalancerState?
@@ -27248,7 +27411,7 @@ extension LightsailClientTypes {
         public var loadBalancerName: Swift.String?
         /// The Amazon Web Services Region and Availability Zone where you created your certificate.
         public var location: LightsailClientTypes.ResourceLocation?
-        /// The name of the SSL/TLS certificate (e.g., my-certificate).
+        /// The name of the SSL/TLS certificate (my-certificate).
         public var name: Swift.String?
         /// The timestamp when the SSL/TLS certificate expires.
         public var notAfter: ClientRuntime.Date?
@@ -27256,7 +27419,7 @@ extension LightsailClientTypes {
         public var notBefore: ClientRuntime.Date?
         /// An object that describes the status of the certificate renewal managed by Lightsail.
         public var renewalSummary: LightsailClientTypes.LoadBalancerTlsCertificateRenewalSummary?
-        /// The resource type (e.g., LoadBalancerTlsCertificate).
+        /// The resource type (LoadBalancerTlsCertificate).
         ///
         /// * Instance - A Lightsail instance (a virtual private server)
         ///
@@ -27290,7 +27453,7 @@ extension LightsailClientTypes {
         public var status: LightsailClientTypes.LoadBalancerTlsCertificateStatus?
         /// The name of the entity that is associated with the public key contained in the certificate.
         public var subject: Swift.String?
-        /// An array of strings that specify the alternate domains (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate.
+        /// An array of strings that specify the alternate domains (example2.com) and subdomains (blog.example.com) for the certificate.
         public var subjectAlternativeNames: [Swift.String]?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail load balancer or SSL/TLS certificate. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
@@ -28121,7 +28284,7 @@ extension LightsailClientTypes {
         public var sampleCount: Swift.Double?
         /// The sum.
         public var sum: Swift.Double?
-        /// The timestamp (e.g., 1479816991.349).
+        /// The timestamp (1479816991.349).
         public var timestamp: ClientRuntime.Date?
         /// The unit.
         public var unit: LightsailClientTypes.MetricUnit?
@@ -28904,7 +29067,7 @@ extension LightsailClientTypes.Operation: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes the API operation.
     public struct Operation: Swift.Equatable {
-        /// The timestamp when the operation was initialized (e.g., 1479816991.349).
+        /// The timestamp when the operation was initialized (1479816991.349).
         public var createdAt: ClientRuntime.Date?
         /// The error code.
         public var errorCode: Swift.String?
@@ -28916,7 +29079,7 @@ extension LightsailClientTypes {
         public var isTerminal: Swift.Bool?
         /// The Amazon Web Services Region and Availability Zone.
         public var location: LightsailClientTypes.ResourceLocation?
-        /// Details about the operation (e.g., Debian-1GB-Ohio-1).
+        /// Details about the operation (Debian-1GB-Ohio-1).
         public var operationDetails: Swift.String?
         /// The type of operation.
         public var operationType: LightsailClientTypes.OperationType?
@@ -28926,7 +29089,7 @@ extension LightsailClientTypes {
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The status of the operation.
         public var status: LightsailClientTypes.OperationStatus?
-        /// The timestamp when the status was changed (e.g., 1479816991.349).
+        /// The timestamp when the status was changed (1479816991.349).
         public var statusChangedAt: ClientRuntime.Date?
 
         public init(
@@ -29151,6 +29314,7 @@ extension LightsailClientTypes {
         case sendcontactmethodverification
         case setipaddresstype
         case setresourceaccessforbucket
+        case setupinstancehttps
         case startguisession
         case startinstance
         case startrelationaldatabase
@@ -29237,6 +29401,7 @@ extension LightsailClientTypes {
                 .sendcontactmethodverification,
                 .setipaddresstype,
                 .setresourceaccessforbucket,
+                .setupinstancehttps,
                 .startguisession,
                 .startinstance,
                 .startrelationaldatabase,
@@ -29328,6 +29493,7 @@ extension LightsailClientTypes {
             case .sendcontactmethodverification: return "SendContactMethodVerification"
             case .setipaddresstype: return "SetIpAddressType"
             case .setresourceaccessforbucket: return "SetResourceAccessForBucket"
+            case .setupinstancehttps: return "SetupInstanceHttps"
             case .startguisession: return "StartGUISession"
             case .startinstance: return "StartInstance"
             case .startrelationaldatabase: return "StartRelationalDatabase"
@@ -29402,7 +29568,7 @@ extension LightsailClientTypes {
         public var protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum?
         /// The AWS Region name of the origin resource.
         public var regionName: LightsailClientTypes.RegionName?
-        /// The resource type of the origin resource (e.g., Instance).
+        /// The resource type of the origin resource (Instance).
         public var resourceType: LightsailClientTypes.ResourceType?
 
         public init(
@@ -30971,13 +31137,13 @@ extension LightsailClientTypes {
     public struct Region: Swift.Equatable {
         /// The Availability Zones. Follows the format us-east-2a (case-sensitive).
         public var availabilityZones: [LightsailClientTypes.AvailabilityZone]?
-        /// The continent code (e.g., NA, meaning North America).
+        /// The continent code (NA, meaning North America).
         public var continentCode: Swift.String?
-        /// The description of the Amazon Web Services Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
+        /// The description of the Amazon Web Services Region (This region is recommended to serve users in the eastern United States and eastern Canada).
         public var description: Swift.String?
-        /// The display name (e.g., Ohio).
+        /// The display name (Ohio).
         public var displayName: Swift.String?
-        /// The region name (e.g., us-east-2).
+        /// The region name (us-east-2).
         public var name: LightsailClientTypes.RegionName?
         /// The Availability Zones for databases. Follows the format us-east-2a (case-sensitive).
         public var relationalDatabaseAvailabilityZones: [LightsailClientTypes.AvailabilityZone]?
@@ -32640,7 +32806,7 @@ extension ResetDistributionCacheOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ResetDistributionCacheOutput: Swift.Equatable {
-    /// The timestamp of the reset cache request (e.g., 1479734909.17) in Unix time format.
+    /// The timestamp of the reset cache request (1479734909.17) in Unix time format.
     public var createTime: ClientRuntime.Date?
     /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
@@ -33338,7 +33504,7 @@ public struct SetIpAddressTypeInput: Swift.Equatable {
     /// The name of the resource for which to set the IP address type.
     /// This member is required.
     public var resourceName: Swift.String?
-    /// The resource type. The possible values are Distribution, Instance, and LoadBalancer. Distribution-related APIs are available only in the N. Virginia (us-east-1) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions.
+    /// The resource type. The resource values are Distribution, Instance, and LoadBalancer. Distribution-related APIs are available only in the N. Virginia (us-east-1) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions.
     /// This member is required.
     public var resourceType: LightsailClientTypes.ResourceType?
 
@@ -33582,6 +33748,533 @@ enum SetResourceAccessForBucketOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthenticatedException": return try await UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension LightsailClientTypes.SetupExecutionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command
+        case dateTime
+        case name
+        case standardError
+        case standardOutput
+        case status
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = self.command {
+            try encodeContainer.encode(command, forKey: .command)
+        }
+        if let dateTime = self.dateTime {
+            try encodeContainer.encodeTimestamp(dateTime, format: .epochSeconds, forKey: .dateTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let standardError = self.standardError {
+            try encodeContainer.encode(standardError, forKey: .standardError)
+        }
+        if let standardOutput = self.standardOutput {
+            try encodeContainer.encode(standardOutput, forKey: .standardOutput)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commandDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .command)
+        command = commandDecoded
+        let dateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateTime)
+        dateTime = dateTimeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.SetupStatus.self, forKey: .status)
+        status = statusDecoded
+        let standardErrorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardError)
+        standardError = standardErrorDecoded
+        let standardOutputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardOutput)
+        standardOutput = standardOutputDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension LightsailClientTypes {
+    /// Returns details about the commands that were run.
+    public struct SetupExecutionDetails: Swift.Equatable {
+        /// The command that was executed.
+        public var command: Swift.String?
+        /// The timestamp for when the request was run.
+        public var dateTime: ClientRuntime.Date?
+        /// The name of the target resource.
+        public var name: Swift.String?
+        /// The text written by the command to stderr.
+        public var standardError: Swift.String?
+        /// The text written by the command to stdout.
+        public var standardOutput: Swift.String?
+        /// The status of the SetupInstanceHttps request.
+        public var status: LightsailClientTypes.SetupStatus?
+        /// The current version of the script..
+        public var version: Swift.String?
+
+        public init(
+            command: Swift.String? = nil,
+            dateTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            standardError: Swift.String? = nil,
+            standardOutput: Swift.String? = nil,
+            status: LightsailClientTypes.SetupStatus? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.command = command
+            self.dateTime = dateTime
+            self.name = name
+            self.standardError = standardError
+            self.standardOutput = standardOutput
+            self.status = status
+            self.version = version
+        }
+    }
+
+}
+
+extension LightsailClientTypes.SetupHistory: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionDetails
+        case operationId
+        case request
+        case resource
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionDetails = executionDetails {
+            var executionDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .executionDetails)
+            for setupexecutiondetails0 in executionDetails {
+                try executionDetailsContainer.encode(setupexecutiondetails0)
+            }
+        }
+        if let operationId = self.operationId {
+            try encodeContainer.encode(operationId, forKey: .operationId)
+        }
+        if let request = self.request {
+            try encodeContainer.encode(request, forKey: .request)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
+        operationId = operationIdDecoded
+        let requestDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.SetupRequest.self, forKey: .request)
+        request = requestDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.SetupHistoryResource.self, forKey: .resource)
+        resource = resourceDecoded
+        let executionDetailsContainer = try containerValues.decodeIfPresent([LightsailClientTypes.SetupExecutionDetails?].self, forKey: .executionDetails)
+        var executionDetailsDecoded0:[LightsailClientTypes.SetupExecutionDetails]? = nil
+        if let executionDetailsContainer = executionDetailsContainer {
+            executionDetailsDecoded0 = [LightsailClientTypes.SetupExecutionDetails]()
+            for structure0 in executionDetailsContainer {
+                if let structure0 = structure0 {
+                    executionDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        executionDetails = executionDetailsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.SetupStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension LightsailClientTypes {
+    /// Returns a list of the commands that were ran on the target resource. The status of each command is also returned.
+    public struct SetupHistory: Swift.Equatable {
+        /// Describes the full details of the request.
+        public var executionDetails: [LightsailClientTypes.SetupExecutionDetails]?
+        /// A GUID that's used to identify the operation.
+        public var operationId: Swift.String?
+        /// Information about the specified request.
+        public var request: LightsailClientTypes.SetupRequest?
+        /// The target resource name for the request.
+        public var resource: LightsailClientTypes.SetupHistoryResource?
+        /// The status of the request.
+        public var status: LightsailClientTypes.SetupStatus?
+
+        public init(
+            executionDetails: [LightsailClientTypes.SetupExecutionDetails]? = nil,
+            operationId: Swift.String? = nil,
+            request: LightsailClientTypes.SetupRequest? = nil,
+            resource: LightsailClientTypes.SetupHistoryResource? = nil,
+            status: LightsailClientTypes.SetupStatus? = nil
+        )
+        {
+            self.executionDetails = executionDetails
+            self.operationId = operationId
+            self.request = request
+            self.resource = resource
+            self.status = status
+        }
+    }
+
+}
+
+extension LightsailClientTypes.SetupHistoryResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createdAt
+        case location
+        case name
+        case resourceType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let location = self.location {
+            try encodeContainer.encode(location, forKey: .location)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let locationDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.ResourceLocation.self, forKey: .location)
+        location = locationDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.ResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension LightsailClientTypes {
+    /// The Lightsail resource that SetupHistory was ran on.
+    public struct SetupHistoryResource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Lightsail resource.
+        public var arn: Swift.String?
+        /// The timestamp for when the resource was created.
+        public var createdAt: ClientRuntime.Date?
+        /// Describes the resource location.
+        public var location: LightsailClientTypes.ResourceLocation?
+        /// The name of the Lightsail resource.
+        public var name: Swift.String?
+        /// The Lightsail resource type. For example, Instance.
+        public var resourceType: LightsailClientTypes.ResourceType?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            location: LightsailClientTypes.ResourceLocation? = nil,
+            name: Swift.String? = nil,
+            resourceType: LightsailClientTypes.ResourceType? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.location = location
+            self.name = name
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension SetupInstanceHttpsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SetupInstanceHttpsInput(certificateProvider: \(Swift.String(describing: certificateProvider)), domainNames: \(Swift.String(describing: domainNames)), instanceName: \(Swift.String(describing: instanceName)), emailAddress: \"CONTENT_REDACTED\")"}
+}
+
+extension SetupInstanceHttpsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProvider
+        case domainNames
+        case emailAddress
+        case instanceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateProvider = self.certificateProvider {
+            try encodeContainer.encode(certificateProvider.rawValue, forKey: .certificateProvider)
+        }
+        if let domainNames = domainNames {
+            var domainNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNames)
+            for setupdomainname0 in domainNames {
+                try domainNamesContainer.encode(setupdomainname0)
+            }
+        }
+        if let emailAddress = self.emailAddress {
+            try encodeContainer.encode(emailAddress, forKey: .emailAddress)
+        }
+        if let instanceName = self.instanceName {
+            try encodeContainer.encode(instanceName, forKey: .instanceName)
+        }
+    }
+}
+
+extension SetupInstanceHttpsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SetupInstanceHttpsInput: Swift.Equatable {
+    /// The certificate authority that issues the SSL/TLS certificate.
+    /// This member is required.
+    public var certificateProvider: LightsailClientTypes.CertificateProvider?
+    /// The name of the domain and subdomains that were specified for the SSL/TLS certificate.
+    /// This member is required.
+    public var domainNames: [Swift.String]?
+    /// The contact method for SSL/TLS certificate renewal alerts. You can enter one email address.
+    /// This member is required.
+    public var emailAddress: Swift.String?
+    /// The name of the Lightsail instance.
+    /// This member is required.
+    public var instanceName: Swift.String?
+
+    public init(
+        certificateProvider: LightsailClientTypes.CertificateProvider? = nil,
+        domainNames: [Swift.String]? = nil,
+        emailAddress: Swift.String? = nil,
+        instanceName: Swift.String? = nil
+    )
+    {
+        self.certificateProvider = certificateProvider
+        self.domainNames = domainNames
+        self.emailAddress = emailAddress
+        self.instanceName = instanceName
+    }
+}
+
+struct SetupInstanceHttpsInputBody: Swift.Equatable {
+    let instanceName: Swift.String?
+    let emailAddress: Swift.String?
+    let domainNames: [Swift.String]?
+    let certificateProvider: LightsailClientTypes.CertificateProvider?
+}
+
+extension SetupInstanceHttpsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProvider
+        case domainNames
+        case emailAddress
+        case instanceName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
+        instanceName = instanceNameDecoded
+        let emailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emailAddress)
+        emailAddress = emailAddressDecoded
+        let domainNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .domainNames)
+        var domainNamesDecoded0:[Swift.String]? = nil
+        if let domainNamesContainer = domainNamesContainer {
+            domainNamesDecoded0 = [Swift.String]()
+            for string0 in domainNamesContainer {
+                if let string0 = string0 {
+                    domainNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        domainNames = domainNamesDecoded0
+        let certificateProviderDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.CertificateProvider.self, forKey: .certificateProvider)
+        certificateProvider = certificateProviderDecoded
+    }
+}
+
+extension SetupInstanceHttpsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SetupInstanceHttpsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operations = output.operations
+        } else {
+            self.operations = nil
+        }
+    }
+}
+
+public struct SetupInstanceHttpsOutput: Swift.Equatable {
+    /// The available API operations for SetupInstanceHttps.
+    public var operations: [LightsailClientTypes.Operation]?
+
+    public init(
+        operations: [LightsailClientTypes.Operation]? = nil
+    )
+    {
+        self.operations = operations
+    }
+}
+
+struct SetupInstanceHttpsOutputBody: Swift.Equatable {
+    let operations: [LightsailClientTypes.Operation]?
+}
+
+extension SetupInstanceHttpsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationsContainer = try containerValues.decodeIfPresent([LightsailClientTypes.Operation?].self, forKey: .operations)
+        var operationsDecoded0:[LightsailClientTypes.Operation]? = nil
+        if let operationsContainer = operationsContainer {
+            operationsDecoded0 = [LightsailClientTypes.Operation]()
+            for structure0 in operationsContainer {
+                if let structure0 = structure0 {
+                    operationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        operations = operationsDecoded0
+    }
+}
+
+enum SetupInstanceHttpsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthenticatedException": return try await UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension LightsailClientTypes.SetupRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateProvider
+        case domainNames
+        case instanceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateProvider = self.certificateProvider {
+            try encodeContainer.encode(certificateProvider.rawValue, forKey: .certificateProvider)
+        }
+        if let domainNames = domainNames {
+            var domainNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNames)
+            for setupdomainname0 in domainNames {
+                try domainNamesContainer.encode(setupdomainname0)
+            }
+        }
+        if let instanceName = self.instanceName {
+            try encodeContainer.encode(instanceName, forKey: .instanceName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceName)
+        instanceName = instanceNameDecoded
+        let domainNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .domainNames)
+        var domainNamesDecoded0:[Swift.String]? = nil
+        if let domainNamesContainer = domainNamesContainer {
+            domainNamesDecoded0 = [Swift.String]()
+            for string0 in domainNamesContainer {
+                if let string0 = string0 {
+                    domainNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        domainNames = domainNamesDecoded0
+        let certificateProviderDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.CertificateProvider.self, forKey: .certificateProvider)
+        certificateProvider = certificateProviderDecoded
+    }
+}
+
+extension LightsailClientTypes {
+    /// Returns information that was submitted during the SetupInstanceHttps request. Email information is redacted for privacy.
+    public struct SetupRequest: Swift.Equatable {
+        /// The Certificate Authority (CA) that issues the SSL/TLS certificate.
+        public var certificateProvider: LightsailClientTypes.CertificateProvider?
+        /// The name of the domain and subdomains that the SSL/TLS certificate secures.
+        public var domainNames: [Swift.String]?
+        /// The name of the Lightsail instance.
+        public var instanceName: Swift.String?
+
+        public init(
+            certificateProvider: LightsailClientTypes.CertificateProvider? = nil,
+            domainNames: [Swift.String]? = nil,
+            instanceName: Swift.String? = nil
+        )
+        {
+            self.certificateProvider = certificateProvider
+            self.domainNames = domainNames
+            self.instanceName = instanceName
+        }
+    }
+
+}
+
+extension LightsailClientTypes {
+    public enum SetupStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inprogress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SetupStatus] {
+            return [
+                .failed,
+                .inprogress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .inprogress: return "inProgress"
+            case .succeeded: return "succeeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SetupStatus(rawValue: rawValue) ?? SetupStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -33996,11 +34689,11 @@ extension LightsailClientTypes.StaticIp: Swift.Codable {
 extension LightsailClientTypes {
     /// Describes a static IP.
     public struct StaticIp: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
+        /// The Amazon Resource Name (ARN) of the static IP (arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
         public var arn: Swift.String?
-        /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
+        /// The instance where the static IP is attached (Amazon_Linux-1GB-Ohio-1).
         public var attachedTo: Swift.String?
-        /// The timestamp when the static IP was created (e.g., 1479735304.222).
+        /// The timestamp when the static IP was created (1479735304.222).
         public var createdAt: ClientRuntime.Date?
         /// The static IP address.
         public var ipAddress: Swift.String?
@@ -34008,7 +34701,7 @@ extension LightsailClientTypes {
         public var isAttached: Swift.Bool?
         /// The region and Availability Zone where the static IP was created.
         public var location: LightsailClientTypes.ResourceLocation?
-        /// The name of the static IP (e.g., StaticIP-Ohio-EXAMPLE).
+        /// The name of the static IP (StaticIP-Ohio-EXAMPLE).
         public var name: Swift.String?
         /// The resource type (usually StaticIp).
         public var resourceType: LightsailClientTypes.ResourceType?
@@ -36370,7 +37063,7 @@ public struct UpdateLoadBalancerAttributeInput: Swift.Equatable {
     /// * If you specify TlsPolicyName for the attributeName request parameter, then the attributeValue request parameter must be the name of the TLS policy. Use the [GetLoadBalancerTlsPolicies](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html) action to get a list of TLS policy names that you can specify.
     /// This member is required.
     public var attributeValue: Swift.String?
-    /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
+    /// The name of the load balancer that you want to modify (my-load-balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
 

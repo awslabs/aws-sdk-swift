@@ -358,7 +358,7 @@ extension Route53ClientTypes {
         /// * For edge-optimized APIs, specify the value of distributionHostedZoneId.
         ///
         ///
-        /// Amazon Virtual Private Cloud interface VPC endpoint Specify the hosted zone ID for your interface endpoint. You can get the value of HostedZoneId using the CLI command [describe-vpc-endpoints](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html). CloudFront distribution Specify Z2FDTNDATAQYW2. Alias resource record sets for CloudFront can't be created in a private zone. Elastic Beanstalk environment Specify the hosted zone ID for the region that you created the environment in. The environment must have a regionalized subdomain. For a list of regions and the corresponding hosted zone IDs, see [Elastic Beanstalk endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html) in the the Amazon Web Services General Reference. ELB load balancer Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:
+        /// Amazon Virtual Private Cloud interface VPC endpoint Specify the hosted zone ID for your interface endpoint. You can get the value of HostedZoneId using the CLI command [describe-vpc-endpoints](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html). CloudFront distribution Specify Z2FDTNDATAQYW2. Alias resource record sets for CloudFront can't be created in a private zone. Elastic Beanstalk environment Specify the hosted zone ID for the region that you created the environment in. The environment must have a regionalized subdomain. For a list of regions and the corresponding hosted zone IDs, see [Elastic Beanstalk endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html) in the Amazon Web Services General Reference. ELB load balancer Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:
         ///
         /// * [Elastic Load Balancing endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/elb.html) topic in the Amazon Web Services General Reference: Use the value that corresponds with the region that you created your load balancer in. Note that there are separate columns for Application and Classic Load Balancers and for Network Load Balancers.
         ///
@@ -1832,6 +1832,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case caCentral1
+        case caWest1
         case cnNorth1
         case cnNorthwest1
         case euCentral1
@@ -1871,6 +1872,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .caCentral1,
+                .caWest1,
                 .cnNorth1,
                 .cnNorthwest1,
                 .euCentral1,
@@ -1915,6 +1917,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
@@ -2212,6 +2215,49 @@ extension ConflictingTypesBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension Route53ClientTypes.Coordinates: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latitude = "Latitude"
+        case longitude = "Longitude"
+    }
+
+    static func writingClosure(_ value: Route53ClientTypes.Coordinates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { writer.detach(); return }
+        try writer[.init("Latitude")].write(value.latitude)
+        try writer[.init("Longitude")].write(value.longitude)
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let latitudeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latitude)
+        latitude = latitudeDecoded
+        let longitudeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .longitude)
+        longitude = longitudeDecoded
+    }
+}
+
+extension Route53ClientTypes {
+    /// A complex type that lists the coordinates for a geoproximity resource record.
+    public struct Coordinates: Swift.Equatable {
+        /// Specifies a coordinate of the north–south position of a geographic point on the surface of the Earth (-90 - 90).
+        /// This member is required.
+        public var latitude: Swift.String?
+        /// Specifies a coordinate of the east–west position of a geographic point on the surface of the Earth (-180 - 180).
+        /// This member is required.
+        public var longitude: Swift.String?
+
+        public init(
+            latitude: Swift.String? = nil,
+            longitude: Swift.String? = nil
+        )
+        {
+            self.latitude = latitude
+            self.longitude = longitude
+        }
+    }
+
 }
 
 extension CreateCidrCollectionInput {
@@ -3738,7 +3784,7 @@ extension Route53ClientTypes.DNSSECStatus: Swift.Decodable {
 }
 
 extension Route53ClientTypes {
-    /// A string repesenting the status of DNSSEC signing.
+    /// A string representing the status of DNSSEC signing.
     public struct DNSSECStatus: Swift.Equatable {
         /// A string that represents the current hosted zone signing status. Status can have one of the following values: SIGNING DNSSEC signing is enabled for the hosted zone. NOT_SIGNING DNSSEC signing is not enabled for the hosted zone. DELETING DNSSEC signing is in the process of being removed for the hosted zone. ACTION_NEEDED There is a problem with signing in the hosted zone that requires you to take action to resolve. For example, the customer managed key might have been deleted, or the permissions for the customer managed key might have been changed. INTERNAL_FAILURE There was an error during a request. Before you can continue to work with DNSSEC signing, including with key-signing keys (KSKs), you must correct the problem by enabling or disabling DNSSEC signing for the hosted zone.
         public var serveSignature: Swift.String?
@@ -5236,7 +5282,7 @@ extension Route53ClientTypes {
         ///
         /// Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public var continentCode: Swift.String?
-        /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
+        /// For geolocation resource record sets, the two-letter code for a country. Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
         public var countryCode: Swift.String?
         /// For geolocation resource record sets, the two-letter code for a state of the United States. Route 53 doesn't support any other values for SubdivisionCode. For a list of state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. If you specify subdivisioncode, you must also specify US for CountryCode.
         public var subdivisionCode: Swift.String?
@@ -5323,6 +5369,67 @@ extension Route53ClientTypes {
             self.countryName = countryName
             self.subdivisionCode = subdivisionCode
             self.subdivisionName = subdivisionName
+        }
+    }
+
+}
+
+extension Route53ClientTypes.GeoProximityLocation: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsRegion = "AWSRegion"
+        case bias = "Bias"
+        case coordinates = "Coordinates"
+        case localZoneGroup = "LocalZoneGroup"
+    }
+
+    static func writingClosure(_ value: Route53ClientTypes.GeoProximityLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { writer.detach(); return }
+        try writer[.init("AWSRegion")].write(value.awsRegion)
+        try writer[.init("Bias")].write(value.bias)
+        try writer[.init("Coordinates")].write(value.coordinates, writingClosure: Route53ClientTypes.Coordinates.writingClosure(_:to:))
+        try writer[.init("LocalZoneGroup")].write(value.localZoneGroup)
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsRegion)
+        awsRegion = awsRegionDecoded
+        let localZoneGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localZoneGroup)
+        localZoneGroup = localZoneGroupDecoded
+        let coordinatesDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.Coordinates.self, forKey: .coordinates)
+        coordinates = coordinatesDecoded
+        let biasDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bias)
+        bias = biasDecoded
+    }
+}
+
+extension Route53ClientTypes {
+    /// (Resource record sets only): A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query and your resources. Only one of , LocalZoneGroup, Coordinates, or Amazon Web ServicesRegion is allowed per request at a time. For more information about geoproximity routing, see [Geoproximity routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html) in the Amazon Route 53 Developer Guide.
+    public struct GeoProximityLocation: Swift.Equatable {
+        /// The Amazon Web Services Region the resource you are directing DNS traffic to, is in.
+        public var awsRegion: Swift.String?
+        /// The bias increases or decreases the size of the geographic region from which Route 53 routes traffic to a resource. To use Bias to change the size of the geographic region, specify the applicable value for the bias:
+        ///
+        /// * To expand the size of the geographic region from which Route 53 routes traffic to a resource, specify a positive integer from 1 to 99 for the bias. Route 53 shrinks the size of adjacent regions.
+        ///
+        /// * To shrink the size of the geographic region from which Route 53 routes traffic to a resource, specify a negative bias of -1 to -99. Route 53 expands the size of adjacent regions.
+        public var bias: Swift.Int?
+        /// Contains the longitude and latitude for a geographic region.
+        public var coordinates: Route53ClientTypes.Coordinates?
+        /// Specifies an Amazon Web Services Local Zone Group. A local Zone Group is usually the Local Zone code without the ending character. For example, if the Local Zone is us-east-1-bue-1a the Local Zone Group is us-east-1-bue-1. You can identify the Local Zones Group for a specific Local Zone by using the [describe-availability-zones](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-availability-zones.html) CLI command: This command returns: "GroupName": "us-west-2-den-1", specifying that the Local Zone us-west-2-den-1a belongs to the Local Zone Group us-west-2-den-1.
+        public var localZoneGroup: Swift.String?
+
+        public init(
+            awsRegion: Swift.String? = nil,
+            bias: Swift.Int? = nil,
+            coordinates: Route53ClientTypes.Coordinates? = nil,
+            localZoneGroup: Swift.String? = nil
+        )
+        {
+            self.awsRegion = awsRegion
+            self.bias = bias
+            self.coordinates = coordinates
+            self.localZoneGroup = localZoneGroup
         }
     }
 
@@ -5645,7 +5752,7 @@ public struct GetDNSSECOutput: Swift.Equatable {
     /// The key-signing keys (KSKs) in your account.
     /// This member is required.
     public var keySigningKeys: [Route53ClientTypes.KeySigningKey]?
-    /// A string repesenting the status of DNSSEC.
+    /// A string representing the status of DNSSEC.
     /// This member is required.
     public var status: Route53ClientTypes.DNSSECStatus?
 
@@ -5753,7 +5860,7 @@ public struct GetGeoLocationInput: Swift.Equatable {
     ///
     /// * SA: South America
     public var continentCode: Swift.String?
-    /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the contry code UA forr Ukraine.
+    /// Amazon Route 53 uses the two-letter country codes that are specified in [ISO standard 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). Route 53 also supports the country code UA for Ukraine.
     public var countryCode: Swift.String?
     /// The code for the subdivision, such as a particular state within the United States. For a list of US state abbreviations, see [Appendix B: Two–Letter State and Possession Abbreviations](https://pe.usps.com/text/pub28/28apb.htm) on the United States Postal Service website. For a list of all supported subdivision codes, use the [ListGeoLocations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html) API.
     public var subdivisionCode: Swift.String?
@@ -7272,7 +7379,7 @@ extension Route53ClientTypes {
         ///
         /// * CALCULATED: For health checks that monitor the status of other health checks, Route 53 adds up the number of health checks that Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.
         ///
-        /// * RECOVERY_CONTROL: The health check is assocated with a Route53 Application Recovery Controller routing control. If the routing control state is ON, the health check is considered healthy. If the state is OFF, the health check is considered unhealthy.
+        /// * RECOVERY_CONTROL: The health check is associated with a Route53 Application Recovery Controller routing control. If the routing control state is ON, the health check is considered healthy. If the state is OFF, the health check is considered unhealthy.
         ///
         ///
         /// For more information, see [How Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide.
@@ -13549,6 +13656,7 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
         case cidrRoutingConfig = "CidrRoutingConfig"
         case failover = "Failover"
         case geoLocation = "GeoLocation"
+        case geoProximityLocation = "GeoProximityLocation"
         case healthCheckId = "HealthCheckId"
         case multiValueAnswer = "MultiValueAnswer"
         case name = "Name"
@@ -13567,6 +13675,7 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
         try writer[.init("CidrRoutingConfig")].write(value.cidrRoutingConfig, writingClosure: Route53ClientTypes.CidrRoutingConfig.writingClosure(_:to:))
         try writer[.init("Failover")].write(value.failover)
         try writer[.init("GeoLocation")].write(value.geoLocation, writingClosure: Route53ClientTypes.GeoLocation.writingClosure(_:to:))
+        try writer[.init("GeoProximityLocation")].write(value.geoProximityLocation, writingClosure: Route53ClientTypes.GeoProximityLocation.writingClosure(_:to:))
         try writer[.init("HealthCheckId")].write(value.healthCheckId)
         try writer[.init("MultiValueAnswer")].write(value.multiValueAnswer)
         try writer[.init("Name")].write(value.name)
@@ -13626,6 +13735,8 @@ extension Route53ClientTypes.ResourceRecordSet: Swift.Decodable {
         trafficPolicyInstanceId = trafficPolicyInstanceIdDecoded
         let cidrRoutingConfigDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.CidrRoutingConfig.self, forKey: .cidrRoutingConfig)
         cidrRoutingConfig = cidrRoutingConfigDecoded
+        let geoProximityLocationDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.GeoProximityLocation.self, forKey: .geoProximityLocation)
+        geoProximityLocation = geoProximityLocationDecoded
     }
 }
 
@@ -13657,8 +13768,10 @@ extension Route53ClientTypes {
         ///
         /// * [Configuring Failover in a Private Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html)
         public var failover: Route53ClientTypes.ResourceRecordSetFailover?
-        /// Geolocation resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF. Although creating geolocation and geolocation alias resource record sets in a private hosted zone is allowed, it's not supported. If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements. Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *. Two groups of queries are routed to the resource that you specify in this record: queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Route 53 returns a "no answer" response for queries from those locations. You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
+        /// Geolocation resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF. If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements. Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *. Two groups of queries are routed to the resource that you specify in this record: queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Route 53 returns a "no answer" response for queries from those locations. You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
         public var geoLocation: Route53ClientTypes.GeoLocation?
+        /// GeoproximityLocation resource record sets only: A complex type that lets you control how Route 53 responds to DNS queries based on the geographic origin of the query and your resources.
+        public var geoProximityLocation: Route53ClientTypes.GeoProximityLocation?
         /// If you want Amazon Route 53 to return this resource record set in response to a DNS query only when the status of a health check is healthy, include the HealthCheckId element and specify the ID of the applicable health check. Route 53 determines whether a resource record set is healthy based on one of the following:
         ///
         /// * By periodically sending a request to the endpoint that is specified in the health check
@@ -13732,9 +13845,6 @@ extension Route53ClientTypes {
         /// * The * can't replace any of the middle labels, for example, marketing.*.example.com.
         ///
         /// * If you include * in any position other than the leftmost label in a domain name, DNS treats it as an * character (ASCII 42), not as a wildcard. You can't use the * wildcard for resource records sets that have a type of NS.
-        ///
-        ///
-        /// You can use the * wildcard as the leftmost label in a domain name, for example, *.example.com. You can't use an * for one of the middle labels, for example, marketing.*.example.com. In addition, the * must replace the entire label; for example, you can't specify prod*.example.com.
         /// This member is required.
         public var name: Swift.String?
         /// Latency-based resource record sets only: The Amazon EC2 Region where you created the resource that this resource record set refers to. The resource typically is an Amazon Web Services resource, such as an EC2 instance or an ELB load balancer, and is referred to by an IP address or a DNS domain name, depending on the record type. When Amazon Route 53 receives a DNS query for a domain name and type for which you have created latency resource record sets, Route 53 selects the latency resource record set that has the lowest latency between the end user and the associated Amazon EC2 Region. Route 53 then returns the value that is associated with the selected resource record set. Note the following:
@@ -13798,6 +13908,7 @@ extension Route53ClientTypes {
             cidrRoutingConfig: Route53ClientTypes.CidrRoutingConfig? = nil,
             failover: Route53ClientTypes.ResourceRecordSetFailover? = nil,
             geoLocation: Route53ClientTypes.GeoLocation? = nil,
+            geoProximityLocation: Route53ClientTypes.GeoProximityLocation? = nil,
             healthCheckId: Swift.String? = nil,
             multiValueAnswer: Swift.Bool? = nil,
             name: Swift.String? = nil,
@@ -13814,6 +13925,7 @@ extension Route53ClientTypes {
             self.cidrRoutingConfig = cidrRoutingConfig
             self.failover = failover
             self.geoLocation = geoLocation
+            self.geoProximityLocation = geoProximityLocation
             self.healthCheckId = healthCheckId
             self.multiValueAnswer = multiValueAnswer
             self.name = name
@@ -13875,6 +13987,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case caCentral1
+        case caWest1
         case cnNorth1
         case cnNorthwest1
         case euCentral1
@@ -13909,6 +14022,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .caCentral1,
+                .caWest1,
                 .cnNorth1,
                 .cnNorthwest1,
                 .euCentral1,
@@ -13948,6 +14062,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
@@ -15432,7 +15547,7 @@ public struct UpdateHealthCheckInput: Swift.Equatable {
     /// * If you specify another value for Port and any value except TCP for Type, Route 53 passes FullyQualifiedDomainName:Port to the endpoint in the Host header.
     ///
     ///
-    /// If you don't specify a value for FullyQualifiedDomainName, Route 53 substitutes the value of IPAddress in the Host header in each of the above cases. If you don't specify a value for IPAddress: If you don't specify a value for IPAddress, Route 53 sends a DNS request to the domain that you specify in FullyQualifiedDomainName at the interval you specify in RequestInterval. Using an IPv4 address that is returned by DNS, Route 53 then checks the health of the endpoint. If you don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the endpoint. If there's no resource record set with a type of A for the name that you specify for FullyQualifiedDomainName, the health check fails with a "DNS resolution failed" error. If you want to check the health of weighted, latency, or failover resource record sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (www.example.com). In this configuration, if the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable. In addition, if the value of Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
+    /// If you don't specify a value for FullyQualifiedDomainName, Route 53 substitutes the value of IPAddress in the Host header in each of the above cases. If you don't specify a value for IPAddress: If you don't specify a value for IPAddress, Route 53 sends a DNS request to the domain that you specify in FullyQualifiedDomainName at the interval you specify in RequestInterval. Using an IPv4 address that is returned by DNS, Route 53 then checks the health of the endpoint. If you don't specify a value for IPAddress, you can’t update the health check to remove the FullyQualifiedDomainName; if you don’t specify a value for IPAddress on creation, a FullyQualifiedDomainName is required. If you don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the endpoint. If there's no resource record set with a type of A for the name that you specify for FullyQualifiedDomainName, the health check fails with a "DNS resolution failed" error. If you want to check the health of weighted, latency, or failover resource record sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend that you create a separate health check for each endpoint. For example, create a health check for each HTTP server that is serving content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain name of the server (such as us-east-2-www.example.com), not the name of the resource record sets (www.example.com). In this configuration, if the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable. In addition, if the value of Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
     public var fullyQualifiedDomainName: Swift.String?
     /// The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
     /// This member is required.
@@ -16244,6 +16359,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case caCentral1
+        case caWest1
         case cnNorth1
         case euCentral1
         case euCentral2
@@ -16282,6 +16398,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .caCentral1,
+                .caWest1,
                 .cnNorth1,
                 .euCentral1,
                 .euCentral2,
@@ -16325,6 +16442,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"

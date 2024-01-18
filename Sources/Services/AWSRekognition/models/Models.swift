@@ -283,7 +283,7 @@ extension AssociateFacesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AssociateFacesOutput: Swift.Equatable {
-    /// An array of AssociatedFace objects containing FaceIDs that are successfully associated with the UserID is returned. Returned if the AssociateFaces action is successful.
+    /// An array of AssociatedFace objects containing FaceIDs that have been successfully associated with the UserID. Returned if the AssociateFaces action is successful.
     public var associatedFaces: [RekognitionClientTypes.AssociatedFace]?
     /// An array of UnsuccessfulAssociation objects containing FaceIDs that are not successfully associated along with the reasons. Returned if the AssociateFaces action is successful.
     public var unsuccessfulFaceAssociations: [RekognitionClientTypes.UnsuccessfulFaceAssociation]?
@@ -1833,6 +1833,51 @@ extension RekognitionClientTypes {
             self = ContentModerationSortBy(rawValue: rawValue) ?? ContentModerationSortBy.sdkUnknown(rawValue)
         }
     }
+}
+
+extension RekognitionClientTypes.ContentType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidence = "Confidence"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confidence = self.confidence {
+            try encodeContainer.encode(confidence, forKey: .confidence)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains information regarding the confidence and name of a detected content type.
+    public struct ContentType: Swift.Equatable {
+        /// The confidence level of the label given
+        public var confidence: Swift.Float?
+        /// The name of the label
+        public var name: Swift.String?
+
+        public init(
+            confidence: Swift.Float? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.confidence = confidence
+            self.name = name
+        }
+    }
+
 }
 
 extension CopyProjectVersionInput: Swift.Encodable {
@@ -6541,11 +6586,13 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DetectModerationLabelsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contentTypes = output.contentTypes
             self.humanLoopActivationOutput = output.humanLoopActivationOutput
             self.moderationLabels = output.moderationLabels
             self.moderationModelVersion = output.moderationModelVersion
             self.projectVersion = output.projectVersion
         } else {
+            self.contentTypes = nil
             self.humanLoopActivationOutput = nil
             self.moderationLabels = nil
             self.moderationModelVersion = nil
@@ -6555,6 +6602,8 @@ extension DetectModerationLabelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DetectModerationLabelsOutput: Swift.Equatable {
+    /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
+    public var contentTypes: [RekognitionClientTypes.ContentType]?
     /// Shows the results of the human in the loop evaluation.
     public var humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
     /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
@@ -6565,12 +6614,14 @@ public struct DetectModerationLabelsOutput: Swift.Equatable {
     public var projectVersion: Swift.String?
 
     public init(
+        contentTypes: [RekognitionClientTypes.ContentType]? = nil,
         humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput? = nil,
         moderationLabels: [RekognitionClientTypes.ModerationLabel]? = nil,
         moderationModelVersion: Swift.String? = nil,
         projectVersion: Swift.String? = nil
     )
     {
+        self.contentTypes = contentTypes
         self.humanLoopActivationOutput = humanLoopActivationOutput
         self.moderationLabels = moderationLabels
         self.moderationModelVersion = moderationModelVersion
@@ -6583,10 +6634,12 @@ struct DetectModerationLabelsOutputBody: Swift.Equatable {
     let moderationModelVersion: Swift.String?
     let humanLoopActivationOutput: RekognitionClientTypes.HumanLoopActivationOutput?
     let projectVersion: Swift.String?
+    let contentTypes: [RekognitionClientTypes.ContentType]?
 }
 
 extension DetectModerationLabelsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentTypes = "ContentTypes"
         case humanLoopActivationOutput = "HumanLoopActivationOutput"
         case moderationLabels = "ModerationLabels"
         case moderationModelVersion = "ModerationModelVersion"
@@ -6612,6 +6665,17 @@ extension DetectModerationLabelsOutputBody: Swift.Decodable {
         humanLoopActivationOutput = humanLoopActivationOutputDecoded
         let projectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectVersion)
         projectVersion = projectVersionDecoded
+        let contentTypesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.ContentType?].self, forKey: .contentTypes)
+        var contentTypesDecoded0:[RekognitionClientTypes.ContentType]? = nil
+        if let contentTypesContainer = contentTypesContainer {
+            contentTypesDecoded0 = [RekognitionClientTypes.ContentType]()
+            for structure0 in contentTypesContainer {
+                if let structure0 = structure0 {
+                    contentTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        contentTypes = contentTypesDecoded0
     }
 }
 
@@ -15341,6 +15405,41 @@ extension RekognitionClientTypes {
 
 }
 
+extension RekognitionClientTypes.MediaAnalysisModelVersions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case moderation = "Moderation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let moderation = self.moderation {
+            try encodeContainer.encode(moderation, forKey: .moderation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let moderationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .moderation)
+        moderation = moderationDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Object containing information about the model versions of selected features in a given job.
+    public struct MediaAnalysisModelVersions: Swift.Equatable {
+        /// The Moderation base model version.
+        public var moderation: Swift.String?
+
+        public init(
+            moderation: Swift.String? = nil
+        )
+        {
+            self.moderation = moderation
+        }
+    }
+
+}
+
 extension RekognitionClientTypes.MediaAnalysisOperationsConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case detectModerationLabels = "DetectModerationLabels"
@@ -15424,11 +15523,15 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelVersions = "ModelVersions"
         case s3Object = "S3Object"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let modelVersions = self.modelVersions {
+            try encodeContainer.encode(modelVersions, forKey: .modelVersions)
+        }
         if let s3Object = self.s3Object {
             try encodeContainer.encode(s3Object, forKey: .s3Object)
         }
@@ -15438,19 +15541,25 @@ extension RekognitionClientTypes.MediaAnalysisResults: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let s3ObjectDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.S3Object.self, forKey: .s3Object)
         s3Object = s3ObjectDecoded
+        let modelVersionsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.MediaAnalysisModelVersions.self, forKey: .modelVersions)
+        modelVersions = modelVersionsDecoded
     }
 }
 
 extension RekognitionClientTypes {
     /// Contains the results for a media analysis job created with StartMediaAnalysisJob.
     public struct MediaAnalysisResults: Swift.Equatable {
+        /// Information about the model versions for the features selected in a given job.
+        public var modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions?
         /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
         public var s3Object: RekognitionClientTypes.S3Object?
 
         public init(
+            modelVersions: RekognitionClientTypes.MediaAnalysisModelVersions? = nil,
             s3Object: RekognitionClientTypes.S3Object? = nil
         )
         {
+            self.modelVersions = modelVersions
             self.s3Object = s3Object
         }
     }
@@ -15462,6 +15571,7 @@ extension RekognitionClientTypes.ModerationLabel: Swift.Codable {
         case confidence = "Confidence"
         case name = "Name"
         case parentName = "ParentName"
+        case taxonomyLevel = "TaxonomyLevel"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -15475,6 +15585,9 @@ extension RekognitionClientTypes.ModerationLabel: Swift.Codable {
         if let parentName = self.parentName {
             try encodeContainer.encode(parentName, forKey: .parentName)
         }
+        if let taxonomyLevel = self.taxonomyLevel {
+            try encodeContainer.encode(taxonomyLevel, forKey: .taxonomyLevel)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15485,6 +15598,8 @@ extension RekognitionClientTypes.ModerationLabel: Swift.Codable {
         name = nameDecoded
         let parentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentName)
         parentName = parentNameDecoded
+        let taxonomyLevelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .taxonomyLevel)
+        taxonomyLevel = taxonomyLevelDecoded
     }
 }
 
@@ -15497,16 +15612,20 @@ extension RekognitionClientTypes {
         public var name: Swift.String?
         /// The name for the parent label. Labels at the top level of the hierarchy have the parent label "".
         public var parentName: Swift.String?
+        /// The level of the moderation label with regard to its taxonomy, from 1 to 3.
+        public var taxonomyLevel: Swift.Int?
 
         public init(
             confidence: Swift.Float? = nil,
             name: Swift.String? = nil,
-            parentName: Swift.String? = nil
+            parentName: Swift.String? = nil,
+            taxonomyLevel: Swift.Int? = nil
         )
         {
             self.confidence = confidence
             self.name = name
             self.parentName = parentName
+            self.taxonomyLevel = taxonomyLevel
         }
     }
 

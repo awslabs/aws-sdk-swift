@@ -76253,6 +76253,7 @@ extension QuickSightClientTypes.TopicDetails: Swift.Codable {
         case dataSets = "DataSets"
         case description = "Description"
         case name = "Name"
+        case userExperienceVersion = "UserExperienceVersion"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -76269,6 +76270,9 @@ extension QuickSightClientTypes.TopicDetails: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let userExperienceVersion = self.userExperienceVersion {
+            try encodeContainer.encode(userExperienceVersion.rawValue, forKey: .userExperienceVersion)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -76277,6 +76281,8 @@ extension QuickSightClientTypes.TopicDetails: Swift.Codable {
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let userExperienceVersionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TopicUserExperienceVersion.self, forKey: .userExperienceVersion)
+        userExperienceVersion = userExperienceVersionDecoded
         let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DatasetMetadata?].self, forKey: .dataSets)
         var dataSetsDecoded0:[QuickSightClientTypes.DatasetMetadata]? = nil
         if let dataSetsContainer = dataSetsContainer {
@@ -76300,16 +76306,20 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// The name of the topic.
         public var name: Swift.String?
+        /// The user experience version of a topic.
+        public var userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion?
 
         public init(
             dataSets: [QuickSightClientTypes.DatasetMetadata]? = nil,
             description: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            userExperienceVersion: QuickSightClientTypes.TopicUserExperienceVersion? = nil
         )
         {
             self.dataSets = dataSets
             self.description = description
             self.name = name
+            self.userExperienceVersion = userExperienceVersion
         }
     }
 
@@ -77296,6 +77306,38 @@ extension QuickSightClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = TopicTimeGranularity(rawValue: rawValue) ?? TopicTimeGranularity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum TopicUserExperienceVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case legacy
+        case newReaderExperience
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicUserExperienceVersion] {
+            return [
+                .legacy,
+                .newReaderExperience,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .legacy: return "LEGACY"
+            case .newReaderExperience: return "NEW_READER_EXPERIENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TopicUserExperienceVersion(rawValue: rawValue) ?? TopicUserExperienceVersion.sdkUnknown(rawValue)
         }
     }
 }
@@ -79975,6 +80017,7 @@ enum UpdateDashboardLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

@@ -16,6 +16,8 @@ import ClientRuntime
 ///
 /// * [UpdateRepositoryDescription], which sets or updates the description of the repository.
 ///
+/// * [UpdateRepositoryEncryptionKey], which updates the Key Management Service encryption key used to encrypt and decrypt a repository.
+///
 /// * [UpdateRepositoryName], which changes the name of the repository. If you change the name of a repository, no other users of that repository can access it until you send them the new HTTPS or SSH URL to use.
 ///
 ///
@@ -506,6 +508,8 @@ public protocol CodeCommitClientProtocol {
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyInvalidIdException` : The Key Management Service encryption key is not valid.
+    /// - `EncryptionKeyInvalidUsageException` : A KMS encryption key was used to try and encrypt or decrypt a repository, but either the repository or the key was not in a valid state to support the operation.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `InvalidRepositoryDescriptionException` : The specified repository description is not valid.
@@ -2194,6 +2198,29 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     func updateRepositoryDescription(input: UpdateRepositoryDescriptionInput) async throws -> UpdateRepositoryDescriptionOutput
+    /// Performs the `UpdateRepositoryEncryptionKey` operation on the `CodeCommit_20150413` service.
+    ///
+    /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
+    ///
+    /// - Parameter UpdateRepositoryEncryptionKeyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRepositoryEncryptionKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
+    /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
+    /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyInvalidIdException` : The Key Management Service encryption key is not valid.
+    /// - `EncryptionKeyInvalidUsageException` : A KMS encryption key was used to try and encrypt or decrypt a repository, but either the repository or the key was not in a valid state to support the operation.
+    /// - `EncryptionKeyNotFoundException` : No encryption key was found.
+    /// - `EncryptionKeyRequiredException` : A KMS encryption key ID is required but was not specified.
+    /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
+    /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
+    /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
+    func updateRepositoryEncryptionKey(input: UpdateRepositoryEncryptionKeyInput) async throws -> UpdateRepositoryEncryptionKeyOutput
     /// Performs the `UpdateRepositoryName` operation on the `CodeCommit_20150413` service.
     ///
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.

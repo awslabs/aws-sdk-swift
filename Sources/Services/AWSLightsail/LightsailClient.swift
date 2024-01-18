@@ -902,7 +902,7 @@ extension LightsailClient: LightsailClientProtocol {
 
     /// Performs the `CreateDisk` operation on the `Lightsail_20161128` service.
     ///
-    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskInput : [no documentation found]
     ///
@@ -955,7 +955,7 @@ extension LightsailClient: LightsailClientProtocol {
 
     /// Performs the `CreateDiskFromSnapshot` operation on the `Lightsail_20161128` service.
     ///
-    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
     ///
@@ -1113,7 +1113,7 @@ extension LightsailClient: LightsailClientProtocol {
 
     /// Performs the `CreateDomain` operation on the `Lightsail_20161128` service.
     ///
-    /// Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+    /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
@@ -5776,7 +5776,7 @@ extension LightsailClient: LightsailClientProtocol {
 
     /// Performs the `GetOperationsForResource` operation on the `Lightsail_20161128` service.
     ///
-    /// Gets operations for a specific resource (e.g., an instance or a static IP).
+    /// Gets operations for a specific resource (an instance or a static IP).
     ///
     /// - Parameter GetOperationsForResourceInput : [no documentation found]
     ///
@@ -6512,6 +6512,57 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabasesOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabasesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRelationalDatabasesOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabasesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetSetupHistory` operation on the `Lightsail_20161128` service.
+    ///
+    /// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance.
+    ///
+    /// - Parameter GetSetupHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetSetupHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSetupHistory")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSetupHistoryInput, GetSetupHistoryOutput>(id: "getSetupHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSetupHistoryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(xAmzTarget: "Lightsail_20161128.GetSetupHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSetupHistoryOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSetupHistoryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSetupHistoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSetupHistoryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSetupHistoryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -7353,6 +7404,57 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetResourceAccessForBucketOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetResourceAccessForBucketOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetResourceAccessForBucketOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetResourceAccessForBucketOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `SetupInstanceHttps` operation on the `Lightsail_20161128` service.
+    ///
+    /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length.
+    ///
+    /// - Parameter SetupInstanceHttpsInput : [no documentation found]
+    ///
+    /// - Returns: `SetupInstanceHttpsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setupInstanceHttps")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(id: "setupInstanceHttps")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetupInstanceHttpsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(xAmzTarget: "Lightsail_20161128.SetupInstanceHttps"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetupInstanceHttpsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetupInstanceHttpsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetupInstanceHttpsOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetupInstanceHttpsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetupInstanceHttpsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

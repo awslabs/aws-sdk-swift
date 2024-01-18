@@ -3533,7 +3533,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
-    /// A storage capacity for the workflow in gigabytes.
+    /// A storage capacity for the workflow in gibibytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the workflow.
     public var tags: [Swift.String:Swift.String]?

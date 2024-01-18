@@ -78,7 +78,7 @@ extension FisClient: FisClientProtocol {
     /// * Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.
     ///
     ///
-    /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Simulator User Guide.
+    /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Service User Guide.
     ///
     /// - Parameter CreateExperimentTemplateInput : [no documentation found]
     ///
@@ -128,7 +128,7 @@ extension FisClient: FisClientProtocol {
 
     /// Performs the `CreateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
-    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Simulator User Guide.
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
     ///
     /// - Parameter CreateTargetAccountConfigurationInput : [no documentation found]
     ///

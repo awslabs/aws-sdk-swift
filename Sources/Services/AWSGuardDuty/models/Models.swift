@@ -2108,7 +2108,7 @@ extension GuardDutyClientTypes.CoverageEc2InstanceDetails: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Contains information about the Amazon EC2 instance runtime coverage details.
+    /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Contains information about the Amazon EC2 instance runtime coverage details.
     public struct CoverageEc2InstanceDetails: Swift.Equatable {
         /// Information about the installed security agent.
         public var agentDetails: GuardDutyClientTypes.AgentDetails?
@@ -2125,7 +2125,7 @@ extension GuardDutyClientTypes {
         /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
         ///
         ///
-        /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters that run on Amazon EC2 instances.
+        /// The DISABLED status doesn't apply to Amazon EC2 instances and Amazon EKS clusters.
         public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
@@ -2631,7 +2631,7 @@ extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Information about the resource for each individual EKS cluster.
     public struct CoverageResourceDetails: Swift.Equatable {
-        /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. Information about the Amazon EC2 instance assessed for runtime coverage.
+        /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Information about the Amazon EC2 instance assessed for runtime coverage.
         public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
         /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
         public var ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails?
@@ -7539,17 +7539,18 @@ extension GuardDutyClientTypes.FargateDetails: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about AWS Fargate details associated with an Amazon ECS cluster.
+    /// Contains information about Amazon Web Services Fargate details associated with an Amazon ECS cluster.
     public struct FargateDetails: Swift.Equatable {
-        /// Runtime coverage issues identified for the resource running on AWS Fargate.
+        /// Runtime coverage issues identified for the resource running on Amazon Web Services Fargate.
         public var issues: [Swift.String]?
         /// Indicates how the GuardDuty security agent is managed for this resource.
         ///
         /// * AUTO_MANAGED indicates that GuardDuty deploys and manages updates for this resource.
         ///
-        /// * MANUAL indicates that you are responsible to deploy, update, and manage the GuardDuty security agent updates for this resource.
-        ///
         /// * DISABLED indicates that the deployment of the GuardDuty security agent is disabled for this resource.
+        ///
+        ///
+        /// The MANUAL status doesn't apply to the Amazon Web Services Fargate (Amazon ECS only) woprkloads.
         public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
@@ -9869,6 +9870,78 @@ extension GetMembersOutputBody: Swift.Decodable {
 }
 
 enum GetMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetOrganizationStatisticsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/organization/statistics"
+    }
+}
+
+public struct GetOrganizationStatisticsInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetOrganizationStatisticsInputBody: Swift.Equatable {
+}
+
+extension GetOrganizationStatisticsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetOrganizationStatisticsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetOrganizationStatisticsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.organizationDetails = output.organizationDetails
+        } else {
+            self.organizationDetails = nil
+        }
+    }
+}
+
+public struct GetOrganizationStatisticsOutput: Swift.Equatable {
+    /// Information about the statistics report for your organization.
+    public var organizationDetails: GuardDutyClientTypes.OrganizationDetails?
+
+    public init(
+        organizationDetails: GuardDutyClientTypes.OrganizationDetails? = nil
+    )
+    {
+        self.organizationDetails = organizationDetails
+    }
+}
+
+struct GetOrganizationStatisticsOutputBody: Swift.Equatable {
+    let organizationDetails: GuardDutyClientTypes.OrganizationDetails?
+}
+
+extension GetOrganizationStatisticsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationDetails = "organizationDetails"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDetails.self, forKey: .organizationDetails)
+        organizationDetails = organizationDetailsDecoded
+    }
+}
+
+enum GetOrganizationStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -15185,6 +15258,51 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.OrganizationDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationStatistics = "organizationStatistics"
+        case updatedAt = "updatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let organizationStatistics = self.organizationStatistics {
+            try encodeContainer.encode(organizationStatistics, forKey: .organizationStatistics)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let organizationStatisticsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationStatistics.self, forKey: .organizationStatistics)
+        organizationStatistics = organizationStatisticsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about GuardDuty coverage statistics for members in your Amazon Web Services organization.
+    public struct OrganizationDetails: Swift.Equatable {
+        /// Information about the GuardDuty coverage statistics for members in your Amazon Web Services organization.
+        public var organizationStatistics: GuardDutyClientTypes.OrganizationStatistics?
+        /// The timestamp at which the organization statistics was last updated. This is in UTC format.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init(
+            organizationStatistics: GuardDutyClientTypes.OrganizationStatistics? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.organizationStatistics = organizationStatistics
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.OrganizationEbsVolumes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "autoEnable"
@@ -15395,6 +15513,118 @@ extension GuardDutyClientTypes {
         {
             self.additionalConfiguration = additionalConfiguration
             self.autoEnable = autoEnable
+            self.name = name
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalConfiguration = "additionalConfiguration"
+        case enabledAccountsCount = "enabledAccountsCount"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalConfiguration = additionalConfiguration {
+            var additionalConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalConfiguration)
+            for organizationfeaturestatisticsadditionalconfiguration0 in additionalConfiguration {
+                try additionalConfigurationContainer.encode(organizationfeaturestatisticsadditionalconfiguration0)
+            }
+        }
+        if let enabledAccountsCount = self.enabledAccountsCount {
+            try encodeContainer.encode(enabledAccountsCount, forKey: .enabledAccountsCount)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeature.self, forKey: .name)
+        name = nameDecoded
+        let enabledAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .enabledAccountsCount)
+        enabledAccountsCount = enabledAccountsCountDecoded
+        let additionalConfigurationContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration?].self, forKey: .additionalConfiguration)
+        var additionalConfigurationDecoded0:[GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]? = nil
+        if let additionalConfigurationContainer = additionalConfigurationContainer {
+            additionalConfigurationDecoded0 = [GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]()
+            for structure0 in additionalConfigurationContainer {
+                if let structure0 = structure0 {
+                    additionalConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalConfiguration = additionalConfigurationDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the number of accounts that have enabled a specific feature.
+    public struct OrganizationFeatureStatistics: Swift.Equatable {
+        /// Name of the additional configuration.
+        public var additionalConfiguration: [GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]?
+        /// Total number of accounts that have enabled a specific feature.
+        public var enabledAccountsCount: Swift.Int?
+        /// Name of the feature.
+        public var name: GuardDutyClientTypes.OrgFeature?
+
+        public init(
+            additionalConfiguration: [GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]? = nil,
+            enabledAccountsCount: Swift.Int? = nil,
+            name: GuardDutyClientTypes.OrgFeature? = nil
+        )
+        {
+            self.additionalConfiguration = additionalConfiguration
+            self.enabledAccountsCount = enabledAccountsCount
+            self.name = name
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledAccountsCount = "enabledAccountsCount"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledAccountsCount = self.enabledAccountsCount {
+            try encodeContainer.encode(enabledAccountsCount, forKey: .enabledAccountsCount)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeatureAdditionalConfiguration.self, forKey: .name)
+        name = nameDecoded
+        let enabledAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .enabledAccountsCount)
+        enabledAccountsCount = enabledAccountsCountDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the coverage statistic for the additional configuration of the feature.
+    public struct OrganizationFeatureStatisticsAdditionalConfiguration: Swift.Equatable {
+        /// Total number of accounts that have enabled the additional configuration.
+        public var enabledAccountsCount: Swift.Int?
+        /// Name of the additional configuration within a feature.
+        public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
+
+        public init(
+            enabledAccountsCount: Swift.Int? = nil,
+            name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration? = nil
+        )
+        {
+            self.enabledAccountsCount = enabledAccountsCount
             self.name = name
         }
     }
@@ -15752,6 +15982,93 @@ extension GuardDutyClientTypes {
         )
         {
             self.ebsVolumes = ebsVolumes
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.OrganizationStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeAccountsCount = "activeAccountsCount"
+        case countByFeature = "countByFeature"
+        case enabledAccountsCount = "enabledAccountsCount"
+        case memberAccountsCount = "memberAccountsCount"
+        case totalAccountsCount = "totalAccountsCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeAccountsCount = self.activeAccountsCount {
+            try encodeContainer.encode(activeAccountsCount, forKey: .activeAccountsCount)
+        }
+        if let countByFeature = countByFeature {
+            var countByFeatureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .countByFeature)
+            for organizationfeaturestatistics0 in countByFeature {
+                try countByFeatureContainer.encode(organizationfeaturestatistics0)
+            }
+        }
+        if let enabledAccountsCount = self.enabledAccountsCount {
+            try encodeContainer.encode(enabledAccountsCount, forKey: .enabledAccountsCount)
+        }
+        if let memberAccountsCount = self.memberAccountsCount {
+            try encodeContainer.encode(memberAccountsCount, forKey: .memberAccountsCount)
+        }
+        if let totalAccountsCount = self.totalAccountsCount {
+            try encodeContainer.encode(totalAccountsCount, forKey: .totalAccountsCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalAccountsCount)
+        totalAccountsCount = totalAccountsCountDecoded
+        let memberAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memberAccountsCount)
+        memberAccountsCount = memberAccountsCountDecoded
+        let activeAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .activeAccountsCount)
+        activeAccountsCount = activeAccountsCountDecoded
+        let enabledAccountsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .enabledAccountsCount)
+        enabledAccountsCount = enabledAccountsCountDecoded
+        let countByFeatureContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.OrganizationFeatureStatistics?].self, forKey: .countByFeature)
+        var countByFeatureDecoded0:[GuardDutyClientTypes.OrganizationFeatureStatistics]? = nil
+        if let countByFeatureContainer = countByFeatureContainer {
+            countByFeatureDecoded0 = [GuardDutyClientTypes.OrganizationFeatureStatistics]()
+            for structure0 in countByFeatureContainer {
+                if let structure0 = structure0 {
+                    countByFeatureDecoded0?.append(structure0)
+                }
+            }
+        }
+        countByFeature = countByFeatureDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the coverage statistics of the features for the entire Amazon Web Services organization. When you create a new Amazon Web Services organization, it might take up to 24 hours to generate the statistics summary for this organization.
+    public struct OrganizationStatistics: Swift.Equatable {
+        /// Total number of active accounts in your Amazon Web Services organization that are associated with GuardDuty.
+        public var activeAccountsCount: Swift.Int?
+        /// Retrieves the coverage statistics for each feature.
+        public var countByFeature: [GuardDutyClientTypes.OrganizationFeatureStatistics]?
+        /// Total number of accounts that have enabled GuardDuty.
+        public var enabledAccountsCount: Swift.Int?
+        /// Total number of accounts in your Amazon Web Services organization that are associated with GuardDuty.
+        public var memberAccountsCount: Swift.Int?
+        /// Total number of accounts in your Amazon Web Services organization.
+        public var totalAccountsCount: Swift.Int?
+
+        public init(
+            activeAccountsCount: Swift.Int? = nil,
+            countByFeature: [GuardDutyClientTypes.OrganizationFeatureStatistics]? = nil,
+            enabledAccountsCount: Swift.Int? = nil,
+            memberAccountsCount: Swift.Int? = nil,
+            totalAccountsCount: Swift.Int? = nil
+        )
+        {
+            self.activeAccountsCount = activeAccountsCount
+            self.countByFeature = countByFeature
+            self.enabledAccountsCount = enabledAccountsCount
+            self.memberAccountsCount = memberAccountsCount
+            self.totalAccountsCount = totalAccountsCount
         }
     }
 
@@ -21203,6 +21520,7 @@ extension GuardDutyClientTypes {
         case sumByDataSource
         case sumByFeatures
         case sumByResource
+        case topAccountsByFeature
         case topResources
         case sdkUnknown(Swift.String)
 
@@ -21212,6 +21530,7 @@ extension GuardDutyClientTypes {
                 .sumByDataSource,
                 .sumByFeatures,
                 .sumByResource,
+                .topAccountsByFeature,
                 .topResources,
                 .sdkUnknown("")
             ]
@@ -21226,6 +21545,7 @@ extension GuardDutyClientTypes {
             case .sumByDataSource: return "SUM_BY_DATA_SOURCE"
             case .sumByFeatures: return "SUM_BY_FEATURES"
             case .sumByResource: return "SUM_BY_RESOURCE"
+            case .topAccountsByFeature: return "TOP_ACCOUNTS_BY_FEATURE"
             case .topResources: return "TOP_RESOURCES"
             case let .sdkUnknown(s): return s
             }
@@ -21244,6 +21564,7 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
         case sumByDataSource = "sumByDataSource"
         case sumByFeature = "sumByFeature"
         case sumByResource = "sumByResource"
+        case topAccountsByFeature = "topAccountsByFeature"
         case topResources = "topResources"
     }
 
@@ -21273,6 +21594,12 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
                 try sumByResourceContainer.encode(usageresourceresult0)
             }
         }
+        if let topAccountsByFeature = topAccountsByFeature {
+            var topAccountsByFeatureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topAccountsByFeature)
+            for usagetopaccountsresult0 in topAccountsByFeature {
+                try topAccountsByFeatureContainer.encode(usagetopaccountsresult0)
+            }
+        }
         if let topResources = topResources {
             var topResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topResources)
             for usageresourceresult0 in topResources {
@@ -21294,6 +21621,17 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
             }
         }
         sumByAccount = sumByAccountDecoded0
+        let topAccountsByFeatureContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.UsageTopAccountsResult?].self, forKey: .topAccountsByFeature)
+        var topAccountsByFeatureDecoded0:[GuardDutyClientTypes.UsageTopAccountsResult]? = nil
+        if let topAccountsByFeatureContainer = topAccountsByFeatureContainer {
+            topAccountsByFeatureDecoded0 = [GuardDutyClientTypes.UsageTopAccountsResult]()
+            for structure0 in topAccountsByFeatureContainer {
+                if let structure0 = structure0 {
+                    topAccountsByFeatureDecoded0?.append(structure0)
+                }
+            }
+        }
+        topAccountsByFeature = topAccountsByFeatureDecoded0
         let sumByDataSourceContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.UsageDataSourceResult?].self, forKey: .sumByDataSource)
         var sumByDataSourceDecoded0:[GuardDutyClientTypes.UsageDataSourceResult]? = nil
         if let sumByDataSourceContainer = sumByDataSourceContainer {
@@ -21352,6 +21690,8 @@ extension GuardDutyClientTypes {
         public var sumByFeature: [GuardDutyClientTypes.UsageFeatureResult]?
         /// The usage statistic sum organized by resource.
         public var sumByResource: [GuardDutyClientTypes.UsageResourceResult]?
+        /// Lists the top 50 accounts by feature that have generated the most GuardDuty usage, in the order from most to least expensive. Currently, this doesn't support RDS_LOGIN_EVENTS.
+        public var topAccountsByFeature: [GuardDutyClientTypes.UsageTopAccountsResult]?
         /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
         public var topResources: [GuardDutyClientTypes.UsageResourceResult]?
 
@@ -21360,6 +21700,7 @@ extension GuardDutyClientTypes {
             sumByDataSource: [GuardDutyClientTypes.UsageDataSourceResult]? = nil,
             sumByFeature: [GuardDutyClientTypes.UsageFeatureResult]? = nil,
             sumByResource: [GuardDutyClientTypes.UsageResourceResult]? = nil,
+            topAccountsByFeature: [GuardDutyClientTypes.UsageTopAccountsResult]? = nil,
             topResources: [GuardDutyClientTypes.UsageResourceResult]? = nil
         )
         {
@@ -21367,7 +21708,110 @@ extension GuardDutyClientTypes {
             self.sumByDataSource = sumByDataSource
             self.sumByFeature = sumByFeature
             self.sumByResource = sumByResource
+            self.topAccountsByFeature = topAccountsByFeature
             self.topResources = topResources
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.UsageTopAccountResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "accountId"
+        case total = "total"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Total.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information on the total of usage based on the topmost 50 account IDs.
+    public struct UsageTopAccountResult: Swift.Equatable {
+        /// The unique account ID.
+        public var accountId: Swift.String?
+        /// Contains the total usage with the corresponding currency unit for that value.
+        public var total: GuardDutyClientTypes.Total?
+
+        public init(
+            accountId: Swift.String? = nil,
+            total: GuardDutyClientTypes.Total? = nil
+        )
+        {
+            self.accountId = accountId
+            self.total = total
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.UsageTopAccountsResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accounts = "accounts"
+        case feature = "feature"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for usagetopaccountresult0 in accounts {
+                try accountsContainer.encode(usagetopaccountresult0)
+            }
+        }
+        if let feature = self.feature {
+            try encodeContainer.encode(feature.rawValue, forKey: .feature)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featureDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.UsageFeature.self, forKey: .feature)
+        feature = featureDecoded
+        let accountsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.UsageTopAccountResult?].self, forKey: .accounts)
+        var accountsDecoded0:[GuardDutyClientTypes.UsageTopAccountResult]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [GuardDutyClientTypes.UsageTopAccountResult]()
+            for structure0 in accountsContainer {
+                if let structure0 = structure0 {
+                    accountsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accounts = accountsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the usage statistics, calculated by top accounts by feature.
+    public struct UsageTopAccountsResult: Swift.Equatable {
+        /// The accounts that contributed to the total usage cost.
+        public var accounts: [GuardDutyClientTypes.UsageTopAccountResult]?
+        /// Features by which you can generate the usage statistics. RDS_LOGIN_EVENTS is currently not supported with topAccountsByFeature.
+        public var feature: GuardDutyClientTypes.UsageFeature?
+
+        public init(
+            accounts: [GuardDutyClientTypes.UsageTopAccountResult]? = nil,
+            feature: GuardDutyClientTypes.UsageFeature? = nil
+        )
+        {
+            self.accounts = accounts
+            self.feature = feature
         }
     }
 

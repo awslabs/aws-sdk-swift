@@ -519,6 +519,35 @@ extension ManagedBlockchainQueryClientTypes {
 
 }
 
+extension ManagedBlockchainQueryClientTypes {
+    public enum ConfirmationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `final`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfirmationStatus] {
+            return [
+                .final,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .final: return "FINAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConfirmationStatus(rawValue: rawValue) ?? ConfirmationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ManagedBlockchainQueryClientTypes.ContractFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deployerAddress
@@ -709,6 +738,38 @@ extension ManagedBlockchainQueryClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ErrorType(rawValue: rawValue) ?? ErrorType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .failed,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutionStatus(rawValue: rawValue) ?? ExecutionStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -2719,9 +2780,11 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case blockHash
         case blockNumber
+        case confirmationStatus
         case contractAddress
         case cumulativeGasUsed
         case effectiveGasPrice
+        case executionStatus
         case from
         case gasUsed
         case network
@@ -2746,6 +2809,9 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         if let blockNumber = self.blockNumber {
             try encodeContainer.encode(blockNumber, forKey: .blockNumber)
         }
+        if let confirmationStatus = self.confirmationStatus {
+            try encodeContainer.encode(confirmationStatus.rawValue, forKey: .confirmationStatus)
+        }
         if let contractAddress = self.contractAddress {
             try encodeContainer.encode(contractAddress, forKey: .contractAddress)
         }
@@ -2754,6 +2820,9 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         }
         if let effectiveGasPrice = self.effectiveGasPrice {
             try encodeContainer.encode(effectiveGasPrice, forKey: .effectiveGasPrice)
+        }
+        if let executionStatus = self.executionStatus {
+            try encodeContainer.encode(executionStatus.rawValue, forKey: .executionStatus)
         }
         if let from = self.from {
             try encodeContainer.encode(from, forKey: .from)
@@ -2839,6 +2908,10 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         transactionFee = transactionFeeDecoded
         let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
         transactionId = transactionIdDecoded
+        let confirmationStatusDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ConfirmationStatus.self, forKey: .confirmationStatus)
+        confirmationStatus = confirmationStatusDecoded
+        let executionStatusDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ExecutionStatus.self, forKey: .executionStatus)
+        executionStatus = executionStatusDecoded
     }
 }
 
@@ -2853,12 +2926,16 @@ extension ManagedBlockchainQueryClientTypes {
         public var blockHash: Swift.String?
         /// The block number in which the transaction is recorded.
         public var blockNumber: Swift.String?
+        /// Specifies whether the transaction has reached Finality.
+        public var confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus?
         /// The blockchain address for the contract.
         public var contractAddress: Swift.String?
         /// The amount of gas used up to the specified point in the block.
         public var cumulativeGasUsed: Swift.String?
         /// The effective gas price.
         public var effectiveGasPrice: Swift.String?
+        /// Identifies whether the transaction has succeeded or failed.
+        public var executionStatus: ManagedBlockchainQueryClientTypes.ExecutionStatus?
         /// The initiator of the transaction. It is either in the form a public key or a contract address.
         public var from: Swift.String?
         /// The amount of gas used for the transaction.
@@ -2875,8 +2952,12 @@ extension ManagedBlockchainQueryClientTypes {
         public var signatures: Swift.String?
         /// The signature of the transaction. The Z coordinate of a point V.
         public var signaturev: Swift.Int?
-        /// The status of the transaction.
-        /// This member is required.
+        /// The status of the transaction. This property is deprecated. You must use the confirmationStatus and the executionStatus properties to determine if the status of the transaction is FINAL or FAILED.
+        ///
+        /// * Transactions with a status of FINAL will now have the confirmationStatus set to FINAL and the executionStatus set to SUCCEEDED.
+        ///
+        /// * Transactions with a status of FAILED will now have the confirmationStatus set to FINAL and the executionStatus set to FAILED.
+        @available(*, deprecated, message: "The status field in the GetTransaction response is deprecated and is replaced with the confirmationStatus and executionStatus fields.")
         public var status: ManagedBlockchainQueryClientTypes.QueryTransactionStatus?
         /// The identifier of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
         /// This member is required.
@@ -2898,9 +2979,11 @@ extension ManagedBlockchainQueryClientTypes {
         public init(
             blockHash: Swift.String? = nil,
             blockNumber: Swift.String? = nil,
+            confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus? = nil,
             contractAddress: Swift.String? = nil,
             cumulativeGasUsed: Swift.String? = nil,
             effectiveGasPrice: Swift.String? = nil,
+            executionStatus: ManagedBlockchainQueryClientTypes.ExecutionStatus? = nil,
             from: Swift.String? = nil,
             gasUsed: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
@@ -2919,9 +3002,11 @@ extension ManagedBlockchainQueryClientTypes {
         {
             self.blockHash = blockHash
             self.blockNumber = blockNumber
+            self.confirmationStatus = confirmationStatus
             self.contractAddress = contractAddress
             self.cumulativeGasUsed = cumulativeGasUsed
             self.effectiveGasPrice = effectiveGasPrice
+            self.executionStatus = executionStatus
             self.from = from
             self.gasUsed = gasUsed
             self.network = network

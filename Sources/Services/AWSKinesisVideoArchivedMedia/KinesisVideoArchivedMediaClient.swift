@@ -94,7 +94,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `InvalidCodecPrivateDataException` : The codec private data in at least one of the tracks of the video stream is not valid for this operation.
     /// - `InvalidMediaFrameException` : One or more frames in the requested clip could not be parsed based on the specified codec.
     /// - `MissingCodecPrivateDataException` : No codec private data was found in at least one of tracks of the video stream.
-    /// - `NoDataRetentionException` : A streaming session was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
+    /// - `NoDataRetentionException` : GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
@@ -185,7 +185,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used.
     /// - `InvalidCodecPrivateDataException` : The codec private data in at least one of the tracks of the video stream is not valid for this operation.
     /// - `MissingCodecPrivateDataException` : No codec private data was found in at least one of tracks of the video stream.
-    /// - `NoDataRetentionException` : A streaming session was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
+    /// - `NoDataRetentionException` : GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
@@ -280,7 +280,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used.
     /// - `InvalidCodecPrivateDataException` : The codec private data in at least one of the tracks of the video stream is not valid for this operation.
     /// - `MissingCodecPrivateDataException` : No codec private data was found in at least one of tracks of the video stream.
-    /// - `NoDataRetentionException` : A streaming session was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
+    /// - `NoDataRetentionException` : GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     /// - `UnsupportedStreamMediaTypeException` : The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
@@ -320,7 +320,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
 
     /// Performs the `GetImages` operation on the `AWSAcuityReader` service.
     ///
-    /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     ///
     /// - Parameter GetImagesInput : [no documentation found]
     ///
@@ -331,6 +331,7 @@ extension KinesisVideoArchivedMediaClient: KinesisVideoArchivedMediaClientProtoc
     /// __Possible Exceptions:__
     /// - `ClientLimitExceededException` : Kinesis Video Streams has throttled the request because you have exceeded a limit. Try making the call later. For information about limits, see [Kinesis Video Streams Limits](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used.
+    /// - `NoDataRetentionException` : GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     /// - `NotAuthorizedException` : Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     /// - `ResourceNotFoundException` : GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     public func getImages(input: GetImagesInput) async throws -> GetImagesOutput
