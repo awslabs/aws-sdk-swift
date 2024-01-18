@@ -2817,6 +2817,104 @@
                             "DefaultInstanceWarmup": 120,
                             "VPCZoneIdentifier": "subnet-057fa0918fEXAMPLE"
                         }
+                    },
+                    {
+                        "title": "To create an Auto Scaling group with an attached target group",
+                        "documentation": "This example creates an Auto Scaling group and attaches the specified target group.",
+                        "input": {
+                            "AutoScalingGroupName": "my-auto-scaling-group",
+                            "LaunchTemplate": {
+                                "LaunchTemplateName": "my-template-for-auto-scaling",
+                                "Version": "$Default"
+                            },
+                            "MinSize": 1,
+                            "MaxSize": 3,
+                            "TargetGroupARNs": [
+                                "arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"
+                            ],
+                            "HealthCheckType": "ELB",
+                            "HealthCheckGracePeriod": 300,
+                            "VPCZoneIdentifier": "subnet-057fa0918fEXAMPLE, subnet-610acd08EXAMPLE"
+                        }
+                    },
+                    {
+                        "title": "To create an Auto Scaling group with a mixed instances policy",
+                        "documentation": "This example creates an Auto Scaling group with a mixed instances policy. It specifies the c5.large, c5a.large, and c6g.large instance types and defines a different launch template for the c6g.large instance type.",
+                        "input": {
+                            "AutoScalingGroupName": "my-asg",
+                            "MixedInstancesPolicy": {
+                                "LaunchTemplate": {
+                                    "LaunchTemplateSpecification": {
+                                        "LaunchTemplateName": "my-launch-template-for-x86",
+                                        "Version": "$Default"
+                                    },
+                                    "Overrides": [
+                                        {
+                                            "InstanceType": "c6g.large",
+                                            "LaunchTemplateSpecification": {
+                                                "LaunchTemplateName": "my-launch-template-for-arm",
+                                                "Version": "$Default"
+                                            }
+                                        },
+                                        {
+                                            "InstanceType": "c5.large"
+                                        },
+                                        {
+                                            "InstanceType": "c5a.large"
+                                        }
+                                    ]
+                                },
+                                "InstancesDistribution": {
+                                    "OnDemandBaseCapacity": 1,
+                                    "OnDemandPercentageAboveBaseCapacity": 50,
+                                    "SpotAllocationStrategy": "price-capacity-optimized"
+                                }
+                            },
+                            "MinSize": 1,
+                            "MaxSize": 5,
+                            "DesiredCapacity": 3,
+                            "VPCZoneIdentifier": "subnet-057fa0918fEXAMPLE, subnet-610acd08EXAMPLE"
+                        }
+                    },
+                    {
+                        "title": "To create an Auto Scaling group using attribute-based instance type selection",
+                        "documentation": "This example creates an Auto Scaling group using attribute-based instance type selection. It requires the instance types to have a minimum of four vCPUs and a maximum of eight vCPUs, a minimum of 16,384 MiB of memory, and an Intel manufactured CPU.",
+                        "input": {
+                            "AutoScalingGroupName": "my-asg",
+                            "MixedInstancesPolicy": {
+                                "LaunchTemplate": {
+                                    "LaunchTemplateSpecification": {
+                                        "LaunchTemplateName": "my-template-for-auto-scaling",
+                                        "Version": "$Default"
+                                    },
+                                    "Overrides": [
+                                        {
+                                            "InstanceRequirements": {
+                                                "VCpuCount": {
+                                                    "Min": 4,
+                                                    "Max": 8
+                                                },
+                                                "MemoryMiB": {
+                                                    "Min": 16384
+                                                },
+                                                "CpuManufacturers": [
+                                                    "intel"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "InstancesDistribution": {
+                                    "OnDemandPercentageAboveBaseCapacity": 50,
+                                    "SpotAllocationStrategy": "price-capacity-optimized"
+                                }
+                            },
+                            "MinSize": 0,
+                            "MaxSize": 100,
+                            "DesiredCapacity": 4,
+                            "DesiredCapacityType": "units",
+                            "VPCZoneIdentifier": "subnet-057fa0918fEXAMPLE, subnet-610acd08EXAMPLE"
+                        }
                     }
                 ]
             }
@@ -3296,6 +3394,14 @@
                         "documentation": "This example deletes the specified Auto Scaling group.",
                         "input": {
                             "AutoScalingGroupName": "my-auto-scaling-group"
+                        }
+                    },
+                    {
+                        "title": "To delete an Auto Scaling group and all its instances",
+                        "documentation": "This example deletes the specified Auto Scaling group and all its instances.",
+                        "input": {
+                            "AutoScalingGroupName": "my-auto-scaling-group",
+                            "ForceDelete": true
                         }
                     }
                 ]
@@ -9971,6 +10077,17 @@
                             ],
                             "AutoScalingGroupName": "my-auto-scaling-group",
                             "ProtectedFromScaleIn": true
+                        }
+                    },
+                    {
+                        "title": "To disable instance protection for an instance",
+                        "documentation": "This example disables instance protection for the specified instance.",
+                        "input": {
+                            "InstanceIds": [
+                                "i-93633f9b"
+                            ],
+                            "AutoScalingGroupName": "my-auto-scaling-group",
+                            "ProtectedFromScaleIn": false
                         }
                     }
                 ]

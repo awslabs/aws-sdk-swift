@@ -34,10 +34,12 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackOutput>: Middle
         }
         response.httpResponse.body = .data(data)
 
+        response.httpResponse.body = .data(data)
+
         let xmlString = String(data: data, encoding: .utf8) ?? ""
         if xmlString.contains("<Error>") {
             // Handle the error as a 500 Internal Server Error
-            var modifiedResponse = response
+            let modifiedResponse = response
             modifiedResponse.httpResponse.statusCode = .internalServerError
             return modifiedResponse
         }
