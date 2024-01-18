@@ -511,6 +511,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
+[AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
+
 [AWSNimble](../../../../../swift/api/awsnimble/latest)
 
 [AWSOAM](../../../../../swift/api/awsoam/latest)
@@ -702,6 +704,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSsmSap](../../../../../swift/api/awsssmsap/latest)
 
 [AWSStorageGateway](../../../../../swift/api/awsstoragegateway/latest)
+
+[AWSSupplyChain](../../../../../swift/api/awssupplychain/latest)
 
 [AWSSupport](../../../../../swift/api/awssupport/latest)
 

@@ -5934,6 +5934,7 @@ extension BedrockAgentClientTypes {
     public enum KnowledgeBaseStorageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case opensearchServerless
         case pinecone
+        case rds
         case redisEnterpriseCloud
         case sdkUnknown(Swift.String)
 
@@ -5941,6 +5942,7 @@ extension BedrockAgentClientTypes {
             return [
                 .opensearchServerless,
                 .pinecone,
+                .rds,
                 .redisEnterpriseCloud,
                 .sdkUnknown("")
             ]
@@ -5953,6 +5955,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
+            case .rds: return "RDS"
             case .redisEnterpriseCloud: return "REDIS_ENTERPRISE_CLOUD"
             case let .sdkUnknown(s): return s
             }
@@ -7933,6 +7936,155 @@ extension BedrockAgentClientTypes {
     }
 }
 
+extension BedrockAgentClientTypes.RdsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialsSecretArn
+        case databaseName
+        case fieldMapping
+        case resourceArn
+        case tableName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentialsSecretArn = self.credentialsSecretArn {
+            try encodeContainer.encode(credentialsSecretArn, forKey: .credentialsSecretArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let fieldMapping = self.fieldMapping {
+            try encodeContainer.encode(fieldMapping, forKey: .fieldMapping)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let credentialsSecretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialsSecretArn)
+        credentialsSecretArn = credentialsSecretArnDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let fieldMappingDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RdsFieldMapping.self, forKey: .fieldMapping)
+        fieldMapping = fieldMappingDecoded
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Contains the configurations to use RDS to store knowledge base data.
+    public struct RdsConfiguration: Swift.Equatable {
+        /// Arn of a SecretsManager Secret.
+        /// This member is required.
+        public var credentialsSecretArn: Swift.String?
+        /// Name of the database within RDS
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// A mapping of Bedrock Knowledge Base fields to RDS column names
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.RdsFieldMapping?
+        /// Arn of a RDS Resource.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// Name of the table within RDS
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            credentialsSecretArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            fieldMapping: BedrockAgentClientTypes.RdsFieldMapping? = nil,
+            resourceArn: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.credentialsSecretArn = credentialsSecretArn
+            self.databaseName = databaseName
+            self.fieldMapping = fieldMapping
+            self.resourceArn = resourceArn
+            self.tableName = tableName
+        }
+    }
+
+}
+
+extension BedrockAgentClientTypes.RdsFieldMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadataField
+        case primaryKeyField
+        case textField
+        case vectorField
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metadataField = self.metadataField {
+            try encodeContainer.encode(metadataField, forKey: .metadataField)
+        }
+        if let primaryKeyField = self.primaryKeyField {
+            try encodeContainer.encode(primaryKeyField, forKey: .primaryKeyField)
+        }
+        if let textField = self.textField {
+            try encodeContainer.encode(textField, forKey: .textField)
+        }
+        if let vectorField = self.vectorField {
+            try encodeContainer.encode(vectorField, forKey: .vectorField)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primaryKeyFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryKeyField)
+        primaryKeyField = primaryKeyFieldDecoded
+        let vectorFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vectorField)
+        vectorField = vectorFieldDecoded
+        let textFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textField)
+        textField = textFieldDecoded
+        let metadataFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadataField)
+        metadataField = metadataFieldDecoded
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// A mapping of Bedrock Knowledge Base fields to RDS column names
+    public struct RdsFieldMapping: Swift.Equatable {
+        /// Name of the column
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// Name of the column
+        /// This member is required.
+        public var primaryKeyField: Swift.String?
+        /// Name of the column
+        /// This member is required.
+        public var textField: Swift.String?
+        /// Name of the column
+        /// This member is required.
+        public var vectorField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            primaryKeyField: Swift.String? = nil,
+            textField: Swift.String? = nil,
+            vectorField: Swift.String? = nil
+        )
+        {
+            self.metadataField = metadataField
+            self.primaryKeyField = primaryKeyField
+            self.textField = textField
+            self.vectorField = vectorField
+        }
+    }
+
+}
+
 extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case credentialsSecretArn
@@ -8480,6 +8632,7 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case opensearchServerlessConfiguration
         case pineconeConfiguration
+        case rdsConfiguration
         case redisEnterpriseCloudConfiguration
         case type
     }
@@ -8491,6 +8644,9 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         }
         if let pineconeConfiguration = self.pineconeConfiguration {
             try encodeContainer.encode(pineconeConfiguration, forKey: .pineconeConfiguration)
+        }
+        if let rdsConfiguration = self.rdsConfiguration {
+            try encodeContainer.encode(rdsConfiguration, forKey: .rdsConfiguration)
         }
         if let redisEnterpriseCloudConfiguration = self.redisEnterpriseCloudConfiguration {
             try encodeContainer.encode(redisEnterpriseCloudConfiguration, forKey: .redisEnterpriseCloudConfiguration)
@@ -8510,6 +8666,8 @@ extension BedrockAgentClientTypes.StorageConfiguration: Swift.Codable {
         pineconeConfiguration = pineconeConfigurationDecoded
         let redisEnterpriseCloudConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.self, forKey: .redisEnterpriseCloudConfiguration)
         redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfigurationDecoded
+        let rdsConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.RdsConfiguration.self, forKey: .rdsConfiguration)
+        rdsConfiguration = rdsConfigurationDecoded
     }
 }
 
@@ -8520,6 +8678,8 @@ extension BedrockAgentClientTypes {
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the configurations to use Pinecone to store knowledge base data.
         public var pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration?
+        /// Contains the configurations to use RDS to store knowledge base data.
+        public var rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration?
         /// Contains the configurations to use Redis Enterprise Cloud to store knowledge base data.
         public var redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration?
         /// The storage type of a knowledge base.
@@ -8529,12 +8689,14 @@ extension BedrockAgentClientTypes {
         public init(
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
+            rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
             redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         )
         {
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
+            self.rdsConfiguration = rdsConfiguration
             self.redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfiguration
             self.type = type
         }

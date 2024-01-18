@@ -1026,6 +1026,7 @@ extension CreateWorkspaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken
+        case kmsKeyArn
         case tags
     }
 
@@ -1036,6 +1037,9 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1058,17 +1062,21 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     public var alias: Swift.String?
     /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     public var clientToken: Swift.String?
+    /// Optional, customer managed KMS key used to encrypt data for this workspace
+    public var kmsKeyArn: Swift.String?
     /// Optional, user-provided tags for this workspace.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.alias = alias
         self.clientToken = clientToken
+        self.kmsKeyArn = kmsKeyArn
         self.tags = tags
     }
 }
@@ -1077,12 +1085,14 @@ struct CreateWorkspaceInputBody: Swift.Equatable {
     let alias: Swift.String?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let kmsKeyArn: Swift.String?
 }
 
 extension CreateWorkspaceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken
+        case kmsKeyArn
         case tags
     }
 
@@ -1103,6 +1113,8 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -1112,11 +1124,13 @@ extension CreateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateWorkspaceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.kmsKeyArn = output.kmsKeyArn
             self.status = output.status
             self.tags = output.tags
             self.workspaceId = output.workspaceId
         } else {
             self.arn = nil
+            self.kmsKeyArn = nil
             self.status = nil
             self.tags = nil
             self.workspaceId = nil
@@ -1129,6 +1143,8 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
     /// The ARN of the workspace that was just created.
     /// This member is required.
     public var arn: Swift.String?
+    /// Customer managed KMS key ARN for this workspace
+    public var kmsKeyArn: Swift.String?
     /// The status of the workspace that was just created (usually CREATING).
     /// This member is required.
     public var status: AmpClientTypes.WorkspaceStatus?
@@ -1140,12 +1156,14 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         status: AmpClientTypes.WorkspaceStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
     )
     {
         self.arn = arn
+        self.kmsKeyArn = kmsKeyArn
         self.status = status
         self.tags = tags
         self.workspaceId = workspaceId
@@ -1157,11 +1175,13 @@ struct CreateWorkspaceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: AmpClientTypes.WorkspaceStatus?
     let tags: [Swift.String:Swift.String]?
+    let kmsKeyArn: Swift.String?
 }
 
 extension CreateWorkspaceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case kmsKeyArn
         case status
         case tags
         case workspaceId
@@ -1186,6 +1206,8 @@ extension CreateWorkspaceOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -4957,6 +4979,7 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
         case alias
         case arn
         case createdAt
+        case kmsKeyArn
         case prometheusEndpoint
         case status
         case tags
@@ -4973,6 +4996,9 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let prometheusEndpoint = self.prometheusEndpoint {
             try encodeContainer.encode(prometheusEndpoint, forKey: .prometheusEndpoint)
@@ -5016,6 +5042,8 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -5030,6 +5058,8 @@ extension AmpClientTypes {
         /// The time when the workspace was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// The customer managed KMS key of this workspace.
+        public var kmsKeyArn: Swift.String?
         /// Prometheus endpoint URI.
         public var prometheusEndpoint: Swift.String?
         /// The status of this workspace.
@@ -5045,6 +5075,7 @@ extension AmpClientTypes {
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            kmsKeyArn: Swift.String? = nil,
             prometheusEndpoint: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -5054,6 +5085,7 @@ extension AmpClientTypes {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
             self.prometheusEndpoint = prometheusEndpoint
             self.status = status
             self.tags = tags
@@ -5151,6 +5183,7 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
         case alias
         case arn
         case createdAt
+        case kmsKeyArn
         case status
         case tags
         case workspaceId
@@ -5166,6 +5199,9 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
@@ -5204,6 +5240,8 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -5218,6 +5256,8 @@ extension AmpClientTypes {
         /// The time when the workspace was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// Customer managed KMS key ARN for this workspace
+        public var kmsKeyArn: Swift.String?
         /// The status of this workspace.
         /// This member is required.
         public var status: AmpClientTypes.WorkspaceStatus?
@@ -5231,6 +5271,7 @@ extension AmpClientTypes {
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            kmsKeyArn: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             workspaceId: Swift.String? = nil
@@ -5239,6 +5280,7 @@ extension AmpClientTypes {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
             self.status = status
             self.tags = tags
             self.workspaceId = workspaceId

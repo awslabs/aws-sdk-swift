@@ -114,7 +114,7 @@ extension FisClientTypes.Action: Swift.Codable {
 }
 
 extension FisClientTypes {
-    /// Describes an action. For more information, see [FIS actions](https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html) in the Fault Injection Simulator User Guide.
+    /// Describes an action. For more information, see [FIS actions](https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html) in the Fault Injection Service User Guide.
     public struct Action: Swift.Equatable {
         /// The description for the action.
         public var description: Swift.String?
@@ -449,7 +449,7 @@ extension FisClientTypes.CreateExperimentTemplateActionInput: Swift.Codable {
 }
 
 extension FisClientTypes {
-    /// Specifies an action for an experiment template. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide.
+    /// Specifies an action for an experiment template. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Service User Guide.
     public struct CreateExperimentTemplateActionInput: Swift.Equatable {
         /// The ID of the action. The format of the action ID is: aws:service-name:action-type.
         /// This member is required.
@@ -976,7 +976,7 @@ extension FisClientTypes.CreateExperimentTemplateTargetInput: Swift.Codable {
 }
 
 extension FisClientTypes {
-    /// Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both ARNs and tags. For more information, see [Targets](https://docs.aws.amazon.com/fis/latest/userguide/targets.html) in the Fault Injection Simulator User Guide.
+    /// Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both ARNs and tags. For more information, see [Targets](https://docs.aws.amazon.com/fis/latest/userguide/targets.html) in the Fault Injection Service User Guide.
     public struct CreateExperimentTemplateTargetInput: Swift.Equatable {
         /// The filters to apply to identify target resources using specific attributes.
         public var filters: [FisClientTypes.ExperimentTemplateTargetInputFilter]?
@@ -3449,7 +3449,7 @@ extension FisClientTypes.ExperimentTemplateTargetInputFilter: Swift.Codable {
 }
 
 extension FisClientTypes {
-    /// Specifies a filter used for the target resource input in an experiment template. For more information, see [Resource filters](https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters) in the Fault Injection Simulator User Guide.
+    /// Specifies a filter used for the target resource input in an experiment template. For more information, see [Resource filters](https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters) in the Fault Injection Service User Guide.
     public struct ExperimentTemplateTargetInputFilter: Swift.Equatable {
         /// The attribute path for the filter.
         /// This member is required.

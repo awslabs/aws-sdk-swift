@@ -627,7 +627,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -1266,7 +1266,7 @@ extension GlueClient: GlueClientProtocol {
 
     /// Performs the `CreateConnection` operation on the `AWSGlue` service.
     ///
-    /// Creates a connection definition in the Data Catalog.
+    /// Creates a connection definition in the Data Catalog. Connections used for creating federated resources require the IAM glue:PassConnection permission.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///
@@ -5421,7 +5421,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -5525,7 +5525,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -6182,7 +6182,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -6388,7 +6388,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -6591,7 +6591,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -6645,7 +6645,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -6699,7 +6699,7 @@ extension GlueClient: GlueClientProtocol {
     /// __Possible Exceptions:__
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `FederationSourceException` : A federation source failed.
-    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `FederationSourceRetryableException` : A federation source failed, but the operation may be retried.
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.

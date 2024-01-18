@@ -78,8 +78,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
     /// - `ValidationException` : The operation failed due to an invalid or malformed request.
@@ -129,8 +129,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -181,8 +181,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -233,8 +233,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -285,7 +285,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -336,7 +336,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -376,6 +376,57 @@ extension KeyspacesClient: KeyspacesClientProtocol {
         return result
     }
 
+    /// Performs the `GetTableAutoScalingSettings` operation on the `KeyspacesService` service.
+    ///
+    /// Returns auto scaling related settings of the specified table in JSON format. If the table is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of the table are included. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
+    ///
+    /// - Parameter GetTableAutoScalingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableAutoScalingSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
+    /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
+    /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
+    /// - `ValidationException` : The operation failed due to an invalid or malformed request.
+    public func getTableAutoScalingSettings(input: GetTableAutoScalingSettingsInput) async throws -> GetTableAutoScalingSettingsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableAutoScalingSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cassandra")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>(id: "getTableAutoScalingSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTableAutoScalingSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>(xAmzTarget: "KeyspacesService.GetTableAutoScalingSettings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetTableAutoScalingSettingsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTableAutoScalingSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTableAutoScalingSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetTableAutoScalingSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTableAutoScalingSettingsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListKeyspaces` operation on the `KeyspacesService` service.
     ///
     /// Returns a list of keyspaces.
@@ -387,7 +438,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -438,7 +489,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -489,7 +540,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -531,11 +582,13 @@ extension KeyspacesClient: KeyspacesClientProtocol {
 
     /// Performs the `RestoreTable` operation on the `KeyspacesService` service.
     ///
-    /// Restores the specified table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see [ Time window for PITR continuous backups](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_window) in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time recovery settings from the source table. Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp, these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:
+    /// Restores the table to the specified point in time within the earliest_restorable_timestamp and the current time. For more information about restore points, see [ Time window for PITR continuous backups](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_window) in the Amazon Keyspaces Developer Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account. When you restore using point in time recovery, Amazon Keyspaces restores your source table's schema and data to the state based on the selected timestamp (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored to the state based on the selected timestamp. In addition to the table's schema, data, and TTL settings, RestoreTable restores the capacity mode, auto scaling settings, encryption settings, and point-in-time recovery settings from the source table. Unlike the table's schema data and TTL settings, which are restored based on the selected timestamp, these settings are always restored based on the table's settings as of the current time or when the table was deleted. You can also overwrite these settings during restore:
     ///
     /// * Read/write capacity mode
     ///
-    /// * Provisioned throughput capacity settings
+    /// * Provisioned throughput capacity units
+    ///
+    /// * Auto scaling settings
     ///
     /// * Point-in-time (PITR) settings
     ///
@@ -543,8 +596,6 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     ///
     ///
     /// For more information, see [PITR restore settings](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery_HowItWorks.html#howitworks_backup_settings) in the Amazon Keyspaces Developer Guide. Note that the following settings are not restored, and you must configure them manually for the new table:
-    ///
-    /// * Automatic scaling policies (for tables that use provisioned capacity mode)
     ///
     /// * Identity and Access Management (IAM) policies
     ///
@@ -557,8 +608,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -609,7 +660,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -660,8 +711,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.
@@ -703,7 +754,7 @@ extension KeyspacesClient: KeyspacesClientProtocol {
 
     /// Performs the `UpdateTable` operation on the `KeyspacesService` service.
     ///
-    /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
+    /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     ///
     /// - Parameter UpdateTableInput : [no documentation found]
     ///
@@ -712,8 +763,8 @@ extension KeyspacesClient: KeyspacesClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : Amazon Keyspaces could not complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
+    /// - `AccessDeniedException` : You don't have sufficient access permissions to perform this action.
+    /// - `ConflictException` : Amazon Keyspaces couldn't complete the requested action. This error may occur if you try to perform an action and the same or a different action is already in progress, or if you try to create a resource that already exists.
     /// - `InternalServerException` : Amazon Keyspaces was unable to fully process this request because of an internal server error.
     /// - `ResourceNotFoundException` : The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
     /// - `ServiceQuotaExceededException` : The operation exceeded the service quota for this resource. For more information on service quotas, see [Quotas](https://docs.aws.amazon.com/keyspaces/latest/devguide/quotas.html) in the Amazon Keyspaces Developer Guide.

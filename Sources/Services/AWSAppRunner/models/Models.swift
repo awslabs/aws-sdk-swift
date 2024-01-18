@@ -5749,7 +5749,7 @@ extension AppRunnerClientTypes {
         public var egressConfiguration: AppRunnerClientTypes.EgressConfiguration?
         /// Network configuration settings for inbound message traffic.
         public var ingressConfiguration: AppRunnerClientTypes.IngressConfiguration?
-        /// App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual-stack (IPv4 and IPv6) for your incoming public network configuration. This is an optional parameter. If you do not specify an IpAddressType, it defaults to select IPv4. Currently, App Runner supports dual-stack for only Public endpoint. Only IPv4 is supported for Private endpoint. If you update a service that's using dual-stack Public endpoint to a Private endpoint, your App Runner service will default to support only IPv4 for Private endpoint and fail to receive traffic originating from IPv6 endpoint.
+        /// App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual stack (IPv4 and IPv6) for your incoming public network configuration. This is an optional parameter. If you do not specify an IpAddressType, it defaults to select IPv4. Currently, App Runner supports dual stack for only Public endpoint. Only IPv4 is supported for Private endpoint. If you update a service that's using dual-stack Public endpoint to a Private endpoint, your App Runner service will default to support only IPv4 for Private endpoint and fail to receive traffic originating from IPv6 endpoint.
         public var ipAddressType: AppRunnerClientTypes.IpAddressType?
 
         public init(
@@ -6466,8 +6466,10 @@ extension AppRunnerClientTypes {
         case nodejs12
         case nodejs14
         case nodejs16
+        case nodejs18
         case php81
         case python3
+        case python311
         case ruby31
         case sdkUnknown(Swift.String)
 
@@ -6480,8 +6482,10 @@ extension AppRunnerClientTypes {
                 .nodejs12,
                 .nodejs14,
                 .nodejs16,
+                .nodejs18,
                 .php81,
                 .python3,
+                .python311,
                 .ruby31,
                 .sdkUnknown("")
             ]
@@ -6499,8 +6503,10 @@ extension AppRunnerClientTypes {
             case .nodejs12: return "NODEJS_12"
             case .nodejs14: return "NODEJS_14"
             case .nodejs16: return "NODEJS_16"
+            case .nodejs18: return "NODEJS_18"
             case .php81: return "PHP_81"
             case .python3: return "PYTHON_3"
+            case .python311: return "PYTHON_311"
             case .ruby31: return "RUBY_31"
             case let .sdkUnknown(s): return s
             }

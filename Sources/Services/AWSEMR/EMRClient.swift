@@ -2278,6 +2278,53 @@ extension EMRClient: EMRClientProtocol {
         return result
     }
 
+    /// Performs the `SetKeepJobFlowAliveWhenNoSteps` operation on the `ElasticMapReduce` service.
+    ///
+    /// You can use the SetKeepJobFlowAliveWhenNoSteps to configure a cluster (job flow) to terminate after the step execution, i.e., all your steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed, you can configure SetKeepJobFlowAliveWhenNoSteps to false. If you want a long running cluster, configure SetKeepJobFlowAliveWhenNoSteps to true. For more information, see [Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.
+    ///
+    /// - Parameter SetKeepJobFlowAliveWhenNoStepsInput : [no documentation found]
+    ///
+    /// - Returns: `SetKeepJobFlowAliveWhenNoStepsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Indicates that an error occurred while processing the request and that the request was not completed.
+    public func setKeepJobFlowAliveWhenNoSteps(input: SetKeepJobFlowAliveWhenNoStepsInput) async throws -> SetKeepJobFlowAliveWhenNoStepsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setKeepJobFlowAliveWhenNoSteps")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "elasticmapreduce")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(id: "setKeepJobFlowAliveWhenNoSteps")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(xAmzTarget: "ElasticMapReduce.SetKeepJobFlowAliveWhenNoSteps"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetKeepJobFlowAliveWhenNoStepsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetKeepJobFlowAliveWhenNoStepsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetKeepJobFlowAliveWhenNoStepsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `SetTerminationProtection` operation on the `ElasticMapReduce` service.
     ///
     /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster. SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false. For more information, see[Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.

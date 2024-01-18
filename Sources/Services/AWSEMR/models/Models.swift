@@ -14540,6 +14540,100 @@ extension EMRClientTypes {
 
 }
 
+extension SetKeepJobFlowAliveWhenNoStepsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobFlowIds = "JobFlowIds"
+        case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobFlowIds = jobFlowIds {
+            var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
+            }
+        }
+        if let keepJobFlowAliveWhenNoSteps = self.keepJobFlowAliveWhenNoSteps {
+            try encodeContainer.encode(keepJobFlowAliveWhenNoSteps, forKey: .keepJobFlowAliveWhenNoSteps)
+        }
+    }
+}
+
+extension SetKeepJobFlowAliveWhenNoStepsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SetKeepJobFlowAliveWhenNoStepsInput: Swift.Equatable {
+    /// A list of strings that uniquely identify the clusters to protect. This identifier is returned by [RunJobFlow](https://docs.aws.amazon.com/emr/latest/APIReference/API_RunJobFlow.html) and can also be obtained from [DescribeJobFlows](https://docs.aws.amazon.com/emr/latest/APIReference/API_DescribeJobFlows.html).
+    /// This member is required.
+    public var jobFlowIds: [Swift.String]?
+    /// A Boolean that indicates whether to terminate the cluster after all steps are executed.
+    /// This member is required.
+    public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
+
+    public init(
+        jobFlowIds: [Swift.String]? = nil,
+        keepJobFlowAliveWhenNoSteps: Swift.Bool? = nil
+    )
+    {
+        self.jobFlowIds = jobFlowIds
+        self.keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoSteps
+    }
+}
+
+struct SetKeepJobFlowAliveWhenNoStepsInputBody: Swift.Equatable {
+    let jobFlowIds: [Swift.String]?
+    let keepJobFlowAliveWhenNoSteps: Swift.Bool?
+}
+
+extension SetKeepJobFlowAliveWhenNoStepsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobFlowIds = "JobFlowIds"
+        case keepJobFlowAliveWhenNoSteps = "KeepJobFlowAliveWhenNoSteps"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobFlowIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .jobFlowIds)
+        var jobFlowIdsDecoded0:[Swift.String]? = nil
+        if let jobFlowIdsContainer = jobFlowIdsContainer {
+            jobFlowIdsDecoded0 = [Swift.String]()
+            for string0 in jobFlowIdsContainer {
+                if let string0 = string0 {
+                    jobFlowIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        jobFlowIds = jobFlowIdsDecoded0
+        let keepJobFlowAliveWhenNoStepsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepJobFlowAliveWhenNoSteps)
+        keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
+    }
+}
+
+extension SetKeepJobFlowAliveWhenNoStepsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetKeepJobFlowAliveWhenNoStepsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetKeepJobFlowAliveWhenNoStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension SetTerminationProtectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case jobFlowIds = "JobFlowIds"

@@ -904,6 +904,7 @@ extension AppStreamClient: AppStreamClientProtocol {
     /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func createStack(input: CreateStackInput) async throws -> CreateStackOutput

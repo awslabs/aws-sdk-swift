@@ -21,6 +21,7 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnsupportedOperationException` : The operation is not supported.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
     /// Performs the `CreateDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///
@@ -58,6 +59,23 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func createEventIntegration(input: CreateEventIntegrationInput) async throws -> CreateEventIntegrationOutput
+    /// Performs the `DeleteApplication` operation on the `AmazonAppIntegrationService` service.
+    ///
+    /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
     /// Performs the `DeleteDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
@@ -143,6 +161,23 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func getEventIntegration(input: GetEventIntegrationInput) async throws -> GetEventIntegrationOutput
+    /// Performs the `ListApplicationAssociations` operation on the `AmazonAppIntegrationService` service.
+    ///
+    /// Returns a paginated list of application associations for an application.
+    ///
+    /// - Parameter ListApplicationAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func listApplicationAssociations(input: ListApplicationAssociationsInput) async throws -> ListApplicationAssociationsOutput
     /// Performs the `ListApplications` operation on the `AmazonAppIntegrationService` service.
     ///
     /// This API is in preview release and subject to change. Lists applications in the account.
@@ -289,6 +324,7 @@ public protocol AppIntegrationsClientProtocol {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnsupportedOperationException` : The operation is not supported.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
     /// Performs the `UpdateDataIntegration` operation on the `AmazonAppIntegrationService` service.
     ///

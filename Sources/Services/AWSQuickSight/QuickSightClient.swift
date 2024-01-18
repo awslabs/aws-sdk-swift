@@ -7323,6 +7323,7 @@ extension QuickSightClient: QuickSightClientProtocol {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
