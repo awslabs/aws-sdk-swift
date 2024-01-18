@@ -51,6 +51,35 @@ extension ResiliencehubClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ResiliencehubClient.ResiliencehubClientConfiguration {
+        let clientConfiguration = try await ResiliencehubClient.ResiliencehubClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ResiliencehubClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ResiliencehubClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ResiliencehubClient.ResiliencehubClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ResiliencehubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

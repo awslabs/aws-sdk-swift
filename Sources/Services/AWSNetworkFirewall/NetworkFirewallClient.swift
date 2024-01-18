@@ -51,6 +51,35 @@ extension NetworkFirewallClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> NetworkFirewallClient.NetworkFirewallClientConfiguration {
+        let clientConfiguration = try await NetworkFirewallClient.NetworkFirewallClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> NetworkFirewallClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return NetworkFirewallClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension NetworkFirewallClient.NetworkFirewallClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct NetworkFirewallClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

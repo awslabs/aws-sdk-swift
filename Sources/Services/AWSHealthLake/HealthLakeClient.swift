@@ -51,6 +51,35 @@ extension HealthLakeClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> HealthLakeClient.HealthLakeClientConfiguration {
+        let clientConfiguration = try await HealthLakeClient.HealthLakeClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> HealthLakeClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return HealthLakeClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension HealthLakeClient.HealthLakeClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct HealthLakeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

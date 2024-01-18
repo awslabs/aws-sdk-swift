@@ -51,6 +51,35 @@ extension EMRServerlessClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> EMRServerlessClient.EMRServerlessClientConfiguration {
+        let clientConfiguration = try await EMRServerlessClient.EMRServerlessClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> EMRServerlessClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return EMRServerlessClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension EMRServerlessClient.EMRServerlessClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct EMRServerlessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

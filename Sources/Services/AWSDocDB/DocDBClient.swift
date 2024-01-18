@@ -47,6 +47,35 @@ extension DocDBClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> DocDBClient.DocDBClientConfiguration {
+        let clientConfiguration = try await DocDBClient.DocDBClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> DocDBClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return DocDBClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension DocDBClient.DocDBClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct DocDBClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

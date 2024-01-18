@@ -47,6 +47,35 @@ extension ElasticLoadBalancingClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration {
+        let clientConfiguration = try await ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ElasticLoadBalancingClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ElasticLoadBalancingClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ElasticLoadBalancingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

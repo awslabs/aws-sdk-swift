@@ -51,6 +51,35 @@ extension CodeGuruReviewerClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
+        let clientConfiguration = try await CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> CodeGuruReviewerClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return CodeGuruReviewerClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct CodeGuruReviewerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

@@ -51,6 +51,35 @@ extension NeptuneGraphClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> NeptuneGraphClient.NeptuneGraphClientConfiguration {
+        let clientConfiguration = try await NeptuneGraphClient.NeptuneGraphClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> NeptuneGraphClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return NeptuneGraphClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension NeptuneGraphClient.NeptuneGraphClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct NeptuneGraphClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

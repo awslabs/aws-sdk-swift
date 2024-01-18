@@ -51,6 +51,35 @@ extension ResourceGroupsTaggingAPIClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration {
+        let clientConfiguration = try await ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ResourceGroupsTaggingAPIClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ResourceGroupsTaggingAPIClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ResourceGroupsTaggingAPIClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

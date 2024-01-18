@@ -51,6 +51,35 @@ extension KinesisVideoMediaClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration {
+        let clientConfiguration = try await KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> KinesisVideoMediaClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return KinesisVideoMediaClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct KinesisVideoMediaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

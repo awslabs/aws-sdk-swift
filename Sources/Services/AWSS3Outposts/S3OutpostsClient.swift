@@ -51,6 +51,35 @@ extension S3OutpostsClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> S3OutpostsClient.S3OutpostsClientConfiguration {
+        let clientConfiguration = try await S3OutpostsClient.S3OutpostsClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> S3OutpostsClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return S3OutpostsClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension S3OutpostsClient.S3OutpostsClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct S3OutpostsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

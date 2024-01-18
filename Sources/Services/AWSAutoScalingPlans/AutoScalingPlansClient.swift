@@ -51,6 +51,35 @@ extension AutoScalingPlansClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> AutoScalingPlansClient.AutoScalingPlansClientConfiguration {
+        let clientConfiguration = try await AutoScalingPlansClient.AutoScalingPlansClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> AutoScalingPlansClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return AutoScalingPlansClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension AutoScalingPlansClient.AutoScalingPlansClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct AutoScalingPlansClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

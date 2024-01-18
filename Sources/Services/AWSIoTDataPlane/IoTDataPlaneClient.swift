@@ -51,6 +51,35 @@ extension IoTDataPlaneClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> IoTDataPlaneClient.IoTDataPlaneClientConfiguration {
+        let clientConfiguration = try await IoTDataPlaneClient.IoTDataPlaneClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> IoTDataPlaneClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return IoTDataPlaneClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension IoTDataPlaneClient.IoTDataPlaneClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct IoTDataPlaneClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

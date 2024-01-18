@@ -51,6 +51,35 @@ extension RedshiftDataClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> RedshiftDataClient.RedshiftDataClientConfiguration {
+        let clientConfiguration = try await RedshiftDataClient.RedshiftDataClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> RedshiftDataClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return RedshiftDataClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension RedshiftDataClient.RedshiftDataClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct RedshiftDataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

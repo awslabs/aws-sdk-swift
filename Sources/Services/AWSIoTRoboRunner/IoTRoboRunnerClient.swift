@@ -51,6 +51,35 @@ extension IoTRoboRunnerClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> IoTRoboRunnerClient.IoTRoboRunnerClientConfiguration {
+        let clientConfiguration = try await IoTRoboRunnerClient.IoTRoboRunnerClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> IoTRoboRunnerClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return IoTRoboRunnerClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension IoTRoboRunnerClient.IoTRoboRunnerClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct IoTRoboRunnerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

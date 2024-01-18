@@ -51,6 +51,35 @@ extension KinesisAnalyticsV2Client {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration {
+        let clientConfiguration = try await KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> KinesisAnalyticsV2Client {
+            let configuration = try await resolve(plugins: self.plugins)
+            return KinesisAnalyticsV2Client(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct KinesisAnalyticsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

@@ -51,6 +51,35 @@ extension ApiGatewayManagementApiClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration {
+        let clientConfiguration = try await ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ApiGatewayManagementApiClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ApiGatewayManagementApiClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ApiGatewayManagementApiClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

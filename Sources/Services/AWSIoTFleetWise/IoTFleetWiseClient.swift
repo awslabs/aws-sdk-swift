@@ -51,6 +51,35 @@ extension IoTFleetWiseClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> IoTFleetWiseClient.IoTFleetWiseClientConfiguration {
+        let clientConfiguration = try await IoTFleetWiseClient.IoTFleetWiseClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> IoTFleetWiseClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return IoTFleetWiseClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension IoTFleetWiseClient.IoTFleetWiseClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct IoTFleetWiseClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

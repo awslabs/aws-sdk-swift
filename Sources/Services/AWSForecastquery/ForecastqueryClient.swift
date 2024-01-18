@@ -51,6 +51,35 @@ extension ForecastqueryClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ForecastqueryClient.ForecastqueryClientConfiguration {
+        let clientConfiguration = try await ForecastqueryClient.ForecastqueryClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ForecastqueryClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ForecastqueryClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ForecastqueryClient.ForecastqueryClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ForecastqueryClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

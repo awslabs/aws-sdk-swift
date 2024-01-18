@@ -51,6 +51,35 @@ extension TranscribeStreamingClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> TranscribeStreamingClient.TranscribeStreamingClientConfiguration {
+        let clientConfiguration = try await TranscribeStreamingClient.TranscribeStreamingClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> TranscribeStreamingClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return TranscribeStreamingClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension TranscribeStreamingClient.TranscribeStreamingClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct TranscribeStreamingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

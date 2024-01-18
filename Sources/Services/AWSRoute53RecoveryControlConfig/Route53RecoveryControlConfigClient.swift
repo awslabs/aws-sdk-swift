@@ -51,6 +51,35 @@ extension Route53RecoveryControlConfigClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration {
+        let clientConfiguration = try await Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> Route53RecoveryControlConfigClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return Route53RecoveryControlConfigClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct Route53RecoveryControlConfigClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

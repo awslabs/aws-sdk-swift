@@ -51,6 +51,35 @@ extension ChimeSDKVoiceClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration {
+        let clientConfiguration = try await ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> ChimeSDKVoiceClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return ChimeSDKVoiceClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct ChimeSDKVoiceClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

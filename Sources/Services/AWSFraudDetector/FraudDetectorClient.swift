@@ -51,6 +51,35 @@ extension FraudDetectorClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> FraudDetectorClient.FraudDetectorClientConfiguration {
+        let clientConfiguration = try await FraudDetectorClient.FraudDetectorClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> FraudDetectorClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return FraudDetectorClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension FraudDetectorClient.FraudDetectorClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct FraudDetectorClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

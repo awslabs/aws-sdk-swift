@@ -51,6 +51,35 @@ extension VerifiedPermissionsClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration {
+        let clientConfiguration = try await VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> VerifiedPermissionsClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return VerifiedPermissionsClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct VerifiedPermissionsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

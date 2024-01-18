@@ -51,6 +51,35 @@ extension LookoutEquipmentClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
+        let clientConfiguration = try await LookoutEquipmentClient.LookoutEquipmentClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> LookoutEquipmentClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return LookoutEquipmentClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension LookoutEquipmentClient.LookoutEquipmentClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct LookoutEquipmentClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

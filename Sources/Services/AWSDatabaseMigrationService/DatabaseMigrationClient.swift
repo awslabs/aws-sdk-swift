@@ -51,6 +51,35 @@ extension DatabaseMigrationClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> DatabaseMigrationClient.DatabaseMigrationClientConfiguration {
+        let clientConfiguration = try await DatabaseMigrationClient.DatabaseMigrationClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> DatabaseMigrationClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return DatabaseMigrationClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension DatabaseMigrationClient.DatabaseMigrationClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct DatabaseMigrationClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

@@ -51,6 +51,35 @@ extension CloudHSMV2Client {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> CloudHSMV2Client.CloudHSMV2ClientConfiguration {
+        let clientConfiguration = try await CloudHSMV2Client.CloudHSMV2ClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> CloudHSMV2Client {
+            let configuration = try await resolve(plugins: self.plugins)
+            return CloudHSMV2Client(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension CloudHSMV2Client.CloudHSMV2ClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct CloudHSMV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

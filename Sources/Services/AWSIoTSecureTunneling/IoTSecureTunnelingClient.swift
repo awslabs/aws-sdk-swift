@@ -51,6 +51,35 @@ extension IoTSecureTunnelingClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration {
+        let clientConfiguration = try await IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> IoTSecureTunnelingClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return IoTSecureTunnelingClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct IoTSecureTunnelingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

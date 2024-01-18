@@ -51,6 +51,35 @@ extension WorkMailMessageFlowClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration {
+        let clientConfiguration = try await WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> WorkMailMessageFlowClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return WorkMailMessageFlowClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct WorkMailMessageFlowClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

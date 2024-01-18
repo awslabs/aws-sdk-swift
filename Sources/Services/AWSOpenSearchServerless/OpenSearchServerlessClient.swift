@@ -51,6 +51,35 @@ extension OpenSearchServerlessClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration {
+        let clientConfiguration = try await OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> OpenSearchServerlessClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return OpenSearchServerlessClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct OpenSearchServerlessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

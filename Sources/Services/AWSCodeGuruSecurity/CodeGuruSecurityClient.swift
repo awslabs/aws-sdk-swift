@@ -51,6 +51,35 @@ extension CodeGuruSecurityClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration {
+        let clientConfiguration = try await CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> CodeGuruSecurityClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return CodeGuruSecurityClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct CodeGuruSecurityClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

@@ -18,7 +18,7 @@ import ClientRuntime
 /// ```
 /// public typealias S3Client.S3ClientConfiguration = AWSClientConfiguration<S3Client.ServiceSpecificConfiguration>
 /// ```
-public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpecificConfiguration> {
+public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpecificConfiguration>: ClientConfiguration {
 
     /// The custom encoder to be used for encoding models for transmission.
     ///

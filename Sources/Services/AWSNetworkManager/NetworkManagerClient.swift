@@ -51,6 +51,35 @@ extension NetworkManagerClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> NetworkManagerClient.NetworkManagerClientConfiguration {
+        let clientConfiguration = try await NetworkManagerClient.NetworkManagerClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> NetworkManagerClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return NetworkManagerClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension NetworkManagerClient.NetworkManagerClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct NetworkManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

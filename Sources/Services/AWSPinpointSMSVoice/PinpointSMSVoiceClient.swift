@@ -51,6 +51,35 @@ extension PinpointSMSVoiceClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration {
+        let clientConfiguration = try await PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> PinpointSMSVoiceClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return PinpointSMSVoiceClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct PinpointSMSVoiceClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

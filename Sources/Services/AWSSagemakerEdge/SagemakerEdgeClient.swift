@@ -51,6 +51,35 @@ extension SagemakerEdgeClient {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> SagemakerEdgeClient.SagemakerEdgeClientConfiguration {
+        let clientConfiguration = try await SagemakerEdgeClient.SagemakerEdgeClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> SagemakerEdgeClient {
+            let configuration = try await resolve(plugins: self.plugins)
+            return SagemakerEdgeClient(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension SagemakerEdgeClient.SagemakerEdgeClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct SagemakerEdgeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {

@@ -51,6 +51,35 @@ extension GreengrassV2Client {
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
         }
     }
+
+    static func resolve(plugins: [any Plugin]) async throws -> GreengrassV2Client.GreengrassV2ClientConfiguration {
+        let clientConfiguration = try await GreengrassV2Client.GreengrassV2ClientConfiguration()
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: clientConfiguration)
+        }
+        return clientConfiguration
+    }
+
+    public class Builder {
+        private var plugins: [Plugin]
+        public init(defaultPlugins: [Plugin] = []) {
+            self.plugins = defaultPlugins
+        }
+        public func withPlugin(plugin: any Plugin) {
+            self.plugins.append(plugin)
+        }
+        public func build() async throws -> GreengrassV2Client {
+            let configuration = try await resolve(plugins: self.plugins)
+            return GreengrassV2Client(config: configuration)
+        }
+    }
+
+    public static func builder() -> Builder {
+        return Builder(defaultPlugins: [DefaultClientPlugin()])
+    }
+}
+
+extension GreengrassV2Client.GreengrassV2ClientConfiguration: AwsDefaultClientConfiguration & AwsRegionClientConfiguration & DefaultClientConfiguration & DefaultHttpClientConfiguration {
 }
 
 public struct GreengrassV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
