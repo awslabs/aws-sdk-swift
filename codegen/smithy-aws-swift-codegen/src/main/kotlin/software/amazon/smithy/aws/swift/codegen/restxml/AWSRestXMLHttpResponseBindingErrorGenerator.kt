@@ -12,7 +12,6 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
-import software.amazon.smithy.swift.codegen.SmithyReadWriteTypes
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes

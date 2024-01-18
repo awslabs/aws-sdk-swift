@@ -20,7 +20,7 @@ public struct Ec2Response {
     }
 
     public static var httpBinding: HTTPResponseOutputBinding<Ec2Response, Reader> {
-        return { httpResponse, responseReader in
+        return { _, responseReader in
             let reader = responseReader
             var value = Ec2Response()
             value.errors = try reader["Errors"].readIfPresent(readingClosure: Ec2Errors.readingClosure)
