@@ -27,7 +27,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2Response>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding())(httpResponse)
+        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
 
@@ -44,7 +44,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2Response>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding())(httpResponse)
+        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
 
@@ -58,7 +58,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2NarrowedResponse>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding())(httpResponse)
+        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
 
@@ -72,7 +72,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         </Ec2Response>
         """.utf8)
         let httpResponse = HttpResponse(body: .data(data), statusCode: .ok)
-        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding())(httpResponse)
+        let response = try await responseClosure(Ec2Response.httpBinding, responseDocumentBinding)(httpResponse)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
 }
