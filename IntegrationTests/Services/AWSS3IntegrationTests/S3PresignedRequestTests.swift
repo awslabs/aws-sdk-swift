@@ -47,9 +47,4 @@ class S3PresignedRequestTests: S3XCTestCase {
         XCTAssertNotNil(fetchedObject.metadata)
         XCTAssert(fetchedObject.metadata!["filename"] == key)
     }
-
-    override func tearDown() async throws {
-        _ = try await client.deleteObject(input: DeleteObjectInput(bucket: bucketName, key: key))
-        try await super.tearDown()
-    }
 }
