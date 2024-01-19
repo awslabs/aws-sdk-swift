@@ -11,17 +11,22 @@ import ClientRuntime
 import AWSClientRuntime
 import AWSRoute53
 
-/// Tests SigV4a signing flow using EventBridge::describeConnection
+/// Tests SigV4a signing flow using EventBridge's global endpoint.
 class EventBridgeSigV4ATests: XCTestCase {
+    // The custom event bridge client with only sigv4a auth scheme configured (w/o SigV4)
     private var sigv4aEventBridgeClient: EventBridgeClient!
-    private var regularEventBridgeClient: EventBridgeClient!
+    // The primary event bridge client used to create an event bus in primary region
+    private var primaryRegionEventBridgeClient: EventBridgeClient!
+    // The secondary event bridge client used to create an event bus in secondary region
     private var secondaryRegionEventBridgeClient: EventBridgeClient!
+    // The Route 53 client used to create a healthcheck, a parameter to EventBridge::createEndpoint
     private var route53Client: Route53Client!
 
     private var eventBridgeConfig: EventBridgeClient.EventBridgeClientConfiguration!
-    private let region = "us-west-2"
+    private let primaryRegion = "us-west-2"
     private let secondaryRegion = "us-east-1"
 
+    // Name for the EventBridge global endpoint
     private let endpointName = "sigv4a-test-global-endpoint"
     private let eventBusName = "sigv4a-integ-test-eventbus"
     private var endpointId: String!
@@ -30,20 +35,18 @@ class EventBridgeSigV4ATests: XCTestCase {
     private let route53HealthCheckArnPrefix = "arn:aws:route53:::healthcheck/"
 
     override func setUp() async throws {
-        // Create regular event bridge client
-        regularEventBridgeClient = try EventBridgeClient(region: region)
-        // Create event bridge client with only sigv4a auth scheme
-        eventBridgeConfig = try await EventBridgeClient.EventBridgeClientConfiguration(region: region)
+        // Create the clients
+        primaryRegionEventBridgeClient = try EventBridgeClient(region: primaryRegion)
+        secondaryRegionEventBridgeClient = try EventBridgeClient(region: secondaryRegion)
+
+        eventBridgeConfig = try await EventBridgeClient.EventBridgeClientConfiguration(region: primaryRegion)
         eventBridgeConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aEventBridgeClient = EventBridgeClient(config: eventBridgeConfig)
-        // Create secondary region EventBridge client used to create second event bus
-        // in secondary region, used when creating global endpoint
-        secondaryRegionEventBridgeClient = try EventBridgeClient(region: secondaryRegion)
-        // Create Route 53 client
+
         route53Client = try Route53Client(region: "us-east-1")
 
-        // Create two event buses with identical names to be used in two different regions for the global endpoint
-        let eventBusArn1 = try await regularEventBridgeClient.createEventBus(input: CreateEventBusInput(name: eventBusName)).eventBusArn
+        // Create two event buses with identical names but in two different regions for the global endpoint
+        let eventBusArn1 = try await primaryRegionEventBridgeClient.createEventBus(input: CreateEventBusInput(name: eventBusName)).eventBusArn
         let eventBusArn2 = try await secondaryRegionEventBridgeClient.createEventBus(input: CreateEventBusInput(name: eventBusName)).eventBusArn
 
         // Create Route 53 Healthcheck
@@ -69,30 +72,30 @@ class EventBridgeSigV4ATests: XCTestCase {
         let replicationState = EventBridgeClientTypes.ReplicationState.disabled
         let replicationConfig = EventBridgeClientTypes.ReplicationConfig(state: replicationState)
 
-        // Create the endpoint with the two endpoint event buses and the routing config (healthcheck).
+        // Create the global endpoint with the two endpoint event buses and the routing config (healthcheck).
         let endpointEventBus1 = EventBridgeClientTypes.EndpointEventBus(eventBusArn: eventBusArn1)
         let endpointEventBus2 = EventBridgeClientTypes.EndpointEventBus(eventBusArn: eventBusArn2)
-        _ = try await regularEventBridgeClient.createEndpoint(input: CreateEndpointInput(
+        _ = try await primaryRegionEventBridgeClient.createEndpoint(input: CreateEndpointInput(
             eventBuses: [endpointEventBus1, endpointEventBus2],
             name: endpointName,
             replicationConfig: replicationConfig,
             routingConfig: routingConfig
         ))
 
-        // Wait until global endpoint is active before trying to fetch endpoint ID
+        // Wait until global endpoint is active before trying to fetch the endpoint ID
         let seconds = 4.0
         try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
         
-        // Store the endpoint Id of the global endpoint just created
-        let endpointTemp = try await regularEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName))
+        // Fetch & store the endpoint ID of the global endpoint that was just created
+        let endpointTemp = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName))
         endpointId = endpointTemp.endpointId
     }
 
     override func tearDown() async throws {
         // Delete the endpoint
-        _ = try await regularEventBridgeClient.deleteEndpoint(input: DeleteEndpointInput(name: endpointName))
+        _ = try await primaryRegionEventBridgeClient.deleteEndpoint(input: DeleteEndpointInput(name: endpointName))
         // Delete the event buses
-        _ = try await regularEventBridgeClient.deleteEventBus(input: DeleteEventBusInput(name: eventBusName))
+        _ = try await primaryRegionEventBridgeClient.deleteEventBus(input: DeleteEventBusInput(name: eventBusName))
         _ = try await secondaryRegionEventBridgeClient.deleteEventBus(input: DeleteEventBusInput(name: eventBusName))
         // Delete the Route 53 Healthcheck
         _ = try await route53Client.deleteHealthCheck(input: DeleteHealthCheckInput(healthCheckId: healthCheckId))
@@ -105,9 +108,6 @@ class EventBridgeSigV4ATests: XCTestCase {
             endpointId: endpointId,
             entries: [event]
         ))
-        // Confirm that request was sent with SigV4A authorization: AWS4-ECDSA-P256-SHA256 Credential=...
-        // ANd not the SigV4 authorization: AWS4-HMAC-SHA256 Credential=...
-        
         // Confirm that returned response has 0 failed entries
         let count = response.failedEntryCount
         XCTAssertNotNil(count == 0)
