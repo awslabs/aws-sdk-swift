@@ -43,7 +43,7 @@ class EventBridgeSigV4ATests: XCTestCase {
         eventBridgeConfig.authSchemes = [SigV4AAuthScheme()]
         sigv4aEventBridgeClient = EventBridgeClient(config: eventBridgeConfig)
 
-        route53Client = try Route53Client(region: "us-east-1")
+        route53Client = try Route53Client(region: secondaryRegion)
 
         // Create two event buses with identical names but in two different regions for the global endpoint
         let eventBusArn1 = try await primaryRegionEventBridgeClient.createEventBus(input: CreateEventBusInput(name: eventBusName)).eventBusArn
