@@ -10,7 +10,7 @@ import AWSS3
 import ClientRuntime
 import AWSClientRuntime
 
-/// Tests presigned request using STS::getCallerIdentity.
+/// Tests presigned request using S3.
 class S3PresignedRequestTests: S3XCTestCase {
     private var s3Config: S3Client.S3ClientConfiguration!
     private let key = "test.txt"
