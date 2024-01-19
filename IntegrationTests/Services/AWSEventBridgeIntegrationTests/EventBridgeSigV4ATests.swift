@@ -82,13 +82,12 @@ class EventBridgeSigV4ATests: XCTestCase {
             routingConfig: routingConfig
         ))
 
-        // Wait until global endpoint is active before trying to fetch the endpoint ID
-        let seconds = 4.0
+        // Pause program execution briefly.
+        // This is needed bc it takes some time for newly created global endpoint to configure itself
+        let seconds = 20.0
         try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
-        
-        // Fetch & store the endpoint ID of the global endpoint that was just created
-        let endpointTemp = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName))
-        endpointId = endpointTemp.endpointId
+
+        endpointId = try await primaryRegionEventBridgeClient.describeEndpoint(input: DescribeEndpointInput(name: endpointName)).endpointId
     }
 
     override func tearDown() async throws {
