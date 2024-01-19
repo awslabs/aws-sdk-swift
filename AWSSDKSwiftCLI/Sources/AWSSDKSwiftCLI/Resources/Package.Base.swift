@@ -136,6 +136,8 @@ func addIntegrationTestTarget(_ name: String) {
         ]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin"]
+    case "AWSEventBridge":
+        additionalDependencies = ["AWSRoute53"]
     default:
         break
     }
