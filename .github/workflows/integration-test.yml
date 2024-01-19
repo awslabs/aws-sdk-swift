@@ -32,7 +32,7 @@ jobs:
           #- 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
           #- 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=OS X'
-        exclude:
+        #exclude:
           # Don't run old macOS with new Xcode
           #- runner: macos-12
           #  xcode: Xcode_15.1

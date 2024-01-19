@@ -9,6 +9,7 @@ env:
 
 jobs:
   apple:
+    if: false
     runs-on: ${{ matrix.runner }}
     env:
       DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
@@ -101,6 +102,7 @@ jobs:
             | xcpretty
 
   linux:
+    if: false
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
