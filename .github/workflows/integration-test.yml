@@ -96,7 +96,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - amazonlinux2
+          - focal
+          #- amazonlinux2
         version:
           - 5.7
           - 5.9
