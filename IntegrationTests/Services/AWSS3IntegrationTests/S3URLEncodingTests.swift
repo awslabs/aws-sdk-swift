@@ -7,8 +7,6 @@
 
 #if canImport(FoundationNetworking)
 import FoundationNetworking
-#else
-inport Foundation
 #endif
 import XCTest
 import AWSS3
