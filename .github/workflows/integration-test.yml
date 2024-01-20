@@ -19,36 +19,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
+        # This matrix runs tests on Mac, on oldest & newest supported Xcodes
         runner:
-          #- macos-12
+          - macos-12
           - macos-13
         xcode:
-          #- Xcode_14.0.1
-          - Xcode_15.1
-        destination:
-          #- 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
-          #- 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          #- 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
-          #- 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=OS X'
-        #exclude:
+          - Xcode_14.0.1
+          - Xcode_15.2
+        exclude:
           # Don't run old macOS with new Xcode
-          #- runner: macos-12
-          #  xcode: Xcode_15.1
+          - runner: macos-12
+            xcode: Xcode_15.2
           # Don't run new macOS with old Xcode
-          #- runner: macos-13
-          #  xcode: Xcode_14.0.1
-          # Don't run old simulators with new Xcode
-          #- destination: 'platform=tvOS Simulator,OS=16.0,name=Apple TV 4K (at 1080p) (2nd generation)'
-          #  xcode: Xcode_15.1
-          #- destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 14'
-          #  xcode: Xcode_15.1
-          # Don't run new simulators with old Xcode
-          #- destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
-          #  xcode: Xcode_14.0.1
-          #- destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
-          #  xcode: Xcode_14.0.1
+          - runner: macos-13
+            xcode: Xcode_14.0.1
     steps:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
@@ -112,10 +96,9 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - focal
-          #- amazonlinux2
+          - amazonlinux2
         version:
-          #- 5.7
+          - 5.7
           - 5.9
     steps:
       - name: Configure AWS Credentials for Integration Tests
