@@ -5,6 +5,10 @@ set -e
 # Only enable codegen for integration test services
 cp scripts/integration-test-sdk.properties sdk.properties
 
+# Delete all staged, generated code
+rm -rf Sources/Services/*
+rm -rf Tests/Services/*
+
 # Code-generate all enabled AWS services
 ./gradlew -p codegen/sdk-codegen build
 ./gradlew -p codegen/sdk-codegen stageSdks
