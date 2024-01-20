@@ -105,19 +105,24 @@ jobs:
         run: swift test
 
   linux:
-    if: false
     runs-on: ubuntu-latest
+    environment: Integration-Test
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os:
           - focal
-          - amazonlinux2
+          #- amazonlinux2
         version:
-          - 5.7
+          #- 5.7
           - 5.9
     steps:
+      - name: Configure AWS Credentials for Integration Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
+          aws-region: us-west-2
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
@@ -162,7 +167,9 @@ jobs:
         run: ./scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
-      - name: Prepare Protocol & Unit Tests
-        run: ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
-      - name: Build and Run Protocol & Unit Tests on Linux
+      - name: Prepare Integration Tests
+        run: ./scripts/ci_steps/prepare_integration_tests.sh
+      - name: Build Integration Tests
+        run: swift build --build-tests
+      - name: Run Integration Tests
         run: swift test
