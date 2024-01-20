@@ -99,7 +99,9 @@ jobs:
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
-      - name: Build and Run Integration Tests
+      - name: Build Integration Tests
+        run: swift build --build-tests
+      - name: Run Integration Tests
         run: swift test
 
   linux:
