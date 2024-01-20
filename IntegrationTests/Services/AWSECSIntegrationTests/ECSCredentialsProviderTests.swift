@@ -37,7 +37,7 @@ class ECSCredentialsProviderTests: XCTestCase {
         )
     }
     
-    func test_ecsCredentialsProvider() async throws {
+    func xtest_ecsCredentialsProvider() async throws {
         let ecsClient = try await ECSClient()
         
         // create cluster

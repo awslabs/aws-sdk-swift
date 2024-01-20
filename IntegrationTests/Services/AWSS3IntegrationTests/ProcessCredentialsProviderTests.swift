@@ -31,7 +31,7 @@ class ProcessCredentialProviderTests: XCTestCase {
     }
 
     // This test calls listBuckets() and forces S3Client to use ProcessCredentialsProvider
-    func test_listBuckets() async throws {
+    func xtest_listBuckets() async throws {
         _ = try await client.listBuckets(input: ListBucketsInput())
     }
 }

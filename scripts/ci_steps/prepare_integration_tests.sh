@@ -2,6 +2,9 @@
 
 set -e
 
+# Only enable codegen for integration test services
+cp scripts/integration-test-sdk.properties sdk.properties
+
 # Code-generate all enabled AWS services
 ./gradlew -p codegen/sdk-codegen build
 ./gradlew -p codegen/sdk-codegen stageSdks
