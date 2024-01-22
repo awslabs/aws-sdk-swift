@@ -31,7 +31,8 @@ class ProcessCredentialProviderTests: XCTestCase {
     }
 
     // This test calls listBuckets() and forces S3Client to use ProcessCredentialsProvider
-    func test_listBuckets() async throws {
+    // TODO: Re-enable this test once CI is configured to run it.  See https://github.com/awslabs/aws-sdk-swift/issues/1309
+    func xtest_listBuckets() async throws {
         _ = try await client.listBuckets(input: ListBucketsInput())
     }
 }
