@@ -1,7 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
