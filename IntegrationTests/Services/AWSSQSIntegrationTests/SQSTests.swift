@@ -15,9 +15,10 @@ class SQSTests: XCTestCase {
     private var client: SQSClient!
     private var queueName: String!
     private var queueUrl: String?
+    private let region = "us-west-2"
 
     override func setUp() async throws {
-        client = try await SQSClient()
+        client = try SQSClient(region: region)
         queueName = "integration-test-queue-\(UUID().uuidString)"
     }
 
