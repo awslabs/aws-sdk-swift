@@ -38,6 +38,8 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
     private let key = "kvs-sigv4a-integration-test"
     private let value = "{}"
 
+    private let NSEC_PER_SEC = 1_000_000_000
+
     override func setUp() async throws {
         // Initialize CloudFront client
         client = try CloudFrontClient(region: region)

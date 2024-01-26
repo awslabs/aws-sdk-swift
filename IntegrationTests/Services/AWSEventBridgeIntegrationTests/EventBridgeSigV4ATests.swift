@@ -34,6 +34,8 @@ class EventBridgeSigV4ATests: XCTestCase {
     private var healthCheckId: String!
     private let route53HealthCheckArnPrefix = "arn:aws:route53:::healthcheck/"
 
+    private let NSEC_PER_SEC = 1_000_000_000
+
     override func setUp() async throws {
         // Create the clients
         primaryRegionEventBridgeClient = try EventBridgeClient(region: primaryRegion)

@@ -36,6 +36,8 @@ class S3SigV4ATests: S3XCTestCase {
     // Key string used for putting object in tests
     private let key = "text.txt"
 
+    private let NSEC_PER_SEC = 1_000_000_000
+
     override func setUp() async throws {
         // Create a bucket
         try await super.setUp()
