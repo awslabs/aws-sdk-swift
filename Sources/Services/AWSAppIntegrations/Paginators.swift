@@ -3,6 +3,37 @@
 import ClientRuntime
 
 extension AppIntegrationsClient {
+    /// Paginate over `[ListApplicationAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListApplicationAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationAssociationsOutput`
+    public func listApplicationAssociationsPaginated(input: ListApplicationAssociationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationAssociationsInput, ListApplicationAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListApplicationAssociationsInput, ListApplicationAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listApplicationAssociations(input:))
+    }
+}
+
+extension ListApplicationAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListApplicationAssociationsInput {
+        return ListApplicationAssociationsInput(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListApplicationAssociationsInput, OperationStackOutput == ListApplicationAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationAssociationsPaginated`
+    /// to access the nested member `[AppIntegrationsClientTypes.ApplicationAssociationSummary]`
+    /// - Returns: `[AppIntegrationsClientTypes.ApplicationAssociationSummary]`
+    public func applicationAssociations() async throws -> [AppIntegrationsClientTypes.ApplicationAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.applicationAssociations }
+    }
+}
+extension AppIntegrationsClient {
     /// Paginate over `[ListApplicationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

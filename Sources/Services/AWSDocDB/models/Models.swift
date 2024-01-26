@@ -4458,6 +4458,8 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
         case pendingModifiedValues = "PendingModifiedValues"
+        case performanceInsightsEnabled = "PerformanceInsightsEnabled"
+        case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case promotionTier = "PromotionTier"
@@ -4540,6 +4542,12 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         if let pendingModifiedValues = pendingModifiedValues {
             try container.encode(pendingModifiedValues, forKey: ClientRuntime.Key("PendingModifiedValues"))
+        }
+        if let performanceInsightsEnabled = performanceInsightsEnabled {
+            try container.encode(performanceInsightsEnabled, forKey: ClientRuntime.Key("PerformanceInsightsEnabled"))
+        }
+        if let performanceInsightsKMSKeyId = performanceInsightsKMSKeyId {
+            try container.encode(performanceInsightsKMSKeyId, forKey: ClientRuntime.Key("PerformanceInsightsKMSKeyId"))
         }
         if let preferredBackupWindow = preferredBackupWindow {
             try container.encode(preferredBackupWindow, forKey: ClientRuntime.Key("PreferredBackupWindow"))
@@ -4691,6 +4699,10 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
         }
         let certificateDetailsDecoded = try containerValues.decodeIfPresent(DocDBClientTypes.CertificateDetails.self, forKey: .certificateDetails)
         certificateDetails = certificateDetailsDecoded
+        let performanceInsightsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performanceInsightsEnabled)
+        performanceInsightsEnabled = performanceInsightsEnabledDecoded
+        let performanceInsightsKMSKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .performanceInsightsKMSKeyId)
+        performanceInsightsKMSKeyId = performanceInsightsKMSKeyIdDecoded
     }
 }
 
@@ -4739,6 +4751,10 @@ extension DocDBClientTypes {
         public var latestRestorableTime: ClientRuntime.Date?
         /// Specifies that changes to the instance are pending. This element is included only when changes are pending. Specific changes are identified by subelements.
         public var pendingModifiedValues: DocDBClientTypes.PendingModifiedValues?
+        /// Set to true if Amazon RDS Performance Insights is enabled for the DB instance, and otherwise false.
+        public var performanceInsightsEnabled: Swift.Bool?
+        /// The KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+        public var performanceInsightsKMSKeyId: Swift.String?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
         public var preferredBackupWindow: Swift.String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
@@ -4776,6 +4792,8 @@ extension DocDBClientTypes {
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             pendingModifiedValues: DocDBClientTypes.PendingModifiedValues? = nil,
+            performanceInsightsEnabled: Swift.Bool? = nil,
+            performanceInsightsKMSKeyId: Swift.String? = nil,
             preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             promotionTier: Swift.Int? = nil,
@@ -4806,6 +4824,8 @@ extension DocDBClientTypes {
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.pendingModifiedValues = pendingModifiedValues
+            self.performanceInsightsEnabled = performanceInsightsEnabled
+            self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.promotionTier = promotionTier

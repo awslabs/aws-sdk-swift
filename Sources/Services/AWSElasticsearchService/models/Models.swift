@@ -5267,9 +5267,11 @@ extension ElasticsearchClientTypes {
         ///
         /// It can be one of the following values:
         ///
-        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLSv1.0 and higher.
+        /// * Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2
         ///
-        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLSv1.2
+        /// * Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2
+        ///
+        /// * Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         public var tlsSecurityPolicy: ElasticsearchClientTypes.TLSSecurityPolicy?
 
         public init(
@@ -11822,12 +11824,14 @@ extension ElasticsearchClientTypes {
     public enum TLSSecurityPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
+        case policyMinTls12Pfs202310
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TLSSecurityPolicy] {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
+                .policyMinTls12Pfs202310,
                 .sdkUnknown("")
             ]
         }
@@ -11839,6 +11843,7 @@ extension ElasticsearchClientTypes {
             switch self {
             case .policyMinTls10201907: return "Policy-Min-TLS-1-0-2019-07"
             case .policyMinTls12201907: return "Policy-Min-TLS-1-2-2019-07"
+            case .policyMinTls12Pfs202310: return "Policy-Min-TLS-1-2-PFS-2023-10"
             case let .sdkUnknown(s): return s
             }
         }

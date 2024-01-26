@@ -2185,8 +2185,8 @@ extension DescribeServicesInput: Swift.Encodable {
         }
         if let serviceCodeList = serviceCodeList {
             var serviceCodeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceCodeList)
-            for servicecode0 in serviceCodeList {
-                try serviceCodeListContainer.encode(servicecode0)
+            for servicecode20 in serviceCodeList {
+                try serviceCodeListContainer.encode(servicecode20)
             }
         }
     }

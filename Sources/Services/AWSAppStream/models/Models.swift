@@ -4653,6 +4653,7 @@ enum CreateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRoleException": return try await InvalidRoleException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermittedException": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -16353,6 +16354,7 @@ extension AppStreamClientTypes {
 extension AppStreamClientTypes.UserSetting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "Action"
+        case maximumLength = "MaximumLength"
         case permission = "Permission"
     }
 
@@ -16360,6 +16362,9 @@ extension AppStreamClientTypes.UserSetting: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = self.action {
             try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let maximumLength = self.maximumLength {
+            try encodeContainer.encode(maximumLength, forKey: .maximumLength)
         }
         if let permission = self.permission {
             try encodeContainer.encode(permission.rawValue, forKey: .permission)
@@ -16372,6 +16377,8 @@ extension AppStreamClientTypes.UserSetting: Swift.Codable {
         action = actionDecoded
         let permissionDecoded = try containerValues.decodeIfPresent(AppStreamClientTypes.Permission.self, forKey: .permission)
         permission = permissionDecoded
+        let maximumLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumLength)
+        maximumLength = maximumLengthDecoded
     }
 }
 
@@ -16381,16 +16388,20 @@ extension AppStreamClientTypes {
         /// The action that is enabled or disabled.
         /// This member is required.
         public var action: AppStreamClientTypes.Action?
+        /// Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED. This can't be specified when the permission is DISABLED. This can only be specified for AlwaysOn and OnDemand fleets. The attribute is not supported on Elastic fleets. The value can be between 1 and 20,971,520 (20 MB).
+        public var maximumLength: Swift.Int?
         /// Indicates whether the action is enabled or disabled.
         /// This member is required.
         public var permission: AppStreamClientTypes.Permission?
 
         public init(
             action: AppStreamClientTypes.Action? = nil,
+            maximumLength: Swift.Int? = nil,
             permission: AppStreamClientTypes.Permission? = nil
         )
         {
             self.action = action
+            self.maximumLength = maximumLength
             self.permission = permission
         }
     }

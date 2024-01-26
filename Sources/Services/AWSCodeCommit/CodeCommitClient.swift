@@ -758,6 +758,8 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyInvalidIdException` : The Key Management Service encryption key is not valid.
+    /// - `EncryptionKeyInvalidUsageException` : A KMS encryption key was used to try and encrypt or decrypt a repository, but either the repository or the key was not in a valid state to support the operation.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `InvalidRepositoryDescriptionException` : The specified repository description is not valid.
@@ -4689,6 +4691,63 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryDescriptionOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRepositoryDescriptionOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryDescriptionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateRepositoryEncryptionKey` operation on the `CodeCommit_20150413` service.
+    ///
+    /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
+    ///
+    /// - Parameter UpdateRepositoryEncryptionKeyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRepositoryEncryptionKeyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
+    /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
+    /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyInvalidIdException` : The Key Management Service encryption key is not valid.
+    /// - `EncryptionKeyInvalidUsageException` : A KMS encryption key was used to try and encrypt or decrypt a repository, but either the repository or the key was not in a valid state to support the operation.
+    /// - `EncryptionKeyNotFoundException` : No encryption key was found.
+    /// - `EncryptionKeyRequiredException` : A KMS encryption key ID is required but was not specified.
+    /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
+    /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
+    /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
+    public func updateRepositoryEncryptionKey(input: UpdateRepositoryEncryptionKeyInput) async throws -> UpdateRepositoryEncryptionKeyOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRepositoryEncryptionKey")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "codecommit")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput>(id: "updateRepositoryEncryptionKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRepositoryEncryptionKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput>(xAmzTarget: "CodeCommit_20150413.UpdateRepositoryEncryptionKey"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRepositoryEncryptionKeyInput, UpdateRepositoryEncryptionKeyOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRepositoryEncryptionKeyOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryEncryptionKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryEncryptionKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRepositoryEncryptionKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

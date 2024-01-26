@@ -3325,6 +3325,7 @@ extension CodeStarconnectionsClientTypes {
         case github
         case githubEnterpriseServer
         case gitlab
+        case gitlabSelfManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProviderType] {
@@ -3333,6 +3334,7 @@ extension CodeStarconnectionsClientTypes {
                 .github,
                 .githubEnterpriseServer,
                 .gitlab,
+                .gitlabSelfManaged,
                 .sdkUnknown("")
             ]
         }
@@ -3346,6 +3348,7 @@ extension CodeStarconnectionsClientTypes {
             case .github: return "GitHub"
             case .githubEnterpriseServer: return "GitHubEnterpriseServer"
             case .gitlab: return "GitLab"
+            case .gitlabSelfManaged: return "GitLabSelfManaged"
             case let .sdkUnknown(s): return s
             }
         }

@@ -78,10 +78,10 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : AWS CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
-    /// - `ConcurrentModificationException` : AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// - `AccessDeniedException` : CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
+    /// - `ConcurrentModificationException` : CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     /// - `ConfigurationException` : Some or all of the configuration is incomplete, missing, or not valid.
-    /// - `LimitExceededException` : One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+    /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ResourceAlreadyExistsException` : A resource with the same name or ID already exists. Notification rule names must be unique in your Amazon Web Services account.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func createNotificationRule(input: CreateNotificationRuleInput) async throws -> CreateNotificationRuleOutput
@@ -130,8 +130,8 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
-    /// - `LimitExceededException` : One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+    /// - `ConcurrentModificationException` : CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func deleteNotificationRule(input: DeleteNotificationRuleInput) async throws -> DeleteNotificationRuleOutput
     {
@@ -224,7 +224,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func describeNotificationRule(input: DescribeNotificationRuleInput) async throws -> DescribeNotificationRuleOutput
     {
@@ -365,7 +365,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     {
@@ -460,7 +460,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationException` : Some or all of the configuration is incomplete, missing, or not valid.
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func subscribe(input: SubscribeInput) async throws -> SubscribeOutput
     {
@@ -507,9 +507,9 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
-    /// - `LimitExceededException` : One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ConcurrentModificationException` : CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     {
@@ -602,9 +602,9 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
-    /// - `LimitExceededException` : One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ConcurrentModificationException` : CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+    /// - `LimitExceededException` : One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     {
@@ -650,7 +650,7 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ConfigurationException` : Some or all of the configuration is incomplete, missing, or not valid.
-    /// - `ResourceNotFoundException` : AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+    /// - `ResourceNotFoundException` : CodeStar Notifications can't find a resource that matches the provided ARN.
     /// - `ValidationException` : One or more parameter values are not valid.
     public func updateNotificationRule(input: UpdateNotificationRuleInput) async throws -> UpdateNotificationRuleOutput
     {

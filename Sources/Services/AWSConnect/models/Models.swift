@@ -457,6 +457,141 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.AgentHierarchyGroups: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case l1Ids = "L1Ids"
+        case l2Ids = "L2Ids"
+        case l3Ids = "L3Ids"
+        case l4Ids = "L4Ids"
+        case l5Ids = "L5Ids"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let l1Ids = l1Ids {
+            var l1IdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .l1Ids)
+            for hierarchygroupid0 in l1Ids {
+                try l1IdsContainer.encode(hierarchygroupid0)
+            }
+        }
+        if let l2Ids = l2Ids {
+            var l2IdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .l2Ids)
+            for hierarchygroupid0 in l2Ids {
+                try l2IdsContainer.encode(hierarchygroupid0)
+            }
+        }
+        if let l3Ids = l3Ids {
+            var l3IdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .l3Ids)
+            for hierarchygroupid0 in l3Ids {
+                try l3IdsContainer.encode(hierarchygroupid0)
+            }
+        }
+        if let l4Ids = l4Ids {
+            var l4IdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .l4Ids)
+            for hierarchygroupid0 in l4Ids {
+                try l4IdsContainer.encode(hierarchygroupid0)
+            }
+        }
+        if let l5Ids = l5Ids {
+            var l5IdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .l5Ids)
+            for hierarchygroupid0 in l5Ids {
+                try l5IdsContainer.encode(hierarchygroupid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let l1IdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .l1Ids)
+        var l1IdsDecoded0:[Swift.String]? = nil
+        if let l1IdsContainer = l1IdsContainer {
+            l1IdsDecoded0 = [Swift.String]()
+            for string0 in l1IdsContainer {
+                if let string0 = string0 {
+                    l1IdsDecoded0?.append(string0)
+                }
+            }
+        }
+        l1Ids = l1IdsDecoded0
+        let l2IdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .l2Ids)
+        var l2IdsDecoded0:[Swift.String]? = nil
+        if let l2IdsContainer = l2IdsContainer {
+            l2IdsDecoded0 = [Swift.String]()
+            for string0 in l2IdsContainer {
+                if let string0 = string0 {
+                    l2IdsDecoded0?.append(string0)
+                }
+            }
+        }
+        l2Ids = l2IdsDecoded0
+        let l3IdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .l3Ids)
+        var l3IdsDecoded0:[Swift.String]? = nil
+        if let l3IdsContainer = l3IdsContainer {
+            l3IdsDecoded0 = [Swift.String]()
+            for string0 in l3IdsContainer {
+                if let string0 = string0 {
+                    l3IdsDecoded0?.append(string0)
+                }
+            }
+        }
+        l3Ids = l3IdsDecoded0
+        let l4IdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .l4Ids)
+        var l4IdsDecoded0:[Swift.String]? = nil
+        if let l4IdsContainer = l4IdsContainer {
+            l4IdsDecoded0 = [Swift.String]()
+            for string0 in l4IdsContainer {
+                if let string0 = string0 {
+                    l4IdsDecoded0?.append(string0)
+                }
+            }
+        }
+        l4Ids = l4IdsDecoded0
+        let l5IdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .l5Ids)
+        var l5IdsDecoded0:[Swift.String]? = nil
+        if let l5IdsContainer = l5IdsContainer {
+            l5IdsDecoded0 = [Swift.String]()
+            for string0 in l5IdsContainer {
+                if let string0 = string0 {
+                    l5IdsDecoded0?.append(string0)
+                }
+            }
+        }
+        l5Ids = l5IdsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defines search criteria for contacts using agent hierarchy group levels. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
+    public struct AgentHierarchyGroups: Swift.Equatable {
+        /// The identifiers for level 1 hierarchy groups.
+        public var l1Ids: [Swift.String]?
+        /// The identifiers for level 2 hierarchy groups.
+        public var l2Ids: [Swift.String]?
+        /// The identifiers for level 3 hierarchy groups.
+        public var l3Ids: [Swift.String]?
+        /// The identifiers for level 4 hierarchy groups.
+        public var l4Ids: [Swift.String]?
+        /// The identifiers for level 5 hierarchy groups.
+        public var l5Ids: [Swift.String]?
+
+        public init(
+            l1Ids: [Swift.String]? = nil,
+            l2Ids: [Swift.String]? = nil,
+            l3Ids: [Swift.String]? = nil,
+            l4Ids: [Swift.String]? = nil,
+            l5Ids: [Swift.String]? = nil
+        )
+        {
+            self.l1Ids = l1Ids
+            self.l2Ids = l2Ids
+            self.l3Ids = l3Ids
+            self.l4Ids = l4Ids
+            self.l5Ids = l5Ids
+        }
+    }
+
+}
+
 extension ConnectClientTypes.AgentInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentPauseDurationInSeconds = "AgentPauseDurationInSeconds"
@@ -2445,6 +2580,107 @@ enum AssociateTrafficDistributionGroupUserOutputError: ClientRuntime.HttpRespons
     }
 }
 
+extension AssociateUserProficienciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userProficiencies = userProficiencies {
+            var userProficienciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userProficiencies)
+            for userproficiency0 in userProficiencies {
+                try userProficienciesContainer.encode(userproficiency0)
+            }
+        }
+    }
+}
+
+extension AssociateUserProficienciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let userId = userId else {
+            return nil
+        }
+        return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/associate-proficiencies"
+    }
+}
+
+public struct AssociateUserProficienciesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+    /// The proficiencies to associate with the user.
+    /// This member is required.
+    public var userProficiencies: [ConnectClientTypes.UserProficiency]?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        userId: Swift.String? = nil,
+        userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.userId = userId
+        self.userProficiencies = userProficiencies
+    }
+}
+
+struct AssociateUserProficienciesInputBody: Swift.Equatable {
+    let userProficiencies: [ConnectClientTypes.UserProficiency]?
+}
+
+extension AssociateUserProficienciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userProficienciesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.UserProficiency?].self, forKey: .userProficiencies)
+        var userProficienciesDecoded0:[ConnectClientTypes.UserProficiency]? = nil
+        if let userProficienciesContainer = userProficienciesContainer {
+            userProficienciesDecoded0 = [ConnectClientTypes.UserProficiency]()
+            for structure0 in userProficienciesContainer {
+                if let structure0 = structure0 {
+                    userProficienciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userProficiencies = userProficienciesDecoded0
+    }
+}
+
+extension AssociateUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateUserProficienciesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum AssociateUserProficienciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ConnectClientTypes.AttachmentReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -4152,6 +4388,8 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         case name = "Name"
         case previousContactId = "PreviousContactId"
         case queueInfo = "QueueInfo"
+        case queuePriority = "QueuePriority"
+        case queueTimeAdjustmentSeconds = "QueueTimeAdjustmentSeconds"
         case relatedContactId = "RelatedContactId"
         case scheduledTimestamp = "ScheduledTimestamp"
         case tags = "Tags"
@@ -4206,6 +4444,12 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         }
         if let queueInfo = self.queueInfo {
             try encodeContainer.encode(queueInfo, forKey: .queueInfo)
+        }
+        if let queuePriority = self.queuePriority {
+            try encodeContainer.encode(queuePriority, forKey: .queuePriority)
+        }
+        if let queueTimeAdjustmentSeconds = self.queueTimeAdjustmentSeconds {
+            try encodeContainer.encode(queueTimeAdjustmentSeconds, forKey: .queueTimeAdjustmentSeconds)
         }
         if let relatedContactId = self.relatedContactId {
             try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
@@ -4272,6 +4516,10 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         relatedContactId = relatedContactIdDecoded
         let wisdomInfoDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.WisdomInfo.self, forKey: .wisdomInfo)
         wisdomInfo = wisdomInfoDecoded
+        let queueTimeAdjustmentSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queueTimeAdjustmentSeconds)
+        queueTimeAdjustmentSeconds = queueTimeAdjustmentSecondsDecoded
+        let queuePriorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queuePriority)
+        queuePriority = queuePriorityDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -4284,6 +4532,11 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Contact(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -4319,6 +4572,10 @@ extension ConnectClientTypes {
         public var previousContactId: Swift.String?
         /// If this contact was queued, this contains information about the queue.
         public var queueInfo: ConnectClientTypes.QueueInfo?
+        /// An integer that represents the queue priority to be applied to the contact (lower priorities are routed preferentially). Cannot be specified if the QueueTimeAdjustmentSeconds is specified. Must be statically defined, must be larger than zero, and a valid integer value. Default Value is 5.
+        public var queuePriority: Swift.Int?
+        /// An integer that represents the queue time adjust to be applied to the contact, in seconds (longer / larger queue time are routed preferentially). Cannot be specified if the QueuePriority is specified. Must be statically defined and a valid integer value.
+        public var queueTimeAdjustmentSeconds: Swift.Int?
         /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html#relatedcontactid) to this contact.
         public var relatedContactId: Swift.String?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
@@ -4348,6 +4605,8 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             previousContactId: Swift.String? = nil,
             queueInfo: ConnectClientTypes.QueueInfo? = nil,
+            queuePriority: Swift.Int? = nil,
+            queueTimeAdjustmentSeconds: Swift.Int? = nil,
             relatedContactId: Swift.String? = nil,
             scheduledTimestamp: ClientRuntime.Date? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -4371,12 +4630,49 @@ extension ConnectClientTypes {
             self.name = name
             self.previousContactId = previousContactId
             self.queueInfo = queueInfo
+            self.queuePriority = queuePriority
+            self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
             self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
             self.tags = tags
             self.totalPauseCount = totalPauseCount
             self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
             self.wisdomInfo = wisdomInfo
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ContactAnalysis: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transcript = "Transcript"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let transcript = self.transcript {
+            try encodeContainer.encode(transcript, forKey: .transcript)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transcriptDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Transcript.self, forKey: .transcript)
+        transcript = transcriptDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defines search criteria for contacts using analysis outputs from Amazon Connect Contact Lens.
+    public struct ContactAnalysis: Swift.Equatable {
+        /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
+        public var transcript: ConnectClientTypes.Transcript?
+
+        public init(
+            transcript: ConnectClientTypes.Transcript? = nil
+        )
+        {
+            self.transcript = transcript
         }
     }
 
@@ -5211,6 +5507,231 @@ extension ContactNotFoundExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ConnectClientTypes.ContactSearchSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentInfo = "AgentInfo"
+        case arn = "Arn"
+        case channel = "Channel"
+        case disconnectTimestamp = "DisconnectTimestamp"
+        case id = "Id"
+        case initialContactId = "InitialContactId"
+        case initiationMethod = "InitiationMethod"
+        case initiationTimestamp = "InitiationTimestamp"
+        case previousContactId = "PreviousContactId"
+        case queueInfo = "QueueInfo"
+        case scheduledTimestamp = "ScheduledTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentInfo = self.agentInfo {
+            try encodeContainer.encode(agentInfo, forKey: .agentInfo)
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let channel = self.channel {
+            try encodeContainer.encode(channel.rawValue, forKey: .channel)
+        }
+        if let disconnectTimestamp = self.disconnectTimestamp {
+            try encodeContainer.encodeTimestamp(disconnectTimestamp, format: .epochSeconds, forKey: .disconnectTimestamp)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let initialContactId = self.initialContactId {
+            try encodeContainer.encode(initialContactId, forKey: .initialContactId)
+        }
+        if let initiationMethod = self.initiationMethod {
+            try encodeContainer.encode(initiationMethod.rawValue, forKey: .initiationMethod)
+        }
+        if let initiationTimestamp = self.initiationTimestamp {
+            try encodeContainer.encodeTimestamp(initiationTimestamp, format: .epochSeconds, forKey: .initiationTimestamp)
+        }
+        if let previousContactId = self.previousContactId {
+            try encodeContainer.encode(previousContactId, forKey: .previousContactId)
+        }
+        if let queueInfo = self.queueInfo {
+            try encodeContainer.encode(queueInfo, forKey: .queueInfo)
+        }
+        if let scheduledTimestamp = self.scheduledTimestamp {
+            try encodeContainer.encodeTimestamp(scheduledTimestamp, format: .epochSeconds, forKey: .scheduledTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let initialContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initialContactId)
+        initialContactId = initialContactIdDecoded
+        let previousContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousContactId)
+        previousContactId = previousContactIdDecoded
+        let initiationMethodDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ContactInitiationMethod.self, forKey: .initiationMethod)
+        initiationMethod = initiationMethodDecoded
+        let channelDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Channel.self, forKey: .channel)
+        channel = channelDecoded
+        let queueInfoDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ContactSearchSummaryQueueInfo.self, forKey: .queueInfo)
+        queueInfo = queueInfoDecoded
+        let agentInfoDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ContactSearchSummaryAgentInfo.self, forKey: .agentInfo)
+        agentInfo = agentInfoDecoded
+        let initiationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .initiationTimestamp)
+        initiationTimestamp = initiationTimestampDecoded
+        let disconnectTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .disconnectTimestamp)
+        disconnectTimestamp = disconnectTimestampDecoded
+        let scheduledTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scheduledTimestamp)
+        scheduledTimestamp = scheduledTimestampDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information of returned contact.
+    public struct ContactSearchSummary: Swift.Equatable {
+        /// Information about the agent who accepted the contact.
+        public var agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo?
+        /// The Amazon Resource Name (ARN) of the contact.
+        public var arn: Swift.String?
+        /// How the contact reached your contact center.
+        public var channel: ConnectClientTypes.Channel?
+        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        public var disconnectTimestamp: ClientRuntime.Date?
+        /// The identifier of the contact summary.
+        public var id: Swift.String?
+        /// If this contact is related to other contacts, this is the ID of the initial contact.
+        public var initialContactId: Swift.String?
+        /// Indicates how the contact was initiated.
+        public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+        /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started dialing the external participant. For MONITOR, this is when the supervisor started listening to a contact.
+        public var initiationTimestamp: ClientRuntime.Date?
+        /// If this contact is not the first contact, this is the ID of the previous contact.
+        public var previousContactId: Swift.String?
+        /// If this contact was queued, this contains information about the queue.
+        public var queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo?
+        /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
+        public var scheduledTimestamp: ClientRuntime.Date?
+
+        public init(
+            agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
+            arn: Swift.String? = nil,
+            channel: ConnectClientTypes.Channel? = nil,
+            disconnectTimestamp: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            initialContactId: Swift.String? = nil,
+            initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+            initiationTimestamp: ClientRuntime.Date? = nil,
+            previousContactId: Swift.String? = nil,
+            queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
+            scheduledTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.agentInfo = agentInfo
+            self.arn = arn
+            self.channel = channel
+            self.disconnectTimestamp = disconnectTimestamp
+            self.id = id
+            self.initialContactId = initialContactId
+            self.initiationMethod = initiationMethod
+            self.initiationTimestamp = initiationTimestamp
+            self.previousContactId = previousContactId
+            self.queueInfo = queueInfo
+            self.scheduledTimestamp = scheduledTimestamp
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ContactSearchSummaryAgentInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectedToAgentTimestamp = "ConnectedToAgentTimestamp"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectedToAgentTimestamp = self.connectedToAgentTimestamp {
+            try encodeContainer.encodeTimestamp(connectedToAgentTimestamp, format: .epochSeconds, forKey: .connectedToAgentTimestamp)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let connectedToAgentTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .connectedToAgentTimestamp)
+        connectedToAgentTimestamp = connectedToAgentTimestampDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the agent who accepted the contact.
+    public struct ContactSearchSummaryAgentInfo: Swift.Equatable {
+        /// The timestamp when the contact was connected to the agent.
+        public var connectedToAgentTimestamp: ClientRuntime.Date?
+        /// The identifier of the agent who accepted the contact.
+        public var id: Swift.String?
+
+        public init(
+            connectedToAgentTimestamp: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.connectedToAgentTimestamp = connectedToAgentTimestamp
+            self.id = id
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ContactSearchSummaryQueueInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enqueueTimestamp = "EnqueueTimestamp"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enqueueTimestamp = self.enqueueTimestamp {
+            try encodeContainer.encodeTimestamp(enqueueTimestamp, format: .epochSeconds, forKey: .enqueueTimestamp)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let enqueueTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .enqueueTimestamp)
+        enqueueTimestamp = enqueueTimestampDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// If this contact was queued, this contains information about the queue.
+    public struct ContactSearchSummaryQueueInfo: Swift.Equatable {
+        /// The timestamp when the contact was added to the queue.
+        public var enqueueTimestamp: ClientRuntime.Date?
+        /// The unique identifier for the queue.
+        public var id: Swift.String?
+
+        public init(
+            enqueueTimestamp: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.enqueueTimestamp = enqueueTimestamp
+            self.id = id
+        }
+    }
+
 }
 
 extension ConnectClientTypes {
@@ -7089,6 +7610,102 @@ enum CreatePersistentContactAssociationOutputError: ClientRuntime.HttpResponseEr
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePredefinedAttributeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let values = self.values {
+            try encodeContainer.encode(values, forKey: .values)
+        }
+    }
+}
+
+extension CreatePredefinedAttributeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/predefined-attributes/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct CreatePredefinedAttributeInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the predefined attribute.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The values of the predefined attribute.
+    /// This member is required.
+    public var values: ConnectClientTypes.PredefinedAttributeValues?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        values: ConnectClientTypes.PredefinedAttributeValues? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.values = values
+    }
+}
+
+struct CreatePredefinedAttributeInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let values: ConnectClientTypes.PredefinedAttributeValues?
+}
+
+extension CreatePredefinedAttributeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PredefinedAttributeValues.self, forKey: .values)
+        values = valuesDecoded
+    }
+}
+
+extension CreatePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreatePredefinedAttributeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CreatePredefinedAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DuplicateResourceException": return try await DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -9059,6 +9676,11 @@ enum CreateUserHierarchyGroupOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension CreateUserInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateUserInput(directoryUserId: \(Swift.String(describing: directoryUserId)), hierarchyGroupId: \(Swift.String(describing: hierarchyGroupId)), identityInfo: \(Swift.String(describing: identityInfo)), instanceId: \(Swift.String(describing: instanceId)), phoneConfig: \(Swift.String(describing: phoneConfig)), routingProfileId: \(Swift.String(describing: routingProfileId)), securityProfileIds: \(Swift.String(describing: securityProfileIds)), tags: \(Swift.String(describing: tags)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case directoryUserId = "DirectoryUserId"
@@ -9869,7 +10491,8 @@ extension ConnectClientTypes.Credentials: Swift.Codable {
 
 extension ConnectClientTypes.Credentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Credentials(accessTokenExpiration: \(Swift.String(describing: accessTokenExpiration)), refreshTokenExpiration: \(Swift.String(describing: refreshTokenExpiration)), accessToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
+        "CONTENT_REDACTED"
+    }
 }
 
 extension ConnectClientTypes {
@@ -10899,6 +11522,71 @@ enum DeleteIntegrationAssociationOutputError: ClientRuntime.HttpResponseErrorBin
         switch restJSONError.errorType {
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeletePredefinedAttributeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/predefined-attributes/\(instanceId.urlPercentEncoding())/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePredefinedAttributeInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the predefined attribute.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+struct DeletePredefinedAttributeInputBody: Swift.Equatable {
+}
+
+extension DeletePredefinedAttributeInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePredefinedAttributeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePredefinedAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -12938,6 +13626,100 @@ enum DescribePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribePredefinedAttributeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/predefined-attributes/\(instanceId.urlPercentEncoding())/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct DescribePredefinedAttributeInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the predefined attribute.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+    }
+}
+
+struct DescribePredefinedAttributeInputBody: Swift.Equatable {
+}
+
+extension DescribePredefinedAttributeInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribePredefinedAttributeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.predefinedAttribute = output.predefinedAttribute
+        } else {
+            self.predefinedAttribute = nil
+        }
+    }
+}
+
+public struct DescribePredefinedAttributeOutput: Swift.Equatable {
+    /// Information about the predefined attribute.
+    public var predefinedAttribute: ConnectClientTypes.PredefinedAttribute?
+
+    public init(
+        predefinedAttribute: ConnectClientTypes.PredefinedAttribute? = nil
+    )
+    {
+        self.predefinedAttribute = predefinedAttribute
+    }
+}
+
+struct DescribePredefinedAttributeOutputBody: Swift.Equatable {
+    let predefinedAttribute: ConnectClientTypes.PredefinedAttribute?
+}
+
+extension DescribePredefinedAttributeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case predefinedAttribute = "PredefinedAttribute"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let predefinedAttributeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PredefinedAttribute.self, forKey: .predefinedAttribute)
+        predefinedAttribute = predefinedAttributeDecoded
+    }
+}
+
+enum DescribePredefinedAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribePromptInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let instanceId = instanceId else {
@@ -14114,6 +14896,7 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
         case channel = "Channel"
         case queue = "Queue"
         case routingProfile = "RoutingProfile"
+        case routingStepExpression = "RoutingStepExpression"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14127,6 +14910,9 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
         if let routingProfile = self.routingProfile {
             try encodeContainer.encode(routingProfile, forKey: .routingProfile)
         }
+        if let routingStepExpression = self.routingStepExpression {
+            try encodeContainer.encode(routingStepExpression, forKey: .routingStepExpression)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14137,6 +14923,8 @@ extension ConnectClientTypes.Dimensions: Swift.Codable {
         channel = channelDecoded
         let routingProfileDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.RoutingProfileReference.self, forKey: .routingProfile)
         routingProfile = routingProfileDecoded
+        let routingStepExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routingStepExpression)
+        routingStepExpression = routingStepExpressionDecoded
     }
 }
 
@@ -14149,16 +14937,20 @@ extension ConnectClientTypes {
         public var queue: ConnectClientTypes.QueueReference?
         /// Information about the routing profile assigned to the user.
         public var routingProfile: ConnectClientTypes.RoutingProfileReference?
+        /// The expression of a step in a routing criteria.
+        public var routingStepExpression: Swift.String?
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
             queue: ConnectClientTypes.QueueReference? = nil,
-            routingProfile: ConnectClientTypes.RoutingProfileReference? = nil
+            routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
+            routingStepExpression: Swift.String? = nil
         )
         {
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
+            self.routingStepExpression = routingStepExpression
         }
     }
 
@@ -15202,6 +15994,107 @@ enum DisassociateTrafficDistributionGroupUserOutputError: ClientRuntime.HttpResp
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateUserProficienciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userProficiencies = userProficiencies {
+            var userProficienciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userProficiencies)
+            for userproficiencydisassociate0 in userProficiencies {
+                try userProficienciesContainer.encode(userproficiencydisassociate0)
+            }
+        }
+    }
+}
+
+extension DisassociateUserProficienciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let userId = userId else {
+            return nil
+        }
+        return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/disassociate-proficiencies"
+    }
+}
+
+public struct DisassociateUserProficienciesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+    /// The proficiencies to disassociate from the user.
+    /// This member is required.
+    public var userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        userId: Swift.String? = nil,
+        userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.userId = userId
+        self.userProficiencies = userProficiencies
+    }
+}
+
+struct DisassociateUserProficienciesInputBody: Swift.Equatable {
+    let userProficiencies: [ConnectClientTypes.UserProficiencyDisassociate]?
+}
+
+extension DisassociateUserProficienciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userProficienciesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.UserProficiencyDisassociate?].self, forKey: .userProficiencies)
+        var userProficienciesDecoded0:[ConnectClientTypes.UserProficiencyDisassociate]? = nil
+        if let userProficienciesContainer = userProficienciesContainer {
+            userProficienciesDecoded0 = [ConnectClientTypes.UserProficiencyDisassociate]()
+            for structure0 in userProficienciesContainer {
+                if let structure0 = structure0 {
+                    userProficienciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userProficiencies = userProficienciesDecoded0
+    }
+}
+
+extension DisassociateUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateUserProficienciesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DisassociateUserProficienciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -17613,7 +18506,7 @@ extension ConnectClientTypes.EvaluationNote: Swift.Codable {
 extension ConnectClientTypes {
     /// Information about notes for a contact evaluation.
     public struct EvaluationNote: Swift.Equatable {
-        /// The note for an item (section or question) in a contact evaluation.
+        /// The note for an item (section or question) in a contact evaluation. Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024.
         public var value: Swift.String?
 
         public init(
@@ -18216,6 +19109,7 @@ extension ConnectClientTypes.Filters: Swift.Codable {
         case channels = "Channels"
         case queues = "Queues"
         case routingProfiles = "RoutingProfiles"
+        case routingStepExpressions = "RoutingStepExpressions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -18236,6 +19130,12 @@ extension ConnectClientTypes.Filters: Swift.Codable {
             var routingProfilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingProfiles)
             for routingprofileid0 in routingProfiles {
                 try routingProfilesContainer.encode(routingprofileid0)
+            }
+        }
+        if let routingStepExpressions = routingStepExpressions {
+            var routingStepExpressionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routingStepExpressions)
+            for routingexpression0 in routingStepExpressions {
+                try routingStepExpressionsContainer.encode(routingexpression0)
             }
         }
     }
@@ -18275,6 +19175,17 @@ extension ConnectClientTypes.Filters: Swift.Codable {
             }
         }
         routingProfiles = routingProfilesDecoded0
+        let routingStepExpressionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .routingStepExpressions)
+        var routingStepExpressionsDecoded0:[Swift.String]? = nil
+        if let routingStepExpressionsContainer = routingStepExpressionsContainer {
+            routingStepExpressionsDecoded0 = [Swift.String]()
+            for string0 in routingStepExpressionsContainer {
+                if let string0 = string0 {
+                    routingStepExpressionsDecoded0?.append(string0)
+                }
+            }
+        }
+        routingStepExpressions = routingStepExpressionsDecoded0
     }
 }
 
@@ -18287,16 +19198,20 @@ extension ConnectClientTypes {
         public var queues: [Swift.String]?
         /// A list of up to 100 routing profile IDs or ARNs.
         public var routingProfiles: [Swift.String]?
+        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
+        public var routingStepExpressions: [Swift.String]?
 
         public init(
             channels: [ConnectClientTypes.Channel]? = nil,
             queues: [Swift.String]? = nil,
-            routingProfiles: [Swift.String]? = nil
+            routingProfiles: [Swift.String]? = nil,
+            routingStepExpressions: [Swift.String]? = nil
         )
         {
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
+            self.routingStepExpressions = routingStepExpressions
         }
     }
 
@@ -18539,7 +19454,7 @@ extension GetCurrentMetricDataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCurrentMetricDataInput: Swift.Equatable {
-    /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time)
+    /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see [Real-time Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html) in the Amazon Connect Administrator Guide. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
     /// The filters to apply to returned metrics. You can filter up to the following limits:
@@ -18550,8 +19465,10 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     ///
     /// * Channels: 3 (VOICE, CHAT, and TASK channels are supported.)
     ///
+    /// * RoutingStepExpressions: 50
     ///
-    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. Currently tagging is only supported on the resources that are passed in the filter.
+    ///
+    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using RoutingStepExpression, you need to pass exactly one QueueId. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
     /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
@@ -18561,6 +19478,8 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.
     ///
     /// * If no Grouping is included in the request, a summary of metrics is returned.
+    ///
+    /// * When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
     public var groupings: [ConnectClientTypes.Grouping]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -18959,6 +19878,11 @@ extension GetFederationTokenInputBody: Swift.Decodable {
     }
 }
 
+extension GetFederationTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFederationTokenOutput(signInUrl: \(Swift.String(describing: signInUrl)), userArn: \(Swift.String(describing: userArn)), userId: \(Swift.String(describing: userId)), credentials: \"CONTENT_REDACTED\")"}
+}
+
 extension GetFederationTokenOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -19224,10 +20148,10 @@ public struct GetMetricDataInput: Swift.Equatable {
     /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
-    /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. To filter by Queues, enter the queue ID/ARN, not the name of the queue.
+    /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features. To filter by Queues, enter the queue ID/ARN, not the name of the queue.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
-    /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned.
+    /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.
     public var groupings: [ConnectClientTypes.Grouping]?
     /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM CONTACTS_ABANDONED Unit: COUNT Statistic: SUM CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM CONTACTS_CONSULTED Unit: COUNT Statistic: SUM CONTACTS_HANDLED Unit: COUNT Statistic: SUM CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM CONTACTS_MISSED Unit: COUNT Statistic: SUM CONTACTS_QUEUED Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM HANDLE_TIME Unit: SECONDS Statistic: AVG HOLD_TIME Unit: SECONDS Statistic: AVG INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG INTERACTION_TIME Unit: SECONDS Statistic: AVG OCCUPANCY Unit: PERCENT Statistic: AVG QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG QUEUED_TIME Unit: SECONDS Statistic: MAX SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").
     /// This member is required.
@@ -19475,15 +20399,17 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     ///
     /// * Feature
     ///
+    /// * Routing step expression
+    ///
     ///
     /// At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. To filter by phone number, see [Create a historical metrics report](https://docs.aws.amazon.com/connect/latest/adminguide/create-historical-metrics-report.html) in the Amazon Connect Administrator's Guide. Note the following limits:
     ///
-    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | FEATURE | contact/segmentAttributes/connect:Subtype
+    /// * Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | FEATURE | contact/segmentAttributes/connect:Subtype | ROUTING_STEP_EXPRESSION
     ///
-    /// * Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters. contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics. connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.
+    /// * Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters. contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics. connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key. ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length.
     /// This member is required.
     public var filters: [ConnectClientTypes.FilterV2]?
-    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE, contact/segmentAttributes/connect:Subtype
+    /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: QUEUE | ROUTING_PROFILE | AGENT | CHANNEL | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE, contact/segmentAttributes/connect:Subtype | ROUTING_STEP_EXPRESSION
     public var groupings: [Swift.String]?
     /// The interval period and timezone to apply to returned metrics.
     ///
@@ -19508,7 +20434,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_CONTACTS_STEP_EXPIRED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression PERCENT_CONTACTS_STEP_JOINED Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). STEP_CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, RoutingStepExpression SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype
     /// This member is required.
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -20190,6 +21116,7 @@ extension ConnectClientTypes {
         case channel
         case queue
         case routingProfile
+        case routingStepExpression
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Grouping] {
@@ -20197,6 +21124,7 @@ extension ConnectClientTypes {
                 .channel,
                 .queue,
                 .routingProfile,
+                .routingStepExpression,
                 .sdkUnknown("")
             ]
         }
@@ -20209,6 +21137,7 @@ extension ConnectClientTypes {
             case .channel: return "CHANNEL"
             case .queue: return "QUEUE"
             case .routingProfile: return "ROUTING_PROFILE"
+            case .routingStepExpression: return "ROUTING_STEP_EXPRESSION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22096,6 +23025,7 @@ extension ConnectClientTypes {
         case contactflowLogs
         case contactLens
         case earlyMedia
+        case enhancedChatMonitoring
         case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
@@ -22110,6 +23040,7 @@ extension ConnectClientTypes {
                 .contactflowLogs,
                 .contactLens,
                 .earlyMedia,
+                .enhancedChatMonitoring,
                 .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
@@ -22129,6 +23060,7 @@ extension ConnectClientTypes {
             case .contactflowLogs: return "CONTACTFLOW_LOGS"
             case .contactLens: return "CONTACT_LENS"
             case .earlyMedia: return "EARLY_MEDIA"
+            case .enhancedChatMonitoring: return "ENHANCED_CHAT_MONITORING"
             case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
@@ -26523,6 +27455,136 @@ enum ListPhoneNumbersV2OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListPredefinedAttributesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPredefinedAttributesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/predefined-attributes/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct ListPredefinedAttributesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPredefinedAttributesInputBody: Swift.Equatable {
+}
+
+extension ListPredefinedAttributesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListPredefinedAttributesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPredefinedAttributesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.predefinedAttributeSummaryList = output.predefinedAttributeSummaryList
+        } else {
+            self.nextToken = nil
+            self.predefinedAttributeSummaryList = nil
+        }
+    }
+}
+
+public struct ListPredefinedAttributesOutput: Swift.Equatable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Summary of the predefined attributes.
+    public var predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.predefinedAttributeSummaryList = predefinedAttributeSummaryList
+    }
+}
+
+struct ListPredefinedAttributesOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let predefinedAttributeSummaryList: [ConnectClientTypes.PredefinedAttributeSummary]?
+}
+
+extension ListPredefinedAttributesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case predefinedAttributeSummaryList = "PredefinedAttributeSummaryList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let predefinedAttributeSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PredefinedAttributeSummary?].self, forKey: .predefinedAttributeSummaryList)
+        var predefinedAttributeSummaryListDecoded0:[ConnectClientTypes.PredefinedAttributeSummary]? = nil
+        if let predefinedAttributeSummaryListContainer = predefinedAttributeSummaryListContainer {
+            predefinedAttributeSummaryListDecoded0 = [ConnectClientTypes.PredefinedAttributeSummary]()
+            for structure0 in predefinedAttributeSummaryListContainer {
+                if let structure0 = structure0 {
+                    predefinedAttributeSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        predefinedAttributeSummaryList = predefinedAttributeSummaryListDecoded0
+    }
+}
+
+enum ListPredefinedAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListPromptsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -29081,6 +30143,164 @@ enum ListUserHierarchyGroupsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension ListUserProficienciesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListUserProficienciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let userId = userId else {
+            return nil
+        }
+        return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/proficiencies"
+    }
+}
+
+public struct ListUserProficienciesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.userId = userId
+    }
+}
+
+struct ListUserProficienciesInputBody: Swift.Equatable {
+}
+
+extension ListUserProficienciesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListUserProficienciesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lastModifiedRegion = output.lastModifiedRegion
+            self.lastModifiedTime = output.lastModifiedTime
+            self.nextToken = output.nextToken
+            self.userProficiencyList = output.userProficiencyList
+        } else {
+            self.lastModifiedRegion = nil
+            self.lastModifiedTime = nil
+            self.nextToken = nil
+            self.userProficiencyList = nil
+        }
+    }
+}
+
+public struct ListUserProficienciesOutput: Swift.Equatable {
+    /// The region in which a user's proficiencies were last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The last time that the user's proficiencies are were modified.
+    public var lastModifiedTime: ClientRuntime.Date?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the user proficiencies.
+    public var userProficiencyList: [ConnectClientTypes.UserProficiency]?
+
+    public init(
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: ClientRuntime.Date? = nil,
+        nextToken: Swift.String? = nil,
+        userProficiencyList: [ConnectClientTypes.UserProficiency]? = nil
+    )
+    {
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.nextToken = nextToken
+        self.userProficiencyList = userProficiencyList
+    }
+}
+
+struct ListUserProficienciesOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let userProficiencyList: [ConnectClientTypes.UserProficiency]?
+    let lastModifiedTime: ClientRuntime.Date?
+    let lastModifiedRegion: Swift.String?
+}
+
+extension ListUserProficienciesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
+        case nextToken = "NextToken"
+        case userProficiencyList = "UserProficiencyList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let userProficiencyListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.UserProficiency?].self, forKey: .userProficiencyList)
+        var userProficiencyListDecoded0:[ConnectClientTypes.UserProficiency]? = nil
+        if let userProficiencyListContainer = userProficiencyListContainer {
+            userProficiencyListDecoded0 = [ConnectClientTypes.UserProficiency]()
+            for structure0 in userProficiencyListContainer {
+                if let structure0 = structure0 {
+                    userProficiencyListDecoded0?.append(structure0)
+                }
+            }
+        }
+        userProficiencyList = userProficiencyListDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
+    }
+}
+
+enum ListUserProficienciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListUsersInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -30204,7 +31424,7 @@ extension MonitorContactInput: ClientRuntime.URLPathProvider {
 }
 
 public struct MonitorContactInput: Swift.Equatable {
-    /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge.
+    /// Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge. AllowedMonitorCapabilities is required if barge is enabled.
     public var allowedMonitorCapabilities: [ConnectClientTypes.MonitorCapability]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -30984,6 +32204,7 @@ extension ConnectClientTypes {
         case agent
         case customer
         case customBot
+        case supervisor
         case system
         case sdkUnknown(Swift.String)
 
@@ -30992,6 +32213,7 @@ extension ConnectClientTypes {
                 .agent,
                 .customer,
                 .customBot,
+                .supervisor,
                 .system,
                 .sdkUnknown("")
             ]
@@ -31005,6 +32227,7 @@ extension ConnectClientTypes {
             case .agent: return "AGENT"
             case .customer: return "CUSTOMER"
             case .customBot: return "CUSTOM_BOT"
+            case .supervisor: return "SUPERVISOR"
             case .system: return "SYSTEM"
             case let .sdkUnknown(s): return s
             }
@@ -32392,6 +33615,254 @@ extension ConnectClientTypes {
             self = PhoneType(rawValue: rawValue) ?? PhoneType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectClientTypes.PredefinedAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let values = self.values {
+            try encodeContainer.encode(values, forKey: .values)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PredefinedAttributeValues.self, forKey: .values)
+        values = valuesDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about a predefined attribute.
+    public struct PredefinedAttribute: Swift.Equatable {
+        /// Last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// Last modified time.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the predefined attribute.
+        public var name: Swift.String?
+        /// The values of the predefined attribute.
+        public var values: ConnectClientTypes.PredefinedAttributeValues?
+
+        public init(
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            values: ConnectClientTypes.PredefinedAttributeValues? = nil
+        )
+        {
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension ConnectClientTypes.PredefinedAttributeSearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andConditions = "AndConditions"
+        case orConditions = "OrConditions"
+        case stringCondition = "StringCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let andConditions = andConditions {
+            var andConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .andConditions)
+            for predefinedattributesearchcriteria0 in andConditions {
+                try andConditionsContainer.encode(predefinedattributesearchcriteria0)
+            }
+        }
+        if let orConditions = orConditions {
+            var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
+            for predefinedattributesearchcriteria0 in orConditions {
+                try orConditionsContainer.encode(predefinedattributesearchcriteria0)
+            }
+        }
+        if let stringCondition = self.stringCondition {
+            try encodeContainer.encode(stringCondition, forKey: .stringCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PredefinedAttributeSearchCriteria?].self, forKey: .orConditions)
+        var orConditionsDecoded0:[ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil
+        if let orConditionsContainer = orConditionsContainer {
+            orConditionsDecoded0 = [ConnectClientTypes.PredefinedAttributeSearchCriteria]()
+            for structure0 in orConditionsContainer {
+                if let structure0 = structure0 {
+                    orConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        orConditions = orConditionsDecoded0
+        let andConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PredefinedAttributeSearchCriteria?].self, forKey: .andConditions)
+        var andConditionsDecoded0:[ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil
+        if let andConditionsContainer = andConditionsContainer {
+            andConditionsDecoded0 = [ConnectClientTypes.PredefinedAttributeSearchCriteria]()
+            for structure0 in andConditionsContainer {
+                if let structure0 = structure0 {
+                    andConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        andConditions = andConditionsDecoded0
+        let stringConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.StringCondition.self, forKey: .stringCondition)
+        stringCondition = stringConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The search criteria to be used to return predefined attributes.
+    public struct PredefinedAttributeSearchCriteria: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and description.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.PredefinedAttributeSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+    }
+
+}
+
+extension ConnectClientTypes.PredefinedAttributeSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModifiedRegion = "LastModifiedRegion"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastModifiedRegion = self.lastModifiedRegion {
+            try encodeContainer.encode(lastModifiedRegion, forKey: .lastModifiedRegion)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
+        lastModifiedRegion = lastModifiedRegionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Summary of a predefined attribute.
+    public struct PredefinedAttributeSummary: Swift.Equatable {
+        /// Last modified region.
+        public var lastModifiedRegion: Swift.String?
+        /// Last modified time.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the predefined attribute.
+        public var name: Swift.String?
+
+        public init(
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+    }
+
+}
+
+extension ConnectClientTypes.PredefinedAttributeValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case stringlist = "StringList"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .stringlist(stringlist):
+                var stringlistContainer = container.nestedUnkeyedContainer(forKey: .stringlist)
+                for predefinedattributestringvalue0 in stringlist {
+                    try stringlistContainer.encode(predefinedattributestringvalue0)
+                }
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let stringlistContainer = try values.decodeIfPresent([Swift.String?].self, forKey: .stringlist)
+        var stringlistDecoded0:[Swift.String]? = nil
+        if let stringlistContainer = stringlistContainer {
+            stringlistDecoded0 = [Swift.String]()
+            for string0 in stringlistContainer {
+                if let string0 = string0 {
+                    stringlistDecoded0?.append(string0)
+                }
+            }
+        }
+        if let stringlist = stringlistDecoded0 {
+            self = .stringlist(stringlist)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about values of a predefined attribute.
+    public enum PredefinedAttributeValues: Swift.Equatable {
+        /// Predefined attribute values of type string list.
+        case stringlist([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension ConnectClientTypes.ProblemDetail: Swift.Codable {
@@ -37494,6 +38965,471 @@ enum SearchAvailablePhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension SearchContactsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case sort = "Sort"
+        case timeRange = "TimeRange"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+        if let sort = self.sort {
+            try encodeContainer.encode(sort, forKey: .sort)
+        }
+        if let timeRange = self.timeRange {
+            try encodeContainer.encode(timeRange, forKey: .timeRange)
+        }
+    }
+}
+
+extension SearchContactsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-contacts"
+    }
+}
+
+public struct SearchContactsInput: Swift.Equatable {
+    /// The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return contacts.
+    public var searchCriteria: ConnectClientTypes.SearchCriteria?
+    /// Specifies a field to sort by and a sort order.
+    public var sort: ConnectClientTypes.Sort?
+    /// Time range that you want to search results.
+    /// This member is required.
+    public var timeRange: ConnectClientTypes.SearchContactsTimeRange?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.SearchCriteria? = nil,
+        sort: ConnectClientTypes.Sort? = nil,
+        timeRange: ConnectClientTypes.SearchContactsTimeRange? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.sort = sort
+        self.timeRange = timeRange
+    }
+}
+
+struct SearchContactsInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let timeRange: ConnectClientTypes.SearchContactsTimeRange?
+    let searchCriteria: ConnectClientTypes.SearchCriteria?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let sort: ConnectClientTypes.Sort?
+}
+
+extension SearchContactsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+        case sort = "Sort"
+        case timeRange = "TimeRange"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let timeRangeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchContactsTimeRange.self, forKey: .timeRange)
+        timeRange = timeRangeDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sortDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.Sort.self, forKey: .sort)
+        sort = sortDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    public enum SearchContactsMatchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case matchAll
+        case matchAny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchContactsMatchType] {
+            return [
+                .matchAll,
+                .matchAny,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .matchAll: return "MATCH_ALL"
+            case .matchAny: return "MATCH_ANY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchContactsMatchType(rawValue: rawValue) ?? SearchContactsMatchType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SearchContactsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchContactsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.contacts = output.contacts
+            self.nextToken = output.nextToken
+            self.totalCount = output.totalCount
+        } else {
+            self.contacts = nil
+            self.nextToken = nil
+            self.totalCount = nil
+        }
+    }
+}
+
+public struct SearchContactsOutput: Swift.Equatable {
+    /// Information about the contacts.
+    /// This member is required.
+    public var contacts: [ConnectClientTypes.ContactSearchSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// The total number of contacts which matched your search query.
+    public var totalCount: Swift.Int?
+
+    public init(
+        contacts: [ConnectClientTypes.ContactSearchSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        totalCount: Swift.Int? = nil
+    )
+    {
+        self.contacts = contacts
+        self.nextToken = nextToken
+        self.totalCount = totalCount
+    }
+}
+
+struct SearchContactsOutputBody: Swift.Equatable {
+    let contacts: [ConnectClientTypes.ContactSearchSummary]?
+    let nextToken: Swift.String?
+    let totalCount: Swift.Int?
+}
+
+extension SearchContactsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contacts = "Contacts"
+        case nextToken = "NextToken"
+        case totalCount = "TotalCount"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ContactSearchSummary?].self, forKey: .contacts)
+        var contactsDecoded0:[ConnectClientTypes.ContactSearchSummary]? = nil
+        if let contactsContainer = contactsContainer {
+            contactsDecoded0 = [ConnectClientTypes.ContactSearchSummary]()
+            for structure0 in contactsContainer {
+                if let structure0 = structure0 {
+                    contactsDecoded0?.append(structure0)
+                }
+            }
+        }
+        contacts = contactsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let totalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalCount)
+        totalCount = totalCountDecoded
+    }
+}
+
+enum SearchContactsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ConnectClientTypes.SearchContactsTimeRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case startTime = "StartTime"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchContactsTimeRangeType.self, forKey: .type)
+        type = typeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure of time range that you want to search results.
+    public struct SearchContactsTimeRange: Swift.Equatable {
+        /// The end time of the time range.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// The start time of the time range.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+        /// The type of timestamp to search.
+        /// This member is required.
+        public var type: ConnectClientTypes.SearchContactsTimeRangeType?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            type: ConnectClientTypes.SearchContactsTimeRangeType? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.type = type
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum SearchContactsTimeRangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case connectedToAgentTimestamp
+        case disconnectTimestamp
+        case initiationTimestamp
+        case scheduledTimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchContactsTimeRangeType] {
+            return [
+                .connectedToAgentTimestamp,
+                .disconnectTimestamp,
+                .initiationTimestamp,
+                .scheduledTimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectedToAgentTimestamp: return "CONNECTED_TO_AGENT_TIMESTAMP"
+            case .disconnectTimestamp: return "DISCONNECT_TIMESTAMP"
+            case .initiationTimestamp: return "INITIATION_TIMESTAMP"
+            case .scheduledTimestamp: return "SCHEDULED_TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchContactsTimeRangeType(rawValue: rawValue) ?? SearchContactsTimeRangeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.SearchCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentHierarchyGroups = "AgentHierarchyGroups"
+        case agentIds = "AgentIds"
+        case channels = "Channels"
+        case contactAnalysis = "ContactAnalysis"
+        case initiationMethods = "InitiationMethods"
+        case queueIds = "QueueIds"
+        case searchableContactAttributes = "SearchableContactAttributes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentHierarchyGroups = self.agentHierarchyGroups {
+            try encodeContainer.encode(agentHierarchyGroups, forKey: .agentHierarchyGroups)
+        }
+        if let agentIds = agentIds {
+            var agentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentIds)
+            for agentresourceid0 in agentIds {
+                try agentIdsContainer.encode(agentresourceid0)
+            }
+        }
+        if let channels = channels {
+            var channelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channels)
+            for channel0 in channels {
+                try channelsContainer.encode(channel0.rawValue)
+            }
+        }
+        if let contactAnalysis = self.contactAnalysis {
+            try encodeContainer.encode(contactAnalysis, forKey: .contactAnalysis)
+        }
+        if let initiationMethods = initiationMethods {
+            var initiationMethodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initiationMethods)
+            for contactinitiationmethod0 in initiationMethods {
+                try initiationMethodsContainer.encode(contactinitiationmethod0.rawValue)
+            }
+        }
+        if let queueIds = queueIds {
+            var queueIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queueIds)
+            for queueid0 in queueIds {
+                try queueIdsContainer.encode(queueid0)
+            }
+        }
+        if let searchableContactAttributes = self.searchableContactAttributes {
+            try encodeContainer.encode(searchableContactAttributes, forKey: .searchableContactAttributes)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .agentIds)
+        var agentIdsDecoded0:[Swift.String]? = nil
+        if let agentIdsContainer = agentIdsContainer {
+            agentIdsDecoded0 = [Swift.String]()
+            for string0 in agentIdsContainer {
+                if let string0 = string0 {
+                    agentIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        agentIds = agentIdsDecoded0
+        let agentHierarchyGroupsDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentHierarchyGroups.self, forKey: .agentHierarchyGroups)
+        agentHierarchyGroups = agentHierarchyGroupsDecoded
+        let channelsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.Channel?].self, forKey: .channels)
+        var channelsDecoded0:[ConnectClientTypes.Channel]? = nil
+        if let channelsContainer = channelsContainer {
+            channelsDecoded0 = [ConnectClientTypes.Channel]()
+            for enum0 in channelsContainer {
+                if let enum0 = enum0 {
+                    channelsDecoded0?.append(enum0)
+                }
+            }
+        }
+        channels = channelsDecoded0
+        let contactAnalysisDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ContactAnalysis.self, forKey: .contactAnalysis)
+        contactAnalysis = contactAnalysisDecoded
+        let initiationMethodsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ContactInitiationMethod?].self, forKey: .initiationMethods)
+        var initiationMethodsDecoded0:[ConnectClientTypes.ContactInitiationMethod]? = nil
+        if let initiationMethodsContainer = initiationMethodsContainer {
+            initiationMethodsDecoded0 = [ConnectClientTypes.ContactInitiationMethod]()
+            for enum0 in initiationMethodsContainer {
+                if let enum0 = enum0 {
+                    initiationMethodsDecoded0?.append(enum0)
+                }
+            }
+        }
+        initiationMethods = initiationMethodsDecoded0
+        let queueIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queueIds)
+        var queueIdsDecoded0:[Swift.String]? = nil
+        if let queueIdsContainer = queueIdsContainer {
+            queueIdsDecoded0 = [Swift.String]()
+            for string0 in queueIdsContainer {
+                if let string0 = string0 {
+                    queueIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        queueIds = queueIdsDecoded0
+        let searchableContactAttributesDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchableContactAttributes.self, forKey: .searchableContactAttributes)
+        searchableContactAttributes = searchableContactAttributesDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure of search criteria to be used to return contacts.
+    public struct SearchCriteria: Swift.Equatable {
+        /// The agent hierarchy groups of the agent at the time of handling the contact.
+        public var agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups?
+        /// The identifiers of agents who handled the contacts.
+        public var agentIds: [Swift.String]?
+        /// The list of channels associated with contacts.
+        public var channels: [ConnectClientTypes.Channel]?
+        /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
+        public var contactAnalysis: ConnectClientTypes.ContactAnalysis?
+        /// The list of initiation methods associated with contacts.
+        public var initiationMethods: [ConnectClientTypes.ContactInitiationMethod]?
+        /// The list of queue IDs associated with contacts.
+        public var queueIds: [Swift.String]?
+        /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by customer contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Amazon Connect Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Amazon Connect.
+        public var searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes?
+
+        public init(
+            agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups? = nil,
+            agentIds: [Swift.String]? = nil,
+            channels: [ConnectClientTypes.Channel]? = nil,
+            contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
+            initiationMethods: [ConnectClientTypes.ContactInitiationMethod]? = nil,
+            queueIds: [Swift.String]? = nil,
+            searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil
+        )
+        {
+            self.agentHierarchyGroups = agentHierarchyGroups
+            self.agentIds = agentIds
+            self.channels = channels
+            self.contactAnalysis = contactAnalysis
+            self.initiationMethods = initiationMethods
+            self.queueIds = queueIds
+            self.searchableContactAttributes = searchableContactAttributes
+        }
+    }
+
+}
+
 extension SearchHoursOfOperationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceId = "InstanceId"
@@ -37660,6 +39596,174 @@ extension SearchHoursOfOperationsOutputBody: Swift.Decodable {
 }
 
 enum SearchHoursOfOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SearchPredefinedAttributesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let searchCriteria = self.searchCriteria {
+            try encodeContainer.encode(searchCriteria, forKey: .searchCriteria)
+        }
+    }
+}
+
+extension SearchPredefinedAttributesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/search-predefined-attributes"
+    }
+}
+
+public struct SearchPredefinedAttributesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return predefined attributes.
+    public var searchCriteria: ConnectClientTypes.PredefinedAttributeSearchCriteria?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.PredefinedAttributeSearchCriteria? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+    }
+}
+
+struct SearchPredefinedAttributesInputBody: Swift.Equatable {
+    let instanceId: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let searchCriteria: ConnectClientTypes.PredefinedAttributeSearchCriteria?
+}
+
+extension SearchPredefinedAttributesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case searchCriteria = "SearchCriteria"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let searchCriteriaDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PredefinedAttributeSearchCriteria.self, forKey: .searchCriteria)
+        searchCriteria = searchCriteriaDecoded
+    }
+}
+
+extension SearchPredefinedAttributesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SearchPredefinedAttributesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.approximateTotalCount = output.approximateTotalCount
+            self.nextToken = output.nextToken
+            self.predefinedAttributes = output.predefinedAttributes
+        } else {
+            self.approximateTotalCount = nil
+            self.nextToken = nil
+            self.predefinedAttributes = nil
+        }
+    }
+}
+
+public struct SearchPredefinedAttributesOutput: Swift.Equatable {
+    /// The approximate number of predefined attributes which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Predefined attributes matched by the search criteria.
+    public var predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.predefinedAttributes = predefinedAttributes
+    }
+}
+
+struct SearchPredefinedAttributesOutputBody: Swift.Equatable {
+    let predefinedAttributes: [ConnectClientTypes.PredefinedAttribute]?
+    let nextToken: Swift.String?
+    let approximateTotalCount: Swift.Int?
+}
+
+extension SearchPredefinedAttributesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateTotalCount = "ApproximateTotalCount"
+        case nextToken = "NextToken"
+        case predefinedAttributes = "PredefinedAttributes"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let predefinedAttributesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.PredefinedAttribute?].self, forKey: .predefinedAttributes)
+        var predefinedAttributesDecoded0:[ConnectClientTypes.PredefinedAttribute]? = nil
+        if let predefinedAttributesContainer = predefinedAttributesContainer {
+            predefinedAttributesDecoded0 = [ConnectClientTypes.PredefinedAttribute]()
+            for structure0 in predefinedAttributesContainer {
+                if let structure0 = structure0 {
+                    predefinedAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        predefinedAttributes = predefinedAttributesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let approximateTotalCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateTotalCount)
+        approximateTotalCount = approximateTotalCountDecoded
+    }
+}
+
+enum SearchPredefinedAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -39113,6 +41217,128 @@ enum SearchVocabulariesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ConnectClientTypes.SearchableContactAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case criteria = "Criteria"
+        case matchType = "MatchType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let criteria = criteria {
+            var criteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .criteria)
+            for searchablecontactattributescriteria0 in criteria {
+                try criteriaContainer.encode(searchablecontactattributescriteria0)
+            }
+        }
+        if let matchType = self.matchType {
+            try encodeContainer.encode(matchType.rawValue, forKey: .matchType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let criteriaContainer = try containerValues.decodeIfPresent([ConnectClientTypes.SearchableContactAttributesCriteria?].self, forKey: .criteria)
+        var criteriaDecoded0:[ConnectClientTypes.SearchableContactAttributesCriteria]? = nil
+        if let criteriaContainer = criteriaContainer {
+            criteriaDecoded0 = [ConnectClientTypes.SearchableContactAttributesCriteria]()
+            for structure0 in criteriaContainer {
+                if let structure0 = structure0 {
+                    criteriaDecoded0?.append(structure0)
+                }
+            }
+        }
+        criteria = criteriaDecoded0
+        let matchTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchContactsMatchType.self, forKey: .matchType)
+        matchType = matchTypeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defines search criteria based on user-defined contact attributes that are configured for contact search.
+    public struct SearchableContactAttributes: Swift.Equatable {
+        /// The list of criteria based on user-defined contact attributes that are configured for contact search.
+        /// This member is required.
+        public var criteria: [ConnectClientTypes.SearchableContactAttributesCriteria]?
+        /// The match type combining search criteria using multiple searchable contact attributes.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+
+        public init(
+            criteria: [ConnectClientTypes.SearchableContactAttributesCriteria]? = nil,
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil
+        )
+        {
+            self.criteria = criteria
+            self.matchType = matchType
+        }
+    }
+
+}
+
+extension ConnectClientTypes.SearchableContactAttributesCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for searchablecontactattributevalue0 in values {
+                try valuesContainer.encode(searchablecontactattributevalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension ConnectClientTypes.SearchableContactAttributesCriteria: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchableContactAttributesCriteria(values: \(Swift.String(describing: values)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+    /// The search criteria based on user-defned contact attribute key and values to search on.
+    public struct SearchableContactAttributesCriteria: Swift.Equatable {
+        /// The key containing a searchable user-defined contact attribute.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The list of values to search for within a user-defined contact attribute.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.values = values
+        }
+    }
+
+}
+
 extension ConnectClientTypes {
     public enum SearchableQueueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case standard
@@ -39420,7 +41646,7 @@ extension ConnectClientTypes {
         public var andConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.SecurityProfileSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and description.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
@@ -40165,6 +42391,53 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.Sort: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldName = "FieldName"
+        case order = "Order"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldName = self.fieldName {
+            try encodeContainer.encode(fieldName.rawValue, forKey: .fieldName)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldNameDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SortableFieldName.self, forKey: .fieldName)
+        fieldName = fieldNameDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defineds the field name to sort by and a sort order.
+    public struct Sort: Swift.Equatable {
+        /// The name of the field on which to sort.
+        /// This member is required.
+        public var fieldName: ConnectClientTypes.SortableFieldName?
+        /// An ascending or descending sort.
+        /// This member is required.
+        public var order: ConnectClientTypes.SortOrder?
+
+        public init(
+            fieldName: ConnectClientTypes.SortableFieldName? = nil,
+            order: ConnectClientTypes.SortOrder? = nil
+        )
+        {
+            self.fieldName = fieldName
+            self.order = order
+        }
+    }
+
+}
+
 extension ConnectClientTypes {
     public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ascending
@@ -40193,6 +42466,50 @@ extension ConnectClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes {
+    public enum SortableFieldName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case channel
+        case connectedToAgentTimestamp
+        case disconnectTimestamp
+        case initiationMethod
+        case initiationTimestamp
+        case scheduledTimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortableFieldName] {
+            return [
+                .channel,
+                .connectedToAgentTimestamp,
+                .disconnectTimestamp,
+                .initiationMethod,
+                .initiationTimestamp,
+                .scheduledTimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .channel: return "CHANNEL"
+            case .connectedToAgentTimestamp: return "CONNECTED_TO_AGENT_TIMESTAMP"
+            case .disconnectTimestamp: return "DISCONNECT_TIMESTAMP"
+            case .initiationMethod: return "INITIATION_METHOD"
+            case .initiationTimestamp: return "INITIATION_TIMESTAMP"
+            case .scheduledTimestamp: return "SCHEDULED_TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortableFieldName(rawValue: rawValue) ?? SortableFieldName.sdkUnknown(rawValue)
         }
     }
 }
@@ -40926,6 +43243,11 @@ enum StartContactStreamingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension StartOutboundVoiceContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartOutboundVoiceContactInput(answerMachineDetectionConfig: \(Swift.String(describing: answerMachineDetectionConfig)), attributes: \(Swift.String(describing: attributes)), campaignId: \(Swift.String(describing: campaignId)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), destinationPhoneNumber: \(Swift.String(describing: destinationPhoneNumber)), instanceId: \(Swift.String(describing: instanceId)), queueId: \(Swift.String(describing: queueId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), sourcePhoneNumber: \(Swift.String(describing: sourcePhoneNumber)), trafficType: \(Swift.String(describing: trafficType)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 extension StartOutboundVoiceContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case answerMachineDetectionConfig = "AnswerMachineDetectionConfig"
@@ -41213,6 +43535,11 @@ enum StartOutboundVoiceContactOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 extension StartTaskContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"
@@ -41472,6 +43799,11 @@ enum StartTaskContactOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension StartWebRTCContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartWebRTCContactInput(allowedCapabilities: \(Swift.String(describing: allowedCapabilities)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension StartWebRTCContactInput: Swift.Encodable {
@@ -42162,7 +44494,7 @@ extension ConnectClientTypes.StringCondition: Swift.Codable {
 }
 
 extension ConnectClientTypes {
-    /// A leaf node condition which can be used to specify a string condition.
+    /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name and description.
     public struct StringCondition: Swift.Equatable {
         /// The type of comparison to be made when evaluating the string condition.
         public var comparisonType: ConnectClientTypes.StringComparisonType?
@@ -44078,6 +46410,134 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.Transcript: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case criteria = "Criteria"
+        case matchType = "MatchType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let criteria = criteria {
+            var criteriaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .criteria)
+            for transcriptcriteria0 in criteria {
+                try criteriaContainer.encode(transcriptcriteria0)
+            }
+        }
+        if let matchType = self.matchType {
+            try encodeContainer.encode(matchType.rawValue, forKey: .matchType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let criteriaContainer = try containerValues.decodeIfPresent([ConnectClientTypes.TranscriptCriteria?].self, forKey: .criteria)
+        var criteriaDecoded0:[ConnectClientTypes.TranscriptCriteria]? = nil
+        if let criteriaContainer = criteriaContainer {
+            criteriaDecoded0 = [ConnectClientTypes.TranscriptCriteria]()
+            for structure0 in criteriaContainer {
+                if let structure0 = structure0 {
+                    criteriaDecoded0?.append(structure0)
+                }
+            }
+        }
+        criteria = criteriaDecoded0
+        let matchTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchContactsMatchType.self, forKey: .matchType)
+        matchType = matchTypeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defines search criteria and matching logic to search for contacts by matching text with transcripts analyzed by Amazon Connect Contact Lens.
+    public struct Transcript: Swift.Equatable {
+        /// The list of search criteria based on Contact Lens conversational analytics transcript.
+        /// This member is required.
+        public var criteria: [ConnectClientTypes.TranscriptCriteria]?
+        /// The match type combining search criteria using multiple transcript criteria.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+
+        public init(
+            criteria: [ConnectClientTypes.TranscriptCriteria]? = nil,
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil
+        )
+        {
+            self.criteria = criteria
+            self.matchType = matchType
+        }
+    }
+
+}
+
+extension ConnectClientTypes.TranscriptCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case matchType = "MatchType"
+        case participantRole = "ParticipantRole"
+        case searchText = "SearchText"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let matchType = self.matchType {
+            try encodeContainer.encode(matchType.rawValue, forKey: .matchType)
+        }
+        if let participantRole = self.participantRole {
+            try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+        if let searchText = searchText {
+            var searchTextContainer = encodeContainer.nestedUnkeyedContainer(forKey: .searchText)
+            for searchtext0 in searchText {
+                try searchTextContainer.encode(searchtext0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let participantRoleDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ParticipantRole.self, forKey: .participantRole)
+        participantRole = participantRoleDecoded
+        let searchTextContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .searchText)
+        var searchTextDecoded0:[Swift.String]? = nil
+        if let searchTextContainer = searchTextContainer {
+            searchTextDecoded0 = [Swift.String]()
+            for string0 in searchTextContainer {
+                if let string0 = string0 {
+                    searchTextDecoded0?.append(string0)
+                }
+            }
+        }
+        searchText = searchTextDecoded0
+        let matchTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SearchContactsMatchType.self, forKey: .matchType)
+        matchType = matchTypeDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A structure that defines search criteria base on words or phrases, participants in the Contact Lens conversational analytics transcript.
+    public struct TranscriptCriteria: Swift.Equatable {
+        /// The match type combining search criteria using multiple search texts in a transcript criteria.
+        /// This member is required.
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+        /// The participant role in a transcript
+        /// This member is required.
+        public var participantRole: ConnectClientTypes.ParticipantRole?
+        /// The words or phrases used to search within a transcript.
+        /// This member is required.
+        public var searchText: [Swift.String]?
+
+        public init(
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil,
+            participantRole: ConnectClientTypes.ParticipantRole? = nil,
+            searchText: [Swift.String]? = nil
+        )
+        {
+            self.matchType = matchType
+            self.participantRole = participantRole
+            self.searchText = searchText
+        }
+    }
+
+}
+
 extension TransferContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -45424,6 +47884,11 @@ enum UpdateContactFlowNameOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -45541,6 +48006,107 @@ enum UpdateContactOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateContactRoutingDataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queuePriority = "QueuePriority"
+        case queueTimeAdjustmentSeconds = "QueueTimeAdjustmentSeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queuePriority = self.queuePriority {
+            try encodeContainer.encode(queuePriority, forKey: .queuePriority)
+        }
+        if let queueTimeAdjustmentSeconds = self.queueTimeAdjustmentSeconds {
+            try encodeContainer.encode(queueTimeAdjustmentSeconds, forKey: .queueTimeAdjustmentSeconds)
+        }
+    }
+}
+
+extension UpdateContactRoutingDataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let contactId = contactId else {
+            return nil
+        }
+        return "/contacts/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())/routing-data"
+    }
+}
+
+public struct UpdateContactRoutingDataInput: Swift.Equatable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
+    public var queuePriority: Swift.Int?
+    /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
+    public var queueTimeAdjustmentSeconds: Swift.Int?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        queuePriority: Swift.Int? = nil,
+        queueTimeAdjustmentSeconds: Swift.Int? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.queuePriority = queuePriority
+        self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
+    }
+}
+
+struct UpdateContactRoutingDataInputBody: Swift.Equatable {
+    let queueTimeAdjustmentSeconds: Swift.Int?
+    let queuePriority: Swift.Int?
+}
+
+extension UpdateContactRoutingDataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queuePriority = "QueuePriority"
+        case queueTimeAdjustmentSeconds = "QueueTimeAdjustmentSeconds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueTimeAdjustmentSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queueTimeAdjustmentSeconds)
+        queueTimeAdjustmentSeconds = queueTimeAdjustmentSecondsDecoded
+        let queuePriorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queuePriority)
+        queuePriority = queuePriorityDecoded
+    }
+}
+
+extension UpdateContactRoutingDataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateContactRoutingDataOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateContactRoutingDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -46573,6 +49139,94 @@ enum UpdatePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePredefinedAttributeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let values = self.values {
+            try encodeContainer.encode(values, forKey: .values)
+        }
+    }
+}
+
+extension UpdatePredefinedAttributeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let name = name else {
+            return nil
+        }
+        return "/predefined-attributes/\(instanceId.urlPercentEncoding())/\(name.urlPercentEncoding())"
+    }
+}
+
+public struct UpdatePredefinedAttributeInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the predefined attribute.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The values of the predefined attribute.
+    public var values: ConnectClientTypes.PredefinedAttributeValues?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        values: ConnectClientTypes.PredefinedAttributeValues? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.name = name
+        self.values = values
+    }
+}
+
+struct UpdatePredefinedAttributeInputBody: Swift.Equatable {
+    let values: ConnectClientTypes.PredefinedAttributeValues?
+}
+
+extension UpdatePredefinedAttributeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case values = "Values"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valuesDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PredefinedAttributeValues.self, forKey: .values)
+        values = valuesDecoded
+    }
+}
+
+extension UpdatePredefinedAttributeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdatePredefinedAttributeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdatePredefinedAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -49048,6 +51702,107 @@ enum UpdateUserPhoneConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateUserProficienciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userProficiencies = userProficiencies {
+            var userProficienciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userProficiencies)
+            for userproficiency0 in userProficiencies {
+                try userProficienciesContainer.encode(userproficiency0)
+            }
+        }
+    }
+}
+
+extension UpdateUserProficienciesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let userId = userId else {
+            return nil
+        }
+        return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/proficiencies"
+    }
+}
+
+public struct UpdateUserProficienciesInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+    /// The proficiencies to be updated for the user. Proficiencies must first be associated to the user. You can do this using AssociateUserProficiencies API.
+    /// This member is required.
+    public var userProficiencies: [ConnectClientTypes.UserProficiency]?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        userId: Swift.String? = nil,
+        userProficiencies: [ConnectClientTypes.UserProficiency]? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.userId = userId
+        self.userProficiencies = userProficiencies
+    }
+}
+
+struct UpdateUserProficienciesInputBody: Swift.Equatable {
+    let userProficiencies: [ConnectClientTypes.UserProficiency]?
+}
+
+extension UpdateUserProficienciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userProficiencies = "UserProficiencies"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userProficienciesContainer = try containerValues.decodeIfPresent([ConnectClientTypes.UserProficiency?].self, forKey: .userProficiencies)
+        var userProficienciesDecoded0:[ConnectClientTypes.UserProficiency]? = nil
+        if let userProficienciesContainer = userProficienciesContainer {
+            userProficienciesDecoded0 = [ConnectClientTypes.UserProficiency]()
+            for structure0 in userProficienciesContainer {
+                if let structure0 = structure0 {
+                    userProficienciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        userProficiencies = userProficienciesDecoded0
+    }
+}
+
+extension UpdateUserProficienciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateUserProficienciesOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateUserProficienciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateUserRoutingProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case routingProfileId = "RoutingProfileId"
@@ -50110,6 +52865,11 @@ extension ConnectClientTypes.UserIdentityInfo: Swift.Codable {
     }
 }
 
+extension ConnectClientTypes.UserIdentityInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserIdentityInfo(mobile: \(Swift.String(describing: mobile)), email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", secondaryEmail: \"CONTENT_REDACTED\")"}
+}
+
 extension ConnectClientTypes {
     /// Contains information about the identity of a user.
     public struct UserIdentityInfo: Swift.Equatable {
@@ -50165,6 +52925,11 @@ extension ConnectClientTypes.UserIdentityInfoLite: Swift.Codable {
         let lastNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastName)
         lastName = lastNameDecoded
     }
+}
+
+extension ConnectClientTypes.UserIdentityInfoLite: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserIdentityInfoLite(firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -50303,6 +53068,111 @@ extension ConnectClientTypes {
             self.autoAccept = autoAccept
             self.deskPhoneNumber = deskPhoneNumber
             self.phoneType = phoneType
+        }
+    }
+
+}
+
+extension ConnectClientTypes.UserProficiency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case attributeValue = "AttributeValue"
+        case level = "Level"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let attributeValue = self.attributeValue {
+            try encodeContainer.encode(attributeValue, forKey: .attributeValue)
+        }
+        if let level = self.level {
+            try encodeContainer.encode(level, forKey: .level)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let attributeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeValue)
+        attributeValue = attributeValueDecoded
+        let levelDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .level)
+        level = levelDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about proficiency of a user.
+    public struct UserProficiency: Swift.Equatable {
+        /// The name of user's proficiency. You must use name of predefined attribute present in the Amazon Connect instance.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The value of user's proficiency. You must use value of predefined attribute present in the Amazon Connect instance.
+        /// This member is required.
+        public var attributeValue: Swift.String?
+        /// The level of the proficiency. The valid values are 1, 2, 3, 4 and 5.
+        /// This member is required.
+        public var level: Swift.Float?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            attributeValue: Swift.String? = nil,
+            level: Swift.Float? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
+            self.level = level
+        }
+    }
+
+}
+
+extension ConnectClientTypes.UserProficiencyDisassociate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeName = "AttributeName"
+        case attributeValue = "AttributeValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeName = self.attributeName {
+            try encodeContainer.encode(attributeName, forKey: .attributeName)
+        }
+        if let attributeValue = self.attributeValue {
+            try encodeContainer.encode(attributeValue, forKey: .attributeValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeName)
+        attributeName = attributeNameDecoded
+        let attributeValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attributeValue)
+        attributeValue = attributeValueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about proficiency to be disassociated from the user.
+    public struct UserProficiencyDisassociate: Swift.Equatable {
+        /// The name of user's proficiency.
+        /// This member is required.
+        public var attributeName: Swift.String?
+        /// The value of user's proficiency.
+        /// This member is required.
+        public var attributeValue: Swift.String?
+
+        public init(
+            attributeName: Swift.String? = nil,
+            attributeValue: Swift.String? = nil
+        )
+        {
+            self.attributeName = attributeName
+            self.attributeValue = attributeValue
         }
     }
 
@@ -50470,7 +53340,7 @@ extension ConnectClientTypes {
         public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.UserSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name, description, and resourceID.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are username, firstname, lastname, resourceId, routingProfileId, securityProfileId, agentGroupId, and agentGroupPathIds.
         public var stringCondition: ConnectClientTypes.StringCondition?
 
         public init(
