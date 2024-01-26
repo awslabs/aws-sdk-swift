@@ -393,15 +393,16 @@ extension LexRuntimeClientTypes {
     }
 }
 
-extension DeleteSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botName = botName else {
+extension DeleteSessionInput {
+
+    static func urlPathProvider(_ value: DeleteSessionInput) -> Swift.String? {
+        guard let botName = value.botName else {
             return nil
         }
-        guard let botAlias = botAlias else {
+        guard let botAlias = value.botAlias else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/bot/\(botName.urlPercentEncoding())/alias/\(botAlias.urlPercentEncoding())/user/\(userId.urlPercentEncoding())/session"
@@ -928,28 +929,28 @@ extension LexRuntimeClientTypes {
 
 }
 
-extension GetSessionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let checkpointLabelFilter = checkpointLabelFilter {
-                let checkpointLabelFilterQueryItem = ClientRuntime.URLQueryItem(name: "checkpointLabelFilter".urlPercentEncoding(), value: Swift.String(checkpointLabelFilter).urlPercentEncoding())
-                items.append(checkpointLabelFilterQueryItem)
-            }
-            return items
+extension GetSessionInput {
+
+    static func queryItemProvider(_ value: GetSessionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let checkpointLabelFilter = value.checkpointLabelFilter {
+            let checkpointLabelFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkpointLabelFilter".urlPercentEncoding(), value: Swift.String(checkpointLabelFilter).urlPercentEncoding())
+            items.append(checkpointLabelFilterQueryItem)
         }
+        return items
     }
 }
 
-extension GetSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botName = botName else {
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let botName = value.botName else {
             return nil
         }
-        guard let botAlias = botAlias else {
+        guard let botAlias = value.botAlias else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/bot/\(botName.urlPercentEncoding())/alias/\(botAlias.urlPercentEncoding())/user/\(userId.urlPercentEncoding())/session"
@@ -1625,30 +1626,31 @@ extension PostContentInput: Swift.Encodable {
     }
 }
 
-extension PostContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PostContentInput {
+
+    static func headerProvider(_ value: PostContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
-        if let activeContexts = activeContexts {
+        if let activeContexts = value.activeContexts {
             do {
                 let base64EncodedValue = try activeContexts.base64EncodedString()
                 items.add(Header(name: "x-amz-lex-active-contexts", value: Swift.String(base64EncodedValue)))
             } catch let err {
             }
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let requestAttributes = requestAttributes {
+        if let requestAttributes = value.requestAttributes {
             do {
                 let base64EncodedValue = try requestAttributes.base64EncodedString()
                 items.add(Header(name: "x-amz-lex-request-attributes", value: Swift.String(base64EncodedValue)))
             } catch let err {
             }
         }
-        if let sessionAttributes = sessionAttributes {
+        if let sessionAttributes = value.sessionAttributes {
             do {
                 let base64EncodedValue = try sessionAttributes.base64EncodedString()
                 items.add(Header(name: "x-amz-lex-session-attributes", value: Swift.String(base64EncodedValue)))
@@ -1659,15 +1661,16 @@ extension PostContentInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension PostContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botName = botName else {
+extension PostContentInput {
+
+    static func urlPathProvider(_ value: PostContentInput) -> Swift.String? {
+        guard let botName = value.botName else {
             return nil
         }
-        guard let botAlias = botAlias else {
+        guard let botAlias = value.botAlias else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/bot/\(botName.urlPercentEncoding())/alias/\(botAlias.urlPercentEncoding())/user/\(userId.urlPercentEncoding())/content"
@@ -2068,15 +2071,16 @@ extension PostTextInput: Swift.Encodable {
     }
 }
 
-extension PostTextInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botName = botName else {
+extension PostTextInput {
+
+    static func urlPathProvider(_ value: PostTextInput) -> Swift.String? {
+        guard let botName = value.botName else {
             return nil
         }
-        guard let botAlias = botAlias else {
+        guard let botAlias = value.botAlias else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/bot/\(botName.urlPercentEncoding())/alias/\(botAlias.urlPercentEncoding())/user/\(userId.urlPercentEncoding())/text"
@@ -2546,25 +2550,27 @@ extension PutSessionInput: Swift.Encodable {
     }
 }
 
-extension PutSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSessionInput {
+
+    static func headerProvider(_ value: PutSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
         return items
     }
 }
 
-extension PutSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botName = botName else {
+extension PutSessionInput {
+
+    static func urlPathProvider(_ value: PutSessionInput) -> Swift.String? {
+        guard let botName = value.botName else {
             return nil
         }
-        guard let botAlias = botAlias else {
+        guard let botAlias = value.botAlias else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/bot/\(botName.urlPercentEncoding())/alias/\(botAlias.urlPercentEncoding())/user/\(userId.urlPercentEncoding())/session"

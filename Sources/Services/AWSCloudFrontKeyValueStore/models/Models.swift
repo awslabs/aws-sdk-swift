@@ -112,22 +112,24 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteKeyInput {
+
+    static func headerProvider(_ value: DeleteKeyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension DeleteKeyInput {
+
+    static func urlPathProvider(_ value: DeleteKeyInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
-        guard let key = key else {
+        guard let key = value.key else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())/keys/\(key.urlPercentEncoding())"
@@ -281,9 +283,10 @@ extension CloudFrontKeyValueStoreClientTypes {
 
 }
 
-extension DescribeKeyValueStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension DescribeKeyValueStoreInput {
+
+    static func urlPathProvider(_ value: DescribeKeyValueStoreInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())"
@@ -421,12 +424,13 @@ enum DescribeKeyValueStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension GetKeyInput {
+
+    static func urlPathProvider(_ value: GetKeyInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
-        guard let key = key else {
+        guard let key = value.key else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())/keys/\(key.urlPercentEncoding())"
@@ -609,26 +613,26 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListKeysInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKeysInput {
+
+    static func queryItemProvider(_ value: ListKeysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension ListKeysInput {
+
+    static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())/keys"
@@ -809,22 +813,24 @@ extension PutKeyInput: Swift.Encodable {
     }
 }
 
-extension PutKeyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutKeyInput {
+
+    static func headerProvider(_ value: PutKeyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension PutKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension PutKeyInput {
+
+    static func urlPathProvider(_ value: PutKeyInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
-        guard let key = key else {
+        guard let key = value.key else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())/keys/\(key.urlPercentEncoding())"
@@ -1140,19 +1146,21 @@ extension UpdateKeysInput: Swift.Encodable {
     }
 }
 
-extension UpdateKeysInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateKeysInput {
+
+    static func headerProvider(_ value: UpdateKeysInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let kvsARN = kvsARN else {
+extension UpdateKeysInput {
+
+    static func urlPathProvider(_ value: UpdateKeysInput) -> Swift.String? {
+        guard let kvsARN = value.kvsARN else {
             return nil
         }
         return "/key-value-stores/\(kvsARN.urlPercentEncoding())/keys"

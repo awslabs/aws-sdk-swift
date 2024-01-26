@@ -221,8 +221,9 @@ extension BatchGetTokenBalanceInput: Swift.Encodable {
     }
 }
 
-extension BatchGetTokenBalanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetTokenBalanceInput {
+
+    static func urlPathProvider(_ value: BatchGetTokenBalanceInput) -> Swift.String? {
         return "/batch-get-token-balance"
     }
 }
@@ -787,8 +788,9 @@ extension GetAssetContractInput: Swift.Encodable {
     }
 }
 
-extension GetAssetContractInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAssetContractInput {
+
+    static func urlPathProvider(_ value: GetAssetContractInput) -> Swift.String? {
         return "/get-asset-contract"
     }
 }
@@ -932,8 +934,9 @@ extension GetTokenBalanceInput: Swift.Encodable {
     }
 }
 
-extension GetTokenBalanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTokenBalanceInput {
+
+    static func urlPathProvider(_ value: GetTokenBalanceInput) -> Swift.String? {
         return "/get-token-balance"
     }
 }
@@ -1099,8 +1102,9 @@ extension GetTransactionInput: Swift.Encodable {
     }
 }
 
-extension GetTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTransactionInput {
+
+    static func urlPathProvider(_ value: GetTransactionInput) -> Swift.String? {
         return "/get-transaction"
     }
 }
@@ -1287,8 +1291,9 @@ extension ListAssetContractsInput: Swift.Encodable {
     }
 }
 
-extension ListAssetContractsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssetContractsInput {
+
+    static func urlPathProvider(_ value: ListAssetContractsInput) -> Swift.String? {
         return "/list-asset-contracts"
     }
 }
@@ -1438,8 +1443,9 @@ extension ListTokenBalancesInput: Swift.Encodable {
     }
 }
 
-extension ListTokenBalancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTokenBalancesInput {
+
+    static func urlPathProvider(_ value: ListTokenBalancesInput) -> Swift.String? {
         return "/list-token-balances"
     }
 }
@@ -1597,8 +1603,9 @@ extension ListTransactionEventsInput: Swift.Encodable {
     }
 }
 
-extension ListTransactionEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransactionEventsInput {
+
+    static func urlPathProvider(_ value: ListTransactionEventsInput) -> Swift.String? {
         return "/list-transaction-events"
     }
 }
@@ -1769,8 +1776,9 @@ extension ListTransactionsInput: Swift.Encodable {
     }
 }
 
-extension ListTransactionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransactionsInput {
+
+    static func urlPathProvider(_ value: ListTransactionsInput) -> Swift.String? {
         return "/list-transactions"
     }
 }

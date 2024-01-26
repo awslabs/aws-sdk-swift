@@ -215,8 +215,9 @@ extension ScanSbomInput: Swift.Encodable {
     }
 }
 
-extension ScanSbomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ScanSbomInput {
+
+    static func urlPathProvider(_ value: ScanSbomInput) -> Swift.String? {
         return "/scan/sbom"
     }
 }

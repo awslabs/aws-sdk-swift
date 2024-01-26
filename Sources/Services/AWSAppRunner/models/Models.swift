@@ -23,8 +23,9 @@ extension AssociateCustomDomainInput: Swift.Encodable {
     }
 }
 
-extension AssociateCustomDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateCustomDomainInput {
+
+    static func urlPathProvider(_ value: AssociateCustomDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1076,8 +1077,9 @@ extension CreateAutoScalingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAutoScalingConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateAutoScalingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1238,8 +1240,9 @@ extension CreateConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectionInput {
+
+    static func urlPathProvider(_ value: CreateConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1377,8 +1380,9 @@ extension CreateObservabilityConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateObservabilityConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateObservabilityConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateObservabilityConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1539,8 +1543,9 @@ extension CreateServiceInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceInput {
+
+    static func urlPathProvider(_ value: CreateServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1747,8 +1752,9 @@ extension CreateVpcConnectorInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcConnectorInput {
+
+    static func urlPathProvider(_ value: CreateVpcConnectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1916,8 +1922,9 @@ extension CreateVpcIngressConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcIngressConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcIngressConnectionInput {
+
+    static func urlPathProvider(_ value: CreateVpcIngressConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2185,8 +2192,9 @@ extension DeleteAutoScalingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAutoScalingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteAutoScalingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2295,8 +2303,9 @@ extension DeleteConnectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2396,8 +2405,9 @@ extension DeleteObservabilityConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteObservabilityConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteObservabilityConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteObservabilityConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2498,8 +2508,9 @@ extension DeleteServiceInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceInput {
+
+    static func urlPathProvider(_ value: DeleteServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2612,8 +2623,9 @@ extension DeleteVpcConnectorInput: Swift.Encodable {
     }
 }
 
-extension DeleteVpcConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVpcConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteVpcConnectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2714,8 +2726,9 @@ extension DeleteVpcIngressConnectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteVpcIngressConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVpcIngressConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteVpcIngressConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2817,8 +2830,9 @@ extension DescribeAutoScalingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAutoScalingConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeAutoScalingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2927,8 +2941,9 @@ extension DescribeCustomDomainsInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomDomainsInput {
+
+    static func urlPathProvider(_ value: DescribeCustomDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3106,8 +3121,9 @@ extension DescribeObservabilityConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeObservabilityConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeObservabilityConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeObservabilityConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3208,8 +3224,9 @@ extension DescribeServiceInput: Swift.Encodable {
     }
 }
 
-extension DescribeServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServiceInput {
+
+    static func urlPathProvider(_ value: DescribeServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3310,8 +3327,9 @@ extension DescribeVpcConnectorInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcConnectorInput {
+
+    static func urlPathProvider(_ value: DescribeVpcConnectorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3412,8 +3430,9 @@ extension DescribeVpcIngressConnectionInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcIngressConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcIngressConnectionInput {
+
+    static func urlPathProvider(_ value: DescribeVpcIngressConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3518,8 +3537,9 @@ extension DisassociateCustomDomainInput: Swift.Encodable {
     }
 }
 
-extension DisassociateCustomDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateCustomDomainInput {
+
+    static func urlPathProvider(_ value: DisassociateCustomDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4433,8 +4453,9 @@ extension ListAutoScalingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListAutoScalingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAutoScalingConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListAutoScalingConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4584,8 +4605,9 @@ extension ListConnectionsInput: Swift.Encodable {
     }
 }
 
-extension ListConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectionsInput {
+
+    static func urlPathProvider(_ value: ListConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4731,8 +4753,9 @@ extension ListObservabilityConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListObservabilityConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObservabilityConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListObservabilityConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4882,8 +4905,9 @@ extension ListOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOperationsInput {
+
+    static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5026,8 +5050,9 @@ extension ListServicesForAutoScalingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension ListServicesForAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicesForAutoScalingConfigurationInput {
+
+    static func urlPathProvider(_ value: ListServicesForAutoScalingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5167,8 +5192,9 @@ extension ListServicesInput: Swift.Encodable {
     }
 }
 
-extension ListServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicesInput {
+
+    static func urlPathProvider(_ value: ListServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5294,8 +5320,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5409,8 +5436,9 @@ extension ListVpcConnectorsInput: Swift.Encodable {
     }
 }
 
-extension ListVpcConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVpcConnectorsInput {
+
+    static func urlPathProvider(_ value: ListVpcConnectorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5589,8 +5617,9 @@ extension ListVpcIngressConnectionsInput: Swift.Encodable {
     }
 }
 
-extension ListVpcIngressConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVpcIngressConnectionsInput {
+
+    static func urlPathProvider(_ value: ListVpcIngressConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6157,8 +6186,9 @@ extension PauseServiceInput: Swift.Encodable {
     }
 }
 
-extension PauseServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PauseServiceInput {
+
+    static func urlPathProvider(_ value: PauseServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6357,8 +6387,9 @@ extension ResumeServiceInput: Swift.Encodable {
     }
 }
 
-extension ResumeServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResumeServiceInput {
+
+    static func urlPathProvider(_ value: ResumeServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7106,8 +7137,9 @@ extension StartDeploymentInput: Swift.Encodable {
     }
 }
 
-extension StartDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDeploymentInput {
+
+    static func urlPathProvider(_ value: StartDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7260,8 +7292,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7422,8 +7455,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7512,8 +7546,9 @@ extension UpdateDefaultAutoScalingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDefaultAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDefaultAutoScalingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateDefaultAutoScalingConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7638,8 +7673,9 @@ extension UpdateServiceInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceInput {
+
+    static func urlPathProvider(_ value: UpdateServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7804,8 +7840,9 @@ extension UpdateVpcIngressConnectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateVpcIngressConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVpcIngressConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateVpcIngressConnectionInput) -> Swift.String? {
         return "/"
     }
 }

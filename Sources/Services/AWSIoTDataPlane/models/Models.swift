@@ -58,22 +58,22 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-extension DeleteThingShadowInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let shadowName = shadowName {
-                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-                items.append(shadowNameQueryItem)
-            }
-            return items
+extension DeleteThingShadowInput {
+
+    static func queryItemProvider(_ value: DeleteThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let shadowName = value.shadowName {
+            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            items.append(shadowNameQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteThingShadowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension DeleteThingShadowInput {
+
+    static func urlPathProvider(_ value: DeleteThingShadowInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/shadow"
@@ -168,9 +168,10 @@ enum DeleteThingShadowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRetainedMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let topic = topic else {
+extension GetRetainedMessageInput {
+
+    static func urlPathProvider(_ value: GetRetainedMessageInput) -> Swift.String? {
+        guard let topic = value.topic else {
             return nil
         }
         return "/retainedMessage/\(topic.urlPercentEncoding())"
@@ -298,22 +299,22 @@ enum GetRetainedMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetThingShadowInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let shadowName = shadowName {
-                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-                items.append(shadowNameQueryItem)
-            }
-            return items
+extension GetThingShadowInput {
+
+    static func queryItemProvider(_ value: GetThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let shadowName = value.shadowName {
+            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            items.append(shadowNameQueryItem)
         }
+        return items
     }
 }
 
-extension GetThingShadowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension GetThingShadowInput {
+
+    static func urlPathProvider(_ value: GetThingShadowInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/shadow"
@@ -519,26 +520,26 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListNamedShadowsForThingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListNamedShadowsForThingInput {
+
+    static func queryItemProvider(_ value: ListNamedShadowsForThingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNamedShadowsForThingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension ListNamedShadowsForThingInput {
+
+    static func urlPathProvider(_ value: ListNamedShadowsForThingInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/api/things/shadow/ListNamedShadowsForThing/\(thingName.urlPercentEncoding())"
@@ -661,25 +662,25 @@ enum ListNamedShadowsForThingOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListRetainedMessagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRetainedMessagesInput {
+
+    static func queryItemProvider(_ value: ListRetainedMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRetainedMessagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRetainedMessagesInput {
+
+    static func urlPathProvider(_ value: ListRetainedMessagesInput) -> Swift.String? {
         return "/retainedMessage"
     }
 }
@@ -885,16 +886,17 @@ extension PublishInput: Swift.Encodable {
     }
 }
 
-extension PublishInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PublishInput {
+
+    static func headerProvider(_ value: PublishInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let correlationData = correlationData {
+        if let correlationData = value.correlationData {
             items.add(Header(name: "x-amz-mqtt5-correlation-data", value: Swift.String(correlationData)))
         }
-        if let payloadFormatIndicator = payloadFormatIndicator {
+        if let payloadFormatIndicator = value.payloadFormatIndicator {
             items.add(Header(name: "x-amz-mqtt5-payload-format-indicator", value: Swift.String(payloadFormatIndicator.rawValue)))
         }
-        if let userProperties = userProperties {
+        if let userProperties = value.userProperties {
             do {
                 let base64EncodedValue = try userProperties.base64EncodedString()
                 items.add(Header(name: "x-amz-mqtt5-user-properties", value: Swift.String(base64EncodedValue)))
@@ -905,38 +907,38 @@ extension PublishInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension PublishInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let qos = qos {
-                let qosQueryItem = ClientRuntime.URLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
-                items.append(qosQueryItem)
-            }
-            if let retain = retain {
-                let retainQueryItem = ClientRuntime.URLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
-                items.append(retainQueryItem)
-            }
-            if let responseTopic = responseTopic {
-                let responseTopicQueryItem = ClientRuntime.URLQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
-                items.append(responseTopicQueryItem)
-            }
-            if let contentType = contentType {
-                let contentTypeQueryItem = ClientRuntime.URLQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
-                items.append(contentTypeQueryItem)
-            }
-            if let messageExpiry = messageExpiry {
-                let messageExpiryQueryItem = ClientRuntime.URLQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
-                items.append(messageExpiryQueryItem)
-            }
-            return items
+extension PublishInput {
+
+    static func queryItemProvider(_ value: PublishInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let qos = value.qos {
+            let qosQueryItem = ClientRuntime.SDKURLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
+            items.append(qosQueryItem)
         }
+        if let retain = value.retain {
+            let retainQueryItem = ClientRuntime.SDKURLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
+            items.append(retainQueryItem)
+        }
+        if let responseTopic = value.responseTopic {
+            let responseTopicQueryItem = ClientRuntime.SDKURLQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
+            items.append(responseTopicQueryItem)
+        }
+        if let contentType = value.contentType {
+            let contentTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
+            items.append(contentTypeQueryItem)
+        }
+        if let messageExpiry = value.messageExpiry {
+            let messageExpiryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
+            items.append(messageExpiryQueryItem)
+        }
+        return items
     }
 }
 
-extension PublishInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let topic = topic else {
+extension PublishInput {
+
+    static func urlPathProvider(_ value: PublishInput) -> Swift.String? {
+        guard let topic = value.topic else {
             return nil
         }
         return "/topics/\(topic.urlPercentEncoding())"
@@ -1448,22 +1450,22 @@ extension UpdateThingShadowInput: Swift.Encodable {
     }
 }
 
-extension UpdateThingShadowInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let shadowName = shadowName {
-                let shadowNameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
-                items.append(shadowNameQueryItem)
-            }
-            return items
+extension UpdateThingShadowInput {
+
+    static func queryItemProvider(_ value: UpdateThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let shadowName = value.shadowName {
+            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            items.append(shadowNameQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateThingShadowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension UpdateThingShadowInput {
+
+    static func urlPathProvider(_ value: UpdateThingShadowInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/things/\(thingName.urlPercentEncoding())/shadow"

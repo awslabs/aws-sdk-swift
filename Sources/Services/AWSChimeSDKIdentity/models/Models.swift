@@ -1074,9 +1074,10 @@ extension CreateAppInstanceAdminInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension CreateAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins"
@@ -1226,8 +1227,9 @@ extension CreateAppInstanceBotInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInstanceBotInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceBotInput) -> Swift.String? {
         return "/app-instance-bots"
     }
 }
@@ -1403,8 +1405,9 @@ extension CreateAppInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInstanceInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceInput) -> Swift.String? {
         return "/app-instances"
     }
 }
@@ -1575,8 +1578,9 @@ extension CreateAppInstanceUserInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceUserInput) -> Swift.String? {
         return "/app-instance-users"
     }
 }
@@ -1728,12 +1732,13 @@ enum CreateAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DeleteAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
-        guard let appInstanceAdminArn = appInstanceAdminArn else {
+        guard let appInstanceAdminArn = value.appInstanceAdminArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins/\(appInstanceAdminArn.urlPercentEncoding())"
@@ -1795,9 +1800,10 @@ enum DeleteAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceBotArn = appInstanceBotArn else {
+extension DeleteAppInstanceBotInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceBotInput) -> Swift.String? {
+        guard let appInstanceBotArn = value.appInstanceBotArn else {
             return nil
         }
         return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
@@ -1854,9 +1860,10 @@ enum DeleteAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DeleteAppInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -1912,9 +1919,10 @@ enum DeleteAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DeleteAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"
@@ -1971,12 +1979,13 @@ enum DeleteAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeregisterAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DeregisterAppInstanceUserEndpointInput {
+
+    static func urlPathProvider(_ value: DeregisterAppInstanceUserEndpointInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
-        guard let endpointId = endpointId else {
+        guard let endpointId = value.endpointId else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/endpoints/\(endpointId.urlPercentEncoding())"
@@ -2036,12 +2045,13 @@ enum DeregisterAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DescribeAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
-        guard let appInstanceAdminArn = appInstanceAdminArn else {
+        guard let appInstanceAdminArn = value.appInstanceAdminArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins/\(appInstanceAdminArn.urlPercentEncoding())"
@@ -2131,9 +2141,10 @@ enum DescribeAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DescribeAppInstanceBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceBotArn = appInstanceBotArn else {
+extension DescribeAppInstanceBotInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceBotInput) -> Swift.String? {
+        guard let appInstanceBotArn = value.appInstanceBotArn else {
             return nil
         }
         return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
@@ -2219,9 +2230,10 @@ enum DescribeAppInstanceBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DescribeAppInstanceInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -2306,12 +2318,13 @@ enum DescribeAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DescribeAppInstanceUserEndpointInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceUserEndpointInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
-        guard let endpointId = endpointId else {
+        guard let endpointId = value.endpointId else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/endpoints/\(endpointId.urlPercentEncoding())"
@@ -2401,9 +2414,10 @@ enum DescribeAppInstanceUserEndpointOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DescribeAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DescribeAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"
@@ -2868,9 +2882,10 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetAppInstanceRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension GetAppInstanceRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: GetAppInstanceRetentionSettingsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/retention-settings"
@@ -3156,26 +3171,26 @@ extension ListAppInstanceAdminsInput: Swift.CustomDebugStringConvertible {
         "ListAppInstanceAdminsInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceAdminsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppInstanceAdminsInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceAdminsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppInstanceAdminsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension ListAppInstanceAdminsInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceAdminsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins"
@@ -3308,31 +3323,31 @@ extension ListAppInstanceBotsInput: Swift.CustomDebugStringConvertible {
         "ListAppInstanceBotsInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceBotsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let appInstanceArn = appInstanceArn else {
-                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
-            items.append(appInstanceArnQueryItem)
-            return items
+extension ListAppInstanceBotsInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceBotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let appInstanceArn = value.appInstanceArn else {
+            let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        items.append(appInstanceArnQueryItem)
+        return items
     }
 }
 
-extension ListAppInstanceBotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInstanceBotsInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceBotsInput) -> Swift.String? {
         return "/app-instance-bots"
     }
 }
@@ -3463,26 +3478,26 @@ extension ListAppInstanceUserEndpointsInput: Swift.CustomDebugStringConvertible 
         "ListAppInstanceUserEndpointsInput(maxResults: \(Swift.String(describing: maxResults)), appInstanceUserArn: \"CONTENT_REDACTED\", nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceUserEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppInstanceUserEndpointsInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceUserEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppInstanceUserEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension ListAppInstanceUserEndpointsInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceUserEndpointsInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/endpoints"
@@ -3604,31 +3619,31 @@ extension ListAppInstanceUsersInput: Swift.CustomDebugStringConvertible {
         "ListAppInstanceUsersInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let appInstanceArn = appInstanceArn else {
-                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
-            items.append(appInstanceArnQueryItem)
-            return items
+extension ListAppInstanceUsersInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let appInstanceArn = value.appInstanceArn else {
+            let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        items.append(appInstanceArnQueryItem)
+        return items
     }
 }
 
-extension ListAppInstanceUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInstanceUsersInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceUsersInput) -> Swift.String? {
         return "/app-instance-users"
     }
 }
@@ -3758,25 +3773,25 @@ extension ListAppInstancesInput: Swift.CustomDebugStringConvertible {
         "ListAppInstancesInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppInstancesInput {
+
+    static func queryItemProvider(_ value: ListAppInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInstancesInput {
+
+    static func urlPathProvider(_ value: ListAppInstancesInput) -> Swift.String? {
         return "/app-instances"
     }
 }
@@ -3886,23 +3901,23 @@ enum ListAppInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceARN = resourceARN else {
-                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
-            items.append(resourceARNQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceARN = value.resourceARN else {
+            let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        items.append(resourceARNQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -4071,9 +4086,10 @@ extension PutAppInstanceRetentionSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutAppInstanceRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension PutAppInstanceRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: PutAppInstanceRetentionSettingsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/retention-settings"
@@ -4193,9 +4209,10 @@ extension PutAppInstanceUserExpirationSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutAppInstanceUserExpirationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension PutAppInstanceUserExpirationSettingsInput {
+
+    static func urlPathProvider(_ value: PutAppInstanceUserExpirationSettingsInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/expiration-settings"
@@ -4340,9 +4357,10 @@ extension RegisterAppInstanceUserEndpointInput: Swift.Encodable {
     }
 }
 
-extension RegisterAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension RegisterAppInstanceUserEndpointInput {
+
+    static func urlPathProvider(_ value: RegisterAppInstanceUserEndpointInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/endpoints"
@@ -4834,18 +4852,18 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
-            return items
-        }
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -5104,18 +5122,18 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -5219,9 +5237,10 @@ extension UpdateAppInstanceBotInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceBotArn = appInstanceBotArn else {
+extension UpdateAppInstanceBotInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceBotInput) -> Swift.String? {
+        guard let appInstanceBotArn = value.appInstanceBotArn else {
             return nil
         }
         return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
@@ -5359,9 +5378,10 @@ extension UpdateAppInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension UpdateAppInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -5490,12 +5510,13 @@ extension UpdateAppInstanceUserEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceUserEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension UpdateAppInstanceUserEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceUserEndpointInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
-        guard let endpointId = endpointId else {
+        guard let endpointId = value.endpointId else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/endpoints/\(endpointId.urlPercentEncoding())"
@@ -5637,9 +5658,10 @@ extension UpdateAppInstanceUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension UpdateAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"

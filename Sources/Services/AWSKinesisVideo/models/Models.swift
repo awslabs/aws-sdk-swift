@@ -600,8 +600,9 @@ extension CreateSignalingChannelInput: Swift.Encodable {
     }
 }
 
-extension CreateSignalingChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSignalingChannelInput {
+
+    static func urlPathProvider(_ value: CreateSignalingChannelInput) -> Swift.String? {
         return "/createSignalingChannel"
     }
 }
@@ -760,8 +761,9 @@ extension CreateStreamInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamInput {
+
+    static func urlPathProvider(_ value: CreateStreamInput) -> Swift.String? {
         return "/createStream"
     }
 }
@@ -918,8 +920,9 @@ extension DeleteEdgeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteEdgeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEdgeConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteEdgeConfigurationInput) -> Swift.String? {
         return "/deleteEdgeConfiguration"
     }
 }
@@ -1002,8 +1005,9 @@ extension DeleteSignalingChannelInput: Swift.Encodable {
     }
 }
 
-extension DeleteSignalingChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSignalingChannelInput {
+
+    static func urlPathProvider(_ value: DeleteSignalingChannelInput) -> Swift.String? {
         return "/deleteSignalingChannel"
     }
 }
@@ -1088,8 +1092,9 @@ extension DeleteStreamInput: Swift.Encodable {
     }
 }
 
-extension DeleteStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStreamInput {
+
+    static func urlPathProvider(_ value: DeleteStreamInput) -> Swift.String? {
         return "/deleteStream"
     }
 }
@@ -1229,8 +1234,9 @@ extension DescribeEdgeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeEdgeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEdgeConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeEdgeConfigurationInput) -> Swift.String? {
         return "/describeEdgeConfiguration"
     }
 }
@@ -1413,8 +1419,9 @@ extension DescribeImageGenerationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeImageGenerationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImageGenerationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeImageGenerationConfigurationInput) -> Swift.String? {
         return "/describeImageGenerationConfiguration"
     }
 }
@@ -1534,8 +1541,9 @@ extension DescribeMappedResourceConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeMappedResourceConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMappedResourceConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeMappedResourceConfigurationInput) -> Swift.String? {
         return "/describeMappedResourceConfiguration"
     }
 }
@@ -1682,8 +1690,9 @@ extension DescribeMediaStorageConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeMediaStorageConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMediaStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeMediaStorageConfigurationInput) -> Swift.String? {
         return "/describeMediaStorageConfiguration"
     }
 }
@@ -1795,8 +1804,9 @@ extension DescribeNotificationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeNotificationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeNotificationConfigurationInput) -> Swift.String? {
         return "/describeNotificationConfiguration"
     }
 }
@@ -1908,8 +1918,9 @@ extension DescribeSignalingChannelInput: Swift.Encodable {
     }
 }
 
-extension DescribeSignalingChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSignalingChannelInput {
+
+    static func urlPathProvider(_ value: DescribeSignalingChannelInput) -> Swift.String? {
         return "/describeSignalingChannel"
     }
 }
@@ -2021,8 +2032,9 @@ extension DescribeStreamInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamInput {
+
+    static func urlPathProvider(_ value: DescribeStreamInput) -> Swift.String? {
         return "/describeStream"
     }
 }
@@ -2366,8 +2378,9 @@ extension GetDataEndpointInput: Swift.Encodable {
     }
 }
 
-extension GetDataEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataEndpointInput {
+
+    static func urlPathProvider(_ value: GetDataEndpointInput) -> Swift.String? {
         return "/getDataEndpoint"
     }
 }
@@ -2488,8 +2501,9 @@ extension GetSignalingChannelEndpointInput: Swift.Encodable {
     }
 }
 
-extension GetSignalingChannelEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSignalingChannelEndpointInput {
+
+    static func urlPathProvider(_ value: GetSignalingChannelEndpointInput) -> Swift.String? {
         return "/getSignalingChannelEndpoint"
     }
 }
@@ -3207,8 +3221,9 @@ extension ListEdgeAgentConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListEdgeAgentConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEdgeAgentConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListEdgeAgentConfigurationsInput) -> Swift.String? {
         return "/listEdgeAgentConfigurations"
     }
 }
@@ -3351,8 +3366,9 @@ extension ListSignalingChannelsInput: Swift.Encodable {
     }
 }
 
-extension ListSignalingChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSignalingChannelsInput {
+
+    static func urlPathProvider(_ value: ListSignalingChannelsInput) -> Swift.String? {
         return "/listSignalingChannels"
     }
 }
@@ -3494,8 +3510,9 @@ extension ListStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
         return "/listStreams"
     }
 }
@@ -3632,8 +3649,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/ListTagsForResource"
     }
 }
@@ -3769,8 +3787,9 @@ extension ListTagsForStreamInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForStreamInput {
+
+    static func urlPathProvider(_ value: ListTagsForStreamInput) -> Swift.String? {
         return "/listTagsForStream"
     }
 }
@@ -4744,8 +4763,9 @@ extension StartEdgeConfigurationUpdateInput: Swift.Encodable {
     }
 }
 
-extension StartEdgeConfigurationUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEdgeConfigurationUpdateInput {
+
+    static func urlPathProvider(_ value: StartEdgeConfigurationUpdateInput) -> Swift.String? {
         return "/startEdgeConfigurationUpdate"
     }
 }
@@ -5310,8 +5330,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/TagResource"
     }
 }
@@ -5412,8 +5433,9 @@ extension TagStreamInput: Swift.Encodable {
     }
 }
 
-extension TagStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagStreamInput {
+
+    static func urlPathProvider(_ value: TagStreamInput) -> Swift.String? {
         return "/tagStream"
     }
 }
@@ -5573,8 +5595,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/UntagResource"
     }
 }
@@ -5674,8 +5697,9 @@ extension UntagStreamInput: Swift.Encodable {
     }
 }
 
-extension UntagStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagStreamInput {
+
+    static func urlPathProvider(_ value: UntagStreamInput) -> Swift.String? {
         return "/untagStream"
     }
 }
@@ -5788,8 +5812,9 @@ extension UpdateDataRetentionInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataRetentionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataRetentionInput {
+
+    static func urlPathProvider(_ value: UpdateDataRetentionInput) -> Swift.String? {
         return "/updateDataRetention"
     }
 }
@@ -5936,8 +5961,9 @@ extension UpdateImageGenerationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateImageGenerationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateImageGenerationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateImageGenerationConfigurationInput) -> Swift.String? {
         return "/updateImageGenerationConfiguration"
     }
 }
@@ -6029,8 +6055,9 @@ extension UpdateMediaStorageConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateMediaStorageConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMediaStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateMediaStorageConfigurationInput) -> Swift.String? {
         return "/updateMediaStorageConfiguration"
     }
 }
@@ -6120,8 +6147,9 @@ extension UpdateNotificationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotificationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateNotificationConfigurationInput) -> Swift.String? {
         return "/updateNotificationConfiguration"
     }
 }
@@ -6217,8 +6245,9 @@ extension UpdateSignalingChannelInput: Swift.Encodable {
     }
 }
 
-extension UpdateSignalingChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSignalingChannelInput {
+
+    static func urlPathProvider(_ value: UpdateSignalingChannelInput) -> Swift.String? {
         return "/updateSignalingChannel"
     }
 }
@@ -6324,8 +6353,9 @@ extension UpdateStreamInput: Swift.Encodable {
     }
 }
 
-extension UpdateStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStreamInput {
+
+    static func urlPathProvider(_ value: UpdateStreamInput) -> Swift.String? {
         return "/updateStream"
     }
 }

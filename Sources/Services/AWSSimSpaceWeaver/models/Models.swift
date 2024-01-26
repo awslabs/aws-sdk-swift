@@ -240,8 +240,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/createsnapshot"
     }
 }
@@ -309,35 +310,35 @@ enum CreateSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let app = app else {
-                let message = "Creating a URL Query Item failed. app is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appQueryItem = ClientRuntime.URLQueryItem(name: "app".urlPercentEncoding(), value: Swift.String(app).urlPercentEncoding())
-            items.append(appQueryItem)
-            guard let simulation = simulation else {
-                let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let simulationQueryItem = ClientRuntime.URLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
-            items.append(simulationQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            return items
+extension DeleteAppInput {
+
+    static func queryItemProvider(_ value: DeleteAppInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let app = value.app else {
+            let message = "Creating a URL Query Item failed. app is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let appQueryItem = ClientRuntime.SDKURLQueryItem(name: "app".urlPercentEncoding(), value: Swift.String(app).urlPercentEncoding())
+        items.append(appQueryItem)
+        guard let simulation = value.simulation else {
+            let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let simulationQueryItem = ClientRuntime.SDKURLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
+        items.append(simulationQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        return items
     }
 }
 
-extension DeleteAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAppInput {
+
+    static func urlPathProvider(_ value: DeleteAppInput) -> Swift.String? {
         return "/deleteapp"
     }
 }
@@ -399,23 +400,23 @@ enum DeleteAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSimulationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let simulation = simulation else {
-                let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let simulationQueryItem = ClientRuntime.URLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
-            items.append(simulationQueryItem)
-            return items
+extension DeleteSimulationInput {
+
+    static func queryItemProvider(_ value: DeleteSimulationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let simulation = value.simulation else {
+            let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let simulationQueryItem = ClientRuntime.SDKURLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
+        items.append(simulationQueryItem)
+        return items
     }
 }
 
-extension DeleteSimulationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSimulationInput {
+
+    static func urlPathProvider(_ value: DeleteSimulationInput) -> Swift.String? {
         return "/deletesimulation"
     }
 }
@@ -467,35 +468,35 @@ enum DeleteSimulationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAppInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let app = app else {
-                let message = "Creating a URL Query Item failed. app is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appQueryItem = ClientRuntime.URLQueryItem(name: "app".urlPercentEncoding(), value: Swift.String(app).urlPercentEncoding())
-            items.append(appQueryItem)
-            guard let simulation = simulation else {
-                let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let simulationQueryItem = ClientRuntime.URLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
-            items.append(simulationQueryItem)
-            guard let domain = domain else {
-                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-            items.append(domainQueryItem)
-            return items
+extension DescribeAppInput {
+
+    static func queryItemProvider(_ value: DescribeAppInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let app = value.app else {
+            let message = "Creating a URL Query Item failed. app is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let appQueryItem = ClientRuntime.SDKURLQueryItem(name: "app".urlPercentEncoding(), value: Swift.String(app).urlPercentEncoding())
+        items.append(appQueryItem)
+        guard let simulation = value.simulation else {
+            let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let simulationQueryItem = ClientRuntime.SDKURLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
+        items.append(simulationQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        return items
     }
 }
 
-extension DescribeAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAppInput {
+
+    static func urlPathProvider(_ value: DescribeAppInput) -> Swift.String? {
         return "/describeapp"
     }
 }
@@ -656,23 +657,23 @@ enum DescribeAppOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeSimulationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let simulation = simulation else {
-                let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let simulationQueryItem = ClientRuntime.URLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
-            items.append(simulationQueryItem)
-            return items
+extension DescribeSimulationInput {
+
+    static func queryItemProvider(_ value: DescribeSimulationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let simulation = value.simulation else {
+            let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let simulationQueryItem = ClientRuntime.SDKURLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
+        items.append(simulationQueryItem)
+        return items
     }
 }
 
-extension DescribeSimulationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSimulationInput {
+
+    static func urlPathProvider(_ value: DescribeSimulationInput) -> Swift.String? {
         return "/describesimulation"
     }
 }
@@ -1085,35 +1086,35 @@ extension SimSpaceWeaverClientTypes {
     }
 }
 
-extension ListAppsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let simulation = simulation else {
-                let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let simulationQueryItem = ClientRuntime.URLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
-            items.append(simulationQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let domain = domain {
-                let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
-                items.append(domainQueryItem)
-            }
-            return items
+extension ListAppsInput {
+
+    static func queryItemProvider(_ value: ListAppsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let simulation = value.simulation else {
+            let message = "Creating a URL Query Item failed. simulation is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let simulationQueryItem = ClientRuntime.SDKURLQueryItem(name: "simulation".urlPercentEncoding(), value: Swift.String(simulation).urlPercentEncoding())
+        items.append(simulationQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let domain = value.domain {
+            let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+            items.append(domainQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppsInput {
+
+    static func urlPathProvider(_ value: ListAppsInput) -> Swift.String? {
         return "/listapps"
     }
 }
@@ -1225,25 +1226,25 @@ enum ListAppsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSimulationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSimulationsInput {
+
+    static func queryItemProvider(_ value: ListSimulationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSimulationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSimulationsInput {
+
+    static func urlPathProvider(_ value: ListSimulationsInput) -> Swift.String? {
         return "/listsimulations"
     }
 }
@@ -1345,9 +1346,10 @@ enum ListSimulationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2296,8 +2298,9 @@ extension StartAppInput: Swift.Encodable {
     }
 }
 
-extension StartAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAppInput {
+
+    static func urlPathProvider(_ value: StartAppInput) -> Swift.String? {
         return "/startapp"
     }
 }
@@ -2461,8 +2464,9 @@ extension StartClockInput: Swift.Encodable {
     }
 }
 
-extension StartClockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartClockInput {
+
+    static func urlPathProvider(_ value: StartClockInput) -> Swift.String? {
         return "/startclock"
     }
 }
@@ -2570,8 +2574,9 @@ extension StartSimulationInput: Swift.Encodable {
     }
 }
 
-extension StartSimulationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSimulationInput {
+
+    static func urlPathProvider(_ value: StartSimulationInput) -> Swift.String? {
         return "/startsimulation"
     }
 }
@@ -2767,8 +2772,9 @@ extension StopAppInput: Swift.Encodable {
     }
 }
 
-extension StopAppInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopAppInput {
+
+    static func urlPathProvider(_ value: StopAppInput) -> Swift.String? {
         return "/stopapp"
     }
 }
@@ -2858,8 +2864,9 @@ extension StopClockInput: Swift.Encodable {
     }
 }
 
-extension StopClockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopClockInput {
+
+    static func urlPathProvider(_ value: StopClockInput) -> Swift.String? {
         return "/stopclock"
     }
 }
@@ -2931,8 +2938,9 @@ extension StopSimulationInput: Swift.Encodable {
     }
 }
 
-extension StopSimulationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopSimulationInput {
+
+    static func urlPathProvider(_ value: StopSimulationInput) -> Swift.String? {
         return "/stopsimulation"
     }
 }
@@ -3007,9 +3015,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3137,26 +3146,26 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

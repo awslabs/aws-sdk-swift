@@ -107,8 +107,9 @@ extension CreateProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProfileInput {
+
+    static func urlPathProvider(_ value: CreateProfileInput) -> Swift.String? {
         return "/profiles"
     }
 }
@@ -313,8 +314,9 @@ extension CreateTrustAnchorInput: Swift.Encodable {
     }
 }
 
-extension CreateTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrustAnchorInput {
+
+    static func urlPathProvider(_ value: CreateTrustAnchorInput) -> Swift.String? {
         return "/trustanchors"
     }
 }
@@ -642,9 +644,10 @@ extension RolesAnywhereClientTypes {
 
 }
 
-extension DeleteCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crlId = crlId else {
+extension DeleteCrlInput {
+
+    static func urlPathProvider(_ value: DeleteCrlInput) -> Swift.String? {
+        guard let crlId = value.crlId else {
             return nil
         }
         return "/crl/\(crlId.urlPercentEncoding())"
@@ -726,9 +729,10 @@ enum DeleteCrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileId = profileId else {
+extension DeleteProfileInput {
+
+    static func urlPathProvider(_ value: DeleteProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
             return nil
         }
         return "/profile/\(profileId.urlPercentEncoding())"
@@ -809,9 +813,10 @@ enum DeleteProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustAnchorId = trustAnchorId else {
+extension DeleteTrustAnchorInput {
+
+    static func urlPathProvider(_ value: DeleteTrustAnchorInput) -> Swift.String? {
+        guard let trustAnchorId = value.trustAnchorId else {
             return nil
         }
         return "/trustanchor/\(trustAnchorId.urlPercentEncoding())"
@@ -893,9 +898,10 @@ enum DeleteTrustAnchorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crlId = crlId else {
+extension DisableCrlInput {
+
+    static func urlPathProvider(_ value: DisableCrlInput) -> Swift.String? {
+        guard let crlId = value.crlId else {
             return nil
         }
         return "/crl/\(crlId.urlPercentEncoding())/disable"
@@ -977,9 +983,10 @@ enum DisableCrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileId = profileId else {
+extension DisableProfileInput {
+
+    static func urlPathProvider(_ value: DisableProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
             return nil
         }
         return "/profile/\(profileId.urlPercentEncoding())/disable"
@@ -1060,9 +1067,10 @@ enum DisableProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisableTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustAnchorId = trustAnchorId else {
+extension DisableTrustAnchorInput {
+
+    static func urlPathProvider(_ value: DisableTrustAnchorInput) -> Swift.String? {
+        guard let trustAnchorId = value.trustAnchorId else {
             return nil
         }
         return "/trustanchor/\(trustAnchorId.urlPercentEncoding())/disable"
@@ -1144,9 +1152,10 @@ enum DisableTrustAnchorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension EnableCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crlId = crlId else {
+extension EnableCrlInput {
+
+    static func urlPathProvider(_ value: EnableCrlInput) -> Swift.String? {
+        guard let crlId = value.crlId else {
             return nil
         }
         return "/crl/\(crlId.urlPercentEncoding())/enable"
@@ -1228,9 +1237,10 @@ enum EnableCrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension EnableProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileId = profileId else {
+extension EnableProfileInput {
+
+    static func urlPathProvider(_ value: EnableProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
             return nil
         }
         return "/profile/\(profileId.urlPercentEncoding())/enable"
@@ -1311,9 +1321,10 @@ enum EnableProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension EnableTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustAnchorId = trustAnchorId else {
+extension EnableTrustAnchorInput {
+
+    static func urlPathProvider(_ value: EnableTrustAnchorInput) -> Swift.String? {
+        guard let trustAnchorId = value.trustAnchorId else {
             return nil
         }
         return "/trustanchor/\(trustAnchorId.urlPercentEncoding())/enable"
@@ -1395,9 +1406,10 @@ enum EnableTrustAnchorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crlId = crlId else {
+extension GetCrlInput {
+
+    static func urlPathProvider(_ value: GetCrlInput) -> Swift.String? {
+        guard let crlId = value.crlId else {
             return nil
         }
         return "/crl/\(crlId.urlPercentEncoding())"
@@ -1478,9 +1490,10 @@ enum GetCrlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileId = profileId else {
+extension GetProfileInput {
+
+    static func urlPathProvider(_ value: GetProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
             return nil
         }
         return "/profile/\(profileId.urlPercentEncoding())"
@@ -1561,9 +1574,10 @@ enum GetProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSubjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subjectId = subjectId else {
+extension GetSubjectInput {
+
+    static func urlPathProvider(_ value: GetSubjectInput) -> Swift.String? {
+        guard let subjectId = value.subjectId else {
             return nil
         }
         return "/subject/\(subjectId.urlPercentEncoding())"
@@ -1644,9 +1658,10 @@ enum GetSubjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustAnchorId = trustAnchorId else {
+extension GetTrustAnchorInput {
+
+    static func urlPathProvider(_ value: GetTrustAnchorInput) -> Swift.String? {
+        guard let trustAnchorId = value.trustAnchorId else {
             return nil
         }
         return "/trustanchor/\(trustAnchorId.urlPercentEncoding())"
@@ -1761,8 +1776,9 @@ extension ImportCrlInput: Swift.Encodable {
     }
 }
 
-extension ImportCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportCrlInput {
+
+    static func urlPathProvider(_ value: ImportCrlInput) -> Swift.String? {
         return "/crls"
     }
 }
@@ -1959,25 +1975,25 @@ extension RolesAnywhereClientTypes {
 
 }
 
-extension ListCrlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListCrlsInput {
+
+    static func queryItemProvider(_ value: ListCrlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCrlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCrlsInput {
+
+    static func urlPathProvider(_ value: ListCrlsInput) -> Swift.String? {
         return "/crls"
     }
 }
@@ -2078,25 +2094,25 @@ enum ListCrlsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListProfilesInput {
+
+    static func queryItemProvider(_ value: ListProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProfilesInput {
+
+    static func urlPathProvider(_ value: ListProfilesInput) -> Swift.String? {
         return "/profiles"
     }
 }
@@ -2197,25 +2213,25 @@ enum ListProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSubjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListSubjectsInput {
+
+    static func queryItemProvider(_ value: ListSubjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSubjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSubjectsInput {
+
+    static func urlPathProvider(_ value: ListSubjectsInput) -> Swift.String? {
         return "/subjects"
     }
 }
@@ -2316,23 +2332,23 @@ enum ListSubjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/ListTagsForResource"
     }
 }
@@ -2421,25 +2437,25 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTrustAnchorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListTrustAnchorsInput {
+
+    static func queryItemProvider(_ value: ListTrustAnchorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTrustAnchorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrustAnchorsInput {
+
+    static func urlPathProvider(_ value: ListTrustAnchorsInput) -> Swift.String? {
         return "/trustanchors"
     }
 }
@@ -2980,8 +2996,9 @@ extension PutNotificationSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutNotificationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutNotificationSettingsInput {
+
+    static func urlPathProvider(_ value: PutNotificationSettingsInput) -> Swift.String? {
         return "/put-notifications-settings"
     }
 }
@@ -3107,8 +3124,9 @@ extension ResetNotificationSettingsInput: Swift.Encodable {
     }
 }
 
-extension ResetNotificationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetNotificationSettingsInput {
+
+    static func urlPathProvider(_ value: ResetNotificationSettingsInput) -> Swift.String? {
         return "/reset-notifications-settings"
     }
 }
@@ -3667,8 +3685,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/TagResource"
     }
 }
@@ -3971,8 +3990,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/UntagResource"
     }
 }
@@ -4064,9 +4084,10 @@ extension UpdateCrlInput: Swift.Encodable {
     }
 }
 
-extension UpdateCrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crlId = crlId else {
+extension UpdateCrlInput {
+
+    static func urlPathProvider(_ value: UpdateCrlInput) -> Swift.String? {
+        guard let crlId = value.crlId else {
             return nil
         }
         return "/crl/\(crlId.urlPercentEncoding())"
@@ -4203,9 +4224,10 @@ extension UpdateProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileId = profileId else {
+extension UpdateProfileInput {
+
+    static func urlPathProvider(_ value: UpdateProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
             return nil
         }
         return "/profile/\(profileId.urlPercentEncoding())"
@@ -4365,9 +4387,10 @@ extension UpdateTrustAnchorInput: Swift.Encodable {
     }
 }
 
-extension UpdateTrustAnchorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trustAnchorId = trustAnchorId else {
+extension UpdateTrustAnchorInput {
+
+    static func urlPathProvider(_ value: UpdateTrustAnchorInput) -> Swift.String? {
+        guard let trustAnchorId = value.trustAnchorId else {
             return nil
         }
         return "/trustanchor/\(trustAnchorId.urlPercentEncoding())"

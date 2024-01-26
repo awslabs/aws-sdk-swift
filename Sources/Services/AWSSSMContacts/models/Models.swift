@@ -67,8 +67,9 @@ extension AcceptPageInput: Swift.Encodable {
     }
 }
 
-extension AcceptPageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptPageInput {
+
+    static func urlPathProvider(_ value: AcceptPageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -274,8 +275,9 @@ extension ActivateContactChannelInput: Swift.Encodable {
     }
 }
 
-extension ActivateContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateContactChannelInput {
+
+    static func urlPathProvider(_ value: ActivateContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -917,8 +919,9 @@ extension CreateContactChannelInput: Swift.Encodable {
     }
 }
 
-extension CreateContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateContactChannelInput {
+
+    static func urlPathProvider(_ value: CreateContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1100,8 +1103,9 @@ extension CreateContactInput: Swift.Encodable {
     }
 }
 
-extension CreateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateContactInput {
+
+    static func urlPathProvider(_ value: CreateContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1287,8 +1291,9 @@ extension CreateRotationInput: Swift.Encodable {
     }
 }
 
-extension CreateRotationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRotationInput {
+
+    static func urlPathProvider(_ value: CreateRotationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1480,8 +1485,9 @@ extension CreateRotationOverrideInput: Swift.Encodable {
     }
 }
 
-extension CreateRotationOverrideInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRotationOverrideInput {
+
+    static func urlPathProvider(_ value: CreateRotationOverrideInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1732,8 +1738,9 @@ extension DeactivateContactChannelInput: Swift.Encodable {
     }
 }
 
-extension DeactivateContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeactivateContactChannelInput {
+
+    static func urlPathProvider(_ value: DeactivateContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1805,8 +1812,9 @@ extension DeleteContactChannelInput: Swift.Encodable {
     }
 }
 
-extension DeleteContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteContactChannelInput {
+
+    static func urlPathProvider(_ value: DeleteContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1878,8 +1886,9 @@ extension DeleteContactInput: Swift.Encodable {
     }
 }
 
-extension DeleteContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteContactInput {
+
+    static func urlPathProvider(_ value: DeleteContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1952,8 +1961,9 @@ extension DeleteRotationInput: Swift.Encodable {
     }
 }
 
-extension DeleteRotationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRotationInput {
+
+    static func urlPathProvider(_ value: DeleteRotationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2030,8 +2040,9 @@ extension DeleteRotationOverrideInput: Swift.Encodable {
     }
 }
 
-extension DeleteRotationOverrideInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRotationOverrideInput {
+
+    static func urlPathProvider(_ value: DeleteRotationOverrideInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2171,8 +2182,9 @@ extension DescribeEngagementInput: Swift.Encodable {
     }
 }
 
-extension DescribeEngagementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEngagementInput {
+
+    static func urlPathProvider(_ value: DescribeEngagementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2370,8 +2382,9 @@ extension DescribePageInput: Swift.Encodable {
     }
 }
 
-extension DescribePageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePageInput {
+
+    static func urlPathProvider(_ value: DescribePageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2678,8 +2691,9 @@ extension GetContactChannelInput: Swift.Encodable {
     }
 }
 
-extension GetContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContactChannelInput {
+
+    static func urlPathProvider(_ value: GetContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2837,8 +2851,9 @@ extension GetContactInput: Swift.Encodable {
     }
 }
 
-extension GetContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContactInput {
+
+    static func urlPathProvider(_ value: GetContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2985,8 +3000,9 @@ extension GetContactPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetContactPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContactPolicyInput {
+
+    static func urlPathProvider(_ value: GetContactPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3098,8 +3114,9 @@ extension GetRotationInput: Swift.Encodable {
     }
 }
 
-extension GetRotationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRotationInput {
+
+    static func urlPathProvider(_ value: GetRotationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3270,8 +3287,9 @@ extension GetRotationOverrideInput: Swift.Encodable {
     }
 }
 
-extension GetRotationOverrideInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRotationOverrideInput {
+
+    static func urlPathProvider(_ value: GetRotationOverrideInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3561,8 +3579,9 @@ extension ListContactChannelsInput: Swift.Encodable {
     }
 }
 
-extension ListContactChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListContactChannelsInput {
+
+    static func urlPathProvider(_ value: ListContactChannelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3713,8 +3732,9 @@ extension ListContactsInput: Swift.Encodable {
     }
 }
 
-extension ListContactsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListContactsInput {
+
+    static func urlPathProvider(_ value: ListContactsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3869,8 +3889,9 @@ extension ListEngagementsInput: Swift.Encodable {
     }
 }
 
-extension ListEngagementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEngagementsInput {
+
+    static func urlPathProvider(_ value: ListEngagementsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4022,8 +4043,9 @@ extension ListPageReceiptsInput: Swift.Encodable {
     }
 }
 
-extension ListPageReceiptsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPageReceiptsInput {
+
+    static func urlPathProvider(_ value: ListPageReceiptsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4164,8 +4186,9 @@ extension ListPageResolutionsInput: Swift.Encodable {
     }
 }
 
-extension ListPageResolutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPageResolutionsInput {
+
+    static func urlPathProvider(_ value: ListPageResolutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4303,8 +4326,9 @@ extension ListPagesByContactInput: Swift.Encodable {
     }
 }
 
-extension ListPagesByContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPagesByContactInput {
+
+    static func urlPathProvider(_ value: ListPagesByContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4450,8 +4474,9 @@ extension ListPagesByEngagementInput: Swift.Encodable {
     }
 }
 
-extension ListPagesByEngagementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPagesByEngagementInput {
+
+    static func urlPathProvider(_ value: ListPagesByEngagementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4627,8 +4652,9 @@ extension ListPreviewRotationShiftsInput: Swift.Encodable {
     }
 }
 
-extension ListPreviewRotationShiftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPreviewRotationShiftsInput {
+
+    static func urlPathProvider(_ value: ListPreviewRotationShiftsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4849,8 +4875,9 @@ extension ListRotationOverridesInput: Swift.Encodable {
     }
 }
 
-extension ListRotationOverridesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRotationOverridesInput {
+
+    static func urlPathProvider(_ value: ListRotationOverridesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5021,8 +5048,9 @@ extension ListRotationShiftsInput: Swift.Encodable {
     }
 }
 
-extension ListRotationShiftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRotationShiftsInput {
+
+    static func urlPathProvider(_ value: ListRotationShiftsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5185,8 +5213,9 @@ extension ListRotationsInput: Swift.Encodable {
     }
 }
 
-extension ListRotationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRotationsInput {
+
+    static func urlPathProvider(_ value: ListRotationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5323,8 +5352,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5731,8 +5761,9 @@ extension PutContactPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutContactPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutContactPolicyInput {
+
+    static func urlPathProvider(_ value: PutContactPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6482,8 +6513,9 @@ extension SendActivationCodeInput: Swift.Encodable {
     }
 }
 
-extension SendActivationCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendActivationCodeInput {
+
+    static func urlPathProvider(_ value: SendActivationCodeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6822,8 +6854,9 @@ extension StartEngagementInput: Swift.Encodable {
     }
 }
 
-extension StartEngagementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartEngagementInput {
+
+    static func urlPathProvider(_ value: StartEngagementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6990,8 +7023,9 @@ extension StopEngagementInput: Swift.Encodable {
     }
 }
 
-extension StopEngagementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopEngagementInput {
+
+    static func urlPathProvider(_ value: StopEngagementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7123,8 +7157,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7397,8 +7432,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7496,8 +7532,9 @@ extension UpdateContactChannelInput: Swift.Encodable {
     }
 }
 
-extension UpdateContactChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateContactChannelInput {
+
+    static func urlPathProvider(_ value: UpdateContactChannelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7595,8 +7632,9 @@ extension UpdateContactInput: Swift.Encodable {
     }
 }
 
-extension UpdateContactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateContactInput {
+
+    static func urlPathProvider(_ value: UpdateContactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7705,8 +7743,9 @@ extension UpdateRotationInput: Swift.Encodable {
     }
 }
 
-extension UpdateRotationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRotationInput {
+
+    static func urlPathProvider(_ value: UpdateRotationInput) -> Swift.String? {
         return "/"
     }
 }

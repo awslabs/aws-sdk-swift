@@ -210,8 +210,9 @@ extension DescribeStreamInput: Swift.Encodable {
     }
 }
 
-extension DescribeStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStreamInput {
+
+    static func urlPathProvider(_ value: DescribeStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -388,8 +389,9 @@ extension GetRecordsInput: Swift.Encodable {
     }
 }
 
-extension GetRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecordsInput {
+
+    static func urlPathProvider(_ value: GetRecordsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -532,8 +534,9 @@ extension GetShardIteratorInput: Swift.Encodable {
     }
 }
 
-extension GetShardIteratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetShardIteratorInput {
+
+    static func urlPathProvider(_ value: GetShardIteratorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -920,8 +923,9 @@ extension ListStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
         return "/"
     }
 }

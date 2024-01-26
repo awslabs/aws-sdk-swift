@@ -373,8 +373,9 @@ extension GetFreeTierUsageInput: Swift.Encodable {
     }
 }
 
-extension GetFreeTierUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFreeTierUsageInput {
+
+    static func urlPathProvider(_ value: GetFreeTierUsageInput) -> Swift.String? {
         return "/"
     }
 }

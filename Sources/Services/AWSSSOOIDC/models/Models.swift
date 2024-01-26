@@ -183,8 +183,9 @@ extension CreateTokenInput: Swift.Encodable {
     }
 }
 
-extension CreateTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTokenInput {
+
+    static func urlPathProvider(_ value: CreateTokenInput) -> Swift.String? {
         return "/token"
     }
 }
@@ -448,18 +449,18 @@ extension CreateTokenWithIAMInput: Swift.Encodable {
     }
 }
 
-extension CreateTokenWithIAMInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "aws_iam", value: "t"))
-            return items
-        }
+extension CreateTokenWithIAMInput {
+
+    static func queryItemProvider(_ value: CreateTokenWithIAMInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "aws_iam", value: "t"))
+        return items
     }
 }
 
-extension CreateTokenWithIAMInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTokenWithIAMInput {
+
+    static func urlPathProvider(_ value: CreateTokenWithIAMInput) -> Swift.String? {
         return "/token"
     }
 }
@@ -1283,8 +1284,9 @@ extension RegisterClientInput: Swift.Encodable {
     }
 }
 
-extension RegisterClientInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterClientInput {
+
+    static func urlPathProvider(_ value: RegisterClientInput) -> Swift.String? {
         return "/client/register"
     }
 }
@@ -1545,8 +1547,9 @@ extension StartDeviceAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension StartDeviceAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDeviceAuthorizationInput {
+
+    static func urlPathProvider(_ value: StartDeviceAuthorizationInput) -> Swift.String? {
         return "/device_authorization"
     }
 }

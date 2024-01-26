@@ -37,38 +37,39 @@ extension S3ClientTypes {
 
 }
 
-extension AbortMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension AbortMultipartUploadInput {
+
+    static func headerProvider(_ value: AbortMultipartUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension AbortMultipartUploadInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "AbortMultipartUpload"))
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
+extension AbortMultipartUploadInput {
+
+    static func queryItemProvider(_ value: AbortMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "AbortMultipartUpload"))
+        guard let uploadId = value.uploadId else {
+            let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        items.append(uploadIdQueryItem)
+        return items
     }
 }
 
-extension AbortMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension AbortMultipartUploadInput {
+
+    static func urlPathProvider(_ value: AbortMultipartUploadInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -1585,59 +1586,60 @@ extension CompleteMultipartUploadInput {
     }
 }
 
-extension CompleteMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CompleteMultipartUploadInput {
+
+    static func headerProvider(_ value: CompleteMultipartUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumCRC32 = checksumCRC32 {
+        if let checksumCRC32 = value.checksumCRC32 {
             items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
         }
-        if let checksumCRC32C = checksumCRC32C {
+        if let checksumCRC32C = value.checksumCRC32C {
             items.add(Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
         }
-        if let checksumSHA1 = checksumSHA1 {
+        if let checksumSHA1 = value.checksumSHA1 {
             items.add(Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
-        if let checksumSHA256 = checksumSHA256 {
+        if let checksumSHA256 = value.checksumSHA256 {
             items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension CompleteMultipartUploadInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
+extension CompleteMultipartUploadInput {
+
+    static func queryItemProvider(_ value: CompleteMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
+        guard let uploadId = value.uploadId else {
+            let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        items.append(uploadIdQueryItem)
+        return items
     }
 }
 
-extension CompleteMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension CompleteMultipartUploadInput {
+
+    static func urlPathProvider(_ value: CompleteMultipartUploadInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -2127,124 +2129,125 @@ extension CopyObjectInput: Swift.CustomDebugStringConvertible {
         "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
-extension CopyObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CopyObjectInput {
+
+    static func headerProvider(_ value: CopyObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let bucketKeyEnabled = bucketKeyEnabled {
+        if let bucketKeyEnabled = value.bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
-        if let cacheControl = cacheControl {
+        if let cacheControl = value.cacheControl {
             items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentDisposition = contentDisposition {
+        if let contentDisposition = value.contentDisposition {
             items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
         }
-        if let contentEncoding = contentEncoding {
+        if let contentEncoding = value.contentEncoding {
             items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
         }
-        if let contentLanguage = contentLanguage {
+        if let contentLanguage = value.contentLanguage {
             items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let copySource = copySource {
+        if let copySource = value.copySource {
             items.add(Header(name: "x-amz-copy-source", value: Swift.String(copySource)))
         }
-        if let copySourceIfMatch = copySourceIfMatch {
+        if let copySourceIfMatch = value.copySourceIfMatch {
             items.add(Header(name: "x-amz-copy-source-if-match", value: Swift.String(copySourceIfMatch)))
         }
-        if let copySourceIfModifiedSince = copySourceIfModifiedSince {
+        if let copySourceIfModifiedSince = value.copySourceIfModifiedSince {
             items.add(Header(name: "x-amz-copy-source-if-modified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfModifiedSince))))
         }
-        if let copySourceIfNoneMatch = copySourceIfNoneMatch {
+        if let copySourceIfNoneMatch = value.copySourceIfNoneMatch {
             items.add(Header(name: "x-amz-copy-source-if-none-match", value: Swift.String(copySourceIfNoneMatch)))
         }
-        if let copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince {
+        if let copySourceIfUnmodifiedSince = value.copySourceIfUnmodifiedSince {
             items.add(Header(name: "x-amz-copy-source-if-unmodified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfUnmodifiedSince))))
         }
-        if let copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm {
+        if let copySourceSSECustomerAlgorithm = value.copySourceSSECustomerAlgorithm {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-algorithm", value: Swift.String(copySourceSSECustomerAlgorithm)))
         }
-        if let copySourceSSECustomerKey = copySourceSSECustomerKey {
+        if let copySourceSSECustomerKey = value.copySourceSSECustomerKey {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key", value: Swift.String(copySourceSSECustomerKey)))
         }
-        if let copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5 {
+        if let copySourceSSECustomerKeyMD5 = value.copySourceSSECustomerKeyMD5 {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key-MD5", value: Swift.String(copySourceSSECustomerKeyMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let expectedSourceBucketOwner = expectedSourceBucketOwner {
+        if let expectedSourceBucketOwner = value.expectedSourceBucketOwner {
             items.add(Header(name: "x-amz-source-expected-bucket-owner", value: Swift.String(expectedSourceBucketOwner)))
         }
-        if let expires = expires {
+        if let expires = value.expires {
             items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let metadataDirective = metadataDirective {
+        if let metadataDirective = value.metadataDirective {
             items.add(Header(name: "x-amz-metadata-directive", value: Swift.String(metadataDirective.rawValue)))
         }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+        if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
-        if let objectLockMode = objectLockMode {
+        if let objectLockMode = value.objectLockMode {
             items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
         }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+        if let objectLockRetainUntilDate = value.objectLockRetainUntilDate {
             items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
-        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
+        if let ssekmsEncryptionContext = value.ssekmsEncryptionContext {
             items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
         }
-        if let ssekmsKeyId = ssekmsKeyId {
+        if let ssekmsKeyId = value.ssekmsKeyId {
             items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
         }
-        if let serverSideEncryption = serverSideEncryption {
+        if let serverSideEncryption = value.serverSideEncryption {
             items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
         }
-        if let storageClass = storageClass {
+        if let storageClass = value.storageClass {
             items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if let tagging = tagging {
+        if let tagging = value.tagging {
             items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
         }
-        if let taggingDirective = taggingDirective {
+        if let taggingDirective = value.taggingDirective {
             items.add(Header(name: "x-amz-tagging-directive", value: Swift.String(taggingDirective.rawValue)))
         }
-        if let websiteRedirectLocation = websiteRedirectLocation {
+        if let websiteRedirectLocation = value.websiteRedirectLocation {
             items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
         }
-        if let metadata = metadata {
+        if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
                 items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
@@ -2253,19 +2256,19 @@ extension CopyObjectInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension CopyObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CopyObject"))
-            return items
-        }
+extension CopyObjectInput {
+
+    static func queryItemProvider(_ value: CopyObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CopyObject"))
+        return items
     }
 }
 
-extension CopyObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension CopyObjectInput {
+
+    static func urlPathProvider(_ value: CopyObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -2897,39 +2900,41 @@ extension CreateBucketInput {
     }
 }
 
-extension CreateBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateBucketInput {
+
+    static func headerProvider(_ value: CreateBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWrite = grantWrite {
+        if let grantWrite = value.grantWrite {
             items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
+        if let objectLockEnabledForBucket = value.objectLockEnabledForBucket {
             items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
         }
-        if let objectOwnership = objectOwnership {
+        if let objectOwnership = value.objectOwnership {
             items.add(Header(name: "x-amz-object-ownership", value: Swift.String(objectOwnership.rawValue)))
         }
         return items
     }
 }
 
-extension CreateBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBucketInput {
+
+    static func urlPathProvider(_ value: CreateBucketInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3037,91 +3042,92 @@ extension CreateMultipartUploadInput: Swift.CustomDebugStringConvertible {
         "CreateMultipartUploadInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
-extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateMultipartUploadInput {
+
+    static func headerProvider(_ value: CreateMultipartUploadInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let bucketKeyEnabled = bucketKeyEnabled {
+        if let bucketKeyEnabled = value.bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
-        if let cacheControl = cacheControl {
+        if let cacheControl = value.cacheControl {
             items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentDisposition = contentDisposition {
+        if let contentDisposition = value.contentDisposition {
             items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
         }
-        if let contentEncoding = contentEncoding {
+        if let contentEncoding = value.contentEncoding {
             items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
         }
-        if let contentLanguage = contentLanguage {
+        if let contentLanguage = value.contentLanguage {
             items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let expires = expires {
+        if let expires = value.expires {
             items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+        if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
-        if let objectLockMode = objectLockMode {
+        if let objectLockMode = value.objectLockMode {
             items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
         }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+        if let objectLockRetainUntilDate = value.objectLockRetainUntilDate {
             items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
-        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
+        if let ssekmsEncryptionContext = value.ssekmsEncryptionContext {
             items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
         }
-        if let ssekmsKeyId = ssekmsKeyId {
+        if let ssekmsKeyId = value.ssekmsKeyId {
             items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
         }
-        if let serverSideEncryption = serverSideEncryption {
+        if let serverSideEncryption = value.serverSideEncryption {
             items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
         }
-        if let storageClass = storageClass {
+        if let storageClass = value.storageClass {
             items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if let tagging = tagging {
+        if let tagging = value.tagging {
             items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
         }
-        if let websiteRedirectLocation = websiteRedirectLocation {
+        if let websiteRedirectLocation = value.websiteRedirectLocation {
             items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
         }
-        if let metadata = metadata {
+        if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
                 items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
@@ -3130,20 +3136,20 @@ extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension CreateMultipartUploadInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
-            return items
-        }
+extension CreateMultipartUploadInput {
+
+    static func queryItemProvider(_ value: CreateMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "uploads", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
+        return items
     }
 }
 
-extension CreateMultipartUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension CreateMultipartUploadInput {
+
+    static func urlPathProvider(_ value: CreateMultipartUploadInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -3580,28 +3586,29 @@ enum CreateMultipartUploadOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateSessionInput {
+
+    static func headerProvider(_ value: CreateSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let sessionMode = sessionMode {
+        if let sessionMode = value.sessionMode {
             items.add(Header(name: "x-amz-create-session-mode", value: Swift.String(sessionMode.rawValue)))
         }
         return items
     }
 }
 
-extension CreateSessionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "session", value: nil))
-            return items
-        }
+extension CreateSessionInput {
+
+    static func queryItemProvider(_ value: CreateSessionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "session", value: nil))
+        return items
     }
 }
 
-extension CreateSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSessionInput {
+
+    static func urlPathProvider(_ value: CreateSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3814,34 +3821,35 @@ extension S3ClientTypes {
 
 }
 
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketAnalyticsConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension DeleteBucketAnalyticsConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension DeleteBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketAnalyticsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketAnalyticsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3887,28 +3895,29 @@ enum DeleteBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteBucketCorsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketCorsInput {
+
+    static func headerProvider(_ value: DeleteBucketCorsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketCorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-            return items
-        }
+extension DeleteBucketCorsInput {
+
+    static func queryItemProvider(_ value: DeleteBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketCorsInput {
+
+    static func urlPathProvider(_ value: DeleteBucketCorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3949,28 +3958,29 @@ enum DeleteBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketEncryptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketEncryptionInput {
+
+    static func headerProvider(_ value: DeleteBucketEncryptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketEncryptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-            return items
-        }
+extension DeleteBucketEncryptionInput {
+
+    static func queryItemProvider(_ value: DeleteBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: DeleteBucketEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4011,18 +4021,20 @@ enum DeleteBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketInput {
+
+    static func headerProvider(_ value: DeleteBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketInput {
+
+    static func urlPathProvider(_ value: DeleteBucketInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4044,24 +4056,24 @@ public struct DeleteBucketInput: Swift.Equatable {
     }
 }
 
-extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension DeleteBucketIntelligentTieringConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension DeleteBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketIntelligentTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4103,34 +4115,35 @@ enum DeleteBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpR
     }
 }
 
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketInventoryConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension DeleteBucketInventoryConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension DeleteBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketInventoryConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketInventoryConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4176,28 +4189,29 @@ enum DeleteBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteBucketLifecycleInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketLifecycleInput {
+
+    static func headerProvider(_ value: DeleteBucketLifecycleInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketLifecycleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-            return items
-        }
+extension DeleteBucketLifecycleInput {
+
+    static func queryItemProvider(_ value: DeleteBucketLifecycleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketLifecycleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketLifecycleInput {
+
+    static func urlPathProvider(_ value: DeleteBucketLifecycleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4238,34 +4252,35 @@ enum DeleteBucketLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketMetricsConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension DeleteBucketMetricsConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension DeleteBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketMetricsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4330,28 +4345,29 @@ enum DeleteBucketOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketOwnershipControlsInput {
+
+    static func headerProvider(_ value: DeleteBucketOwnershipControlsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-            return items
-        }
+extension DeleteBucketOwnershipControlsInput {
+
+    static func queryItemProvider(_ value: DeleteBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketOwnershipControlsInput {
+
+    static func urlPathProvider(_ value: DeleteBucketOwnershipControlsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4392,28 +4408,29 @@ enum DeleteBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketPolicyInput {
+
+    static func headerProvider(_ value: DeleteBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-            return items
-        }
+extension DeleteBucketPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteBucketPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4454,28 +4471,29 @@ enum DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketReplicationInput {
+
+    static func headerProvider(_ value: DeleteBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketReplicationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-            return items
-        }
+extension DeleteBucketReplicationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketReplicationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketReplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4516,28 +4534,29 @@ enum DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketTaggingInput {
+
+    static func headerProvider(_ value: DeleteBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            return items
-        }
+extension DeleteBucketTaggingInput {
+
+    static func queryItemProvider(_ value: DeleteBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketTaggingInput {
+
+    static func urlPathProvider(_ value: DeleteBucketTaggingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4578,28 +4597,29 @@ enum DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBucketWebsiteInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteBucketWebsiteInput {
+
+    static func headerProvider(_ value: DeleteBucketWebsiteInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteBucketWebsiteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-            return items
-        }
+extension DeleteBucketWebsiteInput {
+
+    static func queryItemProvider(_ value: DeleteBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+        return items
     }
 }
 
-extension DeleteBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBucketWebsiteInput {
+
+    static func urlPathProvider(_ value: DeleteBucketWebsiteInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4770,42 +4790,43 @@ extension S3ClientTypes {
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteObjectInput {
+
+    static func headerProvider(_ value: DeleteObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let bypassGovernanceRetention = bypassGovernanceRetention {
+        if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let mfa = mfa {
+        if let mfa = value.mfa {
             items.add(Header(name: "x-amz-mfa", value: Swift.String(mfa)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObject"))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension DeleteObjectInput {
+
+    static func queryItemProvider(_ value: DeleteObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "DeleteObject"))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension DeleteObjectInput {
+
+    static func urlPathProvider(_ value: DeleteObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -4899,33 +4920,34 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteObjectTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteObjectTaggingInput {
+
+    static func headerProvider(_ value: DeleteObjectTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeleteObjectTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension DeleteObjectTaggingInput {
+
+    static func queryItemProvider(_ value: DeleteObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension DeleteObjectTaggingInput {
+
+    static func urlPathProvider(_ value: DeleteObjectTaggingInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -5000,41 +5022,42 @@ extension DeleteObjectsInput {
     }
 }
 
-extension DeleteObjectsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteObjectsInput {
+
+    static func headerProvider(_ value: DeleteObjectsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let bypassGovernanceRetention = bypassGovernanceRetention {
+        if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let mfa = mfa {
+        if let mfa = value.mfa {
             items.add(Header(name: "x-amz-mfa", value: Swift.String(mfa)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension DeleteObjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "delete", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "DeleteObjects"))
-            return items
-        }
+extension DeleteObjectsInput {
+
+    static func queryItemProvider(_ value: DeleteObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "delete", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "DeleteObjects"))
+        return items
     }
 }
 
-extension DeleteObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteObjectsInput {
+
+    static func urlPathProvider(_ value: DeleteObjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5204,28 +5227,29 @@ enum DeleteObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeletePublicAccessBlockInput {
+
+    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-            return items
-        }
+extension DeletePublicAccessBlockInput {
+
+    static func queryItemProvider(_ value: DeletePublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+        return items
     }
 }
 
-extension DeletePublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: DeletePublicAccessBlockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7048,31 +7072,32 @@ extension S3ClientTypes {
     }
 }
 
-extension GetBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketAccelerateConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketAccelerateConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
-            return items
-        }
+extension GetBucketAccelerateConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketAccelerateConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "accelerate", value: nil))
+        return items
     }
 }
 
-extension GetBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketAccelerateConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketAccelerateConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7156,28 +7181,29 @@ enum GetBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetBucketAclInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketAclInput {
+
+    static func headerProvider(_ value: GetBucketAclInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketAclInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-            return items
-        }
+extension GetBucketAclInput {
+
+    static func queryItemProvider(_ value: GetBucketAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+        return items
     }
 }
 
-extension GetBucketAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketAclInput {
+
+    static func urlPathProvider(_ value: GetBucketAclInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7275,35 +7301,36 @@ enum GetBucketAclOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketAnalyticsConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension GetBucketAnalyticsConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketAnalyticsConfiguration"))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension GetBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketAnalyticsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketAnalyticsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7378,28 +7405,29 @@ enum GetBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetBucketCorsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketCorsInput {
+
+    static func headerProvider(_ value: GetBucketCorsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketCorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-            return items
-        }
+extension GetBucketCorsInput {
+
+    static func queryItemProvider(_ value: GetBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+        return items
     }
 }
 
-extension GetBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketCorsInput {
+
+    static func urlPathProvider(_ value: GetBucketCorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7486,28 +7514,29 @@ enum GetBucketCorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketEncryptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketEncryptionInput {
+
+    static func headerProvider(_ value: GetBucketEncryptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketEncryptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-            return items
-        }
+extension GetBucketEncryptionInput {
+
+    static func queryItemProvider(_ value: GetBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+        return items
     }
 }
 
-extension GetBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: GetBucketEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7577,25 +7606,25 @@ enum GetBucketEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension GetBucketIntelligentTieringConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketIntelligentTieringConfiguration"))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension GetBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketIntelligentTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7666,35 +7695,36 @@ enum GetBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension GetBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketInventoryConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension GetBucketInventoryConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketInventoryConfiguration"))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension GetBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketInventoryConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketInventoryConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7769,28 +7799,29 @@ enum GetBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketLifecycleConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-            return items
-        }
+extension GetBucketLifecycleConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketLifecycleConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+        return items
     }
 }
 
-extension GetBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketLifecycleConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7877,28 +7908,29 @@ enum GetBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetBucketLocationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketLocationInput {
+
+    static func headerProvider(_ value: GetBucketLocationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketLocationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "location", value: nil))
-            return items
-        }
+extension GetBucketLocationInput {
+
+    static func queryItemProvider(_ value: GetBucketLocationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "location", value: nil))
+        return items
     }
 }
 
-extension GetBucketLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketLocationInput {
+
+    static func urlPathProvider(_ value: GetBucketLocationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7969,28 +8001,29 @@ enum GetBucketLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketLoggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketLoggingInput {
+
+    static func headerProvider(_ value: GetBucketLoggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketLoggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
-            return items
-        }
+extension GetBucketLoggingInput {
+
+    static func queryItemProvider(_ value: GetBucketLoggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "logging", value: nil))
+        return items
     }
 }
 
-extension GetBucketLoggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketLoggingInput {
+
+    static func urlPathProvider(_ value: GetBucketLoggingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8061,35 +8094,36 @@ enum GetBucketLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketMetricsConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension GetBucketMetricsConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetBucketMetricsConfiguration"))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension GetBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketMetricsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8164,28 +8198,29 @@ enum GetBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketNotificationConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketNotificationConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
-            return items
-        }
+extension GetBucketNotificationConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketNotificationConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "notification", value: nil))
+        return items
     }
 }
 
-extension GetBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketNotificationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketNotificationConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8335,28 +8370,29 @@ enum GetBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketOwnershipControlsInput {
+
+    static func headerProvider(_ value: GetBucketOwnershipControlsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-            return items
-        }
+extension GetBucketOwnershipControlsInput {
+
+    static func queryItemProvider(_ value: GetBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+        return items
     }
 }
 
-extension GetBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketOwnershipControlsInput {
+
+    static func urlPathProvider(_ value: GetBucketOwnershipControlsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8426,28 +8462,29 @@ enum GetBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketPolicyInput {
+
+    static func headerProvider(_ value: GetBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-            return items
-        }
+extension GetBucketPolicyInput {
+
+    static func queryItemProvider(_ value: GetBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+        return items
     }
 }
 
-extension GetBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketPolicyInput {
+
+    static func urlPathProvider(_ value: GetBucketPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8516,28 +8553,29 @@ enum GetBucketPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketPolicyStatusInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketPolicyStatusInput {
+
+    static func headerProvider(_ value: GetBucketPolicyStatusInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketPolicyStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "policyStatus", value: nil))
-            return items
-        }
+extension GetBucketPolicyStatusInput {
+
+    static func queryItemProvider(_ value: GetBucketPolicyStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "policyStatus", value: nil))
+        return items
     }
 }
 
-extension GetBucketPolicyStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketPolicyStatusInput {
+
+    static func urlPathProvider(_ value: GetBucketPolicyStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8607,28 +8645,29 @@ enum GetBucketPolicyStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketReplicationInput {
+
+    static func headerProvider(_ value: GetBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-            return items
-        }
+extension GetBucketReplicationInput {
+
+    static func queryItemProvider(_ value: GetBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+        return items
     }
 }
 
-extension GetBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketReplicationInput {
+
+    static func urlPathProvider(_ value: GetBucketReplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8698,28 +8737,29 @@ enum GetBucketReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketRequestPaymentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketRequestPaymentInput {
+
+    static func headerProvider(_ value: GetBucketRequestPaymentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
-            return items
-        }
+extension GetBucketRequestPaymentInput {
+
+    static func queryItemProvider(_ value: GetBucketRequestPaymentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "requestPayment", value: nil))
+        return items
     }
 }
 
-extension GetBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketRequestPaymentInput {
+
+    static func urlPathProvider(_ value: GetBucketRequestPaymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8790,28 +8830,29 @@ enum GetBucketRequestPaymentOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketTaggingInput {
+
+    static func headerProvider(_ value: GetBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            return items
-        }
+extension GetBucketTaggingInput {
+
+    static func queryItemProvider(_ value: GetBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        return items
     }
 }
 
-extension GetBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketTaggingInput {
+
+    static func urlPathProvider(_ value: GetBucketTaggingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8900,28 +8941,29 @@ enum GetBucketTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketVersioningInput {
+
+    static func headerProvider(_ value: GetBucketVersioningInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
-            return items
-        }
+extension GetBucketVersioningInput {
+
+    static func queryItemProvider(_ value: GetBucketVersioningInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "versioning", value: nil))
+        return items
     }
 }
 
-extension GetBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketVersioningInput {
+
+    static func urlPathProvider(_ value: GetBucketVersioningInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9002,28 +9044,29 @@ enum GetBucketVersioningOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBucketWebsiteInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetBucketWebsiteInput {
+
+    static func headerProvider(_ value: GetBucketWebsiteInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetBucketWebsiteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-            return items
-        }
+extension GetBucketWebsiteInput {
+
+    static func queryItemProvider(_ value: GetBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+        return items
     }
 }
 
-extension GetBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBucketWebsiteInput {
+
+    static func urlPathProvider(_ value: GetBucketWebsiteInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9141,36 +9184,37 @@ enum GetBucketWebsiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectAclInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectAclInput {
+
+    static func headerProvider(_ value: GetObjectAclInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetObjectAclInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetObjectAclInput {
+
+    static func queryItemProvider(_ value: GetObjectAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetObjectAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectAclInput {
+
+    static func urlPathProvider(_ value: GetObjectAclInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -9298,56 +9342,57 @@ extension GetObjectAttributesInput: Swift.CustomDebugStringConvertible {
         "GetObjectAttributesInput(bucket: \(Swift.String(describing: bucket)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), maxParts: \(Swift.String(describing: maxParts)), objectAttributes: \(Swift.String(describing: objectAttributes)), partNumberMarker: \(Swift.String(describing: partNumberMarker)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
-extension GetObjectAttributesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectAttributesInput {
+
+    static func headerProvider(_ value: GetObjectAttributesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let maxParts = maxParts {
+        if let maxParts = value.maxParts {
             items.add(Header(name: "x-amz-max-parts", value: Swift.String(maxParts)))
         }
-        if let objectAttributes = objectAttributes {
+        if let objectAttributes = value.objectAttributes {
             objectAttributes.forEach { headerValue in
                 items.add(Header(name: "x-amz-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
         }
-        if let partNumberMarker = partNumberMarker {
+        if let partNumberMarker = value.partNumberMarker {
             items.add(Header(name: "x-amz-part-number-marker", value: Swift.String(partNumberMarker)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension GetObjectAttributesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "attributes", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetObjectAttributesInput {
+
+    static func queryItemProvider(_ value: GetObjectAttributesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "attributes", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetObjectAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectAttributesInput {
+
+    static func urlPathProvider(_ value: GetObjectAttributesInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -9633,40 +9678,41 @@ extension GetObjectInput: Swift.CustomDebugStringConvertible {
         "GetObjectInput(bucket: \(Swift.String(describing: bucket)), checksumMode: \(Swift.String(describing: checksumMode)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifModifiedSince: \(Swift.String(describing: ifModifiedSince)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), ifUnmodifiedSince: \(Swift.String(describing: ifUnmodifiedSince)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), range: \(Swift.String(describing: range)), requestPayer: \(Swift.String(describing: requestPayer)), responseCacheControl: \(Swift.String(describing: responseCacheControl)), responseContentDisposition: \(Swift.String(describing: responseContentDisposition)), responseContentEncoding: \(Swift.String(describing: responseContentEncoding)), responseContentLanguage: \(Swift.String(describing: responseContentLanguage)), responseContentType: \(Swift.String(describing: responseContentType)), responseExpires: \(Swift.String(describing: responseExpires)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
-extension GetObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectInput {
+
+    static func headerProvider(_ value: GetObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumMode = checksumMode {
+        if let checksumMode = value.checksumMode {
             items.add(Header(name: "x-amz-checksum-mode", value: Swift.String(checksumMode.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
-        if let ifModifiedSince = ifModifiedSince {
+        if let ifModifiedSince = value.ifModifiedSince {
             items.add(Header(name: "If-Modified-Since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: ifModifiedSince))))
         }
-        if let ifNoneMatch = ifNoneMatch {
+        if let ifNoneMatch = value.ifNoneMatch {
             items.add(Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
-        if let ifUnmodifiedSince = ifUnmodifiedSince {
+        if let ifUnmodifiedSince = value.ifUnmodifiedSince {
             items.add(Header(name: "If-Unmodified-Since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: ifUnmodifiedSince))))
         }
-        if let range = range {
+        if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
@@ -9698,7 +9744,7 @@ extension GetObjectInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -9741,13 +9787,13 @@ extension GetObjectInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutput>(id: "getObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetObjectOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
@@ -9775,71 +9821,71 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let bucket = input.operationInput.bucket {
-            let queryItem = ClientRuntime.URLQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let ifMatch = input.operationInput.ifMatch {
-            let queryItem = ClientRuntime.URLQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfMatch".urlPercentEncoding(), value: Swift.String(ifMatch).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let ifNoneMatch = input.operationInput.ifNoneMatch {
-            let queryItem = ClientRuntime.URLQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "IfNoneMatch".urlPercentEncoding(), value: Swift.String(ifNoneMatch).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let key = input.operationInput.key {
-            let queryItem = ClientRuntime.URLQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let range = input.operationInput.range {
-            let queryItem = ClientRuntime.URLQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Range".urlPercentEncoding(), value: Swift.String(range).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let responseCacheControl = input.operationInput.responseCacheControl {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let responseContentDisposition = input.operationInput.responseContentDisposition {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let responseContentEncoding = input.operationInput.responseContentEncoding {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let responseContentLanguage = input.operationInput.responseContentLanguage {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let responseContentType = input.operationInput.responseContentType {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let versionId = input.operationInput.versionId {
-            let queryItem = ClientRuntime.URLQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let sseCustomerAlgorithm = input.operationInput.sseCustomerAlgorithm {
-            let queryItem = ClientRuntime.URLQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let sseCustomerKey = input.operationInput.sseCustomerKey {
-            let queryItem = ClientRuntime.URLQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let sseCustomerKeyMD5 = input.operationInput.sseCustomerKeyMD5 {
-            let queryItem = ClientRuntime.URLQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let requestPayer = input.operationInput.requestPayer {
-            let queryItem = ClientRuntime.URLQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let expectedBucketOwner = input.operationInput.expectedBucketOwner {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let checksumMode = input.operationInput.checksumMode {
-            let queryItem = ClientRuntime.URLQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ChecksumMode".urlPercentEncoding(), value: Swift.String(checksumMode.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         return try await next.handle(context: context, input: input)
@@ -9850,51 +9896,51 @@ public struct GetObjectInputGETQueryItemMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension GetObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "GetObject"))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            if let responseContentDisposition = responseContentDisposition {
-                let responseContentDispositionQueryItem = ClientRuntime.URLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
-                items.append(responseContentDispositionQueryItem)
-            }
-            if let partNumber = partNumber {
-                let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-                items.append(partNumberQueryItem)
-            }
-            if let responseContentType = responseContentType {
-                let responseContentTypeQueryItem = ClientRuntime.URLQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
-                items.append(responseContentTypeQueryItem)
-            }
-            if let responseExpires = responseExpires {
-                let responseExpiresQueryItem = ClientRuntime.URLQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
-                items.append(responseExpiresQueryItem)
-            }
-            if let responseContentEncoding = responseContentEncoding {
-                let responseContentEncodingQueryItem = ClientRuntime.URLQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
-                items.append(responseContentEncodingQueryItem)
-            }
-            if let responseCacheControl = responseCacheControl {
-                let responseCacheControlQueryItem = ClientRuntime.URLQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
-                items.append(responseCacheControlQueryItem)
-            }
-            if let responseContentLanguage = responseContentLanguage {
-                let responseContentLanguageQueryItem = ClientRuntime.URLQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
-                items.append(responseContentLanguageQueryItem)
-            }
-            return items
+extension GetObjectInput {
+
+    static func queryItemProvider(_ value: GetObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "GetObject"))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        if let responseContentDisposition = value.responseContentDisposition {
+            let responseContentDispositionQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            items.append(responseContentDispositionQueryItem)
+        }
+        if let partNumber = value.partNumber {
+            let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            items.append(partNumberQueryItem)
+        }
+        if let responseContentType = value.responseContentType {
+            let responseContentTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            items.append(responseContentTypeQueryItem)
+        }
+        if let responseExpires = value.responseExpires {
+            let responseExpiresQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-expires".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .httpDate).string(from: responseExpires)).urlPercentEncoding())
+            items.append(responseExpiresQueryItem)
+        }
+        if let responseContentEncoding = value.responseContentEncoding {
+            let responseContentEncodingQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            items.append(responseContentEncodingQueryItem)
+        }
+        if let responseCacheControl = value.responseCacheControl {
+            let responseCacheControlQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            items.append(responseCacheControlQueryItem)
+        }
+        if let responseContentLanguage = value.responseContentLanguage {
+            let responseContentLanguageQueryItem = ClientRuntime.SDKURLQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            items.append(responseContentLanguageQueryItem)
+        }
+        return items
     }
 }
 
-extension GetObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectInput {
+
+    static func urlPathProvider(_ value: GetObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -10031,36 +10077,37 @@ public struct GetObjectInput: Swift.Equatable {
     }
 }
 
-extension GetObjectLegalHoldInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectLegalHoldInput {
+
+    static func headerProvider(_ value: GetObjectLegalHoldInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetObjectLegalHoldInput {
+
+    static func queryItemProvider(_ value: GetObjectLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "legal-hold", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetObjectLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectLegalHoldInput {
+
+    static func urlPathProvider(_ value: GetObjectLegalHoldInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -10145,28 +10192,29 @@ enum GetObjectLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectLockConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectLockConfigurationInput {
+
+    static func headerProvider(_ value: GetObjectLockConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
-            return items
-        }
+extension GetObjectLockConfigurationInput {
+
+    static func queryItemProvider(_ value: GetObjectLockConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "object-lock", value: nil))
+        return items
     }
 }
 
-extension GetObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetObjectLockConfigurationInput {
+
+    static func urlPathProvider(_ value: GetObjectLockConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10627,36 +10675,37 @@ enum GetObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectRetentionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectRetentionInput {
+
+    static func headerProvider(_ value: GetObjectRetentionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetObjectRetentionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetObjectRetentionInput {
+
+    static func queryItemProvider(_ value: GetObjectRetentionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "retention", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetObjectRetentionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectRetentionInput {
+
+    static func urlPathProvider(_ value: GetObjectRetentionInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -10741,36 +10790,37 @@ enum GetObjectRetentionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectTaggingInput {
+
+    static func headerProvider(_ value: GetObjectTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetObjectTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetObjectTaggingInput {
+
+    static func queryItemProvider(_ value: GetObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectTaggingInput {
+
+    static func urlPathProvider(_ value: GetObjectTaggingInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -10883,32 +10933,33 @@ enum GetObjectTaggingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectTorrentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectTorrentInput {
+
+    static func headerProvider(_ value: GetObjectTorrentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension GetObjectTorrentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "torrent", value: nil))
-            return items
-        }
+extension GetObjectTorrentInput {
+
+    static func queryItemProvider(_ value: GetObjectTorrentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "torrent", value: nil))
+        return items
     }
 }
 
-extension GetObjectTorrentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension GetObjectTorrentInput {
+
+    static func urlPathProvider(_ value: GetObjectTorrentInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -11008,28 +11059,29 @@ enum GetObjectTorrentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetPublicAccessBlockInput {
+
+    static func headerProvider(_ value: GetPublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-            return items
-        }
+extension GetPublicAccessBlockInput {
+
+    static func queryItemProvider(_ value: GetPublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+        return items
     }
 }
 
-extension GetPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: GetPublicAccessBlockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11259,18 +11311,20 @@ extension S3ClientTypes {
 
 }
 
-extension HeadBucketInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension HeadBucketInput {
+
+    static func headerProvider(_ value: HeadBucketInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension HeadBucketInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension HeadBucketInput {
+
+    static func urlPathProvider(_ value: HeadBucketInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11356,66 +11410,67 @@ extension HeadObjectInput: Swift.CustomDebugStringConvertible {
         "HeadObjectInput(bucket: \(Swift.String(describing: bucket)), checksumMode: \(Swift.String(describing: checksumMode)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), ifMatch: \(Swift.String(describing: ifMatch)), ifModifiedSince: \(Swift.String(describing: ifModifiedSince)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), ifUnmodifiedSince: \(Swift.String(describing: ifUnmodifiedSince)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), range: \(Swift.String(describing: range)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), versionId: \(Swift.String(describing: versionId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
-extension HeadObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension HeadObjectInput {
+
+    static func headerProvider(_ value: HeadObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumMode = checksumMode {
+        if let checksumMode = value.checksumMode {
             items.add(Header(name: "x-amz-checksum-mode", value: Swift.String(checksumMode.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
-        if let ifModifiedSince = ifModifiedSince {
+        if let ifModifiedSince = value.ifModifiedSince {
             items.add(Header(name: "If-Modified-Since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: ifModifiedSince))))
         }
-        if let ifNoneMatch = ifNoneMatch {
+        if let ifNoneMatch = value.ifNoneMatch {
             items.add(Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
-        if let ifUnmodifiedSince = ifUnmodifiedSince {
+        if let ifUnmodifiedSince = value.ifUnmodifiedSince {
             items.add(Header(name: "If-Unmodified-Since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: ifUnmodifiedSince))))
         }
-        if let range = range {
+        if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension HeadObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            if let partNumber = partNumber {
-                let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-                items.append(partNumberQueryItem)
-            }
-            return items
+extension HeadObjectInput {
+
+    static func queryItemProvider(_ value: HeadObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        if let partNumber = value.partNumber {
+            let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            items.append(partNumberQueryItem)
+        }
+        return items
     }
 }
 
-extension HeadObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension HeadObjectInput {
+
+    static func urlPathProvider(_ value: HeadObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -13293,33 +13348,34 @@ extension S3ClientTypes {
 
 }
 
-extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListBucketAnalyticsConfigurationsInput {
+
+    static func headerProvider(_ value: ListBucketAnalyticsConfigurationsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            return items
+extension ListBucketAnalyticsConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListBucketAnalyticsConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketAnalyticsConfigurations"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListBucketAnalyticsConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBucketAnalyticsConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListBucketAnalyticsConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13440,23 +13496,23 @@ enum ListBucketAnalyticsConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            return items
+extension ListBucketIntelligentTieringConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketIntelligentTieringConfigurations"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListBucketIntelligentTieringConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBucketIntelligentTieringConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13573,33 +13629,34 @@ enum ListBucketIntelligentTieringConfigurationsOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension ListBucketInventoryConfigurationsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListBucketInventoryConfigurationsInput {
+
+    static func headerProvider(_ value: ListBucketInventoryConfigurationsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension ListBucketInventoryConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            return items
+extension ListBucketInventoryConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListBucketInventoryConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketInventoryConfigurations"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListBucketInventoryConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBucketInventoryConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListBucketInventoryConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13720,33 +13777,34 @@ enum ListBucketInventoryConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListBucketMetricsConfigurationsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListBucketMetricsConfigurationsInput {
+
+    static func headerProvider(_ value: ListBucketMetricsConfigurationsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension ListBucketMetricsConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            return items
+extension ListBucketMetricsConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListBucketMetricsConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBucketMetricsConfigurations"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListBucketMetricsConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBucketMetricsConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListBucketMetricsConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13867,18 +13925,18 @@ enum ListBucketMetricsConfigurationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListBucketsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListBuckets"))
-            return items
-        }
+extension ListBucketsInput {
+
+    static func queryItemProvider(_ value: ListBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListBuckets"))
+        return items
     }
 }
 
-extension ListBucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBucketsInput {
+
+    static func urlPathProvider(_ value: ListBucketsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13964,26 +14022,26 @@ enum ListBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDirectoryBucketsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListDirectoryBuckets"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            if let maxDirectoryBuckets = maxDirectoryBuckets {
-                let maxDirectoryBucketsQueryItem = ClientRuntime.URLQueryItem(name: "max-directory-buckets".urlPercentEncoding(), value: Swift.String(maxDirectoryBuckets).urlPercentEncoding())
-                items.append(maxDirectoryBucketsQueryItem)
-            }
-            return items
+extension ListDirectoryBucketsInput {
+
+    static func queryItemProvider(_ value: ListDirectoryBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListDirectoryBuckets"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        if let maxDirectoryBuckets = value.maxDirectoryBuckets {
+            let maxDirectoryBucketsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-directory-buckets".urlPercentEncoding(), value: Swift.String(maxDirectoryBuckets).urlPercentEncoding())
+            items.append(maxDirectoryBucketsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDirectoryBucketsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDirectoryBucketsInput {
+
+    static func urlPathProvider(_ value: ListDirectoryBucketsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14080,55 +14138,56 @@ enum ListDirectoryBucketsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListMultipartUploadsInput {
+
+    static func headerProvider(_ value: ListMultipartUploadsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "uploads", value: nil))
-            if let uploadIdMarker = uploadIdMarker {
-                let uploadIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
-                items.append(uploadIdMarkerQueryItem)
-            }
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let maxUploads = maxUploads {
-                let maxUploadsQueryItem = ClientRuntime.URLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
-                items.append(maxUploadsQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let keyMarker = keyMarker {
-                let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
-                items.append(keyMarkerQueryItem)
-            }
-            return items
+extension ListMultipartUploadsInput {
+
+    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "uploads", value: nil))
+        if let uploadIdMarker = value.uploadIdMarker {
+            let uploadIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "upload-id-marker".urlPercentEncoding(), value: Swift.String(uploadIdMarker).urlPercentEncoding())
+            items.append(uploadIdMarkerQueryItem)
         }
+        if let delimiter = value.delimiter {
+            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            items.append(delimiterQueryItem)
+        }
+        if let maxUploads = value.maxUploads {
+            let maxUploadsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
+            items.append(maxUploadsQueryItem)
+        }
+        if let encodingType = value.encodingType {
+            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            items.append(encodingTypeQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
+        }
+        if let keyMarker = value.keyMarker {
+            let keyMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+            items.append(keyMarkerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMultipartUploadsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMultipartUploadsInput {
+
+    static func urlPathProvider(_ value: ListMultipartUploadsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14382,60 +14441,61 @@ enum ListMultipartUploadsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListObjectVersionsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectVersionsInput {
+
+    static func headerProvider(_ value: ListObjectVersionsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let optionalObjectAttributes = optionalObjectAttributes {
+        if let optionalObjectAttributes = value.optionalObjectAttributes {
             optionalObjectAttributes.forEach { headerValue in
                 items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension ListObjectVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "versions", value: nil))
-            if let versionIdMarker = versionIdMarker {
-                let versionIdMarkerQueryItem = ClientRuntime.URLQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
-                items.append(versionIdMarkerQueryItem)
-            }
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let maxKeys = maxKeys {
-                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-                items.append(maxKeysQueryItem)
-            }
-            if let keyMarker = keyMarker {
-                let keyMarkerQueryItem = ClientRuntime.URLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
-                items.append(keyMarkerQueryItem)
-            }
-            return items
+extension ListObjectVersionsInput {
+
+    static func queryItemProvider(_ value: ListObjectVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "versions", value: nil))
+        if let versionIdMarker = value.versionIdMarker {
+            let versionIdMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "version-id-marker".urlPercentEncoding(), value: Swift.String(versionIdMarker).urlPercentEncoding())
+            items.append(versionIdMarkerQueryItem)
         }
+        if let delimiter = value.delimiter {
+            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            items.append(delimiterQueryItem)
+        }
+        if let encodingType = value.encodingType {
+            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            items.append(encodingTypeQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
+        }
+        if let maxKeys = value.maxKeys {
+            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            items.append(maxKeysQueryItem)
+        }
+        if let keyMarker = value.keyMarker {
+            let keyMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
+            items.append(keyMarkerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListObjectVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectVersionsInput {
+
+    static func urlPathProvider(_ value: ListObjectVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14715,55 +14775,56 @@ enum ListObjectVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListObjectsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectsInput {
+
+    static func headerProvider(_ value: ListObjectsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let optionalObjectAttributes = optionalObjectAttributes {
+        if let optionalObjectAttributes = value.optionalObjectAttributes {
             optionalObjectAttributes.forEach { headerValue in
                 items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension ListObjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let maxKeys = maxKeys {
-                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-                items.append(maxKeysQueryItem)
-            }
-            return items
+extension ListObjectsInput {
+
+    static func queryItemProvider(_ value: ListObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let delimiter = value.delimiter {
+            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            items.append(delimiterQueryItem)
         }
+        if let encodingType = value.encodingType {
+            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            items.append(encodingTypeQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
+        }
+        if let maxKeys = value.maxKeys {
+            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            items.append(maxKeysQueryItem)
+        }
+        return items
     }
 }
 
-extension ListObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectsInput {
+
+    static func urlPathProvider(_ value: ListObjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14994,64 +15055,65 @@ enum ListObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListObjectsV2Input: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListObjectsV2Input {
+
+    static func headerProvider(_ value: ListObjectsV2Input) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let optionalObjectAttributes = optionalObjectAttributes {
+        if let optionalObjectAttributes = value.optionalObjectAttributes {
             optionalObjectAttributes.forEach { headerValue in
                 items.add(Header(name: "x-amz-optional-object-attributes", value: quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "list-type", value: "2"))
-            if let continuationToken = continuationToken {
-                let continuationTokenQueryItem = ClientRuntime.URLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
-                items.append(continuationTokenQueryItem)
-            }
-            if let delimiter = delimiter {
-                let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
-                items.append(delimiterQueryItem)
-            }
-            if let fetchOwner = fetchOwner {
-                let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
-                items.append(fetchOwnerQueryItem)
-            }
-            if let encodingType = encodingType {
-                let encodingTypeQueryItem = ClientRuntime.URLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
-                items.append(encodingTypeQueryItem)
-            }
-            if let startAfter = startAfter {
-                let startAfterQueryItem = ClientRuntime.URLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
-                items.append(startAfterQueryItem)
-            }
-            if let `prefix` = `prefix` {
-                let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
-                items.append(prefixQueryItem)
-            }
-            if let maxKeys = maxKeys {
-                let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
-                items.append(maxKeysQueryItem)
-            }
-            return items
+extension ListObjectsV2Input {
+
+    static func queryItemProvider(_ value: ListObjectsV2Input) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "list-type", value: "2"))
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
         }
+        if let delimiter = value.delimiter {
+            let delimiterQueryItem = ClientRuntime.SDKURLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
+            items.append(delimiterQueryItem)
+        }
+        if let fetchOwner = value.fetchOwner {
+            let fetchOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
+            items.append(fetchOwnerQueryItem)
+        }
+        if let encodingType = value.encodingType {
+            let encodingTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "encoding-type".urlPercentEncoding(), value: Swift.String(encodingType.rawValue).urlPercentEncoding())
+            items.append(encodingTypeQueryItem)
+        }
+        if let startAfter = value.startAfter {
+            let startAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "start-after".urlPercentEncoding(), value: Swift.String(startAfter).urlPercentEncoding())
+            items.append(startAfterQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
+        }
+        if let maxKeys = value.maxKeys {
+            let maxKeysQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
+            items.append(maxKeysQueryItem)
+        }
+        return items
     }
 }
 
-extension ListObjectsV2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListObjectsV2Input {
+
+    static func urlPathProvider(_ value: ListObjectsV2Input) -> Swift.String? {
         return "/"
     }
 }
@@ -15323,55 +15385,56 @@ extension ListPartsInput: Swift.CustomDebugStringConvertible {
         "ListPartsInput(bucket: \(Swift.String(describing: bucket)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), key: \(Swift.String(describing: key)), maxParts: \(Swift.String(describing: maxParts)), partNumberMarker: \(Swift.String(describing: partNumberMarker)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
-extension ListPartsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListPartsInput {
+
+    static func headerProvider(_ value: ListPartsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension ListPartsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "ListParts"))
-            if let partNumberMarker = partNumberMarker {
-                let partNumberMarkerQueryItem = ClientRuntime.URLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
-                items.append(partNumberMarkerQueryItem)
-            }
-            if let maxParts = maxParts {
-                let maxPartsQueryItem = ClientRuntime.URLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
-                items.append(maxPartsQueryItem)
-            }
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
+extension ListPartsInput {
+
+    static func queryItemProvider(_ value: ListPartsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "ListParts"))
+        if let partNumberMarker = value.partNumberMarker {
+            let partNumberMarkerQueryItem = ClientRuntime.SDKURLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
+            items.append(partNumberMarkerQueryItem)
         }
+        if let maxParts = value.maxParts {
+            let maxPartsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
+            items.append(maxPartsQueryItem)
+        }
+        guard let uploadId = value.uploadId else {
+            let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        items.append(uploadIdQueryItem)
+        return items
     }
 }
 
-extension ListPartsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension ListPartsInput {
+
+    static func urlPathProvider(_ value: ListPartsInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -18186,31 +18249,32 @@ extension PutBucketAccelerateConfigurationInput {
     }
 }
 
-extension PutBucketAccelerateConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketAccelerateConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketAccelerateConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketAccelerateConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "accelerate", value: nil))
-            return items
-        }
+extension PutBucketAccelerateConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketAccelerateConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "accelerate", value: nil))
+        return items
     }
 }
 
-extension PutBucketAccelerateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketAccelerateConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketAccelerateConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18287,52 +18351,53 @@ extension PutBucketAclInput {
     }
 }
 
-extension PutBucketAclInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketAclInput {
+
+    static func headerProvider(_ value: PutBucketAclInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWrite = grantWrite {
+        if let grantWrite = value.grantWrite {
             items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
         return items
     }
 }
 
-extension PutBucketAclInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-            return items
-        }
+extension PutBucketAclInput {
+
+    static func queryItemProvider(_ value: PutBucketAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+        return items
     }
 }
 
-extension PutBucketAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketAclInput {
+
+    static func urlPathProvider(_ value: PutBucketAclInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18436,34 +18501,35 @@ extension PutBucketAnalyticsConfigurationInput {
     }
 }
 
-extension PutBucketAnalyticsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketAnalyticsConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketAnalyticsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketAnalyticsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "analytics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension PutBucketAnalyticsConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketAnalyticsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "analytics", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension PutBucketAnalyticsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketAnalyticsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketAnalyticsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18541,34 +18607,35 @@ extension PutBucketCorsInput {
     }
 }
 
-extension PutBucketCorsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketCorsInput {
+
+    static func headerProvider(_ value: PutBucketCorsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketCorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "cors", value: nil))
-            return items
-        }
+extension PutBucketCorsInput {
+
+    static func queryItemProvider(_ value: PutBucketCorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "cors", value: nil))
+        return items
     }
 }
 
-extension PutBucketCorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketCorsInput {
+
+    static func urlPathProvider(_ value: PutBucketCorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18649,34 +18716,35 @@ extension PutBucketEncryptionInput {
     }
 }
 
-extension PutBucketEncryptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketEncryptionInput {
+
+    static func headerProvider(_ value: PutBucketEncryptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketEncryptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "encryption", value: nil))
-            return items
-        }
+extension PutBucketEncryptionInput {
+
+    static func queryItemProvider(_ value: PutBucketEncryptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "encryption", value: nil))
+        return items
     }
 }
 
-extension PutBucketEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: PutBucketEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18757,24 +18825,24 @@ extension PutBucketIntelligentTieringConfigurationInput {
     }
 }
 
-extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "intelligent-tiering", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension PutBucketIntelligentTieringConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketIntelligentTieringConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "intelligent-tiering", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension PutBucketIntelligentTieringConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketIntelligentTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketIntelligentTieringConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18848,34 +18916,35 @@ extension PutBucketInventoryConfigurationInput {
     }
 }
 
-extension PutBucketInventoryConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketInventoryConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketInventoryConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketInventoryConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "inventory", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension PutBucketInventoryConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketInventoryConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "inventory", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension PutBucketInventoryConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketInventoryConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketInventoryConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18953,31 +19022,32 @@ extension PutBucketLifecycleConfigurationInput {
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketLifecycleConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "lifecycle", value: nil))
-            return items
-        }
+extension PutBucketLifecycleConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketLifecycleConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "lifecycle", value: nil))
+        return items
     }
 }
 
-extension PutBucketLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketLifecycleConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19053,34 +19123,35 @@ extension PutBucketLoggingInput {
     }
 }
 
-extension PutBucketLoggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketLoggingInput {
+
+    static func headerProvider(_ value: PutBucketLoggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketLoggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "logging", value: nil))
-            return items
-        }
+extension PutBucketLoggingInput {
+
+    static func queryItemProvider(_ value: PutBucketLoggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "logging", value: nil))
+        return items
     }
 }
 
-extension PutBucketLoggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketLoggingInput {
+
+    static func urlPathProvider(_ value: PutBucketLoggingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19161,34 +19232,35 @@ extension PutBucketMetricsConfigurationInput {
     }
 }
 
-extension PutBucketMetricsConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketMetricsConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketMetricsConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketMetricsConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "metrics", value: nil))
-            guard let id = id else {
-                let message = "Creating a URL Query Item failed. id is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-            items.append(idQueryItem)
-            return items
+extension PutBucketMetricsConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketMetricsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "metrics", value: nil))
+        guard let id = value.id else {
+            let message = "Creating a URL Query Item failed. id is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+        items.append(idQueryItem)
+        return items
     }
 }
 
-extension PutBucketMetricsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketMetricsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketMetricsConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19266,31 +19338,32 @@ extension PutBucketNotificationConfigurationInput {
     }
 }
 
-extension PutBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketNotificationConfigurationInput {
+
+    static func headerProvider(_ value: PutBucketNotificationConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let skipDestinationValidation = skipDestinationValidation {
+        if let skipDestinationValidation = value.skipDestinationValidation {
             items.add(Header(name: "x-amz-skip-destination-validation", value: Swift.String(skipDestinationValidation)))
         }
         return items
     }
 }
 
-extension PutBucketNotificationConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "notification", value: nil))
-            return items
-        }
+extension PutBucketNotificationConfigurationInput {
+
+    static func queryItemProvider(_ value: PutBucketNotificationConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "notification", value: nil))
+        return items
     }
 }
 
-extension PutBucketNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketNotificationConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBucketNotificationConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19367,31 +19440,32 @@ extension PutBucketOwnershipControlsInput {
     }
 }
 
-extension PutBucketOwnershipControlsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketOwnershipControlsInput {
+
+    static func headerProvider(_ value: PutBucketOwnershipControlsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketOwnershipControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "ownershipControls", value: nil))
-            return items
-        }
+extension PutBucketOwnershipControlsInput {
+
+    static func queryItemProvider(_ value: PutBucketOwnershipControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "ownershipControls", value: nil))
+        return items
     }
 }
 
-extension PutBucketOwnershipControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketOwnershipControlsInput {
+
+    static func urlPathProvider(_ value: PutBucketOwnershipControlsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19468,37 +19542,38 @@ extension PutBucketPolicyInput {
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketPolicyInput {
+
+    static func headerProvider(_ value: PutBucketPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess {
+        if let confirmRemoveSelfBucketAccess = value.confirmRemoveSelfBucketAccess {
             items.add(Header(name: "x-amz-confirm-remove-self-bucket-access", value: Swift.String(confirmRemoveSelfBucketAccess)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "policy", value: nil))
-            return items
-        }
+extension PutBucketPolicyInput {
+
+    static func queryItemProvider(_ value: PutBucketPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "policy", value: nil))
+        return items
     }
 }
 
-extension PutBucketPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketPolicyInput {
+
+    static func urlPathProvider(_ value: PutBucketPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19594,37 +19669,38 @@ extension PutBucketReplicationInput {
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketReplicationInput {
+
+    static func headerProvider(_ value: PutBucketReplicationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let token = token {
+        if let token = value.token {
             items.add(Header(name: "x-amz-bucket-object-lock-token", value: Swift.String(token)))
         }
         return items
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "replication", value: nil))
-            return items
-        }
+extension PutBucketReplicationInput {
+
+    static func queryItemProvider(_ value: PutBucketReplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "replication", value: nil))
+        return items
     }
 }
 
-extension PutBucketReplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketReplicationInput {
+
+    static func urlPathProvider(_ value: PutBucketReplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19709,34 +19785,35 @@ extension PutBucketRequestPaymentInput {
     }
 }
 
-extension PutBucketRequestPaymentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketRequestPaymentInput {
+
+    static func headerProvider(_ value: PutBucketRequestPaymentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketRequestPaymentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "requestPayment", value: nil))
-            return items
-        }
+extension PutBucketRequestPaymentInput {
+
+    static func queryItemProvider(_ value: PutBucketRequestPaymentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "requestPayment", value: nil))
+        return items
     }
 }
 
-extension PutBucketRequestPaymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketRequestPaymentInput {
+
+    static func urlPathProvider(_ value: PutBucketRequestPaymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19817,34 +19894,35 @@ extension PutBucketTaggingInput {
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketTaggingInput {
+
+    static func headerProvider(_ value: PutBucketTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            return items
-        }
+extension PutBucketTaggingInput {
+
+    static func queryItemProvider(_ value: PutBucketTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        return items
     }
 }
 
-extension PutBucketTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketTaggingInput {
+
+    static func urlPathProvider(_ value: PutBucketTaggingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19925,37 +20003,38 @@ extension PutBucketVersioningInput {
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketVersioningInput {
+
+    static func headerProvider(_ value: PutBucketVersioningInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let mfa = mfa {
+        if let mfa = value.mfa {
             items.add(Header(name: "x-amz-mfa", value: Swift.String(mfa)))
         }
         return items
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "versioning", value: nil))
-            return items
-        }
+extension PutBucketVersioningInput {
+
+    static func queryItemProvider(_ value: PutBucketVersioningInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "versioning", value: nil))
+        return items
     }
 }
 
-extension PutBucketVersioningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketVersioningInput {
+
+    static func urlPathProvider(_ value: PutBucketVersioningInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20040,34 +20119,35 @@ extension PutBucketWebsiteInput {
     }
 }
 
-extension PutBucketWebsiteInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutBucketWebsiteInput {
+
+    static func headerProvider(_ value: PutBucketWebsiteInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutBucketWebsiteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "website", value: nil))
-            return items
-        }
+extension PutBucketWebsiteInput {
+
+    static func queryItemProvider(_ value: PutBucketWebsiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "website", value: nil))
+        return items
     }
 }
 
-extension PutBucketWebsiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutBucketWebsiteInput {
+
+    static func urlPathProvider(_ value: PutBucketWebsiteInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20148,60 +20228,61 @@ extension PutObjectAclInput {
     }
 }
 
-extension PutObjectAclInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectAclInput {
+
+    static func headerProvider(_ value: PutObjectAclInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWrite = grantWrite {
+        if let grantWrite = value.grantWrite {
             items.add(Header(name: "x-amz-grant-write", value: Swift.String(grantWrite)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension PutObjectAclInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "acl", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension PutObjectAclInput {
+
+    static func queryItemProvider(_ value: PutObjectAclInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "acl", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension PutObjectAclInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension PutObjectAclInput {
+
+    static func urlPathProvider(_ value: PutObjectAclInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -20338,109 +20419,110 @@ extension PutObjectInput {
     }
 }
 
-extension PutObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectInput {
+
+    static func headerProvider(_ value: PutObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acl = acl {
+        if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if let bucketKeyEnabled = bucketKeyEnabled {
+        if let bucketKeyEnabled = value.bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
-        if let cacheControl = cacheControl {
+        if let cacheControl = value.cacheControl {
             items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let checksumCRC32 = checksumCRC32 {
+        if let checksumCRC32 = value.checksumCRC32 {
             items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
         }
-        if let checksumCRC32C = checksumCRC32C {
+        if let checksumCRC32C = value.checksumCRC32C {
             items.add(Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
         }
-        if let checksumSHA1 = checksumSHA1 {
+        if let checksumSHA1 = value.checksumSHA1 {
             items.add(Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
-        if let checksumSHA256 = checksumSHA256 {
+        if let checksumSHA256 = value.checksumSHA256 {
             items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if let contentDisposition = contentDisposition {
+        if let contentDisposition = value.contentDisposition {
             items.add(Header(name: "Content-Disposition", value: Swift.String(contentDisposition)))
         }
-        if let contentEncoding = contentEncoding {
+        if let contentEncoding = value.contentEncoding {
             items.add(Header(name: "Content-Encoding", value: Swift.String(contentEncoding)))
         }
-        if let contentLanguage = contentLanguage {
+        if let contentLanguage = value.contentLanguage {
             items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
         }
-        if let contentLength = contentLength {
+        if let contentLength = value.contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let expires = expires {
+        if let expires = value.expires {
             items.add(Header(name: "Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
         }
-        if let grantFullControl = grantFullControl {
+        if let grantFullControl = value.grantFullControl {
             items.add(Header(name: "x-amz-grant-full-control", value: Swift.String(grantFullControl)))
         }
-        if let grantRead = grantRead {
+        if let grantRead = value.grantRead {
             items.add(Header(name: "x-amz-grant-read", value: Swift.String(grantRead)))
         }
-        if let grantReadACP = grantReadACP {
+        if let grantReadACP = value.grantReadACP {
             items.add(Header(name: "x-amz-grant-read-acp", value: Swift.String(grantReadACP)))
         }
-        if let grantWriteACP = grantWriteACP {
+        if let grantWriteACP = value.grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+        if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(Header(name: "x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
-        if let objectLockMode = objectLockMode {
+        if let objectLockMode = value.objectLockMode {
             items.add(Header(name: "x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
         }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+        if let objectLockRetainUntilDate = value.objectLockRetainUntilDate {
             items.add(Header(name: "x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
-        if let ssekmsEncryptionContext = ssekmsEncryptionContext {
+        if let ssekmsEncryptionContext = value.ssekmsEncryptionContext {
             items.add(Header(name: "x-amz-server-side-encryption-context", value: Swift.String(ssekmsEncryptionContext)))
         }
-        if let ssekmsKeyId = ssekmsKeyId {
+        if let ssekmsKeyId = value.ssekmsKeyId {
             items.add(Header(name: "x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
         }
-        if let serverSideEncryption = serverSideEncryption {
+        if let serverSideEncryption = value.serverSideEncryption {
             items.add(Header(name: "x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
         }
-        if let storageClass = storageClass {
+        if let storageClass = value.storageClass {
             items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if let tagging = tagging {
+        if let tagging = value.tagging {
             items.add(Header(name: "x-amz-tagging", value: Swift.String(tagging)))
         }
-        if let websiteRedirectLocation = websiteRedirectLocation {
+        if let websiteRedirectLocation = value.websiteRedirectLocation {
             items.add(Header(name: "x-amz-website-redirect-location", value: Swift.String(websiteRedirectLocation)))
         }
-        if let metadata = metadata {
+        if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
                 items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
@@ -20474,7 +20556,7 @@ extension PutObjectInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -20518,13 +20600,13 @@ extension PutObjectInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutput>(id: "putObject")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutObjectOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutput>(PutObjectInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<PutObjectInput, PutObjectOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -20557,7 +20639,7 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     {
         let metadata = input.operationInput.metadata ?? [:]
         for (metadataKey, metadataValue) in metadata {
-            let queryItem = URLQueryItem(
+            let queryItem = ClientRuntime.SDKURLQueryItem(
                 name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
                 value: metadataValue.urlPercentEncoding()
             )
@@ -20571,19 +20653,19 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension PutObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "PutObject"))
-            return items
-        }
+extension PutObjectInput {
+
+    static func queryItemProvider(_ value: PutObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "PutObject"))
+        return items
     }
 }
 
-extension PutObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension PutObjectInput {
+
+    static func urlPathProvider(_ value: PutObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -20818,42 +20900,43 @@ extension PutObjectLegalHoldInput {
     }
 }
 
-extension PutObjectLegalHoldInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectLegalHoldInput {
+
+    static func headerProvider(_ value: PutObjectLegalHoldInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension PutObjectLegalHoldInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "legal-hold", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension PutObjectLegalHoldInput {
+
+    static func queryItemProvider(_ value: PutObjectLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "legal-hold", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension PutObjectLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension PutObjectLegalHoldInput {
+
+    static func urlPathProvider(_ value: PutObjectLegalHoldInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -20960,40 +21043,41 @@ extension PutObjectLockConfigurationInput {
     }
 }
 
-extension PutObjectLockConfigurationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectLockConfigurationInput {
+
+    static func headerProvider(_ value: PutObjectLockConfigurationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let token = token {
+        if let token = value.token {
             items.add(Header(name: "x-amz-bucket-object-lock-token", value: Swift.String(token)))
         }
         return items
     }
 }
 
-extension PutObjectLockConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "object-lock", value: nil))
-            return items
-        }
+extension PutObjectLockConfigurationInput {
+
+    static func queryItemProvider(_ value: PutObjectLockConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "object-lock", value: nil))
+        return items
     }
 }
 
-extension PutObjectLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutObjectLockConfigurationInput {
+
+    static func urlPathProvider(_ value: PutObjectLockConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21246,45 +21330,46 @@ extension PutObjectRetentionInput {
     }
 }
 
-extension PutObjectRetentionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectRetentionInput {
+
+    static func headerProvider(_ value: PutObjectRetentionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let bypassGovernanceRetention = bypassGovernanceRetention {
+        if let bypassGovernanceRetention = value.bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension PutObjectRetentionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "retention", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension PutObjectRetentionInput {
+
+    static func queryItemProvider(_ value: PutObjectRetentionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "retention", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension PutObjectRetentionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension PutObjectRetentionInput {
+
+    static func urlPathProvider(_ value: PutObjectRetentionInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -21395,42 +21480,43 @@ extension PutObjectTaggingInput {
     }
 }
 
-extension PutObjectTaggingInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectTaggingInput {
+
+    static func headerProvider(_ value: PutObjectTaggingInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension PutObjectTaggingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "tagging", value: nil))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension PutObjectTaggingInput {
+
+    static func queryItemProvider(_ value: PutObjectTaggingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "tagging", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension PutObjectTaggingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension PutObjectTaggingInput {
+
+    static func urlPathProvider(_ value: PutObjectTaggingInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -21538,34 +21624,35 @@ extension PutPublicAccessBlockInput {
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutPublicAccessBlockInput {
+
+    static func headerProvider(_ value: PutPublicAccessBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         return items
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "publicAccessBlock", value: nil))
-            return items
-        }
+extension PutPublicAccessBlockInput {
+
+    static func queryItemProvider(_ value: PutPublicAccessBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "publicAccessBlock", value: nil))
+        return items
     }
 }
 
-extension PutPublicAccessBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPublicAccessBlockInput {
+
+    static func urlPathProvider(_ value: PutPublicAccessBlockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -22554,40 +22641,41 @@ extension RestoreObjectInput {
     }
 }
 
-extension RestoreObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RestoreObjectInput {
+
+    static func headerProvider(_ value: RestoreObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
         return items
     }
 }
 
-extension RestoreObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "restore", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "RestoreObject"))
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension RestoreObjectInput {
+
+    static func queryItemProvider(_ value: RestoreObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "restore", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "RestoreObject"))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension RestoreObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension RestoreObjectInput {
+
+    static func urlPathProvider(_ value: RestoreObjectInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -23205,40 +23293,41 @@ extension SelectObjectContentInput {
     }
 }
 
-extension SelectObjectContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SelectObjectContentInput {
+
+    static func headerProvider(_ value: SelectObjectContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension SelectObjectContentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "select", value: nil))
-            items.append(ClientRuntime.URLQueryItem(name: "select-type", value: "2"))
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "SelectObjectContent"))
-            return items
-        }
+extension SelectObjectContentInput {
+
+    static func queryItemProvider(_ value: SelectObjectContentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "select", value: nil))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "select-type", value: "2"))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "SelectObjectContent"))
+        return items
     }
 }
 
-extension SelectObjectContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension SelectObjectContentInput {
+
+    static func urlPathProvider(_ value: SelectObjectContentInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -24590,83 +24679,84 @@ extension UploadPartCopyInput: Swift.CustomDebugStringConvertible {
         "UploadPartCopyInput(bucket: \(Swift.String(describing: bucket)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceRange: \(Swift.String(describing: copySourceRange)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), key: \(Swift.String(describing: key)), partNumber: \(Swift.String(describing: partNumber)), requestPayer: \(Swift.String(describing: requestPayer)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), uploadId: \(Swift.String(describing: uploadId)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\")"}
 }
 
-extension UploadPartCopyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UploadPartCopyInput {
+
+    static func headerProvider(_ value: UploadPartCopyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let copySource = copySource {
+        if let copySource = value.copySource {
             items.add(Header(name: "x-amz-copy-source", value: Swift.String(copySource)))
         }
-        if let copySourceIfMatch = copySourceIfMatch {
+        if let copySourceIfMatch = value.copySourceIfMatch {
             items.add(Header(name: "x-amz-copy-source-if-match", value: Swift.String(copySourceIfMatch)))
         }
-        if let copySourceIfModifiedSince = copySourceIfModifiedSince {
+        if let copySourceIfModifiedSince = value.copySourceIfModifiedSince {
             items.add(Header(name: "x-amz-copy-source-if-modified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfModifiedSince))))
         }
-        if let copySourceIfNoneMatch = copySourceIfNoneMatch {
+        if let copySourceIfNoneMatch = value.copySourceIfNoneMatch {
             items.add(Header(name: "x-amz-copy-source-if-none-match", value: Swift.String(copySourceIfNoneMatch)))
         }
-        if let copySourceIfUnmodifiedSince = copySourceIfUnmodifiedSince {
+        if let copySourceIfUnmodifiedSince = value.copySourceIfUnmodifiedSince {
             items.add(Header(name: "x-amz-copy-source-if-unmodified-since", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: copySourceIfUnmodifiedSince))))
         }
-        if let copySourceRange = copySourceRange {
+        if let copySourceRange = value.copySourceRange {
             items.add(Header(name: "x-amz-copy-source-range", value: Swift.String(copySourceRange)))
         }
-        if let copySourceSSECustomerAlgorithm = copySourceSSECustomerAlgorithm {
+        if let copySourceSSECustomerAlgorithm = value.copySourceSSECustomerAlgorithm {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-algorithm", value: Swift.String(copySourceSSECustomerAlgorithm)))
         }
-        if let copySourceSSECustomerKey = copySourceSSECustomerKey {
+        if let copySourceSSECustomerKey = value.copySourceSSECustomerKey {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key", value: Swift.String(copySourceSSECustomerKey)))
         }
-        if let copySourceSSECustomerKeyMD5 = copySourceSSECustomerKeyMD5 {
+        if let copySourceSSECustomerKeyMD5 = value.copySourceSSECustomerKeyMD5 {
             items.add(Header(name: "x-amz-copy-source-server-side-encryption-customer-key-MD5", value: Swift.String(copySourceSSECustomerKeyMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let expectedSourceBucketOwner = expectedSourceBucketOwner {
+        if let expectedSourceBucketOwner = value.expectedSourceBucketOwner {
             items.add(Header(name: "x-amz-source-expected-bucket-owner", value: Swift.String(expectedSourceBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
     }
 }
 
-extension UploadPartCopyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPartCopy"))
-            guard let partNumber = partNumber else {
-                let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-            items.append(partNumberQueryItem)
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
+extension UploadPartCopyInput {
+
+    static func queryItemProvider(_ value: UploadPartCopyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "UploadPartCopy"))
+        guard let partNumber = value.partNumber else {
+            let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+        items.append(partNumberQueryItem)
+        guard let uploadId = value.uploadId else {
+            let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        items.append(uploadIdQueryItem)
+        return items
     }
 }
 
-extension UploadPartCopyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension UploadPartCopyInput {
+
+    static func urlPathProvider(_ value: UploadPartCopyInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -24908,43 +24998,44 @@ extension UploadPartInput {
     }
 }
 
-extension UploadPartInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UploadPartInput {
+
+    static func headerProvider(_ value: UploadPartInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let checksumCRC32 = checksumCRC32 {
+        if let checksumCRC32 = value.checksumCRC32 {
             items.add(Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
         }
-        if let checksumCRC32C = checksumCRC32C {
+        if let checksumCRC32C = value.checksumCRC32C {
             items.add(Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
         }
-        if let checksumSHA1 = checksumSHA1 {
+        if let checksumSHA1 = value.checksumSHA1 {
             items.add(Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
-        if let checksumSHA256 = checksumSHA256 {
+        if let checksumSHA256 = value.checksumSHA256 {
             items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if let contentLength = contentLength {
+        if let contentLength = value.contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
-        if let contentMD5 = contentMD5 {
+        if let contentMD5 = value.contentMD5 {
             items.add(Header(name: "Content-MD5", value: Swift.String(contentMD5)))
         }
-        if let expectedBucketOwner = expectedBucketOwner {
+        if let expectedBucketOwner = value.expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if let requestPayer = requestPayer {
+        if let requestPayer = value.requestPayer {
             items.add(Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKey = sseCustomerKey {
+        if let sseCustomerKey = value.sseCustomerKey {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key", value: Swift.String(sseCustomerKey)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
         return items
@@ -24976,13 +25067,13 @@ extension UploadPartInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutput>(id: "uploadPart")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.serviceSpecific.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.serviceSpecific.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.serviceSpecific.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.serviceSpecific.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.serviceSpecific.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.headerProvider(_:)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadPartInput, UploadPartOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -25000,31 +25091,31 @@ extension UploadPartInput {
     }
 }
 
-extension UploadPartInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPart"))
-            guard let partNumber = partNumber else {
-                let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-            items.append(partNumberQueryItem)
-            guard let uploadId = uploadId else {
-                let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let uploadIdQueryItem = ClientRuntime.URLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            items.append(uploadIdQueryItem)
-            return items
+extension UploadPartInput {
+
+    static func queryItemProvider(_ value: UploadPartInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "UploadPart"))
+        guard let partNumber = value.partNumber else {
+            let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let partNumberQueryItem = ClientRuntime.SDKURLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+        items.append(partNumberQueryItem)
+        guard let uploadId = value.uploadId else {
+            let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let uploadIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+        items.append(uploadIdQueryItem)
+        return items
     }
 }
 
-extension UploadPartInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let key = key else {
+extension UploadPartInput {
+
+    static func urlPathProvider(_ value: UploadPartInput) -> Swift.String? {
+        guard let key = value.key else {
             return nil
         }
         return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
@@ -25392,124 +25483,125 @@ extension WriteGetObjectResponseInput {
     }
 }
 
-extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension WriteGetObjectResponseInput {
+
+    static func headerProvider(_ value: WriteGetObjectResponseInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let acceptRanges = acceptRanges {
+        if let acceptRanges = value.acceptRanges {
             items.add(Header(name: "x-amz-fwd-header-accept-ranges", value: Swift.String(acceptRanges)))
         }
-        if let bucketKeyEnabled = bucketKeyEnabled {
+        if let bucketKeyEnabled = value.bucketKeyEnabled {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
-        if let cacheControl = cacheControl {
+        if let cacheControl = value.cacheControl {
             items.add(Header(name: "x-amz-fwd-header-Cache-Control", value: Swift.String(cacheControl)))
         }
-        if let checksumCRC32 = checksumCRC32 {
+        if let checksumCRC32 = value.checksumCRC32 {
             items.add(Header(name: "x-amz-fwd-header-x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
         }
-        if let checksumCRC32C = checksumCRC32C {
+        if let checksumCRC32C = value.checksumCRC32C {
             items.add(Header(name: "x-amz-fwd-header-x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
         }
-        if let checksumSHA1 = checksumSHA1 {
+        if let checksumSHA1 = value.checksumSHA1 {
             items.add(Header(name: "x-amz-fwd-header-x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
         }
-        if let checksumSHA256 = checksumSHA256 {
+        if let checksumSHA256 = value.checksumSHA256 {
             items.add(Header(name: "x-amz-fwd-header-x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if let contentDisposition = contentDisposition {
+        if let contentDisposition = value.contentDisposition {
             items.add(Header(name: "x-amz-fwd-header-Content-Disposition", value: Swift.String(contentDisposition)))
         }
-        if let contentEncoding = contentEncoding {
+        if let contentEncoding = value.contentEncoding {
             items.add(Header(name: "x-amz-fwd-header-Content-Encoding", value: Swift.String(contentEncoding)))
         }
-        if let contentLanguage = contentLanguage {
+        if let contentLanguage = value.contentLanguage {
             items.add(Header(name: "x-amz-fwd-header-Content-Language", value: Swift.String(contentLanguage)))
         }
-        if let contentLength = contentLength {
+        if let contentLength = value.contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
-        if let contentRange = contentRange {
+        if let contentRange = value.contentRange {
             items.add(Header(name: "x-amz-fwd-header-Content-Range", value: Swift.String(contentRange)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "x-amz-fwd-header-Content-Type", value: Swift.String(contentType)))
         }
-        if let deleteMarker = deleteMarker {
+        if let deleteMarker = value.deleteMarker {
             items.add(Header(name: "x-amz-fwd-header-x-amz-delete-marker", value: Swift.String(deleteMarker)))
         }
-        if let eTag = eTag {
+        if let eTag = value.eTag {
             items.add(Header(name: "x-amz-fwd-header-ETag", value: Swift.String(eTag)))
         }
-        if let errorCode = errorCode {
+        if let errorCode = value.errorCode {
             items.add(Header(name: "x-amz-fwd-error-code", value: Swift.String(errorCode)))
         }
-        if let errorMessage = errorMessage {
+        if let errorMessage = value.errorMessage {
             items.add(Header(name: "x-amz-fwd-error-message", value: Swift.String(errorMessage)))
         }
-        if let expiration = expiration {
+        if let expiration = value.expiration {
             items.add(Header(name: "x-amz-fwd-header-x-amz-expiration", value: Swift.String(expiration)))
         }
-        if let expires = expires {
+        if let expires = value.expires {
             items.add(Header(name: "x-amz-fwd-header-Expires", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: expires))))
         }
-        if let lastModified = lastModified {
+        if let lastModified = value.lastModified {
             items.add(Header(name: "x-amz-fwd-header-Last-Modified", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: lastModified))))
         }
-        if let missingMeta = missingMeta {
+        if let missingMeta = value.missingMeta {
             items.add(Header(name: "x-amz-fwd-header-x-amz-missing-meta", value: Swift.String(missingMeta)))
         }
-        if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
+        if let objectLockLegalHoldStatus = value.objectLockLegalHoldStatus {
             items.add(Header(name: "x-amz-fwd-header-x-amz-object-lock-legal-hold", value: Swift.String(objectLockLegalHoldStatus.rawValue)))
         }
-        if let objectLockMode = objectLockMode {
+        if let objectLockMode = value.objectLockMode {
             items.add(Header(name: "x-amz-fwd-header-x-amz-object-lock-mode", value: Swift.String(objectLockMode.rawValue)))
         }
-        if let objectLockRetainUntilDate = objectLockRetainUntilDate {
+        if let objectLockRetainUntilDate = value.objectLockRetainUntilDate {
             items.add(Header(name: "x-amz-fwd-header-x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
         }
-        if let partsCount = partsCount {
+        if let partsCount = value.partsCount {
             items.add(Header(name: "x-amz-fwd-header-x-amz-mp-parts-count", value: Swift.String(partsCount)))
         }
-        if let replicationStatus = replicationStatus {
+        if let replicationStatus = value.replicationStatus {
             items.add(Header(name: "x-amz-fwd-header-x-amz-replication-status", value: Swift.String(replicationStatus.rawValue)))
         }
-        if let requestCharged = requestCharged {
+        if let requestCharged = value.requestCharged {
             items.add(Header(name: "x-amz-fwd-header-x-amz-request-charged", value: Swift.String(requestCharged.rawValue)))
         }
-        if let requestRoute = requestRoute {
+        if let requestRoute = value.requestRoute {
             items.add(Header(name: "x-amz-request-route", value: Swift.String(requestRoute)))
         }
-        if let requestToken = requestToken {
+        if let requestToken = value.requestToken {
             items.add(Header(name: "x-amz-request-token", value: Swift.String(requestToken)))
         }
-        if let restore = restore {
+        if let restore = value.restore {
             items.add(Header(name: "x-amz-fwd-header-x-amz-restore", value: Swift.String(restore)))
         }
-        if let sseCustomerAlgorithm = sseCustomerAlgorithm {
+        if let sseCustomerAlgorithm = value.sseCustomerAlgorithm {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm", value: Swift.String(sseCustomerAlgorithm)))
         }
-        if let sseCustomerKeyMD5 = sseCustomerKeyMD5 {
+        if let sseCustomerKeyMD5 = value.sseCustomerKeyMD5 {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5", value: Swift.String(sseCustomerKeyMD5)))
         }
-        if let ssekmsKeyId = ssekmsKeyId {
+        if let ssekmsKeyId = value.ssekmsKeyId {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id", value: Swift.String(ssekmsKeyId)))
         }
-        if let serverSideEncryption = serverSideEncryption {
+        if let serverSideEncryption = value.serverSideEncryption {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
         }
-        if let statusCode = statusCode {
+        if let statusCode = value.statusCode {
             items.add(Header(name: "x-amz-fwd-status", value: Swift.String(statusCode)))
         }
-        if let storageClass = storageClass {
+        if let storageClass = value.storageClass {
             items.add(Header(name: "x-amz-fwd-header-x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if let tagCount = tagCount {
+        if let tagCount = value.tagCount {
             items.add(Header(name: "x-amz-fwd-header-x-amz-tagging-count", value: Swift.String(tagCount)))
         }
-        if let versionId = versionId {
+        if let versionId = value.versionId {
             items.add(Header(name: "x-amz-fwd-header-x-amz-version-id", value: Swift.String(versionId)))
         }
-        if let metadata = metadata {
+        if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
                 items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
@@ -25518,18 +25610,18 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
     }
 }
 
-extension WriteGetObjectResponseInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
-            return items
-        }
+extension WriteGetObjectResponseInput {
+
+    static func queryItemProvider(_ value: WriteGetObjectResponseInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
+        return items
     }
 }
 
-extension WriteGetObjectResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension WriteGetObjectResponseInput {
+
+    static func urlPathProvider(_ value: WriteGetObjectResponseInput) -> Swift.String? {
         return "/WriteGetObjectResponse"
     }
 }

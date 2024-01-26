@@ -178,9 +178,10 @@ extension BraketClientTypes {
     }
 }
 
-extension CancelJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobArn = jobArn else {
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
+        guard let jobArn = value.jobArn else {
             return nil
         }
         return "/job/\(jobArn.urlPercentEncoding())/cancel"
@@ -290,9 +291,10 @@ extension CancelQuantumTaskInput: Swift.Encodable {
     }
 }
 
-extension CancelQuantumTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let quantumTaskArn = quantumTaskArn else {
+extension CancelQuantumTaskInput {
+
+    static func urlPathProvider(_ value: CancelQuantumTaskInput) -> Swift.String? {
+        guard let quantumTaskArn = value.quantumTaskArn else {
             return nil
         }
         return "/quantum-task/\(quantumTaskArn.urlPercentEncoding())/cancel"
@@ -629,8 +631,9 @@ extension CreateJobInput: Swift.Encodable {
     }
 }
 
-extension CreateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobInput {
+
+    static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/job"
     }
 }
@@ -915,8 +918,9 @@ extension CreateQuantumTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateQuantumTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateQuantumTaskInput {
+
+    static func urlPathProvider(_ value: CreateQuantumTaskInput) -> Swift.String? {
         return "/quantum-task"
     }
 }
@@ -1489,9 +1493,10 @@ extension BraketClientTypes {
     }
 }
 
-extension GetDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceArn = deviceArn else {
+extension GetDeviceInput {
+
+    static func urlPathProvider(_ value: GetDeviceInput) -> Swift.String? {
+        guard let deviceArn = value.deviceArn else {
             return nil
         }
         return "/device/\(deviceArn.urlPercentEncoding())"
@@ -1650,24 +1655,24 @@ enum GetDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let additionalAttributeNames = additionalAttributeNames {
-                additionalAttributeNames.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension GetJobInput {
+
+    static func queryItemProvider(_ value: GetJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let additionalAttributeNames = value.additionalAttributeNames {
+            additionalAttributeNames.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            return items
         }
+        return items
     }
 }
 
-extension GetJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobArn = jobArn else {
+extension GetJobInput {
+
+    static func urlPathProvider(_ value: GetJobInput) -> Swift.String? {
+        guard let jobArn = value.jobArn else {
             return nil
         }
         return "/job/\(jobArn.urlPercentEncoding())"
@@ -2008,24 +2013,24 @@ enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetQuantumTaskInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let additionalAttributeNames = additionalAttributeNames {
-                additionalAttributeNames.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension GetQuantumTaskInput {
+
+    static func queryItemProvider(_ value: GetQuantumTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let additionalAttributeNames = value.additionalAttributeNames {
+            additionalAttributeNames.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            return items
         }
+        return items
     }
 }
 
-extension GetQuantumTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let quantumTaskArn = quantumTaskArn else {
+extension GetQuantumTaskInput {
+
+    static func urlPathProvider(_ value: GetQuantumTaskInput) -> Swift.String? {
+        guard let quantumTaskArn = value.quantumTaskArn else {
             return nil
         }
         return "/quantum-task/\(quantumTaskArn.urlPercentEncoding())"
@@ -3074,9 +3079,10 @@ extension BraketClientTypes {
 
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3739,8 +3745,9 @@ extension SearchDevicesInput: Swift.Encodable {
     }
 }
 
-extension SearchDevicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchDevicesInput {
+
+    static func urlPathProvider(_ value: SearchDevicesInput) -> Swift.String? {
         return "/devices"
     }
 }
@@ -4014,8 +4021,9 @@ extension SearchJobsInput: Swift.Encodable {
     }
 }
 
-extension SearchJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchJobsInput {
+
+    static func urlPathProvider(_ value: SearchJobsInput) -> Swift.String? {
         return "/jobs"
     }
 }
@@ -4286,8 +4294,9 @@ extension SearchQuantumTasksInput: Swift.Encodable {
     }
 }
 
-extension SearchQuantumTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchQuantumTasksInput {
+
+    static func urlPathProvider(_ value: SearchQuantumTasksInput) -> Swift.String? {
         return "/quantum-tasks"
     }
 }
@@ -4491,9 +4500,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4621,26 +4631,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

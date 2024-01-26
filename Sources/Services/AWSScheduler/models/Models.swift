@@ -278,9 +278,10 @@ extension CreateScheduleGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateScheduleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateScheduleGroupInput {
+
+    static func urlPathProvider(_ value: CreateScheduleGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedule-groups/\(name.urlPercentEncoding())"
@@ -450,9 +451,10 @@ extension CreateScheduleInput: Swift.Encodable {
     }
 }
 
-extension CreateScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateScheduleInput {
+
+    static func urlPathProvider(_ value: CreateScheduleInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedules/\(name.urlPercentEncoding())"
@@ -684,22 +686,22 @@ extension SchedulerClientTypes {
 
 }
 
-extension DeleteScheduleGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteScheduleGroupInput {
+
+    static func queryItemProvider(_ value: DeleteScheduleGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteScheduleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteScheduleGroupInput {
+
+    static func urlPathProvider(_ value: DeleteScheduleGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedule-groups/\(name.urlPercentEncoding())"
@@ -757,26 +759,26 @@ enum DeleteScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteScheduleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let groupName = groupName {
-                let groupNameQueryItem = ClientRuntime.URLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
-                items.append(groupNameQueryItem)
-            }
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteScheduleInput {
+
+    static func queryItemProvider(_ value: DeleteScheduleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let groupName = value.groupName {
+            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            items.append(groupNameQueryItem)
         }
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteScheduleInput {
+
+    static func urlPathProvider(_ value: DeleteScheduleInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedules/\(name.urlPercentEncoding())"
@@ -1189,9 +1191,10 @@ extension SchedulerClientTypes {
     }
 }
 
-extension GetScheduleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetScheduleGroupInput {
+
+    static func urlPathProvider(_ value: GetScheduleGroupInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedule-groups/\(name.urlPercentEncoding())"
@@ -1314,22 +1317,22 @@ enum GetScheduleGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetScheduleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let groupName = groupName {
-                let groupNameQueryItem = ClientRuntime.URLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
-                items.append(groupNameQueryItem)
-            }
-            return items
+extension GetScheduleInput {
+
+    static func queryItemProvider(_ value: GetScheduleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let groupName = value.groupName {
+            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupName".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            items.append(groupNameQueryItem)
         }
+        return items
     }
 }
 
-extension GetScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetScheduleInput {
+
+    static func urlPathProvider(_ value: GetScheduleInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedules/\(name.urlPercentEncoding())"
@@ -1692,29 +1695,29 @@ extension SchedulerClientTypes {
     }
 }
 
-extension ListScheduleGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let namePrefix = namePrefix {
-                let namePrefixQueryItem = ClientRuntime.URLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
-                items.append(namePrefixQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListScheduleGroupsInput {
+
+    static func queryItemProvider(_ value: ListScheduleGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let namePrefix = value.namePrefix {
+            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            items.append(namePrefixQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListScheduleGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListScheduleGroupsInput {
+
+    static func urlPathProvider(_ value: ListScheduleGroupsInput) -> Swift.String? {
         return "/schedule-groups"
     }
 }
@@ -1821,37 +1824,37 @@ enum ListScheduleGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSchedulesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let groupName = groupName {
-                let groupNameQueryItem = ClientRuntime.URLQueryItem(name: "ScheduleGroup".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
-                items.append(groupNameQueryItem)
-            }
-            if let namePrefix = namePrefix {
-                let namePrefixQueryItem = ClientRuntime.URLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
-                items.append(namePrefixQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSchedulesInput {
+
+    static func queryItemProvider(_ value: ListSchedulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let groupName = value.groupName {
+            let groupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "ScheduleGroup".urlPercentEncoding(), value: Swift.String(groupName).urlPercentEncoding())
+            items.append(groupNameQueryItem)
         }
+        if let namePrefix = value.namePrefix {
+            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "NamePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            items.append(namePrefixQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSchedulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchedulesInput {
+
+    static func urlPathProvider(_ value: ListSchedulesInput) -> Swift.String? {
         return "/schedules"
     }
 }
@@ -1967,9 +1970,10 @@ enum ListSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2865,9 +2869,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3161,26 +3166,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3296,9 +3301,10 @@ extension UpdateScheduleInput: Swift.Encodable {
     }
 }
 
-extension UpdateScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateScheduleInput {
+
+    static func urlPathProvider(_ value: UpdateScheduleInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/schedules/\(name.urlPercentEncoding())"

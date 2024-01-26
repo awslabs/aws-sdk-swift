@@ -82,8 +82,9 @@ extension AddLFTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddLFTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddLFTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddLFTagsToResourceInput) -> Swift.String? {
         return "/AddLFTagsToResource"
     }
 }
@@ -421,8 +422,9 @@ extension AssumeDecoratedRoleWithSAMLInput: Swift.Encodable {
     }
 }
 
-extension AssumeDecoratedRoleWithSAMLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssumeDecoratedRoleWithSAMLInput {
+
+    static func urlPathProvider(_ value: AssumeDecoratedRoleWithSAMLInput) -> Swift.String? {
         return "/AssumeDecoratedRoleWithSAML"
     }
 }
@@ -622,8 +624,9 @@ extension BatchGrantPermissionsInput: Swift.Encodable {
     }
 }
 
-extension BatchGrantPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGrantPermissionsInput {
+
+    static func urlPathProvider(_ value: BatchGrantPermissionsInput) -> Swift.String? {
         return "/BatchGrantPermissions"
     }
 }
@@ -900,8 +903,9 @@ extension BatchRevokePermissionsInput: Swift.Encodable {
     }
 }
 
-extension BatchRevokePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchRevokePermissionsInput {
+
+    static func urlPathProvider(_ value: BatchRevokePermissionsInput) -> Swift.String? {
         return "/BatchRevokePermissions"
     }
 }
@@ -1026,8 +1030,9 @@ extension CancelTransactionInput: Swift.Encodable {
     }
 }
 
-extension CancelTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelTransactionInput {
+
+    static func urlPathProvider(_ value: CancelTransactionInput) -> Swift.String? {
         return "/CancelTransaction"
     }
 }
@@ -1225,8 +1230,9 @@ extension CommitTransactionInput: Swift.Encodable {
     }
 }
 
-extension CommitTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CommitTransactionInput {
+
+    static func urlPathProvider(_ value: CommitTransactionInput) -> Swift.String? {
         return "/CommitTransaction"
     }
 }
@@ -1444,8 +1450,9 @@ extension CreateDataCellsFilterInput: Swift.Encodable {
     }
 }
 
-extension CreateDataCellsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataCellsFilterInput {
+
+    static func urlPathProvider(_ value: CreateDataCellsFilterInput) -> Swift.String? {
         return "/CreateDataCellsFilter"
     }
 }
@@ -1530,8 +1537,9 @@ extension CreateLFTagInput: Swift.Encodable {
     }
 }
 
-extension CreateLFTagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLFTagInput {
+
+    static func urlPathProvider(_ value: CreateLFTagInput) -> Swift.String? {
         return "/CreateLFTag"
     }
 }
@@ -1638,8 +1646,9 @@ extension CreateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLakeFormationIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateLakeFormationIdentityCenterConfigurationInput) -> Swift.String? {
         return "/CreateLakeFormationIdentityCenterConfiguration"
     }
 }
@@ -1761,8 +1770,9 @@ extension CreateLakeFormationOptInInput: Swift.Encodable {
     }
 }
 
-extension CreateLakeFormationOptInInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLakeFormationOptInInput {
+
+    static func urlPathProvider(_ value: CreateLakeFormationOptInInput) -> Swift.String? {
         return "/CreateLakeFormationOptIn"
     }
 }
@@ -2440,8 +2450,9 @@ extension DeleteDataCellsFilterInput: Swift.Encodable {
     }
 }
 
-extension DeleteDataCellsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataCellsFilterInput {
+
+    static func urlPathProvider(_ value: DeleteDataCellsFilterInput) -> Swift.String? {
         return "/DeleteDataCellsFilter"
     }
 }
@@ -2540,8 +2551,9 @@ extension DeleteLFTagInput: Swift.Encodable {
     }
 }
 
-extension DeleteLFTagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLFTagInput {
+
+    static func urlPathProvider(_ value: DeleteLFTagInput) -> Swift.String? {
         return "/DeleteLFTag"
     }
 }
@@ -2621,8 +2633,9 @@ extension DeleteLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLakeFormationIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteLakeFormationIdentityCenterConfigurationInput) -> Swift.String? {
         return "/DeleteLakeFormationIdentityCenterConfiguration"
     }
 }
@@ -2698,8 +2711,9 @@ extension DeleteLakeFormationOptInInput: Swift.Encodable {
     }
 }
 
-extension DeleteLakeFormationOptInInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLakeFormationOptInInput {
+
+    static func urlPathProvider(_ value: DeleteLakeFormationOptInInput) -> Swift.String? {
         return "/DeleteLakeFormationOptIn"
     }
 }
@@ -2868,8 +2882,9 @@ extension DeleteObjectsOnCancelInput: Swift.Encodable {
     }
 }
 
-extension DeleteObjectsOnCancelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteObjectsOnCancelInput {
+
+    static func urlPathProvider(_ value: DeleteObjectsOnCancelInput) -> Swift.String? {
         return "/DeleteObjectsOnCancel"
     }
 }
@@ -2988,8 +3003,9 @@ extension DeregisterResourceInput: Swift.Encodable {
     }
 }
 
-extension DeregisterResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterResourceInput {
+
+    static func urlPathProvider(_ value: DeregisterResourceInput) -> Swift.String? {
         return "/DeregisterResource"
     }
 }
@@ -3060,8 +3076,9 @@ extension DescribeLakeFormationIdentityCenterConfigurationInput: Swift.Encodable
     }
 }
 
-extension DescribeLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLakeFormationIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeLakeFormationIdentityCenterConfigurationInput) -> Swift.String? {
         return "/DescribeLakeFormationIdentityCenterConfiguration"
     }
 }
@@ -3192,8 +3209,9 @@ extension DescribeResourceInput: Swift.Encodable {
     }
 }
 
-extension DescribeResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeResourceInput {
+
+    static func urlPathProvider(_ value: DescribeResourceInput) -> Swift.String? {
         return "/DescribeResource"
     }
 }
@@ -3294,8 +3312,9 @@ extension DescribeTransactionInput: Swift.Encodable {
     }
 }
 
-extension DescribeTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTransactionInput {
+
+    static func urlPathProvider(_ value: DescribeTransactionInput) -> Swift.String? {
         return "/DescribeTransaction"
     }
 }
@@ -3687,8 +3706,9 @@ extension ExtendTransactionInput: Swift.Encodable {
     }
 }
 
-extension ExtendTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExtendTransactionInput {
+
+    static func urlPathProvider(_ value: ExtendTransactionInput) -> Swift.String? {
         return "/ExtendTransaction"
     }
 }
@@ -3934,8 +3954,9 @@ extension GetDataCellsFilterInput: Swift.Encodable {
     }
 }
 
-extension GetDataCellsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataCellsFilterInput {
+
+    static func urlPathProvider(_ value: GetDataCellsFilterInput) -> Swift.String? {
         return "/GetDataCellsFilter"
     }
 }
@@ -4064,8 +4085,9 @@ extension GetDataLakeSettingsInput: Swift.Encodable {
     }
 }
 
-extension GetDataLakeSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataLakeSettingsInput {
+
+    static func urlPathProvider(_ value: GetDataLakeSettingsInput) -> Swift.String? {
         return "/GetDataLakeSettings"
     }
 }
@@ -4176,8 +4198,9 @@ extension GetEffectivePermissionsForPathInput: Swift.Encodable {
     }
 }
 
-extension GetEffectivePermissionsForPathInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEffectivePermissionsForPathInput {
+
+    static func urlPathProvider(_ value: GetEffectivePermissionsForPathInput) -> Swift.String? {
         return "/GetEffectivePermissionsForPath"
     }
 }
@@ -4325,8 +4348,9 @@ extension GetLFTagInput: Swift.Encodable {
     }
 }
 
-extension GetLFTagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLFTagInput {
+
+    static func urlPathProvider(_ value: GetLFTagInput) -> Swift.String? {
         return "/GetLFTag"
     }
 }
@@ -4465,8 +4489,9 @@ extension GetQueryStateInput: Swift.Encodable {
     }
 }
 
-extension GetQueryStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueryStateInput {
+
+    static func urlPathProvider(_ value: GetQueryStateInput) -> Swift.String? {
         return "/GetQueryState"
     }
 }
@@ -4586,8 +4611,9 @@ extension GetQueryStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetQueryStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQueryStatisticsInput {
+
+    static func urlPathProvider(_ value: GetQueryStatisticsInput) -> Swift.String? {
         return "/GetQueryStatistics"
     }
 }
@@ -4718,8 +4744,9 @@ extension GetResourceLFTagsInput: Swift.Encodable {
     }
 }
 
-extension GetResourceLFTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceLFTagsInput {
+
+    static func urlPathProvider(_ value: GetResourceLFTagsInput) -> Swift.String? {
         return "/GetResourceLFTags"
     }
 }
@@ -4913,8 +4940,9 @@ extension GetTableObjectsInput: Swift.Encodable {
     }
 }
 
-extension GetTableObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableObjectsInput {
+
+    static func urlPathProvider(_ value: GetTableObjectsInput) -> Swift.String? {
         return "/GetTableObjects"
     }
 }
@@ -5126,8 +5154,9 @@ extension GetTemporaryGluePartitionCredentialsInput: Swift.Encodable {
     }
 }
 
-extension GetTemporaryGluePartitionCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemporaryGluePartitionCredentialsInput {
+
+    static func urlPathProvider(_ value: GetTemporaryGluePartitionCredentialsInput) -> Swift.String? {
         return "/GetTemporaryGluePartitionCredentials"
     }
 }
@@ -5349,8 +5378,9 @@ extension GetTemporaryGlueTableCredentialsInput: Swift.Encodable {
     }
 }
 
-extension GetTemporaryGlueTableCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemporaryGlueTableCredentialsInput {
+
+    static func urlPathProvider(_ value: GetTemporaryGlueTableCredentialsInput) -> Swift.String? {
         return "/GetTemporaryGlueTableCredentials"
     }
 }
@@ -5581,8 +5611,9 @@ extension GetWorkUnitResultsInput: Swift.Encodable {
     }
 }
 
-extension GetWorkUnitResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkUnitResultsInput {
+
+    static func urlPathProvider(_ value: GetWorkUnitResultsInput) -> Swift.String? {
         return "/GetWorkUnitResults"
     }
 }
@@ -5712,8 +5743,9 @@ extension GetWorkUnitsInput: Swift.Encodable {
     }
 }
 
-extension GetWorkUnitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkUnitsInput {
+
+    static func urlPathProvider(_ value: GetWorkUnitsInput) -> Swift.String? {
         return "/GetWorkUnits"
     }
 }
@@ -5941,8 +5973,9 @@ extension GrantPermissionsInput: Swift.Encodable {
     }
 }
 
-extension GrantPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GrantPermissionsInput {
+
+    static func urlPathProvider(_ value: GrantPermissionsInput) -> Swift.String? {
         return "/GrantPermissions"
     }
 }
@@ -6560,8 +6593,9 @@ extension ListDataCellsFilterInput: Swift.Encodable {
     }
 }
 
-extension ListDataCellsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDataCellsFilterInput {
+
+    static func urlPathProvider(_ value: ListDataCellsFilterInput) -> Swift.String? {
         return "/ListDataCellsFilter"
     }
 }
@@ -6708,8 +6742,9 @@ extension ListLFTagsInput: Swift.Encodable {
     }
 }
 
-extension ListLFTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLFTagsInput {
+
+    static func urlPathProvider(_ value: ListLFTagsInput) -> Swift.String? {
         return "/ListLFTags"
     }
 }
@@ -6865,8 +6900,9 @@ extension ListLakeFormationOptInsInput: Swift.Encodable {
     }
 }
 
-extension ListLakeFormationOptInsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLakeFormationOptInsInput {
+
+    static func urlPathProvider(_ value: ListLakeFormationOptInsInput) -> Swift.String? {
         return "/ListLakeFormationOptIns"
     }
 }
@@ -7033,8 +7069,9 @@ extension ListPermissionsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionsInput {
+
+    static func urlPathProvider(_ value: ListPermissionsInput) -> Swift.String? {
         return "/ListPermissions"
     }
 }
@@ -7211,8 +7248,9 @@ extension ListResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/ListResources"
     }
 }
@@ -7375,8 +7413,9 @@ extension ListTableStorageOptimizersInput: Swift.Encodable {
     }
 }
 
-extension ListTableStorageOptimizersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTableStorageOptimizersInput {
+
+    static func urlPathProvider(_ value: ListTableStorageOptimizersInput) -> Swift.String? {
         return "/ListTableStorageOptimizers"
     }
 }
@@ -7549,8 +7588,9 @@ extension ListTransactionsInput: Swift.Encodable {
     }
 }
 
-extension ListTransactionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTransactionsInput {
+
+    static func urlPathProvider(_ value: ListTransactionsInput) -> Swift.String? {
         return "/ListTransactions"
     }
 }
@@ -8304,8 +8344,9 @@ extension PutDataLakeSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutDataLakeSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutDataLakeSettingsInput {
+
+    static func urlPathProvider(_ value: PutDataLakeSettingsInput) -> Swift.String? {
         return "/PutDataLakeSettings"
     }
 }
@@ -8614,8 +8655,9 @@ extension RegisterResourceInput: Swift.Encodable {
     }
 }
 
-extension RegisterResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterResourceInput {
+
+    static func urlPathProvider(_ value: RegisterResourceInput) -> Swift.String? {
         return "/RegisterResource"
     }
 }
@@ -8732,8 +8774,9 @@ extension RemoveLFTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveLFTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveLFTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveLFTagsFromResourceInput) -> Swift.String? {
         return "/RemoveLFTagsFromResource"
     }
 }
@@ -9250,8 +9293,9 @@ extension RevokePermissionsInput: Swift.Encodable {
     }
 }
 
-extension RevokePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RevokePermissionsInput {
+
+    static func urlPathProvider(_ value: RevokePermissionsInput) -> Swift.String? {
         return "/RevokePermissions"
     }
 }
@@ -9433,8 +9477,9 @@ extension SearchDatabasesByLFTagsInput: Swift.Encodable {
     }
 }
 
-extension SearchDatabasesByLFTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchDatabasesByLFTagsInput {
+
+    static func urlPathProvider(_ value: SearchDatabasesByLFTagsInput) -> Swift.String? {
         return "/SearchDatabasesByLFTags"
     }
 }
@@ -9604,8 +9649,9 @@ extension SearchTablesByLFTagsInput: Swift.Encodable {
     }
 }
 
-extension SearchTablesByLFTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchTablesByLFTagsInput {
+
+    static func urlPathProvider(_ value: SearchTablesByLFTagsInput) -> Swift.String? {
         return "/SearchTablesByLFTags"
     }
 }
@@ -9769,8 +9815,9 @@ extension StartQueryPlanningInput: Swift.Encodable {
     }
 }
 
-extension StartQueryPlanningInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartQueryPlanningInput {
+
+    static func urlPathProvider(_ value: StartQueryPlanningInput) -> Swift.String? {
         return "/StartQueryPlanning"
     }
 }
@@ -9882,8 +9929,9 @@ extension StartTransactionInput: Swift.Encodable {
     }
 }
 
-extension StartTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTransactionInput {
+
+    static func urlPathProvider(_ value: StartTransactionInput) -> Swift.String? {
         return "/StartTransaction"
     }
 }
@@ -10912,8 +10960,9 @@ extension UpdateDataCellsFilterInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataCellsFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataCellsFilterInput {
+
+    static func urlPathProvider(_ value: UpdateDataCellsFilterInput) -> Swift.String? {
         return "/UpdateDataCellsFilter"
     }
 }
@@ -11004,8 +11053,9 @@ extension UpdateLFTagInput: Swift.Encodable {
     }
 }
 
-extension UpdateLFTagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLFTagInput {
+
+    static func urlPathProvider(_ value: UpdateLFTagInput) -> Swift.String? {
         return "/UpdateLFTag"
     }
 }
@@ -11128,8 +11178,9 @@ extension UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLakeFormationIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateLakeFormationIdentityCenterConfigurationInput) -> Swift.String? {
         return "/UpdateLakeFormationIdentityCenterConfiguration"
     }
 }
@@ -11229,8 +11280,9 @@ extension UpdateResourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResourceInput {
+
+    static func urlPathProvider(_ value: UpdateResourceInput) -> Swift.String? {
         return "/UpdateResource"
     }
 }
@@ -11345,8 +11397,9 @@ extension UpdateTableObjectsInput: Swift.Encodable {
     }
 }
 
-extension UpdateTableObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTableObjectsInput {
+
+    static func urlPathProvider(_ value: UpdateTableObjectsInput) -> Swift.String? {
         return "/UpdateTableObjects"
     }
 }
@@ -11483,8 +11536,9 @@ extension UpdateTableStorageOptimizerInput: Swift.Encodable {
     }
 }
 
-extension UpdateTableStorageOptimizerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTableStorageOptimizerInput {
+
+    static func urlPathProvider(_ value: UpdateTableStorageOptimizerInput) -> Swift.String? {
         return "/UpdateTableStorageOptimizer"
     }
 }

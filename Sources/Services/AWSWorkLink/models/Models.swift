@@ -27,8 +27,9 @@ extension AssociateDomainInput: Swift.Encodable {
     }
 }
 
-extension AssociateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateDomainInput {
+
+    static func urlPathProvider(_ value: AssociateDomainInput) -> Swift.String? {
         return "/associateDomain"
     }
 }
@@ -135,8 +136,9 @@ extension AssociateWebsiteAuthorizationProviderInput: Swift.Encodable {
     }
 }
 
-extension AssociateWebsiteAuthorizationProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateWebsiteAuthorizationProviderInput {
+
+    static func urlPathProvider(_ value: AssociateWebsiteAuthorizationProviderInput) -> Swift.String? {
         return "/associateWebsiteAuthorizationProvider"
     }
 }
@@ -264,8 +266,9 @@ extension AssociateWebsiteCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension AssociateWebsiteCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateWebsiteCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: AssociateWebsiteCertificateAuthorityInput) -> Swift.String? {
         return "/associateWebsiteCertificateAuthority"
     }
 }
@@ -429,8 +432,9 @@ extension CreateFleetInput: Swift.Encodable {
     }
 }
 
-extension CreateFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFleetInput {
+
+    static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
         return "/createFleet"
     }
 }
@@ -566,8 +570,9 @@ extension DeleteFleetInput: Swift.Encodable {
     }
 }
 
-extension DeleteFleetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFleetInput {
+
+    static func urlPathProvider(_ value: DeleteFleetInput) -> Swift.String? {
         return "/deleteFleet"
     }
 }
@@ -639,8 +644,9 @@ extension DescribeAuditStreamConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeAuditStreamConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAuditStreamConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeAuditStreamConfigurationInput) -> Swift.String? {
         return "/describeAuditStreamConfiguration"
     }
 }
@@ -742,8 +748,9 @@ extension DescribeCompanyNetworkConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeCompanyNetworkConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCompanyNetworkConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeCompanyNetworkConfigurationInput) -> Swift.String? {
         return "/describeCompanyNetworkConfiguration"
     }
 }
@@ -887,8 +894,9 @@ extension DescribeDeviceInput: Swift.Encodable {
     }
 }
 
-extension DescribeDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDeviceInput {
+
+    static func urlPathProvider(_ value: DescribeDeviceInput) -> Swift.String? {
         return "/describeDevice"
     }
 }
@@ -1079,8 +1087,9 @@ extension DescribeDevicePolicyConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeDevicePolicyConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDevicePolicyConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeDevicePolicyConfigurationInput) -> Swift.String? {
         return "/describeDevicePolicyConfiguration"
     }
 }
@@ -1186,8 +1195,9 @@ extension DescribeDomainInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainInput {
+
+    static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
         return "/describeDomain"
     }
 }
@@ -1338,8 +1348,9 @@ extension DescribeFleetMetadataInput: Swift.Encodable {
     }
 }
 
-extension DescribeFleetMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFleetMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeFleetMetadataInput) -> Swift.String? {
         return "/describeFleetMetadata"
     }
 }
@@ -1520,8 +1531,9 @@ extension DescribeIdentityProviderConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeIdentityProviderConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeIdentityProviderConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityProviderConfigurationInput) -> Swift.String? {
         return "/describeIdentityProviderConfiguration"
     }
 }
@@ -1647,8 +1659,9 @@ extension DescribeWebsiteCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension DescribeWebsiteCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWebsiteCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DescribeWebsiteCertificateAuthorityInput) -> Swift.String? {
         return "/describeWebsiteCertificateAuthority"
     }
 }
@@ -1860,8 +1873,9 @@ extension DisassociateDomainInput: Swift.Encodable {
     }
 }
 
-extension DisassociateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateDomainInput {
+
+    static func urlPathProvider(_ value: DisassociateDomainInput) -> Swift.String? {
         return "/disassociateDomain"
     }
 }
@@ -1946,8 +1960,9 @@ extension DisassociateWebsiteAuthorizationProviderInput: Swift.Encodable {
     }
 }
 
-extension DisassociateWebsiteAuthorizationProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateWebsiteAuthorizationProviderInput {
+
+    static func urlPathProvider(_ value: DisassociateWebsiteAuthorizationProviderInput) -> Swift.String? {
         return "/disassociateWebsiteAuthorizationProvider"
     }
 }
@@ -2033,8 +2048,9 @@ extension DisassociateWebsiteCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension DisassociateWebsiteCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateWebsiteCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DisassociateWebsiteCertificateAuthorityInput) -> Swift.String? {
         return "/disassociateWebsiteCertificateAuthority"
     }
 }
@@ -2541,8 +2557,9 @@ extension ListDevicesInput: Swift.Encodable {
     }
 }
 
-extension ListDevicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDevicesInput {
+
+    static func urlPathProvider(_ value: ListDevicesInput) -> Swift.String? {
         return "/listDevices"
     }
 }
@@ -2687,8 +2704,9 @@ extension ListDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainsInput {
+
+    static func urlPathProvider(_ value: ListDomainsInput) -> Swift.String? {
         return "/listDomains"
     }
 }
@@ -2829,8 +2847,9 @@ extension ListFleetsInput: Swift.Encodable {
     }
 }
 
-extension ListFleetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFleetsInput {
+
+    static func urlPathProvider(_ value: ListFleetsInput) -> Swift.String? {
         return "/listFleets"
     }
 }
@@ -2944,9 +2963,10 @@ enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3056,8 +3076,9 @@ extension ListWebsiteAuthorizationProvidersInput: Swift.Encodable {
     }
 }
 
-extension ListWebsiteAuthorizationProvidersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWebsiteAuthorizationProvidersInput {
+
+    static func urlPathProvider(_ value: ListWebsiteAuthorizationProvidersInput) -> Swift.String? {
         return "/listWebsiteAuthorizationProviders"
     }
 }
@@ -3202,8 +3223,9 @@ extension ListWebsiteCertificateAuthoritiesInput: Swift.Encodable {
     }
 }
 
-extension ListWebsiteCertificateAuthoritiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWebsiteCertificateAuthoritiesInput {
+
+    static func urlPathProvider(_ value: ListWebsiteCertificateAuthoritiesInput) -> Swift.String? {
         return "/listWebsiteCertificateAuthorities"
     }
 }
@@ -3453,8 +3475,9 @@ extension RestoreDomainAccessInput: Swift.Encodable {
     }
 }
 
-extension RestoreDomainAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreDomainAccessInput {
+
+    static func urlPathProvider(_ value: RestoreDomainAccessInput) -> Swift.String? {
         return "/restoreDomainAccess"
     }
 }
@@ -3539,8 +3562,9 @@ extension RevokeDomainAccessInput: Swift.Encodable {
     }
 }
 
-extension RevokeDomainAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RevokeDomainAccessInput {
+
+    static func urlPathProvider(_ value: RevokeDomainAccessInput) -> Swift.String? {
         return "/revokeDomainAccess"
     }
 }
@@ -3625,8 +3649,9 @@ extension SignOutUserInput: Swift.Encodable {
     }
 }
 
-extension SignOutUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SignOutUserInput {
+
+    static func urlPathProvider(_ value: SignOutUserInput) -> Swift.String? {
         return "/signOutUser"
     }
 }
@@ -3710,9 +3735,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3893,26 +3919,26 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3984,8 +4010,9 @@ extension UpdateAuditStreamConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateAuditStreamConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAuditStreamConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAuditStreamConfigurationInput) -> Swift.String? {
         return "/updateAuditStreamConfiguration"
     }
 }
@@ -4083,8 +4110,9 @@ extension UpdateCompanyNetworkConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateCompanyNetworkConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCompanyNetworkConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateCompanyNetworkConfigurationInput) -> Swift.String? {
         return "/updateCompanyNetworkConfiguration"
     }
 }
@@ -4205,8 +4233,9 @@ extension UpdateDevicePolicyConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDevicePolicyConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDevicePolicyConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateDevicePolicyConfigurationInput) -> Swift.String? {
         return "/updateDevicePolicyConfiguration"
     }
 }
@@ -4294,8 +4323,9 @@ extension UpdateDomainMetadataInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateDomainMetadataInput) -> Swift.String? {
         return "/updateDomainMetadata"
     }
 }
@@ -4392,8 +4422,9 @@ extension UpdateFleetMetadataInput: Swift.Encodable {
     }
 }
 
-extension UpdateFleetMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFleetMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateFleetMetadataInput) -> Swift.String? {
         return "/UpdateFleetMetadata"
     }
 }
@@ -4489,8 +4520,9 @@ extension UpdateIdentityProviderConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentityProviderConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIdentityProviderConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateIdentityProviderConfigurationInput) -> Swift.String? {
         return "/updateIdentityProviderConfiguration"
     }
 }

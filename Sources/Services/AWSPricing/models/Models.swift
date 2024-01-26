@@ -117,8 +117,9 @@ extension DescribeServicesInput: Swift.Encodable {
     }
 }
 
-extension DescribeServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServicesInput {
+
+    static func urlPathProvider(_ value: DescribeServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -426,8 +427,9 @@ extension GetAttributeValuesInput: Swift.Encodable {
     }
 }
 
-extension GetAttributeValuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAttributeValuesInput {
+
+    static func urlPathProvider(_ value: GetAttributeValuesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -577,8 +579,9 @@ extension GetPriceListFileUrlInput: Swift.Encodable {
     }
 }
 
-extension GetPriceListFileUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPriceListFileUrlInput {
+
+    static func urlPathProvider(_ value: GetPriceListFileUrlInput) -> Swift.String? {
         return "/"
     }
 }
@@ -707,8 +710,9 @@ extension GetProductsInput: Swift.Encodable {
     }
 }
 
-extension GetProductsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetProductsInput {
+
+    static func urlPathProvider(_ value: GetProductsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1065,8 +1069,9 @@ extension ListPriceListsInput: Swift.Encodable {
     }
 }
 
-extension ListPriceListsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPriceListsInput {
+
+    static func urlPathProvider(_ value: ListPriceListsInput) -> Swift.String? {
         return "/"
     }
 }

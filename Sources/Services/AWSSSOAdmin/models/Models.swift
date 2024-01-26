@@ -831,8 +831,9 @@ extension AttachCustomerManagedPolicyReferenceToPermissionSetInput: Swift.Encoda
     }
 }
 
-extension AttachCustomerManagedPolicyReferenceToPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachCustomerManagedPolicyReferenceToPermissionSetInput {
+
+    static func urlPathProvider(_ value: AttachCustomerManagedPolicyReferenceToPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -932,8 +933,9 @@ extension AttachManagedPolicyToPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension AttachManagedPolicyToPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachManagedPolicyToPermissionSetInput {
+
+    static func urlPathProvider(_ value: AttachManagedPolicyToPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1360,8 +1362,9 @@ extension CreateAccountAssignmentInput: Swift.Encodable {
     }
 }
 
-extension CreateAccountAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccountAssignmentInput {
+
+    static func urlPathProvider(_ value: CreateAccountAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1518,8 +1521,9 @@ extension CreateApplicationAssignmentInput: Swift.Encodable {
     }
 }
 
-extension CreateApplicationAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApplicationAssignmentInput {
+
+    static func urlPathProvider(_ value: CreateApplicationAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1642,8 +1646,9 @@ extension CreateApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1818,8 +1823,9 @@ extension CreateInstanceAccessControlAttributeConfigurationInput: Swift.Encodabl
     }
 }
 
-extension CreateInstanceAccessControlAttributeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInstanceAccessControlAttributeConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateInstanceAccessControlAttributeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1912,8 +1918,9 @@ extension CreateInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInstanceInput {
+
+    static func urlPathProvider(_ value: CreateInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2063,8 +2070,9 @@ extension CreatePermissionSetInput: Swift.Encodable {
     }
 }
 
-extension CreatePermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePermissionSetInput {
+
+    static func urlPathProvider(_ value: CreatePermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2241,8 +2249,9 @@ extension CreateTrustedTokenIssuerInput: Swift.Encodable {
     }
 }
 
-extension CreateTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrustedTokenIssuerInput {
+
+    static func urlPathProvider(_ value: CreateTrustedTokenIssuerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2463,8 +2472,9 @@ extension DeleteAccountAssignmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteAccountAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAccountAssignmentInput {
+
+    static func urlPathProvider(_ value: DeleteAccountAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2616,8 +2626,9 @@ extension DeleteApplicationAccessScopeInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationAccessScopeInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationAccessScopeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2707,8 +2718,9 @@ extension DeleteApplicationAssignmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationAssignmentInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2803,8 +2815,9 @@ extension DeleteApplicationAuthenticationMethodInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationAuthenticationMethodInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationAuthenticationMethodInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2890,8 +2903,9 @@ extension DeleteApplicationGrantInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationGrantInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2973,8 +2987,9 @@ extension DeleteApplicationInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3051,8 +3066,9 @@ extension DeleteInlinePolicyFromPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteInlinePolicyFromPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInlinePolicyFromPermissionSetInput {
+
+    static func urlPathProvider(_ value: DeleteInlinePolicyFromPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3134,8 +3150,9 @@ extension DeleteInstanceAccessControlAttributeConfigurationInput: Swift.Encodabl
     }
 }
 
-extension DeleteInstanceAccessControlAttributeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInstanceAccessControlAttributeConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteInstanceAccessControlAttributeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3208,8 +3225,9 @@ extension DeleteInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeleteInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3285,8 +3303,9 @@ extension DeletePermissionSetInput: Swift.Encodable {
     }
 }
 
-extension DeletePermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionSetInput {
+
+    static func urlPathProvider(_ value: DeletePermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3372,8 +3391,9 @@ extension DeletePermissionsBoundaryFromPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension DeletePermissionsBoundaryFromPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionsBoundaryFromPermissionSetInput {
+
+    static func urlPathProvider(_ value: DeletePermissionsBoundaryFromPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3455,8 +3475,9 @@ extension DeleteTrustedTokenIssuerInput: Swift.Encodable {
     }
 }
 
-extension DeleteTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTrustedTokenIssuerInput {
+
+    static func urlPathProvider(_ value: DeleteTrustedTokenIssuerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3533,8 +3554,9 @@ extension DescribeAccountAssignmentCreationStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountAssignmentCreationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountAssignmentCreationStatusInput {
+
+    static func urlPathProvider(_ value: DescribeAccountAssignmentCreationStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3649,8 +3671,9 @@ extension DescribeAccountAssignmentDeletionStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountAssignmentDeletionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountAssignmentDeletionStatusInput {
+
+    static func urlPathProvider(_ value: DescribeAccountAssignmentDeletionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3769,8 +3792,9 @@ extension DescribeApplicationAssignmentInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationAssignmentInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3910,8 +3934,9 @@ extension DescribeApplicationInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4093,8 +4118,9 @@ extension DescribeApplicationProviderInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationProviderInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationProviderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4227,8 +4253,9 @@ extension DescribeInstanceAccessControlAttributeConfigurationInput: Swift.Encoda
     }
 }
 
-extension DescribeInstanceAccessControlAttributeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInstanceAccessControlAttributeConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeInstanceAccessControlAttributeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4350,8 +4377,9 @@ extension DescribeInstanceInput: Swift.Encodable {
     }
 }
 
-extension DescribeInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInstanceInput {
+
+    static func urlPathProvider(_ value: DescribeInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4506,8 +4534,9 @@ extension DescribePermissionSetInput: Swift.Encodable {
     }
 }
 
-extension DescribePermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePermissionSetInput {
+
+    static func urlPathProvider(_ value: DescribePermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4622,8 +4651,9 @@ extension DescribePermissionSetProvisioningStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribePermissionSetProvisioningStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePermissionSetProvisioningStatusInput {
+
+    static func urlPathProvider(_ value: DescribePermissionSetProvisioningStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4734,8 +4764,9 @@ extension DescribeTrustedTokenIssuerInput: Swift.Encodable {
     }
 }
 
-extension DescribeTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTrustedTokenIssuerInput {
+
+    static func urlPathProvider(_ value: DescribeTrustedTokenIssuerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4875,8 +4906,9 @@ extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput: Swift.Enco
     }
 }
 
-extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput {
+
+    static func urlPathProvider(_ value: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4975,8 +5007,9 @@ extension DetachManagedPolicyFromPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension DetachManagedPolicyFromPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachManagedPolicyFromPermissionSetInput {
+
+    static func urlPathProvider(_ value: DetachManagedPolicyFromPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5158,8 +5191,9 @@ extension GetApplicationAccessScopeInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationAccessScopeInput {
+
+    static func urlPathProvider(_ value: GetApplicationAccessScopeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5290,8 +5324,9 @@ extension GetApplicationAssignmentConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationAssignmentConfigurationInput {
+
+    static func urlPathProvider(_ value: GetApplicationAssignmentConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5398,8 +5433,9 @@ extension GetApplicationAuthenticationMethodInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationAuthenticationMethodInput {
+
+    static func urlPathProvider(_ value: GetApplicationAuthenticationMethodInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5514,8 +5550,9 @@ extension GetApplicationGrantInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationGrantInput {
+
+    static func urlPathProvider(_ value: GetApplicationGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5631,8 +5668,9 @@ extension GetInlinePolicyForPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension GetInlinePolicyForPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInlinePolicyForPermissionSetInput {
+
+    static func urlPathProvider(_ value: GetInlinePolicyForPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5747,8 +5785,9 @@ extension GetPermissionsBoundaryForPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension GetPermissionsBoundaryForPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPermissionsBoundaryForPermissionSetInput {
+
+    static func urlPathProvider(_ value: GetPermissionsBoundaryForPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6393,8 +6432,9 @@ extension ListAccountAssignmentCreationStatusInput: Swift.Encodable {
     }
 }
 
-extension ListAccountAssignmentCreationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountAssignmentCreationStatusInput {
+
+    static func urlPathProvider(_ value: ListAccountAssignmentCreationStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6551,8 +6591,9 @@ extension ListAccountAssignmentDeletionStatusInput: Swift.Encodable {
     }
 }
 
-extension ListAccountAssignmentDeletionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountAssignmentDeletionStatusInput {
+
+    static func urlPathProvider(_ value: ListAccountAssignmentDeletionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6752,8 +6793,9 @@ extension ListAccountAssignmentsForPrincipalInput: Swift.Encodable {
     }
 }
 
-extension ListAccountAssignmentsForPrincipalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountAssignmentsForPrincipalInput {
+
+    static func urlPathProvider(_ value: ListAccountAssignmentsForPrincipalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6932,8 +6974,9 @@ extension ListAccountAssignmentsInput: Swift.Encodable {
     }
 }
 
-extension ListAccountAssignmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountAssignmentsInput {
+
+    static func urlPathProvider(_ value: ListAccountAssignmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7104,8 +7147,9 @@ extension ListAccountsForProvisionedPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension ListAccountsForProvisionedPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountsForProvisionedPermissionSetInput {
+
+    static func urlPathProvider(_ value: ListAccountsForProvisionedPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7267,8 +7311,9 @@ extension ListApplicationAccessScopesInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationAccessScopesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationAccessScopesInput {
+
+    static func urlPathProvider(_ value: ListApplicationAccessScopesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7461,8 +7506,9 @@ extension ListApplicationAssignmentsForPrincipalInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationAssignmentsForPrincipalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationAssignmentsForPrincipalInput {
+
+    static func urlPathProvider(_ value: ListApplicationAssignmentsForPrincipalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7633,8 +7679,9 @@ extension ListApplicationAssignmentsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationAssignmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationAssignmentsInput {
+
+    static func urlPathProvider(_ value: ListApplicationAssignmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7775,8 +7822,9 @@ extension ListApplicationAuthenticationMethodsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationAuthenticationMethodsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationAuthenticationMethodsInput {
+
+    static func urlPathProvider(_ value: ListApplicationAuthenticationMethodsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7909,8 +7957,9 @@ extension ListApplicationGrantsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationGrantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationGrantsInput {
+
+    static func urlPathProvider(_ value: ListApplicationGrantsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8044,8 +8093,9 @@ extension ListApplicationProvidersInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationProvidersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationProvidersInput {
+
+    static func urlPathProvider(_ value: ListApplicationProvidersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8229,8 +8279,9 @@ extension ListApplicationsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8386,8 +8437,9 @@ extension ListCustomerManagedPolicyReferencesInPermissionSetInput: Swift.Encodab
     }
 }
 
-extension ListCustomerManagedPolicyReferencesInPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomerManagedPolicyReferencesInPermissionSetInput {
+
+    static func urlPathProvider(_ value: ListCustomerManagedPolicyReferencesInPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8537,8 +8589,9 @@ extension ListInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInstancesInput {
+
+    static func urlPathProvider(_ value: ListInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8677,8 +8730,9 @@ extension ListManagedPoliciesInPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension ListManagedPoliciesInPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListManagedPoliciesInPermissionSetInput {
+
+    static func urlPathProvider(_ value: ListManagedPoliciesInPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8836,8 +8890,9 @@ extension ListPermissionSetProvisioningStatusInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionSetProvisioningStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionSetProvisioningStatusInput {
+
+    static func urlPathProvider(_ value: ListPermissionSetProvisioningStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8990,8 +9045,9 @@ extension ListPermissionSetsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionSetsInput {
+
+    static func urlPathProvider(_ value: ListPermissionSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9144,8 +9200,9 @@ extension ListPermissionSetsProvisionedToAccountInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionSetsProvisionedToAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionSetsProvisionedToAccountInput {
+
+    static func urlPathProvider(_ value: ListPermissionSetsProvisionedToAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9307,8 +9364,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9453,8 +9511,9 @@ extension ListTrustedTokenIssuersInput: Swift.Encodable {
     }
 }
 
-extension ListTrustedTokenIssuersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrustedTokenIssuersInput {
+
+    static func urlPathProvider(_ value: ListTrustedTokenIssuersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10108,8 +10167,9 @@ extension ProvisionPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension ProvisionPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ProvisionPermissionSetInput {
+
+    static func urlPathProvider(_ value: ProvisionPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10313,8 +10373,9 @@ extension PutApplicationAccessScopeInput: Swift.Encodable {
     }
 }
 
-extension PutApplicationAccessScopeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutApplicationAccessScopeInput {
+
+    static func urlPathProvider(_ value: PutApplicationAccessScopeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10417,8 +10478,9 @@ extension PutApplicationAssignmentConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutApplicationAssignmentConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutApplicationAssignmentConfigurationInput {
+
+    static func urlPathProvider(_ value: PutApplicationAssignmentConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10508,8 +10570,9 @@ extension PutApplicationAuthenticationMethodInput: Swift.Encodable {
     }
 }
 
-extension PutApplicationAuthenticationMethodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutApplicationAuthenticationMethodInput {
+
+    static func urlPathProvider(_ value: PutApplicationAuthenticationMethodInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10608,8 +10671,9 @@ extension PutApplicationGrantInput: Swift.Encodable {
     }
 }
 
-extension PutApplicationGrantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutApplicationGrantInput {
+
+    static func urlPathProvider(_ value: PutApplicationGrantInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10708,8 +10772,9 @@ extension PutInlinePolicyToPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension PutInlinePolicyToPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutInlinePolicyToPermissionSetInput {
+
+    static func urlPathProvider(_ value: PutInlinePolicyToPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10809,8 +10874,9 @@ extension PutPermissionsBoundaryToPermissionSetInput: Swift.Encodable {
     }
 }
 
-extension PutPermissionsBoundaryToPermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPermissionsBoundaryToPermissionSetInput {
+
+    static func urlPathProvider(_ value: PutPermissionsBoundaryToPermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11356,8 +11422,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11730,8 +11797,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11846,8 +11914,9 @@ extension UpdateApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11991,8 +12060,9 @@ extension UpdateInstanceAccessControlAttributeConfigurationInput: Swift.Encodabl
     }
 }
 
-extension UpdateInstanceAccessControlAttributeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateInstanceAccessControlAttributeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateInstanceAccessControlAttributeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12078,8 +12148,9 @@ extension UpdateInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12176,8 +12247,9 @@ extension UpdatePermissionSetInput: Swift.Encodable {
     }
 }
 
-extension UpdatePermissionSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePermissionSetInput {
+
+    static func urlPathProvider(_ value: UpdatePermissionSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12291,8 +12363,9 @@ extension UpdateTrustedTokenIssuerInput: Swift.Encodable {
     }
 }
 
-extension UpdateTrustedTokenIssuerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTrustedTokenIssuerInput {
+
+    static func urlPathProvider(_ value: UpdateTrustedTokenIssuerInput) -> Swift.String? {
         return "/"
     }
 }

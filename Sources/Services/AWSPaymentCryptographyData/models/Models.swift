@@ -671,9 +671,10 @@ extension DecryptDataInput: Swift.Encodable {
     }
 }
 
-extension DecryptDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyIdentifier = keyIdentifier else {
+extension DecryptDataInput {
+
+    static func urlPathProvider(_ value: DecryptDataInput) -> Swift.String? {
+        guard let keyIdentifier = value.keyIdentifier else {
             return nil
         }
         return "/keys/\(keyIdentifier.urlPercentEncoding())/decrypt"
@@ -1316,9 +1317,10 @@ extension EncryptDataInput: Swift.Encodable {
     }
 }
 
-extension EncryptDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyIdentifier = keyIdentifier else {
+extension EncryptDataInput {
+
+    static func urlPathProvider(_ value: EncryptDataInput) -> Swift.String? {
+        guard let keyIdentifier = value.keyIdentifier else {
             return nil
         }
         return "/keys/\(keyIdentifier.urlPercentEncoding())/encrypt"
@@ -1587,8 +1589,9 @@ extension GenerateCardValidationDataInput: Swift.Encodable {
     }
 }
 
-extension GenerateCardValidationDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GenerateCardValidationDataInput {
+
+    static func urlPathProvider(_ value: GenerateCardValidationDataInput) -> Swift.String? {
         return "/cardvalidationdata/generate"
     }
 }
@@ -1756,8 +1759,9 @@ extension GenerateMacInput: Swift.Encodable {
     }
 }
 
-extension GenerateMacInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GenerateMacInput {
+
+    static func urlPathProvider(_ value: GenerateMacInput) -> Swift.String? {
         return "/mac/generate"
     }
 }
@@ -1933,8 +1937,9 @@ extension GeneratePinDataInput: Swift.Encodable {
     }
 }
 
-extension GeneratePinDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GeneratePinDataInput {
+
+    static func urlPathProvider(_ value: GeneratePinDataInput) -> Swift.String? {
         return "/pindata/generate"
     }
 }
@@ -3080,9 +3085,10 @@ extension ReEncryptDataInput: Swift.Encodable {
     }
 }
 
-extension ReEncryptDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let incomingKeyIdentifier = incomingKeyIdentifier else {
+extension ReEncryptDataInput {
+
+    static func urlPathProvider(_ value: ReEncryptDataInput) -> Swift.String? {
+        guard let incomingKeyIdentifier = value.incomingKeyIdentifier else {
             return nil
         }
         return "/keys/\(incomingKeyIdentifier.urlPercentEncoding())/reencrypt"
@@ -3963,8 +3969,9 @@ extension TranslatePinDataInput: Swift.Encodable {
     }
 }
 
-extension TranslatePinDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TranslatePinDataInput {
+
+    static func urlPathProvider(_ value: TranslatePinDataInput) -> Swift.String? {
         return "/pindata/translate"
     }
 }
@@ -4516,8 +4523,9 @@ extension VerifyAuthRequestCryptogramInput: Swift.Encodable {
     }
 }
 
-extension VerifyAuthRequestCryptogramInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyAuthRequestCryptogramInput {
+
+    static func urlPathProvider(_ value: VerifyAuthRequestCryptogramInput) -> Swift.String? {
         return "/cryptogram/verify"
     }
 }
@@ -4703,8 +4711,9 @@ extension VerifyCardValidationDataInput: Swift.Encodable {
     }
 }
 
-extension VerifyCardValidationDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyCardValidationDataInput {
+
+    static func urlPathProvider(_ value: VerifyCardValidationDataInput) -> Swift.String? {
         return "/cardvalidationdata/verify"
     }
 }
@@ -4867,8 +4876,9 @@ extension VerifyMacInput: Swift.Encodable {
     }
 }
 
-extension VerifyMacInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyMacInput {
+
+    static func urlPathProvider(_ value: VerifyMacInput) -> Swift.String? {
         return "/mac/verify"
     }
 }
@@ -5051,8 +5061,9 @@ extension VerifyPinDataInput: Swift.Encodable {
     }
 }
 
-extension VerifyPinDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyPinDataInput {
+
+    static func urlPathProvider(_ value: VerifyPinDataInput) -> Swift.String? {
         return "/pindata/verify"
     }
 }
