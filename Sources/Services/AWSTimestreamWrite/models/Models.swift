@@ -564,8 +564,9 @@ extension CreateBatchLoadTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateBatchLoadTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBatchLoadTaskInput {
+
+    static func urlPathProvider(_ value: CreateBatchLoadTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -733,8 +734,9 @@ extension CreateDatabaseInput: Swift.Encodable {
     }
 }
 
-extension CreateDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatabaseInput {
+
+    static func urlPathProvider(_ value: CreateDatabaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -886,8 +888,9 @@ extension CreateTableInput: Swift.Encodable {
     }
 }
 
-extension CreateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTableInput {
+
+    static func urlPathProvider(_ value: CreateTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1505,8 +1508,9 @@ extension DeleteDatabaseInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatabaseInput {
+
+    static func urlPathProvider(_ value: DeleteDatabaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1583,8 +1587,9 @@ extension DeleteTableInput: Swift.Encodable {
     }
 }
 
-extension DeleteTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTableInput {
+
+    static func urlPathProvider(_ value: DeleteTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1666,8 +1671,9 @@ extension DescribeBatchLoadTaskInput: Swift.Encodable {
     }
 }
 
-extension DescribeBatchLoadTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBatchLoadTaskInput {
+
+    static func urlPathProvider(_ value: DescribeBatchLoadTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1770,8 +1776,9 @@ extension DescribeDatabaseInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatabaseInput {
+
+    static func urlPathProvider(_ value: DescribeDatabaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1869,8 +1876,9 @@ extension DescribeEndpointsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEndpointsInput {
+
+    static func urlPathProvider(_ value: DescribeEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1969,8 +1977,9 @@ extension DescribeTableInput: Swift.Encodable {
     }
 }
 
-extension DescribeTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTableInput {
+
+    static func urlPathProvider(_ value: DescribeTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2379,8 +2388,9 @@ extension ListBatchLoadTasksInput: Swift.Encodable {
     }
 }
 
-extension ListBatchLoadTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBatchLoadTasksInput {
+
+    static func urlPathProvider(_ value: ListBatchLoadTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2520,8 +2530,9 @@ extension ListDatabasesInput: Swift.Encodable {
     }
 }
 
-extension ListDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatabasesInput {
+
+    static func urlPathProvider(_ value: ListDatabasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2657,8 +2668,9 @@ extension ListTablesInput: Swift.Encodable {
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2795,8 +2807,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3912,8 +3925,9 @@ extension ResumeBatchLoadTaskInput: Swift.Encodable {
     }
 }
 
-extension ResumeBatchLoadTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResumeBatchLoadTaskInput {
+
+    static func urlPathProvider(_ value: ResumeBatchLoadTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4481,8 +4495,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4673,8 +4688,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4768,8 +4784,9 @@ extension UpdateDatabaseInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatabaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDatabaseInput {
+
+    static func urlPathProvider(_ value: UpdateDatabaseInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4906,8 +4923,9 @@ extension UpdateTableInput: Swift.Encodable {
     }
 }
 
-extension UpdateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTableInput {
+
+    static func urlPathProvider(_ value: UpdateTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5114,8 +5132,9 @@ extension WriteRecordsInput: Swift.Encodable {
     }
 }
 
-extension WriteRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension WriteRecordsInput {
+
+    static func urlPathProvider(_ value: WriteRecordsInput) -> Swift.String? {
         return "/"
     }
 }

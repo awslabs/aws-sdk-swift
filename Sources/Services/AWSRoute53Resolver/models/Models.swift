@@ -132,8 +132,9 @@ extension AssociateFirewallRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension AssociateFirewallRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateFirewallRuleGroupInput {
+
+    static func urlPathProvider(_ value: AssociateFirewallRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -302,8 +303,9 @@ extension AssociateResolverEndpointIpAddressInput: Swift.Encodable {
     }
 }
 
-extension AssociateResolverEndpointIpAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateResolverEndpointIpAddressInput {
+
+    static func urlPathProvider(_ value: AssociateResolverEndpointIpAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -420,8 +422,9 @@ extension AssociateResolverQueryLogConfigInput: Swift.Encodable {
     }
 }
 
-extension AssociateResolverQueryLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateResolverQueryLogConfigInput {
+
+    static func urlPathProvider(_ value: AssociateResolverQueryLogConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -543,8 +546,9 @@ extension AssociateResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension AssociateResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateResolverRuleInput {
+
+    static func urlPathProvider(_ value: AssociateResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -831,8 +835,9 @@ extension CreateFirewallDomainListInput: Swift.Encodable {
     }
 }
 
-extension CreateFirewallDomainListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFirewallDomainListInput {
+
+    static func urlPathProvider(_ value: CreateFirewallDomainListInput) -> Swift.String? {
         return "/"
     }
 }
@@ -971,8 +976,9 @@ extension CreateFirewallRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateFirewallRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFirewallRuleGroupInput {
+
+    static func urlPathProvider(_ value: CreateFirewallRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1140,8 +1146,9 @@ extension CreateFirewallRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateFirewallRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFirewallRuleInput {
+
+    static func urlPathProvider(_ value: CreateFirewallRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1393,8 +1400,9 @@ extension CreateOutpostResolverInput: Swift.Encodable {
     }
 }
 
-extension CreateOutpostResolverInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOutpostResolverInput {
+
+    static func urlPathProvider(_ value: CreateOutpostResolverInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1597,8 +1605,9 @@ extension CreateResolverEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateResolverEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResolverEndpointInput {
+
+    static func urlPathProvider(_ value: CreateResolverEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1856,8 +1865,9 @@ extension CreateResolverQueryLogConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateResolverQueryLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResolverQueryLogConfigInput {
+
+    static func urlPathProvider(_ value: CreateResolverQueryLogConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2033,8 +2043,9 @@ extension CreateResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResolverRuleInput {
+
+    static func urlPathProvider(_ value: CreateResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2207,8 +2218,9 @@ extension DeleteFirewallDomainListInput: Swift.Encodable {
     }
 }
 
-extension DeleteFirewallDomainListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFirewallDomainListInput {
+
+    static func urlPathProvider(_ value: DeleteFirewallDomainListInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2310,8 +2322,9 @@ extension DeleteFirewallRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteFirewallRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFirewallRuleGroupInput {
+
+    static func urlPathProvider(_ value: DeleteFirewallRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2422,8 +2435,9 @@ extension DeleteFirewallRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteFirewallRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFirewallRuleInput {
+
+    static func urlPathProvider(_ value: DeleteFirewallRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2567,8 +2581,9 @@ extension DeleteOutpostResolverInput: Swift.Encodable {
     }
 }
 
-extension DeleteOutpostResolverInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteOutpostResolverInput {
+
+    static func urlPathProvider(_ value: DeleteOutpostResolverInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2671,8 +2686,9 @@ extension DeleteResolverEndpointInput: Swift.Encodable {
     }
 }
 
-extension DeleteResolverEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResolverEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteResolverEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2774,8 +2790,9 @@ extension DeleteResolverQueryLogConfigInput: Swift.Encodable {
     }
 }
 
-extension DeleteResolverQueryLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResolverQueryLogConfigInput {
+
+    static func urlPathProvider(_ value: DeleteResolverQueryLogConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2878,8 +2895,9 @@ extension DeleteResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResolverRuleInput {
+
+    static func urlPathProvider(_ value: DeleteResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2981,8 +2999,9 @@ extension DisassociateFirewallRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension DisassociateFirewallRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFirewallRuleGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateFirewallRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3089,8 +3108,9 @@ extension DisassociateResolverEndpointIpAddressInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResolverEndpointIpAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateResolverEndpointIpAddressInput {
+
+    static func urlPathProvider(_ value: DisassociateResolverEndpointIpAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3206,8 +3226,9 @@ extension DisassociateResolverQueryLogConfigInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResolverQueryLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateResolverQueryLogConfigInput {
+
+    static func urlPathProvider(_ value: DisassociateResolverQueryLogConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3323,8 +3344,9 @@ extension DisassociateResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateResolverRuleInput {
+
+    static func urlPathProvider(_ value: DisassociateResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4630,8 +4652,9 @@ extension GetFirewallConfigInput: Swift.Encodable {
     }
 }
 
-extension GetFirewallConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFirewallConfigInput {
+
+    static func urlPathProvider(_ value: GetFirewallConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4733,8 +4756,9 @@ extension GetFirewallDomainListInput: Swift.Encodable {
     }
 }
 
-extension GetFirewallDomainListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFirewallDomainListInput {
+
+    static func urlPathProvider(_ value: GetFirewallDomainListInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4835,8 +4859,9 @@ extension GetFirewallRuleGroupAssociationInput: Swift.Encodable {
     }
 }
 
-extension GetFirewallRuleGroupAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFirewallRuleGroupAssociationInput {
+
+    static func urlPathProvider(_ value: GetFirewallRuleGroupAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4937,8 +4962,9 @@ extension GetFirewallRuleGroupInput: Swift.Encodable {
     }
 }
 
-extension GetFirewallRuleGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFirewallRuleGroupInput {
+
+    static func urlPathProvider(_ value: GetFirewallRuleGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5039,8 +5065,9 @@ extension GetFirewallRuleGroupPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetFirewallRuleGroupPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFirewallRuleGroupPolicyInput {
+
+    static func urlPathProvider(_ value: GetFirewallRuleGroupPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5142,8 +5169,9 @@ extension GetOutpostResolverInput: Swift.Encodable {
     }
 }
 
-extension GetOutpostResolverInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOutpostResolverInput {
+
+    static func urlPathProvider(_ value: GetOutpostResolverInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5245,8 +5273,9 @@ extension GetResolverConfigInput: Swift.Encodable {
     }
 }
 
-extension GetResolverConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverConfigInput {
+
+    static func urlPathProvider(_ value: GetResolverConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5349,8 +5378,9 @@ extension GetResolverDnssecConfigInput: Swift.Encodable {
     }
 }
 
-extension GetResolverDnssecConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverDnssecConfigInput {
+
+    static func urlPathProvider(_ value: GetResolverDnssecConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5453,8 +5483,9 @@ extension GetResolverEndpointInput: Swift.Encodable {
     }
 }
 
-extension GetResolverEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverEndpointInput {
+
+    static func urlPathProvider(_ value: GetResolverEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5555,8 +5586,9 @@ extension GetResolverQueryLogConfigAssociationInput: Swift.Encodable {
     }
 }
 
-extension GetResolverQueryLogConfigAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverQueryLogConfigAssociationInput {
+
+    static func urlPathProvider(_ value: GetResolverQueryLogConfigAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5659,8 +5691,9 @@ extension GetResolverQueryLogConfigInput: Swift.Encodable {
     }
 }
 
-extension GetResolverQueryLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverQueryLogConfigInput {
+
+    static func urlPathProvider(_ value: GetResolverQueryLogConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5763,8 +5796,9 @@ extension GetResolverQueryLogConfigPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResolverQueryLogConfigPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverQueryLogConfigPolicyInput {
+
+    static func urlPathProvider(_ value: GetResolverQueryLogConfigPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5866,8 +5900,9 @@ extension GetResolverRuleAssociationInput: Swift.Encodable {
     }
 }
 
-extension GetResolverRuleAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverRuleAssociationInput {
+
+    static func urlPathProvider(_ value: GetResolverRuleAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5968,8 +6003,9 @@ extension GetResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension GetResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverRuleInput {
+
+    static func urlPathProvider(_ value: GetResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6070,8 +6106,9 @@ extension GetResolverRulePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResolverRulePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResolverRulePolicyInput {
+
+    static func urlPathProvider(_ value: GetResolverRulePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6180,8 +6217,9 @@ extension ImportFirewallDomainsInput: Swift.Encodable {
     }
 }
 
-extension ImportFirewallDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportFirewallDomainsInput {
+
+    static func urlPathProvider(_ value: ImportFirewallDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7031,8 +7069,9 @@ extension ListFirewallConfigsInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallConfigsInput {
+
+    static func urlPathProvider(_ value: ListFirewallConfigsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7163,8 +7202,9 @@ extension ListFirewallDomainListsInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallDomainListsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallDomainListsInput {
+
+    static func urlPathProvider(_ value: ListFirewallDomainListsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7299,8 +7339,9 @@ extension ListFirewallDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallDomainsInput {
+
+    static func urlPathProvider(_ value: ListFirewallDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7457,8 +7498,9 @@ extension ListFirewallRuleGroupAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallRuleGroupAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallRuleGroupAssociationsInput {
+
+    static func urlPathProvider(_ value: ListFirewallRuleGroupAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7621,8 +7663,9 @@ extension ListFirewallRuleGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallRuleGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallRuleGroupsInput {
+
+    static func urlPathProvider(_ value: ListFirewallRuleGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7765,8 +7808,9 @@ extension ListFirewallRulesInput: Swift.Encodable {
     }
 }
 
-extension ListFirewallRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFirewallRulesInput {
+
+    static func urlPathProvider(_ value: ListFirewallRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7933,8 +7977,9 @@ extension ListOutpostResolversInput: Swift.Encodable {
     }
 }
 
-extension ListOutpostResolversInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOutpostResolversInput {
+
+    static func urlPathProvider(_ value: ListOutpostResolversInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8074,8 +8119,9 @@ extension ListResolverConfigsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverConfigsInput {
+
+    static func urlPathProvider(_ value: ListResolverConfigsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8216,8 +8262,9 @@ extension ListResolverDnssecConfigsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverDnssecConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverDnssecConfigsInput {
+
+    static func urlPathProvider(_ value: ListResolverDnssecConfigsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8371,8 +8418,9 @@ extension ListResolverEndpointIpAddressesInput: Swift.Encodable {
     }
 }
 
-extension ListResolverEndpointIpAddressesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverEndpointIpAddressesInput {
+
+    static func urlPathProvider(_ value: ListResolverEndpointIpAddressesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8530,8 +8578,9 @@ extension ListResolverEndpointsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverEndpointsInput {
+
+    static func urlPathProvider(_ value: ListResolverEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8705,8 +8754,9 @@ extension ListResolverQueryLogConfigAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverQueryLogConfigAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverQueryLogConfigAssociationsInput {
+
+    static func urlPathProvider(_ value: ListResolverQueryLogConfigAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8938,8 +8988,9 @@ extension ListResolverQueryLogConfigsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverQueryLogConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverQueryLogConfigsInput {
+
+    static func urlPathProvider(_ value: ListResolverQueryLogConfigsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9164,8 +9215,9 @@ extension ListResolverRuleAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListResolverRuleAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverRuleAssociationsInput {
+
+    static func urlPathProvider(_ value: ListResolverRuleAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9331,8 +9383,9 @@ extension ListResolverRulesInput: Swift.Encodable {
     }
 }
 
-extension ListResolverRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResolverRulesInput {
+
+    static func urlPathProvider(_ value: ListResolverRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9495,8 +9548,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9887,8 +9941,9 @@ extension PutFirewallRuleGroupPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutFirewallRuleGroupPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutFirewallRuleGroupPolicyInput {
+
+    static func urlPathProvider(_ value: PutFirewallRuleGroupPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10003,8 +10058,9 @@ extension PutResolverQueryLogConfigPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResolverQueryLogConfigPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResolverQueryLogConfigPolicyInput {
+
+    static func urlPathProvider(_ value: PutResolverQueryLogConfigPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10130,8 +10186,9 @@ extension PutResolverRulePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResolverRulePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResolverRulePolicyInput {
+
+    static func urlPathProvider(_ value: PutResolverRulePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12099,8 +12156,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12409,8 +12467,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12516,8 +12575,9 @@ extension UpdateFirewallConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateFirewallConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFirewallConfigInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12646,8 +12706,9 @@ extension UpdateFirewallDomainsInput: Swift.Encodable {
     }
 }
 
-extension UpdateFirewallDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFirewallDomainsInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12832,8 +12893,9 @@ extension UpdateFirewallRuleGroupAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateFirewallRuleGroupAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFirewallRuleGroupAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallRuleGroupAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12996,8 +13058,9 @@ extension UpdateFirewallRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateFirewallRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFirewallRuleInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13270,8 +13333,9 @@ extension UpdateOutpostResolverInput: Swift.Encodable {
     }
 }
 
-extension UpdateOutpostResolverInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateOutpostResolverInput {
+
+    static func urlPathProvider(_ value: UpdateOutpostResolverInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13403,8 +13467,9 @@ extension UpdateResolverConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateResolverConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResolverConfigInput {
+
+    static func urlPathProvider(_ value: UpdateResolverConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13523,8 +13588,9 @@ extension UpdateResolverDnssecConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateResolverDnssecConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResolverDnssecConfigInput {
+
+    static func urlPathProvider(_ value: UpdateResolverDnssecConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13658,8 +13724,9 @@ extension UpdateResolverEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateResolverEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResolverEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateResolverEndpointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13842,8 +13909,9 @@ extension UpdateResolverRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateResolverRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResolverRuleInput {
+
+    static func urlPathProvider(_ value: UpdateResolverRuleInput) -> Swift.String? {
         return "/"
     }
 }

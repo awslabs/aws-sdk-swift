@@ -250,9 +250,10 @@ extension AssociateTrackerConsumerInput: Swift.Encodable {
     }
 }
 
-extension AssociateTrackerConsumerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension AssociateTrackerConsumerInput {
+
+    static func urlPathProvider(_ value: AssociateTrackerConsumerInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/consumers"
@@ -385,9 +386,10 @@ extension BatchDeleteDevicePositionHistoryInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteDevicePositionHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension BatchDeleteDevicePositionHistoryInput {
+
+    static func urlPathProvider(_ value: BatchDeleteDevicePositionHistoryInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/delete-positions"
@@ -567,9 +569,10 @@ extension BatchDeleteGeofenceInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteGeofenceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension BatchDeleteGeofenceInput {
+
+    static func urlPathProvider(_ value: BatchDeleteGeofenceInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/delete-geofences"
@@ -758,9 +761,10 @@ extension BatchEvaluateGeofencesInput: Swift.Encodable {
     }
 }
 
-extension BatchEvaluateGeofencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension BatchEvaluateGeofencesInput {
+
+    static func urlPathProvider(_ value: BatchEvaluateGeofencesInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/positions"
@@ -938,9 +942,10 @@ extension BatchGetDevicePositionInput: Swift.Encodable {
     }
 }
 
-extension BatchGetDevicePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension BatchGetDevicePositionInput {
+
+    static func urlPathProvider(_ value: BatchGetDevicePositionInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/get-positions"
@@ -1235,9 +1240,10 @@ extension BatchPutGeofenceInput: Swift.Encodable {
     }
 }
 
-extension BatchPutGeofenceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension BatchPutGeofenceInput {
+
+    static func urlPathProvider(_ value: BatchPutGeofenceInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/put-geofences"
@@ -1578,9 +1584,10 @@ extension BatchUpdateDevicePositionInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateDevicePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension BatchUpdateDevicePositionInput {
+
+    static func urlPathProvider(_ value: BatchUpdateDevicePositionInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/positions"
@@ -1814,22 +1821,22 @@ extension CalculateRouteInput: Swift.Encodable {
     }
 }
 
-extension CalculateRouteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension CalculateRouteInput {
+
+    static func queryItemProvider(_ value: CalculateRouteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension CalculateRouteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let calculatorName = calculatorName else {
+extension CalculateRouteInput {
+
+    static func urlPathProvider(_ value: CalculateRouteInput) -> Swift.String? {
+        guard let calculatorName = value.calculatorName else {
             return nil
         }
         return "/routes/v0/calculators/\(calculatorName.urlPercentEncoding())/calculate/route"
@@ -2081,22 +2088,22 @@ extension CalculateRouteMatrixInput: Swift.Encodable {
     }
 }
 
-extension CalculateRouteMatrixInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension CalculateRouteMatrixInput {
+
+    static func queryItemProvider(_ value: CalculateRouteMatrixInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension CalculateRouteMatrixInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let calculatorName = calculatorName else {
+extension CalculateRouteMatrixInput {
+
+    static func urlPathProvider(_ value: CalculateRouteMatrixInput) -> Swift.String? {
+        guard let calculatorName = value.calculatorName else {
             return nil
         }
         return "/routes/v0/calculators/\(calculatorName.urlPercentEncoding())/calculate/route-matrix"
@@ -2890,8 +2897,9 @@ extension CreateGeofenceCollectionInput: Swift.Encodable {
     }
 }
 
-extension CreateGeofenceCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGeofenceCollectionInput {
+
+    static func urlPathProvider(_ value: CreateGeofenceCollectionInput) -> Swift.String? {
         return "/geofencing/v0/collections"
     }
 }
@@ -3111,8 +3119,9 @@ extension CreateKeyInput: Swift.Encodable {
     }
 }
 
-extension CreateKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyInput {
+
+    static func urlPathProvider(_ value: CreateKeyInput) -> Swift.String? {
         return "/metadata/v0/keys"
     }
 }
@@ -3343,8 +3352,9 @@ extension CreateMapInput: Swift.Encodable {
     }
 }
 
-extension CreateMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMapInput {
+
+    static func urlPathProvider(_ value: CreateMapInput) -> Swift.String? {
         return "/maps/v0/maps"
     }
 }
@@ -3556,8 +3566,9 @@ extension CreatePlaceIndexInput: Swift.Encodable {
     }
 }
 
-extension CreatePlaceIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePlaceIndexInput {
+
+    static func urlPathProvider(_ value: CreatePlaceIndexInput) -> Swift.String? {
         return "/places/v0/indexes"
     }
 }
@@ -3782,8 +3793,9 @@ extension CreateRouteCalculatorInput: Swift.Encodable {
     }
 }
 
-extension CreateRouteCalculatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRouteCalculatorInput {
+
+    static func urlPathProvider(_ value: CreateRouteCalculatorInput) -> Swift.String? {
         return "/routes/v0/calculators"
     }
 }
@@ -4025,8 +4037,9 @@ extension CreateTrackerInput: Swift.Encodable {
     }
 }
 
-extension CreateTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTrackerInput {
+
+    static func urlPathProvider(_ value: CreateTrackerInput) -> Swift.String? {
         return "/tracking/v0/trackers"
     }
 }
@@ -4292,9 +4305,10 @@ extension LocationClientTypes {
 
 }
 
-extension DeleteGeofenceCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension DeleteGeofenceCollectionInput {
+
+    static func urlPathProvider(_ value: DeleteGeofenceCollectionInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())"
@@ -4348,22 +4362,22 @@ enum DeleteGeofenceCollectionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let forceDelete = forceDelete {
-                let forceDeleteQueryItem = ClientRuntime.URLQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
-                items.append(forceDeleteQueryItem)
-            }
-            return items
+extension DeleteKeyInput {
+
+    static func queryItemProvider(_ value: DeleteKeyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let forceDelete = value.forceDelete {
+            let forceDeleteQueryItem = ClientRuntime.SDKURLQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
+            items.append(forceDeleteQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyName = keyName else {
+extension DeleteKeyInput {
+
+    static func urlPathProvider(_ value: DeleteKeyInput) -> Swift.String? {
+        guard let keyName = value.keyName else {
             return nil
         }
         return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
@@ -4421,9 +4435,10 @@ enum DeleteKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension DeleteMapInput {
+
+    static func urlPathProvider(_ value: DeleteMapInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())"
@@ -4477,9 +4492,10 @@ enum DeleteMapOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePlaceIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension DeletePlaceIndexInput {
+
+    static func urlPathProvider(_ value: DeletePlaceIndexInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())"
@@ -4533,9 +4549,10 @@ enum DeletePlaceIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRouteCalculatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let calculatorName = calculatorName else {
+extension DeleteRouteCalculatorInput {
+
+    static func urlPathProvider(_ value: DeleteRouteCalculatorInput) -> Swift.String? {
+        guard let calculatorName = value.calculatorName else {
             return nil
         }
         return "/routes/v0/calculators/\(calculatorName.urlPercentEncoding())"
@@ -4589,9 +4606,10 @@ enum DeleteRouteCalculatorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension DeleteTrackerInput {
+
+    static func urlPathProvider(_ value: DeleteTrackerInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())"
@@ -4645,9 +4663,10 @@ enum DeleteTrackerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeGeofenceCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension DescribeGeofenceCollectionInput {
+
+    static func urlPathProvider(_ value: DescribeGeofenceCollectionInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())"
@@ -4839,9 +4858,10 @@ enum DescribeGeofenceCollectionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyName = keyName else {
+extension DescribeKeyInput {
+
+    static func urlPathProvider(_ value: DescribeKeyInput) -> Swift.String? {
+        guard let keyName = value.keyName else {
             return nil
         }
         return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
@@ -5028,9 +5048,10 @@ enum DescribeKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension DescribeMapInput {
+
+    static func urlPathProvider(_ value: DescribeMapInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())"
@@ -5213,9 +5234,10 @@ enum DescribeMapOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePlaceIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension DescribePlaceIndexInput {
+
+    static func urlPathProvider(_ value: DescribePlaceIndexInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())"
@@ -5407,9 +5429,10 @@ enum DescribePlaceIndexOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRouteCalculatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let calculatorName = calculatorName else {
+extension DescribeRouteCalculatorInput {
+
+    static func urlPathProvider(_ value: DescribeRouteCalculatorInput) -> Swift.String? {
+        guard let calculatorName = value.calculatorName else {
             return nil
         }
         return "/routes/v0/calculators/\(calculatorName.urlPercentEncoding())"
@@ -5594,9 +5617,10 @@ enum DescribeRouteCalculatorOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension DescribeTrackerInput {
+
+    static func urlPathProvider(_ value: DescribeTrackerInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())"
@@ -6064,12 +6088,13 @@ extension LocationClientTypes {
     }
 }
 
-extension DisassociateTrackerConsumerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension DisassociateTrackerConsumerInput {
+
+    static func urlPathProvider(_ value: DisassociateTrackerConsumerInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
-        guard let consumerArn = consumerArn else {
+        guard let consumerArn = value.consumerArn else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/consumers/\(consumerArn.urlPercentEncoding())"
@@ -6273,12 +6298,13 @@ extension GetDevicePositionHistoryInput: Swift.Encodable {
     }
 }
 
-extension GetDevicePositionHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension GetDevicePositionHistoryInput {
+
+    static func urlPathProvider(_ value: GetDevicePositionHistoryInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
-        guard let deviceId = deviceId else {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/devices/\(deviceId.urlPercentEncoding())/list-positions"
@@ -6426,12 +6452,13 @@ enum GetDevicePositionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetDevicePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension GetDevicePositionInput {
+
+    static func urlPathProvider(_ value: GetDevicePositionInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
-        guard let deviceId = deviceId else {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/devices/\(deviceId.urlPercentEncoding())/positions/latest"
@@ -6596,12 +6623,13 @@ enum GetDevicePositionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGeofenceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension GetGeofenceInput {
+
+    static func urlPathProvider(_ value: GetGeofenceInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
-        guard let geofenceId = geofenceId else {
+        guard let geofenceId = value.geofenceId else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/geofences/\(geofenceId.urlPercentEncoding())"
@@ -6774,28 +6802,28 @@ extension GetMapGlyphsInput: Swift.CustomDebugStringConvertible {
         "GetMapGlyphsInput(fontStack: \(Swift.String(describing: fontStack)), fontUnicodeRange: \(Swift.String(describing: fontUnicodeRange)), mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
 }
 
-extension GetMapGlyphsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension GetMapGlyphsInput {
+
+    static func queryItemProvider(_ value: GetMapGlyphsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension GetMapGlyphsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension GetMapGlyphsInput {
+
+    static func urlPathProvider(_ value: GetMapGlyphsInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
-        guard let fontStack = fontStack else {
+        guard let fontStack = value.fontStack else {
             return nil
         }
-        guard let fontUnicodeRange = fontUnicodeRange else {
+        guard let fontUnicodeRange = value.fontUnicodeRange else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())/glyphs/\(fontStack.urlPercentEncoding())/\(fontUnicodeRange.urlPercentEncoding())"
@@ -6947,25 +6975,25 @@ extension GetMapSpritesInput: Swift.CustomDebugStringConvertible {
         "GetMapSpritesInput(fileName: \(Swift.String(describing: fileName)), mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
 }
 
-extension GetMapSpritesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension GetMapSpritesInput {
+
+    static func queryItemProvider(_ value: GetMapSpritesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension GetMapSpritesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension GetMapSpritesInput {
+
+    static func urlPathProvider(_ value: GetMapSpritesInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
-        guard let fileName = fileName else {
+        guard let fileName = value.fileName else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())/sprites/\(fileName.urlPercentEncoding())"
@@ -7093,22 +7121,22 @@ extension GetMapStyleDescriptorInput: Swift.CustomDebugStringConvertible {
         "GetMapStyleDescriptorInput(mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
 }
 
-extension GetMapStyleDescriptorInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension GetMapStyleDescriptorInput {
+
+    static func queryItemProvider(_ value: GetMapStyleDescriptorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension GetMapStyleDescriptorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension GetMapStyleDescriptorInput {
+
+    static func urlPathProvider(_ value: GetMapStyleDescriptorInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())/style-descriptor"
@@ -7220,31 +7248,31 @@ extension GetMapTileInput: Swift.CustomDebugStringConvertible {
         "GetMapTileInput(mapName: \(Swift.String(describing: mapName)), x: \(Swift.String(describing: x)), y: \(Swift.String(describing: y)), z: \(Swift.String(describing: z)), key: \"CONTENT_REDACTED\")"}
 }
 
-extension GetMapTileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension GetMapTileInput {
+
+    static func queryItemProvider(_ value: GetMapTileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension GetMapTileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension GetMapTileInput {
+
+    static func urlPathProvider(_ value: GetMapTileInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
-        guard let z = z else {
+        guard let z = value.z else {
             return nil
         }
-        guard let x = x else {
+        guard let x = value.x else {
             return nil
         }
-        guard let y = y else {
+        guard let y = value.y else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())/tiles/\(z.urlPercentEncoding())/\(x.urlPercentEncoding())/\(y.urlPercentEncoding())"
@@ -7371,29 +7399,29 @@ extension GetPlaceInput: Swift.CustomDebugStringConvertible {
         "GetPlaceInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), placeId: \(Swift.String(describing: placeId)), key: \"CONTENT_REDACTED\")"}
 }
 
-extension GetPlaceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let language = language {
-                let languageQueryItem = ClientRuntime.URLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
-                items.append(languageQueryItem)
-            }
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension GetPlaceInput {
+
+    static func queryItemProvider(_ value: GetPlaceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let language = value.language {
+            let languageQueryItem = ClientRuntime.SDKURLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
+            items.append(languageQueryItem)
         }
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
+        }
+        return items
     }
 }
 
-extension GetPlaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension GetPlaceInput {
+
+    static func urlPathProvider(_ value: GetPlaceInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
-        guard let placeId = placeId else {
+        guard let placeId = value.placeId else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())/places/\(placeId.urlPercentEncoding())"
@@ -7817,9 +7845,10 @@ extension ListDevicePositionsInput: Swift.Encodable {
     }
 }
 
-extension ListDevicePositionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension ListDevicePositionsInput {
+
+    static func urlPathProvider(_ value: ListDevicePositionsInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/list-positions"
@@ -8073,8 +8102,9 @@ extension ListGeofenceCollectionsInput: Swift.Encodable {
     }
 }
 
-extension ListGeofenceCollectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGeofenceCollectionsInput {
+
+    static func urlPathProvider(_ value: ListGeofenceCollectionsInput) -> Swift.String? {
         return "/geofencing/v0/list-collections"
     }
 }
@@ -8414,9 +8444,10 @@ extension ListGeofencesInput: Swift.Encodable {
     }
 }
 
-extension ListGeofencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension ListGeofencesInput {
+
+    static func urlPathProvider(_ value: ListGeofencesInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/list-geofences"
@@ -8560,8 +8591,9 @@ extension ListKeysInput: Swift.Encodable {
     }
 }
 
-extension ListKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeysInput {
+
+    static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
         return "/metadata/v0/list-keys"
     }
 }
@@ -8791,8 +8823,9 @@ extension ListMapsInput: Swift.Encodable {
     }
 }
 
-extension ListMapsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMapsInput {
+
+    static func urlPathProvider(_ value: ListMapsInput) -> Swift.String? {
         return "/maps/v0/list-maps"
     }
 }
@@ -9015,8 +9048,9 @@ extension ListPlaceIndexesInput: Swift.Encodable {
     }
 }
 
-extension ListPlaceIndexesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPlaceIndexesInput {
+
+    static func urlPathProvider(_ value: ListPlaceIndexesInput) -> Swift.String? {
         return "/places/v0/list-indexes"
     }
 }
@@ -9248,8 +9282,9 @@ extension ListRouteCalculatorsInput: Swift.Encodable {
     }
 }
 
-extension ListRouteCalculatorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRouteCalculatorsInput {
+
+    static func urlPathProvider(_ value: ListRouteCalculatorsInput) -> Swift.String? {
         return "/routes/v0/list-calculators"
     }
 }
@@ -9468,9 +9503,10 @@ extension LocationClientTypes {
 
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9584,9 +9620,10 @@ extension ListTrackerConsumersInput: Swift.Encodable {
     }
 }
 
-extension ListTrackerConsumersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension ListTrackerConsumersInput {
+
+    static func urlPathProvider(_ value: ListTrackerConsumersInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())/list-consumers"
@@ -9726,8 +9763,9 @@ extension ListTrackersInput: Swift.Encodable {
     }
 }
 
-extension ListTrackersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTrackersInput {
+
+    static func urlPathProvider(_ value: ListTrackersInput) -> Swift.String? {
         return "/tracking/v0/list-trackers"
     }
 }
@@ -10546,12 +10584,13 @@ extension PutGeofenceInput: Swift.Encodable {
     }
 }
 
-extension PutGeofenceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension PutGeofenceInput {
+
+    static func urlPathProvider(_ value: PutGeofenceInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
-        guard let geofenceId = geofenceId else {
+        guard let geofenceId = value.geofenceId else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())/geofences/\(geofenceId.urlPercentEncoding())"
@@ -11173,22 +11212,22 @@ extension SearchPlaceIndexForPositionInput: Swift.Encodable {
     }
 }
 
-extension SearchPlaceIndexForPositionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension SearchPlaceIndexForPositionInput {
+
+    static func queryItemProvider(_ value: SearchPlaceIndexForPositionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension SearchPlaceIndexForPositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension SearchPlaceIndexForPositionInput {
+
+    static func urlPathProvider(_ value: SearchPlaceIndexForPositionInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())/search/position"
@@ -11481,22 +11520,22 @@ extension SearchPlaceIndexForSuggestionsInput: Swift.Encodable {
     }
 }
 
-extension SearchPlaceIndexForSuggestionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension SearchPlaceIndexForSuggestionsInput {
+
+    static func queryItemProvider(_ value: SearchPlaceIndexForSuggestionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension SearchPlaceIndexForSuggestionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension SearchPlaceIndexForSuggestionsInput {
+
+    static func urlPathProvider(_ value: SearchPlaceIndexForSuggestionsInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())/search/suggestions"
@@ -11926,22 +11965,22 @@ extension SearchPlaceIndexForTextInput: Swift.Encodable {
     }
 }
 
-extension SearchPlaceIndexForTextInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let key = key {
-                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
-                items.append(keyQueryItem)
-            }
-            return items
+extension SearchPlaceIndexForTextInput {
+
+    static func queryItemProvider(_ value: SearchPlaceIndexForTextInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let key = value.key {
+            let keyQueryItem = ClientRuntime.SDKURLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            items.append(keyQueryItem)
         }
+        return items
     }
 }
 
-extension SearchPlaceIndexForTextInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension SearchPlaceIndexForTextInput {
+
+    static func urlPathProvider(_ value: SearchPlaceIndexForTextInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())/search/text"
@@ -12554,9 +12593,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12986,26 +13026,26 @@ extension LocationClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13087,9 +13127,10 @@ extension UpdateGeofenceCollectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateGeofenceCollectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collectionName = collectionName else {
+extension UpdateGeofenceCollectionInput {
+
+    static func urlPathProvider(_ value: UpdateGeofenceCollectionInput) -> Swift.String? {
+        guard let collectionName = value.collectionName else {
             return nil
         }
         return "/geofencing/v0/collections/\(collectionName.urlPercentEncoding())"
@@ -13256,9 +13297,10 @@ extension UpdateKeyInput: Swift.Encodable {
     }
 }
 
-extension UpdateKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyName = keyName else {
+extension UpdateKeyInput {
+
+    static func urlPathProvider(_ value: UpdateKeyInput) -> Swift.String? {
+        guard let keyName = value.keyName else {
             return nil
         }
         return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
@@ -13431,9 +13473,10 @@ extension UpdateMapInput: Swift.Encodable {
     }
 }
 
-extension UpdateMapInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mapName = mapName else {
+extension UpdateMapInput {
+
+    static func urlPathProvider(_ value: UpdateMapInput) -> Swift.String? {
+        guard let mapName = value.mapName else {
             return nil
         }
         return "/maps/v0/maps/\(mapName.urlPercentEncoding())"
@@ -13591,9 +13634,10 @@ extension UpdatePlaceIndexInput: Swift.Encodable {
     }
 }
 
-extension UpdatePlaceIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let indexName = indexName else {
+extension UpdatePlaceIndexInput {
+
+    static func urlPathProvider(_ value: UpdatePlaceIndexInput) -> Swift.String? {
+        guard let indexName = value.indexName else {
             return nil
         }
         return "/places/v0/indexes/\(indexName.urlPercentEncoding())"
@@ -13747,9 +13791,10 @@ extension UpdateRouteCalculatorInput: Swift.Encodable {
     }
 }
 
-extension UpdateRouteCalculatorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let calculatorName = calculatorName else {
+extension UpdateRouteCalculatorInput {
+
+    static func urlPathProvider(_ value: UpdateRouteCalculatorInput) -> Swift.String? {
+        guard let calculatorName = value.calculatorName else {
             return nil
         }
         return "/routes/v0/calculators/\(calculatorName.urlPercentEncoding())"
@@ -13911,9 +13956,10 @@ extension UpdateTrackerInput: Swift.Encodable {
     }
 }
 
-extension UpdateTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let trackerName = trackerName else {
+extension UpdateTrackerInput {
+
+    static func urlPathProvider(_ value: UpdateTrackerInput) -> Swift.String? {
+        guard let trackerName = value.trackerName else {
             return nil
         }
         return "/tracking/v0/trackers/\(trackerName.urlPercentEncoding())"

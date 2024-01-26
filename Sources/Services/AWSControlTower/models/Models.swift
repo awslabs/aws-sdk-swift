@@ -283,8 +283,9 @@ extension CreateLandingZoneInput: Swift.Encodable {
     }
 }
 
-extension CreateLandingZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLandingZoneInput {
+
+    static func urlPathProvider(_ value: CreateLandingZoneInput) -> Swift.String? {
         return "/create-landingzone"
     }
 }
@@ -424,8 +425,9 @@ extension DeleteLandingZoneInput: Swift.Encodable {
     }
 }
 
-extension DeleteLandingZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLandingZoneInput {
+
+    static func urlPathProvider(_ value: DeleteLandingZoneInput) -> Swift.String? {
         return "/delete-landingzone"
     }
 }
@@ -533,8 +535,9 @@ extension DisableControlInput: Swift.Encodable {
     }
 }
 
-extension DisableControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableControlInput {
+
+    static func urlPathProvider(_ value: DisableControlInput) -> Swift.String? {
         return "/disable-control"
     }
 }
@@ -747,8 +750,9 @@ extension EnableControlInput: Swift.Encodable {
     }
 }
 
-extension EnableControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableControlInput {
+
+    static func urlPathProvider(_ value: EnableControlInput) -> Swift.String? {
         return "/enable-control"
     }
 }
@@ -1280,8 +1284,9 @@ extension GetControlOperationInput: Swift.Encodable {
     }
 }
 
-extension GetControlOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetControlOperationInput {
+
+    static func urlPathProvider(_ value: GetControlOperationInput) -> Swift.String? {
         return "/get-control-operation"
     }
 }
@@ -1384,8 +1389,9 @@ extension GetEnabledControlInput: Swift.Encodable {
     }
 }
 
-extension GetEnabledControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnabledControlInput {
+
+    static func urlPathProvider(_ value: GetEnabledControlInput) -> Swift.String? {
         return "/get-enabled-control"
     }
 }
@@ -1488,8 +1494,9 @@ extension GetLandingZoneInput: Swift.Encodable {
     }
 }
 
-extension GetLandingZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLandingZoneInput {
+
+    static func urlPathProvider(_ value: GetLandingZoneInput) -> Swift.String? {
         return "/get-landingzone"
     }
 }
@@ -1536,8 +1543,9 @@ extension GetLandingZoneOperationInput: Swift.Encodable {
     }
 }
 
-extension GetLandingZoneOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLandingZoneOperationInput {
+
+    static func urlPathProvider(_ value: GetLandingZoneOperationInput) -> Swift.String? {
         return "/get-landingzone-operation"
     }
 }
@@ -2150,8 +2158,9 @@ extension ListEnabledControlsInput: Swift.Encodable {
     }
 }
 
-extension ListEnabledControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnabledControlsInput {
+
+    static func urlPathProvider(_ value: ListEnabledControlsInput) -> Swift.String? {
         return "/list-enabled-controls"
     }
 }
@@ -2293,8 +2302,9 @@ extension ListLandingZonesInput: Swift.Encodable {
     }
 }
 
-extension ListLandingZonesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLandingZonesInput {
+
+    static func urlPathProvider(_ value: ListLandingZonesInput) -> Swift.String? {
         return "/list-landingzones"
     }
 }
@@ -2409,9 +2419,10 @@ enum ListLandingZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2551,8 +2562,9 @@ extension ResetLandingZoneInput: Swift.Encodable {
     }
 }
 
-extension ResetLandingZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetLandingZoneInput {
+
+    static func urlPathProvider(_ value: ResetLandingZoneInput) -> Swift.String? {
         return "/reset-landingzone"
     }
 }
@@ -2771,9 +2783,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2931,26 +2944,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3027,8 +3040,9 @@ extension UpdateEnabledControlInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnabledControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnabledControlInput {
+
+    static func urlPathProvider(_ value: UpdateEnabledControlInput) -> Swift.String? {
         return "/update-enabled-control"
     }
 }
@@ -3159,8 +3173,9 @@ extension UpdateLandingZoneInput: Swift.Encodable {
     }
 }
 
-extension UpdateLandingZoneInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLandingZoneInput {
+
+    static func urlPathProvider(_ value: UpdateLandingZoneInput) -> Swift.String? {
         return "/update-landingzone"
     }
 }

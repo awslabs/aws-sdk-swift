@@ -595,8 +595,9 @@ extension GetDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentsInput {
+
+    static func urlPathProvider(_ value: GetDeploymentsInput) -> Swift.String? {
         return "/GetDeployments"
     }
 }
@@ -716,8 +717,9 @@ extension GetDeviceRegistrationInput: Swift.Encodable {
     }
 }
 
-extension GetDeviceRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeviceRegistrationInput {
+
+    static func urlPathProvider(_ value: GetDeviceRegistrationInput) -> Swift.String? {
         return "/GetDeviceRegistration"
     }
 }
@@ -1034,8 +1036,9 @@ extension SendHeartbeatInput: Swift.Encodable {
     }
 }
 
-extension SendHeartbeatInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendHeartbeatInput {
+
+    static func urlPathProvider(_ value: SendHeartbeatInput) -> Swift.String? {
         return "/SendHeartbeat"
     }
 }

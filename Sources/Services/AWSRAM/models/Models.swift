@@ -19,8 +19,9 @@ extension AcceptResourceShareInvitationInput: Swift.Encodable {
     }
 }
 
-extension AcceptResourceShareInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptResourceShareInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptResourceShareInvitationInput) -> Swift.String? {
         return "/acceptresourceshareinvitation"
     }
 }
@@ -170,8 +171,9 @@ extension AssociateResourceShareInput: Swift.Encodable {
     }
 }
 
-extension AssociateResourceShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateResourceShareInput {
+
+    static func urlPathProvider(_ value: AssociateResourceShareInput) -> Swift.String? {
         return "/associateresourceshare"
     }
 }
@@ -386,8 +388,9 @@ extension AssociateResourceSharePermissionInput: Swift.Encodable {
     }
 }
 
-extension AssociateResourceSharePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateResourceSharePermissionInput {
+
+    static func urlPathProvider(_ value: AssociateResourceSharePermissionInput) -> Swift.String? {
         return "/associateresourcesharepermission"
     }
 }
@@ -672,8 +675,9 @@ extension CreatePermissionInput: Swift.Encodable {
     }
 }
 
-extension CreatePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePermissionInput {
+
+    static func urlPathProvider(_ value: CreatePermissionInput) -> Swift.String? {
         return "/createpermission"
     }
 }
@@ -850,8 +854,9 @@ extension CreatePermissionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreatePermissionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePermissionVersionInput {
+
+    static func urlPathProvider(_ value: CreatePermissionVersionInput) -> Swift.String? {
         return "/createpermissionversion"
     }
 }
@@ -1037,8 +1042,9 @@ extension CreateResourceShareInput: Swift.Encodable {
     }
 }
 
-extension CreateResourceShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResourceShareInput {
+
+    static func urlPathProvider(_ value: CreateResourceShareInput) -> Swift.String? {
         return "/createresourceshare"
     }
 }
@@ -1258,27 +1264,27 @@ enum CreateResourceShareOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            guard let permissionArn = permissionArn else {
-                let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let permissionArnQueryItem = ClientRuntime.URLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
-            items.append(permissionArnQueryItem)
-            return items
+extension DeletePermissionInput {
+
+    static func queryItemProvider(_ value: DeletePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        guard let permissionArn = value.permissionArn else {
+            let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let permissionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+        items.append(permissionArnQueryItem)
+        return items
     }
 }
 
-extension DeletePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionInput {
+
+    static func urlPathProvider(_ value: DeletePermissionInput) -> Swift.String? {
         return "/deletepermission"
     }
 }
@@ -1386,33 +1392,33 @@ enum DeletePermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePermissionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            guard let permissionArn = permissionArn else {
-                let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let permissionArnQueryItem = ClientRuntime.URLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
-            items.append(permissionArnQueryItem)
-            guard let permissionVersion = permissionVersion else {
-                let message = "Creating a URL Query Item failed. permissionVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let permissionVersionQueryItem = ClientRuntime.URLQueryItem(name: "permissionVersion".urlPercentEncoding(), value: Swift.String(permissionVersion).urlPercentEncoding())
-            items.append(permissionVersionQueryItem)
-            return items
+extension DeletePermissionVersionInput {
+
+    static func queryItemProvider(_ value: DeletePermissionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        guard let permissionArn = value.permissionArn else {
+            let message = "Creating a URL Query Item failed. permissionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let permissionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionArn".urlPercentEncoding(), value: Swift.String(permissionArn).urlPercentEncoding())
+        items.append(permissionArnQueryItem)
+        guard let permissionVersion = value.permissionVersion else {
+            let message = "Creating a URL Query Item failed. permissionVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let permissionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permissionVersion".urlPercentEncoding(), value: Swift.String(permissionVersion).urlPercentEncoding())
+        items.append(permissionVersionQueryItem)
+        return items
     }
 }
 
-extension DeletePermissionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionVersionInput {
+
+    static func urlPathProvider(_ value: DeletePermissionVersionInput) -> Swift.String? {
         return "/deletepermissionversion"
     }
 }
@@ -1526,27 +1532,27 @@ enum DeletePermissionVersionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteResourceShareInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceShareArn = resourceShareArn else {
-                let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceShareArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
-            items.append(resourceShareArnQueryItem)
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteResourceShareInput {
+
+    static func queryItemProvider(_ value: DeleteResourceShareInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceShareArn = value.resourceShareArn else {
+            let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceShareArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
+        items.append(resourceShareArnQueryItem)
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteResourceShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourceShareInput {
+
+    static func urlPathProvider(_ value: DeleteResourceShareInput) -> Swift.String? {
         return "/deleteresourceshare"
     }
 }
@@ -1684,8 +1690,9 @@ extension DisassociateResourceShareInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResourceShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateResourceShareInput {
+
+    static func urlPathProvider(_ value: DisassociateResourceShareInput) -> Swift.String? {
         return "/disassociateresourceshare"
     }
 }
@@ -1891,8 +1898,9 @@ extension DisassociateResourceSharePermissionInput: Swift.Encodable {
     }
 }
 
-extension DisassociateResourceSharePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateResourceSharePermissionInput {
+
+    static func urlPathProvider(_ value: DisassociateResourceSharePermissionInput) -> Swift.String? {
         return "/disassociateresourcesharepermission"
     }
 }
@@ -2011,8 +2019,9 @@ enum DisassociateResourceSharePermissionOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension EnableSharingWithAwsOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableSharingWithAwsOrganizationInput {
+
+    static func urlPathProvider(_ value: EnableSharingWithAwsOrganizationInput) -> Swift.String? {
         return "/enablesharingwithawsorganization"
     }
 }
@@ -2101,8 +2110,9 @@ extension GetPermissionInput: Swift.Encodable {
     }
 }
 
-extension GetPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPermissionInput {
+
+    static func urlPathProvider(_ value: GetPermissionInput) -> Swift.String? {
         return "/getpermission"
     }
 }
@@ -2228,8 +2238,9 @@ extension GetResourcePoliciesInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePoliciesInput {
+
+    static func urlPathProvider(_ value: GetResourcePoliciesInput) -> Swift.String? {
         return "/getresourcepolicies"
     }
 }
@@ -2411,8 +2422,9 @@ extension GetResourceShareAssociationsInput: Swift.Encodable {
     }
 }
 
-extension GetResourceShareAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceShareAssociationsInput {
+
+    static func urlPathProvider(_ value: GetResourceShareAssociationsInput) -> Swift.String? {
         return "/getresourceshareassociations"
     }
 }
@@ -2614,8 +2626,9 @@ extension GetResourceShareInvitationsInput: Swift.Encodable {
     }
 }
 
-extension GetResourceShareInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceShareInvitationsInput {
+
+    static func urlPathProvider(_ value: GetResourceShareInvitationsInput) -> Swift.String? {
         return "/getresourceshareinvitations"
     }
 }
@@ -2818,8 +2831,9 @@ extension GetResourceSharesInput: Swift.Encodable {
     }
 }
 
-extension GetResourceSharesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourceSharesInput {
+
+    static func urlPathProvider(_ value: GetResourceSharesInput) -> Swift.String? {
         return "/getresourceshares"
     }
 }
@@ -3487,8 +3501,9 @@ extension ListPendingInvitationResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListPendingInvitationResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPendingInvitationResourcesInput {
+
+    static func urlPathProvider(_ value: ListPendingInvitationResourcesInput) -> Swift.String? {
         return "/listpendinginvitationresources"
     }
 }
@@ -3674,8 +3689,9 @@ extension ListPermissionAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionAssociationsInput {
+
+    static func urlPathProvider(_ value: ListPermissionAssociationsInput) -> Swift.String? {
         return "/listpermissionassociations"
     }
 }
@@ -3859,8 +3875,9 @@ extension ListPermissionVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionVersionsInput {
+
+    static func urlPathProvider(_ value: ListPermissionVersionsInput) -> Swift.String? {
         return "/listpermissionversions"
     }
 }
@@ -4011,8 +4028,9 @@ extension ListPermissionsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionsInput {
+
+    static func urlPathProvider(_ value: ListPermissionsInput) -> Swift.String? {
         return "/listpermissions"
     }
 }
@@ -4195,8 +4213,9 @@ extension ListPrincipalsInput: Swift.Encodable {
     }
 }
 
-extension ListPrincipalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPrincipalsInput {
+
+    static func urlPathProvider(_ value: ListPrincipalsInput) -> Swift.String? {
         return "/listprincipals"
     }
 }
@@ -4416,8 +4435,9 @@ extension ListReplacePermissionAssociationsWorkInput: Swift.Encodable {
     }
 }
 
-extension ListReplacePermissionAssociationsWorkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReplacePermissionAssociationsWorkInput {
+
+    static func urlPathProvider(_ value: ListReplacePermissionAssociationsWorkInput) -> Swift.String? {
         return "/listreplacepermissionassociationswork"
     }
 }
@@ -4577,8 +4597,9 @@ extension ListResourceSharePermissionsInput: Swift.Encodable {
     }
 }
 
-extension ListResourceSharePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceSharePermissionsInput {
+
+    static func urlPathProvider(_ value: ListResourceSharePermissionsInput) -> Swift.String? {
         return "/listresourcesharepermissions"
     }
 }
@@ -4725,8 +4746,9 @@ extension ListResourceTypesInput: Swift.Encodable {
     }
 }
 
-extension ListResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceTypesInput {
+
+    static func urlPathProvider(_ value: ListResourceTypesInput) -> Swift.String? {
         return "/listresourcetypes"
     }
 }
@@ -4904,8 +4926,9 @@ extension ListResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/listresources"
     }
 }
@@ -5734,8 +5757,9 @@ extension PromotePermissionCreatedFromPolicyInput: Swift.Encodable {
     }
 }
 
-extension PromotePermissionCreatedFromPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PromotePermissionCreatedFromPolicyInput {
+
+    static func urlPathProvider(_ value: PromotePermissionCreatedFromPolicyInput) -> Swift.String? {
         return "/promotepermissioncreatedfrompolicy"
     }
 }
@@ -5853,23 +5877,23 @@ enum PromotePermissionCreatedFromPolicyOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension PromoteResourceShareCreatedFromPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceShareArn = resourceShareArn else {
-                let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceShareArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
-            items.append(resourceShareArnQueryItem)
-            return items
+extension PromoteResourceShareCreatedFromPolicyInput {
+
+    static func queryItemProvider(_ value: PromoteResourceShareCreatedFromPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceShareArn = value.resourceShareArn else {
+            let message = "Creating a URL Query Item failed. resourceShareArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceShareArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceShareArn".urlPercentEncoding(), value: Swift.String(resourceShareArn).urlPercentEncoding())
+        items.append(resourceShareArnQueryItem)
+        return items
     }
 }
 
-extension PromoteResourceShareCreatedFromPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PromoteResourceShareCreatedFromPolicyInput {
+
+    static func urlPathProvider(_ value: PromoteResourceShareCreatedFromPolicyInput) -> Swift.String? {
         return "/promoteresourcesharecreatedfrompolicy"
     }
 }
@@ -5973,8 +5997,9 @@ extension RejectResourceShareInvitationInput: Swift.Encodable {
     }
 }
 
-extension RejectResourceShareInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectResourceShareInvitationInput {
+
+    static func urlPathProvider(_ value: RejectResourceShareInvitationInput) -> Swift.String? {
         return "/rejectresourceshareinvitation"
     }
 }
@@ -6111,8 +6136,9 @@ extension ReplacePermissionAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ReplacePermissionAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReplacePermissionAssociationsInput {
+
+    static func urlPathProvider(_ value: ReplacePermissionAssociationsInput) -> Swift.String? {
         return "/replacepermissionassociations"
     }
 }
@@ -8125,8 +8151,9 @@ extension SetDefaultPermissionVersionInput: Swift.Encodable {
     }
 }
 
-extension SetDefaultPermissionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetDefaultPermissionVersionInput {
+
+    static func urlPathProvider(_ value: SetDefaultPermissionVersionInput) -> Swift.String? {
         return "/setdefaultpermissionversion"
     }
 }
@@ -8482,8 +8509,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tagresource"
     }
 }
@@ -8762,8 +8790,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/untagresource"
     }
 }
@@ -8872,8 +8901,9 @@ extension UpdateResourceShareInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateResourceShareInput {
+
+    static func urlPathProvider(_ value: UpdateResourceShareInput) -> Swift.String? {
         return "/updateresourceshare"
     }
 }

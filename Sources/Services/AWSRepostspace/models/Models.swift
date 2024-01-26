@@ -213,8 +213,9 @@ extension CreateSpaceInput: Swift.Encodable {
     }
 }
 
-extension CreateSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSpaceInput {
+
+    static func urlPathProvider(_ value: CreateSpaceInput) -> Swift.String? {
         return "/spaces"
     }
 }
@@ -365,9 +366,10 @@ enum CreateSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension DeleteSpaceInput {
+
+    static func urlPathProvider(_ value: DeleteSpaceInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())"
@@ -421,12 +423,13 @@ enum DeleteSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeregisterAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension DeregisterAdminInput {
+
+    static func urlPathProvider(_ value: DeregisterAdminInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
-        guard let adminId = adminId else {
+        guard let adminId = value.adminId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())/admins/\(adminId.urlPercentEncoding())"
@@ -485,9 +488,10 @@ enum DeregisterAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension GetSpaceInput {
+
+    static func urlPathProvider(_ value: GetSpaceInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())"
@@ -861,25 +865,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListSpacesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSpacesInput {
+
+    static func queryItemProvider(_ value: ListSpacesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSpacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSpacesInput {
+
+    static func urlPathProvider(_ value: ListSpacesInput) -> Swift.String? {
         return "/spaces"
     }
 }
@@ -983,9 +987,10 @@ enum ListSpacesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1083,12 +1088,13 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RegisterAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension RegisterAdminInput {
+
+    static func urlPathProvider(_ value: RegisterAdminInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
-        guard let adminId = adminId else {
+        guard let adminId = value.adminId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())/admins/\(adminId.urlPercentEncoding())"
@@ -1254,9 +1260,10 @@ extension SendInvitesInput: Swift.Encodable {
     }
 }
 
-extension SendInvitesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension SendInvitesInput {
+
+    static func urlPathProvider(_ value: SendInvitesInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())/invite"
@@ -1671,9 +1678,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1865,26 +1873,26 @@ extension RepostspaceClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1969,9 +1977,10 @@ extension UpdateSpaceInput: Swift.Encodable {
     }
 }
 
-extension UpdateSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceId = spaceId else {
+extension UpdateSpaceInput {
+
+    static func urlPathProvider(_ value: UpdateSpaceInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
             return nil
         }
         return "/spaces/\(spaceId.urlPercentEncoding())"

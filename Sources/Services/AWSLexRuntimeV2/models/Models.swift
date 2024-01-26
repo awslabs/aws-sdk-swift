@@ -813,18 +813,19 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-extension DeleteSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteSessionInput {
+
+    static func urlPathProvider(_ value: DeleteSessionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
@@ -1247,18 +1248,19 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-extension GetSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
@@ -2239,28 +2241,30 @@ extension PutSessionInput: Swift.Encodable {
     }
 }
 
-extension PutSessionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSessionInput {
+
+    static func headerProvider(_ value: PutSessionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let responseContentType = responseContentType {
+        if let responseContentType = value.responseContentType {
             items.add(Header(name: "ResponseContentType", value: Swift.String(responseContentType)))
         }
         return items
     }
 }
 
-extension PutSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension PutSessionInput {
+
+    static func urlPathProvider(_ value: PutSessionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
@@ -2489,18 +2493,19 @@ extension RecognizeTextInput: Swift.Encodable {
     }
 }
 
-extension RecognizeTextInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension RecognizeTextInput {
+
+    static func urlPathProvider(_ value: RecognizeTextInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/text"
@@ -2734,37 +2739,39 @@ extension RecognizeUtteranceInput: Swift.Encodable {
     }
 }
 
-extension RecognizeUtteranceInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RecognizeUtteranceInput {
+
+    static func headerProvider(_ value: RecognizeUtteranceInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let requestAttributes = requestAttributes {
+        if let requestAttributes = value.requestAttributes {
             items.add(Header(name: "x-amz-lex-request-attributes", value: Swift.String(requestAttributes)))
         }
-        if let requestContentType = requestContentType {
+        if let requestContentType = value.requestContentType {
             items.add(Header(name: "Content-Type", value: Swift.String(requestContentType)))
         }
-        if let responseContentType = responseContentType {
+        if let responseContentType = value.responseContentType {
             items.add(Header(name: "Response-Content-Type", value: Swift.String(responseContentType)))
         }
-        if let sessionState = sessionState {
+        if let sessionState = value.sessionState {
             items.add(Header(name: "x-amz-lex-session-state", value: Swift.String(sessionState)))
         }
         return items
     }
 }
 
-extension RecognizeUtteranceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension RecognizeUtteranceInput {
+
+    static func urlPathProvider(_ value: RecognizeUtteranceInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/utterance"
@@ -3680,28 +3687,30 @@ extension LexRuntimeV2ClientTypes {
 
 }
 
-extension StartConversationInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartConversationInput {
+
+    static func headerProvider(_ value: StartConversationInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let conversationMode = conversationMode {
+        if let conversationMode = value.conversationMode {
             items.add(Header(name: "x-amz-lex-conversation-mode", value: Swift.String(conversationMode.rawValue)))
         }
         return items
     }
 }
 
-extension StartConversationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension StartConversationInput {
+
+    static func urlPathProvider(_ value: StartConversationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botAliases/\(botAliasId.urlPercentEncoding())/botLocales/\(localeId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/conversation"

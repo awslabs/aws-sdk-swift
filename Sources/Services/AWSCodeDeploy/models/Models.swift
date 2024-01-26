@@ -25,8 +25,9 @@ extension AddTagsToOnPremisesInstancesInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToOnPremisesInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToOnPremisesInstancesInput {
+
+    static func urlPathProvider(_ value: AddTagsToOnPremisesInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -889,8 +890,9 @@ extension BatchGetApplicationRevisionsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetApplicationRevisionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetApplicationRevisionsInput {
+
+    static func urlPathProvider(_ value: BatchGetApplicationRevisionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1045,8 +1047,9 @@ extension BatchGetApplicationsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetApplicationsInput {
+
+    static func urlPathProvider(_ value: BatchGetApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1174,8 +1177,9 @@ extension BatchGetDeploymentGroupsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetDeploymentGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetDeploymentGroupsInput {
+
+    static func urlPathProvider(_ value: BatchGetDeploymentGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1325,8 +1329,9 @@ extension BatchGetDeploymentInstancesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetDeploymentInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetDeploymentInstancesInput {
+
+    static func urlPathProvider(_ value: BatchGetDeploymentInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1476,8 +1481,9 @@ extension BatchGetDeploymentTargetsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetDeploymentTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetDeploymentTargetsInput {
+
+    static func urlPathProvider(_ value: BatchGetDeploymentTargetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1629,8 +1635,9 @@ extension BatchGetDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetDeploymentsInput {
+
+    static func urlPathProvider(_ value: BatchGetDeploymentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1753,8 +1760,9 @@ extension BatchGetOnPremisesInstancesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetOnPremisesInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetOnPremisesInstancesInput {
+
+    static func urlPathProvider(_ value: BatchGetOnPremisesInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2277,8 +2285,9 @@ extension ContinueDeploymentInput: Swift.Encodable {
     }
 }
 
-extension ContinueDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ContinueDeploymentInput {
+
+    static func urlPathProvider(_ value: ContinueDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2371,8 +2380,9 @@ extension CreateApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2518,8 +2528,9 @@ extension CreateDeploymentConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeploymentConfigInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2755,8 +2766,9 @@ extension CreateDeploymentGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeploymentGroupInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3128,8 +3140,9 @@ extension CreateDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeploymentInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3340,8 +3353,9 @@ extension DeleteApplicationInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3412,8 +3426,9 @@ extension DeleteDeploymentConfigInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeploymentConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeploymentConfigInput {
+
+    static func urlPathProvider(_ value: DeleteDeploymentConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3489,8 +3504,9 @@ extension DeleteDeploymentGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeploymentGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeploymentGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDeploymentGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3612,8 +3628,9 @@ extension DeleteGitHubAccountTokenInput: Swift.Encodable {
     }
 }
 
-extension DeleteGitHubAccountTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGitHubAccountTokenInput {
+
+    static func urlPathProvider(_ value: DeleteGitHubAccountTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3716,8 +3733,9 @@ extension DeleteResourcesByExternalIdInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcesByExternalIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcesByExternalIdInput {
+
+    static func urlPathProvider(_ value: DeleteResourcesByExternalIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6073,8 +6091,9 @@ extension DeregisterOnPremisesInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeregisterOnPremisesInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterOnPremisesInstanceInput {
+
+    static func urlPathProvider(_ value: DeregisterOnPremisesInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7119,8 +7138,9 @@ extension GetApplicationInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationInput {
+
+    static func urlPathProvider(_ value: GetApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7226,8 +7246,9 @@ extension GetApplicationRevisionInput: Swift.Encodable {
     }
 }
 
-extension GetApplicationRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetApplicationRevisionInput {
+
+    static func urlPathProvider(_ value: GetApplicationRevisionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7361,8 +7382,9 @@ extension GetDeploymentConfigInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentConfigInput {
+
+    static func urlPathProvider(_ value: GetDeploymentConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7469,8 +7491,9 @@ extension GetDeploymentGroupInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentGroupInput {
+
+    static func urlPathProvider(_ value: GetDeploymentGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7585,8 +7608,9 @@ extension GetDeploymentInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentInput {
+
+    static func urlPathProvider(_ value: GetDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7638,8 +7662,9 @@ extension GetDeploymentInstanceInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentInstanceInput {
+
+    static func urlPathProvider(_ value: GetDeploymentInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7813,8 +7838,9 @@ extension GetDeploymentTargetInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentTargetInput {
+
+    static func urlPathProvider(_ value: GetDeploymentTargetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7928,8 +7954,9 @@ extension GetOnPremisesInstanceInput: Swift.Encodable {
     }
 }
 
-extension GetOnPremisesInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetOnPremisesInstanceInput {
+
+    static func urlPathProvider(_ value: GetOnPremisesInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12918,8 +12945,9 @@ extension ListApplicationRevisionsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationRevisionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationRevisionsInput {
+
+    static func urlPathProvider(_ value: ListApplicationRevisionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13117,8 +13145,9 @@ extension ListApplicationsInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13236,8 +13265,9 @@ extension ListDeploymentConfigsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentConfigsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentConfigsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13359,8 +13389,9 @@ extension ListDeploymentGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentGroupsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13518,8 +13549,9 @@ extension ListDeploymentInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentInstancesInput {
+
+    static func urlPathProvider(_ value: ListDeploymentInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13715,8 +13747,9 @@ extension ListDeploymentTargetsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentTargetsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentTargetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13900,8 +13933,9 @@ extension ListDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14090,8 +14124,9 @@ extension ListGitHubAccountTokenNamesInput: Swift.Encodable {
     }
 }
 
-extension ListGitHubAccountTokenNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGitHubAccountTokenNamesInput {
+
+    static func urlPathProvider(_ value: ListGitHubAccountTokenNamesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14222,8 +14257,9 @@ extension ListOnPremisesInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListOnPremisesInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOnPremisesInstancesInput {
+
+    static func urlPathProvider(_ value: ListOnPremisesInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14411,8 +14447,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15002,8 +15039,9 @@ extension PutLifecycleEventHookExecutionStatusInput: Swift.Encodable {
     }
 }
 
-extension PutLifecycleEventHookExecutionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutLifecycleEventHookExecutionStatusInput {
+
+    static func urlPathProvider(_ value: PutLifecycleEventHookExecutionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15176,8 +15214,9 @@ extension RegisterApplicationRevisionInput: Swift.Encodable {
     }
 }
 
-extension RegisterApplicationRevisionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterApplicationRevisionInput {
+
+    static func urlPathProvider(_ value: RegisterApplicationRevisionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15276,8 +15315,9 @@ extension RegisterOnPremisesInstanceInput: Swift.Encodable {
     }
 }
 
-extension RegisterOnPremisesInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterOnPremisesInstanceInput {
+
+    static func urlPathProvider(_ value: RegisterOnPremisesInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15470,8 +15510,9 @@ extension RemoveTagsFromOnPremisesInstancesInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromOnPremisesInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromOnPremisesInstancesInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromOnPremisesInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16160,8 +16201,9 @@ extension SkipWaitTimeForInstanceTerminationInput: Swift.Encodable {
     }
 }
 
-extension SkipWaitTimeForInstanceTerminationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SkipWaitTimeForInstanceTerminationInput {
+
+    static func urlPathProvider(_ value: SkipWaitTimeForInstanceTerminationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16269,8 +16311,9 @@ extension StopDeploymentInput: Swift.Encodable {
     }
 }
 
-extension StopDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDeploymentInput {
+
+    static func urlPathProvider(_ value: StopDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16689,8 +16732,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17701,8 +17745,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17799,8 +17844,9 @@ extension UpdateApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17966,8 +18012,9 @@ extension UpdateDeploymentGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateDeploymentGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDeploymentGroupInput {
+
+    static func urlPathProvider(_ value: UpdateDeploymentGroupInput) -> Swift.String? {
         return "/"
     }
 }

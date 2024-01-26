@@ -175,8 +175,9 @@ extension CreateAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAliasInput {
+
+    static func urlPathProvider(_ value: CreateAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -309,8 +310,9 @@ extension CreateKeyInput: Swift.Encodable {
     }
 }
 
-extension CreateKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyInput {
+
+    static func urlPathProvider(_ value: CreateKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -458,8 +460,9 @@ extension DeleteAliasInput: Swift.Encodable {
     }
 }
 
-extension DeleteAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -537,8 +540,9 @@ extension DeleteKeyInput: Swift.Encodable {
     }
 }
 
-extension DeleteKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteKeyInput {
+
+    static func urlPathProvider(_ value: DeleteKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -802,8 +806,9 @@ extension ExportKeyInput: Swift.Encodable {
     }
 }
 
-extension ExportKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportKeyInput {
+
+    static func urlPathProvider(_ value: ExportKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1101,8 +1106,9 @@ extension GetAliasInput: Swift.Encodable {
     }
 }
 
-extension GetAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAliasInput {
+
+    static func urlPathProvider(_ value: GetAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1206,8 +1212,9 @@ extension GetKeyInput: Swift.Encodable {
     }
 }
 
-extension GetKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetKeyInput {
+
+    static func urlPathProvider(_ value: GetKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1315,8 +1322,9 @@ extension GetParametersForExportInput: Swift.Encodable {
     }
 }
 
-extension GetParametersForExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParametersForExportInput {
+
+    static func urlPathProvider(_ value: GetParametersForExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1484,8 +1492,9 @@ extension GetParametersForImportInput: Swift.Encodable {
     }
 }
 
-extension GetParametersForImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParametersForImportInput {
+
+    static func urlPathProvider(_ value: GetParametersForImportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1649,8 +1658,9 @@ extension GetPublicKeyCertificateInput: Swift.Encodable {
     }
 }
 
-extension GetPublicKeyCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPublicKeyCertificateInput {
+
+    static func urlPathProvider(_ value: GetPublicKeyCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1864,8 +1874,9 @@ extension ImportKeyInput: Swift.Encodable {
     }
 }
 
-extension ImportKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportKeyInput {
+
+    static func urlPathProvider(_ value: ImportKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3049,8 +3060,9 @@ extension ListAliasesInput: Swift.Encodable {
     }
 }
 
-extension ListAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAliasesInput {
+
+    static func urlPathProvider(_ value: ListAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3188,8 +3200,9 @@ extension ListKeysInput: Swift.Encodable {
     }
 }
 
-extension ListKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeysInput {
+
+    static func urlPathProvider(_ value: ListKeysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3335,8 +3348,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3531,8 +3545,9 @@ extension RestoreKeyInput: Swift.Encodable {
     }
 }
 
-extension RestoreKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreKeyInput {
+
+    static func urlPathProvider(_ value: RestoreKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3800,8 +3815,9 @@ extension StartKeyUsageInput: Swift.Encodable {
     }
 }
 
-extension StartKeyUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartKeyUsageInput {
+
+    static func urlPathProvider(_ value: StartKeyUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3907,8 +3923,9 @@ extension StopKeyUsageInput: Swift.Encodable {
     }
 }
 
-extension StopKeyUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopKeyUsageInput {
+
+    static func urlPathProvider(_ value: StopKeyUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4067,8 +4084,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4315,8 +4333,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4412,8 +4431,9 @@ extension UpdateAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAliasInput {
+
+    static func urlPathProvider(_ value: UpdateAliasInput) -> Swift.String? {
         return "/"
     }
 }

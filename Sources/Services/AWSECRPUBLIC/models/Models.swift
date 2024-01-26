@@ -71,8 +71,9 @@ extension BatchCheckLayerAvailabilityInput: Swift.Encodable {
     }
 }
 
-extension BatchCheckLayerAvailabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchCheckLayerAvailabilityInput {
+
+    static func urlPathProvider(_ value: BatchCheckLayerAvailabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -239,8 +240,9 @@ extension BatchDeleteImageInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteImageInput {
+
+    static func urlPathProvider(_ value: BatchDeleteImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -410,8 +412,9 @@ extension CompleteLayerUploadInput: Swift.Encodable {
     }
 }
 
-extension CompleteLayerUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CompleteLayerUploadInput {
+
+    static func urlPathProvider(_ value: CompleteLayerUploadInput) -> Swift.String? {
         return "/"
     }
 }
@@ -594,8 +597,9 @@ extension CreateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -742,8 +746,9 @@ extension DeleteRepositoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -865,8 +870,9 @@ extension DeleteRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1008,8 +1014,9 @@ extension DescribeImageTagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeImageTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImageTagsInput {
+
+    static func urlPathProvider(_ value: DescribeImageTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1172,8 +1179,9 @@ extension DescribeImagesInput: Swift.Encodable {
     }
 }
 
-extension DescribeImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImagesInput {
+
+    static func urlPathProvider(_ value: DescribeImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1339,8 +1347,9 @@ extension DescribeRegistriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeRegistriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRegistriesInput {
+
+    static func urlPathProvider(_ value: DescribeRegistriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1482,8 +1491,9 @@ extension DescribeRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRepositoriesInput {
+
+    static func urlPathProvider(_ value: DescribeRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1685,8 +1695,9 @@ extension GetAuthorizationTokenInput: Swift.Encodable {
     }
 }
 
-extension GetAuthorizationTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAuthorizationTokenInput {
+
+    static func urlPathProvider(_ value: GetAuthorizationTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1766,8 +1777,9 @@ extension GetRegistryCatalogDataInput: Swift.Encodable {
     }
 }
 
-extension GetRegistryCatalogDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRegistryCatalogDataInput {
+
+    static func urlPathProvider(_ value: GetRegistryCatalogDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1856,8 +1868,9 @@ extension GetRepositoryCatalogDataInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryCatalogDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryCatalogDataInput {
+
+    static func urlPathProvider(_ value: GetRepositoryCatalogDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1971,8 +1984,9 @@ extension GetRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: GetRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2720,8 +2734,9 @@ extension InitiateLayerUploadInput: Swift.Encodable {
     }
 }
 
-extension InitiateLayerUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InitiateLayerUploadInput {
+
+    static func urlPathProvider(_ value: InitiateLayerUploadInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3505,8 +3520,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3636,8 +3652,9 @@ extension PutImageInput: Swift.Encodable {
     }
 }
 
-extension PutImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImageInput {
+
+    static func urlPathProvider(_ value: PutImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3786,8 +3803,9 @@ extension PutRegistryCatalogDataInput: Swift.Encodable {
     }
 }
 
-extension PutRegistryCatalogDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRegistryCatalogDataInput {
+
+    static func urlPathProvider(_ value: PutRegistryCatalogDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3895,8 +3913,9 @@ extension PutRepositoryCatalogDataInput: Swift.Encodable {
     }
 }
 
-extension PutRepositoryCatalogDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRepositoryCatalogDataInput {
+
+    static func urlPathProvider(_ value: PutRepositoryCatalogDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5087,8 +5106,9 @@ extension SetRepositoryPolicyInput: Swift.Encodable {
     }
 }
 
-extension SetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetRepositoryPolicyInput {
+
+    static func urlPathProvider(_ value: SetRepositoryPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5286,8 +5306,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5495,8 +5516,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5607,8 +5629,9 @@ extension UploadLayerPartInput: Swift.Encodable {
     }
 }
 
-extension UploadLayerPartInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UploadLayerPartInput {
+
+    static func urlPathProvider(_ value: UploadLayerPartInput) -> Swift.String? {
         return "/"
     }
 }

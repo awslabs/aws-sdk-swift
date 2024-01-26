@@ -224,29 +224,29 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let snapshotId = snapshotId {
-                let snapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
-                items.append(snapshotIdQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            if let region = region {
-                let regionQueryItem = ClientRuntime.URLQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
-                items.append(regionQueryItem)
-            }
-            return items
+extension CreateProjectInput {
+
+    static func queryItemProvider(_ value: CreateProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let snapshotId = value.snapshotId {
+            let snapshotIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
+            items.append(snapshotIdQueryItem)
         }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let region = value.region {
+            let regionQueryItem = ClientRuntime.SDKURLQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
+            items.append(regionQueryItem)
+        }
+        return items
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/projects"
     }
 }
@@ -350,9 +350,10 @@ enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectId = projectId else {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
+        guard let projectId = value.projectId else {
             return nil
         }
         return "/projects/\(projectId.urlPercentEncoding())"
@@ -466,9 +467,10 @@ enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bundleId = bundleId else {
+extension DescribeBundleInput {
+
+    static func urlPathProvider(_ value: DescribeBundleInput) -> Swift.String? {
+        guard let bundleId = value.bundleId else {
             return nil
         }
         return "/bundles/\(bundleId.urlPercentEncoding())"
@@ -555,27 +557,27 @@ enum DescribeBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeProjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let syncFromResources = syncFromResources {
-                let syncFromResourcesQueryItem = ClientRuntime.URLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
-                items.append(syncFromResourcesQueryItem)
-            }
-            guard let projectId = projectId else {
-                let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
-            items.append(projectIdQueryItem)
-            return items
+extension DescribeProjectInput {
+
+    static func queryItemProvider(_ value: DescribeProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let syncFromResources = value.syncFromResources {
+            let syncFromResourcesQueryItem = ClientRuntime.SDKURLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
+            items.append(syncFromResourcesQueryItem)
         }
+        guard let projectId = value.projectId else {
+            let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+        items.append(projectIdQueryItem)
+        return items
     }
 }
 
-extension DescribeProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeProjectInput {
+
+    static func urlPathProvider(_ value: DescribeProjectInput) -> Swift.String? {
         return "/project"
     }
 }
@@ -664,26 +666,26 @@ enum DescribeProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ExportBundleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let projectId = projectId {
-                let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
-                items.append(projectIdQueryItem)
-            }
-            if let platform = platform {
-                let platformQueryItem = ClientRuntime.URLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
-                items.append(platformQueryItem)
-            }
-            return items
+extension ExportBundleInput {
+
+    static func queryItemProvider(_ value: ExportBundleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let projectId = value.projectId {
+            let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+            items.append(projectIdQueryItem)
         }
+        if let platform = value.platform {
+            let platformQueryItem = ClientRuntime.SDKURLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
+            items.append(platformQueryItem)
+        }
+        return items
     }
 }
 
-extension ExportBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bundleId = bundleId else {
+extension ExportBundleInput {
+
+    static func urlPathProvider(_ value: ExportBundleInput) -> Swift.String? {
+        guard let bundleId = value.bundleId else {
             return nil
         }
         return "/bundles/\(bundleId.urlPercentEncoding())"
@@ -778,9 +780,10 @@ enum ExportBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ExportProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectId = projectId else {
+extension ExportProjectInput {
+
+    static func urlPathProvider(_ value: ExportProjectInput) -> Swift.String? {
+        guard let projectId = value.projectId else {
             return nil
         }
         return "/exports/\(projectId.urlPercentEncoding())"
@@ -1008,25 +1011,25 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListBundlesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListBundlesInput {
+
+    static func queryItemProvider(_ value: ListBundlesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBundlesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBundlesInput {
+
+    static func urlPathProvider(_ value: ListBundlesInput) -> Swift.String? {
         return "/bundles"
     }
 }
@@ -1132,25 +1135,25 @@ enum ListBundlesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListProjectsInput {
+
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
         return "/projects"
     }
 }
@@ -1844,23 +1847,23 @@ extension UpdateProjectInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let projectId = projectId else {
-                let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let projectIdQueryItem = ClientRuntime.URLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
-            items.append(projectIdQueryItem)
-            return items
+extension UpdateProjectInput {
+
+    static func queryItemProvider(_ value: UpdateProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let projectId = value.projectId else {
+            let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+        items.append(projectIdQueryItem)
+        return items
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
         return "/update"
     }
 }

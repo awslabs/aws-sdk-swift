@@ -15,8 +15,9 @@ extension AcceptEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension AcceptEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: AcceptEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -297,8 +298,9 @@ extension CancelComponentDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CancelComponentDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelComponentDeploymentInput {
+
+    static func urlPathProvider(_ value: CancelComponentDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -402,8 +404,9 @@ extension CancelEnvironmentDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CancelEnvironmentDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelEnvironmentDeploymentInput {
+
+    static func urlPathProvider(_ value: CancelEnvironmentDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -511,8 +514,9 @@ extension CancelServiceInstanceDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CancelServiceInstanceDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelServiceInstanceDeploymentInput {
+
+    static func urlPathProvider(_ value: CancelServiceInstanceDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -625,8 +629,9 @@ extension CancelServicePipelineDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CancelServicePipelineDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelServicePipelineDeploymentInput {
+
+    static func urlPathProvider(_ value: CancelServicePipelineDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1488,8 +1493,9 @@ extension CreateComponentInput: Swift.Encodable {
     }
 }
 
-extension CreateComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateComponentInput {
+
+    static func urlPathProvider(_ value: CreateComponentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1704,8 +1710,9 @@ extension CreateEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1919,8 +1926,9 @@ extension CreateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2153,8 +2161,9 @@ extension CreateEnvironmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentTemplateInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2335,8 +2344,9 @@ extension CreateEnvironmentTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEnvironmentTemplateVersionInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2510,8 +2520,9 @@ extension CreateRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2702,8 +2713,9 @@ extension CreateServiceInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceInput {
+
+    static func urlPathProvider(_ value: CreateServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2866,8 +2878,9 @@ extension CreateServiceInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceInstanceInput {
+
+    static func urlPathProvider(_ value: CreateServiceInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3104,8 +3117,9 @@ extension CreateServiceSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceSyncConfigInput {
+
+    static func urlPathProvider(_ value: CreateServiceSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3272,8 +3286,9 @@ extension CreateServiceTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceTemplateInput {
+
+    static func urlPathProvider(_ value: CreateServiceTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3468,8 +3483,9 @@ extension CreateServiceTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateServiceTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateServiceTemplateVersionInput {
+
+    static func urlPathProvider(_ value: CreateServiceTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3679,8 +3695,9 @@ extension CreateTemplateSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTemplateSyncConfigInput {
+
+    static func urlPathProvider(_ value: CreateTemplateSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3827,8 +3844,9 @@ extension DeleteComponentInput: Swift.Encodable {
     }
 }
 
-extension DeleteComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteComponentInput {
+
+    static func urlPathProvider(_ value: DeleteComponentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3931,8 +3949,9 @@ extension DeleteDeploymentInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeploymentInput {
+
+    static func urlPathProvider(_ value: DeleteDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4034,8 +4053,9 @@ extension DeleteEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4138,8 +4158,9 @@ extension DeleteEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4242,8 +4263,9 @@ extension DeleteEnvironmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4354,8 +4376,9 @@ extension DeleteEnvironmentTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension DeleteEnvironmentTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEnvironmentTemplateVersionInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4480,8 +4503,9 @@ extension DeleteRepositoryInput: Swift.Encodable {
     }
 }
 
-extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4593,8 +4617,9 @@ extension DeleteServiceInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceInput {
+
+    static func urlPathProvider(_ value: DeleteServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4697,8 +4722,9 @@ extension DeleteServiceSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceSyncConfigInput {
+
+    static func urlPathProvider(_ value: DeleteServiceSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4801,8 +4827,9 @@ extension DeleteServiceTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteServiceTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4913,8 +4940,9 @@ extension DeleteServiceTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension DeleteServiceTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteServiceTemplateVersionInput {
+
+    static func urlPathProvider(_ value: DeleteServiceTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5039,8 +5067,9 @@ extension DeleteTemplateSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension DeleteTemplateSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTemplateSyncConfigInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7198,8 +7227,9 @@ extension GetAccountSettingsInput: Swift.Encodable {
     }
 }
 
-extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountSettingsInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7286,8 +7316,9 @@ extension GetComponentInput: Swift.Encodable {
     }
 }
 
-extension GetComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComponentInput {
+
+    static func urlPathProvider(_ value: GetComponentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7405,8 +7436,9 @@ extension GetDeploymentInput: Swift.Encodable {
     }
 }
 
-extension GetDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDeploymentInput {
+
+    static func urlPathProvider(_ value: GetDeploymentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7540,8 +7572,9 @@ extension GetEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension GetEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7644,8 +7677,9 @@ extension GetEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension GetEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7748,8 +7782,9 @@ extension GetEnvironmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetEnvironmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnvironmentTemplateInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7860,8 +7895,9 @@ extension GetEnvironmentTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension GetEnvironmentTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnvironmentTemplateVersionInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7986,8 +8022,9 @@ extension GetRepositoryInput: Swift.Encodable {
     }
 }
 
-extension GetRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositoryInput {
+
+    static func urlPathProvider(_ value: GetRepositoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8111,8 +8148,9 @@ extension GetRepositorySyncStatusInput: Swift.Encodable {
     }
 }
 
-extension GetRepositorySyncStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRepositorySyncStatusInput {
+
+    static func urlPathProvider(_ value: GetRepositorySyncStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8236,8 +8274,9 @@ extension GetResourcesSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetResourcesSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcesSummaryInput {
+
+    static func urlPathProvider(_ value: GetResourcesSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8324,8 +8363,9 @@ extension GetServiceInput: Swift.Encodable {
     }
 }
 
-extension GetServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceInput {
+
+    static func urlPathProvider(_ value: GetServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8376,8 +8416,9 @@ extension GetServiceInstanceInput: Swift.Encodable {
     }
 }
 
-extension GetServiceInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceInstanceInput {
+
+    static func urlPathProvider(_ value: GetServiceInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8493,8 +8534,9 @@ extension GetServiceInstanceSyncStatusInput: Swift.Encodable {
     }
 }
 
-extension GetServiceInstanceSyncStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceInstanceSyncStatusInput {
+
+    static func urlPathProvider(_ value: GetServiceInstanceSyncStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8684,8 +8726,9 @@ extension GetServiceSyncBlockerSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetServiceSyncBlockerSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceSyncBlockerSummaryInput {
+
+    static func urlPathProvider(_ value: GetServiceSyncBlockerSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8795,8 +8838,9 @@ extension GetServiceSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension GetServiceSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceSyncConfigInput {
+
+    static func urlPathProvider(_ value: GetServiceSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8898,8 +8942,9 @@ extension GetServiceTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetServiceTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceTemplateInput {
+
+    static func urlPathProvider(_ value: GetServiceTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9010,8 +9055,9 @@ extension GetServiceTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension GetServiceTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceTemplateVersionInput {
+
+    static func urlPathProvider(_ value: GetServiceTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9136,8 +9182,9 @@ extension GetTemplateSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension GetTemplateSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemplateSyncConfigInput {
+
+    static func urlPathProvider(_ value: GetTemplateSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9256,8 +9303,9 @@ extension GetTemplateSyncStatusInput: Swift.Encodable {
     }
 }
 
-extension GetTemplateSyncStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemplateSyncStatusInput {
+
+    static func urlPathProvider(_ value: GetTemplateSyncStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9466,8 +9514,9 @@ extension ListComponentOutputsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentOutputsInput {
+
+    static func urlPathProvider(_ value: ListComponentOutputsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9609,8 +9658,9 @@ extension ListComponentProvisionedResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListComponentProvisionedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentProvisionedResourcesInput {
+
+    static func urlPathProvider(_ value: ListComponentProvisionedResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9756,8 +9806,9 @@ extension ListComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentsInput {
+
+    static func urlPathProvider(_ value: ListComponentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9929,8 +9980,9 @@ extension ListDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10110,8 +10162,9 @@ extension ListEnvironmentAccountConnectionsInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentAccountConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentAccountConnectionsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentAccountConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10281,8 +10334,9 @@ extension ListEnvironmentOutputsInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentOutputsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentOutputsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10424,8 +10478,9 @@ extension ListEnvironmentProvisionedResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentProvisionedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentProvisionedResourcesInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentProvisionedResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10567,8 +10622,9 @@ extension ListEnvironmentTemplateVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentTemplateVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentTemplateVersionsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentTemplateVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10718,8 +10774,9 @@ extension ListEnvironmentTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentTemplatesInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10858,8 +10915,9 @@ extension ListEnvironmentsInput: Swift.Encodable {
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11009,8 +11067,9 @@ extension ListRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension ListRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositoriesInput {
+
+    static func urlPathProvider(_ value: ListRepositoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11151,8 +11210,9 @@ extension ListRepositorySyncDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension ListRepositorySyncDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRepositorySyncDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListRepositorySyncDefinitionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11311,8 +11371,9 @@ extension ListServiceInstanceOutputsInput: Swift.Encodable {
     }
 }
 
-extension ListServiceInstanceOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceInstanceOutputsInput {
+
+    static func urlPathProvider(_ value: ListServiceInstanceOutputsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11467,8 +11528,9 @@ extension ListServiceInstanceProvisionedResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListServiceInstanceProvisionedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceInstanceProvisionedResourcesInput {
+
+    static func urlPathProvider(_ value: ListServiceInstanceProvisionedResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11731,8 +11793,9 @@ extension ListServiceInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListServiceInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceInstancesInput {
+
+    static func urlPathProvider(_ value: ListServiceInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11957,8 +12020,9 @@ extension ListServicePipelineOutputsInput: Swift.Encodable {
     }
 }
 
-extension ListServicePipelineOutputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicePipelineOutputsInput {
+
+    static func urlPathProvider(_ value: ListServicePipelineOutputsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12100,8 +12164,9 @@ extension ListServicePipelineProvisionedResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListServicePipelineProvisionedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicePipelineProvisionedResourcesInput {
+
+    static func urlPathProvider(_ value: ListServicePipelineProvisionedResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12243,8 +12308,9 @@ extension ListServiceTemplateVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListServiceTemplateVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceTemplateVersionsInput {
+
+    static func urlPathProvider(_ value: ListServiceTemplateVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12394,8 +12460,9 @@ extension ListServiceTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListServiceTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceTemplatesInput {
+
+    static func urlPathProvider(_ value: ListServiceTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12527,8 +12594,9 @@ extension ListServicesInput: Swift.Encodable {
     }
 }
 
-extension ListServicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServicesInput {
+
+    static func urlPathProvider(_ value: ListServicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12651,8 +12719,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12799,8 +12868,9 @@ extension NotifyResourceDeploymentStatusChangeInput: Swift.Encodable {
     }
 }
 
-extension NotifyResourceDeploymentStatusChangeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension NotifyResourceDeploymentStatusChangeInput {
+
+    static func urlPathProvider(_ value: NotifyResourceDeploymentStatusChangeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13083,8 +13153,9 @@ extension RejectEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension RejectEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: RejectEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16434,8 +16505,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16783,8 +16855,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16883,8 +16956,9 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17043,8 +17117,9 @@ extension UpdateComponentInput: Swift.Encodable {
     }
 }
 
-extension UpdateComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateComponentInput {
+
+    static func urlPathProvider(_ value: UpdateComponentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17218,8 +17293,9 @@ extension UpdateEnvironmentAccountConnectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentAccountConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentAccountConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentAccountConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17392,8 +17468,9 @@ extension UpdateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17591,8 +17668,9 @@ extension UpdateEnvironmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17733,8 +17811,9 @@ extension UpdateEnvironmentTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnvironmentTemplateVersionInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17885,8 +17964,9 @@ extension UpdateServiceInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceInput {
+
+    static func urlPathProvider(_ value: UpdateServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17978,8 +18058,9 @@ extension UpdateServiceInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateServiceInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18212,8 +18293,9 @@ extension UpdateServicePipelineInput: Swift.Encodable {
     }
 }
 
-extension UpdateServicePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServicePipelineInput {
+
+    static func urlPathProvider(_ value: UpdateServicePipelineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18355,8 +18437,9 @@ extension UpdateServiceSyncBlockerInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceSyncBlockerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceSyncBlockerInput {
+
+    static func urlPathProvider(_ value: UpdateServiceSyncBlockerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18506,8 +18589,9 @@ extension UpdateServiceSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceSyncConfigInput {
+
+    static func urlPathProvider(_ value: UpdateServiceSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18659,8 +18743,9 @@ extension UpdateServiceTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateServiceTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18815,8 +18900,9 @@ extension UpdateServiceTemplateVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceTemplateVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceTemplateVersionInput {
+
+    static func urlPathProvider(_ value: UpdateServiceTemplateVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19008,8 +19094,9 @@ extension UpdateTemplateSyncConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateSyncConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTemplateSyncConfigInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateSyncConfigInput) -> Swift.String? {
         return "/"
     }
 }

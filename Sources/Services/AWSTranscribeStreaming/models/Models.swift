@@ -2429,54 +2429,56 @@ extension TranscribeStreamingClientTypes {
     }
 }
 
-extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartCallAnalyticsStreamTranscriptionInput {
+
+    static func headerProvider(_ value: StartCallAnalyticsStreamTranscriptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentIdentificationType = contentIdentificationType {
+        if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
-        if let contentRedactionType = contentRedactionType {
+        if let contentRedactionType = value.contentRedactionType {
             items.add(Header(name: "x-amzn-transcribe-content-redaction-type", value: Swift.String(contentRedactionType.rawValue)))
         }
-        if let enablePartialResultsStabilization = enablePartialResultsStabilization {
+        if let enablePartialResultsStabilization = value.enablePartialResultsStabilization {
             items.add(Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
         }
-        if let languageCode = languageCode {
+        if let languageCode = value.languageCode {
             items.add(Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
         }
-        if let languageModelName = languageModelName {
+        if let languageModelName = value.languageModelName {
             items.add(Header(name: "x-amzn-transcribe-language-model-name", value: Swift.String(languageModelName)))
         }
-        if let mediaEncoding = mediaEncoding {
+        if let mediaEncoding = value.mediaEncoding {
             items.add(Header(name: "x-amzn-transcribe-media-encoding", value: Swift.String(mediaEncoding.rawValue)))
         }
-        if let mediaSampleRateHertz = mediaSampleRateHertz {
+        if let mediaSampleRateHertz = value.mediaSampleRateHertz {
             items.add(Header(name: "x-amzn-transcribe-sample-rate", value: Swift.String(mediaSampleRateHertz)))
         }
-        if let partialResultsStability = partialResultsStability {
+        if let partialResultsStability = value.partialResultsStability {
             items.add(Header(name: "x-amzn-transcribe-partial-results-stability", value: Swift.String(partialResultsStability.rawValue)))
         }
-        if let piiEntityTypes = piiEntityTypes {
+        if let piiEntityTypes = value.piiEntityTypes {
             items.add(Header(name: "x-amzn-transcribe-pii-entity-types", value: Swift.String(piiEntityTypes)))
         }
-        if let sessionId = sessionId {
+        if let sessionId = value.sessionId {
             items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
-        if let vocabularyFilterMethod = vocabularyFilterMethod {
+        if let vocabularyFilterMethod = value.vocabularyFilterMethod {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-method", value: Swift.String(vocabularyFilterMethod.rawValue)))
         }
-        if let vocabularyFilterName = vocabularyFilterName {
+        if let vocabularyFilterName = value.vocabularyFilterName {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-name", value: Swift.String(vocabularyFilterName)))
         }
-        if let vocabularyName = vocabularyName {
+        if let vocabularyName = value.vocabularyName {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-name", value: Swift.String(vocabularyName)))
         }
         return items
     }
 }
 
-extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCallAnalyticsStreamTranscriptionInput {
+
+    static func urlPathProvider(_ value: StartCallAnalyticsStreamTranscriptionInput) -> Swift.String? {
         return "/call-analytics-stream-transcription"
     }
 }
@@ -2723,48 +2725,50 @@ enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartMedicalStreamTranscriptionInput {
+
+    static func headerProvider(_ value: StartMedicalStreamTranscriptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentIdentificationType = contentIdentificationType {
+        if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
-        if let enableChannelIdentification = enableChannelIdentification {
+        if let enableChannelIdentification = value.enableChannelIdentification {
             items.add(Header(name: "x-amzn-transcribe-enable-channel-identification", value: Swift.String(enableChannelIdentification)))
         }
-        if let languageCode = languageCode {
+        if let languageCode = value.languageCode {
             items.add(Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
         }
-        if let mediaEncoding = mediaEncoding {
+        if let mediaEncoding = value.mediaEncoding {
             items.add(Header(name: "x-amzn-transcribe-media-encoding", value: Swift.String(mediaEncoding.rawValue)))
         }
-        if let mediaSampleRateHertz = mediaSampleRateHertz {
+        if let mediaSampleRateHertz = value.mediaSampleRateHertz {
             items.add(Header(name: "x-amzn-transcribe-sample-rate", value: Swift.String(mediaSampleRateHertz)))
         }
-        if let numberOfChannels = numberOfChannels {
+        if let numberOfChannels = value.numberOfChannels {
             items.add(Header(name: "x-amzn-transcribe-number-of-channels", value: Swift.String(numberOfChannels)))
         }
-        if let sessionId = sessionId {
+        if let sessionId = value.sessionId {
             items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
-        if let showSpeakerLabel = showSpeakerLabel {
+        if let showSpeakerLabel = value.showSpeakerLabel {
             items.add(Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
         }
-        if let specialty = specialty {
+        if let specialty = value.specialty {
             items.add(Header(name: "x-amzn-transcribe-specialty", value: Swift.String(specialty.rawValue)))
         }
-        if let type = type {
+        if let type = value.type {
             items.add(Header(name: "x-amzn-transcribe-type", value: Swift.String(type.rawValue)))
         }
-        if let vocabularyName = vocabularyName {
+        if let vocabularyName = value.vocabularyName {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-name", value: Swift.String(vocabularyName)))
         }
         return items
     }
 }
 
-extension StartMedicalStreamTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMedicalStreamTranscriptionInput {
+
+    static func urlPathProvider(_ value: StartMedicalStreamTranscriptionInput) -> Swift.String? {
         return "/medical-stream-transcription"
     }
 }
@@ -2987,81 +2991,83 @@ enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartStreamTranscriptionInput {
+
+    static func headerProvider(_ value: StartStreamTranscriptionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentIdentificationType = contentIdentificationType {
+        if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
-        if let contentRedactionType = contentRedactionType {
+        if let contentRedactionType = value.contentRedactionType {
             items.add(Header(name: "x-amzn-transcribe-content-redaction-type", value: Swift.String(contentRedactionType.rawValue)))
         }
-        if let enableChannelIdentification = enableChannelIdentification {
+        if let enableChannelIdentification = value.enableChannelIdentification {
             items.add(Header(name: "x-amzn-transcribe-enable-channel-identification", value: Swift.String(enableChannelIdentification)))
         }
-        if let enablePartialResultsStabilization = enablePartialResultsStabilization {
+        if let enablePartialResultsStabilization = value.enablePartialResultsStabilization {
             items.add(Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
         }
-        if let identifyLanguage = identifyLanguage {
+        if let identifyLanguage = value.identifyLanguage {
             items.add(Header(name: "x-amzn-transcribe-identify-language", value: Swift.String(identifyLanguage)))
         }
-        if let identifyMultipleLanguages = identifyMultipleLanguages {
+        if let identifyMultipleLanguages = value.identifyMultipleLanguages {
             items.add(Header(name: "x-amzn-transcribe-identify-multiple-languages", value: Swift.String(identifyMultipleLanguages)))
         }
-        if let languageCode = languageCode {
+        if let languageCode = value.languageCode {
             items.add(Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
         }
-        if let languageModelName = languageModelName {
+        if let languageModelName = value.languageModelName {
             items.add(Header(name: "x-amzn-transcribe-language-model-name", value: Swift.String(languageModelName)))
         }
-        if let languageOptions = languageOptions {
+        if let languageOptions = value.languageOptions {
             items.add(Header(name: "x-amzn-transcribe-language-options", value: Swift.String(languageOptions)))
         }
-        if let mediaEncoding = mediaEncoding {
+        if let mediaEncoding = value.mediaEncoding {
             items.add(Header(name: "x-amzn-transcribe-media-encoding", value: Swift.String(mediaEncoding.rawValue)))
         }
-        if let mediaSampleRateHertz = mediaSampleRateHertz {
+        if let mediaSampleRateHertz = value.mediaSampleRateHertz {
             items.add(Header(name: "x-amzn-transcribe-sample-rate", value: Swift.String(mediaSampleRateHertz)))
         }
-        if let numberOfChannels = numberOfChannels {
+        if let numberOfChannels = value.numberOfChannels {
             items.add(Header(name: "x-amzn-transcribe-number-of-channels", value: Swift.String(numberOfChannels)))
         }
-        if let partialResultsStability = partialResultsStability {
+        if let partialResultsStability = value.partialResultsStability {
             items.add(Header(name: "x-amzn-transcribe-partial-results-stability", value: Swift.String(partialResultsStability.rawValue)))
         }
-        if let piiEntityTypes = piiEntityTypes {
+        if let piiEntityTypes = value.piiEntityTypes {
             items.add(Header(name: "x-amzn-transcribe-pii-entity-types", value: Swift.String(piiEntityTypes)))
         }
-        if let preferredLanguage = preferredLanguage {
+        if let preferredLanguage = value.preferredLanguage {
             items.add(Header(name: "x-amzn-transcribe-preferred-language", value: Swift.String(preferredLanguage.rawValue)))
         }
-        if let sessionId = sessionId {
+        if let sessionId = value.sessionId {
             items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
-        if let showSpeakerLabel = showSpeakerLabel {
+        if let showSpeakerLabel = value.showSpeakerLabel {
             items.add(Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
         }
-        if let vocabularyFilterMethod = vocabularyFilterMethod {
+        if let vocabularyFilterMethod = value.vocabularyFilterMethod {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-method", value: Swift.String(vocabularyFilterMethod.rawValue)))
         }
-        if let vocabularyFilterName = vocabularyFilterName {
+        if let vocabularyFilterName = value.vocabularyFilterName {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-name", value: Swift.String(vocabularyFilterName)))
         }
-        if let vocabularyFilterNames = vocabularyFilterNames {
+        if let vocabularyFilterNames = value.vocabularyFilterNames {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-filter-names", value: Swift.String(vocabularyFilterNames)))
         }
-        if let vocabularyName = vocabularyName {
+        if let vocabularyName = value.vocabularyName {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-name", value: Swift.String(vocabularyName)))
         }
-        if let vocabularyNames = vocabularyNames {
+        if let vocabularyNames = value.vocabularyNames {
             items.add(Header(name: "x-amzn-transcribe-vocabulary-names", value: Swift.String(vocabularyNames)))
         }
         return items
     }
 }
 
-extension StartStreamTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartStreamTranscriptionInput {
+
+    static func urlPathProvider(_ value: StartStreamTranscriptionInput) -> Swift.String? {
         return "/stream-transcription"
     }
 }

@@ -109,8 +109,9 @@ extension CreateWorkflowInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkflowInput {
+
+    static func urlPathProvider(_ value: CreateWorkflowInput) -> Swift.String? {
         return "/migrationworkflow"
     }
 }
@@ -443,8 +444,9 @@ extension CreateWorkflowStepGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkflowStepGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkflowStepGroupInput {
+
+    static func urlPathProvider(_ value: CreateWorkflowStepGroupInput) -> Swift.String? {
         return "/workflowstepgroups"
     }
 }
@@ -741,8 +743,9 @@ extension CreateWorkflowStepInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkflowStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkflowStepInput {
+
+    static func urlPathProvider(_ value: CreateWorkflowStepInput) -> Swift.String? {
         return "/workflowstep"
     }
 }
@@ -1009,9 +1012,10 @@ extension MigrationHubOrchestratorClientTypes {
     }
 }
 
-extension DeleteWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWorkflowInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflow/\(id.urlPercentEncoding())"
@@ -1115,24 +1119,24 @@ enum DeleteWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension DeleteWorkflowStepGroupInput {
+
+    static func queryItemProvider(_ value: DeleteWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension DeleteWorkflowStepGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWorkflowStepGroupInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowStepGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstepgroup/\(id.urlPercentEncoding())"
@@ -1191,30 +1195,30 @@ enum DeleteWorkflowStepGroupOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteWorkflowStepInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepGroupId = stepGroupId else {
-                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
-            items.append(stepGroupIdQueryItem)
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension DeleteWorkflowStepInput {
+
+    static func queryItemProvider(_ value: DeleteWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepGroupId = value.stepGroupId else {
+            let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        items.append(stepGroupIdQueryItem)
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension DeleteWorkflowStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteWorkflowStepInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowStepInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstep/\(id.urlPercentEncoding())"
@@ -1278,9 +1282,10 @@ enum DeleteWorkflowStepOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetTemplateInput {
+
+    static func urlPathProvider(_ value: GetTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflowtemplate/\(id.urlPercentEncoding())"
@@ -1441,12 +1446,13 @@ enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTemplateStepGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateId = templateId else {
+extension GetTemplateStepGroupInput {
+
+    static func urlPathProvider(_ value: GetTemplateStepGroupInput) -> Swift.String? {
+        guard let templateId = value.templateId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/templates/\(templateId.urlPercentEncoding())/stepgroups/\(id.urlPercentEncoding())"
@@ -1652,30 +1658,30 @@ enum GetTemplateStepGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetTemplateStepInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepGroupId = stepGroupId else {
-                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
-            items.append(stepGroupIdQueryItem)
-            guard let templateId = templateId else {
-                let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
-            items.append(templateIdQueryItem)
-            return items
+extension GetTemplateStepInput {
+
+    static func queryItemProvider(_ value: GetTemplateStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepGroupId = value.stepGroupId else {
+            let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        items.append(stepGroupIdQueryItem)
+        guard let templateId = value.templateId else {
+            let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+        items.append(templateIdQueryItem)
+        return items
     }
 }
 
-extension GetTemplateStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetTemplateStepInput {
+
+    static func urlPathProvider(_ value: GetTemplateStepInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/templatestep/\(id.urlPercentEncoding())"
@@ -1896,9 +1902,10 @@ enum GetTemplateStepOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWorkflowInput {
+
+    static func urlPathProvider(_ value: GetWorkflowInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflow/\(id.urlPercentEncoding())"
@@ -2204,24 +2211,24 @@ enum GetWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension GetWorkflowStepGroupInput {
+
+    static func queryItemProvider(_ value: GetWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension GetWorkflowStepGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWorkflowStepGroupInput {
+
+    static func urlPathProvider(_ value: GetWorkflowStepGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstepgroup/\(id.urlPercentEncoding())"
@@ -2447,30 +2454,30 @@ enum GetWorkflowStepGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowStepInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepGroupId = stepGroupId else {
-                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
-            items.append(stepGroupIdQueryItem)
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension GetWorkflowStepInput {
+
+    static func queryItemProvider(_ value: GetWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepGroupId = value.stepGroupId else {
+            let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        items.append(stepGroupIdQueryItem)
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension GetWorkflowStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetWorkflowStepInput {
+
+    static func urlPathProvider(_ value: GetWorkflowStepInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstep/\(id.urlPercentEncoding())"
@@ -2855,25 +2862,25 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListPluginsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListPluginsInput {
+
+    static func queryItemProvider(_ value: ListPluginsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPluginsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPluginsInput {
+
+    static func urlPathProvider(_ value: ListPluginsInput) -> Swift.String? {
         return "/plugins"
     }
 }
@@ -2975,9 +2982,10 @@ enum ListPluginsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3067,26 +3075,26 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplateStepGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListTemplateStepGroupsInput {
+
+    static func queryItemProvider(_ value: ListTemplateStepGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplateStepGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let templateId = templateId else {
+extension ListTemplateStepGroupsInput {
+
+    static func urlPathProvider(_ value: ListTemplateStepGroupsInput) -> Swift.String? {
+        guard let templateId = value.templateId else {
             return nil
         }
         return "/templatestepgroups/\(templateId.urlPercentEncoding())"
@@ -3197,37 +3205,37 @@ enum ListTemplateStepGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplateStepsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepGroupId = stepGroupId else {
-                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
-            items.append(stepGroupIdQueryItem)
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let templateId = templateId else {
-                let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
-            items.append(templateIdQueryItem)
-            return items
+extension ListTemplateStepsInput {
+
+    static func queryItemProvider(_ value: ListTemplateStepsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepGroupId = value.stepGroupId else {
+            let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        items.append(stepGroupIdQueryItem)
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let templateId = value.templateId else {
+            let message = "Creating a URL Query Item failed. templateId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+        items.append(templateIdQueryItem)
+        return items
     }
 }
 
-extension ListTemplateStepsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTemplateStepsInput {
+
+    static func urlPathProvider(_ value: ListTemplateStepsInput) -> Swift.String? {
         return "/templatesteps"
     }
 }
@@ -3341,29 +3349,29 @@ enum ListTemplateStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            return items
+extension ListTemplatesInput {
+
+    static func queryItemProvider(_ value: ListTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTemplatesInput {
+
+    static func urlPathProvider(_ value: ListTemplatesInput) -> Swift.String? {
         return "/migrationworkflowtemplates"
     }
 }
@@ -3470,31 +3478,31 @@ enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWorkflowStepGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension ListWorkflowStepGroupsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowStepGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension ListWorkflowStepGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowStepGroupsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowStepGroupsInput) -> Swift.String? {
         return "/workflowstepgroups"
     }
 }
@@ -3604,29 +3612,29 @@ enum ListWorkflowStepGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWorkflowStepsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListWorkflowStepsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowStepsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWorkflowStepsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workflowId = workflowId else {
+extension ListWorkflowStepsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowStepsInput) -> Swift.String? {
+        guard let workflowId = value.workflowId else {
             return nil
         }
-        guard let stepGroupId = stepGroupId else {
+        guard let stepGroupId = value.stepGroupId else {
             return nil
         }
         return "/workflow/\(workflowId.urlPercentEncoding())/workflowstepgroups/\(stepGroupId.urlPercentEncoding())/workflowsteps"
@@ -3742,41 +3750,41 @@ enum ListWorkflowStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWorkflowsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let adsApplicationConfigurationName = adsApplicationConfigurationName {
-                let adsApplicationConfigurationNameQueryItem = ClientRuntime.URLQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
-                items.append(adsApplicationConfigurationNameQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            if let templateId = templateId {
-                let templateIdQueryItem = ClientRuntime.URLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
-                items.append(templateIdQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListWorkflowsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let adsApplicationConfigurationName = value.adsApplicationConfigurationName {
+            let adsApplicationConfigurationNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "adsApplicationConfigurationName".urlPercentEncoding(), value: Swift.String(adsApplicationConfigurationName).urlPercentEncoding())
+            items.append(adsApplicationConfigurationNameQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let templateId = value.templateId {
+            let templateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "templateId".urlPercentEncoding(), value: Swift.String(templateId).urlPercentEncoding())
+            items.append(templateIdQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWorkflowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
         return "/migrationworkflows"
     }
 }
@@ -4385,30 +4393,30 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-extension RetryWorkflowStepInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepGroupId = stepGroupId else {
-                let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepGroupIdQueryItem = ClientRuntime.URLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
-            items.append(stepGroupIdQueryItem)
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension RetryWorkflowStepInput {
+
+    static func queryItemProvider(_ value: RetryWorkflowStepInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepGroupId = value.stepGroupId else {
+            let message = "Creating a URL Query Item failed. stepGroupId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepGroupIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepGroupId".urlPercentEncoding(), value: Swift.String(stepGroupId).urlPercentEncoding())
+        items.append(stepGroupIdQueryItem)
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension RetryWorkflowStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension RetryWorkflowStepInput {
+
+    static func urlPathProvider(_ value: RetryWorkflowStepInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/retryworkflowstep/\(id.urlPercentEncoding())"
@@ -4563,9 +4571,10 @@ extension MigrationHubOrchestratorClientTypes {
     }
 }
 
-extension StartWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StartWorkflowInput {
+
+    static func urlPathProvider(_ value: StartWorkflowInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflow/\(id.urlPercentEncoding())/start"
@@ -5039,9 +5048,10 @@ extension MigrationHubOrchestratorClientTypes {
     }
 }
 
-extension StopWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension StopWorkflowInput {
+
+    static func urlPathProvider(_ value: StopWorkflowInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflow/\(id.urlPercentEncoding())/stop"
@@ -5181,9 +5191,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5768,26 +5779,26 @@ extension MigrationHubOrchestratorClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5879,9 +5890,10 @@ extension UpdateWorkflowInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWorkflowInput {
+
+    static func urlPathProvider(_ value: UpdateWorkflowInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/migrationworkflow/\(id.urlPercentEncoding())"
@@ -6191,24 +6203,24 @@ extension UpdateWorkflowStepGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkflowStepGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension UpdateWorkflowStepGroupInput {
+
+    static func queryItemProvider(_ value: UpdateWorkflowStepGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension UpdateWorkflowStepGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWorkflowStepGroupInput {
+
+    static func urlPathProvider(_ value: UpdateWorkflowStepGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstepgroup/\(id.urlPercentEncoding())"
@@ -6512,9 +6524,10 @@ extension UpdateWorkflowStepInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkflowStepInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateWorkflowStepInput {
+
+    static func urlPathProvider(_ value: UpdateWorkflowStepInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/workflowstep/\(id.urlPercentEncoding())"

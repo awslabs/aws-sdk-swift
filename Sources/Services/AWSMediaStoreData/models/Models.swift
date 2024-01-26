@@ -57,9 +57,10 @@ extension ContainerNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let path = path else {
+extension DeleteObjectInput {
+
+    static func urlPathProvider(_ value: DeleteObjectInput) -> Swift.String? {
+        guard let path = value.path else {
             return nil
         }
         return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
@@ -111,9 +112,10 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let path = path else {
+extension DescribeObjectInput {
+
+    static func urlPathProvider(_ value: DescribeObjectInput) -> Swift.String? {
+        guard let path = value.path else {
             return nil
         }
         return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
@@ -213,19 +215,21 @@ enum DescribeObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetObjectInput {
+
+    static func headerProvider(_ value: GetObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let range = range {
+        if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
         return items
     }
 }
 
-extension GetObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let path = path else {
+extension GetObjectInput {
+
+    static func urlPathProvider(_ value: GetObjectInput) -> Swift.String? {
+        guard let path = value.path else {
             return nil
         }
         return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"
@@ -549,29 +553,29 @@ extension MediaStoreDataClientTypes {
     }
 }
 
-extension ListItemsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let path = path {
-                let pathQueryItem = ClientRuntime.URLQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
-                items.append(pathQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListItemsInput {
+
+    static func queryItemProvider(_ value: ListItemsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let path = value.path {
+            let pathQueryItem = ClientRuntime.SDKURLQueryItem(name: "Path".urlPercentEncoding(), value: Swift.String(path).urlPercentEncoding())
+            items.append(pathQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListItemsInput {
+
+    static func urlPathProvider(_ value: ListItemsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -744,28 +748,30 @@ extension PutObjectInput: Swift.Encodable {
     }
 }
 
-extension PutObjectInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutObjectInput {
+
+    static func headerProvider(_ value: PutObjectInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let cacheControl = cacheControl {
+        if let cacheControl = value.cacheControl {
             items.add(Header(name: "Cache-Control", value: Swift.String(cacheControl)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
-        if let storageClass = storageClass {
+        if let storageClass = value.storageClass {
             items.add(Header(name: "x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if let uploadAvailability = uploadAvailability {
+        if let uploadAvailability = value.uploadAvailability {
             items.add(Header(name: "x-amz-upload-availability", value: Swift.String(uploadAvailability.rawValue)))
         }
         return items
     }
 }
 
-extension PutObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let path = path else {
+extension PutObjectInput {
+
+    static func urlPathProvider(_ value: PutObjectInput) -> Swift.String? {
+        guard let path = value.path else {
             return nil
         }
         return "/\(path.urlPercentEncoding(encodeForwardSlash: false))"

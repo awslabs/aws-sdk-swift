@@ -264,28 +264,30 @@ extension EBSClientTypes {
     }
 }
 
-extension CompleteSnapshotInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CompleteSnapshotInput {
+
+    static func headerProvider(_ value: CompleteSnapshotInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let changedBlocksCount = changedBlocksCount {
+        if let changedBlocksCount = value.changedBlocksCount {
             items.add(Header(name: "x-amz-ChangedBlocksCount", value: Swift.String(changedBlocksCount)))
         }
-        if let checksum = checksum {
+        if let checksum = value.checksum {
             items.add(Header(name: "x-amz-Checksum", value: Swift.String(checksum)))
         }
-        if let checksumAggregationMethod = checksumAggregationMethod {
+        if let checksumAggregationMethod = value.checksumAggregationMethod {
             items.add(Header(name: "x-amz-Checksum-Aggregation-Method", value: Swift.String(checksumAggregationMethod.rawValue)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-Checksum-Algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
         return items
     }
 }
 
-extension CompleteSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotId = snapshotId else {
+extension CompleteSnapshotInput {
+
+    static func urlPathProvider(_ value: CompleteSnapshotInput) -> Swift.String? {
+        guard let snapshotId = value.snapshotId else {
             return nil
         }
         return "/snapshots/completion/\(snapshotId.urlPercentEncoding())"
@@ -497,27 +499,27 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetSnapshotBlockInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let blockToken = blockToken else {
-                let message = "Creating a URL Query Item failed. blockToken is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let blockTokenQueryItem = ClientRuntime.URLQueryItem(name: "blockToken".urlPercentEncoding(), value: Swift.String(blockToken).urlPercentEncoding())
-            items.append(blockTokenQueryItem)
-            return items
+extension GetSnapshotBlockInput {
+
+    static func queryItemProvider(_ value: GetSnapshotBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let blockToken = value.blockToken else {
+            let message = "Creating a URL Query Item failed. blockToken is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let blockTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "blockToken".urlPercentEncoding(), value: Swift.String(blockToken).urlPercentEncoding())
+        items.append(blockTokenQueryItem)
+        return items
     }
 }
 
-extension GetSnapshotBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotId = snapshotId else {
+extension GetSnapshotBlockInput {
+
+    static func urlPathProvider(_ value: GetSnapshotBlockInput) -> Swift.String? {
+        guard let snapshotId = value.snapshotId else {
             return nil
         }
-        guard let blockIndex = blockIndex else {
+        guard let blockIndex = value.blockIndex else {
             return nil
         }
         return "/snapshots/\(snapshotId.urlPercentEncoding())/blocks/\(blockIndex)"
@@ -700,34 +702,34 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListChangedBlocksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let firstSnapshotId = firstSnapshotId {
-                let firstSnapshotIdQueryItem = ClientRuntime.URLQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
-                items.append(firstSnapshotIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let startingBlockIndex = startingBlockIndex {
-                let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
-                items.append(startingBlockIndexQueryItem)
-            }
-            return items
+extension ListChangedBlocksInput {
+
+    static func queryItemProvider(_ value: ListChangedBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let firstSnapshotId = value.firstSnapshotId {
+            let firstSnapshotIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "firstSnapshotId".urlPercentEncoding(), value: Swift.String(firstSnapshotId).urlPercentEncoding())
+            items.append(firstSnapshotIdQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let startingBlockIndex = value.startingBlockIndex {
+            let startingBlockIndexQueryItem = ClientRuntime.SDKURLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+            items.append(startingBlockIndexQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChangedBlocksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let secondSnapshotId = secondSnapshotId else {
+extension ListChangedBlocksInput {
+
+    static func urlPathProvider(_ value: ListChangedBlocksInput) -> Swift.String? {
+        guard let secondSnapshotId = value.secondSnapshotId else {
             return nil
         }
         return "/snapshots/\(secondSnapshotId.urlPercentEncoding())/changedblocks"
@@ -877,30 +879,30 @@ enum ListChangedBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSnapshotBlocksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let startingBlockIndex = startingBlockIndex {
-                let startingBlockIndexQueryItem = ClientRuntime.URLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
-                items.append(startingBlockIndexQueryItem)
-            }
-            return items
+extension ListSnapshotBlocksInput {
+
+    static func queryItemProvider(_ value: ListSnapshotBlocksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let startingBlockIndex = value.startingBlockIndex {
+            let startingBlockIndexQueryItem = ClientRuntime.SDKURLQueryItem(name: "startingBlockIndex".urlPercentEncoding(), value: Swift.String(startingBlockIndex).urlPercentEncoding())
+            items.append(startingBlockIndexQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSnapshotBlocksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotId = snapshotId else {
+extension ListSnapshotBlocksInput {
+
+    static func urlPathProvider(_ value: ListSnapshotBlocksInput) -> Swift.String? {
+        guard let snapshotId = value.snapshotId else {
             return nil
         }
         return "/snapshots/\(snapshotId.urlPercentEncoding())/blocks"
@@ -1069,31 +1071,33 @@ extension PutSnapshotBlockInput: Swift.Encodable {
     }
 }
 
-extension PutSnapshotBlockInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSnapshotBlockInput {
+
+    static func headerProvider(_ value: PutSnapshotBlockInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let checksum = checksum {
+        if let checksum = value.checksum {
             items.add(Header(name: "x-amz-Checksum", value: Swift.String(checksum)))
         }
-        if let checksumAlgorithm = checksumAlgorithm {
+        if let checksumAlgorithm = value.checksumAlgorithm {
             items.add(Header(name: "x-amz-Checksum-Algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if let dataLength = dataLength {
+        if let dataLength = value.dataLength {
             items.add(Header(name: "x-amz-Data-Length", value: Swift.String(dataLength)))
         }
-        if let progress = progress {
+        if let progress = value.progress {
             items.add(Header(name: "x-amz-Progress", value: Swift.String(progress)))
         }
         return items
     }
 }
 
-extension PutSnapshotBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotId = snapshotId else {
+extension PutSnapshotBlockInput {
+
+    static func urlPathProvider(_ value: PutSnapshotBlockInput) -> Swift.String? {
+        guard let snapshotId = value.snapshotId else {
             return nil
         }
-        guard let blockIndex = blockIndex else {
+        guard let blockIndex = value.blockIndex else {
             return nil
         }
         return "/snapshots/\(snapshotId.urlPercentEncoding())/blocks/\(blockIndex)"
@@ -1586,8 +1590,9 @@ extension StartSnapshotInput: Swift.Encodable {
     }
 }
 
-extension StartSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSnapshotInput {
+
+    static func urlPathProvider(_ value: StartSnapshotInput) -> Swift.String? {
         return "/snapshots"
     }
 }

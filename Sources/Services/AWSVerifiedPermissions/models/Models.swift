@@ -245,8 +245,9 @@ extension BatchIsAuthorizedInput: Swift.Encodable {
     }
 }
 
-extension BatchIsAuthorizedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchIsAuthorizedInput {
+
+    static func urlPathProvider(_ value: BatchIsAuthorizedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -777,8 +778,9 @@ extension CreateIdentitySourceInput: Swift.Encodable {
     }
 }
 
-extension CreateIdentitySourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIdentitySourceInput {
+
+    static func urlPathProvider(_ value: CreateIdentitySourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -947,8 +949,9 @@ extension CreatePolicyInput: Swift.Encodable {
     }
 }
 
-extension CreatePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePolicyInput {
+
+    static func urlPathProvider(_ value: CreatePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1145,8 +1148,9 @@ extension CreatePolicyStoreInput: Swift.Encodable {
     }
 }
 
-extension CreatePolicyStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePolicyStoreInput {
+
+    static func urlPathProvider(_ value: CreatePolicyStoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1314,8 +1318,9 @@ extension CreatePolicyTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreatePolicyTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePolicyTemplateInput {
+
+    static func urlPathProvider(_ value: CreatePolicyTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1512,8 +1517,9 @@ extension DeleteIdentitySourceInput: Swift.Encodable {
     }
 }
 
-extension DeleteIdentitySourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIdentitySourceInput {
+
+    static func urlPathProvider(_ value: DeleteIdentitySourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1597,8 +1603,9 @@ extension DeletePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeletePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePolicyInput {
+
+    static func urlPathProvider(_ value: DeletePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1678,8 +1685,9 @@ extension DeletePolicyStoreInput: Swift.Encodable {
     }
 }
 
-extension DeletePolicyStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePolicyStoreInput {
+
+    static func urlPathProvider(_ value: DeletePolicyStoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1752,8 +1760,9 @@ extension DeletePolicyTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeletePolicyTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePolicyTemplateInput {
+
+    static func urlPathProvider(_ value: DeletePolicyTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2143,8 +2152,9 @@ extension GetIdentitySourceInput: Swift.Encodable {
     }
 }
 
-extension GetIdentitySourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentitySourceInput {
+
+    static func urlPathProvider(_ value: GetIdentitySourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2318,8 +2328,9 @@ extension GetPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPolicyInput {
+
+    static func urlPathProvider(_ value: GetPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2504,8 +2515,9 @@ extension GetPolicyStoreInput: Swift.Encodable {
     }
 }
 
-extension GetPolicyStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPolicyStoreInput {
+
+    static func urlPathProvider(_ value: GetPolicyStoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2669,8 +2681,9 @@ extension GetPolicyTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetPolicyTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPolicyTemplateInput {
+
+    static func urlPathProvider(_ value: GetPolicyTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2839,8 +2852,9 @@ extension GetSchemaInput: Swift.Encodable {
     }
 }
 
-extension GetSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSchemaInput {
+
+    static func urlPathProvider(_ value: GetSchemaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3364,8 +3378,9 @@ extension IsAuthorizedInput: Swift.Encodable {
     }
 }
 
-extension IsAuthorizedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IsAuthorizedInput {
+
+    static func urlPathProvider(_ value: IsAuthorizedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3575,8 +3590,9 @@ extension IsAuthorizedWithTokenInput: Swift.Encodable {
     }
 }
 
-extension IsAuthorizedWithTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IsAuthorizedWithTokenInput {
+
+    static func urlPathProvider(_ value: IsAuthorizedWithTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3784,8 +3800,9 @@ extension ListIdentitySourcesInput: Swift.Encodable {
     }
 }
 
-extension ListIdentitySourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentitySourcesInput {
+
+    static func urlPathProvider(_ value: ListIdentitySourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3950,8 +3967,9 @@ extension ListPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPoliciesInput {
+
+    static func urlPathProvider(_ value: ListPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4099,8 +4117,9 @@ extension ListPolicyStoresInput: Swift.Encodable {
     }
 }
 
-extension ListPolicyStoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPolicyStoresInput {
+
+    static func urlPathProvider(_ value: ListPolicyStoresInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4234,8 +4253,9 @@ extension ListPolicyTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListPolicyTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPolicyTemplatesInput {
+
+    static func urlPathProvider(_ value: ListPolicyTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4924,8 +4944,9 @@ extension PutSchemaInput: Swift.Encodable {
     }
 }
 
-extension PutSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutSchemaInput {
+
+    static func urlPathProvider(_ value: PutSchemaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5877,8 +5898,9 @@ extension UpdateIdentitySourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentitySourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIdentitySourceInput {
+
+    static func urlPathProvider(_ value: UpdateIdentitySourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6084,8 +6106,9 @@ extension UpdatePolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdatePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePolicyInput {
+
+    static func urlPathProvider(_ value: UpdatePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6298,8 +6321,9 @@ extension UpdatePolicyStoreInput: Swift.Encodable {
     }
 }
 
-extension UpdatePolicyStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePolicyStoreInput {
+
+    static func urlPathProvider(_ value: UpdatePolicyStoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6468,8 +6492,9 @@ extension UpdatePolicyTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdatePolicyTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePolicyTemplateInput {
+
+    static func urlPathProvider(_ value: UpdatePolicyTemplateInput) -> Swift.String? {
         return "/"
     }
 }

@@ -149,22 +149,24 @@ extension InvokeModelInput: Swift.Encodable {
     }
 }
 
-extension InvokeModelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeModelInput {
+
+    static func headerProvider(_ value: InvokeModelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
         return items
     }
 }
 
-extension InvokeModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let modelId = modelId else {
+extension InvokeModelInput {
+
+    static func urlPathProvider(_ value: InvokeModelInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
             return nil
         }
         return "/model/\(modelId.urlPercentEncoding())/invoke"
@@ -307,22 +309,24 @@ extension InvokeModelWithResponseStreamInput: Swift.Encodable {
     }
 }
 
-extension InvokeModelWithResponseStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension InvokeModelWithResponseStreamInput {
+
+    static func headerProvider(_ value: InvokeModelWithResponseStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "X-Amzn-Bedrock-Accept", value: Swift.String(accept)))
         }
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
         return items
     }
 }
 
-extension InvokeModelWithResponseStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let modelId = modelId else {
+extension InvokeModelWithResponseStreamInput {
+
+    static func urlPathProvider(_ value: InvokeModelWithResponseStreamInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
             return nil
         }
         return "/model/\(modelId.urlPercentEncoding())/invoke-with-response-stream"
