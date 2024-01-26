@@ -197,8 +197,9 @@ extension CreateSlackChannelConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateSlackChannelConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSlackChannelConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateSlackChannelConfigurationInput) -> Swift.String? {
         return "/control/create-slack-channel-configuration"
     }
 }
@@ -334,8 +335,9 @@ enum CreateSlackChannelConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteAccountAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAccountAliasInput {
+
+    static func urlPathProvider(_ value: DeleteAccountAliasInput) -> Swift.String? {
         return "/control/delete-account-alias"
     }
 }
@@ -394,8 +396,9 @@ extension DeleteSlackChannelConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteSlackChannelConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSlackChannelConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSlackChannelConfigurationInput) -> Swift.String? {
         return "/control/delete-slack-channel-configuration"
     }
 }
@@ -476,8 +479,9 @@ extension DeleteSlackWorkspaceConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteSlackWorkspaceConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSlackWorkspaceConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSlackWorkspaceConfigurationInput) -> Swift.String? {
         return "/control/delete-slack-workspace-configuration"
     }
 }
@@ -536,8 +540,9 @@ enum DeleteSlackWorkspaceConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetAccountAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountAliasInput {
+
+    static func urlPathProvider(_ value: GetAccountAliasInput) -> Swift.String? {
         return "/control/get-account-alias"
     }
 }
@@ -675,8 +680,9 @@ extension ListSlackChannelConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListSlackChannelConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSlackChannelConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListSlackChannelConfigurationsInput) -> Swift.String? {
         return "/control/list-slack-channel-configurations"
     }
 }
@@ -794,8 +800,9 @@ extension ListSlackWorkspaceConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListSlackWorkspaceConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSlackWorkspaceConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListSlackWorkspaceConfigurationsInput) -> Swift.String? {
         return "/control/list-slack-workspace-configurations"
     }
 }
@@ -947,8 +954,9 @@ extension PutAccountAliasInput: Swift.Encodable {
     }
 }
 
-extension PutAccountAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountAliasInput {
+
+    static func urlPathProvider(_ value: PutAccountAliasInput) -> Swift.String? {
         return "/control/put-account-alias"
     }
 }
@@ -1018,8 +1026,9 @@ extension RegisterSlackWorkspaceForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension RegisterSlackWorkspaceForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterSlackWorkspaceForOrganizationInput {
+
+    static func urlPathProvider(_ value: RegisterSlackWorkspaceForOrganizationInput) -> Swift.String? {
         return "/control/register-slack-workspace-for-organization"
     }
 }
@@ -1442,8 +1451,9 @@ extension UpdateSlackChannelConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSlackChannelConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSlackChannelConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSlackChannelConfigurationInput) -> Swift.String? {
         return "/control/update-slack-channel-configuration"
     }
 }

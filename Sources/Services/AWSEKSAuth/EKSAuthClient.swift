@@ -104,7 +104,7 @@ extension EKSAuthClient: EKSAuthClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(id: "assumeRoleForPodIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>(AssumeRoleForPodIdentityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssumeRoleForPodIdentityInput, AssumeRoleForPodIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssumeRoleForPodIdentityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

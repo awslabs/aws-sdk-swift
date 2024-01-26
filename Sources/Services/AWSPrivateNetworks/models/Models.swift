@@ -70,8 +70,9 @@ extension AcknowledgeOrderReceiptInput: Swift.Encodable {
     }
 }
 
-extension AcknowledgeOrderReceiptInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcknowledgeOrderReceiptInput {
+
+    static func urlPathProvider(_ value: AcknowledgeOrderReceiptInput) -> Swift.String? {
         return "/v1/orders/acknowledge"
     }
 }
@@ -211,8 +212,9 @@ extension ActivateDeviceIdentifierInput: Swift.Encodable {
     }
 }
 
-extension ActivateDeviceIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateDeviceIdentifierInput {
+
+    static func urlPathProvider(_ value: ActivateDeviceIdentifierInput) -> Swift.String? {
         return "/v1/device-identifiers/activate"
     }
 }
@@ -357,8 +359,9 @@ extension ActivateNetworkSiteInput: Swift.Encodable {
     }
 }
 
-extension ActivateNetworkSiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateNetworkSiteInput {
+
+    static func urlPathProvider(_ value: ActivateNetworkSiteInput) -> Swift.String? {
         return "/v1/network-sites/activate"
     }
 }
@@ -808,8 +811,9 @@ extension ConfigureAccessPointInput: Swift.Encodable {
     }
 }
 
-extension ConfigureAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfigureAccessPointInput {
+
+    static func urlPathProvider(_ value: ConfigureAccessPointInput) -> Swift.String? {
         return "/v1/network-resources/configure"
     }
 }
@@ -970,8 +974,9 @@ extension CreateNetworkInput: Swift.Encodable {
     }
 }
 
-extension CreateNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNetworkInput {
+
+    static func urlPathProvider(_ value: CreateNetworkInput) -> Swift.String? {
         return "/v1/networks"
     }
 }
@@ -1165,8 +1170,9 @@ extension CreateNetworkSiteInput: Swift.Encodable {
     }
 }
 
-extension CreateNetworkSiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNetworkSiteInput {
+
+    static func urlPathProvider(_ value: CreateNetworkSiteInput) -> Swift.String? {
         return "/v1/network-sites"
     }
 }
@@ -1360,8 +1366,9 @@ extension DeactivateDeviceIdentifierInput: Swift.Encodable {
     }
 }
 
-extension DeactivateDeviceIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeactivateDeviceIdentifierInput {
+
+    static func urlPathProvider(_ value: DeactivateDeviceIdentifierInput) -> Swift.String? {
         return "/v1/device-identifiers/deactivate"
     }
 }
@@ -1457,22 +1464,22 @@ enum DeactivateDeviceIdentifierOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteNetworkInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteNetworkInput {
+
+    static func queryItemProvider(_ value: DeleteNetworkInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkArn = networkArn else {
+extension DeleteNetworkInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkInput) -> Swift.String? {
+        guard let networkArn = value.networkArn else {
             return nil
         }
         return "/v1/networks/\(networkArn.urlPercentEncoding())"
@@ -1560,22 +1567,22 @@ enum DeleteNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNetworkSiteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteNetworkSiteInput {
+
+    static func queryItemProvider(_ value: DeleteNetworkSiteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteNetworkSiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkSiteArn = networkSiteArn else {
+extension DeleteNetworkSiteInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkSiteInput) -> Swift.String? {
+        guard let networkSiteArn = value.networkSiteArn else {
             return nil
         }
         return "/v1/network-sites/\(networkSiteArn.urlPercentEncoding())"
@@ -1911,9 +1918,10 @@ extension PrivateNetworksClientTypes {
     }
 }
 
-extension GetDeviceIdentifierInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceIdentifierArn = deviceIdentifierArn else {
+extension GetDeviceIdentifierInput {
+
+    static func urlPathProvider(_ value: GetDeviceIdentifierInput) -> Swift.String? {
+        guard let deviceIdentifierArn = value.deviceIdentifierArn else {
             return nil
         }
         return "/v1/device-identifiers/\(deviceIdentifierArn.urlPercentEncoding())"
@@ -2019,9 +2027,10 @@ enum GetDeviceIdentifierOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNetworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkArn = networkArn else {
+extension GetNetworkInput {
+
+    static func urlPathProvider(_ value: GetNetworkInput) -> Swift.String? {
+        guard let networkArn = value.networkArn else {
             return nil
         }
         return "/v1/networks/\(networkArn.urlPercentEncoding())"
@@ -2128,9 +2137,10 @@ enum GetNetworkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNetworkResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkResourceArn = networkResourceArn else {
+extension GetNetworkResourceInput {
+
+    static func urlPathProvider(_ value: GetNetworkResourceInput) -> Swift.String? {
+        guard let networkResourceArn = value.networkResourceArn else {
             return nil
         }
         return "/v1/network-resources/\(networkResourceArn.urlPercentEncoding())"
@@ -2237,9 +2247,10 @@ enum GetNetworkResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetNetworkSiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let networkSiteArn = networkSiteArn else {
+extension GetNetworkSiteInput {
+
+    static func urlPathProvider(_ value: GetNetworkSiteInput) -> Swift.String? {
+        guard let networkSiteArn = value.networkSiteArn else {
             return nil
         }
         return "/v1/network-sites/\(networkSiteArn.urlPercentEncoding())"
@@ -2345,9 +2356,10 @@ enum GetNetworkSiteOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetOrderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let orderArn = orderArn else {
+extension GetOrderInput {
+
+    static func urlPathProvider(_ value: GetOrderInput) -> Swift.String? {
+        guard let orderArn = value.orderArn else {
             return nil
         }
         return "/v1/orders/\(orderArn.urlPercentEncoding())"
@@ -2642,8 +2654,9 @@ extension ListDeviceIdentifiersInput: Swift.Encodable {
     }
 }
 
-extension ListDeviceIdentifiersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeviceIdentifiersInput {
+
+    static func urlPathProvider(_ value: ListDeviceIdentifiersInput) -> Swift.String? {
         return "/v1/device-identifiers/list"
     }
 }
@@ -2829,8 +2842,9 @@ extension ListNetworkResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListNetworkResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworkResourcesInput {
+
+    static func urlPathProvider(_ value: ListNetworkResourcesInput) -> Swift.String? {
         return "/v1/network-resources"
     }
 }
@@ -3014,8 +3028,9 @@ extension ListNetworkSitesInput: Swift.Encodable {
     }
 }
 
-extension ListNetworkSitesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworkSitesInput {
+
+    static func urlPathProvider(_ value: ListNetworkSitesInput) -> Swift.String? {
         return "/v1/network-sites/list"
     }
 }
@@ -3193,8 +3208,9 @@ extension ListNetworksInput: Swift.Encodable {
     }
 }
 
-extension ListNetworksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListNetworksInput {
+
+    static func urlPathProvider(_ value: ListNetworksInput) -> Swift.String? {
         return "/v1/networks/list"
     }
 }
@@ -3367,8 +3383,9 @@ extension ListOrdersInput: Swift.Encodable {
     }
 }
 
-extension ListOrdersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOrdersInput {
+
+    static func urlPathProvider(_ value: ListOrdersInput) -> Swift.String? {
         return "/v1/orders/list"
     }
 }
@@ -3521,9 +3538,10 @@ enum ListOrdersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4674,8 +4692,9 @@ extension PrivateNetworksClientTypes {
 
 }
 
-extension PingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PingInput {
+
+    static func urlPathProvider(_ value: PingInput) -> Swift.String? {
         return "/ping"
     }
 }
@@ -5062,8 +5081,9 @@ extension StartNetworkResourceUpdateInput: Swift.Encodable {
     }
 }
 
-extension StartNetworkResourceUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartNetworkResourceUpdateInput {
+
+    static func urlPathProvider(_ value: StartNetworkResourceUpdateInput) -> Swift.String? {
         return "/v1/network-resources/update"
     }
 }
@@ -5223,9 +5243,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5395,26 +5416,26 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5494,8 +5515,9 @@ extension UpdateNetworkSiteInput: Swift.Encodable {
     }
 }
 
-extension UpdateNetworkSiteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNetworkSiteInput {
+
+    static func urlPathProvider(_ value: UpdateNetworkSiteInput) -> Swift.String? {
         return "/v1/network-sites/site"
     }
 }
@@ -5643,8 +5665,9 @@ extension UpdateNetworkSitePlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateNetworkSitePlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNetworkSitePlanInput {
+
+    static func urlPathProvider(_ value: UpdateNetworkSitePlanInput) -> Swift.String? {
         return "/v1/network-sites/plan"
     }
 }

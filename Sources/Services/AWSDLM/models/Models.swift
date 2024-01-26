@@ -196,8 +196,9 @@ extension CreateLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: CreateLifecyclePolicyInput) -> Swift.String? {
         return "/policies"
     }
 }
@@ -861,9 +862,10 @@ extension DLMClientTypes {
     }
 }
 
-extension DeleteLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let policyId = policyId else {
+extension DeleteLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
             return nil
         }
         return "/policies/\(policyId.urlPercentEncoding())"
@@ -1376,49 +1378,49 @@ extension DLMClientTypes {
 
 }
 
-extension GetLifecyclePoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let resourceTypes = resourceTypes {
-                resourceTypes.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension GetLifecyclePoliciesInput {
+
+    static func queryItemProvider(_ value: GetLifecyclePoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let resourceTypes = value.resourceTypes {
+            resourceTypes.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let tagsToAdd = tagsToAdd {
-                tagsToAdd.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "tagsToAdd".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let policyIds = policyIds {
-                policyIds.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "policyIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let targetTags = targetTags {
-                targetTags.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "targetTags".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let defaultPolicyType = defaultPolicyType {
-                let defaultPolicyTypeQueryItem = ClientRuntime.URLQueryItem(name: "defaultPolicyType".urlPercentEncoding(), value: Swift.String(defaultPolicyType.rawValue).urlPercentEncoding())
-                items.append(defaultPolicyTypeQueryItem)
-            }
-            return items
         }
+        if let tagsToAdd = value.tagsToAdd {
+            tagsToAdd.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagsToAdd".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let policyIds = value.policyIds {
+            policyIds.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "policyIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let targetTags = value.targetTags {
+            targetTags.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "targetTags".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let defaultPolicyType = value.defaultPolicyType {
+            let defaultPolicyTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "defaultPolicyType".urlPercentEncoding(), value: Swift.String(defaultPolicyType.rawValue).urlPercentEncoding())
+            items.append(defaultPolicyTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension GetLifecyclePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLifecyclePoliciesInput {
+
+    static func urlPathProvider(_ value: GetLifecyclePoliciesInput) -> Swift.String? {
         return "/policies"
     }
 }
@@ -1533,9 +1535,10 @@ enum GetLifecyclePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let policyId = policyId else {
+extension GetLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: GetLifecyclePolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
             return nil
         }
         return "/policies/\(policyId.urlPercentEncoding())"
@@ -2173,9 +2176,10 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3525,9 +3529,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3600,26 +3605,26 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3728,9 +3733,10 @@ extension UpdateLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let policyId = policyId else {
+extension UpdateLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: UpdateLifecyclePolicyInput) -> Swift.String? {
+        guard let policyId = value.policyId else {
             return nil
         }
         return "/policies/\(policyId.urlPercentEncoding())"

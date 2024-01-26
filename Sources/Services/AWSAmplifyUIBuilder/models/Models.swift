@@ -2813,25 +2813,25 @@ extension CreateComponentInput: Swift.Encodable {
     }
 }
 
-extension CreateComponentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension CreateComponentInput {
+
+    static func queryItemProvider(_ value: CreateComponentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension CreateComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateComponentInput {
+
+    static func urlPathProvider(_ value: CreateComponentInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components"
@@ -3115,25 +3115,25 @@ extension CreateFormInput: Swift.Encodable {
     }
 }
 
-extension CreateFormInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension CreateFormInput {
+
+    static func queryItemProvider(_ value: CreateFormInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension CreateFormInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateFormInput {
+
+    static func urlPathProvider(_ value: CreateFormInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms"
@@ -3352,25 +3352,25 @@ extension CreateThemeInput: Swift.Encodable {
     }
 }
 
-extension CreateThemeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension CreateThemeInput {
+
+    static func queryItemProvider(_ value: CreateThemeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension CreateThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension CreateThemeInput {
+
+    static func urlPathProvider(_ value: CreateThemeInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes"
@@ -3493,15 +3493,16 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-extension DeleteComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteComponentInput {
+
+    static func urlPathProvider(_ value: DeleteComponentInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components/\(id.urlPercentEncoding())"
@@ -3563,15 +3564,16 @@ enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFormInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteFormInput {
+
+    static func urlPathProvider(_ value: DeleteFormInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms/\(id.urlPercentEncoding())"
@@ -3633,15 +3635,16 @@ enum DeleteFormOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension DeleteThemeInput {
+
+    static func urlPathProvider(_ value: DeleteThemeInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes/\(id.urlPercentEncoding())"
@@ -3716,9 +3719,10 @@ extension ExchangeCodeForTokenInput: Swift.Encodable {
     }
 }
 
-extension ExchangeCodeForTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let provider = provider else {
+extension ExchangeCodeForTokenInput {
+
+    static func urlPathProvider(_ value: ExchangeCodeForTokenInput) -> Swift.String? {
+        guard let provider = value.provider else {
             return nil
         }
         return "/tokens/\(provider.rawValue.urlPercentEncoding())"
@@ -3900,25 +3904,25 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-extension ExportComponentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ExportComponentsInput {
+
+    static func queryItemProvider(_ value: ExportComponentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ExportComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ExportComponentsInput {
+
+    static func urlPathProvider(_ value: ExportComponentsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/export/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components"
@@ -4028,25 +4032,25 @@ enum ExportComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ExportFormsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ExportFormsInput {
+
+    static func queryItemProvider(_ value: ExportFormsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ExportFormsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ExportFormsInput {
+
+    static func urlPathProvider(_ value: ExportFormsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/export/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms"
@@ -4156,25 +4160,25 @@ enum ExportFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ExportThemesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ExportThemesInput {
+
+    static func queryItemProvider(_ value: ExportThemesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ExportThemesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ExportThemesInput {
+
+    static func urlPathProvider(_ value: ExportThemesInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/export/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes"
@@ -5769,15 +5773,16 @@ extension AmplifyUIBuilderClientTypes {
     }
 }
 
-extension GetCodegenJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetCodegenJobInput {
+
+    static func urlPathProvider(_ value: GetCodegenJobInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs/\(id.urlPercentEncoding())"
@@ -5869,15 +5874,16 @@ enum GetCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetComponentInput {
+
+    static func urlPathProvider(_ value: GetComponentInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components/\(id.urlPercentEncoding())"
@@ -5968,15 +5974,16 @@ enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFormInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetFormInput {
+
+    static func urlPathProvider(_ value: GetFormInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms/\(id.urlPercentEncoding())"
@@ -6067,12 +6074,13 @@ enum GetFormOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetMetadataInput {
+
+    static func urlPathProvider(_ value: GetMetadataInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/metadata"
@@ -6168,15 +6176,16 @@ enum GetMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension GetThemeInput {
+
+    static func urlPathProvider(_ value: GetThemeInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes/\(id.urlPercentEncoding())"
@@ -6591,29 +6600,29 @@ extension AmplifyUIBuilderClientTypes {
     }
 }
 
-extension ListCodegenJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCodegenJobsInput {
+
+    static func queryItemProvider(_ value: ListCodegenJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCodegenJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ListCodegenJobsInput {
+
+    static func urlPathProvider(_ value: ListCodegenJobsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs"
@@ -6728,29 +6737,29 @@ enum ListCodegenJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListComponentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListComponentsInput {
+
+    static func queryItemProvider(_ value: ListComponentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ListComponentsInput {
+
+    static func urlPathProvider(_ value: ListComponentsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components"
@@ -6864,29 +6873,29 @@ enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFormsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFormsInput {
+
+    static func queryItemProvider(_ value: ListFormsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFormsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ListFormsInput {
+
+    static func urlPathProvider(_ value: ListFormsInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms"
@@ -7000,29 +7009,29 @@ enum ListFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListThemesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListThemesInput {
+
+    static func queryItemProvider(_ value: ListThemesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListThemesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension ListThemesInput {
+
+    static func urlPathProvider(_ value: ListThemesInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes"
@@ -7372,15 +7381,16 @@ extension PutMetadataFlagInput: Swift.Encodable {
     }
 }
 
-extension PutMetadataFlagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension PutMetadataFlagInput {
+
+    static func urlPathProvider(_ value: PutMetadataFlagInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let featureName = featureName else {
+        guard let featureName = value.featureName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/metadata/features/\(featureName.urlPercentEncoding())"
@@ -7573,9 +7583,10 @@ extension RefreshTokenInput: Swift.Encodable {
     }
 }
 
-extension RefreshTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let provider = provider else {
+extension RefreshTokenInput {
+
+    static func urlPathProvider(_ value: RefreshTokenInput) -> Swift.String? {
+        guard let provider = value.provider else {
             return nil
         }
         return "/tokens/\(provider.rawValue.urlPercentEncoding())/refresh"
@@ -8166,25 +8177,25 @@ extension StartCodegenJobInput: Swift.Encodable {
     }
 }
 
-extension StartCodegenJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension StartCodegenJobInput {
+
+    static func queryItemProvider(_ value: StartCodegenJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension StartCodegenJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension StartCodegenJobInput {
+
+    static func urlPathProvider(_ value: StartCodegenJobInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/codegen-jobs"
@@ -9041,28 +9052,28 @@ extension UpdateComponentInput: Swift.Encodable {
     }
 }
 
-extension UpdateComponentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension UpdateComponentInput {
+
+    static func queryItemProvider(_ value: UpdateComponentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateComponentInput {
+
+    static func urlPathProvider(_ value: UpdateComponentInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/components/\(id.urlPercentEncoding())"
@@ -9321,28 +9332,28 @@ extension UpdateFormInput: Swift.Encodable {
     }
 }
 
-extension UpdateFormInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension UpdateFormInput {
+
+    static func queryItemProvider(_ value: UpdateFormInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateFormInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateFormInput {
+
+    static func urlPathProvider(_ value: UpdateFormInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/forms/\(id.urlPercentEncoding())"
@@ -9552,28 +9563,28 @@ extension UpdateThemeInput: Swift.Encodable {
     }
 }
 
-extension UpdateThemeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension UpdateThemeInput {
+
+    static func queryItemProvider(_ value: UpdateThemeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateThemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appId = appId else {
+extension UpdateThemeInput {
+
+    static func urlPathProvider(_ value: UpdateThemeInput) -> Swift.String? {
+        guard let appId = value.appId else {
             return nil
         }
-        guard let environmentName = environmentName else {
+        guard let environmentName = value.environmentName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/app/\(appId.urlPercentEncoding())/environment/\(environmentName.urlPercentEncoding())/themes/\(id.urlPercentEncoding())"

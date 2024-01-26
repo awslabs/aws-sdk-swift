@@ -482,8 +482,9 @@ extension CreateEncoderConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateEncoderConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEncoderConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateEncoderConfigurationInput) -> Swift.String? {
         return "/CreateEncoderConfiguration"
     }
 }
@@ -633,8 +634,9 @@ extension CreateParticipantTokenInput: Swift.Encodable {
     }
 }
 
-extension CreateParticipantTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateParticipantTokenInput {
+
+    static func urlPathProvider(_ value: CreateParticipantTokenInput) -> Swift.String? {
         return "/CreateParticipantToken"
     }
 }
@@ -800,8 +802,9 @@ extension CreateStageInput: Swift.Encodable {
     }
 }
 
-extension CreateStageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStageInput {
+
+    static func urlPathProvider(_ value: CreateStageInput) -> Swift.String? {
         return "/CreateStage"
     }
 }
@@ -965,8 +968,9 @@ extension CreateStorageConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateStorageConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateStorageConfigurationInput) -> Swift.String? {
         return "/CreateStorageConfiguration"
     }
 }
@@ -1095,8 +1099,9 @@ extension DeleteEncoderConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteEncoderConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEncoderConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteEncoderConfigurationInput) -> Swift.String? {
         return "/DeleteEncoderConfiguration"
     }
 }
@@ -1169,8 +1174,9 @@ extension DeleteStageInput: Swift.Encodable {
     }
 }
 
-extension DeleteStageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStageInput {
+
+    static func urlPathProvider(_ value: DeleteStageInput) -> Swift.String? {
         return "/DeleteStage"
     }
 }
@@ -1242,8 +1248,9 @@ extension DeleteStorageConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteStorageConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteStorageConfigurationInput) -> Swift.String? {
         return "/DeleteStorageConfiguration"
     }
 }
@@ -1613,8 +1620,9 @@ extension DisconnectParticipantInput: Swift.Encodable {
     }
 }
 
-extension DisconnectParticipantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisconnectParticipantInput {
+
+    static func urlPathProvider(_ value: DisconnectParticipantInput) -> Swift.String? {
         return "/DisconnectParticipant"
     }
 }
@@ -2011,8 +2019,9 @@ extension GetCompositionInput: Swift.Encodable {
     }
 }
 
-extension GetCompositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCompositionInput {
+
+    static func urlPathProvider(_ value: GetCompositionInput) -> Swift.String? {
         return "/GetComposition"
     }
 }
@@ -2115,8 +2124,9 @@ extension GetEncoderConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetEncoderConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEncoderConfigurationInput {
+
+    static func urlPathProvider(_ value: GetEncoderConfigurationInput) -> Swift.String? {
         return "/GetEncoderConfiguration"
     }
 }
@@ -2227,8 +2237,9 @@ extension GetParticipantInput: Swift.Encodable {
     }
 }
 
-extension GetParticipantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetParticipantInput {
+
+    static func urlPathProvider(_ value: GetParticipantInput) -> Swift.String? {
         return "/GetParticipant"
     }
 }
@@ -2346,8 +2357,9 @@ extension GetStageInput: Swift.Encodable {
     }
 }
 
-extension GetStageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStageInput {
+
+    static func urlPathProvider(_ value: GetStageInput) -> Swift.String? {
         return "/GetStage"
     }
 }
@@ -2451,8 +2463,9 @@ extension GetStageSessionInput: Swift.Encodable {
     }
 }
 
-extension GetStageSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStageSessionInput {
+
+    static func urlPathProvider(_ value: GetStageSessionInput) -> Swift.String? {
         return "/GetStageSession"
     }
 }
@@ -2561,8 +2574,9 @@ extension GetStorageConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetStorageConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStorageConfigurationInput {
+
+    static func urlPathProvider(_ value: GetStorageConfigurationInput) -> Swift.String? {
         return "/GetStorageConfiguration"
     }
 }
@@ -2803,8 +2817,9 @@ extension ListCompositionsInput: Swift.Encodable {
     }
 }
 
-extension ListCompositionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCompositionsInput {
+
+    static func urlPathProvider(_ value: ListCompositionsInput) -> Swift.String? {
         return "/ListCompositions"
     }
 }
@@ -2953,8 +2968,9 @@ extension ListEncoderConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListEncoderConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEncoderConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListEncoderConfigurationsInput) -> Swift.String? {
         return "/ListEncoderConfigurations"
     }
 }
@@ -3099,8 +3115,9 @@ extension ListParticipantEventsInput: Swift.Encodable {
     }
 }
 
-extension ListParticipantEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListParticipantEventsInput {
+
+    static func urlPathProvider(_ value: ListParticipantEventsInput) -> Swift.String? {
         return "/ListParticipantEvents"
     }
 }
@@ -3277,8 +3294,9 @@ extension ListParticipantsInput: Swift.Encodable {
     }
 }
 
-extension ListParticipantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListParticipantsInput {
+
+    static func urlPathProvider(_ value: ListParticipantsInput) -> Swift.String? {
         return "/ListParticipants"
     }
 }
@@ -3454,8 +3472,9 @@ extension ListStageSessionsInput: Swift.Encodable {
     }
 }
 
-extension ListStageSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStageSessionsInput {
+
+    static func urlPathProvider(_ value: ListStageSessionsInput) -> Swift.String? {
         return "/ListStageSessions"
     }
 }
@@ -3594,8 +3613,9 @@ extension ListStagesInput: Swift.Encodable {
     }
 }
 
-extension ListStagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStagesInput {
+
+    static func urlPathProvider(_ value: ListStagesInput) -> Swift.String? {
         return "/ListStages"
     }
 }
@@ -3726,8 +3746,9 @@ extension ListStorageConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListStorageConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStorageConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListStorageConfigurationsInput) -> Swift.String? {
         return "/ListStorageConfigurations"
     }
 }
@@ -3843,9 +3864,10 @@ enum ListStorageConfigurationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5120,8 +5142,9 @@ extension StartCompositionInput: Swift.Encodable {
     }
 }
 
-extension StartCompositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCompositionInput {
+
+    static func urlPathProvider(_ value: StartCompositionInput) -> Swift.String? {
         return "/StartComposition"
     }
 }
@@ -5276,8 +5299,9 @@ extension StopCompositionInput: Swift.Encodable {
     }
 }
 
-extension StopCompositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopCompositionInput {
+
+    static func urlPathProvider(_ value: StopCompositionInput) -> Swift.String? {
         return "/StopComposition"
     }
 }
@@ -5509,9 +5533,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5584,26 +5609,26 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5677,8 +5702,9 @@ extension UpdateStageInput: Swift.Encodable {
     }
 }
 
-extension UpdateStageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStageInput {
+
+    static func urlPathProvider(_ value: UpdateStageInput) -> Swift.String? {
         return "/UpdateStage"
     }
 }

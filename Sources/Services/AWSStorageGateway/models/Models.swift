@@ -46,8 +46,9 @@ extension ActivateGatewayInput: Swift.Encodable {
     }
 }
 
-extension ActivateGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateGatewayInput {
+
+    static func urlPathProvider(_ value: ActivateGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -284,8 +285,9 @@ extension AddCacheInput: Swift.Encodable {
     }
 }
 
-extension AddCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddCacheInput {
+
+    static func urlPathProvider(_ value: AddCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -409,8 +411,9 @@ extension AddTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddTagsToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -536,8 +539,9 @@ extension AddUploadBufferInput: Swift.Encodable {
     }
 }
 
-extension AddUploadBufferInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddUploadBufferInput {
+
+    static func urlPathProvider(_ value: AddUploadBufferInput) -> Swift.String? {
         return "/"
     }
 }
@@ -661,8 +665,9 @@ extension AddWorkingStorageInput: Swift.Encodable {
     }
 }
 
-extension AddWorkingStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddWorkingStorageInput {
+
+    static func urlPathProvider(_ value: AddWorkingStorageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -791,8 +796,9 @@ extension AssignTapePoolInput: Swift.Encodable {
     }
 }
 
-extension AssignTapePoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssignTapePoolInput {
+
+    static func urlPathProvider(_ value: AssignTapePoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -948,8 +954,9 @@ extension AssociateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension AssociateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateFileSystemInput {
+
+    static func urlPathProvider(_ value: AssociateFileSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1141,8 +1148,9 @@ extension AttachVolumeInput: Swift.Encodable {
     }
 }
 
-extension AttachVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachVolumeInput {
+
+    static func urlPathProvider(_ value: AttachVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1764,8 +1772,9 @@ extension CancelArchivalInput: Swift.Encodable {
     }
 }
 
-extension CancelArchivalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelArchivalInput {
+
+    static func urlPathProvider(_ value: CancelArchivalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1879,8 +1888,9 @@ extension CancelRetrievalInput: Swift.Encodable {
     }
 }
 
-extension CancelRetrievalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelRetrievalInput {
+
+    static func urlPathProvider(_ value: CancelRetrievalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2131,8 +2141,9 @@ extension CreateCachediSCSIVolumeInput: Swift.Encodable {
     }
 }
 
-extension CreateCachediSCSIVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCachediSCSIVolumeInput {
+
+    static func urlPathProvider(_ value: CreateCachediSCSIVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2412,8 +2423,9 @@ extension CreateNFSFileShareInput: Swift.Encodable {
     }
 }
 
-extension CreateNFSFileShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateNFSFileShareInput {
+
+    static func urlPathProvider(_ value: CreateNFSFileShareInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2813,8 +2825,9 @@ extension CreateSMBFileShareInput: Swift.Encodable {
     }
 }
 
-extension CreateSMBFileShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSMBFileShareInput {
+
+    static func urlPathProvider(_ value: CreateSMBFileShareInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3165,8 +3178,9 @@ extension CreateSnapshotFromVolumeRecoveryPointInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotFromVolumeRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotFromVolumeRecoveryPointInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotFromVolumeRecoveryPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3323,8 +3337,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3501,8 +3516,9 @@ extension CreateStorediSCSIVolumeInput: Swift.Encodable {
     }
 }
 
-extension CreateStorediSCSIVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStorediSCSIVolumeInput {
+
+    static func urlPathProvider(_ value: CreateStorediSCSIVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3729,8 +3745,9 @@ extension CreateTapePoolInput: Swift.Encodable {
     }
 }
 
-extension CreateTapePoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTapePoolInput {
+
+    static func urlPathProvider(_ value: CreateTapePoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3902,8 +3919,9 @@ extension CreateTapeWithBarcodeInput: Swift.Encodable {
     }
 }
 
-extension CreateTapeWithBarcodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTapeWithBarcodeInput {
+
+    static func urlPathProvider(_ value: CreateTapeWithBarcodeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4110,8 +4128,9 @@ extension CreateTapesInput: Swift.Encodable {
     }
 }
 
-extension CreateTapesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTapesInput {
+
+    static func urlPathProvider(_ value: CreateTapesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4306,8 +4325,9 @@ extension DeleteAutomaticTapeCreationPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteAutomaticTapeCreationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAutomaticTapeCreationPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteAutomaticTapeCreationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4410,8 +4430,9 @@ extension DeleteBandwidthRateLimitInput: Swift.Encodable {
     }
 }
 
-extension DeleteBandwidthRateLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBandwidthRateLimitInput {
+
+    static func urlPathProvider(_ value: DeleteBandwidthRateLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4527,8 +4548,9 @@ extension DeleteChapCredentialsInput: Swift.Encodable {
     }
 }
 
-extension DeleteChapCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteChapCredentialsInput {
+
+    static func urlPathProvider(_ value: DeleteChapCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4656,8 +4678,9 @@ extension DeleteFileShareInput: Swift.Encodable {
     }
 }
 
-extension DeleteFileShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFileShareInput {
+
+    static func urlPathProvider(_ value: DeleteFileShareInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4766,8 +4789,9 @@ extension DeleteGatewayInput: Swift.Encodable {
     }
 }
 
-extension DeleteGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4868,8 +4892,9 @@ extension DeleteSnapshotScheduleInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotScheduleInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4972,8 +4997,9 @@ extension DeleteTapeArchiveInput: Swift.Encodable {
     }
 }
 
-extension DeleteTapeArchiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTapeArchiveInput {
+
+    static func urlPathProvider(_ value: DeleteTapeArchiveInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5090,8 +5116,9 @@ extension DeleteTapeInput: Swift.Encodable {
     }
 }
 
-extension DeleteTapeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTapeInput {
+
+    static func urlPathProvider(_ value: DeleteTapeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5209,8 +5236,9 @@ extension DeleteTapePoolInput: Swift.Encodable {
     }
 }
 
-extension DeleteTapePoolInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTapePoolInput {
+
+    static func urlPathProvider(_ value: DeleteTapePoolInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5309,8 +5337,9 @@ extension DeleteVolumeInput: Swift.Encodable {
     }
 }
 
-extension DeleteVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVolumeInput {
+
+    static func urlPathProvider(_ value: DeleteVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5411,8 +5440,9 @@ extension DescribeAvailabilityMonitorTestInput: Swift.Encodable {
     }
 }
 
-extension DescribeAvailabilityMonitorTestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAvailabilityMonitorTestInput {
+
+    static func urlPathProvider(_ value: DescribeAvailabilityMonitorTestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5531,8 +5561,9 @@ extension DescribeBandwidthRateLimitInput: Swift.Encodable {
     }
 }
 
-extension DescribeBandwidthRateLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBandwidthRateLimitInput {
+
+    static func urlPathProvider(_ value: DescribeBandwidthRateLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5653,8 +5684,9 @@ extension DescribeBandwidthRateLimitScheduleInput: Swift.Encodable {
     }
 }
 
-extension DescribeBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBandwidthRateLimitScheduleInput {
+
+    static func urlPathProvider(_ value: DescribeBandwidthRateLimitScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5772,8 +5804,9 @@ extension DescribeCacheInput: Swift.Encodable {
     }
 }
 
-extension DescribeCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCacheInput {
+
+    static func urlPathProvider(_ value: DescribeCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5944,8 +5977,9 @@ extension DescribeCachediSCSIVolumesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCachediSCSIVolumesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCachediSCSIVolumesInput {
+
+    static func urlPathProvider(_ value: DescribeCachediSCSIVolumesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6063,8 +6097,9 @@ extension DescribeChapCredentialsInput: Swift.Encodable {
     }
 }
 
-extension DescribeChapCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeChapCredentialsInput {
+
+    static func urlPathProvider(_ value: DescribeChapCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6185,8 +6220,9 @@ extension DescribeFileSystemAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFileSystemAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFileSystemAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeFileSystemAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6303,8 +6339,9 @@ extension DescribeGatewayInformationInput: Swift.Encodable {
     }
 }
 
-extension DescribeGatewayInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGatewayInformationInput {
+
+    static func urlPathProvider(_ value: DescribeGatewayInformationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6642,8 +6679,9 @@ extension DescribeMaintenanceStartTimeInput: Swift.Encodable {
     }
 }
 
-extension DescribeMaintenanceStartTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMaintenanceStartTimeInput {
+
+    static func urlPathProvider(_ value: DescribeMaintenanceStartTimeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6807,8 +6845,9 @@ extension DescribeNFSFileSharesInput: Swift.Encodable {
     }
 }
 
-extension DescribeNFSFileSharesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeNFSFileSharesInput {
+
+    static func urlPathProvider(_ value: DescribeNFSFileSharesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6930,8 +6969,9 @@ extension DescribeSMBFileSharesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSMBFileSharesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSMBFileSharesInput {
+
+    static func urlPathProvider(_ value: DescribeSMBFileSharesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7050,8 +7090,9 @@ extension DescribeSMBSettingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSMBSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSMBSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeSMBSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7230,8 +7271,9 @@ extension DescribeSnapshotScheduleInput: Swift.Encodable {
     }
 }
 
-extension DescribeSnapshotScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSnapshotScheduleInput {
+
+    static func urlPathProvider(_ value: DescribeSnapshotScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7393,8 +7435,9 @@ extension DescribeStorediSCSIVolumesInput: Swift.Encodable {
     }
 }
 
-extension DescribeStorediSCSIVolumesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStorediSCSIVolumesInput {
+
+    static func urlPathProvider(_ value: DescribeStorediSCSIVolumesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7555,8 +7598,9 @@ extension DescribeTapeArchivesInput: Swift.Encodable {
     }
 }
 
-extension DescribeTapeArchivesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTapeArchivesInput {
+
+    static func urlPathProvider(_ value: DescribeTapeArchivesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7708,8 +7752,9 @@ extension DescribeTapeRecoveryPointsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTapeRecoveryPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTapeRecoveryPointsInput {
+
+    static func urlPathProvider(_ value: DescribeTapeRecoveryPointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7870,8 +7915,9 @@ extension DescribeTapesInput: Swift.Encodable {
     }
 }
 
-extension DescribeTapesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTapesInput {
+
+    static func urlPathProvider(_ value: DescribeTapesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8024,8 +8070,9 @@ extension DescribeUploadBufferInput: Swift.Encodable {
     }
 }
 
-extension DescribeUploadBufferInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUploadBufferInput {
+
+    static func urlPathProvider(_ value: DescribeUploadBufferInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8178,8 +8225,9 @@ extension DescribeVTLDevicesInput: Swift.Encodable {
     }
 }
 
-extension DescribeVTLDevicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVTLDevicesInput {
+
+    static func urlPathProvider(_ value: DescribeVTLDevicesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8342,8 +8390,9 @@ extension DescribeWorkingStorageInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkingStorageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkingStorageInput {
+
+    static func urlPathProvider(_ value: DescribeWorkingStorageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8487,8 +8536,9 @@ extension DetachVolumeInput: Swift.Encodable {
     }
 }
 
-extension DetachVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachVolumeInput {
+
+    static func urlPathProvider(_ value: DetachVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8662,8 +8712,9 @@ extension DisableGatewayInput: Swift.Encodable {
     }
 }
 
-extension DisableGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableGatewayInput {
+
+    static func urlPathProvider(_ value: DisableGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8768,8 +8819,9 @@ extension DisassociateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension DisassociateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFileSystemInput {
+
+    static func urlPathProvider(_ value: DisassociateFileSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9957,8 +10009,9 @@ extension JoinDomainInput: Swift.Encodable {
     }
 }
 
-extension JoinDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension JoinDomainInput {
+
+    static func urlPathProvider(_ value: JoinDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10143,8 +10196,9 @@ extension ListAutomaticTapeCreationPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListAutomaticTapeCreationPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAutomaticTapeCreationPoliciesInput {
+
+    static func urlPathProvider(_ value: ListAutomaticTapeCreationPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10259,8 +10313,9 @@ extension ListFileSharesInput: Swift.Encodable {
     }
 }
 
-extension ListFileSharesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFileSharesInput {
+
+    static func urlPathProvider(_ value: ListFileSharesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10413,8 +10468,9 @@ extension ListFileSystemAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListFileSystemAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFileSystemAssociationsInput {
+
+    static func urlPathProvider(_ value: ListFileSystemAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10561,8 +10617,9 @@ extension ListGatewaysInput: Swift.Encodable {
     }
 }
 
-extension ListGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGatewaysInput {
+
+    static func urlPathProvider(_ value: ListGatewaysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10692,8 +10749,9 @@ extension ListLocalDisksInput: Swift.Encodable {
     }
 }
 
-extension ListLocalDisksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLocalDisksInput {
+
+    static func urlPathProvider(_ value: ListLocalDisksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10822,8 +10880,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10980,8 +11039,9 @@ extension ListTapePoolsInput: Swift.Encodable {
     }
 }
 
-extension ListTapePoolsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTapePoolsInput {
+
+    static func urlPathProvider(_ value: ListTapePoolsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11134,8 +11194,9 @@ extension ListTapesInput: Swift.Encodable {
     }
 }
 
-extension ListTapesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTapesInput {
+
+    static func urlPathProvider(_ value: ListTapesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11289,8 +11350,9 @@ extension ListVolumeInitiatorsInput: Swift.Encodable {
     }
 }
 
-extension ListVolumeInitiatorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVolumeInitiatorsInput {
+
+    static func urlPathProvider(_ value: ListVolumeInitiatorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11400,8 +11462,9 @@ extension ListVolumeRecoveryPointsInput: Swift.Encodable {
     }
 }
 
-extension ListVolumeRecoveryPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVolumeRecoveryPointsInput {
+
+    static func urlPathProvider(_ value: ListVolumeRecoveryPointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11527,8 +11590,9 @@ extension ListVolumesInput: Swift.Encodable {
     }
 }
 
-extension ListVolumesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVolumesInput {
+
+    static func urlPathProvider(_ value: ListVolumesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12102,8 +12166,9 @@ extension NotifyWhenUploadedInput: Swift.Encodable {
     }
 }
 
-extension NotifyWhenUploadedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension NotifyWhenUploadedInput {
+
+    static func urlPathProvider(_ value: NotifyWhenUploadedInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12388,8 +12453,9 @@ extension RefreshCacheInput: Swift.Encodable {
     }
 }
 
-extension RefreshCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RefreshCacheInput {
+
+    static func urlPathProvider(_ value: RefreshCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12532,8 +12598,9 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12652,8 +12719,9 @@ extension ResetCacheInput: Swift.Encodable {
     }
 }
 
-extension ResetCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetCacheInput {
+
+    static func urlPathProvider(_ value: ResetCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12791,8 +12859,9 @@ extension RetrieveTapeArchiveInput: Swift.Encodable {
     }
 }
 
-extension RetrieveTapeArchiveInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetrieveTapeArchiveInput {
+
+    static func urlPathProvider(_ value: RetrieveTapeArchiveInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12906,8 +12975,9 @@ extension RetrieveTapeRecoveryPointInput: Swift.Encodable {
     }
 }
 
-extension RetrieveTapeRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetrieveTapeRecoveryPointInput {
+
+    static func urlPathProvider(_ value: RetrieveTapeRecoveryPointInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13537,8 +13607,9 @@ extension SetLocalConsolePasswordInput: Swift.Encodable {
     }
 }
 
-extension SetLocalConsolePasswordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetLocalConsolePasswordInput {
+
+    static func urlPathProvider(_ value: SetLocalConsolePasswordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13656,8 +13727,9 @@ extension SetSMBGuestPasswordInput: Swift.Encodable {
     }
 }
 
-extension SetSMBGuestPasswordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetSMBGuestPasswordInput {
+
+    static func urlPathProvider(_ value: SetSMBGuestPasswordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13766,8 +13838,9 @@ extension ShutdownGatewayInput: Swift.Encodable {
     }
 }
 
-extension ShutdownGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ShutdownGatewayInput {
+
+    static func urlPathProvider(_ value: ShutdownGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13868,8 +13941,9 @@ extension StartAvailabilityMonitorTestInput: Swift.Encodable {
     }
 }
 
-extension StartAvailabilityMonitorTestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAvailabilityMonitorTestInput {
+
+    static func urlPathProvider(_ value: StartAvailabilityMonitorTestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13968,8 +14042,9 @@ extension StartGatewayInput: Swift.Encodable {
     }
 }
 
-extension StartGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartGatewayInput {
+
+    static func urlPathProvider(_ value: StartGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14868,8 +14943,9 @@ extension UpdateAutomaticTapeCreationPolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateAutomaticTapeCreationPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAutomaticTapeCreationPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateAutomaticTapeCreationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14994,8 +15070,9 @@ extension UpdateBandwidthRateLimitInput: Swift.Encodable {
     }
 }
 
-extension UpdateBandwidthRateLimitInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBandwidthRateLimitInput {
+
+    static func urlPathProvider(_ value: UpdateBandwidthRateLimitInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15123,8 +15200,9 @@ extension UpdateBandwidthRateLimitScheduleInput: Swift.Encodable {
     }
 }
 
-extension UpdateBandwidthRateLimitScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateBandwidthRateLimitScheduleInput {
+
+    static func urlPathProvider(_ value: UpdateBandwidthRateLimitScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15258,8 +15336,9 @@ extension UpdateChapCredentialsInput: Swift.Encodable {
     }
 }
 
-extension UpdateChapCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateChapCredentialsInput {
+
+    static func urlPathProvider(_ value: UpdateChapCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15425,8 +15504,9 @@ extension UpdateFileSystemAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateFileSystemAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFileSystemAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateFileSystemAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15573,8 +15653,9 @@ extension UpdateGatewayInformationInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewayInformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGatewayInformationInput {
+
+    static func urlPathProvider(_ value: UpdateGatewayInformationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15716,8 +15797,9 @@ extension UpdateGatewaySoftwareNowInput: Swift.Encodable {
     }
 }
 
-extension UpdateGatewaySoftwareNowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGatewaySoftwareNowInput {
+
+    static func urlPathProvider(_ value: UpdateGatewaySoftwareNowInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15834,8 +15916,9 @@ extension UpdateMaintenanceStartTimeInput: Swift.Encodable {
     }
 }
 
-extension UpdateMaintenanceStartTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMaintenanceStartTimeInput {
+
+    static func urlPathProvider(_ value: UpdateMaintenanceStartTimeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16037,8 +16120,9 @@ extension UpdateNFSFileShareInput: Swift.Encodable {
     }
 }
 
-extension UpdateNFSFileShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNFSFileShareInput {
+
+    static func urlPathProvider(_ value: UpdateNFSFileShareInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16347,8 +16431,9 @@ extension UpdateSMBFileShareInput: Swift.Encodable {
     }
 }
 
-extension UpdateSMBFileShareInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSMBFileShareInput {
+
+    static func urlPathProvider(_ value: UpdateSMBFileShareInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16624,8 +16709,9 @@ extension UpdateSMBFileShareVisibilityInput: Swift.Encodable {
     }
 }
 
-extension UpdateSMBFileShareVisibilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSMBFileShareVisibilityInput {
+
+    static func urlPathProvider(_ value: UpdateSMBFileShareVisibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16737,8 +16823,9 @@ extension UpdateSMBLocalGroupsInput: Swift.Encodable {
     }
 }
 
-extension UpdateSMBLocalGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSMBLocalGroupsInput {
+
+    static func urlPathProvider(_ value: UpdateSMBLocalGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16850,8 +16937,9 @@ extension UpdateSMBSecurityStrategyInput: Swift.Encodable {
     }
 }
 
-extension UpdateSMBSecurityStrategyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSMBSecurityStrategyInput {
+
+    static func urlPathProvider(_ value: UpdateSMBSecurityStrategyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16978,8 +17066,9 @@ extension UpdateSnapshotScheduleInput: Swift.Encodable {
     }
 }
 
-extension UpdateSnapshotScheduleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSnapshotScheduleInput {
+
+    static func urlPathProvider(_ value: UpdateSnapshotScheduleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17135,8 +17224,9 @@ extension UpdateVTLDeviceTypeInput: Swift.Encodable {
     }
 }
 
-extension UpdateVTLDeviceTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVTLDeviceTypeInput {
+
+    static func urlPathProvider(_ value: UpdateVTLDeviceTypeInput) -> Swift.String? {
         return "/"
     }
 }

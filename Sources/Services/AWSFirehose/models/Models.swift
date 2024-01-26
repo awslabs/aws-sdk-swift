@@ -1535,8 +1535,9 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension CreateDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: CreateDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1856,8 +1857,9 @@ extension DeleteDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension DeleteDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: DeleteDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2412,8 +2414,9 @@ extension DescribeDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension DescribeDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: DescribeDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5176,8 +5179,9 @@ extension ListDeliveryStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListDeliveryStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeliveryStreamsInput {
+
+    static func urlPathProvider(_ value: ListDeliveryStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5325,8 +5329,9 @@ extension ListTagsForDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: ListTagsForDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6339,8 +6344,9 @@ extension PutRecordBatchInput: Swift.Encodable {
     }
 }
 
-extension PutRecordBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRecordBatchInput {
+
+    static func urlPathProvider(_ value: PutRecordBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6550,8 +6556,9 @@ extension PutRecordInput: Swift.Encodable {
     }
 }
 
-extension PutRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRecordInput {
+
+    static func urlPathProvider(_ value: PutRecordInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8424,8 +8431,9 @@ extension StartDeliveryStreamEncryptionInput: Swift.Encodable {
     }
 }
 
-extension StartDeliveryStreamEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDeliveryStreamEncryptionInput {
+
+    static func urlPathProvider(_ value: StartDeliveryStreamEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8505,8 +8513,9 @@ extension StopDeliveryStreamEncryptionInput: Swift.Encodable {
     }
 }
 
-extension StopDeliveryStreamEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDeliveryStreamEncryptionInput {
+
+    static func urlPathProvider(_ value: StopDeliveryStreamEncryptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8630,8 +8639,9 @@ extension TagDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension TagDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: TagDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8727,8 +8737,9 @@ extension UntagDeliveryStreamInput: Swift.Encodable {
     }
 }
 
-extension UntagDeliveryStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagDeliveryStreamInput {
+
+    static func urlPathProvider(_ value: UntagDeliveryStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8857,8 +8868,9 @@ extension UpdateDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateDestinationInput) -> Swift.String? {
         return "/"
     }
 }

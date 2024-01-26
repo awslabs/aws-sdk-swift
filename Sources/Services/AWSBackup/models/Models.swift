@@ -1821,28 +1821,28 @@ extension BackupClientTypes {
 
 }
 
-extension CancelLegalHoldInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let cancelDescription = cancelDescription else {
-                let message = "Creating a URL Query Item failed. cancelDescription is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let cancelDescriptionQueryItem = ClientRuntime.URLQueryItem(name: "cancelDescription".urlPercentEncoding(), value: Swift.String(cancelDescription).urlPercentEncoding())
-            items.append(cancelDescriptionQueryItem)
-            if let retainRecordInDays = retainRecordInDays {
-                let retainRecordInDaysQueryItem = ClientRuntime.URLQueryItem(name: "retainRecordInDays".urlPercentEncoding(), value: Swift.String(retainRecordInDays).urlPercentEncoding())
-                items.append(retainRecordInDaysQueryItem)
-            }
-            return items
+extension CancelLegalHoldInput {
+
+    static func queryItemProvider(_ value: CancelLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let cancelDescription = value.cancelDescription else {
+            let message = "Creating a URL Query Item failed. cancelDescription is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let cancelDescriptionQueryItem = ClientRuntime.SDKURLQueryItem(name: "cancelDescription".urlPercentEncoding(), value: Swift.String(cancelDescription).urlPercentEncoding())
+        items.append(cancelDescriptionQueryItem)
+        if let retainRecordInDays = value.retainRecordInDays {
+            let retainRecordInDaysQueryItem = ClientRuntime.SDKURLQueryItem(name: "retainRecordInDays".urlPercentEncoding(), value: Swift.String(retainRecordInDays).urlPercentEncoding())
+            items.append(retainRecordInDaysQueryItem)
+        }
+        return items
     }
 }
 
-extension CancelLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let legalHoldId = legalHoldId else {
+extension CancelLegalHoldInput {
+
+    static func urlPathProvider(_ value: CancelLegalHoldInput) -> Swift.String? {
+        guard let legalHoldId = value.legalHoldId else {
             return nil
         }
         return "/legal-holds/\(legalHoldId.urlPercentEncoding())"
@@ -2907,8 +2907,9 @@ extension CreateBackupPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateBackupPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBackupPlanInput {
+
+    static func urlPathProvider(_ value: CreateBackupPlanInput) -> Swift.String? {
         return "/backup/plans"
     }
 }
@@ -3088,9 +3089,10 @@ extension CreateBackupSelectionInput: Swift.Encodable {
     }
 }
 
-extension CreateBackupSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension CreateBackupSelectionInput {
+
+    static func urlPathProvider(_ value: CreateBackupSelectionInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/selections"
@@ -3243,9 +3245,10 @@ extension CreateBackupVaultInput: Swift.Encodable {
     }
 }
 
-extension CreateBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension CreateBackupVaultInput {
+
+    static func urlPathProvider(_ value: CreateBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())"
@@ -3420,8 +3423,9 @@ extension CreateFrameworkInput: Swift.Encodable {
     }
 }
 
-extension CreateFrameworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFrameworkInput {
+
+    static func urlPathProvider(_ value: CreateFrameworkInput) -> Swift.String? {
         return "/audit/frameworks"
     }
 }
@@ -3608,8 +3612,9 @@ extension CreateLegalHoldInput: Swift.Encodable {
     }
 }
 
-extension CreateLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLegalHoldInput {
+
+    static func urlPathProvider(_ value: CreateLegalHoldInput) -> Swift.String? {
         return "/legal-holds"
     }
 }
@@ -3832,9 +3837,10 @@ extension CreateLogicallyAirGappedBackupVaultInput: Swift.Encodable {
     }
 }
 
-extension CreateLogicallyAirGappedBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension CreateLogicallyAirGappedBackupVaultInput {
+
+    static func urlPathProvider(_ value: CreateLogicallyAirGappedBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/logically-air-gapped-backup-vaults/\(backupVaultName.urlPercentEncoding())"
@@ -4031,8 +4037,9 @@ extension CreateReportPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateReportPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReportPlanInput {
+
+    static func urlPathProvider(_ value: CreateReportPlanInput) -> Swift.String? {
         return "/audit/report-plans"
     }
 }
@@ -4221,8 +4228,9 @@ extension CreateRestoreTestingPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRestoreTestingPlanInput {
+
+    static func urlPathProvider(_ value: CreateRestoreTestingPlanInput) -> Swift.String? {
         return "/restore-testing/plans"
     }
 }
@@ -4377,9 +4385,10 @@ extension CreateRestoreTestingSelectionInput: Swift.Encodable {
     }
 }
 
-extension CreateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension CreateRestoreTestingSelectionInput {
+
+    static func urlPathProvider(_ value: CreateRestoreTestingSelectionInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
@@ -4572,9 +4581,10 @@ extension BackupClientTypes {
 
 }
 
-extension DeleteBackupPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension DeleteBackupPlanInput {
+
+    static func urlPathProvider(_ value: DeleteBackupPlanInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())"
@@ -4688,12 +4698,13 @@ enum DeleteBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBackupSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension DeleteBackupSelectionInput {
+
+    static func urlPathProvider(_ value: DeleteBackupSelectionInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
-        guard let selectionId = selectionId else {
+        guard let selectionId = value.selectionId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/selections/\(selectionId.urlPercentEncoding())"
@@ -4751,9 +4762,10 @@ enum DeleteBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBackupVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DeleteBackupVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteBackupVaultAccessPolicyInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/access-policy"
@@ -4806,9 +4818,10 @@ enum DeleteBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DeleteBackupVaultInput {
+
+    static func urlPathProvider(_ value: DeleteBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())"
@@ -4837,9 +4850,10 @@ extension DeleteBackupVaultInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBackupVaultLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DeleteBackupVaultLockConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBackupVaultLockConfigurationInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/vault-lock"
@@ -4893,9 +4907,10 @@ enum DeleteBackupVaultLockConfigurationOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension DeleteBackupVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DeleteBackupVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: DeleteBackupVaultNotificationsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/notification-configuration"
@@ -4973,9 +4988,10 @@ enum DeleteBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFrameworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let frameworkName = frameworkName else {
+extension DeleteFrameworkInput {
+
+    static func urlPathProvider(_ value: DeleteFrameworkInput) -> Swift.String? {
+        guard let frameworkName = value.frameworkName else {
             return nil
         }
         return "/audit/frameworks/\(frameworkName.urlPercentEncoding())"
@@ -5029,12 +5045,13 @@ enum DeleteFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DeleteRecoveryPointInput {
+
+    static func urlPathProvider(_ value: DeleteRecoveryPointInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())"
@@ -5094,9 +5111,10 @@ enum DeleteRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteReportPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportPlanName = reportPlanName else {
+extension DeleteReportPlanInput {
+
+    static func urlPathProvider(_ value: DeleteReportPlanInput) -> Swift.String? {
+        guard let reportPlanName = value.reportPlanName else {
             return nil
         }
         return "/audit/report-plans/\(reportPlanName.urlPercentEncoding())"
@@ -5150,9 +5168,10 @@ enum DeleteReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension DeleteRestoreTestingPlanInput {
+
+    static func urlPathProvider(_ value: DeleteRestoreTestingPlanInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
@@ -5203,12 +5222,13 @@ enum DeleteRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension DeleteRestoreTestingSelectionInput {
+
+    static func urlPathProvider(_ value: DeleteRestoreTestingSelectionInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
-        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+        guard let restoreTestingSelectionName = value.restoreTestingSelectionName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
@@ -5348,9 +5368,10 @@ extension DependencyFailureExceptionBody: Swift.Decodable {
     }
 }
 
-extension DescribeBackupJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension DescribeBackupJobInput {
+
+    static func urlPathProvider(_ value: DescribeBackupJobInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())"
@@ -5712,22 +5733,22 @@ enum DescribeBackupJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBackupVaultInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            return items
+extension DescribeBackupVaultInput {
+
+    static func queryItemProvider(_ value: DescribeBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DescribeBackupVaultInput {
+
+    static func urlPathProvider(_ value: DescribeBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())"
@@ -5914,9 +5935,10 @@ enum DescribeBackupVaultOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeCopyJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let copyJobId = copyJobId else {
+extension DescribeCopyJobInput {
+
+    static func urlPathProvider(_ value: DescribeCopyJobInput) -> Swift.String? {
+        guard let copyJobId = value.copyJobId else {
             return nil
         }
         return "/copy-jobs/\(copyJobId.urlPercentEncoding())"
@@ -5999,9 +6021,10 @@ enum DescribeCopyJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeFrameworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let frameworkName = frameworkName else {
+extension DescribeFrameworkInput {
+
+    static func urlPathProvider(_ value: DescribeFrameworkInput) -> Swift.String? {
+        guard let frameworkName = value.frameworkName else {
             return nil
         }
         return "/audit/frameworks/\(frameworkName.urlPercentEncoding())"
@@ -6171,8 +6194,9 @@ enum DescribeFrameworkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeGlobalSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGlobalSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeGlobalSettingsInput) -> Swift.String? {
         return "/global-settings"
     }
 }
@@ -6262,9 +6286,10 @@ enum DescribeGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeProtectedResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension DescribeProtectedResourceInput {
+
+    static func urlPathProvider(_ value: DescribeProtectedResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())"
@@ -6427,25 +6452,25 @@ enum DescribeProtectedResourceOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeRecoveryPointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            return items
+extension DescribeRecoveryPointInput {
+
+    static func queryItemProvider(_ value: DescribeRecoveryPointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DescribeRecoveryPointInput {
+
+    static func urlPathProvider(_ value: DescribeRecoveryPointInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())"
@@ -6767,8 +6792,9 @@ enum DescribeRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRegionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRegionSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeRegionSettingsInput) -> Swift.String? {
         return "/account-settings"
     }
 }
@@ -6866,9 +6892,10 @@ enum DescribeRegionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportJobId = reportJobId else {
+extension DescribeReportJobInput {
+
+    static func urlPathProvider(_ value: DescribeReportJobInput) -> Swift.String? {
+        guard let reportJobId = value.reportJobId else {
             return nil
         }
         return "/audit/report-jobs/\(reportJobId.urlPercentEncoding())"
@@ -6950,9 +6977,10 @@ enum DescribeReportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReportPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportPlanName = reportPlanName else {
+extension DescribeReportPlanInput {
+
+    static func urlPathProvider(_ value: DescribeReportPlanInput) -> Swift.String? {
+        guard let reportPlanName = value.reportPlanName else {
             return nil
         }
         return "/audit/report-plans/\(reportPlanName.urlPercentEncoding())"
@@ -7035,9 +7063,10 @@ enum DescribeReportPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeRestoreJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreJobId = restoreJobId else {
+extension DescribeRestoreJobInput {
+
+    static func urlPathProvider(_ value: DescribeRestoreJobInput) -> Swift.String? {
+        guard let restoreJobId = value.restoreJobId else {
             return nil
         }
         return "/restore-jobs/\(restoreJobId.urlPercentEncoding())"
@@ -7301,12 +7330,13 @@ enum DescribeRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateRecoveryPointFromParentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DisassociateRecoveryPointFromParentInput {
+
+    static func urlPathProvider(_ value: DisassociateRecoveryPointFromParentInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/parentAssociation"
@@ -7365,12 +7395,13 @@ enum DisassociateRecoveryPointFromParentOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension DisassociateRecoveryPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension DisassociateRecoveryPointInput {
+
+    static func urlPathProvider(_ value: DisassociateRecoveryPointInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/disassociate"
@@ -7430,9 +7461,10 @@ enum DisassociateRecoveryPointOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ExportBackupPlanTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension ExportBackupPlanTemplateInput {
+
+    static func urlPathProvider(_ value: ExportBackupPlanTemplateInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/toTemplate"
@@ -7681,8 +7713,9 @@ extension GetBackupPlanFromJSONInput: Swift.Encodable {
     }
 }
 
-extension GetBackupPlanFromJSONInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetBackupPlanFromJSONInput {
+
+    static func urlPathProvider(_ value: GetBackupPlanFromJSONInput) -> Swift.String? {
         return "/backup/template/json/toPlan"
     }
 }
@@ -7771,9 +7804,10 @@ enum GetBackupPlanFromJSONOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBackupPlanFromTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanTemplateId = backupPlanTemplateId else {
+extension GetBackupPlanFromTemplateInput {
+
+    static func urlPathProvider(_ value: GetBackupPlanFromTemplateInput) -> Swift.String? {
+        guard let backupPlanTemplateId = value.backupPlanTemplateId else {
             return nil
         }
         return "/backup/template/plans/\(backupPlanTemplateId.urlPercentEncoding())/toPlan"
@@ -7856,22 +7890,22 @@ enum GetBackupPlanFromTemplateOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetBackupPlanInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let versionId = versionId {
-                let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
-                items.append(versionIdQueryItem)
-            }
-            return items
+extension GetBackupPlanInput {
+
+    static func queryItemProvider(_ value: GetBackupPlanInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetBackupPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension GetBackupPlanInput {
+
+    static func urlPathProvider(_ value: GetBackupPlanInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())"
@@ -8047,12 +8081,13 @@ enum GetBackupPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBackupSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension GetBackupSelectionInput {
+
+    static func urlPathProvider(_ value: GetBackupSelectionInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
-        guard let selectionId = selectionId else {
+        guard let selectionId = value.selectionId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/selections/\(selectionId.urlPercentEncoding())"
@@ -8180,9 +8215,10 @@ enum GetBackupSelectionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBackupVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension GetBackupVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: GetBackupVaultAccessPolicyInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/access-policy"
@@ -8285,9 +8321,10 @@ enum GetBackupVaultAccessPolicyOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetBackupVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension GetBackupVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: GetBackupVaultNotificationsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/notification-configuration"
@@ -8409,9 +8446,10 @@ enum GetBackupVaultNotificationsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let legalHoldId = legalHoldId else {
+extension GetLegalHoldInput {
+
+    static func urlPathProvider(_ value: GetLegalHoldInput) -> Swift.String? {
+        guard let legalHoldId = value.legalHoldId else {
             return nil
         }
         return "/legal-holds/\(legalHoldId.urlPercentEncoding())"
@@ -8584,25 +8622,25 @@ enum GetLegalHoldOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            return items
+extension GetRecoveryPointRestoreMetadataInput {
+
+    static func queryItemProvider(_ value: GetRecoveryPointRestoreMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
         }
+        return items
     }
 }
 
-extension GetRecoveryPointRestoreMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension GetRecoveryPointRestoreMetadataInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPointRestoreMetadataInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/restore-metadata"
@@ -8738,9 +8776,10 @@ enum GetRecoveryPointRestoreMetadataOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetRestoreJobMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreJobId = restoreJobId else {
+extension GetRestoreJobMetadataInput {
+
+    static func urlPathProvider(_ value: GetRestoreJobMetadataInput) -> Swift.String? {
+        guard let restoreJobId = value.restoreJobId else {
             return nil
         }
         return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/metadata"
@@ -8847,33 +8886,33 @@ enum GetRestoreJobMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRestoreTestingInferredMetadataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let backupVaultName = backupVaultName else {
-                let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let backupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
-            items.append(backupVaultNameQueryItem)
-            guard let recoveryPointArn = recoveryPointArn else {
-                let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let recoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
-            items.append(recoveryPointArnQueryItem)
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            return items
+extension GetRestoreTestingInferredMetadataInput {
+
+    static func queryItemProvider(_ value: GetRestoreTestingInferredMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let backupVaultName = value.backupVaultName else {
+            let message = "Creating a URL Query Item failed. backupVaultName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let backupVaultNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "BackupVaultName".urlPercentEncoding(), value: Swift.String(backupVaultName).urlPercentEncoding())
+        items.append(backupVaultNameQueryItem)
+        guard let recoveryPointArn = value.recoveryPointArn else {
+            let message = "Creating a URL Query Item failed. recoveryPointArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let recoveryPointArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecoveryPointArn".urlPercentEncoding(), value: Swift.String(recoveryPointArn).urlPercentEncoding())
+        items.append(recoveryPointArnQueryItem)
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "BackupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
+        }
+        return items
     }
 }
 
-extension GetRestoreTestingInferredMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRestoreTestingInferredMetadataInput {
+
+    static func urlPathProvider(_ value: GetRestoreTestingInferredMetadataInput) -> Swift.String? {
         return "/restore-testing/inferred-metadata"
     }
 }
@@ -8973,9 +9012,10 @@ enum GetRestoreTestingInferredMetadataOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension GetRestoreTestingPlanInput {
+
+    static func urlPathProvider(_ value: GetRestoreTestingPlanInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
@@ -9057,12 +9097,13 @@ enum GetRestoreTestingPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension GetRestoreTestingSelectionInput {
+
+    static func urlPathProvider(_ value: GetRestoreTestingSelectionInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
-        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+        guard let restoreTestingSelectionName = value.restoreTestingSelectionName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
@@ -9149,8 +9190,9 @@ enum GetRestoreTestingSelectionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetSupportedResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSupportedResourceTypesInput {
+
+    static func urlPathProvider(_ value: GetSupportedResourceTypesInput) -> Swift.String? {
         return "/supported-resource-types"
     }
 }
@@ -9820,45 +9862,45 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListBackupJobSummariesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aggregationPeriod = aggregationPeriod {
-                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
-                items.append(aggregationPeriodQueryItem)
-            }
-            if let accountId = accountId {
-                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-                items.append(accountIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let resourceType = resourceType {
-                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-                items.append(resourceTypeQueryItem)
-            }
-            if let messageCategory = messageCategory {
-                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
-                items.append(messageCategoryQueryItem)
-            }
-            return items
+extension ListBackupJobSummariesInput {
+
+    static func queryItemProvider(_ value: ListBackupJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aggregationPeriod = value.aggregationPeriod {
+            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            items.append(aggregationPeriodQueryItem)
         }
+        if let accountId = value.accountId {
+            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        if let messageCategory = value.messageCategory {
+            let messageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+            items.append(messageCategoryQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupJobSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBackupJobSummariesInput {
+
+    static func urlPathProvider(_ value: ListBackupJobSummariesInput) -> Swift.String? {
         return "/audit/backup-job-summaries"
     }
 }
@@ -10001,69 +10043,69 @@ enum ListBackupJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byResourceType = byResourceType {
-                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-                items.append(byResourceTypeQueryItem)
-            }
-            if let byBackupVaultName = byBackupVaultName {
-                let byBackupVaultNameQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
-                items.append(byBackupVaultNameQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let byResourceArn = byResourceArn {
-                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-                items.append(byResourceArnQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byState = byState {
-                let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
-                items.append(byStateQueryItem)
-            }
-            if let byAccountId = byAccountId {
-                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-                items.append(byAccountIdQueryItem)
-            }
-            if let byCreatedAfter = byCreatedAfter {
-                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-                items.append(byCreatedAfterQueryItem)
-            }
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
-            }
-            if let byMessageCategory = byMessageCategory {
-                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
-                items.append(byMessageCategoryQueryItem)
-            }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
-            return items
+extension ListBackupJobsInput {
+
+    static func queryItemProvider(_ value: ListBackupJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byResourceType = value.byResourceType {
+            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            items.append(byResourceTypeQueryItem)
         }
+        if let byBackupVaultName = value.byBackupVaultName {
+            let byBackupVaultNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultName".urlPercentEncoding(), value: Swift.String(byBackupVaultName).urlPercentEncoding())
+            items.append(byBackupVaultNameQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let byResourceArn = value.byResourceArn {
+            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            items.append(byResourceArnQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byState = value.byState {
+            let byStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+            items.append(byStateQueryItem)
+        }
+        if let byAccountId = value.byAccountId {
+            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            items.append(byAccountIdQueryItem)
+        }
+        if let byCreatedAfter = value.byCreatedAfter {
+            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            items.append(byCreatedAfterQueryItem)
+        }
+        if let byCreatedBefore = value.byCreatedBefore {
+            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            items.append(byCreatedBeforeQueryItem)
+        }
+        if let byCompleteAfter = value.byCompleteAfter {
+            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            items.append(byCompleteAfterQueryItem)
+        }
+        if let byParentJobId = value.byParentJobId {
+            let byParentJobIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+            items.append(byParentJobIdQueryItem)
+        }
+        if let byMessageCategory = value.byMessageCategory {
+            let byMessageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+            items.append(byMessageCategoryQueryItem)
+        }
+        if let byCompleteBefore = value.byCompleteBefore {
+            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            items.append(byCompleteBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBackupJobsInput {
+
+    static func urlPathProvider(_ value: ListBackupJobsInput) -> Swift.String? {
         return "/backup-jobs"
     }
 }
@@ -10240,25 +10282,25 @@ enum ListBackupJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupPlanTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBackupPlanTemplatesInput {
+
+    static func queryItemProvider(_ value: ListBackupPlanTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupPlanTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBackupPlanTemplatesInput {
+
+    static func urlPathProvider(_ value: ListBackupPlanTemplatesInput) -> Swift.String? {
         return "/backup/template/plans"
     }
 }
@@ -10361,26 +10403,26 @@ enum ListBackupPlanTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListBackupPlanVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBackupPlanVersionsInput {
+
+    static func queryItemProvider(_ value: ListBackupPlanVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupPlanVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension ListBackupPlanVersionsInput {
+
+    static func urlPathProvider(_ value: ListBackupPlanVersionsInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/versions"
@@ -10490,29 +10532,29 @@ enum ListBackupPlanVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupPlansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let includeDeleted = includeDeleted {
-                let includeDeletedQueryItem = ClientRuntime.URLQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
-                items.append(includeDeletedQueryItem)
-            }
-            return items
+extension ListBackupPlansInput {
+
+    static func queryItemProvider(_ value: ListBackupPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let includeDeleted = value.includeDeleted {
+            let includeDeletedQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeDeleted".urlPercentEncoding(), value: Swift.String(includeDeleted).urlPercentEncoding())
+            items.append(includeDeletedQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBackupPlansInput {
+
+    static func urlPathProvider(_ value: ListBackupPlansInput) -> Swift.String? {
         return "/backup/plans"
     }
 }
@@ -10619,26 +10661,26 @@ enum ListBackupPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupSelectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBackupSelectionsInput {
+
+    static func queryItemProvider(_ value: ListBackupSelectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupSelectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension ListBackupSelectionsInput {
+
+    static func urlPathProvider(_ value: ListBackupSelectionsInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())/selections"
@@ -10748,33 +10790,33 @@ enum ListBackupSelectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBackupVaultsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let byShared = byShared {
-                let bySharedQueryItem = ClientRuntime.URLQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
-                items.append(bySharedQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byVaultType = byVaultType {
-                let byVaultTypeQueryItem = ClientRuntime.URLQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
-                items.append(byVaultTypeQueryItem)
-            }
-            return items
+extension ListBackupVaultsInput {
+
+    static func queryItemProvider(_ value: ListBackupVaultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let byShared = value.byShared {
+            let bySharedQueryItem = ClientRuntime.SDKURLQueryItem(name: "shared".urlPercentEncoding(), value: Swift.String(byShared).urlPercentEncoding())
+            items.append(bySharedQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byVaultType = value.byVaultType {
+            let byVaultTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "vaultType".urlPercentEncoding(), value: Swift.String(byVaultType.rawValue).urlPercentEncoding())
+            items.append(byVaultTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBackupVaultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBackupVaultsInput {
+
+    static func urlPathProvider(_ value: ListBackupVaultsInput) -> Swift.String? {
         return "/backup-vaults"
     }
 }
@@ -10885,45 +10927,45 @@ enum ListBackupVaultsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCopyJobSummariesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aggregationPeriod = aggregationPeriod {
-                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
-                items.append(aggregationPeriodQueryItem)
-            }
-            if let accountId = accountId {
-                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-                items.append(accountIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let resourceType = resourceType {
-                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-                items.append(resourceTypeQueryItem)
-            }
-            if let messageCategory = messageCategory {
-                let messageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
-                items.append(messageCategoryQueryItem)
-            }
-            return items
+extension ListCopyJobSummariesInput {
+
+    static func queryItemProvider(_ value: ListCopyJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aggregationPeriod = value.aggregationPeriod {
+            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            items.append(aggregationPeriodQueryItem)
         }
+        if let accountId = value.accountId {
+            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        if let messageCategory = value.messageCategory {
+            let messageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "MessageCategory".urlPercentEncoding(), value: Swift.String(messageCategory).urlPercentEncoding())
+            items.append(messageCategoryQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCopyJobSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCopyJobSummariesInput {
+
+    static func urlPathProvider(_ value: ListCopyJobSummariesInput) -> Swift.String? {
         return "/audit/copy-job-summaries"
     }
 }
@@ -11066,69 +11108,69 @@ enum ListCopyJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCopyJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byResourceType = byResourceType {
-                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-                items.append(byResourceTypeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let byResourceArn = byResourceArn {
-                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-                items.append(byResourceArnQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byState = byState {
-                let byStateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
-                items.append(byStateQueryItem)
-            }
-            if let byAccountId = byAccountId {
-                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-                items.append(byAccountIdQueryItem)
-            }
-            if let byCreatedAfter = byCreatedAfter {
-                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-                items.append(byCreatedAfterQueryItem)
-            }
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
-            if let byDestinationVaultArn = byDestinationVaultArn {
-                let byDestinationVaultArnQueryItem = ClientRuntime.URLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
-                items.append(byDestinationVaultArnQueryItem)
-            }
-            if let byParentJobId = byParentJobId {
-                let byParentJobIdQueryItem = ClientRuntime.URLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
-                items.append(byParentJobIdQueryItem)
-            }
-            if let byMessageCategory = byMessageCategory {
-                let byMessageCategoryQueryItem = ClientRuntime.URLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
-                items.append(byMessageCategoryQueryItem)
-            }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
-            return items
+extension ListCopyJobsInput {
+
+    static func queryItemProvider(_ value: ListCopyJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byResourceType = value.byResourceType {
+            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            items.append(byResourceTypeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let byResourceArn = value.byResourceArn {
+            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            items.append(byResourceArnQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byState = value.byState {
+            let byStateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(byState.rawValue).urlPercentEncoding())
+            items.append(byStateQueryItem)
+        }
+        if let byAccountId = value.byAccountId {
+            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            items.append(byAccountIdQueryItem)
+        }
+        if let byCreatedAfter = value.byCreatedAfter {
+            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            items.append(byCreatedAfterQueryItem)
+        }
+        if let byCreatedBefore = value.byCreatedBefore {
+            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            items.append(byCreatedBeforeQueryItem)
+        }
+        if let byCompleteAfter = value.byCompleteAfter {
+            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            items.append(byCompleteAfterQueryItem)
+        }
+        if let byDestinationVaultArn = value.byDestinationVaultArn {
+            let byDestinationVaultArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "destinationVaultArn".urlPercentEncoding(), value: Swift.String(byDestinationVaultArn).urlPercentEncoding())
+            items.append(byDestinationVaultArnQueryItem)
+        }
+        if let byParentJobId = value.byParentJobId {
+            let byParentJobIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+            items.append(byParentJobIdQueryItem)
+        }
+        if let byMessageCategory = value.byMessageCategory {
+            let byMessageCategoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageCategory".urlPercentEncoding(), value: Swift.String(byMessageCategory).urlPercentEncoding())
+            items.append(byMessageCategoryQueryItem)
+        }
+        if let byCompleteBefore = value.byCompleteBefore {
+            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            items.append(byCompleteBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCopyJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCopyJobsInput {
+
+    static func urlPathProvider(_ value: ListCopyJobsInput) -> Swift.String? {
         return "/copy-jobs"
     }
 }
@@ -11305,25 +11347,25 @@ enum ListCopyJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFrameworksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFrameworksInput {
+
+    static func queryItemProvider(_ value: ListFrameworksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFrameworksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFrameworksInput {
+
+    static func urlPathProvider(_ value: ListFrameworksInput) -> Swift.String? {
         return "/audit/frameworks"
     }
 }
@@ -11424,25 +11466,25 @@ enum ListFrameworksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLegalHoldsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListLegalHoldsInput {
+
+    static func queryItemProvider(_ value: ListLegalHoldsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLegalHoldsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLegalHoldsInput {
+
+    static func urlPathProvider(_ value: ListLegalHoldsInput) -> Swift.String? {
         return "/legal-holds"
     }
 }
@@ -11543,30 +11585,30 @@ enum ListLegalHoldsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            return items
+extension ListProtectedResourcesByBackupVaultInput {
+
+    static func queryItemProvider(_ value: ListProtectedResourcesByBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension ListProtectedResourcesByBackupVaultInput {
+
+    static func urlPathProvider(_ value: ListProtectedResourcesByBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/resources"
@@ -11679,25 +11721,25 @@ enum ListProtectedResourcesByBackupVaultOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension ListProtectedResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProtectedResourcesInput {
+
+    static func queryItemProvider(_ value: ListProtectedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProtectedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProtectedResourcesInput {
+
+    static func urlPathProvider(_ value: ListProtectedResourcesInput) -> Swift.String? {
         return "/resources"
     }
 }
@@ -11798,54 +11840,54 @@ enum ListProtectedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byResourceType = byResourceType {
-                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-                items.append(byResourceTypeQueryItem)
-            }
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let byResourceArn = byResourceArn {
-                let byResourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
-                items.append(byResourceArnQueryItem)
-            }
-            if let byBackupPlanId = byBackupPlanId {
-                let byBackupPlanIdQueryItem = ClientRuntime.URLQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
-                items.append(byBackupPlanIdQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byParentRecoveryPointArn = byParentRecoveryPointArn {
-                let byParentRecoveryPointArnQueryItem = ClientRuntime.URLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
-                items.append(byParentRecoveryPointArnQueryItem)
-            }
-            if let backupVaultAccountId = backupVaultAccountId {
-                let backupVaultAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
-                items.append(backupVaultAccountIdQueryItem)
-            }
-            if let byCreatedAfter = byCreatedAfter {
-                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-                items.append(byCreatedAfterQueryItem)
-            }
-            return items
+extension ListRecoveryPointsByBackupVaultInput {
+
+    static func queryItemProvider(_ value: ListRecoveryPointsByBackupVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byResourceType = value.byResourceType {
+            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            items.append(byResourceTypeQueryItem)
         }
+        if let byCreatedBefore = value.byCreatedBefore {
+            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            items.append(byCreatedBeforeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let byResourceArn = value.byResourceArn {
+            let byResourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(byResourceArn).urlPercentEncoding())
+            items.append(byResourceArnQueryItem)
+        }
+        if let byBackupPlanId = value.byBackupPlanId {
+            let byBackupPlanIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupPlanId".urlPercentEncoding(), value: Swift.String(byBackupPlanId).urlPercentEncoding())
+            items.append(byBackupPlanIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byParentRecoveryPointArn = value.byParentRecoveryPointArn {
+            let byParentRecoveryPointArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentRecoveryPointArn".urlPercentEncoding(), value: Swift.String(byParentRecoveryPointArn).urlPercentEncoding())
+            items.append(byParentRecoveryPointArnQueryItem)
+        }
+        if let backupVaultAccountId = value.backupVaultAccountId {
+            let backupVaultAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "backupVaultAccountId".urlPercentEncoding(), value: Swift.String(backupVaultAccountId).urlPercentEncoding())
+            items.append(backupVaultAccountIdQueryItem)
+        }
+        if let byCreatedAfter = value.byCreatedAfter {
+            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            items.append(byCreatedAfterQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension ListRecoveryPointsByBackupVaultInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPointsByBackupVaultInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points"
@@ -12015,26 +12057,26 @@ enum ListRecoveryPointsByBackupVaultOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListRecoveryPointsByLegalHoldInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRecoveryPointsByLegalHoldInput {
+
+    static func queryItemProvider(_ value: ListRecoveryPointsByLegalHoldInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecoveryPointsByLegalHoldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let legalHoldId = legalHoldId else {
+extension ListRecoveryPointsByLegalHoldInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPointsByLegalHoldInput) -> Swift.String? {
+        guard let legalHoldId = value.legalHoldId else {
             return nil
         }
         return "/legal-holds/\(legalHoldId.urlPercentEncoding())/recovery-points"
@@ -12143,26 +12185,26 @@ enum ListRecoveryPointsByLegalHoldOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListRecoveryPointsByResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRecoveryPointsByResourceInput {
+
+    static func queryItemProvider(_ value: ListRecoveryPointsByResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecoveryPointsByResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListRecoveryPointsByResourceInput {
+
+    static func urlPathProvider(_ value: ListRecoveryPointsByResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())/recovery-points"
@@ -12272,41 +12314,41 @@ enum ListRecoveryPointsByResourceOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListReportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byReportPlanName = byReportPlanName {
-                let byReportPlanNameQueryItem = ClientRuntime.URLQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
-                items.append(byReportPlanNameQueryItem)
-            }
-            if let byCreationAfter = byCreationAfter {
-                let byCreationAfterQueryItem = ClientRuntime.URLQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
-                items.append(byCreationAfterQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byStatus = byStatus {
-                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
-                items.append(byStatusQueryItem)
-            }
-            if let byCreationBefore = byCreationBefore {
-                let byCreationBeforeQueryItem = ClientRuntime.URLQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
-                items.append(byCreationBeforeQueryItem)
-            }
-            return items
+extension ListReportJobsInput {
+
+    static func queryItemProvider(_ value: ListReportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byReportPlanName = value.byReportPlanName {
+            let byReportPlanNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "ReportPlanName".urlPercentEncoding(), value: Swift.String(byReportPlanName).urlPercentEncoding())
+            items.append(byReportPlanNameQueryItem)
         }
+        if let byCreationAfter = value.byCreationAfter {
+            let byCreationAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationAfter)).urlPercentEncoding())
+            items.append(byCreationAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byStatus = value.byStatus {
+            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(byStatus).urlPercentEncoding())
+            items.append(byStatusQueryItem)
+        }
+        if let byCreationBefore = value.byCreationBefore {
+            let byCreationBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreationBefore)).urlPercentEncoding())
+            items.append(byCreationBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListReportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportJobsInput {
+
+    static func urlPathProvider(_ value: ListReportJobsInput) -> Swift.String? {
         return "/audit/report-jobs"
     }
 }
@@ -12424,25 +12466,25 @@ enum ListReportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListReportPlansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListReportPlansInput {
+
+    static func queryItemProvider(_ value: ListReportPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListReportPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportPlansInput {
+
+    static func urlPathProvider(_ value: ListReportPlansInput) -> Swift.String? {
         return "/audit/report-plans"
     }
 }
@@ -12543,41 +12585,41 @@ enum ListReportPlansOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRestoreJobSummariesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let aggregationPeriod = aggregationPeriod {
-                let aggregationPeriodQueryItem = ClientRuntime.URLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
-                items.append(aggregationPeriodQueryItem)
-            }
-            if let accountId = accountId {
-                let accountIdQueryItem = ClientRuntime.URLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
-                items.append(accountIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let resourceType = resourceType {
-                let resourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
-                items.append(resourceTypeQueryItem)
-            }
-            return items
+extension ListRestoreJobSummariesInput {
+
+    static func queryItemProvider(_ value: ListRestoreJobSummariesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let aggregationPeriod = value.aggregationPeriod {
+            let aggregationPeriodQueryItem = ClientRuntime.SDKURLQueryItem(name: "AggregationPeriod".urlPercentEncoding(), value: Swift.String(aggregationPeriod.rawValue).urlPercentEncoding())
+            items.append(aggregationPeriodQueryItem)
         }
+        if let accountId = value.accountId {
+            let accountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "State".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "ResourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRestoreJobSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRestoreJobSummariesInput {
+
+    static func urlPathProvider(_ value: ListRestoreJobSummariesInput) -> Swift.String? {
         return "/audit/restore-job-summaries"
     }
 }
@@ -12716,38 +12758,38 @@ enum ListRestoreJobSummariesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter {
-                let byRecoveryPointCreationDateAfterQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
-                items.append(byRecoveryPointCreationDateAfterQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byStatus = byStatus {
-                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
-                items.append(byStatusQueryItem)
-            }
-            if let byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore {
-                let byRecoveryPointCreationDateBeforeQueryItem = ClientRuntime.URLQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
-                items.append(byRecoveryPointCreationDateBeforeQueryItem)
-            }
-            return items
+extension ListRestoreJobsByProtectedResourceInput {
+
+    static func queryItemProvider(_ value: ListRestoreJobsByProtectedResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byRecoveryPointCreationDateAfter = value.byRecoveryPointCreationDateAfter {
+            let byRecoveryPointCreationDateAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "recoveryPointCreationDateAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateAfter)).urlPercentEncoding())
+            items.append(byRecoveryPointCreationDateAfterQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byStatus = value.byStatus {
+            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+            items.append(byStatusQueryItem)
+        }
+        if let byRecoveryPointCreationDateBefore = value.byRecoveryPointCreationDateBefore {
+            let byRecoveryPointCreationDateBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "recoveryPointCreationDateBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byRecoveryPointCreationDateBefore)).urlPercentEncoding())
+            items.append(byRecoveryPointCreationDateBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListRestoreJobsByProtectedResourceInput {
+
+    static func urlPathProvider(_ value: ListRestoreJobsByProtectedResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/resources/\(resourceArn.urlPercentEncoding())/restore-jobs"
@@ -12869,57 +12911,57 @@ enum ListRestoreJobsByProtectedResourceOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListRestoreJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byResourceType = byResourceType {
-                let byResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
-                items.append(byResourceTypeQueryItem)
-            }
-            if let byCreatedBefore = byCreatedBefore {
-                let byCreatedBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
-                items.append(byCreatedBeforeQueryItem)
-            }
-            if let byCompleteAfter = byCompleteAfter {
-                let byCompleteAfterQueryItem = ClientRuntime.URLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
-                items.append(byCompleteAfterQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let byAccountId = byAccountId {
-                let byAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
-                items.append(byAccountIdQueryItem)
-            }
-            if let byCompleteBefore = byCompleteBefore {
-                let byCompleteBeforeQueryItem = ClientRuntime.URLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
-                items.append(byCompleteBeforeQueryItem)
-            }
-            if let byCreatedAfter = byCreatedAfter {
-                let byCreatedAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
-                items.append(byCreatedAfterQueryItem)
-            }
-            if let byStatus = byStatus {
-                let byStatusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
-                items.append(byStatusQueryItem)
-            }
-            if let byRestoreTestingPlanArn = byRestoreTestingPlanArn {
-                let byRestoreTestingPlanArnQueryItem = ClientRuntime.URLQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
-                items.append(byRestoreTestingPlanArnQueryItem)
-            }
-            return items
+extension ListRestoreJobsInput {
+
+    static func queryItemProvider(_ value: ListRestoreJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byResourceType = value.byResourceType {
+            let byResourceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
+            items.append(byResourceTypeQueryItem)
         }
+        if let byCreatedBefore = value.byCreatedBefore {
+            let byCreatedBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedBefore)).urlPercentEncoding())
+            items.append(byCreatedBeforeQueryItem)
+        }
+        if let byCompleteAfter = value.byCompleteAfter {
+            let byCompleteAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteAfter)).urlPercentEncoding())
+            items.append(byCompleteAfterQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let byAccountId = value.byAccountId {
+            let byAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(byAccountId).urlPercentEncoding())
+            items.append(byAccountIdQueryItem)
+        }
+        if let byCompleteBefore = value.byCompleteBefore {
+            let byCompleteBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "completeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCompleteBefore)).urlPercentEncoding())
+            items.append(byCompleteBeforeQueryItem)
+        }
+        if let byCreatedAfter = value.byCreatedAfter {
+            let byCreatedAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: byCreatedAfter)).urlPercentEncoding())
+            items.append(byCreatedAfterQueryItem)
+        }
+        if let byStatus = value.byStatus {
+            let byStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(byStatus.rawValue).urlPercentEncoding())
+            items.append(byStatusQueryItem)
+        }
+        if let byRestoreTestingPlanArn = value.byRestoreTestingPlanArn {
+            let byRestoreTestingPlanArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "restoreTestingPlanArn".urlPercentEncoding(), value: Swift.String(byRestoreTestingPlanArn).urlPercentEncoding())
+            items.append(byRestoreTestingPlanArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRestoreJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRestoreJobsInput {
+
+    static func urlPathProvider(_ value: ListRestoreJobsInput) -> Swift.String? {
         return "/restore-jobs"
     }
 }
@@ -13086,25 +13128,25 @@ enum ListRestoreJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRestoreTestingPlansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRestoreTestingPlansInput {
+
+    static func queryItemProvider(_ value: ListRestoreTestingPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRestoreTestingPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRestoreTestingPlansInput {
+
+    static func urlPathProvider(_ value: ListRestoreTestingPlansInput) -> Swift.String? {
         return "/restore-testing/plans"
     }
 }
@@ -13206,26 +13248,26 @@ enum ListRestoreTestingPlansOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListRestoreTestingSelectionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRestoreTestingSelectionsInput {
+
+    static func queryItemProvider(_ value: ListRestoreTestingSelectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRestoreTestingSelectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension ListRestoreTestingSelectionsInput {
+
+    static func urlPathProvider(_ value: ListRestoreTestingSelectionsInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections"
@@ -13335,26 +13377,26 @@ enum ListRestoreTestingSelectionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTagsInput {
+
+    static func queryItemProvider(_ value: ListTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13720,9 +13762,10 @@ extension PutBackupVaultAccessPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutBackupVaultAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension PutBackupVaultAccessPolicyInput {
+
+    static func urlPathProvider(_ value: PutBackupVaultAccessPolicyInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/access-policy"
@@ -13807,9 +13850,10 @@ extension PutBackupVaultLockConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutBackupVaultLockConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension PutBackupVaultLockConfigurationInput {
+
+    static func urlPathProvider(_ value: PutBackupVaultLockConfigurationInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/vault-lock"
@@ -13910,9 +13954,10 @@ extension PutBackupVaultNotificationsInput: Swift.Encodable {
     }
 }
 
-extension PutBackupVaultNotificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension PutBackupVaultNotificationsInput {
+
+    static func urlPathProvider(_ value: PutBackupVaultNotificationsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/notification-configuration"
@@ -14023,9 +14068,10 @@ extension PutRestoreValidationResultInput: Swift.Encodable {
     }
 }
 
-extension PutRestoreValidationResultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreJobId = restoreJobId else {
+extension PutRestoreValidationResultInput {
+
+    static func urlPathProvider(_ value: PutRestoreValidationResultInput) -> Swift.String? {
+        guard let restoreJobId = value.restoreJobId else {
             return nil
         }
         return "/restore-jobs/\(restoreJobId.urlPercentEncoding())/validations"
@@ -17002,8 +17048,9 @@ extension StartBackupJobInput: Swift.Encodable {
     }
 }
 
-extension StartBackupJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBackupJobInput {
+
+    static func urlPathProvider(_ value: StartBackupJobInput) -> Swift.String? {
         return "/backup-jobs"
     }
 }
@@ -17240,8 +17287,9 @@ extension StartCopyJobInput: Swift.Encodable {
     }
 }
 
-extension StartCopyJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartCopyJobInput {
+
+    static func urlPathProvider(_ value: StartCopyJobInput) -> Swift.String? {
         return "/copy-jobs"
     }
 }
@@ -17407,9 +17455,10 @@ extension StartReportJobInput: Swift.Encodable {
     }
 }
 
-extension StartReportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportPlanName = reportPlanName else {
+extension StartReportJobInput {
+
+    static func urlPathProvider(_ value: StartReportJobInput) -> Swift.String? {
+        guard let reportPlanName = value.reportPlanName else {
             return nil
         }
         return "/audit/report-jobs/\(reportPlanName.urlPercentEncoding())"
@@ -17544,8 +17593,9 @@ extension StartRestoreJobInput: Swift.Encodable {
     }
 }
 
-extension StartRestoreJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRestoreJobInput {
+
+    static func urlPathProvider(_ value: StartRestoreJobInput) -> Swift.String? {
         return "/restore-jobs"
     }
 }
@@ -17728,9 +17778,10 @@ enum StartRestoreJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopBackupJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension StopBackupJobInput {
+
+    static func urlPathProvider(_ value: StopBackupJobInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())"
@@ -17840,9 +17891,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -17938,9 +17990,10 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/untag/\(resourceArn.urlPercentEncoding())"
@@ -18027,9 +18080,10 @@ extension UpdateBackupPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateBackupPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupPlanId = backupPlanId else {
+extension UpdateBackupPlanInput {
+
+    static func urlPathProvider(_ value: UpdateBackupPlanInput) -> Swift.String? {
+        guard let backupPlanId = value.backupPlanId else {
             return nil
         }
         return "/backup/plans/\(backupPlanId.urlPercentEncoding())"
@@ -18197,9 +18251,10 @@ extension UpdateFrameworkInput: Swift.Encodable {
     }
 }
 
-extension UpdateFrameworkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let frameworkName = frameworkName else {
+extension UpdateFrameworkInput {
+
+    static func urlPathProvider(_ value: UpdateFrameworkInput) -> Swift.String? {
+        guard let frameworkName = value.frameworkName else {
             return nil
         }
         return "/audit/frameworks/\(frameworkName.urlPercentEncoding())"
@@ -18357,8 +18412,9 @@ extension UpdateGlobalSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateGlobalSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGlobalSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateGlobalSettingsInput) -> Swift.String? {
         return "/global-settings"
     }
 }
@@ -18437,12 +18493,13 @@ extension UpdateRecoveryPointLifecycleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRecoveryPointLifecycleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupVaultName = backupVaultName else {
+extension UpdateRecoveryPointLifecycleInput {
+
+    static func urlPathProvider(_ value: UpdateRecoveryPointLifecycleInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
             return nil
         }
-        guard let recoveryPointArn = recoveryPointArn else {
+        guard let recoveryPointArn = value.recoveryPointArn else {
             return nil
         }
         return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())"
@@ -18595,8 +18652,9 @@ extension UpdateRegionSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateRegionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRegionSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateRegionSettingsInput) -> Swift.String? {
         return "/account-settings"
     }
 }
@@ -18703,9 +18761,10 @@ extension UpdateReportPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateReportPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let reportPlanName = reportPlanName else {
+extension UpdateReportPlanInput {
+
+    static func urlPathProvider(_ value: UpdateReportPlanInput) -> Swift.String? {
+        guard let reportPlanName = value.reportPlanName else {
             return nil
         }
         return "/audit/report-plans/\(reportPlanName.urlPercentEncoding())"
@@ -18857,9 +18916,10 @@ extension UpdateRestoreTestingPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateRestoreTestingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension UpdateRestoreTestingPlanInput {
+
+    static func urlPathProvider(_ value: UpdateRestoreTestingPlanInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())"
@@ -19002,12 +19062,13 @@ extension UpdateRestoreTestingSelectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateRestoreTestingSelectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let restoreTestingPlanName = restoreTestingPlanName else {
+extension UpdateRestoreTestingSelectionInput {
+
+    static func urlPathProvider(_ value: UpdateRestoreTestingSelectionInput) -> Swift.String? {
+        guard let restoreTestingPlanName = value.restoreTestingPlanName else {
             return nil
         }
-        guard let restoreTestingSelectionName = restoreTestingSelectionName else {
+        guard let restoreTestingSelectionName = value.restoreTestingSelectionName else {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"

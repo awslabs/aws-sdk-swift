@@ -653,8 +653,9 @@ extension CreateKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension CreateKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyspaceInput {
+
+    static func urlPathProvider(_ value: CreateKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -840,8 +841,9 @@ extension CreateTableInput: Swift.Encodable {
     }
 }
 
-extension CreateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTableInput {
+
+    static func urlPathProvider(_ value: CreateTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1121,8 +1123,9 @@ extension DeleteKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteKeyspaceInput {
+
+    static func urlPathProvider(_ value: DeleteKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1199,8 +1202,9 @@ extension DeleteTableInput: Swift.Encodable {
     }
 }
 
-extension DeleteTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTableInput {
+
+    static func urlPathProvider(_ value: DeleteTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1374,8 +1378,9 @@ extension GetKeyspaceInput: Swift.Encodable {
     }
 }
 
-extension GetKeyspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetKeyspaceInput {
+
+    static func urlPathProvider(_ value: GetKeyspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1523,8 +1528,9 @@ extension GetTableAutoScalingSettingsInput: Swift.Encodable {
     }
 }
 
-extension GetTableAutoScalingSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableAutoScalingSettingsInput {
+
+    static func urlPathProvider(_ value: GetTableAutoScalingSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1691,8 +1697,9 @@ extension GetTableInput: Swift.Encodable {
     }
 }
 
-extension GetTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTableInput {
+
+    static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2089,8 +2096,9 @@ extension ListKeyspacesInput: Swift.Encodable {
     }
 }
 
-extension ListKeyspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeyspacesInput {
+
+    static func urlPathProvider(_ value: ListKeyspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2227,8 +2235,9 @@ extension ListTablesInput: Swift.Encodable {
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2373,8 +2382,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3008,8 +3018,9 @@ extension RestoreTableInput: Swift.Encodable {
     }
 }
 
-extension RestoreTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreTableInput {
+
+    static func urlPathProvider(_ value: RestoreTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3665,8 +3676,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3926,8 +3938,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4064,8 +4077,9 @@ extension UpdateTableInput: Swift.Encodable {
     }
 }
 
-extension UpdateTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTableInput {
+
+    static func urlPathProvider(_ value: UpdateTableInput) -> Swift.String? {
         return "/"
     }
 }

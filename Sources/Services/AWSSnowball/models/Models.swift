@@ -222,8 +222,9 @@ extension CancelClusterInput: Swift.Encodable {
     }
 }
 
-extension CancelClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelClusterInput {
+
+    static func urlPathProvider(_ value: CancelClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -293,8 +294,9 @@ extension CancelJobInput: Swift.Encodable {
     }
 }
 
-extension CancelJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -818,8 +820,9 @@ extension CreateAddressInput: Swift.Encodable {
     }
 }
 
-extension CreateAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAddressInput {
+
+    static func urlPathProvider(_ value: CreateAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -985,8 +988,9 @@ extension CreateClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1337,8 +1341,9 @@ extension CreateJobInput: Swift.Encodable {
     }
 }
 
-extension CreateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobInput {
+
+    static func urlPathProvider(_ value: CreateJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1599,8 +1604,9 @@ extension CreateLongTermPricingInput: Swift.Encodable {
     }
 }
 
-extension CreateLongTermPricingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLongTermPricingInput {
+
+    static func urlPathProvider(_ value: CreateLongTermPricingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1719,8 +1725,9 @@ extension CreateReturnShippingLabelInput: Swift.Encodable {
     }
 }
 
-extension CreateReturnShippingLabelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReturnShippingLabelInput {
+
+    static func urlPathProvider(_ value: CreateReturnShippingLabelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1940,8 +1947,9 @@ extension DescribeAddressInput: Swift.Encodable {
     }
 }
 
-extension DescribeAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAddressInput {
+
+    static func urlPathProvider(_ value: DescribeAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2043,8 +2051,9 @@ extension DescribeAddressesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAddressesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAddressesInput {
+
+    static func urlPathProvider(_ value: DescribeAddressesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2169,8 +2178,9 @@ extension DescribeClusterInput: Swift.Encodable {
     }
 }
 
-extension DescribeClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeClusterInput {
+
+    static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2268,8 +2278,9 @@ extension DescribeJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobInput {
+
+    static func urlPathProvider(_ value: DescribeJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2386,8 +2397,9 @@ extension DescribeReturnShippingLabelInput: Swift.Encodable {
     }
 }
 
-extension DescribeReturnShippingLabelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReturnShippingLabelInput {
+
+    static func urlPathProvider(_ value: DescribeReturnShippingLabelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2755,8 +2767,9 @@ extension GetJobManifestInput: Swift.Encodable {
     }
 }
 
-extension GetJobManifestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetJobManifestInput {
+
+    static func urlPathProvider(_ value: GetJobManifestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2855,8 +2868,9 @@ extension GetJobUnlockCodeInput: Swift.Encodable {
     }
 }
 
-extension GetJobUnlockCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetJobUnlockCodeInput {
+
+    static func urlPathProvider(_ value: GetJobUnlockCodeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2950,8 +2964,9 @@ extension GetSnowballUsageInput: Swift.Encodable {
     }
 }
 
-extension GetSnowballUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSnowballUsageInput {
+
+    static func urlPathProvider(_ value: GetSnowballUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3043,8 +3058,9 @@ extension GetSoftwareUpdatesInput: Swift.Encodable {
     }
 }
 
-extension GetSoftwareUpdatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSoftwareUpdatesInput {
+
+    static func urlPathProvider(_ value: GetSoftwareUpdatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4285,8 +4301,9 @@ extension ListClusterJobsInput: Swift.Encodable {
     }
 }
 
-extension ListClusterJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClusterJobsInput {
+
+    static func urlPathProvider(_ value: ListClusterJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4424,8 +4441,9 @@ extension ListClustersInput: Swift.Encodable {
     }
 }
 
-extension ListClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClustersInput {
+
+    static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4553,8 +4571,9 @@ extension ListCompatibleImagesInput: Swift.Encodable {
     }
 }
 
-extension ListCompatibleImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCompatibleImagesInput {
+
+    static func urlPathProvider(_ value: ListCompatibleImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4683,8 +4702,9 @@ extension ListJobsInput: Swift.Encodable {
     }
 }
 
-extension ListJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4812,8 +4832,9 @@ extension ListLongTermPricingInput: Swift.Encodable {
     }
 }
 
-extension ListLongTermPricingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLongTermPricingInput {
+
+    static func urlPathProvider(_ value: ListLongTermPricingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4942,8 +4963,9 @@ extension ListPickupLocationsInput: Swift.Encodable {
     }
 }
 
-extension ListPickupLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPickupLocationsInput {
+
+    static func urlPathProvider(_ value: ListPickupLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5082,8 +5104,9 @@ extension ListServiceVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListServiceVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServiceVersionsInput {
+
+    static func urlPathProvider(_ value: ListServiceVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6655,8 +6678,9 @@ extension UpdateClusterInput: Swift.Encodable {
     }
 }
 
-extension UpdateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateClusterInput {
+
+    static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6832,8 +6856,9 @@ extension UpdateJobInput: Swift.Encodable {
     }
 }
 
-extension UpdateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateJobInput {
+
+    static func urlPathProvider(_ value: UpdateJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6990,8 +7015,9 @@ extension UpdateJobShipmentStateInput: Swift.Encodable {
     }
 }
 
-extension UpdateJobShipmentStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateJobShipmentStateInput {
+
+    static func urlPathProvider(_ value: UpdateJobShipmentStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7077,8 +7103,9 @@ extension UpdateLongTermPricingInput: Swift.Encodable {
     }
 }
 
-extension UpdateLongTermPricingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLongTermPricingInput {
+
+    static func urlPathProvider(_ value: UpdateLongTermPricingInput) -> Swift.String? {
         return "/"
     }
 }

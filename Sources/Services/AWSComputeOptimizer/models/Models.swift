@@ -1084,8 +1084,9 @@ extension DeleteRecommendationPreferencesInput: Swift.Encodable {
     }
 }
 
-extension DeleteRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRecommendationPreferencesInput {
+
+    static func urlPathProvider(_ value: DeleteRecommendationPreferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1204,8 +1205,9 @@ extension DescribeRecommendationExportJobsInput: Swift.Encodable {
     }
 }
 
-extension DescribeRecommendationExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRecommendationExportJobsInput {
+
+    static func urlPathProvider(_ value: DescribeRecommendationExportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3311,8 +3313,9 @@ extension ExportAutoScalingGroupRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportAutoScalingGroupRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportAutoScalingGroupRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportAutoScalingGroupRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3566,8 +3569,9 @@ extension ExportEBSVolumeRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportEBSVolumeRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportEBSVolumeRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportEBSVolumeRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3782,8 +3786,9 @@ extension ExportEC2InstanceRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportEC2InstanceRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportEC2InstanceRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportEC2InstanceRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4002,8 +4007,9 @@ extension ExportECSServiceRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportECSServiceRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportECSServiceRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4214,8 +4220,9 @@ extension ExportLambdaFunctionRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportLambdaFunctionRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportLambdaFunctionRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportLambdaFunctionRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4426,8 +4433,9 @@ extension ExportLicenseRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ExportLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportLicenseRecommendationsInput {
+
+    static func urlPathProvider(_ value: ExportLicenseRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5958,8 +5966,9 @@ extension GetAutoScalingGroupRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetAutoScalingGroupRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAutoScalingGroupRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetAutoScalingGroupRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6193,8 +6202,9 @@ extension GetEBSVolumeRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetEBSVolumeRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEBSVolumeRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetEBSVolumeRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6424,8 +6434,9 @@ extension GetEC2InstanceRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetEC2InstanceRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEC2InstanceRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetEC2InstanceRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6654,8 +6665,9 @@ extension GetEC2RecommendationProjectedMetricsInput: Swift.Encodable {
     }
 }
 
-extension GetEC2RecommendationProjectedMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEC2RecommendationProjectedMetricsInput {
+
+    static func urlPathProvider(_ value: GetEC2RecommendationProjectedMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6829,8 +6841,9 @@ extension GetECSServiceRecommendationProjectedMetricsInput: Swift.Encodable {
     }
 }
 
-extension GetECSServiceRecommendationProjectedMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetECSServiceRecommendationProjectedMetricsInput {
+
+    static func urlPathProvider(_ value: GetECSServiceRecommendationProjectedMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7005,8 +7018,9 @@ extension GetECSServiceRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetECSServiceRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetECSServiceRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7207,8 +7221,9 @@ extension GetEffectiveRecommendationPreferencesInput: Swift.Encodable {
     }
 }
 
-extension GetEffectiveRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEffectiveRecommendationPreferencesInput {
+
+    static func urlPathProvider(_ value: GetEffectiveRecommendationPreferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7366,8 +7381,9 @@ extension GetEnrollmentStatusInput: Swift.Encodable {
     }
 }
 
-extension GetEnrollmentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnrollmentStatusInput {
+
+    static func urlPathProvider(_ value: GetEnrollmentStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7506,8 +7522,9 @@ extension GetEnrollmentStatusesForOrganizationInput: Swift.Encodable {
     }
 }
 
-extension GetEnrollmentStatusesForOrganizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEnrollmentStatusesForOrganizationInput {
+
+    static func urlPathProvider(_ value: GetEnrollmentStatusesForOrganizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7678,8 +7695,9 @@ extension GetLambdaFunctionRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetLambdaFunctionRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLambdaFunctionRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetLambdaFunctionRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7886,8 +7904,9 @@ extension GetLicenseRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLicenseRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetLicenseRecommendationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8155,8 +8174,9 @@ extension GetRecommendationPreferencesInput: Swift.Encodable {
     }
 }
 
-extension GetRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecommendationPreferencesInput {
+
+    static func urlPathProvider(_ value: GetRecommendationPreferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8315,8 +8335,9 @@ extension GetRecommendationSummariesInput: Swift.Encodable {
     }
 }
 
-extension GetRecommendationSummariesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecommendationSummariesInput {
+
+    static func urlPathProvider(_ value: GetRecommendationSummariesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12061,8 +12082,9 @@ extension PutRecommendationPreferencesInput: Swift.Encodable {
     }
 }
 
-extension PutRecommendationPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutRecommendationPreferencesInput {
+
+    static func urlPathProvider(_ value: PutRecommendationPreferencesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13600,8 +13622,9 @@ extension UpdateEnrollmentStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnrollmentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateEnrollmentStatusInput {
+
+    static func urlPathProvider(_ value: UpdateEnrollmentStatusInput) -> Swift.String? {
         return "/"
     }
 }

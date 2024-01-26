@@ -194,8 +194,9 @@ extension ActivateOrganizationsAccessInput: Swift.Encodable {
     }
 }
 
-extension ActivateOrganizationsAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateOrganizationsAccessInput {
+
+    static func urlPathProvider(_ value: ActivateOrganizationsAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -264,8 +265,9 @@ extension ActivateTypeInput: Swift.Encodable {
     }
 }
 
-extension ActivateTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivateTypeInput {
+
+    static func urlPathProvider(_ value: ActivateTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -600,8 +602,9 @@ extension BatchDescribeTypeConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension BatchDescribeTypeConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDescribeTypeConfigurationsInput {
+
+    static func urlPathProvider(_ value: BatchDescribeTypeConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -876,8 +879,9 @@ extension CancelUpdateStackInput: Swift.Encodable {
     }
 }
 
-extension CancelUpdateStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelUpdateStackInput {
+
+    static func urlPathProvider(_ value: CancelUpdateStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1772,8 +1776,9 @@ extension ContinueUpdateRollbackInput: Swift.Encodable {
     }
 }
 
-extension ContinueUpdateRollbackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ContinueUpdateRollbackInput {
+
+    static func urlPathProvider(_ value: ContinueUpdateRollbackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1989,8 +1994,9 @@ extension CreateChangeSetInput: Swift.Encodable {
     }
 }
 
-extension CreateChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateChangeSetInput {
+
+    static func urlPathProvider(_ value: CreateChangeSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2485,8 +2491,9 @@ extension CreateStackInput: Swift.Encodable {
     }
 }
 
-extension CreateStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStackInput {
+
+    static func urlPathProvider(_ value: CreateStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2834,8 +2841,9 @@ extension CreateStackInstancesInput: Swift.Encodable {
     }
 }
 
-extension CreateStackInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStackInstancesInput {
+
+    static func urlPathProvider(_ value: CreateStackInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3183,8 +3191,9 @@ extension CreateStackSetInput: Swift.Encodable {
     }
 }
 
-extension CreateStackSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStackSetInput {
+
+    static func urlPathProvider(_ value: CreateStackSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3537,8 +3546,9 @@ extension DeactivateOrganizationsAccessInput: Swift.Encodable {
     }
 }
 
-extension DeactivateOrganizationsAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeactivateOrganizationsAccessInput {
+
+    static func urlPathProvider(_ value: DeactivateOrganizationsAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3586,8 +3596,9 @@ extension DeactivateTypeInput: Swift.Encodable {
     }
 }
 
-extension DeactivateTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeactivateTypeInput {
+
+    static func urlPathProvider(_ value: DeactivateTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3671,8 +3682,9 @@ extension DeleteChangeSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteChangeSetInput {
+
+    static func urlPathProvider(_ value: DeleteChangeSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3765,8 +3777,9 @@ extension DeleteStackInput: Swift.Encodable {
     }
 }
 
-extension DeleteStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStackInput {
+
+    static func urlPathProvider(_ value: DeleteStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3892,8 +3905,9 @@ extension DeleteStackInstancesInput: Swift.Encodable {
     }
 }
 
-extension DeleteStackInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStackInstancesInput {
+
+    static func urlPathProvider(_ value: DeleteStackInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4112,8 +4126,9 @@ extension DeleteStackSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteStackSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStackSetInput {
+
+    static func urlPathProvider(_ value: DeleteStackSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4357,8 +4372,9 @@ extension DeregisterTypeInput: Swift.Encodable {
     }
 }
 
-extension DeregisterTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterTypeInput {
+
+    static func urlPathProvider(_ value: DeregisterTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4447,8 +4463,9 @@ extension DescribeAccountLimitsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4580,8 +4597,9 @@ extension DescribeChangeSetHooksInput: Swift.Encodable {
     }
 }
 
-extension DescribeChangeSetHooksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeChangeSetHooksInput {
+
+    static func urlPathProvider(_ value: DescribeChangeSetHooksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4784,8 +4802,9 @@ extension DescribeChangeSetInput: Swift.Encodable {
     }
 }
 
-extension DescribeChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeChangeSetInput {
+
+    static func urlPathProvider(_ value: DescribeChangeSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5190,8 +5209,9 @@ extension DescribeOrganizationsAccessInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationsAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationsAccessInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationsAccessInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5291,8 +5311,9 @@ extension DescribePublisherInput: Swift.Encodable {
     }
 }
 
-extension DescribePublisherInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePublisherInput {
+
+    static func urlPathProvider(_ value: DescribePublisherInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5417,8 +5438,9 @@ extension DescribeStackDriftDetectionStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackDriftDetectionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackDriftDetectionStatusInput {
+
+    static func urlPathProvider(_ value: DescribeStackDriftDetectionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5594,8 +5616,9 @@ extension DescribeStackEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackEventsInput {
+
+    static func urlPathProvider(_ value: DescribeStackEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5742,8 +5765,9 @@ extension DescribeStackInstanceInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackInstanceInput {
+
+    static func urlPathProvider(_ value: DescribeStackInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5888,8 +5912,9 @@ extension DescribeStackResourceDriftsInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackResourceDriftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackResourceDriftsInput {
+
+    static func urlPathProvider(_ value: DescribeStackResourceDriftsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6064,8 +6089,9 @@ extension DescribeStackResourceInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackResourceInput {
+
+    static func urlPathProvider(_ value: DescribeStackResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6184,8 +6210,9 @@ extension DescribeStackResourcesInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackResourcesInput {
+
+    static func urlPathProvider(_ value: DescribeStackResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6324,8 +6351,9 @@ extension DescribeStackSetInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackSetInput {
+
+    static func urlPathProvider(_ value: DescribeStackSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6388,8 +6416,9 @@ extension DescribeStackSetOperationInput: Swift.Encodable {
     }
 }
 
-extension DescribeStackSetOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStackSetOperationInput {
+
+    static func urlPathProvider(_ value: DescribeStackSetOperationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6561,8 +6590,9 @@ extension DescribeStacksInput: Swift.Encodable {
     }
 }
 
-extension DescribeStacksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStacksInput {
+
+    static func urlPathProvider(_ value: DescribeStacksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6715,8 +6745,9 @@ extension DescribeTypeInput: Swift.Encodable {
     }
 }
 
-extension DescribeTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTypeInput {
+
+    static func urlPathProvider(_ value: DescribeTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7164,8 +7195,9 @@ extension DescribeTypeRegistrationInput: Swift.Encodable {
     }
 }
 
-extension DescribeTypeRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTypeRegistrationInput {
+
+    static func urlPathProvider(_ value: DescribeTypeRegistrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7303,8 +7335,9 @@ extension DetectStackDriftInput: Swift.Encodable {
     }
 }
 
-extension DetectStackDriftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectStackDriftInput {
+
+    static func urlPathProvider(_ value: DetectStackDriftInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7428,8 +7461,9 @@ extension DetectStackResourceDriftInput: Swift.Encodable {
     }
 }
 
-extension DetectStackResourceDriftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectStackResourceDriftInput {
+
+    static func urlPathProvider(_ value: DetectStackResourceDriftInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7543,8 +7577,9 @@ extension DetectStackSetDriftInput: Swift.Encodable {
     }
 }
 
-extension DetectStackSetDriftInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetectStackSetDriftInput {
+
+    static func urlPathProvider(_ value: DetectStackSetDriftInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7720,8 +7755,9 @@ extension EstimateTemplateCostInput: Swift.Encodable {
     }
 }
 
-extension EstimateTemplateCostInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EstimateTemplateCostInput {
+
+    static func urlPathProvider(_ value: EstimateTemplateCostInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7894,8 +7930,9 @@ extension ExecuteChangeSetInput: Swift.Encodable {
     }
 }
 
-extension ExecuteChangeSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteChangeSetInput {
+
+    static func urlPathProvider(_ value: ExecuteChangeSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8103,8 +8140,9 @@ extension GetStackPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetStackPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStackPolicyInput {
+
+    static func urlPathProvider(_ value: GetStackPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8207,8 +8245,9 @@ extension GetTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemplateInput {
+
+    static func urlPathProvider(_ value: GetTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8370,8 +8409,9 @@ extension GetTemplateSummaryInput: Swift.Encodable {
     }
 }
 
-extension GetTemplateSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemplateSummaryInput {
+
+    static func urlPathProvider(_ value: GetTemplateSummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8969,8 +9009,9 @@ extension ImportStacksToStackSetInput: Swift.Encodable {
     }
 }
 
-extension ImportStacksToStackSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportStacksToStackSetInput {
+
+    static func urlPathProvider(_ value: ImportStacksToStackSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9431,8 +9472,9 @@ extension ListChangeSetsInput: Swift.Encodable {
     }
 }
 
-extension ListChangeSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChangeSetsInput {
+
+    static func urlPathProvider(_ value: ListChangeSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9564,8 +9606,9 @@ extension ListExportsInput: Swift.Encodable {
     }
 }
 
-extension ListExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExportsInput {
+
+    static func urlPathProvider(_ value: ListExportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9689,8 +9732,9 @@ extension ListImportsInput: Swift.Encodable {
     }
 }
 
-extension ListImportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImportsInput {
+
+    static func urlPathProvider(_ value: ListImportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9850,8 +9894,9 @@ extension ListStackInstanceResourceDriftsInput: Swift.Encodable {
     }
 }
 
-extension ListStackInstanceResourceDriftsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackInstanceResourceDriftsInput {
+
+    static func urlPathProvider(_ value: ListStackInstanceResourceDriftsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10091,8 +10136,9 @@ extension ListStackInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListStackInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackInstancesInput {
+
+    static func urlPathProvider(_ value: ListStackInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10287,8 +10333,9 @@ extension ListStackResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListStackResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackResourcesInput {
+
+    static func urlPathProvider(_ value: ListStackResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10451,8 +10498,9 @@ extension ListStackSetOperationResultsInput: Swift.Encodable {
     }
 }
 
-extension ListStackSetOperationResultsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackSetOperationResultsInput {
+
+    static func urlPathProvider(_ value: ListStackSetOperationResultsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10647,8 +10695,9 @@ extension ListStackSetOperationsInput: Swift.Encodable {
     }
 }
 
-extension ListStackSetOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackSetOperationsInput {
+
+    static func urlPathProvider(_ value: ListStackSetOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10808,8 +10857,9 @@ extension ListStackSetsInput: Swift.Encodable {
     }
 }
 
-extension ListStackSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStackSetsInput {
+
+    static func urlPathProvider(_ value: ListStackSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10970,8 +11020,9 @@ extension ListStacksInput: Swift.Encodable {
     }
 }
 
-extension ListStacksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStacksInput {
+
+    static func urlPathProvider(_ value: ListStacksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11134,8 +11185,9 @@ extension ListTypeRegistrationsInput: Swift.Encodable {
     }
 }
 
-extension ListTypeRegistrationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTypeRegistrationsInput {
+
+    static func urlPathProvider(_ value: ListTypeRegistrationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11315,8 +11367,9 @@ extension ListTypeVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListTypeVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTypeVersionsInput {
+
+    static func urlPathProvider(_ value: ListTypeVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11511,8 +11564,9 @@ extension ListTypesInput: Swift.Encodable {
     }
 }
 
-extension ListTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTypesInput {
+
+    static func urlPathProvider(_ value: ListTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12797,8 +12851,9 @@ extension PublishTypeInput: Swift.Encodable {
     }
 }
 
-extension PublishTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PublishTypeInput {
+
+    static func urlPathProvider(_ value: PublishTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12968,8 +13023,9 @@ extension RecordHandlerProgressInput: Swift.Encodable {
     }
 }
 
-extension RecordHandlerProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RecordHandlerProgressInput {
+
+    static func urlPathProvider(_ value: RecordHandlerProgressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13119,8 +13175,9 @@ extension RegisterPublisherInput: Swift.Encodable {
     }
 }
 
-extension RegisterPublisherInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterPublisherInput {
+
+    static func urlPathProvider(_ value: RegisterPublisherInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13238,8 +13295,9 @@ extension RegisterTypeInput: Swift.Encodable {
     }
 }
 
-extension RegisterTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterTypeInput {
+
+    static func urlPathProvider(_ value: RegisterTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14376,8 +14434,9 @@ extension RollbackStackInput: Swift.Encodable {
     }
 }
 
-extension RollbackStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RollbackStackInput {
+
+    static func urlPathProvider(_ value: RollbackStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14550,8 +14609,9 @@ extension SetStackPolicyInput: Swift.Encodable {
     }
 }
 
-extension SetStackPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetStackPolicyInput {
+
+    static func urlPathProvider(_ value: SetStackPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14644,8 +14704,9 @@ extension SetTypeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension SetTypeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetTypeConfigurationInput {
+
+    static func urlPathProvider(_ value: SetTypeConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14783,8 +14844,9 @@ extension SetTypeDefaultVersionInput: Swift.Encodable {
     }
 }
 
-extension SetTypeDefaultVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetTypeDefaultVersionInput {
+
+    static func urlPathProvider(_ value: SetTypeDefaultVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14882,8 +14944,9 @@ extension SignalResourceInput: Swift.Encodable {
     }
 }
 
-extension SignalResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SignalResourceInput {
+
+    static func urlPathProvider(_ value: SignalResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19085,8 +19148,9 @@ extension StopStackSetOperationInput: Swift.Encodable {
     }
 }
 
-extension StopStackSetOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopStackSetOperationInput {
+
+    static func urlPathProvider(_ value: StopStackSetOperationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19365,8 +19429,9 @@ extension TestTypeInput: Swift.Encodable {
     }
 }
 
-extension TestTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestTypeInput {
+
+    static func urlPathProvider(_ value: TestTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20341,8 +20406,9 @@ extension UpdateStackInput: Swift.Encodable {
     }
 }
 
-extension UpdateStackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStackInput {
+
+    static func urlPathProvider(_ value: UpdateStackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20690,8 +20756,9 @@ extension UpdateStackInstancesInput: Swift.Encodable {
     }
 }
 
-extension UpdateStackInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStackInstancesInput {
+
+    static func urlPathProvider(_ value: UpdateStackInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21067,8 +21134,9 @@ extension UpdateStackSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateStackSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStackSetInput {
+
+    static func urlPathProvider(_ value: UpdateStackSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21448,8 +21516,9 @@ extension UpdateTerminationProtectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateTerminationProtectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTerminationProtectionInput {
+
+    static func urlPathProvider(_ value: UpdateTerminationProtectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21556,8 +21625,9 @@ extension ValidateTemplateInput: Swift.Encodable {
     }
 }
 
-extension ValidateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidateTemplateInput {
+
+    static func urlPathProvider(_ value: ValidateTemplateInput) -> Swift.String? {
         return "/"
     }
 }

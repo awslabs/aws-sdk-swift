@@ -172,8 +172,9 @@ extension BatchExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchExecuteStatementInput {
+
+    static func urlPathProvider(_ value: BatchExecuteStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -407,8 +408,9 @@ extension CancelStatementInput: Swift.Encodable {
     }
 }
 
-extension CancelStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelStatementInput {
+
+    static func urlPathProvider(_ value: CancelStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -720,8 +722,9 @@ extension DescribeStatementInput: Swift.Encodable {
     }
 }
 
-extension DescribeStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStatementInput {
+
+    static func urlPathProvider(_ value: DescribeStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1070,8 +1073,9 @@ extension DescribeTableInput: Swift.Encodable {
     }
 }
 
-extension DescribeTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTableInput {
+
+    static func urlPathProvider(_ value: DescribeTableInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1379,8 +1383,9 @@ extension ExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteStatementInput {
+
+    static func urlPathProvider(_ value: ExecuteStatementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1713,8 +1718,9 @@ extension GetStatementResultInput: Swift.Encodable {
     }
 }
 
-extension GetStatementResultInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStatementResultInput {
+
+    static func urlPathProvider(_ value: GetStatementResultInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1961,8 +1967,9 @@ extension ListDatabasesInput: Swift.Encodable {
     }
 }
 
-extension ListDatabasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatabasesInput {
+
+    static func urlPathProvider(_ value: ListDatabasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2161,8 +2168,9 @@ extension ListSchemasInput: Swift.Encodable {
     }
 }
 
-extension ListSchemasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchemasInput {
+
+    static func urlPathProvider(_ value: ListSchemasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2361,8 +2369,9 @@ extension ListStatementsInput: Swift.Encodable {
     }
 }
 
-extension ListStatementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStatementsInput {
+
+    static func urlPathProvider(_ value: ListStatementsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2562,8 +2571,9 @@ extension ListTablesInput: Swift.Encodable {
     }
 }
 
-extension ListTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTablesInput {
+
+    static func urlPathProvider(_ value: ListTablesInput) -> Swift.String? {
         return "/"
     }
 }

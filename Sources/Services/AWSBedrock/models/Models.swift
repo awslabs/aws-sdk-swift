@@ -275,8 +275,9 @@ extension CreateModelCustomizationJobInput: Swift.Encodable {
     }
 }
 
-extension CreateModelCustomizationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateModelCustomizationJobInput {
+
+    static func urlPathProvider(_ value: CreateModelCustomizationJobInput) -> Swift.String? {
         return "/model-customization-jobs"
     }
 }
@@ -542,8 +543,9 @@ extension CreateProvisionedModelThroughputInput: Swift.Encodable {
     }
 }
 
-extension CreateProvisionedModelThroughputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProvisionedModelThroughputInput {
+
+    static func urlPathProvider(_ value: CreateProvisionedModelThroughputInput) -> Swift.String? {
         return "/provisioned-model-throughput"
     }
 }
@@ -808,9 +810,10 @@ extension BedrockClientTypes {
     }
 }
 
-extension DeleteCustomModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let modelIdentifier = modelIdentifier else {
+extension DeleteCustomModelInput {
+
+    static func urlPathProvider(_ value: DeleteCustomModelInput) -> Swift.String? {
+        guard let modelIdentifier = value.modelIdentifier else {
             return nil
         }
         return "/custom-models/\(modelIdentifier.urlPercentEncoding())"
@@ -865,8 +868,9 @@ enum DeleteCustomModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteModelInvocationLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteModelInvocationLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
     }
 }
@@ -908,9 +912,10 @@ enum DeleteModelInvocationLoggingConfigurationOutputError: ClientRuntime.HttpRes
     }
 }
 
-extension DeleteProvisionedModelThroughputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let provisionedModelId = provisionedModelId else {
+extension DeleteProvisionedModelThroughputInput {
+
+    static func urlPathProvider(_ value: DeleteProvisionedModelThroughputInput) -> Swift.String? {
+        guard let provisionedModelId = value.provisionedModelId else {
             return nil
         }
         return "/provisioned-model-throughput/\(provisionedModelId.urlPercentEncoding())"
@@ -1424,9 +1429,10 @@ extension BedrockClientTypes {
 
 }
 
-extension GetCustomModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let modelIdentifier = modelIdentifier else {
+extension GetCustomModelInput {
+
+    static func urlPathProvider(_ value: GetCustomModelInput) -> Swift.String? {
+        guard let modelIdentifier = value.modelIdentifier else {
             return nil
         }
         return "/custom-models/\(modelIdentifier.urlPercentEncoding())"
@@ -1665,9 +1671,10 @@ enum GetCustomModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFoundationModelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let modelIdentifier = modelIdentifier else {
+extension GetFoundationModelInput {
+
+    static func urlPathProvider(_ value: GetFoundationModelInput) -> Swift.String? {
+        guard let modelIdentifier = value.modelIdentifier else {
             return nil
         }
         return "/foundation-models/\(modelIdentifier.urlPercentEncoding())"
@@ -1751,9 +1758,10 @@ enum GetFoundationModelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetModelCustomizationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobIdentifier = jobIdentifier else {
+extension GetModelCustomizationJobInput {
+
+    static func urlPathProvider(_ value: GetModelCustomizationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
             return nil
         }
         return "/model-customization-jobs/\(jobIdentifier.urlPercentEncoding())"
@@ -2065,8 +2073,9 @@ enum GetModelCustomizationJobOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetModelInvocationLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetModelInvocationLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
     }
 }
@@ -2138,9 +2147,10 @@ enum GetModelInvocationLoggingConfigurationOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension GetProvisionedModelThroughputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let provisionedModelId = provisionedModelId else {
+extension GetProvisionedModelThroughputInput {
+
+    static func urlPathProvider(_ value: GetProvisionedModelThroughputInput) -> Swift.String? {
+        guard let provisionedModelId = value.provisionedModelId else {
             return nil
         }
         return "/provisioned-model-throughput/\(provisionedModelId.urlPercentEncoding())"
@@ -2441,53 +2451,53 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListCustomModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nameContains = nameContains {
-                let nameContainsQueryItem = ClientRuntime.URLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
-                items.append(nameContainsQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let sortOrder = sortOrder {
-                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-                items.append(sortOrderQueryItem)
-            }
-            if let creationTimeAfter = creationTimeAfter {
-                let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
-                items.append(creationTimeAfterQueryItem)
-            }
-            if let baseModelArnEquals = baseModelArnEquals {
-                let baseModelArnEqualsQueryItem = ClientRuntime.URLQueryItem(name: "baseModelArnEquals".urlPercentEncoding(), value: Swift.String(baseModelArnEquals).urlPercentEncoding())
-                items.append(baseModelArnEqualsQueryItem)
-            }
-            if let sortBy = sortBy {
-                let sortByQueryItem = ClientRuntime.URLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
-                items.append(sortByQueryItem)
-            }
-            if let foundationModelArnEquals = foundationModelArnEquals {
-                let foundationModelArnEqualsQueryItem = ClientRuntime.URLQueryItem(name: "foundationModelArnEquals".urlPercentEncoding(), value: Swift.String(foundationModelArnEquals).urlPercentEncoding())
-                items.append(foundationModelArnEqualsQueryItem)
-            }
-            if let creationTimeBefore = creationTimeBefore {
-                let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
-                items.append(creationTimeBeforeQueryItem)
-            }
-            return items
+extension ListCustomModelsInput {
+
+    static func queryItemProvider(_ value: ListCustomModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nameContains = value.nameContains {
+            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            items.append(nameContainsQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        if let baseModelArnEquals = value.baseModelArnEquals {
+            let baseModelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "baseModelArnEquals".urlPercentEncoding(), value: Swift.String(baseModelArnEquals).urlPercentEncoding())
+            items.append(baseModelArnEqualsQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let foundationModelArnEquals = value.foundationModelArnEquals {
+            let foundationModelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "foundationModelArnEquals".urlPercentEncoding(), value: Swift.String(foundationModelArnEquals).urlPercentEncoding())
+            items.append(foundationModelArnEqualsQueryItem)
+        }
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCustomModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomModelsInput {
+
+    static func urlPathProvider(_ value: ListCustomModelsInput) -> Swift.String? {
         return "/custom-models"
     }
 }
@@ -2618,33 +2628,33 @@ enum ListCustomModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFoundationModelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let byOutputModality = byOutputModality {
-                let byOutputModalityQueryItem = ClientRuntime.URLQueryItem(name: "byOutputModality".urlPercentEncoding(), value: Swift.String(byOutputModality.rawValue).urlPercentEncoding())
-                items.append(byOutputModalityQueryItem)
-            }
-            if let byCustomizationType = byCustomizationType {
-                let byCustomizationTypeQueryItem = ClientRuntime.URLQueryItem(name: "byCustomizationType".urlPercentEncoding(), value: Swift.String(byCustomizationType.rawValue).urlPercentEncoding())
-                items.append(byCustomizationTypeQueryItem)
-            }
-            if let byProvider = byProvider {
-                let byProviderQueryItem = ClientRuntime.URLQueryItem(name: "byProvider".urlPercentEncoding(), value: Swift.String(byProvider).urlPercentEncoding())
-                items.append(byProviderQueryItem)
-            }
-            if let byInferenceType = byInferenceType {
-                let byInferenceTypeQueryItem = ClientRuntime.URLQueryItem(name: "byInferenceType".urlPercentEncoding(), value: Swift.String(byInferenceType.rawValue).urlPercentEncoding())
-                items.append(byInferenceTypeQueryItem)
-            }
-            return items
+extension ListFoundationModelsInput {
+
+    static func queryItemProvider(_ value: ListFoundationModelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let byOutputModality = value.byOutputModality {
+            let byOutputModalityQueryItem = ClientRuntime.SDKURLQueryItem(name: "byOutputModality".urlPercentEncoding(), value: Swift.String(byOutputModality.rawValue).urlPercentEncoding())
+            items.append(byOutputModalityQueryItem)
         }
+        if let byCustomizationType = value.byCustomizationType {
+            let byCustomizationTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "byCustomizationType".urlPercentEncoding(), value: Swift.String(byCustomizationType.rawValue).urlPercentEncoding())
+            items.append(byCustomizationTypeQueryItem)
+        }
+        if let byProvider = value.byProvider {
+            let byProviderQueryItem = ClientRuntime.SDKURLQueryItem(name: "byProvider".urlPercentEncoding(), value: Swift.String(byProvider).urlPercentEncoding())
+            items.append(byProviderQueryItem)
+        }
+        if let byInferenceType = value.byInferenceType {
+            let byInferenceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "byInferenceType".urlPercentEncoding(), value: Swift.String(byInferenceType.rawValue).urlPercentEncoding())
+            items.append(byInferenceTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFoundationModelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFoundationModelsInput {
+
+    static func urlPathProvider(_ value: ListFoundationModelsInput) -> Swift.String? {
         return "/foundation-models"
     }
 }
@@ -2745,49 +2755,49 @@ enum ListFoundationModelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListModelCustomizationJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nameContains = nameContains {
-                let nameContainsQueryItem = ClientRuntime.URLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
-                items.append(nameContainsQueryItem)
-            }
-            if let statusEquals = statusEquals {
-                let statusEqualsQueryItem = ClientRuntime.URLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
-                items.append(statusEqualsQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let sortOrder = sortOrder {
-                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-                items.append(sortOrderQueryItem)
-            }
-            if let creationTimeAfter = creationTimeAfter {
-                let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
-                items.append(creationTimeAfterQueryItem)
-            }
-            if let sortBy = sortBy {
-                let sortByQueryItem = ClientRuntime.URLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
-                items.append(sortByQueryItem)
-            }
-            if let creationTimeBefore = creationTimeBefore {
-                let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
-                items.append(creationTimeBeforeQueryItem)
-            }
-            return items
+extension ListModelCustomizationJobsInput {
+
+    static func queryItemProvider(_ value: ListModelCustomizationJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nameContains = value.nameContains {
+            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            items.append(nameContainsQueryItem)
         }
+        if let statusEquals = value.statusEquals {
+            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            items.append(statusEqualsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListModelCustomizationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListModelCustomizationJobsInput {
+
+    static func urlPathProvider(_ value: ListModelCustomizationJobsInput) -> Swift.String? {
         return "/model-customization-jobs"
     }
 }
@@ -2914,53 +2924,53 @@ enum ListModelCustomizationJobsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListProvisionedModelThroughputsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nameContains = nameContains {
-                let nameContainsQueryItem = ClientRuntime.URLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
-                items.append(nameContainsQueryItem)
-            }
-            if let statusEquals = statusEquals {
-                let statusEqualsQueryItem = ClientRuntime.URLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
-                items.append(statusEqualsQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let sortOrder = sortOrder {
-                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-                items.append(sortOrderQueryItem)
-            }
-            if let creationTimeAfter = creationTimeAfter {
-                let creationTimeAfterQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
-                items.append(creationTimeAfterQueryItem)
-            }
-            if let modelArnEquals = modelArnEquals {
-                let modelArnEqualsQueryItem = ClientRuntime.URLQueryItem(name: "modelArnEquals".urlPercentEncoding(), value: Swift.String(modelArnEquals).urlPercentEncoding())
-                items.append(modelArnEqualsQueryItem)
-            }
-            if let sortBy = sortBy {
-                let sortByQueryItem = ClientRuntime.URLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
-                items.append(sortByQueryItem)
-            }
-            if let creationTimeBefore = creationTimeBefore {
-                let creationTimeBeforeQueryItem = ClientRuntime.URLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
-                items.append(creationTimeBeforeQueryItem)
-            }
-            return items
+extension ListProvisionedModelThroughputsInput {
+
+    static func queryItemProvider(_ value: ListProvisionedModelThroughputsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nameContains = value.nameContains {
+            let nameContainsQueryItem = ClientRuntime.SDKURLQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            items.append(nameContainsQueryItem)
         }
+        if let statusEquals = value.statusEquals {
+            let statusEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            items.append(statusEqualsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let creationTimeAfter = value.creationTimeAfter {
+            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            items.append(creationTimeAfterQueryItem)
+        }
+        if let modelArnEquals = value.modelArnEquals {
+            let modelArnEqualsQueryItem = ClientRuntime.SDKURLQueryItem(name: "modelArnEquals".urlPercentEncoding(), value: Swift.String(modelArnEquals).urlPercentEncoding())
+            items.append(modelArnEqualsQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let creationTimeBefore = value.creationTimeBefore {
+            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "creationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            items.append(creationTimeBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProvisionedModelThroughputsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProvisionedModelThroughputsInput {
+
+    static func urlPathProvider(_ value: ListProvisionedModelThroughputsInput) -> Swift.String? {
         return "/provisioned-model-throughputs"
     }
 }
@@ -3104,8 +3114,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/listTagsForResource"
     }
 }
@@ -3758,8 +3769,9 @@ extension PutModelInvocationLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutModelInvocationLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutModelInvocationLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutModelInvocationLoggingConfigurationInput) -> Swift.String? {
         return "/logging/modelinvocations"
     }
 }
@@ -4092,9 +4104,10 @@ extension BedrockClientTypes {
     }
 }
 
-extension StopModelCustomizationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobIdentifier = jobIdentifier else {
+extension StopModelCustomizationJobInput {
+
+    static func urlPathProvider(_ value: StopModelCustomizationJobInput) -> Swift.String? {
+        guard let jobIdentifier = value.jobIdentifier else {
             return nil
         }
         return "/model-customization-jobs/\(jobIdentifier.urlPercentEncoding())/stop"
@@ -4216,8 +4229,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tagResource"
     }
 }
@@ -4506,8 +4520,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/untagResource"
     }
 }
@@ -4601,9 +4616,10 @@ extension UpdateProvisionedModelThroughputInput: Swift.Encodable {
     }
 }
 
-extension UpdateProvisionedModelThroughputInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let provisionedModelId = provisionedModelId else {
+extension UpdateProvisionedModelThroughputInput {
+
+    static func urlPathProvider(_ value: UpdateProvisionedModelThroughputInput) -> Swift.String? {
+        guard let provisionedModelId = value.provisionedModelId else {
             return nil
         }
         return "/provisioned-model-throughput/\(provisionedModelId.urlPercentEncoding())"

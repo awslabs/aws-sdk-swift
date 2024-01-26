@@ -205,8 +205,9 @@ extension GetEntitlementsInput: Swift.Encodable {
     }
 }
 
-extension GetEntitlementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEntitlementsInput {
+
+    static func urlPathProvider(_ value: GetEntitlementsInput) -> Swift.String? {
         return "/"
     }
 }

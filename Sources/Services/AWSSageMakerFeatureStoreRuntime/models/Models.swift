@@ -227,8 +227,9 @@ extension BatchGetRecordInput: Swift.Encodable {
     }
 }
 
-extension BatchGetRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetRecordInput {
+
+    static func urlPathProvider(_ value: BatchGetRecordInput) -> Swift.String? {
         return "/BatchGetRecord"
     }
 }
@@ -463,40 +464,40 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 }
 
-extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
-                let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
-            items.append(recordIdentifierValueAsStringQueryItem)
-            if let targetStores = targetStores {
-                targetStores.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "TargetStores".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            guard let eventTime = eventTime else {
-                let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let eventTimeQueryItem = ClientRuntime.URLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
-            items.append(eventTimeQueryItem)
-            if let deletionMode = deletionMode {
-                let deletionModeQueryItem = ClientRuntime.URLQueryItem(name: "DeletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
-                items.append(deletionModeQueryItem)
-            }
-            return items
+extension DeleteRecordInput {
+
+    static func queryItemProvider(_ value: DeleteRecordInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let recordIdentifierValueAsString = value.recordIdentifierValueAsString else {
+            let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let recordIdentifierValueAsStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
+        items.append(recordIdentifierValueAsStringQueryItem)
+        if let targetStores = value.targetStores {
+            targetStores.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "TargetStores".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        guard let eventTime = value.eventTime else {
+            let message = "Creating a URL Query Item failed. eventTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let eventTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
+        items.append(eventTimeQueryItem)
+        if let deletionMode = value.deletionMode {
+            let deletionModeQueryItem = ClientRuntime.SDKURLQueryItem(name: "DeletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
+            items.append(deletionModeQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let featureGroupName = featureGroupName else {
+extension DeleteRecordInput {
+
+    static func urlPathProvider(_ value: DeleteRecordInput) -> Swift.String? {
+        guard let featureGroupName = value.featureGroupName else {
             return nil
         }
         return "/FeatureGroup/\(featureGroupName.urlPercentEncoding())"
@@ -699,34 +700,34 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
 
 }
 
-extension GetRecordInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let recordIdentifierValueAsString = recordIdentifierValueAsString else {
-                let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let recordIdentifierValueAsStringQueryItem = ClientRuntime.URLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
-            items.append(recordIdentifierValueAsStringQueryItem)
-            if let expirationTimeResponse = expirationTimeResponse {
-                let expirationTimeResponseQueryItem = ClientRuntime.URLQueryItem(name: "ExpirationTimeResponse".urlPercentEncoding(), value: Swift.String(expirationTimeResponse.rawValue).urlPercentEncoding())
-                items.append(expirationTimeResponseQueryItem)
-            }
-            if let featureNames = featureNames {
-                featureNames.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension GetRecordInput {
+
+    static func queryItemProvider(_ value: GetRecordInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let recordIdentifierValueAsString = value.recordIdentifierValueAsString else {
+            let message = "Creating a URL Query Item failed. recordIdentifierValueAsString is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let recordIdentifierValueAsStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "RecordIdentifierValueAsString".urlPercentEncoding(), value: Swift.String(recordIdentifierValueAsString).urlPercentEncoding())
+        items.append(recordIdentifierValueAsStringQueryItem)
+        if let expirationTimeResponse = value.expirationTimeResponse {
+            let expirationTimeResponseQueryItem = ClientRuntime.SDKURLQueryItem(name: "ExpirationTimeResponse".urlPercentEncoding(), value: Swift.String(expirationTimeResponse.rawValue).urlPercentEncoding())
+            items.append(expirationTimeResponseQueryItem)
+        }
+        if let featureNames = value.featureNames {
+            featureNames.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "FeatureName".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension GetRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let featureGroupName = featureGroupName else {
+extension GetRecordInput {
+
+    static func urlPathProvider(_ value: GetRecordInput) -> Swift.String? {
+        guard let featureGroupName = value.featureGroupName else {
             return nil
         }
         return "/FeatureGroup/\(featureGroupName.urlPercentEncoding())"
@@ -924,9 +925,10 @@ extension PutRecordInput: Swift.Encodable {
     }
 }
 
-extension PutRecordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let featureGroupName = featureGroupName else {
+extension PutRecordInput {
+
+    static func urlPathProvider(_ value: PutRecordInput) -> Swift.String? {
+        guard let featureGroupName = value.featureGroupName else {
             return nil
         }
         return "/FeatureGroup/\(featureGroupName.urlPercentEncoding())"

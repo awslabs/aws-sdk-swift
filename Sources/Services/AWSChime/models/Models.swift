@@ -1145,22 +1145,22 @@ extension AssociatePhoneNumberWithUserInput: Swift.Encodable {
     }
 }
 
-extension AssociatePhoneNumberWithUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "associate-phone-number"))
-            return items
-        }
+extension AssociatePhoneNumberWithUserInput {
+
+    static func queryItemProvider(_ value: AssociatePhoneNumberWithUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-phone-number"))
+        return items
     }
 }
 
-extension AssociatePhoneNumberWithUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension AssociatePhoneNumberWithUserInput {
+
+    static func urlPathProvider(_ value: AssociatePhoneNumberWithUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -1254,19 +1254,19 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupInput: Swift.Encodable {
     }
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "associate-phone-numbers"))
-            return items
-        }
+extension AssociatePhoneNumbersWithVoiceConnectorGroupInput {
+
+    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-phone-numbers"))
+        return items
     }
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorGroupId = voiceConnectorGroupId else {
+extension AssociatePhoneNumbersWithVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorGroupInput) -> Swift.String? {
+        guard let voiceConnectorGroupId = value.voiceConnectorGroupId else {
             return nil
         }
         return "/voice-connector-groups/\(voiceConnectorGroupId.urlPercentEncoding())"
@@ -1411,19 +1411,19 @@ extension AssociatePhoneNumbersWithVoiceConnectorInput: Swift.Encodable {
     }
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "associate-phone-numbers"))
-            return items
-        }
+extension AssociatePhoneNumbersWithVoiceConnectorInput {
+
+    static func queryItemProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-phone-numbers"))
+        return items
     }
 }
 
-extension AssociatePhoneNumbersWithVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension AssociatePhoneNumbersWithVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: AssociatePhoneNumbersWithVoiceConnectorInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())"
@@ -1564,19 +1564,19 @@ extension AssociateSigninDelegateGroupsWithAccountInput: Swift.Encodable {
     }
 }
 
-extension AssociateSigninDelegateGroupsWithAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "associate-signin-delegate-groups"))
-            return items
-        }
+extension AssociateSigninDelegateGroupsWithAccountInput {
+
+    static func queryItemProvider(_ value: AssociateSigninDelegateGroupsWithAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "associate-signin-delegate-groups"))
+        return items
     }
 }
 
-extension AssociateSigninDelegateGroupsWithAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension AssociateSigninDelegateGroupsWithAccountInput {
+
+    static func urlPathProvider(_ value: AssociateSigninDelegateGroupsWithAccountInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())"
@@ -1938,19 +1938,19 @@ extension BatchCreateAttendeeInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateAttendeeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
-            return items
-        }
+extension BatchCreateAttendeeInput {
+
+    static func queryItemProvider(_ value: BatchCreateAttendeeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-create"))
+        return items
     }
 }
 
-extension BatchCreateAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension BatchCreateAttendeeInput {
+
+    static func urlPathProvider(_ value: BatchCreateAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -2161,29 +2161,30 @@ extension BatchCreateChannelMembershipInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateChannelMembershipInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension BatchCreateChannelMembershipInput {
+
+    static func headerProvider(_ value: BatchCreateChannelMembershipInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension BatchCreateChannelMembershipInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
-            return items
-        }
+extension BatchCreateChannelMembershipInput {
+
+    static func queryItemProvider(_ value: BatchCreateChannelMembershipInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-create"))
+        return items
     }
 }
 
-extension BatchCreateChannelMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension BatchCreateChannelMembershipInput {
+
+    static func urlPathProvider(_ value: BatchCreateChannelMembershipInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/memberships"
@@ -2336,22 +2337,22 @@ extension BatchCreateRoomMembershipInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateRoomMembershipInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-create"))
-            return items
-        }
+extension BatchCreateRoomMembershipInput {
+
+    static func queryItemProvider(_ value: BatchCreateRoomMembershipInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-create"))
+        return items
     }
 }
 
-extension BatchCreateRoomMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension BatchCreateRoomMembershipInput {
+
+    static func urlPathProvider(_ value: BatchCreateRoomMembershipInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/memberships"
@@ -2488,18 +2489,18 @@ extension BatchDeletePhoneNumberInput: Swift.Encodable {
     }
 }
 
-extension BatchDeletePhoneNumberInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-delete"))
-            return items
-        }
+extension BatchDeletePhoneNumberInput {
+
+    static func queryItemProvider(_ value: BatchDeletePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-delete"))
+        return items
     }
 }
 
-extension BatchDeletePhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeletePhoneNumberInput {
+
+    static func urlPathProvider(_ value: BatchDeletePhoneNumberInput) -> Swift.String? {
         return "/phone-numbers"
     }
 }
@@ -2624,19 +2625,19 @@ extension BatchSuspendUserInput: Swift.Encodable {
     }
 }
 
-extension BatchSuspendUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "suspend"))
-            return items
-        }
+extension BatchSuspendUserInput {
+
+    static func queryItemProvider(_ value: BatchSuspendUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "suspend"))
+        return items
     }
 }
 
-extension BatchSuspendUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension BatchSuspendUserInput {
+
+    static func urlPathProvider(_ value: BatchSuspendUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -2768,19 +2769,19 @@ extension BatchUnsuspendUserInput: Swift.Encodable {
     }
 }
 
-extension BatchUnsuspendUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "unsuspend"))
-            return items
-        }
+extension BatchUnsuspendUserInput {
+
+    static func queryItemProvider(_ value: BatchUnsuspendUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "unsuspend"))
+        return items
     }
 }
 
-extension BatchUnsuspendUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension BatchUnsuspendUserInput {
+
+    static func urlPathProvider(_ value: BatchUnsuspendUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -2912,18 +2913,18 @@ extension BatchUpdatePhoneNumberInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdatePhoneNumberInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "batch-update"))
-            return items
-        }
+extension BatchUpdatePhoneNumberInput {
+
+    static func queryItemProvider(_ value: BatchUpdatePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-update"))
+        return items
     }
 }
 
-extension BatchUpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchUpdatePhoneNumberInput {
+
+    static func urlPathProvider(_ value: BatchUpdatePhoneNumberInput) -> Swift.String? {
         return "/phone-numbers"
     }
 }
@@ -3048,9 +3049,10 @@ extension BatchUpdateUserInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension BatchUpdateUserInput {
+
+    static func urlPathProvider(_ value: BatchUpdateUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -4817,8 +4819,9 @@ extension CreateAccountInput: Swift.Encodable {
     }
 }
 
-extension CreateAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccountInput {
+
+    static func urlPathProvider(_ value: CreateAccountInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -4922,9 +4925,10 @@ extension CreateAppInstanceAdminInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension CreateAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins"
@@ -5066,8 +5070,9 @@ extension CreateAppInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInstanceInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceInput) -> Swift.String? {
         return "/app-instances"
     }
 }
@@ -5234,8 +5239,9 @@ extension CreateAppInstanceUserInput: Swift.Encodable {
     }
 }
 
-extension CreateAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: CreateAppInstanceUserInput) -> Swift.String? {
         return "/app-instance-users"
     }
 }
@@ -5464,9 +5470,10 @@ extension CreateAttendeeInput: Swift.Encodable {
     }
 }
 
-extension CreateAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension CreateAttendeeInput {
+
+    static func urlPathProvider(_ value: CreateAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -5667,9 +5674,10 @@ extension CreateBotInput: Swift.Encodable {
     }
 }
 
-extension CreateBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CreateBotInput {
+
+    static func urlPathProvider(_ value: CreateBotInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots"
@@ -5789,19 +5797,21 @@ extension CreateChannelBanInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelBanInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateChannelBanInput {
+
+    static func headerProvider(_ value: CreateChannelBanInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension CreateChannelBanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension CreateChannelBanInput {
+
+    static func urlPathProvider(_ value: CreateChannelBanInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/bans"
@@ -5959,18 +5969,20 @@ extension CreateChannelInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateChannelInput {
+
+    static func headerProvider(_ value: CreateChannelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension CreateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateChannelInput {
+
+    static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -6084,19 +6096,21 @@ extension CreateChannelMembershipInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelMembershipInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateChannelMembershipInput {
+
+    static func headerProvider(_ value: CreateChannelMembershipInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension CreateChannelMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension CreateChannelMembershipInput {
+
+    static func urlPathProvider(_ value: CreateChannelMembershipInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/memberships"
@@ -6231,19 +6245,21 @@ extension CreateChannelModeratorInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelModeratorInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateChannelModeratorInput {
+
+    static func headerProvider(_ value: CreateChannelModeratorInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension CreateChannelModeratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension CreateChannelModeratorInput {
+
+    static func urlPathProvider(_ value: CreateChannelModeratorInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/moderators"
@@ -6452,8 +6468,9 @@ extension CreateMediaCapturePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: CreateMediaCapturePipelineInput) -> Swift.String? {
         return "/media-capture-pipelines"
     }
 }
@@ -6613,9 +6630,10 @@ extension CreateMeetingDialOutInput: Swift.Encodable {
     }
 }
 
-extension CreateMeetingDialOutInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension CreateMeetingDialOutInput {
+
+    static func urlPathProvider(_ value: CreateMeetingDialOutInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/dial-outs"
@@ -6773,8 +6791,9 @@ extension CreateMeetingInput: Swift.Encodable {
     }
 }
 
-extension CreateMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMeetingInput {
+
+    static func urlPathProvider(_ value: CreateMeetingInput) -> Swift.String? {
         return "/meetings"
     }
 }
@@ -6962,18 +6981,18 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
     }
 }
 
-extension CreateMeetingWithAttendeesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "create-attendees"))
-            return items
-        }
+extension CreateMeetingWithAttendeesInput {
+
+    static func queryItemProvider(_ value: CreateMeetingWithAttendeesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "create-attendees"))
+        return items
     }
 }
 
-extension CreateMeetingWithAttendeesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMeetingWithAttendeesInput {
+
+    static func urlPathProvider(_ value: CreateMeetingWithAttendeesInput) -> Swift.String? {
         return "/meetings"
     }
 }
@@ -7188,8 +7207,9 @@ extension CreatePhoneNumberOrderInput: Swift.Encodable {
     }
 }
 
-extension CreatePhoneNumberOrderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePhoneNumberOrderInput {
+
+    static func urlPathProvider(_ value: CreatePhoneNumberOrderInput) -> Swift.String? {
         return "/phone-number-orders"
     }
 }
@@ -7347,9 +7367,10 @@ extension CreateProxySessionInput: Swift.Encodable {
     }
 }
 
-extension CreateProxySessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension CreateProxySessionInput {
+
+    static func urlPathProvider(_ value: CreateProxySessionInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/proxy-sessions"
@@ -7536,9 +7557,10 @@ extension CreateRoomInput: Swift.Encodable {
     }
 }
 
-extension CreateRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CreateRoomInput {
+
+    static func urlPathProvider(_ value: CreateRoomInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms"
@@ -7604,12 +7626,13 @@ extension CreateRoomMembershipInput: Swift.Encodable {
     }
 }
 
-extension CreateRoomMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CreateRoomMembershipInput {
+
+    static func urlPathProvider(_ value: CreateRoomMembershipInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/memberships"
@@ -7809,9 +7832,10 @@ extension CreateSipMediaApplicationCallInput: Swift.Encodable {
     }
 }
 
-extension CreateSipMediaApplicationCallInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension CreateSipMediaApplicationCallInput {
+
+    static func urlPathProvider(_ value: CreateSipMediaApplicationCallInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())/calls"
@@ -7960,8 +7984,9 @@ extension CreateSipMediaApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateSipMediaApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSipMediaApplicationInput {
+
+    static func urlPathProvider(_ value: CreateSipMediaApplicationInput) -> Swift.String? {
         return "/sip-media-applications"
     }
 }
@@ -8113,8 +8138,9 @@ extension CreateSipRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateSipRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSipRuleInput {
+
+    static func urlPathProvider(_ value: CreateSipRuleInput) -> Swift.String? {
         return "/sip-rules"
     }
 }
@@ -8277,19 +8303,19 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "create"))
-            return items
-        }
+extension CreateUserInput {
+
+    static func queryItemProvider(_ value: CreateUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "create"))
+        return items
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -8423,8 +8449,9 @@ extension CreateVoiceConnectorGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: CreateVoiceConnectorGroupInput) -> Swift.String? {
         return "/voice-connector-groups"
     }
 }
@@ -8554,8 +8581,9 @@ extension CreateVoiceConnectorInput: Swift.Encodable {
     }
 }
 
-extension CreateVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: CreateVoiceConnectorInput) -> Swift.String? {
         return "/voice-connectors"
     }
 }
@@ -8776,9 +8804,10 @@ extension ChimeClientTypes {
 
 }
 
-extension DeleteAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteAccountInput {
+
+    static func urlPathProvider(_ value: DeleteAccountInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())"
@@ -8835,12 +8864,13 @@ enum DeleteAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DeleteAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
-        guard let appInstanceAdminArn = appInstanceAdminArn else {
+        guard let appInstanceAdminArn = value.appInstanceAdminArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins/\(appInstanceAdminArn.urlPercentEncoding())"
@@ -8901,9 +8931,10 @@ enum DeleteAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DeleteAppInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -8958,9 +8989,10 @@ enum DeleteAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppInstanceStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DeleteAppInstanceStreamingConfigurationsInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceStreamingConfigurationsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
@@ -9016,9 +9048,10 @@ enum DeleteAppInstanceStreamingConfigurationsOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension DeleteAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DeleteAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DeleteAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"
@@ -9073,12 +9106,13 @@ enum DeleteAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension DeleteAttendeeInput {
+
+    static func urlPathProvider(_ value: DeleteAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())"
@@ -9139,22 +9173,24 @@ enum DeleteAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteChannelBanInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteChannelBanInput {
+
+    static func headerProvider(_ value: DeleteChannelBanInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DeleteChannelBanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DeleteChannelBanInput {
+
+    static func urlPathProvider(_ value: DeleteChannelBanInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let memberArn = memberArn else {
+        guard let memberArn = value.memberArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/bans/\(memberArn.urlPercentEncoding())"
@@ -9218,19 +9254,21 @@ enum DeleteChannelBanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteChannelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteChannelInput {
+
+    static func headerProvider(_ value: DeleteChannelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DeleteChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DeleteChannelInput {
+
+    static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())"
@@ -9263,22 +9301,24 @@ extension DeleteChannelInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteChannelMembershipInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteChannelMembershipInput {
+
+    static func headerProvider(_ value: DeleteChannelMembershipInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DeleteChannelMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DeleteChannelMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteChannelMembershipInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let memberArn = memberArn else {
+        guard let memberArn = value.memberArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/memberships/\(memberArn.urlPercentEncoding())"
@@ -9343,22 +9383,24 @@ enum DeleteChannelMembershipOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteChannelMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteChannelMessageInput {
+
+    static func headerProvider(_ value: DeleteChannelMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DeleteChannelMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DeleteChannelMessageInput {
+
+    static func urlPathProvider(_ value: DeleteChannelMessageInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -9422,22 +9464,24 @@ enum DeleteChannelMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteChannelModeratorInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteChannelModeratorInput {
+
+    static func headerProvider(_ value: DeleteChannelModeratorInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DeleteChannelModeratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DeleteChannelModeratorInput {
+
+    static func urlPathProvider(_ value: DeleteChannelModeratorInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let channelModeratorArn = channelModeratorArn else {
+        guard let channelModeratorArn = value.channelModeratorArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/moderators/\(channelModeratorArn.urlPercentEncoding())"
@@ -9527,12 +9571,13 @@ enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEventsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteEventsConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteEventsConfigurationInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())/events-configuration"
@@ -9592,9 +9637,10 @@ enum DeleteEventsConfigurationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension DeleteMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: DeleteMediaCapturePipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/media-capture-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -9650,9 +9696,10 @@ enum DeleteMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension DeleteMeetingInput {
+
+    static func urlPathProvider(_ value: DeleteMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())"
@@ -9708,9 +9755,10 @@ enum DeleteMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let phoneNumberId = phoneNumberId else {
+extension DeletePhoneNumberInput {
+
+    static func urlPathProvider(_ value: DeletePhoneNumberInput) -> Swift.String? {
+        guard let phoneNumberId = value.phoneNumberId else {
             return nil
         }
         return "/phone-numbers/\(phoneNumberId.urlPercentEncoding())"
@@ -9766,12 +9814,13 @@ enum DeletePhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProxySessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteProxySessionInput {
+
+    static func urlPathProvider(_ value: DeleteProxySessionInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
-        guard let proxySessionId = proxySessionId else {
+        guard let proxySessionId = value.proxySessionId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/proxy-sessions/\(proxySessionId.urlPercentEncoding())"
@@ -9832,12 +9881,13 @@ enum DeleteProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteRoomInput {
+
+    static func urlPathProvider(_ value: DeleteRoomInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())"
@@ -9871,15 +9921,16 @@ extension DeleteRoomInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteRoomMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DeleteRoomMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteRoomMembershipInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/memberships/\(memberId.urlPercentEncoding())"
@@ -9972,9 +10023,10 @@ enum DeleteRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSipMediaApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension DeleteSipMediaApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteSipMediaApplicationInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())"
@@ -10031,9 +10083,10 @@ enum DeleteSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteSipRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipRuleId = sipRuleId else {
+extension DeleteSipRuleInput {
+
+    static func urlPathProvider(_ value: DeleteSipRuleInput) -> Swift.String? {
+        guard let sipRuleId = value.sipRuleId else {
             return nil
         }
         return "/sip-rules/\(sipRuleId.urlPercentEncoding())"
@@ -10090,9 +10143,10 @@ enum DeleteSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorEmergencyCallingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorEmergencyCallingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
@@ -10148,9 +10202,10 @@ enum DeleteVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime
     }
 }
 
-extension DeleteVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorGroupId = voiceConnectorGroupId else {
+extension DeleteVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorGroupInput) -> Swift.String? {
+        guard let voiceConnectorGroupId = value.voiceConnectorGroupId else {
             return nil
         }
         return "/voice-connector-groups/\(voiceConnectorGroupId.urlPercentEncoding())"
@@ -10207,9 +10262,10 @@ enum DeleteVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())"
@@ -10238,9 +10294,10 @@ extension DeleteVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorOriginationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorOriginationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/origination"
@@ -10324,9 +10381,10 @@ enum DeleteVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorProxyInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorProxyInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/programmable-numbers/proxy"
@@ -10382,9 +10440,10 @@ enum DeleteVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorStreamingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorStreamingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/streaming-configuration"
@@ -10456,19 +10515,19 @@ extension DeleteVoiceConnectorTerminationCredentialsInput: Swift.Encodable {
     }
 }
 
-extension DeleteVoiceConnectorTerminationCredentialsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "delete"))
-            return items
-        }
+extension DeleteVoiceConnectorTerminationCredentialsInput {
+
+    static func queryItemProvider(_ value: DeleteVoiceConnectorTerminationCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "delete"))
+        return items
     }
 }
 
-extension DeleteVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorTerminationCredentialsInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorTerminationCredentialsInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination/credentials"
@@ -10545,9 +10604,10 @@ enum DeleteVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension DeleteVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DeleteVoiceConnectorTerminationInput {
+
+    static func urlPathProvider(_ value: DeleteVoiceConnectorTerminationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination"
@@ -10603,12 +10663,13 @@ enum DeleteVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DescribeAppInstanceAdminInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DescribeAppInstanceAdminInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceAdminInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
-        guard let appInstanceAdminArn = appInstanceAdminArn else {
+        guard let appInstanceAdminArn = value.appInstanceAdminArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins/\(appInstanceAdminArn.urlPercentEncoding())"
@@ -10698,9 +10759,10 @@ enum DescribeAppInstanceAdminOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DescribeAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension DescribeAppInstanceInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -10785,9 +10847,10 @@ enum DescribeAppInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension DescribeAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DescribeAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"
@@ -10872,22 +10935,24 @@ enum DescribeAppInstanceUserOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeChannelBanInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelBanInput {
+
+    static func headerProvider(_ value: DescribeChannelBanInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelBanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelBanInput {
+
+    static func urlPathProvider(_ value: DescribeChannelBanInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let memberArn = memberArn else {
+        guard let memberArn = value.memberArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/bans/\(memberArn.urlPercentEncoding())"
@@ -10982,19 +11047,21 @@ enum DescribeChannelBanOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeChannelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelInput {
+
+    static func headerProvider(_ value: DescribeChannelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelInput {
+
+    static func urlPathProvider(_ value: DescribeChannelInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())"
@@ -11027,35 +11094,36 @@ extension DescribeChannelInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelMembershipForAppInstanceUserInput {
+
+    static func headerProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-membership"))
-            guard let appInstanceUserArn = appInstanceUserArn else {
-                let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-            items.append(appInstanceUserArnQueryItem)
-            return items
+extension DescribeChannelMembershipForAppInstanceUserInput {
+
+    static func queryItemProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-membership"))
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
+            let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+        items.append(appInstanceUserArnQueryItem)
+        return items
     }
 }
 
-extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelMembershipForAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())"
@@ -11149,22 +11217,24 @@ enum DescribeChannelMembershipForAppInstanceUserOutputError: ClientRuntime.HttpR
     }
 }
 
-extension DescribeChannelMembershipInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelMembershipInput {
+
+    static func headerProvider(_ value: DescribeChannelMembershipInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelMembershipInput {
+
+    static func urlPathProvider(_ value: DescribeChannelMembershipInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let memberArn = memberArn else {
+        guard let memberArn = value.memberArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/memberships/\(memberArn.urlPercentEncoding())"
@@ -11259,35 +11329,36 @@ enum DescribeChannelMembershipOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelModeratedByAppInstanceUserInput {
+
+    static func headerProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
-            guard let appInstanceUserArn = appInstanceUserArn else {
-                let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-            items.append(appInstanceUserArnQueryItem)
-            return items
+extension DescribeChannelModeratedByAppInstanceUserInput {
+
+    static func queryItemProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
+            let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+        items.append(appInstanceUserArnQueryItem)
+        return items
     }
 }
 
-extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelModeratedByAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())"
@@ -11381,22 +11452,24 @@ enum DescribeChannelModeratedByAppInstanceUserOutputError: ClientRuntime.HttpRes
     }
 }
 
-extension DescribeChannelModeratorInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DescribeChannelModeratorInput {
+
+    static func headerProvider(_ value: DescribeChannelModeratorInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension DescribeChannelModeratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension DescribeChannelModeratorInput {
+
+    static func urlPathProvider(_ value: DescribeChannelModeratorInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let channelModeratorArn = channelModeratorArn else {
+        guard let channelModeratorArn = value.channelModeratorArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/moderators/\(channelModeratorArn.urlPercentEncoding())"
@@ -11547,22 +11620,22 @@ enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociatePhoneNumberFromUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "disassociate-phone-number"))
-            return items
-        }
+extension DisassociatePhoneNumberFromUserInput {
+
+    static func queryItemProvider(_ value: DisassociatePhoneNumberFromUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-phone-number"))
+        return items
     }
 }
 
-extension DisassociatePhoneNumberFromUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DisassociatePhoneNumberFromUserInput {
+
+    static func urlPathProvider(_ value: DisassociatePhoneNumberFromUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -11639,19 +11712,19 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Encodable 
     }
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
-            return items
-        }
+extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput {
+
+    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
+        return items
     }
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorGroupId = voiceConnectorGroupId else {
+extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorGroupInput) -> Swift.String? {
+        guard let voiceConnectorGroupId = value.voiceConnectorGroupId else {
             return nil
         }
         return "/voice-connector-groups/\(voiceConnectorGroupId.urlPercentEncoding())"
@@ -11783,19 +11856,19 @@ extension DisassociatePhoneNumbersFromVoiceConnectorInput: Swift.Encodable {
     }
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
-            return items
-        }
+extension DisassociatePhoneNumbersFromVoiceConnectorInput {
+
+    static func queryItemProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-phone-numbers"))
+        return items
     }
 }
 
-extension DisassociatePhoneNumbersFromVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension DisassociatePhoneNumbersFromVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: DisassociatePhoneNumbersFromVoiceConnectorInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())"
@@ -11927,19 +12000,19 @@ extension DisassociateSigninDelegateGroupsFromAccountInput: Swift.Encodable {
     }
 }
 
-extension DisassociateSigninDelegateGroupsFromAccountInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "disassociate-signin-delegate-groups"))
-            return items
-        }
+extension DisassociateSigninDelegateGroupsFromAccountInput {
+
+    static func queryItemProvider(_ value: DisassociateSigninDelegateGroupsFromAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "disassociate-signin-delegate-groups"))
+        return items
     }
 }
 
-extension DisassociateSigninDelegateGroupsFromAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension DisassociateSigninDelegateGroupsFromAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateSigninDelegateGroupsFromAccountInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())"
@@ -12645,9 +12718,10 @@ extension ChimeClientTypes {
 
 }
 
-extension GetAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetAccountInput {
+
+    static func urlPathProvider(_ value: GetAccountInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())"
@@ -12733,9 +12807,10 @@ enum GetAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetAccountSettingsInput {
+
+    static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/settings"
@@ -12821,9 +12896,10 @@ enum GetAccountSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAppInstanceRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension GetAppInstanceRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: GetAppInstanceRetentionSettingsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/retention-settings"
@@ -12919,9 +12995,10 @@ enum GetAppInstanceRetentionSettingsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetAppInstanceStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension GetAppInstanceStreamingConfigurationsInput {
+
+    static func urlPathProvider(_ value: GetAppInstanceStreamingConfigurationsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
@@ -13016,12 +13093,13 @@ enum GetAppInstanceStreamingConfigurationsOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension GetAttendeeInput {
+
+    static func urlPathProvider(_ value: GetAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())"
@@ -13112,12 +13190,13 @@ enum GetAttendeeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetBotInput {
+
+    static func urlPathProvider(_ value: GetBotInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())"
@@ -13208,22 +13287,24 @@ enum GetBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetChannelMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetChannelMessageInput {
+
+    static func headerProvider(_ value: GetChannelMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension GetChannelMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension GetChannelMessageInput {
+
+    static func urlPathProvider(_ value: GetChannelMessageInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -13318,12 +13399,13 @@ enum GetChannelMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetEventsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetEventsConfigurationInput {
+
+    static func urlPathProvider(_ value: GetEventsConfigurationInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())/events-configuration"
@@ -13414,8 +13496,9 @@ enum GetEventsConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGlobalSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGlobalSettingsInput {
+
+    static func urlPathProvider(_ value: GetGlobalSettingsInput) -> Swift.String? {
         return "/settings"
     }
 }
@@ -13500,9 +13583,10 @@ enum GetGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMediaCapturePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mediaPipelineId = mediaPipelineId else {
+extension GetMediaCapturePipelineInput {
+
+    static func urlPathProvider(_ value: GetMediaCapturePipelineInput) -> Swift.String? {
+        guard let mediaPipelineId = value.mediaPipelineId else {
             return nil
         }
         return "/media-capture-pipelines/\(mediaPipelineId.urlPercentEncoding())"
@@ -13588,9 +13672,10 @@ enum GetMediaCapturePipelineOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension GetMeetingInput {
+
+    static func urlPathProvider(_ value: GetMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())"
@@ -13676,8 +13761,9 @@ enum GetMeetingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMessagingSessionEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMessagingSessionEndpointInput {
+
+    static func urlPathProvider(_ value: GetMessagingSessionEndpointInput) -> Swift.String? {
         return "/endpoints/messaging-session"
     }
 }
@@ -13751,9 +13837,10 @@ enum GetMessagingSessionEndpointOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetPhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let phoneNumberId = phoneNumberId else {
+extension GetPhoneNumberInput {
+
+    static func urlPathProvider(_ value: GetPhoneNumberInput) -> Swift.String? {
+        guard let phoneNumberId = value.phoneNumberId else {
             return nil
         }
         return "/phone-numbers/\(phoneNumberId.urlPercentEncoding())"
@@ -13782,9 +13869,10 @@ extension GetPhoneNumberInputBody: Swift.Decodable {
     }
 }
 
-extension GetPhoneNumberOrderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let phoneNumberOrderId = phoneNumberOrderId else {
+extension GetPhoneNumberOrderInput {
+
+    static func urlPathProvider(_ value: GetPhoneNumberOrderInput) -> Swift.String? {
+        guard let phoneNumberOrderId = value.phoneNumberOrderId else {
             return nil
         }
         return "/phone-number-orders/\(phoneNumberOrderId.urlPercentEncoding())"
@@ -13927,8 +14015,9 @@ enum GetPhoneNumberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPhoneNumberSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPhoneNumberSettingsInput {
+
+    static func urlPathProvider(_ value: GetPhoneNumberSettingsInput) -> Swift.String? {
         return "/settings/phone-number"
     }
 }
@@ -14018,12 +14107,13 @@ enum GetPhoneNumberSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProxySessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetProxySessionInput {
+
+    static func urlPathProvider(_ value: GetProxySessionInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
-        guard let proxySessionId = proxySessionId else {
+        guard let proxySessionId = value.proxySessionId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/proxy-sessions/\(proxySessionId.urlPercentEncoding())"
@@ -14114,9 +14204,10 @@ enum GetProxySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: GetRetentionSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/retention-settings"
@@ -14212,12 +14303,13 @@ enum GetRetentionSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetRoomInput {
+
+    static func urlPathProvider(_ value: GetRoomInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())"
@@ -14308,9 +14400,10 @@ enum GetRoomOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSipMediaApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension GetSipMediaApplicationInput {
+
+    static func urlPathProvider(_ value: GetSipMediaApplicationInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())"
@@ -14339,9 +14432,10 @@ extension GetSipMediaApplicationInputBody: Swift.Decodable {
     }
 }
 
-extension GetSipMediaApplicationLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension GetSipMediaApplicationLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetSipMediaApplicationLoggingConfigurationInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())/logging-configuration"
@@ -14484,9 +14578,10 @@ enum GetSipMediaApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSipRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipRuleId = sipRuleId else {
+extension GetSipRuleInput {
+
+    static func urlPathProvider(_ value: GetSipRuleInput) -> Swift.String? {
+        guard let sipRuleId = value.sipRuleId else {
             return nil
         }
         return "/sip-rules/\(sipRuleId.urlPercentEncoding())"
@@ -14572,12 +14667,13 @@ enum GetSipRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetUserInput {
+
+    static func urlPathProvider(_ value: GetUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -14668,12 +14764,13 @@ enum GetUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension GetUserSettingsInput {
+
+    static func urlPathProvider(_ value: GetUserSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())/settings"
@@ -14764,9 +14861,10 @@ enum GetUserSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorEmergencyCallingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorEmergencyCallingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
@@ -14852,9 +14950,10 @@ enum GetVoiceConnectorEmergencyCallingConfigurationOutputError: ClientRuntime.Ht
     }
 }
 
-extension GetVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorGroupId = voiceConnectorGroupId else {
+extension GetVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorGroupInput) -> Swift.String? {
+        guard let voiceConnectorGroupId = value.voiceConnectorGroupId else {
             return nil
         }
         return "/voice-connector-groups/\(voiceConnectorGroupId.urlPercentEncoding())"
@@ -14940,9 +15039,10 @@ enum GetVoiceConnectorGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())"
@@ -14971,9 +15071,10 @@ extension GetVoiceConnectorInputBody: Swift.Decodable {
     }
 }
 
-extension GetVoiceConnectorLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorLoggingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/logging-configuration"
@@ -15059,9 +15160,10 @@ enum GetVoiceConnectorLoggingConfigurationOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorOriginationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorOriginationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/origination"
@@ -15204,9 +15306,10 @@ enum GetVoiceConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorProxyInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorProxyInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/programmable-numbers/proxy"
@@ -15292,9 +15395,10 @@ enum GetVoiceConnectorProxyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorStreamingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorStreamingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/streaming-configuration"
@@ -15380,9 +15484,10 @@ enum GetVoiceConnectorStreamingConfigurationOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension GetVoiceConnectorTerminationHealthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorTerminationHealthInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorTerminationHealthInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination/health"
@@ -15468,9 +15573,10 @@ enum GetVoiceConnectorTerminationHealthOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension GetVoiceConnectorTerminationInput {
+
+    static func urlPathProvider(_ value: GetVoiceConnectorTerminationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination"
@@ -15731,19 +15837,19 @@ extension InviteUsersInput: Swift.Encodable {
     }
 }
 
-extension InviteUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
-            return items
-        }
+extension InviteUsersInput {
+
+    static func queryItemProvider(_ value: InviteUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "add"))
+        return items
     }
 }
 
-extension InviteUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension InviteUsersInput {
+
+    static func urlPathProvider(_ value: InviteUsersInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -15910,33 +16016,33 @@ extension ListAccountsInput: Swift.CustomDebugStringConvertible {
         "ListAccountsInput(maxResults: \(Swift.String(describing: maxResults)), name: \(Swift.String(describing: name)), nextToken: \(Swift.String(describing: nextToken)), userEmail: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let userEmail = userEmail {
-                let userEmailQueryItem = ClientRuntime.URLQueryItem(name: "user-email".urlPercentEncoding(), value: Swift.String(userEmail).urlPercentEncoding())
-                items.append(userEmailQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            return items
+extension ListAccountsInput {
+
+    static func queryItemProvider(_ value: ListAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let userEmail = value.userEmail {
+            let userEmailQueryItem = ClientRuntime.SDKURLQueryItem(name: "user-email".urlPercentEncoding(), value: Swift.String(userEmail).urlPercentEncoding())
+            items.append(userEmailQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccountsInput {
+
+    static func urlPathProvider(_ value: ListAccountsInput) -> Swift.String? {
         return "/accounts"
     }
 }
@@ -16055,26 +16161,26 @@ extension ListAppInstanceAdminsInput: Swift.CustomDebugStringConvertible {
         "ListAppInstanceAdminsInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceAdminsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppInstanceAdminsInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceAdminsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppInstanceAdminsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension ListAppInstanceAdminsInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceAdminsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/admins"
@@ -16206,31 +16312,31 @@ extension ListAppInstanceUsersInput: Swift.CustomDebugStringConvertible {
         "ListAppInstanceUsersInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstanceUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let appInstanceArn = appInstanceArn else {
-                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
-            items.append(appInstanceArnQueryItem)
-            return items
+extension ListAppInstanceUsersInput {
+
+    static func queryItemProvider(_ value: ListAppInstanceUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let appInstanceArn = value.appInstanceArn else {
+            let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        items.append(appInstanceArnQueryItem)
+        return items
     }
 }
 
-extension ListAppInstanceUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInstanceUsersInput {
+
+    static func urlPathProvider(_ value: ListAppInstanceUsersInput) -> Swift.String? {
         return "/app-instance-users"
     }
 }
@@ -16360,25 +16466,25 @@ extension ListAppInstancesInput: Swift.CustomDebugStringConvertible {
         "ListAppInstancesInput(maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListAppInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAppInstancesInput {
+
+    static func queryItemProvider(_ value: ListAppInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppInstancesInput {
+
+    static func urlPathProvider(_ value: ListAppInstancesInput) -> Swift.String? {
         return "/app-instances"
     }
 }
@@ -16488,12 +16594,13 @@ enum ListAppInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAttendeeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension ListAttendeeTagsInput {
+
+    static func urlPathProvider(_ value: ListAttendeeTagsInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())/tags"
@@ -16593,26 +16700,26 @@ enum ListAttendeeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAttendeesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAttendeesInput {
+
+    static func queryItemProvider(_ value: ListAttendeesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAttendeesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension ListAttendeesInput {
+
+    static func urlPathProvider(_ value: ListAttendeesInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees"
@@ -16725,26 +16832,26 @@ enum ListAttendeesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListBotsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBotsInput {
+
+    static func queryItemProvider(_ value: ListBotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListBotsInput {
+
+    static func urlPathProvider(_ value: ListBotsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots"
@@ -16862,36 +16969,37 @@ extension ListChannelBansInput: Swift.CustomDebugStringConvertible {
         "ListChannelBansInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelBansInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelBansInput {
+
+    static func headerProvider(_ value: ListChannelBansInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelBansInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelBansInput {
+
+    static func queryItemProvider(_ value: ListChannelBansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelBansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension ListChannelBansInput {
+
+    static func urlPathProvider(_ value: ListChannelBansInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/bans"
@@ -17027,40 +17135,41 @@ extension ListChannelMembershipsForAppInstanceUserInput: Swift.CustomDebugString
         "ListChannelMembershipsForAppInstanceUserInput(appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelMembershipsForAppInstanceUserInput {
+
+    static func headerProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-memberships"))
-            if let appInstanceUserArn = appInstanceUserArn {
-                let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-                items.append(appInstanceUserArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelMembershipsForAppInstanceUserInput {
+
+    static func queryItemProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-memberships"))
+        if let appInstanceUserArn = value.appInstanceUserArn {
+            let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+            items.append(appInstanceUserArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChannelMembershipsForAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -17183,40 +17292,41 @@ extension ListChannelMembershipsInput: Swift.CustomDebugStringConvertible {
         "ListChannelMembershipsInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), type: \(Swift.String(describing: type)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelMembershipsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelMembershipsInput {
+
+    static func headerProvider(_ value: ListChannelMembershipsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelMembershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelMembershipsInput {
+
+    static func queryItemProvider(_ value: ListChannelMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension ListChannelMembershipsInput {
+
+    static func urlPathProvider(_ value: ListChannelMembershipsInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/memberships"
@@ -17356,48 +17466,49 @@ extension ListChannelMessagesInput: Swift.CustomDebugStringConvertible {
         "ListChannelMessagesInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), notAfter: \(Swift.String(describing: notAfter)), notBefore: \(Swift.String(describing: notBefore)), sortOrder: \(Swift.String(describing: sortOrder)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelMessagesInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelMessagesInput {
+
+    static func headerProvider(_ value: ListChannelMessagesInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelMessagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let sortOrder = sortOrder {
-                let sortOrderQueryItem = ClientRuntime.URLQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
-                items.append(sortOrderQueryItem)
-            }
-            if let notBefore = notBefore {
-                let notBeforeQueryItem = ClientRuntime.URLQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
-                items.append(notBeforeQueryItem)
-            }
-            if let notAfter = notAfter {
-                let notAfterQueryItem = ClientRuntime.URLQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
-                items.append(notAfterQueryItem)
-            }
-            return items
+extension ListChannelMessagesInput {
+
+    static func queryItemProvider(_ value: ListChannelMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let notBefore = value.notBefore {
+            let notBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
+            items.append(notBeforeQueryItem)
+        }
+        if let notAfter = value.notAfter {
+            let notAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
+            items.append(notAfterQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelMessagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension ListChannelMessagesInput {
+
+    static func urlPathProvider(_ value: ListChannelMessagesInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages"
@@ -17545,36 +17656,37 @@ extension ListChannelModeratorsInput: Swift.CustomDebugStringConvertible {
         "ListChannelModeratorsInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelModeratorsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelModeratorsInput {
+
+    static func headerProvider(_ value: ListChannelModeratorsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelModeratorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelModeratorsInput {
+
+    static func queryItemProvider(_ value: ListChannelModeratorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelModeratorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension ListChannelModeratorsInput {
+
+    static func urlPathProvider(_ value: ListChannelModeratorsInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/moderators"
@@ -17710,45 +17822,46 @@ extension ListChannelsInput: Swift.CustomDebugStringConvertible {
         "ListChannelsInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), privacy: \(Swift.String(describing: privacy)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelsInput {
+
+    static func headerProvider(_ value: ListChannelsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let privacy = privacy {
-                let privacyQueryItem = ClientRuntime.URLQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
-                items.append(privacyQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let appInstanceArn = appInstanceArn else {
-                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
-            items.append(appInstanceArnQueryItem)
-            return items
+extension ListChannelsInput {
+
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let privacy = value.privacy {
+            let privacyQueryItem = ClientRuntime.SDKURLQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
+            items.append(privacyQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let appInstanceArn = value.appInstanceArn else {
+            let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        items.append(appInstanceArnQueryItem)
+        return items
     }
 }
 
-extension ListChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChannelsInput {
+
+    static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -17796,40 +17909,41 @@ extension ListChannelsModeratedByAppInstanceUserInput: Swift.CustomDebugStringCo
         "ListChannelsModeratedByAppInstanceUserInput(appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
 }
 
-extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ListChannelsModeratedByAppInstanceUserInput {
+
+    static func headerProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
-            if let appInstanceUserArn = appInstanceUserArn {
-                let appInstanceUserArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
-                items.append(appInstanceUserArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChannelsModeratedByAppInstanceUserInput {
+
+    static func queryItemProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
+        if let appInstanceUserArn = value.appInstanceUserArn {
+            let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+            items.append(appInstanceUserArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChannelsModeratedByAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) -> Swift.String? {
         return "/channels"
     }
 }
@@ -18027,25 +18141,25 @@ enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMediaCapturePipelinesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMediaCapturePipelinesInput {
+
+    static func queryItemProvider(_ value: ListMediaCapturePipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMediaCapturePipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMediaCapturePipelinesInput {
+
+    static func urlPathProvider(_ value: ListMediaCapturePipelinesInput) -> Swift.String? {
         return "/media-capture-pipelines"
     }
 }
@@ -18150,9 +18264,10 @@ enum ListMediaCapturePipelinesOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListMeetingTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension ListMeetingTagsInput {
+
+    static func urlPathProvider(_ value: ListMeetingTagsInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/tags"
@@ -18247,25 +18362,25 @@ enum ListMeetingTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMeetingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMeetingsInput {
+
+    static func queryItemProvider(_ value: ListMeetingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMeetingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMeetingsInput {
+
+    static func urlPathProvider(_ value: ListMeetingsInput) -> Swift.String? {
         return "/meetings"
     }
 }
@@ -18370,25 +18485,25 @@ enum ListMeetingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPhoneNumberOrdersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPhoneNumberOrdersInput {
+
+    static func queryItemProvider(_ value: ListPhoneNumberOrdersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPhoneNumberOrdersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPhoneNumberOrdersInput {
+
+    static func urlPathProvider(_ value: ListPhoneNumberOrdersInput) -> Swift.String? {
         return "/phone-number-orders"
     }
 }
@@ -18493,41 +18608,41 @@ enum ListPhoneNumberOrdersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPhoneNumbersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let productType = productType {
-                let productTypeQueryItem = ClientRuntime.URLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
-                items.append(productTypeQueryItem)
-            }
-            if let filterName = filterName {
-                let filterNameQueryItem = ClientRuntime.URLQueryItem(name: "filter-name".urlPercentEncoding(), value: Swift.String(filterName.rawValue).urlPercentEncoding())
-                items.append(filterNameQueryItem)
-            }
-            if let filterValue = filterValue {
-                let filterValueQueryItem = ClientRuntime.URLQueryItem(name: "filter-value".urlPercentEncoding(), value: Swift.String(filterValue).urlPercentEncoding())
-                items.append(filterValueQueryItem)
-            }
-            return items
+extension ListPhoneNumbersInput {
+
+    static func queryItemProvider(_ value: ListPhoneNumbersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let productType = value.productType {
+            let productTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
+            items.append(productTypeQueryItem)
+        }
+        if let filterName = value.filterName {
+            let filterNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "filter-name".urlPercentEncoding(), value: Swift.String(filterName.rawValue).urlPercentEncoding())
+            items.append(filterNameQueryItem)
+        }
+        if let filterValue = value.filterValue {
+            let filterValueQueryItem = ClientRuntime.SDKURLQueryItem(name: "filter-value".urlPercentEncoding(), value: Swift.String(filterValue).urlPercentEncoding())
+            items.append(filterValueQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPhoneNumbersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPhoneNumbersInput {
+
+    static func urlPathProvider(_ value: ListPhoneNumbersInput) -> Swift.String? {
         return "/phone-numbers"
     }
 }
@@ -18649,30 +18764,30 @@ enum ListPhoneNumbersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProxySessionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProxySessionsInput {
+
+    static func queryItemProvider(_ value: ListProxySessionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProxySessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension ListProxySessionsInput {
+
+    static func urlPathProvider(_ value: ListProxySessionsInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/proxy-sessions"
@@ -18789,29 +18904,29 @@ enum ListProxySessionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRoomMembershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRoomMembershipsInput {
+
+    static func queryItemProvider(_ value: ListRoomMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRoomMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListRoomMembershipsInput {
+
+    static func urlPathProvider(_ value: ListRoomMembershipsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/memberships"
@@ -18929,30 +19044,30 @@ enum ListRoomMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRoomsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let memberId = memberId {
-                let memberIdQueryItem = ClientRuntime.URLQueryItem(name: "member-id".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
-                items.append(memberIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRoomsInput {
+
+    static func queryItemProvider(_ value: ListRoomsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let memberId = value.memberId {
+            let memberIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "member-id".urlPercentEncoding(), value: Swift.String(memberId).urlPercentEncoding())
+            items.append(memberIdQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRoomsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListRoomsInput {
+
+    static func urlPathProvider(_ value: ListRoomsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms"
@@ -19069,25 +19184,25 @@ enum ListRoomsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSipMediaApplicationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSipMediaApplicationsInput {
+
+    static func queryItemProvider(_ value: ListSipMediaApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSipMediaApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSipMediaApplicationsInput {
+
+    static func urlPathProvider(_ value: ListSipMediaApplicationsInput) -> Swift.String? {
         return "/sip-media-applications"
     }
 }
@@ -19192,29 +19307,29 @@ enum ListSipMediaApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListSipRulesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let sipMediaApplicationId = sipMediaApplicationId {
-                let sipMediaApplicationIdQueryItem = ClientRuntime.URLQueryItem(name: "sip-media-application".urlPercentEncoding(), value: Swift.String(sipMediaApplicationId).urlPercentEncoding())
-                items.append(sipMediaApplicationIdQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSipRulesInput {
+
+    static func queryItemProvider(_ value: ListSipRulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let sipMediaApplicationId = value.sipMediaApplicationId {
+            let sipMediaApplicationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sip-media-application".urlPercentEncoding(), value: Swift.String(sipMediaApplicationId).urlPercentEncoding())
+            items.append(sipMediaApplicationIdQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSipRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSipRulesInput {
+
+    static func urlPathProvider(_ value: ListSipRulesInput) -> Swift.String? {
         return "/sip-rules"
     }
 }
@@ -19323,23 +19438,23 @@ enum ListSipRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSupportedPhoneNumberCountriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let productType = productType else {
-                let message = "Creating a URL Query Item failed. productType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let productTypeQueryItem = ClientRuntime.URLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
-            items.append(productTypeQueryItem)
-            return items
+extension ListSupportedPhoneNumberCountriesInput {
+
+    static func queryItemProvider(_ value: ListSupportedPhoneNumberCountriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let productType = value.productType else {
+            let message = "Creating a URL Query Item failed. productType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let productTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "product-type".urlPercentEncoding(), value: Swift.String(productType.rawValue).urlPercentEncoding())
+        items.append(productTypeQueryItem)
+        return items
     }
 }
 
-extension ListSupportedPhoneNumberCountriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSupportedPhoneNumberCountriesInput {
+
+    static func urlPathProvider(_ value: ListSupportedPhoneNumberCountriesInput) -> Swift.String? {
         return "/phone-number-countries"
     }
 }
@@ -19437,23 +19552,23 @@ extension ListTagsForResourceInput: Swift.CustomDebugStringConvertible {
         "ListTagsForResourceInput(resourceARN: \"CONTENT_REDACTED\")"}
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceARN = resourceARN else {
-                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
-            items.append(resourceARNQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceARN = value.resourceARN else {
+            let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        items.append(resourceARNQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -19550,34 +19665,34 @@ extension ListUsersInput: Swift.CustomDebugStringConvertible {
         "ListUsersInput(accountId: \(Swift.String(describing: accountId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), userType: \(Swift.String(describing: userType)), userEmail: \"CONTENT_REDACTED\")"}
 }
 
-extension ListUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let userEmail = userEmail {
-                let userEmailQueryItem = ClientRuntime.URLQueryItem(name: "user-email".urlPercentEncoding(), value: Swift.String(userEmail).urlPercentEncoding())
-                items.append(userEmailQueryItem)
-            }
-            if let userType = userType {
-                let userTypeQueryItem = ClientRuntime.URLQueryItem(name: "user-type".urlPercentEncoding(), value: Swift.String(userType.rawValue).urlPercentEncoding())
-                items.append(userTypeQueryItem)
-            }
-            return items
+extension ListUsersInput {
+
+    static func queryItemProvider(_ value: ListUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let userEmail = value.userEmail {
+            let userEmailQueryItem = ClientRuntime.SDKURLQueryItem(name: "user-email".urlPercentEncoding(), value: Swift.String(userEmail).urlPercentEncoding())
+            items.append(userEmailQueryItem)
+        }
+        if let userType = value.userType {
+            let userTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "user-type".urlPercentEncoding(), value: Swift.String(userType.rawValue).urlPercentEncoding())
+            items.append(userTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ListUsersInput {
+
+    static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users"
@@ -19698,25 +19813,25 @@ enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVoiceConnectorGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListVoiceConnectorGroupsInput {
+
+    static func queryItemProvider(_ value: ListVoiceConnectorGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVoiceConnectorGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVoiceConnectorGroupsInput {
+
+    static func urlPathProvider(_ value: ListVoiceConnectorGroupsInput) -> Swift.String? {
         return "/voice-connector-groups"
     }
 }
@@ -19821,9 +19936,10 @@ enum ListVoiceConnectorGroupsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension ListVoiceConnectorTerminationCredentialsInput {
+
+    static func urlPathProvider(_ value: ListVoiceConnectorTerminationCredentialsInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination/credentials"
@@ -19918,25 +20034,25 @@ enum ListVoiceConnectorTerminationCredentialsOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension ListVoiceConnectorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListVoiceConnectorsInput {
+
+    static func queryItemProvider(_ value: ListVoiceConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVoiceConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVoiceConnectorsInput {
+
+    static func urlPathProvider(_ value: ListVoiceConnectorsInput) -> Swift.String? {
         return "/voice-connectors"
     }
 }
@@ -20086,22 +20202,22 @@ extension ChimeClientTypes {
 
 }
 
-extension LogoutUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "logout"))
-            return items
-        }
+extension LogoutUserInput {
+
+    static func queryItemProvider(_ value: LogoutUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "logout"))
+        return items
     }
 }
 
-extension LogoutUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension LogoutUserInput {
+
+    static func urlPathProvider(_ value: LogoutUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -22312,9 +22428,10 @@ extension PutAppInstanceRetentionSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutAppInstanceRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension PutAppInstanceRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: PutAppInstanceRetentionSettingsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/retention-settings"
@@ -22439,9 +22556,10 @@ extension PutAppInstanceStreamingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension PutAppInstanceStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension PutAppInstanceStreamingConfigurationsInput {
+
+    static func urlPathProvider(_ value: PutAppInstanceStreamingConfigurationsInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
@@ -22579,12 +22697,13 @@ extension PutEventsConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutEventsConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension PutEventsConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEventsConfigurationInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())/events-configuration"
@@ -22707,9 +22826,10 @@ extension PutRetentionSettingsInput: Swift.Encodable {
     }
 }
 
-extension PutRetentionSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension PutRetentionSettingsInput {
+
+    static func urlPathProvider(_ value: PutRetentionSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/retention-settings"
@@ -22831,9 +22951,10 @@ extension PutSipMediaApplicationLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutSipMediaApplicationLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension PutSipMediaApplicationLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutSipMediaApplicationLoggingConfigurationInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())/logging-configuration"
@@ -22943,9 +23064,10 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorEmergencyCallingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorEmergencyCallingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/emergency-calling-configuration"
@@ -23056,9 +23178,10 @@ extension PutVoiceConnectorLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorLoggingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/logging-configuration"
@@ -23169,9 +23292,10 @@ extension PutVoiceConnectorOriginationInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorOriginationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorOriginationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/origination"
@@ -23302,9 +23426,10 @@ extension PutVoiceConnectorProxyInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorProxyInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorProxyInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/programmable-numbers/proxy"
@@ -23450,9 +23575,10 @@ extension PutVoiceConnectorStreamingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorStreamingConfigurationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorStreamingConfigurationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/streaming-configuration"
@@ -23566,19 +23692,19 @@ extension PutVoiceConnectorTerminationCredentialsInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorTerminationCredentialsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "put"))
-            return items
-        }
+extension PutVoiceConnectorTerminationCredentialsInput {
+
+    static func queryItemProvider(_ value: PutVoiceConnectorTerminationCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "put"))
+        return items
     }
 }
 
-extension PutVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorTerminationCredentialsInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorTerminationCredentialsInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination/credentials"
@@ -23667,9 +23793,10 @@ extension PutVoiceConnectorTerminationInput: Swift.Encodable {
     }
 }
 
-extension PutVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension PutVoiceConnectorTerminationInput {
+
+    static func urlPathProvider(_ value: PutVoiceConnectorTerminationInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/termination"
@@ -23768,32 +23895,33 @@ enum PutVoiceConnectorTerminationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension RedactChannelMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension RedactChannelMessageInput {
+
+    static func headerProvider(_ value: RedactChannelMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension RedactChannelMessageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "redact"))
-            return items
-        }
+extension RedactChannelMessageInput {
+
+    static func queryItemProvider(_ value: RedactChannelMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "redact"))
+        return items
     }
 }
 
-extension RedactChannelMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension RedactChannelMessageInput {
+
+    static func urlPathProvider(_ value: RedactChannelMessageInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -23897,25 +24025,25 @@ enum RedactChannelMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RedactConversationMessageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "redact"))
-            return items
-        }
+extension RedactConversationMessageInput {
+
+    static func queryItemProvider(_ value: RedactConversationMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "redact"))
+        return items
     }
 }
 
-extension RedactConversationMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension RedactConversationMessageInput {
+
+    static func urlPathProvider(_ value: RedactConversationMessageInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let conversationId = conversationId else {
+        guard let conversationId = value.conversationId else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/conversations/\(conversationId.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -23981,25 +24109,25 @@ enum RedactConversationMessageOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension RedactRoomMessageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "redact"))
-            return items
-        }
+extension RedactRoomMessageInput {
+
+    static func queryItemProvider(_ value: RedactRoomMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "redact"))
+        return items
     }
 }
 
-extension RedactRoomMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension RedactRoomMessageInput {
+
+    static func urlPathProvider(_ value: RedactRoomMessageInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -24065,22 +24193,22 @@ enum RedactRoomMessageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RegenerateSecurityTokenInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "regenerate-security-token"))
-            return items
-        }
+extension RegenerateSecurityTokenInput {
+
+    static func queryItemProvider(_ value: RegenerateSecurityTokenInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "regenerate-security-token"))
+        return items
     }
 }
 
-extension RegenerateSecurityTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension RegenerateSecurityTokenInput {
+
+    static func urlPathProvider(_ value: RegenerateSecurityTokenInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())"
@@ -24206,22 +24334,22 @@ extension ChimeClientTypes {
     }
 }
 
-extension ResetPersonalPINInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "reset-personal-pin"))
-            return items
-        }
+extension ResetPersonalPINInput {
+
+    static func queryItemProvider(_ value: ResetPersonalPINInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "reset-personal-pin"))
+        return items
     }
 }
 
-extension ResetPersonalPINInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension ResetPersonalPINInput {
+
+    static func urlPathProvider(_ value: ResetPersonalPINInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -24376,19 +24504,19 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension RestorePhoneNumberInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "restore"))
-            return items
-        }
+extension RestorePhoneNumberInput {
+
+    static func queryItemProvider(_ value: RestorePhoneNumberInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "restore"))
+        return items
     }
 }
 
-extension RestorePhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let phoneNumberId = phoneNumberId else {
+extension RestorePhoneNumberInput {
+
+    static func urlPathProvider(_ value: RestorePhoneNumberInput) -> Swift.String? {
+        guard let phoneNumberId = value.phoneNumberId else {
             return nil
         }
         return "/phone-numbers/\(phoneNumberId.urlPercentEncoding())"
@@ -24752,50 +24880,50 @@ extension ChimeClientTypes {
 
 }
 
-extension SearchAvailablePhoneNumbersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "type", value: "phone-numbers"))
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let areaCode = areaCode {
-                let areaCodeQueryItem = ClientRuntime.URLQueryItem(name: "area-code".urlPercentEncoding(), value: Swift.String(areaCode).urlPercentEncoding())
-                items.append(areaCodeQueryItem)
-            }
-            if let country = country {
-                let countryQueryItem = ClientRuntime.URLQueryItem(name: "country".urlPercentEncoding(), value: Swift.String(country).urlPercentEncoding())
-                items.append(countryQueryItem)
-            }
-            if let city = city {
-                let cityQueryItem = ClientRuntime.URLQueryItem(name: "city".urlPercentEncoding(), value: Swift.String(city).urlPercentEncoding())
-                items.append(cityQueryItem)
-            }
-            if let phoneNumberType = phoneNumberType {
-                let phoneNumberTypeQueryItem = ClientRuntime.URLQueryItem(name: "phone-number-type".urlPercentEncoding(), value: Swift.String(phoneNumberType.rawValue).urlPercentEncoding())
-                items.append(phoneNumberTypeQueryItem)
-            }
-            if let tollFreePrefix = tollFreePrefix {
-                let tollFreePrefixQueryItem = ClientRuntime.URLQueryItem(name: "toll-free-prefix".urlPercentEncoding(), value: Swift.String(tollFreePrefix).urlPercentEncoding())
-                items.append(tollFreePrefixQueryItem)
-            }
-            return items
+extension SearchAvailablePhoneNumbersInput {
+
+    static func queryItemProvider(_ value: SearchAvailablePhoneNumbersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "type", value: "phone-numbers"))
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let areaCode = value.areaCode {
+            let areaCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "area-code".urlPercentEncoding(), value: Swift.String(areaCode).urlPercentEncoding())
+            items.append(areaCodeQueryItem)
+        }
+        if let country = value.country {
+            let countryQueryItem = ClientRuntime.SDKURLQueryItem(name: "country".urlPercentEncoding(), value: Swift.String(country).urlPercentEncoding())
+            items.append(countryQueryItem)
+        }
+        if let city = value.city {
+            let cityQueryItem = ClientRuntime.SDKURLQueryItem(name: "city".urlPercentEncoding(), value: Swift.String(city).urlPercentEncoding())
+            items.append(cityQueryItem)
+        }
+        if let phoneNumberType = value.phoneNumberType {
+            let phoneNumberTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "phone-number-type".urlPercentEncoding(), value: Swift.String(phoneNumberType.rawValue).urlPercentEncoding())
+            items.append(phoneNumberTypeQueryItem)
+        }
+        if let tollFreePrefix = value.tollFreePrefix {
+            let tollFreePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "toll-free-prefix".urlPercentEncoding(), value: Swift.String(tollFreePrefix).urlPercentEncoding())
+            items.append(tollFreePrefixQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchAvailablePhoneNumbersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchAvailablePhoneNumbersInput {
+
+    static func urlPathProvider(_ value: SearchAvailablePhoneNumbersInput) -> Swift.String? {
         return "/search"
     }
 }
@@ -25028,19 +25156,21 @@ extension SendChannelMessageInput: Swift.Encodable {
     }
 }
 
-extension SendChannelMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension SendChannelMessageInput {
+
+    static func headerProvider(_ value: SendChannelMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension SendChannelMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension SendChannelMessageInput {
+
+    static func urlPathProvider(_ value: SendChannelMessageInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages"
@@ -25841,19 +25971,19 @@ extension StartMeetingTranscriptionInput: Swift.Encodable {
     }
 }
 
-extension StartMeetingTranscriptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "start"))
-            return items
-        }
+extension StartMeetingTranscriptionInput {
+
+    static func queryItemProvider(_ value: StartMeetingTranscriptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+        return items
     }
 }
 
-extension StartMeetingTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension StartMeetingTranscriptionInput {
+
+    static func urlPathProvider(_ value: StartMeetingTranscriptionInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/transcription"
@@ -25923,19 +26053,19 @@ enum StartMeetingTranscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension StopMeetingTranscriptionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
-            return items
-        }
+extension StopMeetingTranscriptionInput {
+
+    static func queryItemProvider(_ value: StopMeetingTranscriptionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+        return items
     }
 }
 
-extension StopMeetingTranscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension StopMeetingTranscriptionInput {
+
+    static func urlPathProvider(_ value: StopMeetingTranscriptionInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/transcription"
@@ -26164,22 +26294,22 @@ extension TagAttendeeInput: Swift.Encodable {
     }
 }
 
-extension TagAttendeeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
-            return items
-        }
+extension TagAttendeeInput {
+
+    static func queryItemProvider(_ value: TagAttendeeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "add"))
+        return items
     }
 }
 
-extension TagAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension TagAttendeeInput {
+
+    static func urlPathProvider(_ value: TagAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())/tags"
@@ -26278,19 +26408,19 @@ extension TagMeetingInput: Swift.Encodable {
     }
 }
 
-extension TagMeetingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "add"))
-            return items
-        }
+extension TagMeetingInput {
+
+    static func queryItemProvider(_ value: TagMeetingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "add"))
+        return items
     }
 }
 
-extension TagMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension TagMeetingInput {
+
+    static func urlPathProvider(_ value: TagMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/tags"
@@ -26393,18 +26523,18 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
-            return items
-        }
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -27381,22 +27511,22 @@ extension UntagAttendeeInput: Swift.Encodable {
     }
 }
 
-extension UntagAttendeeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "delete"))
-            return items
-        }
+extension UntagAttendeeInput {
+
+    static func queryItemProvider(_ value: UntagAttendeeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "delete"))
+        return items
     }
 }
 
-extension UntagAttendeeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension UntagAttendeeInput {
+
+    static func urlPathProvider(_ value: UntagAttendeeInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
-        guard let attendeeId = attendeeId else {
+        guard let attendeeId = value.attendeeId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/attendees/\(attendeeId.urlPercentEncoding())/tags"
@@ -27494,19 +27624,19 @@ extension UntagMeetingInput: Swift.Encodable {
     }
 }
 
-extension UntagMeetingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "delete"))
-            return items
-        }
+extension UntagMeetingInput {
+
+    static func queryItemProvider(_ value: UntagMeetingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "delete"))
+        return items
     }
 }
 
-extension UntagMeetingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let meetingId = meetingId else {
+extension UntagMeetingInput {
+
+    static func urlPathProvider(_ value: UntagMeetingInput) -> Swift.String? {
+        guard let meetingId = value.meetingId else {
             return nil
         }
         return "/meetings/\(meetingId.urlPercentEncoding())/tags"
@@ -27608,18 +27738,18 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
-            return items
-        }
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/tags"
     }
 }
@@ -27714,9 +27844,10 @@ extension UpdateAccountInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateAccountInput {
+
+    static func urlPathProvider(_ value: UpdateAccountInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())"
@@ -27834,9 +27965,10 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/settings"
@@ -27927,9 +28059,10 @@ extension UpdateAppInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceArn = appInstanceArn else {
+extension UpdateAppInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceInput) -> Swift.String? {
+        guard let appInstanceArn = value.appInstanceArn else {
             return nil
         }
         return "/app-instances/\(appInstanceArn.urlPercentEncoding())"
@@ -28057,9 +28190,10 @@ extension UpdateAppInstanceUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppInstanceUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appInstanceUserArn = appInstanceUserArn else {
+extension UpdateAppInstanceUserInput {
+
+    static func urlPathProvider(_ value: UpdateAppInstanceUserInput) -> Swift.String? {
+        guard let appInstanceUserArn = value.appInstanceUserArn else {
             return nil
         }
         return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())"
@@ -28178,12 +28312,13 @@ extension UpdateBotInput: Swift.Encodable {
     }
 }
 
-extension UpdateBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateBotInput {
+
+    static func urlPathProvider(_ value: UpdateBotInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let botId = botId else {
+        guard let botId = value.botId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/bots/\(botId.urlPercentEncoding())"
@@ -28311,19 +28446,21 @@ extension UpdateChannelInput: Swift.Encodable {
     }
 }
 
-extension UpdateChannelInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateChannelInput {
+
+    static func headerProvider(_ value: UpdateChannelInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension UpdateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension UpdateChannelInput {
+
+    static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())"
@@ -28407,22 +28544,24 @@ extension UpdateChannelMessageInput: Swift.Encodable {
     }
 }
 
-extension UpdateChannelMessageInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateChannelMessageInput {
+
+    static func headerProvider(_ value: UpdateChannelMessageInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension UpdateChannelMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension UpdateChannelMessageInput {
+
+    static func urlPathProvider(_ value: UpdateChannelMessageInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
-        guard let messageId = messageId else {
+        guard let messageId = value.messageId else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/messages/\(messageId.urlPercentEncoding())"
@@ -28603,19 +28742,21 @@ enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateChannelReadMarkerInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateChannelReadMarkerInput {
+
+    static func headerProvider(_ value: UpdateChannelReadMarkerInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let chimeBearer = chimeBearer {
+        if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
         return items
     }
 }
 
-extension UpdateChannelReadMarkerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let channelArn = channelArn else {
+extension UpdateChannelReadMarkerInput {
+
+    static func urlPathProvider(_ value: UpdateChannelReadMarkerInput) -> Swift.String? {
+        guard let channelArn = value.channelArn else {
             return nil
         }
         return "/channels/\(channelArn.urlPercentEncoding())/readMarker"
@@ -28722,8 +28863,9 @@ extension UpdateGlobalSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateGlobalSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGlobalSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateGlobalSettingsInput) -> Swift.String? {
         return "/settings"
     }
 }
@@ -28812,9 +28954,10 @@ extension UpdatePhoneNumberInput: Swift.Encodable {
     }
 }
 
-extension UpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let phoneNumberId = phoneNumberId else {
+extension UpdatePhoneNumberInput {
+
+    static func urlPathProvider(_ value: UpdatePhoneNumberInput) -> Swift.String? {
+        guard let phoneNumberId = value.phoneNumberId else {
             return nil
         }
         return "/phone-numbers/\(phoneNumberId.urlPercentEncoding())"
@@ -28999,8 +29142,9 @@ extension UpdatePhoneNumberSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdatePhoneNumberSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePhoneNumberSettingsInput {
+
+    static func urlPathProvider(_ value: UpdatePhoneNumberSettingsInput) -> Swift.String? {
         return "/settings/phone-number"
     }
 }
@@ -29080,12 +29224,13 @@ extension UpdateProxySessionInput: Swift.Encodable {
     }
 }
 
-extension UpdateProxySessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension UpdateProxySessionInput {
+
+    static func urlPathProvider(_ value: UpdateProxySessionInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
-        guard let proxySessionId = proxySessionId else {
+        guard let proxySessionId = value.proxySessionId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/proxy-sessions/\(proxySessionId.urlPercentEncoding())"
@@ -29223,12 +29368,13 @@ extension UpdateRoomInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateRoomInput {
+
+    static func urlPathProvider(_ value: UpdateRoomInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())"
@@ -29286,15 +29432,16 @@ extension UpdateRoomMembershipInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoomMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateRoomMembershipInput {
+
+    static func urlPathProvider(_ value: UpdateRoomMembershipInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let roomId = roomId else {
+        guard let roomId = value.roomId else {
             return nil
         }
-        guard let memberId = memberId else {
+        guard let memberId = value.memberId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/rooms/\(roomId.urlPercentEncoding())/memberships/\(memberId.urlPercentEncoding())"
@@ -29474,12 +29621,13 @@ extension UpdateSipMediaApplicationCallInput: Swift.Encodable {
     }
 }
 
-extension UpdateSipMediaApplicationCallInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension UpdateSipMediaApplicationCallInput {
+
+    static func urlPathProvider(_ value: UpdateSipMediaApplicationCallInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
-        guard let transactionId = transactionId else {
+        guard let transactionId = value.transactionId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())/calls/\(transactionId.urlPercentEncoding())"
@@ -29612,9 +29760,10 @@ extension UpdateSipMediaApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSipMediaApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipMediaApplicationId = sipMediaApplicationId else {
+extension UpdateSipMediaApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateSipMediaApplicationInput) -> Swift.String? {
+        guard let sipMediaApplicationId = value.sipMediaApplicationId else {
             return nil
         }
         return "/sip-media-applications/\(sipMediaApplicationId.urlPercentEncoding())"
@@ -29753,9 +29902,10 @@ extension UpdateSipRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateSipRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sipRuleId = sipRuleId else {
+extension UpdateSipRuleInput {
+
+    static func urlPathProvider(_ value: UpdateSipRuleInput) -> Swift.String? {
+        guard let sipRuleId = value.sipRuleId else {
             return nil
         }
         return "/sip-rules/\(sipRuleId.urlPercentEncoding())"
@@ -29901,12 +30051,13 @@ extension UpdateUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateUserInput {
+
+    static func urlPathProvider(_ value: UpdateUserInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -30103,12 +30254,13 @@ extension UpdateUserSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accountId = accountId else {
+extension UpdateUserSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateUserSettingsInput) -> Swift.String? {
+        guard let accountId = value.accountId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/accounts/\(accountId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())/settings"
@@ -30201,9 +30353,10 @@ extension UpdateVoiceConnectorGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorGroupId = voiceConnectorGroupId else {
+extension UpdateVoiceConnectorGroupInput {
+
+    static func urlPathProvider(_ value: UpdateVoiceConnectorGroupInput) -> Swift.String? {
+        guard let voiceConnectorGroupId = value.voiceConnectorGroupId else {
             return nil
         }
         return "/voice-connector-groups/\(voiceConnectorGroupId.urlPercentEncoding())"
@@ -30337,9 +30490,10 @@ extension UpdateVoiceConnectorInput: Swift.Encodable {
     }
 }
 
-extension UpdateVoiceConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let voiceConnectorId = voiceConnectorId else {
+extension UpdateVoiceConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateVoiceConnectorInput) -> Swift.String? {
+        guard let voiceConnectorId = value.voiceConnectorId else {
             return nil
         }
         return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())"
@@ -30772,8 +30926,9 @@ extension ValidateE911AddressInput: Swift.Encodable {
     }
 }
 
-extension ValidateE911AddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidateE911AddressInput {
+
+    static func urlPathProvider(_ value: ValidateE911AddressInput) -> Swift.String? {
         return "/emergency-calling/address"
     }
 }

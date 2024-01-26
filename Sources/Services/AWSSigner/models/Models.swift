@@ -95,9 +95,10 @@ extension AddProfilePermissionInput: Swift.Encodable {
     }
 }
 
-extension AddProfilePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension AddProfilePermissionInput {
+
+    static func urlPathProvider(_ value: AddProfilePermissionInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())/permissions"
@@ -293,9 +294,10 @@ extension BadRequestExceptionBody: Swift.Decodable {
     }
 }
 
-extension CancelSigningProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension CancelSigningProfileInput {
+
+    static func urlPathProvider(_ value: CancelSigningProfileInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())"
@@ -441,9 +443,10 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-extension DescribeSigningJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension DescribeSigningJobInput {
+
+    static func urlPathProvider(_ value: DescribeSigningJobInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/signing-jobs/\(jobId.urlPercentEncoding())"
@@ -841,49 +844,49 @@ extension SignerClientTypes {
 
 }
 
-extension GetRevocationStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let certificateHashes = certificateHashes else {
-                let message = "Creating a URL Query Item failed. certificateHashes is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            certificateHashes.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "certificateHashes".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            guard let profileVersionArn = profileVersionArn else {
-                let message = "Creating a URL Query Item failed. profileVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let profileVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "profileVersionArn".urlPercentEncoding(), value: Swift.String(profileVersionArn).urlPercentEncoding())
-            items.append(profileVersionArnQueryItem)
-            guard let platformId = platformId else {
-                let message = "Creating a URL Query Item failed. platformId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let platformIdQueryItem = ClientRuntime.URLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
-            items.append(platformIdQueryItem)
-            guard let jobArn = jobArn else {
-                let message = "Creating a URL Query Item failed. jobArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let jobArnQueryItem = ClientRuntime.URLQueryItem(name: "jobArn".urlPercentEncoding(), value: Swift.String(jobArn).urlPercentEncoding())
-            items.append(jobArnQueryItem)
-            guard let signatureTimestamp = signatureTimestamp else {
-                let message = "Creating a URL Query Item failed. signatureTimestamp is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let signatureTimestampQueryItem = ClientRuntime.URLQueryItem(name: "signatureTimestamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureTimestamp)).urlPercentEncoding())
-            items.append(signatureTimestampQueryItem)
-            return items
+extension GetRevocationStatusInput {
+
+    static func queryItemProvider(_ value: GetRevocationStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let certificateHashes = value.certificateHashes else {
+            let message = "Creating a URL Query Item failed. certificateHashes is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        certificateHashes.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "certificateHashes".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        guard let profileVersionArn = value.profileVersionArn else {
+            let message = "Creating a URL Query Item failed. profileVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let profileVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "profileVersionArn".urlPercentEncoding(), value: Swift.String(profileVersionArn).urlPercentEncoding())
+        items.append(profileVersionArnQueryItem)
+        guard let platformId = value.platformId else {
+            let message = "Creating a URL Query Item failed. platformId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let platformIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
+        items.append(platformIdQueryItem)
+        guard let jobArn = value.jobArn else {
+            let message = "Creating a URL Query Item failed. jobArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let jobArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "jobArn".urlPercentEncoding(), value: Swift.String(jobArn).urlPercentEncoding())
+        items.append(jobArnQueryItem)
+        guard let signatureTimestamp = value.signatureTimestamp else {
+            let message = "Creating a URL Query Item failed. signatureTimestamp is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let signatureTimestampQueryItem = ClientRuntime.SDKURLQueryItem(name: "signatureTimestamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureTimestamp)).urlPercentEncoding())
+        items.append(signatureTimestampQueryItem)
+        return items
     }
 }
 
-extension GetRevocationStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRevocationStatusInput {
+
+    static func urlPathProvider(_ value: GetRevocationStatusInput) -> Swift.String? {
         return "/revocations"
     }
 }
@@ -1003,9 +1006,10 @@ enum GetRevocationStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSigningPlatformInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let platformId = platformId else {
+extension GetSigningPlatformInput {
+
+    static func urlPathProvider(_ value: GetSigningPlatformInput) -> Swift.String? {
+        guard let platformId = value.platformId else {
             return nil
         }
         return "/signing-platforms/\(platformId.urlPercentEncoding())"
@@ -1168,22 +1172,22 @@ enum GetSigningPlatformOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSigningProfileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let profileOwner = profileOwner {
-                let profileOwnerQueryItem = ClientRuntime.URLQueryItem(name: "profileOwner".urlPercentEncoding(), value: Swift.String(profileOwner).urlPercentEncoding())
-                items.append(profileOwnerQueryItem)
-            }
-            return items
+extension GetSigningProfileInput {
+
+    static func queryItemProvider(_ value: GetSigningProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let profileOwner = value.profileOwner {
+            let profileOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "profileOwner".urlPercentEncoding(), value: Swift.String(profileOwner).urlPercentEncoding())
+            items.append(profileOwnerQueryItem)
         }
+        return items
     }
 }
 
-extension GetSigningProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension GetSigningProfileInput {
+
+    static func urlPathProvider(_ value: GetSigningProfileInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())"
@@ -1608,22 +1612,22 @@ extension InternalServiceErrorExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListProfilePermissionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListProfilePermissionsInput {
+
+    static func queryItemProvider(_ value: ListProfilePermissionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListProfilePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension ListProfilePermissionsInput {
+
+    static func urlPathProvider(_ value: ListProfilePermissionsInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())/permissions"
@@ -1750,53 +1754,53 @@ enum ListProfilePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSigningJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let isRevoked = isRevoked {
-                let isRevokedQueryItem = ClientRuntime.URLQueryItem(name: "isRevoked".urlPercentEncoding(), value: Swift.String(isRevoked).urlPercentEncoding())
-                items.append(isRevokedQueryItem)
-            }
-            if let requestedBy = requestedBy {
-                let requestedByQueryItem = ClientRuntime.URLQueryItem(name: "requestedBy".urlPercentEncoding(), value: Swift.String(requestedBy).urlPercentEncoding())
-                items.append(requestedByQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let signatureExpiresBefore = signatureExpiresBefore {
-                let signatureExpiresBeforeQueryItem = ClientRuntime.URLQueryItem(name: "signatureExpiresBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureExpiresBefore)).urlPercentEncoding())
-                items.append(signatureExpiresBeforeQueryItem)
-            }
-            if let jobInvoker = jobInvoker {
-                let jobInvokerQueryItem = ClientRuntime.URLQueryItem(name: "jobInvoker".urlPercentEncoding(), value: Swift.String(jobInvoker).urlPercentEncoding())
-                items.append(jobInvokerQueryItem)
-            }
-            if let platformId = platformId {
-                let platformIdQueryItem = ClientRuntime.URLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
-                items.append(platformIdQueryItem)
-            }
-            if let signatureExpiresAfter = signatureExpiresAfter {
-                let signatureExpiresAfterQueryItem = ClientRuntime.URLQueryItem(name: "signatureExpiresAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureExpiresAfter)).urlPercentEncoding())
-                items.append(signatureExpiresAfterQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListSigningJobsInput {
+
+    static func queryItemProvider(_ value: ListSigningJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let isRevoked = value.isRevoked {
+            let isRevokedQueryItem = ClientRuntime.SDKURLQueryItem(name: "isRevoked".urlPercentEncoding(), value: Swift.String(isRevoked).urlPercentEncoding())
+            items.append(isRevokedQueryItem)
         }
+        if let requestedBy = value.requestedBy {
+            let requestedByQueryItem = ClientRuntime.SDKURLQueryItem(name: "requestedBy".urlPercentEncoding(), value: Swift.String(requestedBy).urlPercentEncoding())
+            items.append(requestedByQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let signatureExpiresBefore = value.signatureExpiresBefore {
+            let signatureExpiresBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "signatureExpiresBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureExpiresBefore)).urlPercentEncoding())
+            items.append(signatureExpiresBeforeQueryItem)
+        }
+        if let jobInvoker = value.jobInvoker {
+            let jobInvokerQueryItem = ClientRuntime.SDKURLQueryItem(name: "jobInvoker".urlPercentEncoding(), value: Swift.String(jobInvoker).urlPercentEncoding())
+            items.append(jobInvokerQueryItem)
+        }
+        if let platformId = value.platformId {
+            let platformIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
+            items.append(platformIdQueryItem)
+        }
+        if let signatureExpiresAfter = value.signatureExpiresAfter {
+            let signatureExpiresAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "signatureExpiresAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: signatureExpiresAfter)).urlPercentEncoding())
+            items.append(signatureExpiresAfterQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSigningJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSigningJobsInput {
+
+    static func urlPathProvider(_ value: ListSigningJobsInput) -> Swift.String? {
         return "/signing-jobs"
     }
 }
@@ -1927,37 +1931,37 @@ enum ListSigningJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSigningPlatformsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let partner = partner {
-                let partnerQueryItem = ClientRuntime.URLQueryItem(name: "partner".urlPercentEncoding(), value: Swift.String(partner).urlPercentEncoding())
-                items.append(partnerQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let category = category {
-                let categoryQueryItem = ClientRuntime.URLQueryItem(name: "category".urlPercentEncoding(), value: Swift.String(category).urlPercentEncoding())
-                items.append(categoryQueryItem)
-            }
-            if let target = target {
-                let targetQueryItem = ClientRuntime.URLQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
-                items.append(targetQueryItem)
-            }
-            return items
+extension ListSigningPlatformsInput {
+
+    static func queryItemProvider(_ value: ListSigningPlatformsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let partner = value.partner {
+            let partnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "partner".urlPercentEncoding(), value: Swift.String(partner).urlPercentEncoding())
+            items.append(partnerQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let category = value.category {
+            let categoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "category".urlPercentEncoding(), value: Swift.String(category).urlPercentEncoding())
+            items.append(categoryQueryItem)
+        }
+        if let target = value.target {
+            let targetQueryItem = ClientRuntime.SDKURLQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
+            items.append(targetQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSigningPlatformsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSigningPlatformsInput {
+
+    static func urlPathProvider(_ value: ListSigningPlatformsInput) -> Swift.String? {
         return "/signing-platforms"
     }
 }
@@ -2072,39 +2076,39 @@ enum ListSigningPlatformsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSigningProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeCanceled = includeCanceled {
-                let includeCanceledQueryItem = ClientRuntime.URLQueryItem(name: "includeCanceled".urlPercentEncoding(), value: Swift.String(includeCanceled).urlPercentEncoding())
-                items.append(includeCanceledQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let statuses = statuses {
-                statuses.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "statuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let platformId = platformId {
-                let platformIdQueryItem = ClientRuntime.URLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
-                items.append(platformIdQueryItem)
-            }
-            return items
+extension ListSigningProfilesInput {
+
+    static func queryItemProvider(_ value: ListSigningProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeCanceled = value.includeCanceled {
+            let includeCanceledQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCanceled".urlPercentEncoding(), value: Swift.String(includeCanceled).urlPercentEncoding())
+            items.append(includeCanceledQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let statuses = value.statuses {
+            statuses.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "statuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let platformId = value.platformId {
+            let platformIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "platformId".urlPercentEncoding(), value: Swift.String(platformId).urlPercentEncoding())
+            items.append(platformIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSigningProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSigningProfilesInput {
+
+    static func urlPathProvider(_ value: ListSigningProfilesInput) -> Swift.String? {
         return "/signing-profiles"
     }
 }
@@ -2218,9 +2222,10 @@ enum ListSigningProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2480,9 +2485,10 @@ extension PutSigningProfileInput: Swift.Encodable {
     }
 }
 
-extension PutSigningProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension PutSigningProfileInput {
+
+    static func urlPathProvider(_ value: PutSigningProfileInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())"
@@ -2656,27 +2662,27 @@ enum PutSigningProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension RemoveProfilePermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let revisionId = revisionId else {
-                let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-            items.append(revisionIdQueryItem)
-            return items
+extension RemoveProfilePermissionInput {
+
+    static func queryItemProvider(_ value: RemoveProfilePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let revisionId = value.revisionId else {
+            let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+        items.append(revisionIdQueryItem)
+        return items
     }
 }
 
-extension RemoveProfilePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension RemoveProfilePermissionInput {
+
+    static func urlPathProvider(_ value: RemoveProfilePermissionInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
-        guard let statementId = statementId else {
+        guard let statementId = value.statementId else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())/permissions/\(statementId.urlPercentEncoding())"
@@ -2852,9 +2858,10 @@ extension RevokeSignatureInput: Swift.Encodable {
     }
 }
 
-extension RevokeSignatureInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension RevokeSignatureInput {
+
+    static func urlPathProvider(_ value: RevokeSignatureInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/signing-jobs/\(jobId.urlPercentEncoding())/revoke"
@@ -2949,9 +2956,10 @@ extension RevokeSigningProfileInput: Swift.Encodable {
     }
 }
 
-extension RevokeSigningProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profileName = profileName else {
+extension RevokeSigningProfileInput {
+
+    static func urlPathProvider(_ value: RevokeSigningProfileInput) -> Swift.String? {
+        guard let profileName = value.profileName else {
             return nil
         }
         return "/signing-profiles/\(profileName.urlPercentEncoding())/revoke"
@@ -3272,8 +3280,9 @@ extension SignPayloadInput: Swift.Encodable {
     }
 }
 
-extension SignPayloadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SignPayloadInput {
+
+    static func urlPathProvider(_ value: SignPayloadInput) -> Swift.String? {
         return "/signing-jobs/with-payload"
     }
 }
@@ -4422,8 +4431,9 @@ extension StartSigningJobInput: Swift.Encodable {
     }
 }
 
-extension StartSigningJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSigningJobInput {
+
+    static func urlPathProvider(_ value: StartSigningJobInput) -> Swift.String? {
         return "/signing-jobs"
     }
 }
@@ -4574,9 +4584,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4779,26 +4790,26 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

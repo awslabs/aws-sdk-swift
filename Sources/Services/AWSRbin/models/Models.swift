@@ -135,8 +135,9 @@ extension CreateRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRuleInput {
+
+    static func urlPathProvider(_ value: CreateRuleInput) -> Swift.String? {
         return "/rules"
     }
 }
@@ -398,9 +399,10 @@ enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension DeleteRuleInput {
+
+    static func urlPathProvider(_ value: DeleteRuleInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/rules/\(identifier.urlPercentEncoding())"
@@ -453,9 +455,10 @@ enum DeleteRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension GetRuleInput {
+
+    static func urlPathProvider(_ value: GetRuleInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/rules/\(identifier.urlPercentEncoding())"
@@ -731,8 +734,9 @@ extension ListRulesInput: Swift.Encodable {
     }
 }
 
-extension ListRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRulesInput {
+
+    static func urlPathProvider(_ value: ListRulesInput) -> Swift.String? {
         return "/list-rules"
     }
 }
@@ -878,9 +882,10 @@ enum ListRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1020,9 +1025,10 @@ extension LockRuleInput: Swift.Encodable {
     }
 }
 
-extension LockRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension LockRuleInput {
+
+    static func urlPathProvider(_ value: LockRuleInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/rules/\(identifier.urlPercentEncoding())/lock"
@@ -1769,9 +1775,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1921,9 +1928,10 @@ extension RbinClientTypes {
     }
 }
 
-extension UnlockRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UnlockRuleInput {
+
+    static func urlPathProvider(_ value: UnlockRuleInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/rules/\(identifier.urlPercentEncoding())/unlock"
@@ -2113,26 +2121,26 @@ enum UnlockRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2217,9 +2225,10 @@ extension UpdateRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identifier = identifier else {
+extension UpdateRuleInput {
+
+    static func urlPathProvider(_ value: UpdateRuleInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
             return nil
         }
         return "/rules/\(identifier.urlPercentEncoding())"
