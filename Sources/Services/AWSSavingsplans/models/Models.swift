@@ -38,8 +38,9 @@ extension CreateSavingsPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateSavingsPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSavingsPlanInput {
+
+    static func urlPathProvider(_ value: CreateSavingsPlanInput) -> Swift.String? {
         return "/CreateSavingsPlan"
     }
 }
@@ -222,8 +223,9 @@ extension DeleteQueuedSavingsPlanInput: Swift.Encodable {
     }
 }
 
-extension DeleteQueuedSavingsPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteQueuedSavingsPlanInput {
+
+    static func urlPathProvider(_ value: DeleteQueuedSavingsPlanInput) -> Swift.String? {
         return "/DeleteQueuedSavingsPlan"
     }
 }
@@ -309,8 +311,9 @@ extension DescribeSavingsPlanRatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSavingsPlanRatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSavingsPlanRatesInput {
+
+    static func urlPathProvider(_ value: DescribeSavingsPlanRatesInput) -> Swift.String? {
         return "/DescribeSavingsPlanRates"
     }
 }
@@ -503,8 +506,9 @@ extension DescribeSavingsPlansInput: Swift.Encodable {
     }
 }
 
-extension DescribeSavingsPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSavingsPlansInput {
+
+    static func urlPathProvider(_ value: DescribeSavingsPlansInput) -> Swift.String? {
         return "/DescribeSavingsPlans"
     }
 }
@@ -686,8 +690,9 @@ extension DescribeSavingsPlansOfferingRatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSavingsPlansOfferingRatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSavingsPlansOfferingRatesInput {
+
+    static func urlPathProvider(_ value: DescribeSavingsPlansOfferingRatesInput) -> Swift.String? {
         return "/DescribeSavingsPlansOfferingRates"
     }
 }
@@ -1026,8 +1031,9 @@ extension DescribeSavingsPlansOfferingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSavingsPlansOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSavingsPlansOfferingsInput {
+
+    static func urlPathProvider(_ value: DescribeSavingsPlansOfferingsInput) -> Swift.String? {
         return "/DescribeSavingsPlansOfferings"
     }
 }
@@ -1457,8 +1463,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/ListTagsForResource"
     }
 }
@@ -3236,8 +3243,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/TagResource"
     }
 }
@@ -3333,8 +3341,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/UntagResource"
     }
 }

@@ -672,8 +672,9 @@ extension AssociateFileSystemAliasesInput: Swift.Encodable {
     }
 }
 
-extension AssociateFileSystemAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateFileSystemAliasesInput {
+
+    static func urlPathProvider(_ value: AssociateFileSystemAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1720,8 +1721,9 @@ extension CancelDataRepositoryTaskInput: Swift.Encodable {
     }
 }
 
-extension CancelDataRepositoryTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelDataRepositoryTaskInput {
+
+    static func urlPathProvider(_ value: CancelDataRepositoryTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1935,8 +1937,9 @@ extension CopyBackupInput: Swift.Encodable {
     }
 }
 
-extension CopyBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyBackupInput {
+
+    static func urlPathProvider(_ value: CopyBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2123,8 +2126,9 @@ extension CopySnapshotAndUpdateVolumeInput: Swift.Encodable {
     }
 }
 
-extension CopySnapshotAndUpdateVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopySnapshotAndUpdateVolumeInput {
+
+    static func urlPathProvider(_ value: CopySnapshotAndUpdateVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2381,8 +2385,9 @@ extension CreateBackupInput: Swift.Encodable {
     }
 }
 
-extension CreateBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBackupInput {
+
+    static func urlPathProvider(_ value: CreateBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2552,8 +2557,9 @@ extension CreateDataRepositoryAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateDataRepositoryAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataRepositoryAssociationInput {
+
+    static func urlPathProvider(_ value: CreateDataRepositoryAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2756,8 +2762,9 @@ extension CreateDataRepositoryTaskInput: Swift.Encodable {
     }
 }
 
-extension CreateDataRepositoryTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataRepositoryTaskInput {
+
+    static func urlPathProvider(_ value: CreateDataRepositoryTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3003,8 +3010,9 @@ extension CreateFileCacheInput: Swift.Encodable {
     }
 }
 
-extension CreateFileCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFileCacheInput {
+
+    static func urlPathProvider(_ value: CreateFileCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3355,8 +3363,9 @@ extension CreateFileSystemFromBackupInput: Swift.Encodable {
     }
 }
 
-extension CreateFileSystemFromBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFileSystemFromBackupInput {
+
+    static func urlPathProvider(_ value: CreateFileSystemFromBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3663,8 +3672,9 @@ extension CreateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension CreateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFileSystemInput {
+
+    static func urlPathProvider(_ value: CreateFileSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5201,8 +5211,9 @@ extension CreateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5369,8 +5380,9 @@ extension CreateStorageVirtualMachineInput: Swift.Encodable {
     }
 }
 
-extension CreateStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStorageVirtualMachineInput {
+
+    static func urlPathProvider(_ value: CreateStorageVirtualMachineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5603,8 +5615,9 @@ extension CreateVolumeFromBackupInput: Swift.Encodable {
     }
 }
 
-extension CreateVolumeFromBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVolumeFromBackupInput {
+
+    static func urlPathProvider(_ value: CreateVolumeFromBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5774,8 +5787,9 @@ extension CreateVolumeInput: Swift.Encodable {
     }
 }
 
-extension CreateVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVolumeInput {
+
+    static func urlPathProvider(_ value: CreateVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7151,8 +7165,9 @@ extension DeleteBackupInput: Swift.Encodable {
     }
 }
 
-extension DeleteBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBackupInput {
+
+    static func urlPathProvider(_ value: DeleteBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7284,8 +7299,9 @@ extension DeleteDataRepositoryAssociationInput: Swift.Encodable {
     }
 }
 
-extension DeleteDataRepositoryAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataRepositoryAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteDataRepositoryAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7427,8 +7443,9 @@ extension DeleteFileCacheInput: Swift.Encodable {
     }
 }
 
-extension DeleteFileCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFileCacheInput {
+
+    static func urlPathProvider(_ value: DeleteFileCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7564,8 +7581,9 @@ extension DeleteFileSystemInput: Swift.Encodable {
     }
 }
 
-extension DeleteFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFileSystemInput {
+
+    static func urlPathProvider(_ value: DeleteFileSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8167,8 +8185,9 @@ extension DeleteSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8290,8 +8309,9 @@ extension DeleteStorageVirtualMachineInput: Swift.Encodable {
     }
 }
 
-extension DeleteStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStorageVirtualMachineInput {
+
+    static func urlPathProvider(_ value: DeleteStorageVirtualMachineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8422,8 +8442,9 @@ extension DeleteVolumeInput: Swift.Encodable {
     }
 }
 
-extension DeleteVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVolumeInput {
+
+    static func urlPathProvider(_ value: DeleteVolumeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8758,8 +8779,9 @@ extension DescribeBackupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBackupsInput {
+
+    static func urlPathProvider(_ value: DescribeBackupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8941,8 +8963,9 @@ extension DescribeDataRepositoryAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDataRepositoryAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDataRepositoryAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeDataRepositoryAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9122,8 +9145,9 @@ extension DescribeDataRepositoryTasksInput: Swift.Encodable {
     }
 }
 
-extension DescribeDataRepositoryTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDataRepositoryTasksInput {
+
+    static func urlPathProvider(_ value: DescribeDataRepositoryTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9295,8 +9319,9 @@ extension DescribeFileCachesInput: Swift.Encodable {
     }
 }
 
-extension DescribeFileCachesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFileCachesInput {
+
+    static func urlPathProvider(_ value: DescribeFileCachesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9451,8 +9476,9 @@ extension DescribeFileSystemAliasesInput: Swift.Encodable {
     }
 }
 
-extension DescribeFileSystemAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFileSystemAliasesInput {
+
+    static func urlPathProvider(_ value: DescribeFileSystemAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9608,8 +9634,9 @@ extension DescribeFileSystemsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFileSystemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFileSystemsInput {
+
+    static func urlPathProvider(_ value: DescribeFileSystemsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9749,8 +9776,9 @@ extension DescribeSharedVpcConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeSharedVpcConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSharedVpcConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeSharedVpcConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9856,8 +9884,9 @@ extension DescribeSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10043,8 +10072,9 @@ extension DescribeStorageVirtualMachinesInput: Swift.Encodable {
     }
 }
 
-extension DescribeStorageVirtualMachinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeStorageVirtualMachinesInput {
+
+    static func urlPathProvider(_ value: DescribeStorageVirtualMachinesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10222,8 +10252,9 @@ extension DescribeVolumesInput: Swift.Encodable {
     }
 }
 
-extension DescribeVolumesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVolumesInput {
+
+    static func urlPathProvider(_ value: DescribeVolumesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10394,8 +10425,9 @@ extension DisassociateFileSystemAliasesInput: Swift.Encodable {
     }
 }
 
-extension DisassociateFileSystemAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFileSystemAliasesInput {
+
+    static func urlPathProvider(_ value: DisassociateFileSystemAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13164,8 +13196,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15489,8 +15522,9 @@ extension ReleaseFileSystemNfsV3LocksInput: Swift.Encodable {
     }
 }
 
-extension ReleaseFileSystemNfsV3LocksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReleaseFileSystemNfsV3LocksInput {
+
+    static func urlPathProvider(_ value: ReleaseFileSystemNfsV3LocksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15871,8 +15905,9 @@ extension RestoreVolumeFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreVolumeFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreVolumeFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreVolumeFromSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -17225,8 +17260,9 @@ extension StartMisconfiguredStateRecoveryInput: Swift.Encodable {
     }
 }
 
-extension StartMisconfiguredStateRecoveryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMisconfiguredStateRecoveryInput {
+
+    static func urlPathProvider(_ value: StartMisconfiguredStateRecoveryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18067,8 +18103,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18360,8 +18397,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18465,8 +18503,9 @@ extension UpdateDataRepositoryAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataRepositoryAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataRepositoryAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateDataRepositoryAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18600,8 +18639,9 @@ extension UpdateFileCacheInput: Swift.Encodable {
     }
 }
 
-extension UpdateFileCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFileCacheInput {
+
+    static func urlPathProvider(_ value: UpdateFileCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -18784,8 +18824,9 @@ extension UpdateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension UpdateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFileSystemInput {
+
+    static func urlPathProvider(_ value: UpdateFileSystemInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19774,8 +19815,9 @@ extension UpdateSharedVpcConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSharedVpcConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSharedVpcConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSharedVpcConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -19965,8 +20007,9 @@ extension UpdateSnapshotInput: Swift.Encodable {
     }
 }
 
-extension UpdateSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSnapshotInput {
+
+    static func urlPathProvider(_ value: UpdateSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20100,8 +20143,9 @@ extension UpdateStorageVirtualMachineInput: Swift.Encodable {
     }
 }
 
-extension UpdateStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateStorageVirtualMachineInput {
+
+    static func urlPathProvider(_ value: UpdateStorageVirtualMachineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -20288,8 +20332,9 @@ extension UpdateVolumeInput: Swift.Encodable {
     }
 }
 
-extension UpdateVolumeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVolumeInput {
+
+    static func urlPathProvider(_ value: UpdateVolumeInput) -> Swift.String? {
         return "/"
     }
 }

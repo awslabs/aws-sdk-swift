@@ -959,8 +959,9 @@ extension CreateConnectorInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectorInput {
+
+    static func urlPathProvider(_ value: CreateConnectorInput) -> Swift.String? {
         return "/v1/connectors"
     }
 }
@@ -1211,8 +1212,9 @@ extension CreateCustomPluginInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomPluginInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomPluginInput {
+
+    static func urlPathProvider(_ value: CreateCustomPluginInput) -> Swift.String? {
         return "/v1/custom-plugins"
     }
 }
@@ -1386,8 +1388,9 @@ extension CreateWorkerConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkerConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateWorkerConfigurationInput) -> Swift.String? {
         return "/v1/worker-configurations"
     }
 }
@@ -1980,22 +1983,22 @@ extension KafkaConnectClientTypes {
 
 }
 
-extension DeleteConnectorInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let currentVersion = currentVersion {
-                let currentVersionQueryItem = ClientRuntime.URLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
-                items.append(currentVersionQueryItem)
-            }
-            return items
+extension DeleteConnectorInput {
+
+    static func queryItemProvider(_ value: DeleteConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let currentVersion = value.currentVersion {
+            let currentVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
+            items.append(currentVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorArn = connectorArn else {
+extension DeleteConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/v1/connectors/\(connectorArn.urlPercentEncoding())"
@@ -2095,9 +2098,10 @@ enum DeleteConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCustomPluginInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let customPluginArn = customPluginArn else {
+extension DeleteCustomPluginInput {
+
+    static func urlPathProvider(_ value: DeleteCustomPluginInput) -> Swift.String? {
+        guard let customPluginArn = value.customPluginArn else {
             return nil
         }
         return "/v1/custom-plugins/\(customPluginArn.urlPercentEncoding())"
@@ -2193,9 +2197,10 @@ enum DeleteCustomPluginOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorArn = connectorArn else {
+extension DescribeConnectorInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/v1/connectors/\(connectorArn.urlPercentEncoding())"
@@ -2464,9 +2469,10 @@ enum DescribeConnectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeCustomPluginInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let customPluginArn = customPluginArn else {
+extension DescribeCustomPluginInput {
+
+    static func urlPathProvider(_ value: DescribeCustomPluginInput) -> Swift.String? {
+        guard let customPluginArn = value.customPluginArn else {
             return nil
         }
         return "/v1/custom-plugins/\(customPluginArn.urlPercentEncoding())"
@@ -2612,9 +2618,10 @@ enum DescribeCustomPluginOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeWorkerConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let workerConfigurationArn = workerConfigurationArn else {
+extension DescribeWorkerConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeWorkerConfigurationInput) -> Swift.String? {
+        guard let workerConfigurationArn = value.workerConfigurationArn else {
             return nil
         }
         return "/v1/worker-configurations/\(workerConfigurationArn.urlPercentEncoding())"
@@ -3218,29 +3225,29 @@ extension KafkaConnectClientTypes {
     }
 }
 
-extension ListConnectorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let connectorNamePrefix = connectorNamePrefix {
-                let connectorNamePrefixQueryItem = ClientRuntime.URLQueryItem(name: "connectorNamePrefix".urlPercentEncoding(), value: Swift.String(connectorNamePrefix).urlPercentEncoding())
-                items.append(connectorNamePrefixQueryItem)
-            }
-            return items
+extension ListConnectorsInput {
+
+    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let connectorNamePrefix = value.connectorNamePrefix {
+            let connectorNamePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "connectorNamePrefix".urlPercentEncoding(), value: Swift.String(connectorNamePrefix).urlPercentEncoding())
+            items.append(connectorNamePrefixQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
         return "/v1/connectors"
     }
 }
@@ -3350,25 +3357,25 @@ enum ListConnectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCustomPluginsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListCustomPluginsInput {
+
+    static func queryItemProvider(_ value: ListCustomPluginsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCustomPluginsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomPluginsInput {
+
+    static func urlPathProvider(_ value: ListCustomPluginsInput) -> Swift.String? {
         return "/v1/custom-plugins"
     }
 }
@@ -3474,25 +3481,25 @@ enum ListCustomPluginsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListWorkerConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListWorkerConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListWorkerConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.maxResults != 0 {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWorkerConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkerConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListWorkerConfigurationsInput) -> Swift.String? {
         return "/v1/worker-configurations"
     }
 }
@@ -4594,24 +4601,24 @@ extension UpdateConnectorInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectorInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let currentVersion = currentVersion else {
-                let message = "Creating a URL Query Item failed. currentVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let currentVersionQueryItem = ClientRuntime.URLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
-            items.append(currentVersionQueryItem)
-            return items
+extension UpdateConnectorInput {
+
+    static func queryItemProvider(_ value: UpdateConnectorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let currentVersion = value.currentVersion else {
+            let message = "Creating a URL Query Item failed. currentVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let currentVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "currentVersion".urlPercentEncoding(), value: Swift.String(currentVersion).urlPercentEncoding())
+        items.append(currentVersionQueryItem)
+        return items
     }
 }
 
-extension UpdateConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorArn = connectorArn else {
+extension UpdateConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorInput) -> Swift.String? {
+        guard let connectorArn = value.connectorArn else {
             return nil
         }
         return "/v1/connectors/\(connectorArn.urlPercentEncoding())"

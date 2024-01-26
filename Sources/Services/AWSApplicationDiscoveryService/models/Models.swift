@@ -309,8 +309,9 @@ extension AssociateConfigurationItemsToApplicationInput: Swift.Encodable {
     }
 }
 
-extension AssociateConfigurationItemsToApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateConfigurationItemsToApplicationInput {
+
+    static func urlPathProvider(_ value: AssociateConfigurationItemsToApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -516,8 +517,9 @@ extension BatchDeleteAgentsInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteAgentsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -937,8 +939,9 @@ extension BatchDeleteImportDataInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteImportDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteImportDataInput {
+
+    static func urlPathProvider(_ value: BatchDeleteImportDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1448,8 +1451,9 @@ extension CreateApplicationInput: Swift.Encodable {
     }
 }
 
-extension CreateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1569,8 +1573,9 @@ extension CreateTagsInput: Swift.Encodable {
     }
 }
 
-extension CreateTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTagsInput {
+
+    static func urlPathProvider(_ value: CreateTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2191,8 +2196,9 @@ extension DeleteApplicationsInput: Swift.Encodable {
     }
 }
 
-extension DeleteApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteApplicationsInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2283,8 +2289,9 @@ extension DeleteTagsInput: Swift.Encodable {
     }
 }
 
-extension DeleteTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTagsInput {
+
+    static func urlPathProvider(_ value: DeleteTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2485,8 +2492,9 @@ extension DescribeAgentsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAgentsInput {
+
+    static func urlPathProvider(_ value: DescribeAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2648,8 +2656,9 @@ extension DescribeBatchDeleteConfigurationTaskInput: Swift.Encodable {
     }
 }
 
-extension DescribeBatchDeleteConfigurationTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBatchDeleteConfigurationTaskInput {
+
+    static func urlPathProvider(_ value: DescribeBatchDeleteConfigurationTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2753,8 +2762,9 @@ extension DescribeConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2894,8 +2904,9 @@ extension DescribeContinuousExportsInput: Swift.Encodable {
     }
 }
 
-extension DescribeContinuousExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeContinuousExportsInput {
+
+    static func urlPathProvider(_ value: DescribeContinuousExportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3053,8 +3064,9 @@ extension DescribeExportConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeExportConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExportConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeExportConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3218,8 +3230,9 @@ extension DescribeExportTasksInput: Swift.Encodable {
     }
 }
 
-extension DescribeExportTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExportTasksInput {
+
+    static func urlPathProvider(_ value: DescribeExportTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3394,8 +3407,9 @@ extension DescribeImportTasksInput: Swift.Encodable {
     }
 }
 
-extension DescribeImportTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImportTasksInput {
+
+    static func urlPathProvider(_ value: DescribeImportTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3551,8 +3565,9 @@ extension DescribeTagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTagsInput {
+
+    static func urlPathProvider(_ value: DescribeTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3705,8 +3720,9 @@ extension DisassociateConfigurationItemsFromApplicationInput: Swift.Encodable {
     }
 }
 
-extension DisassociateConfigurationItemsFromApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateConfigurationItemsFromApplicationInput {
+
+    static func urlPathProvider(_ value: DisassociateConfigurationItemsFromApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3898,8 +3914,9 @@ extension ExportConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ExportConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExportConfigurationsInput {
+
+    static func urlPathProvider(_ value: ExportConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4387,8 +4404,9 @@ extension GetDiscoverySummaryInput: Swift.Encodable {
     }
 }
 
-extension GetDiscoverySummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDiscoverySummaryInput {
+
+    static func urlPathProvider(_ value: GetDiscoverySummaryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5093,8 +5111,9 @@ extension ListConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5294,8 +5313,9 @@ extension ListServerNeighborsInput: Swift.Encodable {
     }
 }
 
-extension ListServerNeighborsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListServerNeighborsInput {
+
+    static func urlPathProvider(_ value: ListServerNeighborsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5976,8 +5996,9 @@ extension StartBatchDeleteConfigurationTaskInput: Swift.Encodable {
     }
 }
 
-extension StartBatchDeleteConfigurationTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBatchDeleteConfigurationTaskInput {
+
+    static func urlPathProvider(_ value: StartBatchDeleteConfigurationTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6093,8 +6114,9 @@ extension StartContinuousExportInput: Swift.Encodable {
     }
 }
 
-extension StartContinuousExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartContinuousExportInput {
+
+    static func urlPathProvider(_ value: StartContinuousExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6238,8 +6260,9 @@ extension StartDataCollectionByAgentIdsInput: Swift.Encodable {
     }
 }
 
-extension StartDataCollectionByAgentIdsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDataCollectionByAgentIdsInput {
+
+    static func urlPathProvider(_ value: StartDataCollectionByAgentIdsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6381,8 +6404,9 @@ extension StartExportTaskInput: Swift.Encodable {
     }
 }
 
-extension StartExportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartExportTaskInput {
+
+    static func urlPathProvider(_ value: StartExportTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6542,8 +6566,9 @@ extension StartImportTaskInput: Swift.Encodable {
     }
 }
 
-extension StartImportTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartImportTaskInput {
+
+    static func urlPathProvider(_ value: StartImportTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6663,8 +6688,9 @@ extension StopContinuousExportInput: Swift.Encodable {
     }
 }
 
-extension StopContinuousExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopContinuousExportInput {
+
+    static func urlPathProvider(_ value: StopContinuousExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6782,8 +6808,9 @@ extension StopDataCollectionByAgentIdsInput: Swift.Encodable {
     }
 }
 
-extension StopDataCollectionByAgentIdsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDataCollectionByAgentIdsInput {
+
+    static func urlPathProvider(_ value: StopDataCollectionByAgentIdsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7081,8 +7108,9 @@ extension UpdateApplicationInput: Swift.Encodable {
     }
 }
 
-extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
         return "/"
     }
 }

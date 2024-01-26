@@ -194,8 +194,9 @@ extension BatchGetChannelInput: Swift.Encodable {
     }
 }
 
-extension BatchGetChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetChannelInput {
+
+    static func urlPathProvider(_ value: BatchGetChannelInput) -> Swift.String? {
         return "/BatchGetChannel"
     }
 }
@@ -332,8 +333,9 @@ extension BatchGetStreamKeyInput: Swift.Encodable {
     }
 }
 
-extension BatchGetStreamKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetStreamKeyInput {
+
+    static func urlPathProvider(_ value: BatchGetStreamKeyInput) -> Swift.String? {
         return "/BatchGetStreamKey"
     }
 }
@@ -537,8 +539,9 @@ extension BatchStartViewerSessionRevocationInput: Swift.Encodable {
     }
 }
 
-extension BatchStartViewerSessionRevocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchStartViewerSessionRevocationInput {
+
+    static func urlPathProvider(_ value: BatchStartViewerSessionRevocationInput) -> Swift.String? {
         return "/BatchStartViewerSessionRevocation"
     }
 }
@@ -1201,8 +1204,9 @@ extension CreateChannelInput: Swift.Encodable {
     }
 }
 
-extension CreateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateChannelInput {
+
+    static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
         return "/CreateChannel"
     }
 }
@@ -1401,8 +1405,9 @@ extension CreateRecordingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateRecordingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRecordingConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateRecordingConfigurationInput) -> Swift.String? {
         return "/CreateRecordingConfiguration"
     }
 }
@@ -1561,8 +1566,9 @@ extension CreateStreamKeyInput: Swift.Encodable {
     }
 }
 
-extension CreateStreamKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamKeyInput {
+
+    static func urlPathProvider(_ value: CreateStreamKeyInput) -> Swift.String? {
         return "/CreateStreamKey"
     }
 }
@@ -1681,8 +1687,9 @@ extension DeleteChannelInput: Swift.Encodable {
     }
 }
 
-extension DeleteChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteChannelInput {
+
+    static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
         return "/DeleteChannel"
     }
 }
@@ -1754,8 +1761,9 @@ extension DeletePlaybackKeyPairInput: Swift.Encodable {
     }
 }
 
-extension DeletePlaybackKeyPairInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePlaybackKeyPairInput {
+
+    static func urlPathProvider(_ value: DeletePlaybackKeyPairInput) -> Swift.String? {
         return "/DeletePlaybackKeyPair"
     }
 }
@@ -1826,8 +1834,9 @@ extension DeleteRecordingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteRecordingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRecordingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteRecordingConfigurationInput) -> Swift.String? {
         return "/DeleteRecordingConfiguration"
     }
 }
@@ -1899,8 +1908,9 @@ extension DeleteStreamKeyInput: Swift.Encodable {
     }
 }
 
-extension DeleteStreamKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteStreamKeyInput {
+
+    static func urlPathProvider(_ value: DeleteStreamKeyInput) -> Swift.String? {
         return "/DeleteStreamKey"
     }
 }
@@ -2006,8 +2016,9 @@ extension GetChannelInput: Swift.Encodable {
     }
 }
 
-extension GetChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetChannelInput {
+
+    static func urlPathProvider(_ value: GetChannelInput) -> Swift.String? {
         return "/GetChannel"
     }
 }
@@ -2107,8 +2118,9 @@ extension GetPlaybackKeyPairInput: Swift.Encodable {
     }
 }
 
-extension GetPlaybackKeyPairInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPlaybackKeyPairInput {
+
+    static func urlPathProvider(_ value: GetPlaybackKeyPairInput) -> Swift.String? {
         return "/GetPlaybackKeyPair"
     }
 }
@@ -2208,8 +2220,9 @@ extension GetRecordingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetRecordingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecordingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetRecordingConfigurationInput) -> Swift.String? {
         return "/GetRecordingConfiguration"
     }
 }
@@ -2310,8 +2323,9 @@ extension GetStreamInput: Swift.Encodable {
     }
 }
 
-extension GetStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStreamInput {
+
+    static func urlPathProvider(_ value: GetStreamInput) -> Swift.String? {
         return "/GetStream"
     }
 }
@@ -2358,8 +2372,9 @@ extension GetStreamKeyInput: Swift.Encodable {
     }
 }
 
-extension GetStreamKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStreamKeyInput {
+
+    static func urlPathProvider(_ value: GetStreamKeyInput) -> Swift.String? {
         return "/GetStreamKey"
     }
 }
@@ -2517,8 +2532,9 @@ extension GetStreamSessionInput: Swift.Encodable {
     }
 }
 
-extension GetStreamSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetStreamSessionInput {
+
+    static func urlPathProvider(_ value: GetStreamSessionInput) -> Swift.String? {
         return "/GetStreamSession"
     }
 }
@@ -2637,8 +2653,9 @@ extension ImportPlaybackKeyPairInput: Swift.Encodable {
     }
 }
 
-extension ImportPlaybackKeyPairInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportPlaybackKeyPairInput {
+
+    static func urlPathProvider(_ value: ImportPlaybackKeyPairInput) -> Swift.String? {
         return "/ImportPlaybackKeyPair"
     }
 }
@@ -2878,8 +2895,9 @@ extension ListChannelsInput: Swift.Encodable {
     }
 }
 
-extension ListChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChannelsInput {
+
+    static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
         return "/ListChannels"
     }
 }
@@ -3026,8 +3044,9 @@ extension ListPlaybackKeyPairsInput: Swift.Encodable {
     }
 }
 
-extension ListPlaybackKeyPairsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPlaybackKeyPairsInput {
+
+    static func urlPathProvider(_ value: ListPlaybackKeyPairsInput) -> Swift.String? {
         return "/ListPlaybackKeyPairs"
     }
 }
@@ -3157,8 +3176,9 @@ extension ListRecordingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListRecordingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecordingConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListRecordingConfigurationsInput) -> Swift.String? {
         return "/ListRecordingConfigurations"
     }
 }
@@ -3293,8 +3313,9 @@ extension ListStreamKeysInput: Swift.Encodable {
     }
 }
 
-extension ListStreamKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamKeysInput {
+
+    static func urlPathProvider(_ value: ListStreamKeysInput) -> Swift.String? {
         return "/ListStreamKeys"
     }
 }
@@ -3438,8 +3459,9 @@ extension ListStreamSessionsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamSessionsInput {
+
+    static func urlPathProvider(_ value: ListStreamSessionsInput) -> Swift.String? {
         return "/ListStreamSessions"
     }
 }
@@ -3583,8 +3605,9 @@ extension ListStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamsInput {
+
+    static func urlPathProvider(_ value: ListStreamsInput) -> Swift.String? {
         return "/ListStreams"
     }
 }
@@ -3705,9 +3728,10 @@ enum ListStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4021,8 +4045,9 @@ extension PutMetadataInput: Swift.Encodable {
     }
 }
 
-extension PutMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutMetadataInput {
+
+    static func urlPathProvider(_ value: PutMetadataInput) -> Swift.String? {
         return "/PutMetadata"
     }
 }
@@ -4666,8 +4691,9 @@ extension StartViewerSessionRevocationInput: Swift.Encodable {
     }
 }
 
-extension StartViewerSessionRevocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartViewerSessionRevocationInput {
+
+    static func urlPathProvider(_ value: StartViewerSessionRevocationInput) -> Swift.String? {
         return "/StartViewerSessionRevocation"
     }
 }
@@ -4757,8 +4783,9 @@ extension StopStreamInput: Swift.Encodable {
     }
 }
 
-extension StopStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopStreamInput {
+
+    static func urlPathProvider(_ value: StopStreamInput) -> Swift.String? {
         return "/StopStream"
     }
 }
@@ -5547,9 +5574,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5857,26 +5885,26 @@ extension IvsClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5974,8 +6002,9 @@ extension UpdateChannelInput: Swift.Encodable {
     }
 }
 
-extension UpdateChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateChannelInput {
+
+    static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
         return "/UpdateChannel"
     }
 }

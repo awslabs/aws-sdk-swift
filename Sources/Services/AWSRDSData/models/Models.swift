@@ -293,8 +293,9 @@ extension BatchExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension BatchExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchExecuteStatementInput {
+
+    static func urlPathProvider(_ value: BatchExecuteStatementInput) -> Swift.String? {
         return "/BatchExecute"
     }
 }
@@ -502,8 +503,9 @@ extension BeginTransactionInput: Swift.Encodable {
     }
 }
 
-extension BeginTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BeginTransactionInput {
+
+    static func urlPathProvider(_ value: BeginTransactionInput) -> Swift.String? {
         return "/BeginTransaction"
     }
 }
@@ -813,8 +815,9 @@ extension CommitTransactionInput: Swift.Encodable {
     }
 }
 
-extension CommitTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CommitTransactionInput {
+
+    static func urlPathProvider(_ value: CommitTransactionInput) -> Swift.String? {
         return "/CommitTransaction"
     }
 }
@@ -1124,8 +1127,9 @@ extension ExecuteSqlInput: Swift.Encodable {
     }
 }
 
-extension ExecuteSqlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteSqlInput {
+
+    static func urlPathProvider(_ value: ExecuteSqlInput) -> Swift.String? {
         return "/ExecuteSql"
     }
 }
@@ -1315,8 +1319,9 @@ extension ExecuteStatementInput: Swift.Encodable {
     }
 }
 
-extension ExecuteStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteStatementInput {
+
+    static func urlPathProvider(_ value: ExecuteStatementInput) -> Swift.String? {
         return "/Execute"
     }
 }
@@ -2214,8 +2219,9 @@ extension RollbackTransactionInput: Swift.Encodable {
     }
 }
 
-extension RollbackTransactionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RollbackTransactionInput {
+
+    static func urlPathProvider(_ value: RollbackTransactionInput) -> Swift.String? {
         return "/RollbackTransaction"
     }
 }

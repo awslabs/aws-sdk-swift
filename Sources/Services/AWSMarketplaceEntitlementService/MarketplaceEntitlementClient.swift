@@ -98,7 +98,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<GetEntitlementsInput, GetEntitlementsOutput>(id: "getEntitlements")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntitlementsInput, GetEntitlementsOutput>(GetEntitlementsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEntitlementsInput, GetEntitlementsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEntitlementsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

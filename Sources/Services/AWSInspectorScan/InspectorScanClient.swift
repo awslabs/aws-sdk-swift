@@ -99,7 +99,7 @@ extension InspectorScanClient: InspectorScanClientProtocol {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<ScanSbomInput, ScanSbomOutput>(id: "scanSbom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScanSbomInput, ScanSbomOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScanSbomInput, ScanSbomOutput>(ScanSbomInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScanSbomInput, ScanSbomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ScanSbomOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

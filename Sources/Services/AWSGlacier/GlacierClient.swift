@@ -107,7 +107,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>(AbortMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortMultipartUploadInput, AbortMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -163,7 +163,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortVaultLockInput, AbortVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortVaultLockInput, AbortVaultLockOutput>(AbortVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortVaultLockInput, AbortVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AbortVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -220,13 +220,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(AddTagsToVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsToVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(AddTagsToVaultInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddTagsToVaultInput, AddTagsToVaultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -280,13 +280,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CompleteMultipartUploadInput, CompleteMultipartUploadOutput>(CompleteMultipartUploadInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CompleteMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutput>(config: sigv4Config))
@@ -337,7 +337,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>(CompleteVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteVaultLockInput, CompleteVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CompleteVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -400,7 +400,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVaultInput, CreateVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVaultInput, CreateVaultOutput>(CreateVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVaultInput, CreateVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -463,7 +463,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(DeleteArchiveInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteArchiveOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -519,7 +519,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultInput, DeleteVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultInput, DeleteVaultOutput>(DeleteVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultInput, DeleteVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -575,7 +575,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>(DeleteVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -631,7 +631,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>(DeleteVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -687,7 +687,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -743,7 +743,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVaultInput, DescribeVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVaultInput, DescribeVaultOutput>(DescribeVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVaultInput, DescribeVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -798,7 +798,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>(GetDataRetrievalPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataRetrievalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -854,13 +854,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobOutputInput, GetJobOutputOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobOutputInput, GetJobOutputOutput>(GetJobOutputInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobOutputInput, GetJobOutputOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetJobOutputOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetJobOutputInput, GetJobOutputOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetJobOutputInput, GetJobOutputOutput>(GetJobOutputInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetJobOutputOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutputOutput>(config: sigv4Config))
@@ -911,7 +911,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>(GetVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -978,7 +978,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultLockInput, GetVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultLockInput, GetVaultLockOutput>(GetVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultLockInput, GetVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1034,7 +1034,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>(GetVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVaultNotificationsInput, GetVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1092,7 +1092,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateJobInput, InitiateJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateJobInput, InitiateJobOutput>(InitiateJobInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateJobInput, InitiateJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1151,13 +1151,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(InitiateMultipartUploadInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateMultipartUploadOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InitiateMultipartUploadInput, InitiateMultipartUploadOutput>(InitiateMultipartUploadInput.headerProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InitiateMultipartUploadOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateMultipartUploadOutput>(config: sigv4Config))
@@ -1217,7 +1217,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>(InitiateVaultLockInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateVaultLockInput, InitiateVaultLockOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateVaultLockOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1276,13 +1276,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListJobsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutput>(config: sigv4Config))
@@ -1333,13 +1333,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMultipartUploadsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMultipartUploadsInput, ListMultipartUploadsOutput>(ListMultipartUploadsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMultipartUploadsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutput>(config: sigv4Config))
@@ -1390,13 +1390,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPartsInput, ListPartsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartsInput, ListPartsOutput>(ListPartsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutput>(config: sigv4Config))
@@ -1446,7 +1446,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>(ListProvisionedCapacityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedCapacityInput, ListProvisionedCapacityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProvisionedCapacityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1502,7 +1502,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>(ListTagsForVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForVaultInput, ListTagsForVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1558,13 +1558,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVaultsInput, ListVaultsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVaultsInput, ListVaultsOutput>(ListVaultsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVaultsInput, ListVaultsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVaultsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVaultsInput, ListVaultsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVaultsInput, ListVaultsOutput>(ListVaultsInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVaultsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVaultsOutput>(config: sigv4Config))
@@ -1615,7 +1615,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>(PurchaseProvisionedCapacityInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseProvisionedCapacityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1671,13 +1671,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(RemoveTagsFromVaultInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsFromVaultOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(RemoveTagsFromVaultInput.queryItemProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -1730,7 +1730,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>(SetDataRetrievalPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDataRetrievalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1789,7 +1789,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>(SetVaultAccessPolicyInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVaultAccessPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1855,7 +1855,7 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>(SetVaultNotificationsInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVaultNotificationsInput, SetVaultNotificationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetVaultNotificationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -1915,13 +1915,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadArchiveInput, UploadArchiveOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadArchiveInput, UploadArchiveOutput>(UploadArchiveInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadArchiveInput, UploadArchiveOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadArchiveOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadArchiveInput, UploadArchiveOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadArchiveInput, UploadArchiveOutput>(UploadArchiveInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadArchiveInput, UploadArchiveOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadArchiveInput, UploadArchiveOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
@@ -1985,13 +1985,13 @@ extension GlacierClient: GlacierClientProtocol {
             }
             return try await next.handle(context: context, input: input)
         }
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(UploadMultipartPartInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadMultipartPartOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .after, middleware: ClientRuntime.MutateHeadersMiddleware(additional: ["X-Amz-Glacier-Version": "2012-06-01"]))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(UploadMultipartPartInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(contentType: "application/octet-stream"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobStreamBodyMiddleware<UploadMultipartPartInput, UploadMultipartPartOutput>(keyPath: \.body))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())

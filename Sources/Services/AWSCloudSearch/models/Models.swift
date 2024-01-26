@@ -521,8 +521,9 @@ extension BuildSuggestersInput: Swift.Encodable {
     }
 }
 
-extension BuildSuggestersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BuildSuggestersInput {
+
+    static func urlPathProvider(_ value: BuildSuggestersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -640,8 +641,9 @@ extension CreateDomainInput: Swift.Encodable {
     }
 }
 
-extension CreateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDomainInput {
+
+    static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -906,8 +908,9 @@ extension DefineAnalysisSchemeInput: Swift.Encodable {
     }
 }
 
-extension DefineAnalysisSchemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DefineAnalysisSchemeInput {
+
+    static func urlPathProvider(_ value: DefineAnalysisSchemeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1023,8 +1026,9 @@ extension DefineExpressionInput: Swift.Encodable {
     }
 }
 
-extension DefineExpressionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DefineExpressionInput {
+
+    static func urlPathProvider(_ value: DefineExpressionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1140,8 +1144,9 @@ extension DefineIndexFieldInput: Swift.Encodable {
     }
 }
 
-extension DefineIndexFieldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DefineIndexFieldInput {
+
+    static func urlPathProvider(_ value: DefineIndexFieldInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1257,8 +1262,9 @@ extension DefineSuggesterInput: Swift.Encodable {
     }
 }
 
-extension DefineSuggesterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DefineSuggesterInput {
+
+    static func urlPathProvider(_ value: DefineSuggesterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1374,8 +1380,9 @@ extension DeleteAnalysisSchemeInput: Swift.Encodable {
     }
 }
 
-extension DeleteAnalysisSchemeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAnalysisSchemeInput {
+
+    static func urlPathProvider(_ value: DeleteAnalysisSchemeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1487,8 +1494,9 @@ extension DeleteDomainInput: Swift.Encodable {
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDomainInput {
+
+    static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1590,8 +1598,9 @@ extension DeleteExpressionInput: Swift.Encodable {
     }
 }
 
-extension DeleteExpressionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteExpressionInput {
+
+    static func urlPathProvider(_ value: DeleteExpressionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1706,8 +1715,9 @@ extension DeleteIndexFieldInput: Swift.Encodable {
     }
 }
 
-extension DeleteIndexFieldInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIndexFieldInput {
+
+    static func urlPathProvider(_ value: DeleteIndexFieldInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1822,8 +1832,9 @@ extension DeleteSuggesterInput: Swift.Encodable {
     }
 }
 
-extension DeleteSuggesterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSuggesterInput {
+
+    static func urlPathProvider(_ value: DeleteSuggesterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1950,8 +1961,9 @@ extension DescribeAnalysisSchemesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAnalysisSchemesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAnalysisSchemesInput {
+
+    static func urlPathProvider(_ value: DescribeAnalysisSchemesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2105,8 +2117,9 @@ extension DescribeAvailabilityOptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAvailabilityOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAvailabilityOptionsInput {
+
+    static func urlPathProvider(_ value: DescribeAvailabilityOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2220,8 +2233,9 @@ extension DescribeDomainEndpointOptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainEndpointOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainEndpointOptionsInput {
+
+    static func urlPathProvider(_ value: DescribeDomainEndpointOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2340,8 +2354,9 @@ extension DescribeDomainsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainsInput {
+
+    static func urlPathProvider(_ value: DescribeDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2489,8 +2504,9 @@ extension DescribeExpressionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeExpressionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExpressionsInput {
+
+    static func urlPathProvider(_ value: DescribeExpressionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2656,8 +2672,9 @@ extension DescribeIndexFieldsInput: Swift.Encodable {
     }
 }
 
-extension DescribeIndexFieldsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeIndexFieldsInput {
+
+    static func urlPathProvider(_ value: DescribeIndexFieldsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2808,8 +2825,9 @@ extension DescribeScalingParametersInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingParametersInput {
+
+    static func urlPathProvider(_ value: DescribeScalingParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2913,8 +2931,9 @@ extension DescribeServiceAccessPoliciesInput: Swift.Encodable {
     }
 }
 
-extension DescribeServiceAccessPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeServiceAccessPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeServiceAccessPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3038,8 +3057,9 @@ extension DescribeSuggestersInput: Swift.Encodable {
     }
 }
 
-extension DescribeSuggestersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSuggestersInput {
+
+    static func urlPathProvider(_ value: DescribeSuggestersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3814,8 +3834,9 @@ extension IndexDocumentsInput: Swift.Encodable {
     }
 }
 
-extension IndexDocumentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IndexDocumentsInput {
+
+    static func urlPathProvider(_ value: IndexDocumentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4678,8 +4699,9 @@ extension ListDomainNamesInput: Swift.Encodable {
     }
 }
 
-extension ListDomainNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainNamesInput {
+
+    static func urlPathProvider(_ value: ListDomainNamesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5732,8 +5754,9 @@ extension UpdateAvailabilityOptionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateAvailabilityOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAvailabilityOptionsInput {
+
+    static func urlPathProvider(_ value: UpdateAvailabilityOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5849,8 +5872,9 @@ extension UpdateDomainEndpointOptionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainEndpointOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainEndpointOptionsInput {
+
+    static func urlPathProvider(_ value: UpdateDomainEndpointOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5966,8 +5990,9 @@ extension UpdateScalingParametersInput: Swift.Encodable {
     }
 }
 
-extension UpdateScalingParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateScalingParametersInput {
+
+    static func urlPathProvider(_ value: UpdateScalingParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6083,8 +6108,9 @@ extension UpdateServiceAccessPoliciesInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceAccessPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceAccessPoliciesInput {
+
+    static func urlPathProvider(_ value: UpdateServiceAccessPoliciesInput) -> Swift.String? {
         return "/"
     }
 }

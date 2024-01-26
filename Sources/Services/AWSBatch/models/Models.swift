@@ -611,8 +611,9 @@ extension CancelJobInput: Swift.Encodable {
     }
 }
 
-extension CancelJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelJobInput {
+
+    static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
         return "/v1/canceljob"
     }
 }
@@ -2437,8 +2438,9 @@ extension CreateComputeEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateComputeEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateComputeEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateComputeEnvironmentInput) -> Swift.String? {
         return "/v1/createcomputeenvironment"
     }
 }
@@ -2640,8 +2642,9 @@ extension CreateJobQueueInput: Swift.Encodable {
     }
 }
 
-extension CreateJobQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobQueueInput {
+
+    static func urlPathProvider(_ value: CreateJobQueueInput) -> Swift.String? {
         return "/v1/createjobqueue"
     }
 }
@@ -2824,8 +2827,9 @@ extension CreateSchedulingPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateSchedulingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSchedulingPolicyInput {
+
+    static func urlPathProvider(_ value: CreateSchedulingPolicyInput) -> Swift.String? {
         return "/v1/createschedulingpolicy"
     }
 }
@@ -2962,8 +2966,9 @@ extension DeleteComputeEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension DeleteComputeEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteComputeEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteComputeEnvironmentInput) -> Swift.String? {
         return "/v1/deletecomputeenvironment"
     }
 }
@@ -3033,8 +3038,9 @@ extension DeleteJobQueueInput: Swift.Encodable {
     }
 }
 
-extension DeleteJobQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteJobQueueInput {
+
+    static func urlPathProvider(_ value: DeleteJobQueueInput) -> Swift.String? {
         return "/v1/deletejobqueue"
     }
 }
@@ -3104,8 +3110,9 @@ extension DeleteSchedulingPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteSchedulingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSchedulingPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteSchedulingPolicyInput) -> Swift.String? {
         return "/v1/deleteschedulingpolicy"
     }
 }
@@ -3175,8 +3182,9 @@ extension DeregisterJobDefinitionInput: Swift.Encodable {
     }
 }
 
-extension DeregisterJobDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterJobDefinitionInput {
+
+    static func urlPathProvider(_ value: DeregisterJobDefinitionInput) -> Swift.String? {
         return "/v1/deregisterjobdefinition"
     }
 }
@@ -3256,8 +3264,9 @@ extension DescribeComputeEnvironmentsInput: Swift.Encodable {
     }
 }
 
-extension DescribeComputeEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeComputeEnvironmentsInput {
+
+    static func urlPathProvider(_ value: DescribeComputeEnvironmentsInput) -> Swift.String? {
         return "/v1/describecomputeenvironments"
     }
 }
@@ -3419,8 +3428,9 @@ extension DescribeJobDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobDefinitionsInput {
+
+    static func urlPathProvider(_ value: DescribeJobDefinitionsInput) -> Swift.String? {
         return "/v1/describejobdefinitions"
     }
 }
@@ -3590,8 +3600,9 @@ extension DescribeJobQueuesInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobQueuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobQueuesInput {
+
+    static func urlPathProvider(_ value: DescribeJobQueuesInput) -> Swift.String? {
         return "/v1/describejobqueues"
     }
 }
@@ -3737,8 +3748,9 @@ extension DescribeJobsInput: Swift.Encodable {
     }
 }
 
-extension DescribeJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeJobsInput {
+
+    static func urlPathProvider(_ value: DescribeJobsInput) -> Swift.String? {
         return "/v1/describejobs"
     }
 }
@@ -3859,8 +3871,9 @@ extension DescribeSchedulingPoliciesInput: Swift.Encodable {
     }
 }
 
-extension DescribeSchedulingPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSchedulingPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeSchedulingPoliciesInput) -> Swift.String? {
         return "/v1/describeschedulingpolicies"
     }
 }
@@ -7528,8 +7541,9 @@ extension ListJobsInput: Swift.Encodable {
     }
 }
 
-extension ListJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJobsInput {
+
+    static func urlPathProvider(_ value: ListJobsInput) -> Swift.String? {
         return "/v1/listjobs"
     }
 }
@@ -7709,8 +7723,9 @@ extension ListSchedulingPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListSchedulingPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchedulingPoliciesInput {
+
+    static func urlPathProvider(_ value: ListSchedulingPoliciesInput) -> Swift.String? {
         return "/v1/listschedulingpolicies"
     }
 }
@@ -7823,9 +7838,10 @@ enum ListSchedulingPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -8643,8 +8659,9 @@ extension RegisterJobDefinitionInput: Swift.Encodable {
     }
 }
 
-extension RegisterJobDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterJobDefinitionInput {
+
+    static func urlPathProvider(_ value: RegisterJobDefinitionInput) -> Swift.String? {
         return "/v1/registerjobdefinition"
     }
 }
@@ -9434,8 +9451,9 @@ extension SubmitJobInput: Swift.Encodable {
     }
 }
 
-extension SubmitJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SubmitJobInput {
+
+    static func urlPathProvider(_ value: SubmitJobInput) -> Swift.String? {
         return "/v1/submitjob"
     }
 }
@@ -9701,9 +9719,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -9793,8 +9812,9 @@ extension TerminateJobInput: Swift.Encodable {
     }
 }
 
-extension TerminateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TerminateJobInput {
+
+    static func urlPathProvider(_ value: TerminateJobInput) -> Swift.String? {
         return "/v1/terminatejob"
     }
 }
@@ -9987,26 +10007,26 @@ extension BatchClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -10096,8 +10116,9 @@ extension UpdateComputeEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateComputeEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateComputeEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateComputeEnvironmentInput) -> Swift.String? {
         return "/v1/updatecomputeenvironment"
     }
 }
@@ -10266,8 +10287,9 @@ extension UpdateJobQueueInput: Swift.Encodable {
     }
 }
 
-extension UpdateJobQueueInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateJobQueueInput {
+
+    static func urlPathProvider(_ value: UpdateJobQueueInput) -> Swift.String? {
         return "/v1/updatejobqueue"
     }
 }
@@ -10467,8 +10489,9 @@ extension UpdateSchedulingPolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateSchedulingPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateSchedulingPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateSchedulingPolicyInput) -> Swift.String? {
         return "/v1/updateschedulingpolicy"
     }
 }

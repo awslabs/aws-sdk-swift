@@ -984,8 +984,9 @@ extension CopyBackupToRegionInput: Swift.Encodable {
     }
 }
 
-extension CopyBackupToRegionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyBackupToRegionInput {
+
+    static func urlPathProvider(_ value: CopyBackupToRegionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1136,8 +1137,9 @@ extension CreateClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1303,8 +1305,9 @@ extension CreateHsmInput: Swift.Encodable {
     }
 }
 
-extension CreateHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHsmInput {
+
+    static func urlPathProvider(_ value: CreateHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1423,8 +1426,9 @@ extension DeleteBackupInput: Swift.Encodable {
     }
 }
 
-extension DeleteBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBackupInput {
+
+    static func urlPathProvider(_ value: DeleteBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1526,8 +1530,9 @@ extension DeleteClusterInput: Swift.Encodable {
     }
 }
 
-extension DeleteClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteClusterInput {
+
+    static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1642,8 +1647,9 @@ extension DeleteHsmInput: Swift.Encodable {
     }
 }
 
-extension DeleteHsmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHsmInput {
+
+    static func urlPathProvider(_ value: DeleteHsmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1787,8 +1793,9 @@ extension DescribeBackupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeBackupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBackupsInput {
+
+    static func urlPathProvider(_ value: DescribeBackupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1963,8 +1970,9 @@ extension DescribeClustersInput: Swift.Encodable {
     }
 }
 
-extension DescribeClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeClustersInput {
+
+    static func urlPathProvider(_ value: DescribeClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2336,8 +2344,9 @@ extension InitializeClusterInput: Swift.Encodable {
     }
 }
 
-extension InitializeClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InitializeClusterInput {
+
+    static func urlPathProvider(_ value: InitializeClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2475,8 +2484,9 @@ extension ListTagsInput: Swift.Encodable {
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2619,8 +2629,9 @@ extension ModifyBackupAttributesInput: Swift.Encodable {
     }
 }
 
-extension ModifyBackupAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyBackupAttributesInput {
+
+    static func urlPathProvider(_ value: ModifyBackupAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2735,8 +2746,9 @@ extension ModifyClusterInput: Swift.Encodable {
     }
 }
 
-extension ModifyClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyClusterInput {
+
+    static func urlPathProvider(_ value: ModifyClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2847,8 +2859,9 @@ extension RestoreBackupInput: Swift.Encodable {
     }
 }
 
-extension RestoreBackupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreBackupInput {
+
+    static func urlPathProvider(_ value: RestoreBackupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3004,8 +3017,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3103,8 +3117,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
