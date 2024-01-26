@@ -34,8 +34,9 @@ extension GetActionRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetActionRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetActionRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetActionRecommendationsInput) -> Swift.String? {
         return "/action-recommendations"
     }
 }
@@ -232,8 +233,9 @@ extension GetPersonalizedRankingInput: Swift.Encodable {
     }
 }
 
-extension GetPersonalizedRankingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPersonalizedRankingInput {
+
+    static func urlPathProvider(_ value: GetPersonalizedRankingInput) -> Swift.String? {
         return "/personalize-ranking"
     }
 }
@@ -495,8 +497,9 @@ extension GetRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension GetRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetRecommendationsInput) -> Swift.String? {
         return "/recommendations"
     }
 }

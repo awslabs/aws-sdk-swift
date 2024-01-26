@@ -3,9 +3,10 @@ import AWSClientRuntime
 import ClientRuntime
 import typealias Foundation.TimeInterval
 
-extension DeleteLexiconInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteLexiconInput {
+
+    static func urlPathProvider(_ value: DeleteLexiconInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/lexicons/\(name.urlPercentEncoding())"
@@ -56,33 +57,33 @@ enum DeleteLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeVoicesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let languageCode = languageCode {
-                let languageCodeQueryItem = ClientRuntime.URLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
-                items.append(languageCodeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let engine = engine {
-                let engineQueryItem = ClientRuntime.URLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
-                items.append(engineQueryItem)
-            }
-            if let includeAdditionalLanguageCodes = includeAdditionalLanguageCodes {
-                let includeAdditionalLanguageCodesQueryItem = ClientRuntime.URLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
-                items.append(includeAdditionalLanguageCodesQueryItem)
-            }
-            return items
+extension DescribeVoicesInput {
+
+    static func queryItemProvider(_ value: DescribeVoicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let languageCode = value.languageCode {
+            let languageCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+            items.append(languageCodeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let engine = value.engine {
+            let engineQueryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+            items.append(engineQueryItem)
+        }
+        if let includeAdditionalLanguageCodes = value.includeAdditionalLanguageCodes {
+            let includeAdditionalLanguageCodesQueryItem = ClientRuntime.SDKURLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
+            items.append(includeAdditionalLanguageCodesQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeVoicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVoicesInput {
+
+    static func urlPathProvider(_ value: DescribeVoicesInput) -> Swift.String? {
         return "/v1/voices"
     }
 }
@@ -313,9 +314,10 @@ extension PollyClientTypes {
     }
 }
 
-extension GetLexiconInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetLexiconInput {
+
+    static func urlPathProvider(_ value: GetLexiconInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/lexicons/\(name.urlPercentEncoding())"
@@ -406,9 +408,10 @@ enum GetLexiconOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSpeechSynthesisTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let taskId = taskId else {
+extension GetSpeechSynthesisTaskInput {
+
+    static func urlPathProvider(_ value: GetSpeechSynthesisTaskInput) -> Swift.String? {
+        guard let taskId = value.taskId else {
             return nil
         }
         return "/v1/synthesisTasks/\(taskId.urlPercentEncoding())"
@@ -1418,21 +1421,21 @@ extension LexiconSizeExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListLexiconsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListLexiconsInput {
+
+    static func queryItemProvider(_ value: ListLexiconsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListLexiconsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLexiconsInput {
+
+    static func urlPathProvider(_ value: ListLexiconsInput) -> Swift.String? {
         return "/v1/lexicons"
     }
 }
@@ -1529,29 +1532,29 @@ enum ListLexiconsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSpeechSynthesisTasksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSpeechSynthesisTasksInput {
+
+    static func queryItemProvider(_ value: ListSpeechSynthesisTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSpeechSynthesisTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSpeechSynthesisTasksInput {
+
+    static func urlPathProvider(_ value: ListSpeechSynthesisTasksInput) -> Swift.String? {
         return "/v1/synthesisTasks"
     }
 }
@@ -1877,9 +1880,10 @@ extension PutLexiconInput: Swift.Encodable {
     }
 }
 
-extension PutLexiconInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension PutLexiconInput {
+
+    static func urlPathProvider(_ value: PutLexiconInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/lexicons/\(name.urlPercentEncoding())"
@@ -2158,8 +2162,9 @@ extension StartSpeechSynthesisTaskInput: Swift.Encodable {
     }
 }
 
-extension StartSpeechSynthesisTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSpeechSynthesisTaskInput {
+
+    static func urlPathProvider(_ value: StartSpeechSynthesisTaskInput) -> Swift.String? {
         return "/v1/synthesisTasks"
     }
 }
@@ -2694,7 +2699,7 @@ extension SynthesizeSpeechInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(SynthesizeSpeechInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -2737,7 +2742,7 @@ extension SynthesizeSpeechInput {
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutput>(id: "synthesizeSpeech")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>(SynthesizeSpeechInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
@@ -2772,43 +2777,43 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
     Self.Context == H.Context
     {
         if let engine = input.operationInput.engine {
-            let queryItem = ClientRuntime.URLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let languageCode = input.operationInput.languageCode {
-            let queryItem = ClientRuntime.URLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "LanguageCode".urlPercentEncoding(), value: Swift.String(languageCode.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let lexiconNames = input.operationInput.lexiconNames {
             lexiconNames.forEach { item in
-                let queryItem = ClientRuntime.URLQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "LexiconNames".urlPercentEncoding(), value: Swift.String(item).urlPercentEncoding())
                 input.builder.withQueryItem(queryItem)
             }
         }
         if let outputFormat = input.operationInput.outputFormat {
-            let queryItem = ClientRuntime.URLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let sampleRate = input.operationInput.sampleRate {
-            let queryItem = ClientRuntime.URLQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "SampleRate".urlPercentEncoding(), value: Swift.String(sampleRate).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let speechMarkTypes = input.operationInput.speechMarkTypes {
             speechMarkTypes.forEach { item in
-                let queryItem = ClientRuntime.URLQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "SpeechMarkTypes".urlPercentEncoding(), value: Swift.String(item.rawValue).urlPercentEncoding())
                 input.builder.withQueryItem(queryItem)
             }
         }
         if let text = input.operationInput.text {
-            let queryItem = ClientRuntime.URLQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "Text".urlPercentEncoding(), value: Swift.String(text).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let textType = input.operationInput.textType {
-            let queryItem = ClientRuntime.URLQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "TextType".urlPercentEncoding(), value: Swift.String(textType.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         if let voiceId = input.operationInput.voiceId {
-            let queryItem = ClientRuntime.URLQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "VoiceId".urlPercentEncoding(), value: Swift.String(voiceId.rawValue).urlPercentEncoding())
             input.builder.withQueryItem(queryItem)
         }
         return try await next.handle(context: context, input: input)
@@ -2819,8 +2824,9 @@ public struct SynthesizeSpeechInputGETQueryItemMiddleware: ClientRuntime.Middlew
     public typealias Context = ClientRuntime.HttpContext
 }
 
-extension SynthesizeSpeechInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SynthesizeSpeechInput {
+
+    static func urlPathProvider(_ value: SynthesizeSpeechInput) -> Swift.String? {
         return "/v1/speech"
     }
 }

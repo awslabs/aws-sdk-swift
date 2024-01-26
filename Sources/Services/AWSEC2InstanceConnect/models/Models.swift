@@ -357,8 +357,9 @@ extension SendSSHPublicKeyInput: Swift.Encodable {
     }
 }
 
-extension SendSSHPublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendSSHPublicKeyInput {
+
+    static func urlPathProvider(_ value: SendSSHPublicKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -506,8 +507,9 @@ extension SendSerialConsoleSSHPublicKeyInput: Swift.Encodable {
     }
 }
 
-extension SendSerialConsoleSSHPublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendSerialConsoleSSHPublicKeyInput {
+
+    static func urlPathProvider(_ value: SendSerialConsoleSSHPublicKeyInput) -> Swift.String? {
         return "/"
     }
 }

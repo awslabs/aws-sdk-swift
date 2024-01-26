@@ -2,12 +2,13 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension CancelJobRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension CancelJobRunInput {
+
+    static func urlPathProvider(_ value: CancelJobRunInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/jobruns/\(id.urlPercentEncoding())"
@@ -538,8 +539,9 @@ extension CreateJobTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateJobTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateJobTemplateInput {
+
+    static func urlPathProvider(_ value: CreateJobTemplateInput) -> Swift.String? {
         return "/jobtemplates"
     }
 }
@@ -743,9 +745,10 @@ extension CreateManagedEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateManagedEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension CreateManagedEndpointInput {
+
+    static func urlPathProvider(_ value: CreateManagedEndpointInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/endpoints"
@@ -967,8 +970,9 @@ extension CreateVirtualClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateVirtualClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVirtualClusterInput {
+
+    static func urlPathProvider(_ value: CreateVirtualClusterInput) -> Swift.String? {
         return "/virtualclusters"
     }
 }
@@ -1147,9 +1151,10 @@ extension EMRcontainersClientTypes {
 
 }
 
-extension DeleteJobTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteJobTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteJobTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/jobtemplates/\(id.urlPercentEncoding())"
@@ -1230,12 +1235,13 @@ enum DeleteJobTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteManagedEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension DeleteManagedEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteManagedEndpointInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/endpoints/\(id.urlPercentEncoding())"
@@ -1331,9 +1337,10 @@ enum DeleteManagedEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVirtualClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteVirtualClusterInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualClusterInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(id.urlPercentEncoding())"
@@ -1414,12 +1421,13 @@ enum DeleteVirtualClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeJobRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension DescribeJobRunInput {
+
+    static func urlPathProvider(_ value: DescribeJobRunInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/jobruns/\(id.urlPercentEncoding())"
@@ -1506,9 +1514,10 @@ enum DescribeJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeJobTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeJobTemplateInput {
+
+    static func urlPathProvider(_ value: DescribeJobTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/jobtemplates/\(id.urlPercentEncoding())"
@@ -1590,12 +1599,13 @@ enum DescribeJobTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeManagedEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension DescribeManagedEndpointInput {
+
+    static func urlPathProvider(_ value: DescribeManagedEndpointInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/endpoints/\(id.urlPercentEncoding())"
@@ -1682,9 +1692,10 @@ enum DescribeManagedEndpointOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeVirtualClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeVirtualClusterInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualClusterInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/virtualclusters/\(id.urlPercentEncoding())"
@@ -2139,12 +2150,13 @@ extension GetManagedEndpointSessionCredentialsInput: Swift.Encodable {
     }
 }
 
-extension GetManagedEndpointSessionCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterIdentifier = virtualClusterIdentifier else {
+extension GetManagedEndpointSessionCredentialsInput {
+
+    static func urlPathProvider(_ value: GetManagedEndpointSessionCredentialsInput) -> Swift.String? {
+        guard let virtualClusterIdentifier = value.virtualClusterIdentifier else {
             return nil
         }
-        guard let endpointIdentifier = endpointIdentifier else {
+        guard let endpointIdentifier = value.endpointIdentifier else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterIdentifier.urlPercentEncoding())/endpoints/\(endpointIdentifier.urlPercentEncoding())/credentials"
@@ -2901,44 +2913,44 @@ extension EMRcontainersClientTypes {
 
 }
 
-extension ListJobRunsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let name = name {
-                let nameQueryItem = ClientRuntime.URLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
-                items.append(nameQueryItem)
-            }
-            if let createdBefore = createdBefore {
-                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-                items.append(createdBeforeQueryItem)
-            }
-            if let createdAfter = createdAfter {
-                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-                items.append(createdAfterQueryItem)
-            }
-            if let states = states {
-                states.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListJobRunsInput {
+
+    static func queryItemProvider(_ value: ListJobRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListJobRunsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension ListJobRunsInput {
+
+    static func urlPathProvider(_ value: ListJobRunsInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/jobruns"
@@ -3062,33 +3074,33 @@ enum ListJobRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListJobTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let createdBefore = createdBefore {
-                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-                items.append(createdBeforeQueryItem)
-            }
-            if let createdAfter = createdAfter {
-                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-                items.append(createdAfterQueryItem)
-            }
-            return items
+extension ListJobTemplatesInput {
+
+    static func queryItemProvider(_ value: ListJobTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        return items
     }
 }
 
-extension ListJobTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListJobTemplatesInput {
+
+    static func urlPathProvider(_ value: ListJobTemplatesInput) -> Swift.String? {
         return "/jobtemplates"
     }
 }
@@ -3197,46 +3209,46 @@ enum ListJobTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListManagedEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let types = types {
-                types.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension ListManagedEndpointsInput {
+
+    static func queryItemProvider(_ value: ListManagedEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let types = value.types {
+            types.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let createdBefore = createdBefore {
-                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-                items.append(createdBeforeQueryItem)
-            }
-            if let createdAfter = createdAfter {
-                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-                items.append(createdAfterQueryItem)
-            }
-            if let states = states {
-                states.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListManagedEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension ListManagedEndpointsInput {
+
+    static func urlPathProvider(_ value: ListManagedEndpointsInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/endpoints"
@@ -3360,9 +3372,10 @@ enum ListManagedEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3453,47 +3466,47 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVirtualClustersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let containerProviderId = containerProviderId {
-                let containerProviderIdQueryItem = ClientRuntime.URLQueryItem(name: "containerProviderId".urlPercentEncoding(), value: Swift.String(containerProviderId).urlPercentEncoding())
-                items.append(containerProviderIdQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let containerProviderType = containerProviderType {
-                let containerProviderTypeQueryItem = ClientRuntime.URLQueryItem(name: "containerProviderType".urlPercentEncoding(), value: Swift.String(containerProviderType.rawValue).urlPercentEncoding())
-                items.append(containerProviderTypeQueryItem)
-            }
-            if let createdBefore = createdBefore {
-                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-                items.append(createdBeforeQueryItem)
-            }
-            if let createdAfter = createdAfter {
-                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-                items.append(createdAfterQueryItem)
-            }
-            if let states = states {
-                states.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListVirtualClustersInput {
+
+    static func queryItemProvider(_ value: ListVirtualClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let containerProviderId = value.containerProviderId {
+            let containerProviderIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerProviderId".urlPercentEncoding(), value: Swift.String(containerProviderId).urlPercentEncoding())
+            items.append(containerProviderIdQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let containerProviderType = value.containerProviderType {
+            let containerProviderTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerProviderType".urlPercentEncoding(), value: Swift.String(containerProviderType.rawValue).urlPercentEncoding())
+            items.append(containerProviderTypeQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        if let states = value.states {
+            states.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "states".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListVirtualClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVirtualClustersInput {
+
+    static func urlPathProvider(_ value: ListVirtualClustersInput) -> Swift.String? {
         return "/virtualclusters"
     }
 }
@@ -4299,9 +4312,10 @@ extension StartJobRunInput: Swift.Encodable {
     }
 }
 
-extension StartJobRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let virtualClusterId = virtualClusterId else {
+extension StartJobRunInput {
+
+    static func urlPathProvider(_ value: StartJobRunInput) -> Swift.String? {
+        guard let virtualClusterId = value.virtualClusterId else {
             return nil
         }
         return "/virtualclusters/\(virtualClusterId.urlPercentEncoding())/jobruns"
@@ -4531,9 +4545,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4683,26 +4698,26 @@ extension EMRcontainersClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"

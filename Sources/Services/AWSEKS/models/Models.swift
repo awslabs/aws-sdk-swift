@@ -1032,12 +1032,13 @@ extension AssociateAccessPolicyInput: Swift.Encodable {
     }
 }
 
-extension AssociateAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension AssociateAccessPolicyInput {
+
+    static func urlPathProvider(_ value: AssociateAccessPolicyInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())/access-policies"
@@ -1186,9 +1187,10 @@ extension AssociateEncryptionConfigInput: Swift.Encodable {
     }
 }
 
-extension AssociateEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension AssociateEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: AssociateEncryptionConfigInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/encryption-config/associate"
@@ -1326,9 +1328,10 @@ extension AssociateIdentityProviderConfigInput: Swift.Encodable {
     }
 }
 
-extension AssociateIdentityProviderConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension AssociateIdentityProviderConfigInput {
+
+    static func urlPathProvider(_ value: AssociateIdentityProviderConfigInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs/associate"
@@ -2838,9 +2841,10 @@ extension CreateAccessEntryInput: Swift.Encodable {
     }
 }
 
-extension CreateAccessEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension CreateAccessEntryInput {
+
+    static func urlPathProvider(_ value: CreateAccessEntryInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries"
@@ -3035,9 +3039,10 @@ extension CreateAddonInput: Swift.Encodable {
     }
 }
 
-extension CreateAddonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension CreateAddonInput {
+
+    static func urlPathProvider(_ value: CreateAddonInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons"
@@ -3259,8 +3264,9 @@ extension CreateClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/clusters"
     }
 }
@@ -3491,8 +3497,9 @@ extension CreateEksAnywhereSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEksAnywhereSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateEksAnywhereSubscriptionInput) -> Swift.String? {
         return "/eks-anywhere-subscriptions"
     }
 }
@@ -3681,9 +3688,10 @@ extension CreateFargateProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateFargateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension CreateFargateProfileInput {
+
+    static func urlPathProvider(_ value: CreateFargateProfileInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/fargate-profiles"
@@ -3940,9 +3948,10 @@ extension CreateNodegroupInput: Swift.Encodable {
     }
 }
 
-extension CreateNodegroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension CreateNodegroupInput {
+
+    static func urlPathProvider(_ value: CreateNodegroupInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups"
@@ -4247,9 +4256,10 @@ extension CreatePodIdentityAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreatePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension CreatePodIdentityAssociationInput {
+
+    static func urlPathProvider(_ value: CreatePodIdentityAssociationInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations"
@@ -4403,12 +4413,13 @@ enum CreatePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DeleteAccessEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DeleteAccessEntryInput {
+
+    static func urlPathProvider(_ value: DeleteAccessEntryInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())"
@@ -4465,25 +4476,25 @@ enum DeleteAccessEntryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAddonInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let preserve = preserve {
-                let preserveQueryItem = ClientRuntime.URLQueryItem(name: "preserve".urlPercentEncoding(), value: Swift.String(preserve).urlPercentEncoding())
-                items.append(preserveQueryItem)
-            }
-            return items
+extension DeleteAddonInput {
+
+    static func queryItemProvider(_ value: DeleteAddonInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let preserve = value.preserve {
+            let preserveQueryItem = ClientRuntime.SDKURLQueryItem(name: "preserve".urlPercentEncoding(), value: Swift.String(preserve).urlPercentEncoding())
+            items.append(preserveQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAddonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DeleteAddonInput {
+
+    static func urlPathProvider(_ value: DeleteAddonInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let addonName = addonName else {
+        guard let addonName = value.addonName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons/\(addonName.urlPercentEncoding())"
@@ -4576,9 +4587,10 @@ enum DeleteAddonOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteClusterInput {
+
+    static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())"
@@ -4662,9 +4674,10 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteEksAnywhereSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteEksAnywhereSubscriptionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
@@ -4747,12 +4760,13 @@ enum DeleteEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteFargateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DeleteFargateProfileInput {
+
+    static func urlPathProvider(_ value: DeleteFargateProfileInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let fargateProfileName = fargateProfileName else {
+        guard let fargateProfileName = value.fargateProfileName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/fargate-profiles/\(fargateProfileName.urlPercentEncoding())"
@@ -4840,12 +4854,13 @@ enum DeleteFargateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteNodegroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DeleteNodegroupInput {
+
+    static func urlPathProvider(_ value: DeleteNodegroupInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let nodegroupName = nodegroupName else {
+        guard let nodegroupName = value.nodegroupName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups/\(nodegroupName.urlPercentEncoding())"
@@ -4935,12 +4950,13 @@ enum DeleteNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DeletePodIdentityAssociationInput {
+
+    static func urlPathProvider(_ value: DeletePodIdentityAssociationInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let associationId = associationId else {
+        guard let associationId = value.associationId else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"
@@ -5115,9 +5131,10 @@ extension EKSClientTypes {
 
 }
 
-extension DeregisterClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeregisterClusterInput {
+
+    static func urlPathProvider(_ value: DeregisterClusterInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/cluster-registrations/\(name.urlPercentEncoding())"
@@ -5202,12 +5219,13 @@ enum DeregisterClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAccessEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeAccessEntryInput {
+
+    static func urlPathProvider(_ value: DescribeAccessEntryInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())"
@@ -5294,29 +5312,29 @@ enum DescribeAccessEntryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAddonConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let addonName = addonName else {
-                let message = "Creating a URL Query Item failed. addonName is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
-            items.append(addonNameQueryItem)
-            guard let addonVersion = addonVersion else {
-                let message = "Creating a URL Query Item failed. addonVersion is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let addonVersionQueryItem = ClientRuntime.URLQueryItem(name: "addonVersion".urlPercentEncoding(), value: Swift.String(addonVersion).urlPercentEncoding())
-            items.append(addonVersionQueryItem)
-            return items
+extension DescribeAddonConfigurationInput {
+
+    static func queryItemProvider(_ value: DescribeAddonConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let addonName = value.addonName else {
+            let message = "Creating a URL Query Item failed. addonName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let addonNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
+        items.append(addonNameQueryItem)
+        guard let addonVersion = value.addonVersion else {
+            let message = "Creating a URL Query Item failed. addonVersion is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let addonVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "addonVersion".urlPercentEncoding(), value: Swift.String(addonVersion).urlPercentEncoding())
+        items.append(addonVersionQueryItem)
+        return items
     }
 }
 
-extension DescribeAddonConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAddonConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeAddonConfigurationInput) -> Swift.String? {
         return "/addons/configuration-schemas"
     }
 }
@@ -5421,12 +5439,13 @@ enum DescribeAddonConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeAddonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeAddonInput {
+
+    static func urlPathProvider(_ value: DescribeAddonInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let addonName = addonName else {
+        guard let addonName = value.addonName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons/\(addonName.urlPercentEncoding())"
@@ -5515,51 +5534,51 @@ enum DescribeAddonOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeAddonVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let types = types {
-                types.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension DescribeAddonVersionsInput {
+
+    static func queryItemProvider(_ value: DescribeAddonVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let types = value.types {
+            types.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "types".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let addonName = addonName {
-                let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
-                items.append(addonNameQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let publishers = publishers {
-                publishers.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "publishers".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let owners = owners {
-                owners.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "owners".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            if let kubernetesVersion = kubernetesVersion {
-                let kubernetesVersionQueryItem = ClientRuntime.URLQueryItem(name: "kubernetesVersion".urlPercentEncoding(), value: Swift.String(kubernetesVersion).urlPercentEncoding())
-                items.append(kubernetesVersionQueryItem)
-            }
-            return items
         }
+        if let addonName = value.addonName {
+            let addonNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
+            items.append(addonNameQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let publishers = value.publishers {
+            publishers.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "publishers".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let owners = value.owners {
+            owners.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "owners".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let kubernetesVersion = value.kubernetesVersion {
+            let kubernetesVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "kubernetesVersion".urlPercentEncoding(), value: Swift.String(kubernetesVersion).urlPercentEncoding())
+            items.append(kubernetesVersionQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeAddonVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAddonVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeAddonVersionsInput) -> Swift.String? {
         return "/addons/supported-versions"
     }
 }
@@ -5681,9 +5700,10 @@ enum DescribeAddonVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeClusterInput {
+
+    static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())"
@@ -5766,9 +5786,10 @@ enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DescribeEksAnywhereSubscriptionInput {
+
+    static func urlPathProvider(_ value: DescribeEksAnywhereSubscriptionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
@@ -5851,12 +5872,13 @@ enum DescribeEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DescribeFargateProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeFargateProfileInput {
+
+    static func urlPathProvider(_ value: DescribeFargateProfileInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let fargateProfileName = fargateProfileName else {
+        guard let fargateProfileName = value.fargateProfileName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/fargate-profiles/\(fargateProfileName.urlPercentEncoding())"
@@ -5957,9 +5979,10 @@ extension DescribeIdentityProviderConfigInput: Swift.Encodable {
     }
 }
 
-extension DescribeIdentityProviderConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeIdentityProviderConfigInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityProviderConfigInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs/describe"
@@ -6055,12 +6078,13 @@ enum DescribeIdentityProviderConfigOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DescribeInsightInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeInsightInput {
+
+    static func urlPathProvider(_ value: DescribeInsightInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/insights/\(id.urlPercentEncoding())"
@@ -6148,12 +6172,13 @@ enum DescribeInsightOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeNodegroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribeNodegroupInput {
+
+    static func urlPathProvider(_ value: DescribeNodegroupInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let nodegroupName = nodegroupName else {
+        guard let nodegroupName = value.nodegroupName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups/\(nodegroupName.urlPercentEncoding())"
@@ -6242,12 +6267,13 @@ enum DescribeNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DescribePodIdentityAssociationInput {
+
+    static func urlPathProvider(_ value: DescribePodIdentityAssociationInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let associationId = associationId else {
+        guard let associationId = value.associationId else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"
@@ -6335,29 +6361,29 @@ enum DescribePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DescribeUpdateInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nodegroupName = nodegroupName {
-                let nodegroupNameQueryItem = ClientRuntime.URLQueryItem(name: "nodegroupName".urlPercentEncoding(), value: Swift.String(nodegroupName).urlPercentEncoding())
-                items.append(nodegroupNameQueryItem)
-            }
-            if let addonName = addonName {
-                let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
-                items.append(addonNameQueryItem)
-            }
-            return items
+extension DescribeUpdateInput {
+
+    static func queryItemProvider(_ value: DescribeUpdateInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nodegroupName = value.nodegroupName {
+            let nodegroupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "nodegroupName".urlPercentEncoding(), value: Swift.String(nodegroupName).urlPercentEncoding())
+            items.append(nodegroupNameQueryItem)
         }
+        if let addonName = value.addonName {
+            let addonNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
+            items.append(addonNameQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeUpdateInput {
+
+    static func urlPathProvider(_ value: DescribeUpdateInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
-        guard let updateId = updateId else {
+        guard let updateId = value.updateId else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())/updates/\(updateId.urlPercentEncoding())"
@@ -6454,15 +6480,16 @@ enum DescribeUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateAccessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DisassociateAccessPolicyInput {
+
+    static func urlPathProvider(_ value: DisassociateAccessPolicyInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
-        guard let policyArn = policyArn else {
+        guard let policyArn = value.policyArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())/access-policies/\(policyArn.urlPercentEncoding())"
@@ -6541,9 +6568,10 @@ extension DisassociateIdentityProviderConfigInput: Swift.Encodable {
     }
 }
 
-extension DisassociateIdentityProviderConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension DisassociateIdentityProviderConfigInput {
+
+    static func urlPathProvider(_ value: DisassociateIdentityProviderConfigInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs/disassociate"
@@ -8590,30 +8618,30 @@ extension EKSClientTypes {
 
 }
 
-extension ListAccessEntriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let associatedPolicyArn = associatedPolicyArn {
-                let associatedPolicyArnQueryItem = ClientRuntime.URLQueryItem(name: "associatedPolicyArn".urlPercentEncoding(), value: Swift.String(associatedPolicyArn).urlPercentEncoding())
-                items.append(associatedPolicyArnQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAccessEntriesInput {
+
+    static func queryItemProvider(_ value: ListAccessEntriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let associatedPolicyArn = value.associatedPolicyArn {
+            let associatedPolicyArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "associatedPolicyArn".urlPercentEncoding(), value: Swift.String(associatedPolicyArn).urlPercentEncoding())
+            items.append(associatedPolicyArnQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessEntriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListAccessEntriesInput {
+
+    static func urlPathProvider(_ value: ListAccessEntriesInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries"
@@ -8727,25 +8755,25 @@ enum ListAccessEntriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAccessPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAccessPoliciesInput {
+
+    static func queryItemProvider(_ value: ListAccessPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAccessPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessPoliciesInput {
+
+    static func urlPathProvider(_ value: ListAccessPoliciesInput) -> Swift.String? {
         return "/access-policies"
     }
 }
@@ -8845,26 +8873,26 @@ enum ListAccessPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAddonsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAddonsInput {
+
+    static func queryItemProvider(_ value: ListAddonsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAddonsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListAddonsInput {
+
+    static func urlPathProvider(_ value: ListAddonsInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons"
@@ -8975,29 +9003,29 @@ enum ListAddonsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAssociatedAccessPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAssociatedAccessPoliciesInput {
+
+    static func queryItemProvider(_ value: ListAssociatedAccessPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssociatedAccessPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListAssociatedAccessPoliciesInput {
+
+    static func urlPathProvider(_ value: ListAssociatedAccessPoliciesInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())/access-policies"
@@ -9131,31 +9159,31 @@ enum ListAssociatedAccessPoliciesOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListClustersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let include = include {
-                include.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension ListClustersInput {
+
+    static func queryItemProvider(_ value: ListClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let include = value.include {
+            include.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClustersInput {
+
+    static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
         return "/clusters"
     }
 }
@@ -9262,31 +9290,31 @@ enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListEksAnywhereSubscriptionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let includeStatus = includeStatus {
-                includeStatus.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
-            }
-            return items
+extension ListEksAnywhereSubscriptionsInput {
+
+    static func queryItemProvider(_ value: ListEksAnywhereSubscriptionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let includeStatus = value.includeStatus {
+            includeStatus.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
-extension ListEksAnywhereSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEksAnywhereSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListEksAnywhereSubscriptionsInput) -> Swift.String? {
         return "/eks-anywhere-subscriptions"
     }
 }
@@ -9393,26 +9421,26 @@ enum ListEksAnywhereSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListFargateProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListFargateProfilesInput {
+
+    static func queryItemProvider(_ value: ListFargateProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFargateProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListFargateProfilesInput {
+
+    static func urlPathProvider(_ value: ListFargateProfilesInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/fargate-profiles"
@@ -9522,26 +9550,26 @@ enum ListFargateProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIdentityProviderConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListIdentityProviderConfigsInput {
+
+    static func queryItemProvider(_ value: ListIdentityProviderConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdentityProviderConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListIdentityProviderConfigsInput {
+
+    static func urlPathProvider(_ value: ListIdentityProviderConfigsInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs"
@@ -9673,9 +9701,10 @@ extension ListInsightsInput: Swift.Encodable {
     }
 }
 
-extension ListInsightsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListInsightsInput {
+
+    static func urlPathProvider(_ value: ListInsightsInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/insights"
@@ -9804,26 +9833,26 @@ enum ListInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListNodegroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListNodegroupsInput {
+
+    static func queryItemProvider(_ value: ListNodegroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListNodegroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListNodegroupsInput {
+
+    static func urlPathProvider(_ value: ListNodegroupsInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups"
@@ -9934,34 +9963,34 @@ enum ListNodegroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPodIdentityAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let namespace = namespace {
-                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
-                items.append(namespaceQueryItem)
-            }
-            if let serviceAccount = serviceAccount {
-                let serviceAccountQueryItem = ClientRuntime.URLQueryItem(name: "serviceAccount".urlPercentEncoding(), value: Swift.String(serviceAccount).urlPercentEncoding())
-                items.append(serviceAccountQueryItem)
-            }
-            return items
+extension ListPodIdentityAssociationsInput {
+
+    static func queryItemProvider(_ value: ListPodIdentityAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        if let serviceAccount = value.serviceAccount {
+            let serviceAccountQueryItem = ClientRuntime.SDKURLQueryItem(name: "serviceAccount".urlPercentEncoding(), value: Swift.String(serviceAccount).urlPercentEncoding())
+            items.append(serviceAccountQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPodIdentityAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension ListPodIdentityAssociationsInput {
+
+    static func urlPathProvider(_ value: ListPodIdentityAssociationsInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations"
@@ -10087,9 +10116,10 @@ enum ListPodIdentityAssociationsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -10179,34 +10209,34 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListUpdatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nodegroupName = nodegroupName {
-                let nodegroupNameQueryItem = ClientRuntime.URLQueryItem(name: "nodegroupName".urlPercentEncoding(), value: Swift.String(nodegroupName).urlPercentEncoding())
-                items.append(nodegroupNameQueryItem)
-            }
-            if let addonName = addonName {
-                let addonNameQueryItem = ClientRuntime.URLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
-                items.append(addonNameQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListUpdatesInput {
+
+    static func queryItemProvider(_ value: ListUpdatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nodegroupName = value.nodegroupName {
+            let nodegroupNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "nodegroupName".urlPercentEncoding(), value: Swift.String(nodegroupName).urlPercentEncoding())
+            items.append(nodegroupNameQueryItem)
         }
+        if let addonName = value.addonName {
+            let addonNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
+            items.append(addonNameQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListUpdatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension ListUpdatesInput {
+
+    static func urlPathProvider(_ value: ListUpdatesInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())/updates"
@@ -12010,8 +12040,9 @@ extension RegisterClusterInput: Swift.Encodable {
     }
 }
 
-extension RegisterClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterClusterInput {
+
+    static func urlPathProvider(_ value: RegisterClusterInput) -> Swift.String? {
         return "/cluster-registrations"
     }
 }
@@ -12731,9 +12762,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12990,26 +13022,26 @@ extension UnsupportedAvailabilityZoneExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13233,12 +13265,13 @@ extension UpdateAccessEntryInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccessEntryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension UpdateAccessEntryInput {
+
+    static func urlPathProvider(_ value: UpdateAccessEntryInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let principalArn = principalArn else {
+        guard let principalArn = value.principalArn else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/access-entries/\(principalArn.urlPercentEncoding())"
@@ -13391,12 +13424,13 @@ extension UpdateAddonInput: Swift.Encodable {
     }
 }
 
-extension UpdateAddonInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension UpdateAddonInput {
+
+    static func urlPathProvider(_ value: UpdateAddonInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let addonName = addonName else {
+        guard let addonName = value.addonName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons/\(addonName.urlPercentEncoding())/update"
@@ -13560,9 +13594,10 @@ extension UpdateClusterConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateClusterConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateClusterConfigInput {
+
+    static func urlPathProvider(_ value: UpdateClusterConfigInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())/update-config"
@@ -13699,9 +13734,10 @@ extension UpdateClusterVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateClusterVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateClusterVersionInput {
+
+    static func urlPathProvider(_ value: UpdateClusterVersionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clusters/\(name.urlPercentEncoding())/updates"
@@ -13823,9 +13859,10 @@ extension UpdateEksAnywhereSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdateEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateEksAnywhereSubscriptionInput {
+
+    static func urlPathProvider(_ value: UpdateEksAnywhereSubscriptionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
@@ -14027,12 +14064,13 @@ extension UpdateNodegroupConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateNodegroupConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension UpdateNodegroupConfigInput {
+
+    static func urlPathProvider(_ value: UpdateNodegroupConfigInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let nodegroupName = nodegroupName else {
+        guard let nodegroupName = value.nodegroupName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups/\(nodegroupName.urlPercentEncoding())/update-config"
@@ -14194,12 +14232,13 @@ extension UpdateNodegroupVersionInput: Swift.Encodable {
     }
 }
 
-extension UpdateNodegroupVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension UpdateNodegroupVersionInput {
+
+    static func urlPathProvider(_ value: UpdateNodegroupVersionInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let nodegroupName = nodegroupName else {
+        guard let nodegroupName = value.nodegroupName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/node-groups/\(nodegroupName.urlPercentEncoding())/update-version"
@@ -14501,12 +14540,13 @@ extension UpdatePodIdentityAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdatePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension UpdatePodIdentityAssociationInput {
+
+    static func urlPathProvider(_ value: UpdatePodIdentityAssociationInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
-        guard let associationId = associationId else {
+        guard let associationId = value.associationId else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"

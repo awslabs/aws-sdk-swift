@@ -329,12 +329,13 @@ extension BackupStorageClientTypes {
     }
 }
 
-extension DeleteObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension DeleteObjectInput {
+
+    static func urlPathProvider(_ value: DeleteObjectInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
-        guard let objectName = objectName else {
+        guard let objectName = value.objectName else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/object/\(objectName.urlPercentEncoding())"
@@ -395,12 +396,13 @@ enum DeleteObjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetChunkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let storageJobId = storageJobId else {
+extension GetChunkInput {
+
+    static func urlPathProvider(_ value: GetChunkInput) -> Swift.String? {
+        guard let storageJobId = value.storageJobId else {
             return nil
         }
-        guard let chunkToken = chunkToken else {
+        guard let chunkToken = value.chunkToken else {
             return nil
         }
         return "/restore-jobs/\(storageJobId.urlPercentEncoding())/chunk/\(chunkToken.urlPercentEncoding())"
@@ -523,12 +525,13 @@ enum GetChunkOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetObjectMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let storageJobId = storageJobId else {
+extension GetObjectMetadataInput {
+
+    static func urlPathProvider(_ value: GetObjectMetadataInput) -> Swift.String? {
+        guard let storageJobId = value.storageJobId else {
             return nil
         }
-        guard let objectToken = objectToken else {
+        guard let objectToken = value.objectToken else {
             return nil
         }
         return "/restore-jobs/\(storageJobId.urlPercentEncoding())/object/\(objectToken.urlPercentEncoding())/metadata"
@@ -767,29 +770,29 @@ extension KMSInvalidKeyUsageExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListChunksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListChunksInput {
+
+    static func queryItemProvider(_ value: ListChunksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChunksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let storageJobId = storageJobId else {
+extension ListChunksInput {
+
+    static func urlPathProvider(_ value: ListChunksInput) -> Swift.String? {
+        guard let storageJobId = value.storageJobId else {
             return nil
         }
-        guard let objectToken = objectToken else {
+        guard let objectToken = value.objectToken else {
             return nil
         }
         return "/restore-jobs/\(storageJobId.urlPercentEncoding())/chunks/\(objectToken.urlPercentEncoding())/list"
@@ -907,42 +910,42 @@ enum ListChunksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListObjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let startingObjectName = startingObjectName {
-                let startingObjectNameQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
-                items.append(startingObjectNameQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let createdAfter = createdAfter {
-                let createdAfterQueryItem = ClientRuntime.URLQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
-                items.append(createdAfterQueryItem)
-            }
-            if let startingObjectPrefix = startingObjectPrefix {
-                let startingObjectPrefixQueryItem = ClientRuntime.URLQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
-                items.append(startingObjectPrefixQueryItem)
-            }
-            if let createdBefore = createdBefore {
-                let createdBeforeQueryItem = ClientRuntime.URLQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
-                items.append(createdBeforeQueryItem)
-            }
-            return items
+extension ListObjectsInput {
+
+    static func queryItemProvider(_ value: ListObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let startingObjectName = value.startingObjectName {
+            let startingObjectNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
+            items.append(startingObjectNameQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        if let startingObjectPrefix = value.startingObjectPrefix {
+            let startingObjectPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
+            items.append(startingObjectPrefixQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let storageJobId = storageJobId else {
+extension ListObjectsInput {
+
+    static func urlPathProvider(_ value: ListObjectsInput) -> Swift.String? {
+        guard let storageJobId = value.storageJobId else {
             return nil
         }
         return "/restore-jobs/\(storageJobId.urlPercentEncoding())/objects/list"
@@ -1141,49 +1144,49 @@ extension NotifyObjectCompleteInput: Swift.Encodable {
     }
 }
 
-extension NotifyObjectCompleteInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let objectChecksum = objectChecksum else {
-                let message = "Creating a URL Query Item failed. objectChecksum is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let objectChecksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
-            items.append(objectChecksumQueryItem)
-            guard let objectChecksumAlgorithm = objectChecksumAlgorithm else {
-                let message = "Creating a URL Query Item failed. objectChecksumAlgorithm is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
-            items.append(objectChecksumAlgorithmQueryItem)
-            if let metadataBlobLength = metadataBlobLength {
-                let metadataBlobLengthQueryItem = ClientRuntime.URLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
-                items.append(metadataBlobLengthQueryItem)
-            }
-            if let metadataBlobChecksum = metadataBlobChecksum {
-                let metadataBlobChecksumQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
-                items.append(metadataBlobChecksumQueryItem)
-            }
-            if let metadataBlobChecksumAlgorithm = metadataBlobChecksumAlgorithm {
-                let metadataBlobChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
-                items.append(metadataBlobChecksumAlgorithmQueryItem)
-            }
-            if let metadataString = metadataString {
-                let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
-                items.append(metadataStringQueryItem)
-            }
-            return items
+extension NotifyObjectCompleteInput {
+
+    static func queryItemProvider(_ value: NotifyObjectCompleteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let objectChecksum = value.objectChecksum else {
+            let message = "Creating a URL Query Item failed. objectChecksum is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let objectChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
+        items.append(objectChecksumQueryItem)
+        guard let objectChecksumAlgorithm = value.objectChecksumAlgorithm else {
+            let message = "Creating a URL Query Item failed. objectChecksumAlgorithm is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let objectChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
+        items.append(objectChecksumAlgorithmQueryItem)
+        if let metadataBlobLength = value.metadataBlobLength {
+            let metadataBlobLengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
+            items.append(metadataBlobLengthQueryItem)
+        }
+        if let metadataBlobChecksum = value.metadataBlobChecksum {
+            let metadataBlobChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
+            items.append(metadataBlobChecksumQueryItem)
+        }
+        if let metadataBlobChecksumAlgorithm = value.metadataBlobChecksumAlgorithm {
+            let metadataBlobChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
+            items.append(metadataBlobChecksumAlgorithmQueryItem)
+        }
+        if let metadataString = value.metadataString {
+            let metadataStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+            items.append(metadataStringQueryItem)
+        }
+        return items
     }
 }
 
-extension NotifyObjectCompleteInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension NotifyObjectCompleteInput {
+
+    static func urlPathProvider(_ value: NotifyObjectCompleteInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/object/\(uploadId.urlPercentEncoding())/complete"
@@ -1337,42 +1340,42 @@ extension PutChunkInput: Swift.Encodable {
     }
 }
 
-extension PutChunkInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let length = length else {
-                let message = "Creating a URL Query Item failed. length is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let lengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
-            items.append(lengthQueryItem)
-            guard let checksum = checksum else {
-                let message = "Creating a URL Query Item failed. checksum is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let checksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(checksum).urlPercentEncoding())
-            items.append(checksumQueryItem)
-            guard let checksumAlgorithm = checksumAlgorithm else {
-                let message = "Creating a URL Query Item failed. checksumAlgorithm is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let checksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
-            items.append(checksumAlgorithmQueryItem)
-            return items
+extension PutChunkInput {
+
+    static func queryItemProvider(_ value: PutChunkInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let length = value.length else {
+            let message = "Creating a URL Query Item failed. length is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let lengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
+        items.append(lengthQueryItem)
+        guard let checksum = value.checksum else {
+            let message = "Creating a URL Query Item failed. checksum is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let checksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(checksum).urlPercentEncoding())
+        items.append(checksumQueryItem)
+        guard let checksumAlgorithm = value.checksumAlgorithm else {
+            let message = "Creating a URL Query Item failed. checksumAlgorithm is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let checksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
+        items.append(checksumAlgorithmQueryItem)
+        return items
     }
 }
 
-extension PutChunkInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension PutChunkInput {
+
+    static func urlPathProvider(_ value: PutChunkInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
-        guard let uploadId = uploadId else {
+        guard let uploadId = value.uploadId else {
             return nil
         }
-        guard let chunkIndex = chunkIndex else {
+        guard let chunkIndex = value.chunkIndex else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/chunk/\(uploadId.urlPercentEncoding())/\(chunkIndex)"
@@ -1521,49 +1524,49 @@ extension PutObjectInput: Swift.Encodable {
     }
 }
 
-extension PutObjectInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let inlineChunkChecksum = inlineChunkChecksum {
-                let inlineChunkChecksumQueryItem = ClientRuntime.URLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
-                items.append(inlineChunkChecksumQueryItem)
-            }
-            if let objectChecksum = objectChecksum {
-                let objectChecksumQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
-                items.append(objectChecksumQueryItem)
-            }
-            if let objectChecksumAlgorithm = objectChecksumAlgorithm {
-                let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
-                items.append(objectChecksumAlgorithmQueryItem)
-            }
-            if let inlineChunkLength = inlineChunkLength {
-                let inlineChunkLengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
-                items.append(inlineChunkLengthQueryItem)
-            }
-            if let inlineChunkChecksumAlgorithm = inlineChunkChecksumAlgorithm {
-                let inlineChunkChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
-                items.append(inlineChunkChecksumAlgorithmQueryItem)
-            }
-            if let metadataString = metadataString {
-                let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
-                items.append(metadataStringQueryItem)
-            }
-            if let throwOnDuplicate = throwOnDuplicate {
-                let throwOnDuplicateQueryItem = ClientRuntime.URLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
-                items.append(throwOnDuplicateQueryItem)
-            }
-            return items
+extension PutObjectInput {
+
+    static func queryItemProvider(_ value: PutObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let inlineChunkChecksum = value.inlineChunkChecksum {
+            let inlineChunkChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
+            items.append(inlineChunkChecksumQueryItem)
         }
+        if let objectChecksum = value.objectChecksum {
+            let objectChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
+            items.append(objectChecksumQueryItem)
+        }
+        if let objectChecksumAlgorithm = value.objectChecksumAlgorithm {
+            let objectChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
+            items.append(objectChecksumAlgorithmQueryItem)
+        }
+        if let inlineChunkLength = value.inlineChunkLength {
+            let inlineChunkLengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
+            items.append(inlineChunkLengthQueryItem)
+        }
+        if let inlineChunkChecksumAlgorithm = value.inlineChunkChecksumAlgorithm {
+            let inlineChunkChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
+            items.append(inlineChunkChecksumAlgorithmQueryItem)
+        }
+        if let metadataString = value.metadataString {
+            let metadataStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+            items.append(metadataStringQueryItem)
+        }
+        if let throwOnDuplicate = value.throwOnDuplicate {
+            let throwOnDuplicateQueryItem = ClientRuntime.SDKURLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
+            items.append(throwOnDuplicateQueryItem)
+        }
+        return items
     }
 }
 
-extension PutObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension PutObjectInput {
+
+    static func urlPathProvider(_ value: PutObjectInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
-        guard let objectName = objectName else {
+        guard let objectName = value.objectName else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/object/\(objectName.urlPercentEncoding())/put-object"
@@ -1961,12 +1964,13 @@ extension StartObjectInput: Swift.Encodable {
     }
 }
 
-extension StartObjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let backupJobId = backupJobId else {
+extension StartObjectInput {
+
+    static func urlPathProvider(_ value: StartObjectInput) -> Swift.String? {
+        guard let backupJobId = value.backupJobId else {
             return nil
         }
-        guard let objectName = objectName else {
+        guard let objectName = value.objectName else {
             return nil
         }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/object/\(objectName.urlPercentEncoding())"

@@ -16,8 +16,9 @@ extension AddSourceIdentifierToSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension AddSourceIdentifierToSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddSourceIdentifierToSubscriptionInput {
+
+    static func urlPathProvider(_ value: AddSourceIdentifierToSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -144,8 +145,9 @@ extension AddTagsToResourceInput: Swift.Encodable {
     }
 }
 
-extension AddTagsToResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsToResourceInput {
+
+    static func urlPathProvider(_ value: AddTagsToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -277,8 +279,9 @@ extension ApplyPendingMaintenanceActionInput: Swift.Encodable {
     }
 }
 
-extension ApplyPendingMaintenanceActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ApplyPendingMaintenanceActionInput {
+
+    static func urlPathProvider(_ value: ApplyPendingMaintenanceActionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -789,8 +792,9 @@ extension CopyDBClusterParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension CopyDBClusterParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyDBClusterParameterGroupInput {
+
+    static func urlPathProvider(_ value: CopyDBClusterParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -973,8 +977,9 @@ extension CopyDBClusterSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CopyDBClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyDBClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: CopyDBClusterSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1254,8 +1259,9 @@ extension CreateDBClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDBClusterInput {
+
+    static func urlPathProvider(_ value: CreateDBClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1645,8 +1651,9 @@ extension CreateDBClusterParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateDBClusterParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDBClusterParameterGroupInput {
+
+    static func urlPathProvider(_ value: CreateDBClusterParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1807,8 +1814,9 @@ extension CreateDBClusterSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateDBClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDBClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateDBClusterSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2002,8 +2010,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateDBInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDBInstanceInput {
+
+    static func urlPathProvider(_ value: CreateDBInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2266,8 +2275,9 @@ extension CreateDBSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateDBSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDBSubnetGroupInput {
+
+    static func urlPathProvider(_ value: CreateDBSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2473,8 +2483,9 @@ extension CreateEventSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateEventSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEventSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateEventSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2705,8 +2716,9 @@ extension CreateGlobalClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateGlobalClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGlobalClusterInput {
+
+    static func urlPathProvider(_ value: CreateGlobalClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5787,8 +5799,9 @@ extension DeleteDBClusterInput: Swift.Encodable {
     }
 }
 
-extension DeleteDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDBClusterInput {
+
+    static func urlPathProvider(_ value: DeleteDBClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5913,8 +5926,9 @@ extension DeleteDBClusterParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteDBClusterParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDBClusterParameterGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDBClusterParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5987,8 +6001,9 @@ extension DeleteDBClusterSnapshotInput: Swift.Encodable {
     }
 }
 
-extension DeleteDBClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDBClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteDBClusterSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6086,8 +6101,9 @@ extension DeleteDBInstanceInput: Swift.Encodable {
     }
 }
 
-extension DeleteDBInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDBInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteDBInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6190,8 +6206,9 @@ extension DeleteDBSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteDBSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDBSubnetGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDBSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6259,8 +6276,9 @@ extension DeleteEventSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension DeleteEventSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEventSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteEventSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6358,8 +6376,9 @@ extension DeleteGlobalClusterInput: Swift.Encodable {
     }
 }
 
-extension DeleteGlobalClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGlobalClusterInput {
+
+    static func urlPathProvider(_ value: DeleteGlobalClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6475,8 +6494,9 @@ extension DescribeCertificatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCertificatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCertificatesInput {
+
+    static func urlPathProvider(_ value: DescribeCertificatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6663,8 +6683,9 @@ extension DescribeDBClusterParameterGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBClusterParameterGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBClusterParameterGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeDBClusterParameterGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6852,8 +6873,9 @@ extension DescribeDBClusterParametersInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBClusterParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBClusterParametersInput {
+
+    static func urlPathProvider(_ value: DescribeDBClusterParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7029,8 +7051,9 @@ extension DescribeDBClusterSnapshotAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBClusterSnapshotAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBClusterSnapshotAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeDBClusterSnapshotAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7157,8 +7180,9 @@ extension DescribeDBClusterSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBClusterSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBClusterSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeDBClusterSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7390,8 +7414,9 @@ extension DescribeDBClustersInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBClustersInput {
+
+    static func urlPathProvider(_ value: DescribeDBClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7593,8 +7618,9 @@ extension DescribeDBEngineVersionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBEngineVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBEngineVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeDBEngineVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7818,8 +7844,9 @@ extension DescribeDBInstancesInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeDBInstancesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8008,8 +8035,9 @@ extension DescribeDBSubnetGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDBSubnetGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDBSubnetGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeDBSubnetGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8192,8 +8220,9 @@ extension DescribeEngineDefaultClusterParametersInput: Swift.Encodable {
     }
 }
 
-extension DescribeEngineDefaultClusterParametersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEngineDefaultClusterParametersInput {
+
+    static func urlPathProvider(_ value: DescribeEngineDefaultClusterParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8342,8 +8371,9 @@ extension DescribeEventCategoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventCategoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventCategoriesInput {
+
+    static func urlPathProvider(_ value: DescribeEventCategoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8499,8 +8529,9 @@ extension DescribeEventSubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventSubscriptionsInput {
+
+    static func urlPathProvider(_ value: DescribeEventSubscriptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8707,8 +8738,9 @@ extension DescribeEventsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventsInput {
+
+    static func urlPathProvider(_ value: DescribeEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8959,8 +8991,9 @@ extension DescribeGlobalClustersInput: Swift.Encodable {
     }
 }
 
-extension DescribeGlobalClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGlobalClustersInput {
+
+    static func urlPathProvider(_ value: DescribeGlobalClustersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9153,8 +9186,9 @@ extension DescribeOrderableDBInstanceOptionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrderableDBInstanceOptionsInput {
+
+    static func urlPathProvider(_ value: DescribeOrderableDBInstanceOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9369,8 +9403,9 @@ extension DescribePendingMaintenanceActionsInput: Swift.Encodable {
     }
 }
 
-extension DescribePendingMaintenanceActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePendingMaintenanceActionsInput {
+
+    static func urlPathProvider(_ value: DescribePendingMaintenanceActionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10091,8 +10126,9 @@ extension FailoverDBClusterInput: Swift.Encodable {
     }
 }
 
-extension FailoverDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension FailoverDBClusterInput {
+
+    static func urlPathProvider(_ value: FailoverDBClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11651,8 +11687,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11845,8 +11882,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
     }
 }
 
-extension ModifyDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyDBClusterInput {
+
+    static func urlPathProvider(_ value: ModifyDBClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12115,8 +12153,9 @@ extension ModifyDBClusterParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyDBClusterParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyDBClusterParameterGroupInput {
+
+    static func urlPathProvider(_ value: ModifyDBClusterParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12277,8 +12316,9 @@ extension ModifyDBClusterSnapshotAttributeInput: Swift.Encodable {
     }
 }
 
-extension ModifyDBClusterSnapshotAttributeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyDBClusterSnapshotAttributeInput {
+
+    static func urlPathProvider(_ value: ModifyDBClusterSnapshotAttributeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12469,8 +12509,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
     }
 }
 
-extension ModifyDBInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyDBInstanceInput {
+
+    static func urlPathProvider(_ value: ModifyDBInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12693,8 +12734,9 @@ extension ModifyDBSubnetGroupInput: Swift.Encodable {
     }
 }
 
-extension ModifyDBSubnetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyDBSubnetGroupInput {
+
+    static func urlPathProvider(_ value: ModifyDBSubnetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12850,8 +12892,9 @@ extension ModifyEventSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension ModifyEventSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyEventSubscriptionInput {
+
+    static func urlPathProvider(_ value: ModifyEventSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13008,8 +13051,9 @@ extension ModifyGlobalClusterInput: Swift.Encodable {
     }
 }
 
-extension ModifyGlobalClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyGlobalClusterInput {
+
+    static func urlPathProvider(_ value: ModifyGlobalClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13726,8 +13770,9 @@ extension RebootDBInstanceInput: Swift.Encodable {
     }
 }
 
-extension RebootDBInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RebootDBInstanceInput {
+
+    static func urlPathProvider(_ value: RebootDBInstanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13838,8 +13883,9 @@ extension RemoveFromGlobalClusterInput: Swift.Encodable {
     }
 }
 
-extension RemoveFromGlobalClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveFromGlobalClusterInput {
+
+    static func urlPathProvider(_ value: RemoveFromGlobalClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13950,8 +13996,9 @@ extension RemoveSourceIdentifierFromSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension RemoveSourceIdentifierFromSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveSourceIdentifierFromSubscriptionInput {
+
+    static func urlPathProvider(_ value: RemoveSourceIdentifierFromSubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14070,8 +14117,9 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsFromResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsFromResourceInput {
+
+    static func urlPathProvider(_ value: RemoveTagsFromResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14180,8 +14228,9 @@ extension ResetDBClusterParameterGroupInput: Swift.Encodable {
     }
 }
 
-extension ResetDBClusterParameterGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetDBClusterParameterGroupInput {
+
+    static func urlPathProvider(_ value: ResetDBClusterParameterGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14522,8 +14571,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreDBClusterFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreDBClusterFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreDBClusterFromSnapshotInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14885,8 +14935,9 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
     }
 }
 
-extension RestoreDBClusterToPointInTimeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreDBClusterToPointInTimeInput {
+
+    static func urlPathProvider(_ value: RestoreDBClusterToPointInTimeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15546,8 +15597,9 @@ extension StartDBClusterInput: Swift.Encodable {
     }
 }
 
-extension StartDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartDBClusterInput {
+
+    static func urlPathProvider(_ value: StartDBClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15645,8 +15697,9 @@ extension StopDBClusterInput: Swift.Encodable {
     }
 }
 
-extension StopDBClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopDBClusterInput {
+
+    static func urlPathProvider(_ value: StopDBClusterInput) -> Swift.String? {
         return "/"
     }
 }

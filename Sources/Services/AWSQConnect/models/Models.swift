@@ -1648,9 +1648,10 @@ extension CreateAssistantAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateAssistantAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension CreateAssistantAssociationInput {
+
+    static func urlPathProvider(_ value: CreateAssistantAssociationInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/associations"
@@ -1816,8 +1817,9 @@ extension CreateAssistantInput: Swift.Encodable {
     }
 }
 
-extension CreateAssistantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAssistantInput {
+
+    static func urlPathProvider(_ value: CreateAssistantInput) -> Swift.String? {
         return "/assistants"
     }
 }
@@ -1998,9 +2000,10 @@ extension CreateContentInput: Swift.Encodable {
     }
 }
 
-extension CreateContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension CreateContentInput {
+
+    static func urlPathProvider(_ value: CreateContentInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents"
@@ -2207,8 +2210,9 @@ extension CreateKnowledgeBaseInput: Swift.Encodable {
     }
 }
 
-extension CreateKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: CreateKnowledgeBaseInput) -> Swift.String? {
         return "/knowledgeBases"
     }
 }
@@ -2421,9 +2425,10 @@ extension CreateQuickResponseInput: Swift.Encodable {
     }
 }
 
-extension CreateQuickResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension CreateQuickResponseInput {
+
+    static func urlPathProvider(_ value: CreateQuickResponseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses"
@@ -2650,9 +2655,10 @@ extension CreateSessionInput: Swift.Encodable {
     }
 }
 
-extension CreateSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension CreateSessionInput {
+
+    static func urlPathProvider(_ value: CreateSessionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions"
@@ -2930,12 +2936,13 @@ extension QConnectClientTypes {
 
 }
 
-extension DeleteAssistantAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension DeleteAssistantAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteAssistantAssociationInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
-        guard let assistantAssociationId = assistantAssociationId else {
+        guard let assistantAssociationId = value.assistantAssociationId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/associations/\(assistantAssociationId.urlPercentEncoding())"
@@ -2992,9 +2999,10 @@ enum DeleteAssistantAssociationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteAssistantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension DeleteAssistantInput {
+
+    static func urlPathProvider(_ value: DeleteAssistantInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())"
@@ -3046,12 +3054,13 @@ enum DeleteAssistantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteContentInput {
+
+    static func urlPathProvider(_ value: DeleteContentInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let contentId = contentId else {
+        guard let contentId = value.contentId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())"
@@ -3108,12 +3117,13 @@ enum DeleteContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteImportJobInput {
+
+    static func urlPathProvider(_ value: DeleteImportJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let importJobId = importJobId else {
+        guard let importJobId = value.importJobId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs/\(importJobId.urlPercentEncoding())"
@@ -3171,9 +3181,10 @@ enum DeleteImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: DeleteKnowledgeBaseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -3226,12 +3237,13 @@ enum DeleteKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteQuickResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension DeleteQuickResponseInput {
+
+    static func urlPathProvider(_ value: DeleteQuickResponseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let quickResponseId = quickResponseId else {
+        guard let quickResponseId = value.quickResponseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
@@ -3754,12 +3766,13 @@ extension QConnectClientTypes {
 
 }
 
-extension GetAssistantAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension GetAssistantAssociationInput {
+
+    static func urlPathProvider(_ value: GetAssistantAssociationInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
-        guard let assistantAssociationId = assistantAssociationId else {
+        guard let assistantAssociationId = value.assistantAssociationId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/associations/\(assistantAssociationId.urlPercentEncoding())"
@@ -3846,9 +3859,10 @@ enum GetAssistantAssociationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetAssistantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension GetAssistantInput {
+
+    static func urlPathProvider(_ value: GetAssistantInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())"
@@ -3930,12 +3944,13 @@ enum GetAssistantOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetContentInput {
+
+    static func urlPathProvider(_ value: GetContentInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let contentId = contentId else {
+        guard let contentId = value.contentId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())"
@@ -4022,12 +4037,13 @@ enum GetContentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetContentSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetContentSummaryInput {
+
+    static func urlPathProvider(_ value: GetContentSummaryInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let contentId = contentId else {
+        guard let contentId = value.contentId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())/summary"
@@ -4114,12 +4130,13 @@ enum GetContentSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetImportJobInput {
+
+    static func urlPathProvider(_ value: GetImportJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let importJobId = importJobId else {
+        guard let importJobId = value.importJobId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs/\(importJobId.urlPercentEncoding())"
@@ -4206,9 +4223,10 @@ enum GetImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKnowledgeBaseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetKnowledgeBaseInput {
+
+    static func urlPathProvider(_ value: GetKnowledgeBaseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())"
@@ -4290,12 +4308,13 @@ enum GetKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetQuickResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension GetQuickResponseInput {
+
+    static func urlPathProvider(_ value: GetQuickResponseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let quickResponseId = quickResponseId else {
+        guard let quickResponseId = value.quickResponseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"
@@ -4382,29 +4401,29 @@ enum GetQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRecommendationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if waitTimeSeconds != 0 {
-                let waitTimeSecondsQueryItem = ClientRuntime.URLQueryItem(name: "waitTimeSeconds".urlPercentEncoding(), value: Swift.String(waitTimeSeconds).urlPercentEncoding())
-                items.append(waitTimeSecondsQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetRecommendationsInput {
+
+    static func queryItemProvider(_ value: GetRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if value.waitTimeSeconds != 0 {
+            let waitTimeSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "waitTimeSeconds".urlPercentEncoding(), value: Swift.String(value.waitTimeSeconds).urlPercentEncoding())
+            items.append(waitTimeSecondsQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension GetRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetRecommendationsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/recommendations"
@@ -4528,12 +4547,13 @@ enum GetRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension GetSessionInput {
+
+    static func urlPathProvider(_ value: GetSessionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
@@ -5549,26 +5569,26 @@ extension QConnectClientTypes {
     }
 }
 
-extension ListAssistantAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssistantAssociationsInput {
+
+    static func queryItemProvider(_ value: ListAssistantAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssistantAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension ListAssistantAssociationsInput {
+
+    static func urlPathProvider(_ value: ListAssistantAssociationsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/associations"
@@ -5678,25 +5698,25 @@ enum ListAssistantAssociationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListAssistantsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAssistantsInput {
+
+    static func queryItemProvider(_ value: ListAssistantsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAssistantsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssistantsInput {
+
+    static func urlPathProvider(_ value: ListAssistantsInput) -> Swift.String? {
         return "/assistants"
     }
 }
@@ -5798,26 +5818,26 @@ enum ListAssistantsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListContentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListContentsInput {
+
+    static func queryItemProvider(_ value: ListContentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListContentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension ListContentsInput {
+
+    static func urlPathProvider(_ value: ListContentsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents"
@@ -5927,26 +5947,26 @@ enum ListContentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListImportJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListImportJobsInput {
+
+    static func queryItemProvider(_ value: ListImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension ListImportJobsInput {
+
+    static func urlPathProvider(_ value: ListImportJobsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs"
@@ -6055,25 +6075,25 @@ enum ListImportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKnowledgeBasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListKnowledgeBasesInput {
+
+    static func queryItemProvider(_ value: ListKnowledgeBasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKnowledgeBasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKnowledgeBasesInput {
+
+    static func urlPathProvider(_ value: ListKnowledgeBasesInput) -> Swift.String? {
         return "/knowledgeBases"
     }
 }
@@ -6175,26 +6195,26 @@ enum ListKnowledgeBasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListQuickResponsesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListQuickResponsesInput {
+
+    static func queryItemProvider(_ value: ListQuickResponsesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListQuickResponsesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension ListQuickResponsesInput {
+
+    static func urlPathProvider(_ value: ListQuickResponsesInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses"
@@ -6304,9 +6324,10 @@ enum ListQuickResponsesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6456,12 +6477,13 @@ extension NotifyRecommendationsReceivedInput: Swift.Encodable {
     }
 }
 
-extension NotifyRecommendationsReceivedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension NotifyRecommendationsReceivedInput {
+
+    static func urlPathProvider(_ value: NotifyRecommendationsReceivedInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())/recommendations/notify"
@@ -6740,9 +6762,10 @@ extension PutFeedbackInput: Swift.Encodable {
     }
 }
 
-extension PutFeedbackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension PutFeedbackInput {
+
+    static func urlPathProvider(_ value: PutFeedbackInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/feedback"
@@ -6936,9 +6959,10 @@ extension QueryAssistantInput: Swift.Encodable {
     }
 }
 
-extension QueryAssistantInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension QueryAssistantInput {
+
+    static func urlPathProvider(_ value: QueryAssistantInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/query"
@@ -9072,9 +9096,10 @@ extension QConnectClientTypes {
     }
 }
 
-extension RemoveKnowledgeBaseTemplateUriInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension RemoveKnowledgeBaseTemplateUriInput {
+
+    static func urlPathProvider(_ value: RemoveKnowledgeBaseTemplateUriInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/templateUri"
@@ -9379,26 +9404,26 @@ extension SearchContentInput: Swift.Encodable {
     }
 }
 
-extension SearchContentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension SearchContentInput {
+
+    static func queryItemProvider(_ value: SearchContentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension SearchContentInput {
+
+    static func urlPathProvider(_ value: SearchContentInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/search"
@@ -9593,26 +9618,26 @@ extension SearchQuickResponsesInput: Swift.Encodable {
     }
 }
 
-extension SearchQuickResponsesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension SearchQuickResponsesInput {
+
+    static func queryItemProvider(_ value: SearchQuickResponsesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchQuickResponsesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension SearchQuickResponsesInput {
+
+    static func urlPathProvider(_ value: SearchQuickResponsesInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/search/quickResponses"
@@ -9765,26 +9790,26 @@ extension SearchSessionsInput: Swift.Encodable {
     }
 }
 
-extension SearchSessionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension SearchSessionsInput {
+
+    static func queryItemProvider(_ value: SearchSessionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let assistantId = assistantId else {
+extension SearchSessionsInput {
+
+    static func urlPathProvider(_ value: SearchSessionsInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
             return nil
         }
         return "/assistants/\(assistantId.urlPercentEncoding())/searchSessions"
@@ -10352,9 +10377,10 @@ extension StartContentUploadInput: Swift.Encodable {
     }
 }
 
-extension StartContentUploadInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension StartContentUploadInput {
+
+    static func urlPathProvider(_ value: StartContentUploadInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/upload"
@@ -10536,9 +10562,10 @@ extension StartImportJobInput: Swift.Encodable {
     }
 }
 
-extension StartImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension StartImportJobInput {
+
+    static func urlPathProvider(_ value: StartImportJobInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/importJobs"
@@ -10696,9 +10723,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -10912,26 +10940,26 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -11022,12 +11050,13 @@ extension UpdateContentInput: Swift.Encodable {
     }
 }
 
-extension UpdateContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension UpdateContentInput {
+
+    static func urlPathProvider(_ value: UpdateContentInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let contentId = contentId else {
+        guard let contentId = value.contentId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/contents/\(contentId.urlPercentEncoding())"
@@ -11188,9 +11217,10 @@ extension UpdateKnowledgeBaseTemplateUriInput: Swift.Encodable {
     }
 }
 
-extension UpdateKnowledgeBaseTemplateUriInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension UpdateKnowledgeBaseTemplateUriInput {
+
+    static func urlPathProvider(_ value: UpdateKnowledgeBaseTemplateUriInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/templateUri"
@@ -11344,12 +11374,13 @@ extension UpdateQuickResponseInput: Swift.Encodable {
     }
 }
 
-extension UpdateQuickResponseInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let knowledgeBaseId = knowledgeBaseId else {
+extension UpdateQuickResponseInput {
+
+    static func urlPathProvider(_ value: UpdateQuickResponseInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
             return nil
         }
-        guard let quickResponseId = quickResponseId else {
+        guard let quickResponseId = value.quickResponseId else {
             return nil
         }
         return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/quickResponses/\(quickResponseId.urlPercentEncoding())"

@@ -143,8 +143,9 @@ extension GenerateDataSetInput: Swift.Encodable {
     }
 }
 
-extension GenerateDataSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GenerateDataSetInput {
+
+    static func urlPathProvider(_ value: GenerateDataSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -438,8 +439,9 @@ extension StartSupportDataExportInput: Swift.Encodable {
     }
 }
 
-extension StartSupportDataExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSupportDataExportInput {
+
+    static func urlPathProvider(_ value: StartSupportDataExportInput) -> Swift.String? {
         return "/"
     }
 }

@@ -948,8 +948,9 @@ extension CreateCertificateAuthorityAuditReportInput: Swift.Encodable {
     }
 }
 
-extension CreateCertificateAuthorityAuditReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCertificateAuthorityAuditReportInput {
+
+    static func urlPathProvider(_ value: CreateCertificateAuthorityAuditReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1107,8 +1108,9 @@ extension CreateCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension CreateCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: CreateCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1293,8 +1295,9 @@ extension CreatePermissionInput: Swift.Encodable {
     }
 }
 
-extension CreatePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePermissionInput {
+
+    static func urlPathProvider(_ value: CreatePermissionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1685,8 +1688,9 @@ extension DeleteCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension DeleteCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DeleteCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1773,8 +1777,9 @@ extension DeletePermissionInput: Swift.Encodable {
     }
 }
 
-extension DeletePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePermissionInput {
+
+    static func urlPathProvider(_ value: DeletePermissionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1862,8 +1867,9 @@ extension DeletePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeletePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePolicyInput {
+
+    static func urlPathProvider(_ value: DeletePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1940,8 +1946,9 @@ extension DescribeCertificateAuthorityAuditReportInput: Swift.Encodable {
     }
 }
 
-extension DescribeCertificateAuthorityAuditReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCertificateAuthorityAuditReportInput {
+
+    static func urlPathProvider(_ value: DescribeCertificateAuthorityAuditReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2080,8 +2087,9 @@ extension DescribeCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension DescribeCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: DescribeCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2587,8 +2595,9 @@ extension GetCertificateAuthorityCertificateInput: Swift.Encodable {
     }
 }
 
-extension GetCertificateAuthorityCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCertificateAuthorityCertificateInput {
+
+    static func urlPathProvider(_ value: GetCertificateAuthorityCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2698,8 +2707,9 @@ extension GetCertificateAuthorityCsrInput: Swift.Encodable {
     }
 }
 
-extension GetCertificateAuthorityCsrInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCertificateAuthorityCsrInput {
+
+    static func urlPathProvider(_ value: GetCertificateAuthorityCsrInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2805,8 +2815,9 @@ extension GetCertificateInput: Swift.Encodable {
     }
 }
 
-extension GetCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCertificateInput {
+
+    static func urlPathProvider(_ value: GetCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2927,8 +2938,9 @@ extension GetPolicyInput: Swift.Encodable {
     }
 }
 
-extension GetPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPolicyInput {
+
+    static func urlPathProvider(_ value: GetPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3037,8 +3049,9 @@ extension ImportCertificateAuthorityCertificateInput: Swift.Encodable {
     }
 }
 
-extension ImportCertificateAuthorityCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportCertificateAuthorityCertificateInput {
+
+    static func urlPathProvider(_ value: ImportCertificateAuthorityCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3544,8 +3557,9 @@ extension IssueCertificateInput: Swift.Encodable {
     }
 }
 
-extension IssueCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IssueCertificateInput {
+
+    static func urlPathProvider(_ value: IssueCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3955,8 +3969,9 @@ extension ListCertificateAuthoritiesInput: Swift.Encodable {
     }
 }
 
-extension ListCertificateAuthoritiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCertificateAuthoritiesInput {
+
+    static func urlPathProvider(_ value: ListCertificateAuthoritiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4096,8 +4111,9 @@ extension ListPermissionsInput: Swift.Encodable {
     }
 }
 
-extension ListPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionsInput {
+
+    static func urlPathProvider(_ value: ListPermissionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4242,8 +4258,9 @@ extension ListTagsInput: Swift.Encodable {
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4926,8 +4943,9 @@ extension PutPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPolicyInput {
+
+    static func urlPathProvider(_ value: PutPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5298,8 +5316,9 @@ extension RestoreCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension RestoreCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: RestoreCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5472,8 +5491,9 @@ extension RevokeCertificateInput: Swift.Encodable {
     }
 }
 
-extension RevokeCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RevokeCertificateInput {
+
+    static func urlPathProvider(_ value: RevokeCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5696,8 +5716,9 @@ extension TagCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension TagCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: TagCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5849,8 +5870,9 @@ extension UntagCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension UntagCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: UntagCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5947,8 +5969,9 @@ extension UpdateCertificateAuthorityInput: Swift.Encodable {
     }
 }
 
-extension UpdateCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: UpdateCertificateAuthorityInput) -> Swift.String? {
         return "/"
     }
 }

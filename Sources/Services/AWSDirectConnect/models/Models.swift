@@ -30,8 +30,9 @@ extension AcceptDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
     }
 }
 
-extension AcceptDirectConnectGatewayAssociationProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptDirectConnectGatewayAssociationProposalInput {
+
+    static func urlPathProvider(_ value: AcceptDirectConnectGatewayAssociationProposalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -213,8 +214,9 @@ extension AllocateConnectionOnInterconnectInput: Swift.Encodable {
     }
 }
 
-extension AllocateConnectionOnInterconnectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllocateConnectionOnInterconnectInput {
+
+    static func urlPathProvider(_ value: AllocateConnectionOnInterconnectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -620,8 +622,9 @@ extension AllocateHostedConnectionInput: Swift.Encodable {
     }
 }
 
-extension AllocateHostedConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllocateHostedConnectionInput {
+
+    static func urlPathProvider(_ value: AllocateHostedConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1031,8 +1034,9 @@ extension AllocatePrivateVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension AllocatePrivateVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllocatePrivateVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: AllocatePrivateVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1455,8 +1459,9 @@ extension AllocatePublicVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension AllocatePublicVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllocatePublicVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: AllocatePublicVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1879,8 +1884,9 @@ extension AllocateTransitVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension AllocateTransitVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AllocateTransitVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: AllocateTransitVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2003,8 +2009,9 @@ extension AssociateConnectionWithLagInput: Swift.Encodable {
     }
 }
 
-extension AssociateConnectionWithLagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateConnectionWithLagInput {
+
+    static func urlPathProvider(_ value: AssociateConnectionWithLagInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2364,8 +2371,9 @@ extension AssociateHostedConnectionInput: Swift.Encodable {
     }
 }
 
-extension AssociateHostedConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateHostedConnectionInput {
+
+    static func urlPathProvider(_ value: AssociateHostedConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2733,8 +2741,9 @@ extension AssociateMacSecKeyInput: Swift.Encodable {
     }
 }
 
-extension AssociateMacSecKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateMacSecKeyInput {
+
+    static func urlPathProvider(_ value: AssociateMacSecKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2880,8 +2889,9 @@ extension AssociateVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension AssociateVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: AssociateVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3567,8 +3577,9 @@ extension ConfirmConnectionInput: Swift.Encodable {
     }
 }
 
-extension ConfirmConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfirmConnectionInput {
+
+    static func urlPathProvider(_ value: ConfirmConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3685,8 +3696,9 @@ extension ConfirmCustomerAgreementInput: Swift.Encodable {
     }
 }
 
-extension ConfirmCustomerAgreementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfirmCustomerAgreementInput {
+
+    static func urlPathProvider(_ value: ConfirmCustomerAgreementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3792,8 +3804,9 @@ extension ConfirmPrivateVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension ConfirmPrivateVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfirmPrivateVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: ConfirmPrivateVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3926,8 +3939,9 @@ extension ConfirmPublicVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension ConfirmPublicVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfirmPublicVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: ConfirmPublicVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4048,8 +4062,9 @@ extension ConfirmTransitVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension ConfirmTransitVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfirmTransitVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: ConfirmTransitVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4520,8 +4535,9 @@ extension CreateBGPPeerInput: Swift.Encodable {
     }
 }
 
-extension CreateBGPPeerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBGPPeerInput {
+
+    static func urlPathProvider(_ value: CreateBGPPeerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4654,8 +4670,9 @@ extension CreateConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectionInput {
+
+    static func urlPathProvider(_ value: CreateConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5078,8 +5095,9 @@ extension CreateDirectConnectGatewayAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectConnectGatewayAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectConnectGatewayAssociationInput {
+
+    static func urlPathProvider(_ value: CreateDirectConnectGatewayAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5233,8 +5251,9 @@ extension CreateDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectConnectGatewayAssociationProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectConnectGatewayAssociationProposalInput {
+
+    static func urlPathProvider(_ value: CreateDirectConnectGatewayAssociationProposalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5389,8 +5408,9 @@ extension CreateDirectConnectGatewayInput: Swift.Encodable {
     }
 }
 
-extension CreateDirectConnectGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDirectConnectGatewayInput {
+
+    static func urlPathProvider(_ value: CreateDirectConnectGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5520,8 +5540,9 @@ extension CreateInterconnectInput: Swift.Encodable {
     }
 }
 
-extension CreateInterconnectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInterconnectInput {
+
+    static func urlPathProvider(_ value: CreateInterconnectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5876,8 +5897,9 @@ extension CreateLagInput: Swift.Encodable {
     }
 }
 
-extension CreateLagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLagInput {
+
+    static func urlPathProvider(_ value: CreateLagInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6310,8 +6332,9 @@ extension CreatePrivateVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension CreatePrivateVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePrivateVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: CreatePrivateVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6721,8 +6744,9 @@ extension CreatePublicVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension CreatePublicVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePublicVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: CreatePublicVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7132,8 +7156,9 @@ extension CreateTransitVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension CreateTransitVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTransitVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: CreateTransitVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7300,8 +7325,9 @@ extension DeleteBGPPeerInput: Swift.Encodable {
     }
 }
 
-extension DeleteBGPPeerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBGPPeerInput {
+
+    static func urlPathProvider(_ value: DeleteBGPPeerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7423,8 +7449,9 @@ extension DeleteConnectionInput: Swift.Encodable {
     }
 }
 
-extension DeleteConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7779,8 +7806,9 @@ extension DeleteDirectConnectGatewayAssociationInput: Swift.Encodable {
     }
 }
 
-extension DeleteDirectConnectGatewayAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDirectConnectGatewayAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteDirectConnectGatewayAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7894,8 +7922,9 @@ extension DeleteDirectConnectGatewayAssociationProposalInput: Swift.Encodable {
     }
 }
 
-extension DeleteDirectConnectGatewayAssociationProposalInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDirectConnectGatewayAssociationProposalInput {
+
+    static func urlPathProvider(_ value: DeleteDirectConnectGatewayAssociationProposalInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7994,8 +8023,9 @@ extension DeleteDirectConnectGatewayInput: Swift.Encodable {
     }
 }
 
-extension DeleteDirectConnectGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDirectConnectGatewayInput {
+
+    static func urlPathProvider(_ value: DeleteDirectConnectGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8094,8 +8124,9 @@ extension DeleteInterconnectInput: Swift.Encodable {
     }
 }
 
-extension DeleteInterconnectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInterconnectInput {
+
+    static func urlPathProvider(_ value: DeleteInterconnectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8208,8 +8239,9 @@ extension DeleteLagInput: Swift.Encodable {
     }
 }
 
-extension DeleteLagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLagInput {
+
+    static func urlPathProvider(_ value: DeleteLagInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8551,8 +8583,9 @@ extension DeleteVirtualInterfaceInput: Swift.Encodable {
     }
 }
 
-extension DeleteVirtualInterfaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVirtualInterfaceInput {
+
+    static func urlPathProvider(_ value: DeleteVirtualInterfaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8677,8 +8710,9 @@ extension DescribeConnectionLoaInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectionLoaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectionLoaInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionLoaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8793,8 +8827,9 @@ extension DescribeConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8840,8 +8875,9 @@ extension DescribeConnectionsOnInterconnectInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectionsOnInterconnectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectionsOnInterconnectInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionsOnInterconnectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9005,8 +9041,9 @@ extension DescribeCustomerMetadataInput: Swift.Encodable {
     }
 }
 
-extension DescribeCustomerMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCustomerMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeCustomerMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9131,8 +9168,9 @@ extension DescribeDirectConnectGatewayAssociationProposalsInput: Swift.Encodable
     }
 }
 
-extension DescribeDirectConnectGatewayAssociationProposalsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDirectConnectGatewayAssociationProposalsInput {
+
+    static func urlPathProvider(_ value: DescribeDirectConnectGatewayAssociationProposalsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9301,8 +9339,9 @@ extension DescribeDirectConnectGatewayAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDirectConnectGatewayAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDirectConnectGatewayAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeDirectConnectGatewayAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9471,8 +9510,9 @@ extension DescribeDirectConnectGatewayAttachmentsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDirectConnectGatewayAttachmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDirectConnectGatewayAttachmentsInput {
+
+    static func urlPathProvider(_ value: DescribeDirectConnectGatewayAttachmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9621,8 +9661,9 @@ extension DescribeDirectConnectGatewaysInput: Swift.Encodable {
     }
 }
 
-extension DescribeDirectConnectGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDirectConnectGatewaysInput {
+
+    static func urlPathProvider(_ value: DescribeDirectConnectGatewaysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9755,8 +9796,9 @@ extension DescribeHostedConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeHostedConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeHostedConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeHostedConnectionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9872,8 +9914,9 @@ extension DescribeInterconnectLoaInput: Swift.Encodable {
     }
 }
 
-extension DescribeInterconnectLoaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInterconnectLoaInput {
+
+    static func urlPathProvider(_ value: DescribeInterconnectLoaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9988,8 +10031,9 @@ extension DescribeInterconnectsInput: Swift.Encodable {
     }
 }
 
-extension DescribeInterconnectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInterconnectsInput {
+
+    static func urlPathProvider(_ value: DescribeInterconnectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10096,8 +10140,9 @@ extension DescribeLagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLagsInput {
+
+    static func urlPathProvider(_ value: DescribeLagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10212,8 +10257,9 @@ extension DescribeLoaInput: Swift.Encodable {
     }
 }
 
-extension DescribeLoaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoaInput {
+
+    static func urlPathProvider(_ value: DescribeLoaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10334,8 +10380,9 @@ extension DescribeLocationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeLocationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLocationsInput {
+
+    static func urlPathProvider(_ value: DescribeLocationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10432,8 +10479,9 @@ extension DescribeRouterConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeRouterConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRouterConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeRouterConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10574,8 +10622,9 @@ extension DescribeTagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTagsInput {
+
+    static func urlPathProvider(_ value: DescribeTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10687,8 +10736,9 @@ extension DescribeVirtualGatewaysInput: Swift.Encodable {
     }
 }
 
-extension DescribeVirtualGatewaysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVirtualGatewaysInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualGatewaysInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10785,8 +10835,9 @@ extension DescribeVirtualInterfacesInput: Swift.Encodable {
     }
 }
 
-extension DescribeVirtualInterfacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVirtualInterfacesInput {
+
+    static func urlPathProvider(_ value: DescribeVirtualInterfacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11668,8 +11719,9 @@ extension DisassociateConnectionFromLagInput: Swift.Encodable {
     }
 }
 
-extension DisassociateConnectionFromLagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateConnectionFromLagInput {
+
+    static func urlPathProvider(_ value: DisassociateConnectionFromLagInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12029,8 +12081,9 @@ extension DisassociateMacSecKeyInput: Swift.Encodable {
     }
 }
 
-extension DisassociateMacSecKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateMacSecKeyInput {
+
+    static func urlPathProvider(_ value: DisassociateMacSecKeyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12884,8 +12937,9 @@ extension ListVirtualInterfaceTestHistoryInput: Swift.Encodable {
     }
 }
 
-extension ListVirtualInterfaceTestHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVirtualInterfaceTestHistoryInput {
+
+    static func urlPathProvider(_ value: ListVirtualInterfaceTestHistoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14465,8 +14519,9 @@ extension StartBgpFailoverTestInput: Swift.Encodable {
     }
 }
 
-extension StartBgpFailoverTestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBgpFailoverTestInput {
+
+    static func urlPathProvider(_ value: StartBgpFailoverTestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14590,8 +14645,9 @@ extension StopBgpFailoverTestInput: Swift.Encodable {
     }
 }
 
-extension StopBgpFailoverTestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopBgpFailoverTestInput {
+
+    static func urlPathProvider(_ value: StopBgpFailoverTestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14743,8 +14799,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14895,8 +14952,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14991,8 +15049,9 @@ extension UpdateConnectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateConnectionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15369,8 +15428,9 @@ extension UpdateDirectConnectGatewayAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDirectConnectGatewayAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDirectConnectGatewayAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateDirectConnectGatewayAssociationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15506,8 +15566,9 @@ extension UpdateDirectConnectGatewayInput: Swift.Encodable {
     }
 }
 
-extension UpdateDirectConnectGatewayInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDirectConnectGatewayInput {
+
+    static func urlPathProvider(_ value: UpdateDirectConnectGatewayInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15627,8 +15688,9 @@ extension UpdateLagInput: Swift.Encodable {
     }
 }
 
-extension UpdateLagInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLagInput {
+
+    static func urlPathProvider(_ value: UpdateLagInput) -> Swift.String? {
         return "/"
     }
 }
@@ -16006,8 +16068,9 @@ extension UpdateVirtualInterfaceAttributesInput: Swift.Encodable {
     }
 }
 
-extension UpdateVirtualInterfaceAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVirtualInterfaceAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateVirtualInterfaceAttributesInput) -> Swift.String? {
         return "/"
     }
 }

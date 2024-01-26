@@ -683,8 +683,9 @@ extension GetClipInput: Swift.Encodable {
     }
 }
 
-extension GetClipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetClipInput {
+
+    static func urlPathProvider(_ value: GetClipInput) -> Swift.String? {
         return "/getClip"
     }
 }
@@ -844,8 +845,9 @@ extension GetDASHStreamingSessionURLInput: Swift.Encodable {
     }
 }
 
-extension GetDASHStreamingSessionURLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDASHStreamingSessionURLInput {
+
+    static func urlPathProvider(_ value: GetDASHStreamingSessionURLInput) -> Swift.String? {
         return "/getDASHStreamingSessionURL"
     }
 }
@@ -1046,8 +1048,9 @@ extension GetHLSStreamingSessionURLInput: Swift.Encodable {
     }
 }
 
-extension GetHLSStreamingSessionURLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHLSStreamingSessionURLInput {
+
+    static func urlPathProvider(_ value: GetHLSStreamingSessionURLInput) -> Swift.String? {
         return "/getHLSStreamingSessionURL"
     }
 }
@@ -1280,8 +1283,9 @@ extension GetImagesInput: Swift.Encodable {
     }
 }
 
-extension GetImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImagesInput {
+
+    static func urlPathProvider(_ value: GetImagesInput) -> Swift.String? {
         return "/getImages"
     }
 }
@@ -1513,8 +1517,9 @@ extension GetMediaForFragmentListInput: Swift.Encodable {
     }
 }
 
-extension GetMediaForFragmentListInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMediaForFragmentListInput {
+
+    static func urlPathProvider(_ value: GetMediaForFragmentListInput) -> Swift.String? {
         return "/getMediaForFragmentList"
     }
 }
@@ -2196,8 +2201,9 @@ extension ListFragmentsInput: Swift.Encodable {
     }
 }
 
-extension ListFragmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFragmentsInput {
+
+    static func urlPathProvider(_ value: ListFragmentsInput) -> Swift.String? {
         return "/listFragments"
     }
 }

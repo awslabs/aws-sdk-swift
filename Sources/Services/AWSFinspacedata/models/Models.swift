@@ -149,12 +149,13 @@ extension AssociateUserToPermissionGroupInput: Swift.Encodable {
     }
 }
 
-extension AssociateUserToPermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension AssociateUserToPermissionGroupInput {
+
+    static func urlPathProvider(_ value: AssociateUserToPermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -827,9 +828,10 @@ extension CreateChangesetInput: Swift.Encodable {
     }
 }
 
-extension CreateChangesetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension CreateChangesetInput {
+
+    static func urlPathProvider(_ value: CreateChangesetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/changesetsv2"
@@ -1039,9 +1041,10 @@ extension CreateDataViewInput: Swift.Encodable {
     }
 }
 
-extension CreateDataViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension CreateDataViewInput {
+
+    static func urlPathProvider(_ value: CreateDataViewInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/dataviewsv2"
@@ -1249,8 +1252,9 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
         return "/datasetsv2"
     }
 }
@@ -1438,8 +1442,9 @@ extension CreatePermissionGroupInput: Swift.Encodable {
     }
 }
 
-extension CreatePermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePermissionGroupInput {
+
+    static func urlPathProvider(_ value: CreatePermissionGroupInput) -> Swift.String? {
         return "/permission-group"
     }
 }
@@ -1619,8 +1624,9 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
         return "/user"
     }
 }
@@ -2463,22 +2469,22 @@ extension FinspacedataClientTypes {
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteDatasetInput {
+
+    static func queryItemProvider(_ value: DeleteDatasetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasetsv2/\(datasetId.urlPercentEncoding())"
@@ -2570,22 +2576,22 @@ enum DeleteDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePermissionGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeletePermissionGroupInput {
+
+    static func queryItemProvider(_ value: DeletePermissionGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeletePermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension DeletePermissionGroupInput {
+
+    static func urlPathProvider(_ value: DeletePermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())"
@@ -2688,9 +2694,10 @@ extension DisableUserInput: Swift.Encodable {
     }
 }
 
-extension DisableUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension DisableUserInput {
+
+    static func urlPathProvider(_ value: DisableUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())/disable"
@@ -2786,25 +2793,25 @@ enum DisableUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateUserFromPermissionGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DisassociateUserFromPermissionGroupInput {
+
+    static func queryItemProvider(_ value: DisassociateUserFromPermissionGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DisassociateUserFromPermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension DisassociateUserFromPermissionGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateUserFromPermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
-        guard let userId = userId else {
+        guard let userId = value.userId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())/users/\(userId.urlPercentEncoding())"
@@ -2905,9 +2912,10 @@ extension EnableUserInput: Swift.Encodable {
     }
 }
 
-extension EnableUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension EnableUserInput {
+
+    static func urlPathProvider(_ value: EnableUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())/enable"
@@ -3088,12 +3096,13 @@ extension FinspacedataClientTypes {
     }
 }
 
-extension GetChangesetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension GetChangesetInput {
+
+    static func urlPathProvider(_ value: GetChangesetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
-        guard let changesetId = changesetId else {
+        guard let changesetId = value.changesetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/changesetsv2/\(changesetId.urlPercentEncoding())"
@@ -3329,12 +3338,13 @@ enum GetChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDataViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension GetDataViewInput {
+
+    static func urlPathProvider(_ value: GetDataViewInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
-        guard let dataViewId = dataViewId else {
+        guard let dataViewId = value.dataViewId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/dataviewsv2/\(dataViewId.urlPercentEncoding())"
@@ -3569,9 +3579,10 @@ enum GetDataViewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension GetDatasetInput {
+
+    static func urlPathProvider(_ value: GetDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasetsv2/\(datasetId.urlPercentEncoding())"
@@ -3760,12 +3771,13 @@ enum GetDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetExternalDataViewAccessDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension GetExternalDataViewAccessDetailsInput {
+
+    static func urlPathProvider(_ value: GetExternalDataViewAccessDetailsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
-        guard let dataViewId = dataViewId else {
+        guard let dataViewId = value.dataViewId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/dataviewsv2/\(dataViewId.urlPercentEncoding())/external-access-details"
@@ -3869,9 +3881,10 @@ enum GetExternalDataViewAccessDetailsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetPermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension GetPermissionGroupInput {
+
+    static func urlPathProvider(_ value: GetPermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())"
@@ -3955,27 +3968,27 @@ enum GetPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProgrammaticAccessCredentialsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let environmentId = environmentId else {
-                let message = "Creating a URL Query Item failed. environmentId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let environmentIdQueryItem = ClientRuntime.URLQueryItem(name: "environmentId".urlPercentEncoding(), value: Swift.String(environmentId).urlPercentEncoding())
-            items.append(environmentIdQueryItem)
-            if let durationInMinutes = durationInMinutes {
-                let durationInMinutesQueryItem = ClientRuntime.URLQueryItem(name: "durationInMinutes".urlPercentEncoding(), value: Swift.String(durationInMinutes).urlPercentEncoding())
-                items.append(durationInMinutesQueryItem)
-            }
-            return items
+extension GetProgrammaticAccessCredentialsInput {
+
+    static func queryItemProvider(_ value: GetProgrammaticAccessCredentialsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let environmentId = value.environmentId else {
+            let message = "Creating a URL Query Item failed. environmentId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let environmentIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "environmentId".urlPercentEncoding(), value: Swift.String(environmentId).urlPercentEncoding())
+        items.append(environmentIdQueryItem)
+        if let durationInMinutes = value.durationInMinutes {
+            let durationInMinutesQueryItem = ClientRuntime.SDKURLQueryItem(name: "durationInMinutes".urlPercentEncoding(), value: Swift.String(durationInMinutes).urlPercentEncoding())
+            items.append(durationInMinutesQueryItem)
+        }
+        return items
     }
 }
 
-extension GetProgrammaticAccessCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetProgrammaticAccessCredentialsInput {
+
+    static func urlPathProvider(_ value: GetProgrammaticAccessCredentialsInput) -> Swift.String? {
         return "/credentials/programmatic"
     }
 }
@@ -4077,9 +4090,10 @@ enum GetProgrammaticAccessCredentialsOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension GetUserInput {
+
+    static func urlPathProvider(_ value: GetUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())"
@@ -4318,8 +4332,9 @@ extension GetWorkingLocationInput: Swift.Encodable {
     }
 }
 
-extension GetWorkingLocationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkingLocationInput {
+
+    static func urlPathProvider(_ value: GetWorkingLocationInput) -> Swift.String? {
         return "/workingLocationV1"
     }
 }
@@ -4582,26 +4597,26 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListChangesetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListChangesetsInput {
+
+    static func queryItemProvider(_ value: ListChangesetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChangesetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension ListChangesetsInput {
+
+    static func urlPathProvider(_ value: ListChangesetsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/changesetsv2"
@@ -4715,26 +4730,26 @@ enum ListChangesetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDataViewsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDataViewsInput {
+
+    static func queryItemProvider(_ value: ListDataViewsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDataViewsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension ListDataViewsInput {
+
+    static func urlPathProvider(_ value: ListDataViewsInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/dataviewsv2"
@@ -4846,25 +4861,25 @@ enum ListDataViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDatasetsInput {
+
+    static func queryItemProvider(_ value: ListDatasetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
         return "/datasetsv2"
     }
 }
@@ -4970,28 +4985,28 @@ enum ListDatasetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPermissionGroupsByUserInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let maxResults = maxResults else {
-                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-            return items
+extension ListPermissionGroupsByUserInput {
+
+    static func queryItemProvider(_ value: ListPermissionGroupsByUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        guard let maxResults = value.maxResults else {
+            let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        items.append(maxResultsQueryItem)
+        return items
     }
 }
 
-extension ListPermissionGroupsByUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension ListPermissionGroupsByUserInput {
+
+    static func urlPathProvider(_ value: ListPermissionGroupsByUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())/permission-groups"
@@ -5103,27 +5118,27 @@ enum ListPermissionGroupsByUserOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListPermissionGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let maxResults = maxResults else {
-                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-            return items
+extension ListPermissionGroupsInput {
+
+    static func queryItemProvider(_ value: ListPermissionGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        guard let maxResults = value.maxResults else {
+            let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        items.append(maxResultsQueryItem)
+        return items
     }
 }
 
-extension ListPermissionGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPermissionGroupsInput {
+
+    static func urlPathProvider(_ value: ListPermissionGroupsInput) -> Swift.String? {
         return "/permission-group"
     }
 }
@@ -5227,28 +5242,28 @@ enum ListPermissionGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListUsersByPermissionGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let maxResults = maxResults else {
-                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-            return items
+extension ListUsersByPermissionGroupInput {
+
+    static func queryItemProvider(_ value: ListUsersByPermissionGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        guard let maxResults = value.maxResults else {
+            let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        items.append(maxResultsQueryItem)
+        return items
     }
 }
 
-extension ListUsersByPermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension ListUsersByPermissionGroupInput {
+
+    static func urlPathProvider(_ value: ListUsersByPermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())/users"
@@ -5360,27 +5375,27 @@ enum ListUsersByPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListUsersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let maxResults = maxResults else {
-                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-            items.append(maxResultsQueryItem)
-            return items
+extension ListUsersInput {
+
+    static func queryItemProvider(_ value: ListUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        guard let maxResults = value.maxResults else {
+            let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        items.append(maxResultsQueryItem)
+        return items
     }
 }
 
-extension ListUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUsersInput {
+
+    static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
         return "/user"
     }
 }
@@ -5819,9 +5834,10 @@ extension ResetUserPasswordInput: Swift.Encodable {
     }
 }
 
-extension ResetUserPasswordInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension ResetUserPasswordInput {
+
+    static func urlPathProvider(_ value: ResetUserPasswordInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())/password"
@@ -6245,12 +6261,13 @@ extension UpdateChangesetInput: Swift.Encodable {
     }
 }
 
-extension UpdateChangesetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension UpdateChangesetInput {
+
+    static func urlPathProvider(_ value: UpdateChangesetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
-        guard let changesetId = changesetId else {
+        guard let changesetId = value.changesetId else {
             return nil
         }
         return "/datasets/\(datasetId.urlPercentEncoding())/changesetsv2/\(changesetId.urlPercentEncoding())"
@@ -6443,9 +6460,10 @@ extension UpdateDatasetInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let datasetId = datasetId else {
+extension UpdateDatasetInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetInput) -> Swift.String? {
+        guard let datasetId = value.datasetId else {
             return nil
         }
         return "/datasetsv2/\(datasetId.urlPercentEncoding())"
@@ -6622,9 +6640,10 @@ extension UpdatePermissionGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdatePermissionGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let permissionGroupId = permissionGroupId else {
+extension UpdatePermissionGroupInput {
+
+    static func urlPathProvider(_ value: UpdatePermissionGroupInput) -> Swift.String? {
+        guard let permissionGroupId = value.permissionGroupId else {
             return nil
         }
         return "/permission-group/\(permissionGroupId.urlPercentEncoding())"
@@ -6805,9 +6824,10 @@ extension UpdateUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let userId = userId else {
+extension UpdateUserInput {
+
+    static func urlPathProvider(_ value: UpdateUserInput) -> Swift.String? {
+        guard let userId = value.userId else {
             return nil
         }
         return "/user/\(userId.urlPercentEncoding())"

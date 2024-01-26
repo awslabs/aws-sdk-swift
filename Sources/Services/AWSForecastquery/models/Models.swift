@@ -310,8 +310,9 @@ extension QueryForecastInput: Swift.Encodable {
     }
 }
 
-extension QueryForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryForecastInput {
+
+    static func urlPathProvider(_ value: QueryForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -474,8 +475,9 @@ extension QueryWhatIfForecastInput: Swift.Encodable {
     }
 }
 
-extension QueryWhatIfForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryWhatIfForecastInput {
+
+    static func urlPathProvider(_ value: QueryWhatIfForecastInput) -> Swift.String? {
         return "/"
     }
 }

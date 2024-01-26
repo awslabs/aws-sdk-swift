@@ -70,8 +70,9 @@ extension CancelQueryInput: Swift.Encodable {
     }
 }
 
-extension CancelQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelQueryInput {
+
+    static func urlPathProvider(_ value: CancelQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -318,8 +319,9 @@ extension CreateScheduledQueryInput: Swift.Encodable {
     }
 }
 
-extension CreateScheduledQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateScheduledQueryInput {
+
+    static func urlPathProvider(_ value: CreateScheduledQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -613,8 +615,9 @@ extension DeleteScheduledQueryInput: Swift.Encodable {
     }
 }
 
-extension DeleteScheduledQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScheduledQueryInput {
+
+    static func urlPathProvider(_ value: DeleteScheduledQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -682,8 +685,9 @@ extension DescribeEndpointsInput: Swift.Encodable {
     }
 }
 
-extension DescribeEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEndpointsInput {
+
+    static func urlPathProvider(_ value: DescribeEndpointsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -778,8 +782,9 @@ extension DescribeScheduledQueryInput: Swift.Encodable {
     }
 }
 
-extension DescribeScheduledQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScheduledQueryInput {
+
+    static func urlPathProvider(_ value: DescribeScheduledQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1090,8 +1095,9 @@ extension ExecuteScheduledQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteScheduledQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteScheduledQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteScheduledQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1370,8 +1376,9 @@ extension ListScheduledQueriesInput: Swift.Encodable {
     }
 }
 
-extension ListScheduledQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListScheduledQueriesInput {
+
+    static func urlPathProvider(_ value: ListScheduledQueriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1508,8 +1515,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2031,8 +2039,9 @@ extension PrepareQueryInput: Swift.Encodable {
     }
 }
 
-extension PrepareQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PrepareQueryInput {
+
+    static func urlPathProvider(_ value: PrepareQueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2260,8 +2269,9 @@ extension QueryInput: Swift.Encodable {
     }
 }
 
-extension QueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryInput {
+
+    static func urlPathProvider(_ value: QueryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3605,8 +3615,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4072,8 +4083,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4166,8 +4178,9 @@ extension UpdateScheduledQueryInput: Swift.Encodable {
     }
 }
 
-extension UpdateScheduledQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateScheduledQueryInput {
+
+    static func urlPathProvider(_ value: UpdateScheduledQueryInput) -> Swift.String? {
         return "/"
     }
 }

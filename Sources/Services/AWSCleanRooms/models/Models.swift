@@ -1455,9 +1455,10 @@ extension BatchGetCollaborationAnalysisTemplateInput: Swift.Encodable {
     }
 }
 
-extension BatchGetCollaborationAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension BatchGetCollaborationAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: BatchGetCollaborationAnalysisTemplateInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/batch-analysistemplates"
@@ -1666,9 +1667,10 @@ extension BatchGetSchemaInput: Swift.Encodable {
     }
 }
 
-extension BatchGetSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension BatchGetSchemaInput {
+
+    static func urlPathProvider(_ value: BatchGetSchemaInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/batch-schema"
@@ -4340,9 +4342,10 @@ extension CreateAnalysisTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension CreateAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: CreateAnalysisTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates"
@@ -4555,8 +4558,9 @@ extension CreateCollaborationInput: Swift.Encodable {
     }
 }
 
-extension CreateCollaborationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCollaborationInput {
+
+    static func urlPathProvider(_ value: CreateCollaborationInput) -> Swift.String? {
         return "/collaborations"
     }
 }
@@ -4774,9 +4778,10 @@ extension CreateConfiguredAudienceModelAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension CreateConfiguredAudienceModelAssociationInput {
+
+    static func urlPathProvider(_ value: CreateConfiguredAudienceModelAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
@@ -4935,9 +4940,10 @@ extension CreateConfiguredTableAnalysisRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension CreateConfiguredTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: CreateConfiguredTableAnalysisRuleInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())/analysisRule"
@@ -5076,9 +5082,10 @@ extension CreateConfiguredTableAssociationInput: Swift.Encodable {
     }
 }
 
-extension CreateConfiguredTableAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension CreateConfiguredTableAssociationInput {
+
+    static func urlPathProvider(_ value: CreateConfiguredTableAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredTableAssociations"
@@ -5259,8 +5266,9 @@ extension CreateConfiguredTableInput: Swift.Encodable {
     }
 }
 
-extension CreateConfiguredTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfiguredTableInput {
+
+    static func urlPathProvider(_ value: CreateConfiguredTableInput) -> Swift.String? {
         return "/configuredTables"
     }
 }
@@ -5445,8 +5453,9 @@ extension CreateMembershipInput: Swift.Encodable {
     }
 }
 
-extension CreateMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMembershipInput {
+
+    static func urlPathProvider(_ value: CreateMembershipInput) -> Swift.String? {
         return "/memberships"
     }
 }
@@ -5608,9 +5617,10 @@ extension CreatePrivacyBudgetTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreatePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension CreatePrivacyBudgetTemplateInput {
+
+    static func urlPathProvider(_ value: CreatePrivacyBudgetTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates"
@@ -5812,12 +5822,13 @@ extension CleanRoomsClientTypes {
 
 }
 
-extension DeleteAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension DeleteAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteAnalysisTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+        guard let analysisTemplateIdentifier = value.analysisTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
@@ -5876,9 +5887,10 @@ enum DeleteAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCollaborationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension DeleteCollaborationInput {
+
+    static func urlPathProvider(_ value: DeleteCollaborationInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())"
@@ -5931,12 +5943,13 @@ enum DeleteCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension DeleteConfiguredAudienceModelAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredAudienceModelAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+        guard let configuredAudienceModelAssociationIdentifier = value.configuredAudienceModelAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
@@ -5995,12 +6008,13 @@ enum DeleteConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension DeleteConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension DeleteConfiguredTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredTableAnalysisRuleInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
-        guard let analysisRuleType = analysisRuleType else {
+        guard let analysisRuleType = value.analysisRuleType else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
@@ -6061,12 +6075,13 @@ enum DeleteConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DeleteConfiguredTableAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension DeleteConfiguredTableAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredTableAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredTableAssociationIdentifier = configuredTableAssociationIdentifier else {
+        guard let configuredTableAssociationIdentifier = value.configuredTableAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredTableAssociations/\(configuredTableAssociationIdentifier.urlPercentEncoding())"
@@ -6126,9 +6141,10 @@ enum DeleteConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DeleteConfiguredTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension DeleteConfiguredTableInput {
+
+    static func urlPathProvider(_ value: DeleteConfiguredTableInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())"
@@ -6184,12 +6200,13 @@ enum DeleteConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension DeleteMemberInput {
+
+    static func urlPathProvider(_ value: DeleteMemberInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let accountId = accountId else {
+        guard let accountId = value.accountId else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/member/\(accountId.urlPercentEncoding())"
@@ -6249,9 +6266,10 @@ enum DeleteMemberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension DeleteMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteMembershipInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())"
@@ -6306,12 +6324,13 @@ enum DeleteMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension DeletePrivacyBudgetTemplateInput {
+
+    static func urlPathProvider(_ value: DeletePrivacyBudgetTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+        guard let privacyBudgetTemplateIdentifier = value.privacyBudgetTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
@@ -7051,12 +7070,13 @@ extension CleanRoomsClientTypes {
     }
 }
 
-extension GetAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: GetAnalysisTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+        guard let analysisTemplateIdentifier = value.analysisTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
@@ -7146,12 +7166,13 @@ enum GetAnalysisTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCollaborationAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetCollaborationAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: GetCollaborationAnalysisTemplateInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let analysisTemplateArn = analysisTemplateArn else {
+        guard let analysisTemplateArn = value.analysisTemplateArn else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateArn.urlPercentEncoding())"
@@ -7241,12 +7262,13 @@ enum GetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetCollaborationConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetCollaborationConfiguredAudienceModelAssociationInput {
+
+    static func urlPathProvider(_ value: GetCollaborationConfiguredAudienceModelAssociationInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+        guard let configuredAudienceModelAssociationIdentifier = value.configuredAudienceModelAssociationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
@@ -7336,9 +7358,10 @@ enum GetCollaborationConfiguredAudienceModelAssociationOutputError: ClientRuntim
     }
 }
 
-extension GetCollaborationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetCollaborationInput {
+
+    static func urlPathProvider(_ value: GetCollaborationInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())"
@@ -7422,12 +7445,13 @@ enum GetCollaborationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCollaborationPrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetCollaborationPrivacyBudgetTemplateInput {
+
+    static func urlPathProvider(_ value: GetCollaborationPrivacyBudgetTemplateInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+        guard let privacyBudgetTemplateIdentifier = value.privacyBudgetTemplateIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
@@ -7517,12 +7541,13 @@ enum GetCollaborationPrivacyBudgetTemplateOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetConfiguredAudienceModelAssociationInput {
+
+    static func urlPathProvider(_ value: GetConfiguredAudienceModelAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+        guard let configuredAudienceModelAssociationIdentifier = value.configuredAudienceModelAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
@@ -7612,12 +7637,13 @@ enum GetConfiguredAudienceModelAssociationOutputError: ClientRuntime.HttpRespons
     }
 }
 
-extension GetConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension GetConfiguredTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: GetConfiguredTableAnalysisRuleInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
-        guard let analysisRuleType = analysisRuleType else {
+        guard let analysisRuleType = value.analysisRuleType else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
@@ -7707,12 +7733,13 @@ enum GetConfiguredTableAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetConfiguredTableAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetConfiguredTableAssociationInput {
+
+    static func urlPathProvider(_ value: GetConfiguredTableAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredTableAssociationIdentifier = configuredTableAssociationIdentifier else {
+        guard let configuredTableAssociationIdentifier = value.configuredTableAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredTableAssociations/\(configuredTableAssociationIdentifier.urlPercentEncoding())"
@@ -7802,9 +7829,10 @@ enum GetConfiguredTableAssociationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetConfiguredTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension GetConfiguredTableInput {
+
+    static func urlPathProvider(_ value: GetConfiguredTableInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())"
@@ -7889,9 +7917,10 @@ enum GetConfiguredTableOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetMembershipInput {
+
+    static func urlPathProvider(_ value: GetMembershipInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())"
@@ -7976,12 +8005,13 @@ enum GetMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetPrivacyBudgetTemplateInput {
+
+    static func urlPathProvider(_ value: GetPrivacyBudgetTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+        guard let privacyBudgetTemplateIdentifier = value.privacyBudgetTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
@@ -8071,12 +8101,13 @@ enum GetPrivacyBudgetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetProtectedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension GetProtectedQueryInput {
+
+    static func urlPathProvider(_ value: GetProtectedQueryInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let protectedQueryIdentifier = protectedQueryIdentifier else {
+        guard let protectedQueryIdentifier = value.protectedQueryIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedQueries/\(protectedQueryIdentifier.urlPercentEncoding())"
@@ -8166,15 +8197,16 @@ enum GetProtectedQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSchemaAnalysisRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetSchemaAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: GetSchemaAnalysisRuleInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
-        guard let type = type else {
+        guard let type = value.type else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/schemas/\(name.urlPercentEncoding())/analysisRule/\(type.rawValue.urlPercentEncoding())"
@@ -8269,12 +8301,13 @@ enum GetSchemaAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension GetSchemaInput {
+
+    static func urlPathProvider(_ value: GetSchemaInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/schemas/\(name.urlPercentEncoding())"
@@ -8527,26 +8560,26 @@ extension CleanRoomsClientTypes {
     }
 }
 
-extension ListAnalysisTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListAnalysisTemplatesInput {
+
+    static func queryItemProvider(_ value: ListAnalysisTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAnalysisTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListAnalysisTemplatesInput {
+
+    static func urlPathProvider(_ value: ListAnalysisTemplatesInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates"
@@ -8658,26 +8691,26 @@ enum ListAnalysisTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCollaborationAnalysisTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCollaborationAnalysisTemplatesInput {
+
+    static func queryItemProvider(_ value: ListCollaborationAnalysisTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollaborationAnalysisTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListCollaborationAnalysisTemplatesInput {
+
+    static func urlPathProvider(_ value: ListCollaborationAnalysisTemplatesInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/analysistemplates"
@@ -8789,26 +8822,26 @@ enum ListCollaborationAnalysisTemplatesOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListCollaborationConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCollaborationConfiguredAudienceModelAssociationsInput {
+
+    static func queryItemProvider(_ value: ListCollaborationConfiguredAudienceModelAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollaborationConfiguredAudienceModelAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListCollaborationConfiguredAudienceModelAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCollaborationConfiguredAudienceModelAssociationsInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
@@ -8920,26 +8953,26 @@ enum ListCollaborationConfiguredAudienceModelAssociationsOutputError: ClientRunt
     }
 }
 
-extension ListCollaborationPrivacyBudgetTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCollaborationPrivacyBudgetTemplatesInput {
+
+    static func queryItemProvider(_ value: ListCollaborationPrivacyBudgetTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollaborationPrivacyBudgetTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListCollaborationPrivacyBudgetTemplatesInput {
+
+    static func urlPathProvider(_ value: ListCollaborationPrivacyBudgetTemplatesInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgettemplates"
@@ -9051,32 +9084,32 @@ enum ListCollaborationPrivacyBudgetTemplatesOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension ListCollaborationPrivacyBudgetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let privacyBudgetType = privacyBudgetType else {
-                let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let privacyBudgetTypeQueryItem = ClientRuntime.URLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
-            items.append(privacyBudgetTypeQueryItem)
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListCollaborationPrivacyBudgetsInput {
+
+    static func queryItemProvider(_ value: ListCollaborationPrivacyBudgetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let privacyBudgetType = value.privacyBudgetType else {
+            let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let privacyBudgetTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
+        items.append(privacyBudgetTypeQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollaborationPrivacyBudgetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListCollaborationPrivacyBudgetsInput {
+
+    static func urlPathProvider(_ value: ListCollaborationPrivacyBudgetsInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/privacybudgets"
@@ -9193,29 +9226,29 @@ enum ListCollaborationPrivacyBudgetsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListCollaborationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let memberStatus = memberStatus {
-                let memberStatusQueryItem = ClientRuntime.URLQueryItem(name: "memberStatus".urlPercentEncoding(), value: Swift.String(memberStatus.rawValue).urlPercentEncoding())
-                items.append(memberStatusQueryItem)
-            }
-            return items
+extension ListCollaborationsInput {
+
+    static func queryItemProvider(_ value: ListCollaborationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let memberStatus = value.memberStatus {
+            let memberStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "memberStatus".urlPercentEncoding(), value: Swift.String(memberStatus.rawValue).urlPercentEncoding())
+            items.append(memberStatusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCollaborationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCollaborationsInput {
+
+    static func urlPathProvider(_ value: ListCollaborationsInput) -> Swift.String? {
         return "/collaborations"
     }
 }
@@ -9323,26 +9356,26 @@ enum ListCollaborationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListConfiguredAudienceModelAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConfiguredAudienceModelAssociationsInput {
+
+    static func queryItemProvider(_ value: ListConfiguredAudienceModelAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfiguredAudienceModelAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListConfiguredAudienceModelAssociationsInput {
+
+    static func urlPathProvider(_ value: ListConfiguredAudienceModelAssociationsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations"
@@ -9454,26 +9487,26 @@ enum ListConfiguredAudienceModelAssociationsOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension ListConfiguredTableAssociationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConfiguredTableAssociationsInput {
+
+    static func queryItemProvider(_ value: ListConfiguredTableAssociationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfiguredTableAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListConfiguredTableAssociationsInput {
+
+    static func urlPathProvider(_ value: ListConfiguredTableAssociationsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredTableAssociations"
@@ -9585,25 +9618,25 @@ enum ListConfiguredTableAssociationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListConfiguredTablesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConfiguredTablesInput {
+
+    static func queryItemProvider(_ value: ListConfiguredTablesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfiguredTablesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfiguredTablesInput {
+
+    static func urlPathProvider(_ value: ListConfiguredTablesInput) -> Swift.String? {
         return "/configuredTables"
     }
 }
@@ -9707,26 +9740,26 @@ enum ListConfiguredTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMembersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListMembersInput {
+
+    static func queryItemProvider(_ value: ListMembersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListMembersInput {
+
+    static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/members"
@@ -9838,29 +9871,29 @@ enum ListMembersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMembershipsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListMembershipsInput {
+
+    static func queryItemProvider(_ value: ListMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMembershipsInput {
+
+    static func urlPathProvider(_ value: ListMembershipsInput) -> Swift.String? {
         return "/memberships"
     }
 }
@@ -9968,26 +10001,26 @@ enum ListMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPrivacyBudgetTemplatesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPrivacyBudgetTemplatesInput {
+
+    static func queryItemProvider(_ value: ListPrivacyBudgetTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPrivacyBudgetTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListPrivacyBudgetTemplatesInput {
+
+    static func urlPathProvider(_ value: ListPrivacyBudgetTemplatesInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates"
@@ -10099,32 +10132,32 @@ enum ListPrivacyBudgetTemplatesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListPrivacyBudgetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let privacyBudgetType = privacyBudgetType else {
-                let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let privacyBudgetTypeQueryItem = ClientRuntime.URLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
-            items.append(privacyBudgetTypeQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPrivacyBudgetsInput {
+
+    static func queryItemProvider(_ value: ListPrivacyBudgetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let privacyBudgetType = value.privacyBudgetType else {
+            let message = "Creating a URL Query Item failed. privacyBudgetType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let privacyBudgetTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "privacyBudgetType".urlPercentEncoding(), value: Swift.String(privacyBudgetType.rawValue).urlPercentEncoding())
+        items.append(privacyBudgetTypeQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPrivacyBudgetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListPrivacyBudgetsInput {
+
+    static func urlPathProvider(_ value: ListPrivacyBudgetsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgets"
@@ -10241,30 +10274,30 @@ enum ListPrivacyBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProtectedQueriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListProtectedQueriesInput {
+
+    static func queryItemProvider(_ value: ListProtectedQueriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProtectedQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension ListProtectedQueriesInput {
+
+    static func urlPathProvider(_ value: ListProtectedQueriesInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedQueries"
@@ -10380,30 +10413,30 @@ enum ListProtectedQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSchemasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let schemaType = schemaType {
-                let schemaTypeQueryItem = ClientRuntime.URLQueryItem(name: "schemaType".urlPercentEncoding(), value: Swift.String(schemaType.rawValue).urlPercentEncoding())
-                items.append(schemaTypeQueryItem)
-            }
-            return items
+extension ListSchemasInput {
+
+    static func queryItemProvider(_ value: ListSchemasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let schemaType = value.schemaType {
+            let schemaTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "schemaType".urlPercentEncoding(), value: Swift.String(schemaType.rawValue).urlPercentEncoding())
+            items.append(schemaTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSchemasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension ListSchemasInput {
+
+    static func urlPathProvider(_ value: ListSchemasInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/schemas"
@@ -10519,9 +10552,10 @@ enum ListSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -11601,9 +11635,10 @@ extension PreviewPrivacyImpactInput: Swift.Encodable {
     }
 }
 
-extension PreviewPrivacyImpactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension PreviewPrivacyImpactInput {
+
+    static func urlPathProvider(_ value: PreviewPrivacyImpactInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/previewprivacyimpact"
@@ -13861,9 +13896,10 @@ extension StartProtectedQueryInput: Swift.Encodable {
     }
 }
 
-extension StartProtectedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension StartProtectedQueryInput {
+
+    static func urlPathProvider(_ value: StartProtectedQueryInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedQueries"
@@ -14031,9 +14067,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -14189,26 +14226,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -14277,12 +14314,13 @@ extension UpdateAnalysisTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateAnalysisTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdateAnalysisTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateAnalysisTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let analysisTemplateIdentifier = analysisTemplateIdentifier else {
+        guard let analysisTemplateIdentifier = value.analysisTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/analysistemplates/\(analysisTemplateIdentifier.urlPercentEncoding())"
@@ -14400,9 +14438,10 @@ extension UpdateCollaborationInput: Swift.Encodable {
     }
 }
 
-extension UpdateCollaborationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let collaborationIdentifier = collaborationIdentifier else {
+extension UpdateCollaborationInput {
+
+    static func urlPathProvider(_ value: UpdateCollaborationInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())"
@@ -14522,12 +14561,13 @@ extension UpdateConfiguredAudienceModelAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfiguredAudienceModelAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdateConfiguredAudienceModelAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateConfiguredAudienceModelAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier else {
+        guard let configuredAudienceModelAssociationIdentifier = value.configuredAudienceModelAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredaudiencemodelassociations/\(configuredAudienceModelAssociationIdentifier.urlPercentEncoding())"
@@ -14649,12 +14689,13 @@ extension UpdateConfiguredTableAnalysisRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfiguredTableAnalysisRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension UpdateConfiguredTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: UpdateConfiguredTableAnalysisRuleInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
-        guard let analysisRuleType = analysisRuleType else {
+        guard let analysisRuleType = value.analysisRuleType else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
@@ -14774,12 +14815,13 @@ extension UpdateConfiguredTableAssociationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfiguredTableAssociationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdateConfiguredTableAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateConfiguredTableAssociationInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let configuredTableAssociationIdentifier = configuredTableAssociationIdentifier else {
+        guard let configuredTableAssociationIdentifier = value.configuredTableAssociationIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/configuredTableAssociations/\(configuredTableAssociationIdentifier.urlPercentEncoding())"
@@ -14906,9 +14948,10 @@ extension UpdateConfiguredTableInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfiguredTableInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configuredTableIdentifier = configuredTableIdentifier else {
+extension UpdateConfiguredTableInput {
+
+    static func urlPathProvider(_ value: UpdateConfiguredTableInput) -> Swift.String? {
+        guard let configuredTableIdentifier = value.configuredTableIdentifier else {
             return nil
         }
         return "/configuredTables/\(configuredTableIdentifier.urlPercentEncoding())"
@@ -15030,9 +15073,10 @@ extension UpdateMembershipInput: Swift.Encodable {
     }
 }
 
-extension UpdateMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdateMembershipInput {
+
+    static func urlPathProvider(_ value: UpdateMembershipInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())"
@@ -15154,12 +15198,13 @@ extension UpdatePrivacyBudgetTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdatePrivacyBudgetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdatePrivacyBudgetTemplateInput {
+
+    static func urlPathProvider(_ value: UpdatePrivacyBudgetTemplateInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier else {
+        guard let privacyBudgetTemplateIdentifier = value.privacyBudgetTemplateIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
@@ -15283,12 +15328,13 @@ extension UpdateProtectedQueryInput: Swift.Encodable {
     }
 }
 
-extension UpdateProtectedQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let membershipIdentifier = membershipIdentifier else {
+extension UpdateProtectedQueryInput {
+
+    static func urlPathProvider(_ value: UpdateProtectedQueryInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
             return nil
         }
-        guard let protectedQueryIdentifier = protectedQueryIdentifier else {
+        guard let protectedQueryIdentifier = value.protectedQueryIdentifier else {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedQueries/\(protectedQueryIdentifier.urlPercentEncoding())"

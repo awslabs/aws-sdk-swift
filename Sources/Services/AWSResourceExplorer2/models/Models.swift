@@ -102,8 +102,9 @@ extension AssociateDefaultViewInput: Swift.Encodable {
     }
 }
 
-extension AssociateDefaultViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateDefaultViewInput {
+
+    static func urlPathProvider(_ value: AssociateDefaultViewInput) -> Swift.String? {
         return "/AssociateDefaultView"
     }
 }
@@ -255,8 +256,9 @@ extension BatchGetViewInput: Swift.Encodable {
     }
 }
 
-extension BatchGetViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetViewInput {
+
+    static func urlPathProvider(_ value: BatchGetViewInput) -> Swift.String? {
         return "/BatchGetView"
     }
 }
@@ -462,8 +464,9 @@ extension CreateIndexInput: Swift.Encodable {
     }
 }
 
-extension CreateIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIndexInput {
+
+    static func urlPathProvider(_ value: CreateIndexInput) -> Swift.String? {
         return "/CreateIndex"
     }
 }
@@ -632,8 +635,9 @@ extension CreateViewInput: Swift.Encodable {
     }
 }
 
-extension CreateViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateViewInput {
+
+    static func urlPathProvider(_ value: CreateViewInput) -> Swift.String? {
         return "/CreateView"
     }
 }
@@ -795,8 +799,9 @@ extension DeleteIndexInput: Swift.Encodable {
     }
 }
 
-extension DeleteIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIndexInput {
+
+    static func urlPathProvider(_ value: DeleteIndexInput) -> Swift.String? {
         return "/DeleteIndex"
     }
 }
@@ -918,8 +923,9 @@ extension DeleteViewInput: Swift.Encodable {
     }
 }
 
-extension DeleteViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteViewInput {
+
+    static func urlPathProvider(_ value: DeleteViewInput) -> Swift.String? {
         return "/DeleteView"
     }
 }
@@ -1009,8 +1015,9 @@ enum DeleteViewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DisassociateDefaultViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateDefaultViewInput {
+
+    static func urlPathProvider(_ value: DisassociateDefaultViewInput) -> Swift.String? {
         return "/DisassociateDefaultView"
     }
 }
@@ -1054,8 +1061,9 @@ enum DisassociateDefaultViewOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetAccountLevelServiceConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountLevelServiceConfigurationInput {
+
+    static func urlPathProvider(_ value: GetAccountLevelServiceConfigurationInput) -> Swift.String? {
         return "/GetAccountLevelServiceConfiguration"
     }
 }
@@ -1128,8 +1136,9 @@ enum GetAccountLevelServiceConfigurationOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension GetDefaultViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDefaultViewInput {
+
+    static func urlPathProvider(_ value: GetDefaultViewInput) -> Swift.String? {
         return "/GetDefaultView"
     }
 }
@@ -1203,8 +1212,9 @@ enum GetDefaultViewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIndexInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIndexInput {
+
+    static func urlPathProvider(_ value: GetIndexInput) -> Swift.String? {
         return "/GetIndex"
     }
 }
@@ -1393,8 +1403,9 @@ extension GetViewInput: Swift.Encodable {
     }
 }
 
-extension GetViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetViewInput {
+
+    static func urlPathProvider(_ value: GetViewInput) -> Swift.String? {
         return "/GetView"
     }
 }
@@ -1764,8 +1775,9 @@ extension ListIndexesForMembersInput: Swift.Encodable {
     }
 }
 
-extension ListIndexesForMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIndexesForMembersInput {
+
+    static func urlPathProvider(_ value: ListIndexesForMembersInput) -> Swift.String? {
         return "/ListIndexesForMembers"
     }
 }
@@ -1925,8 +1937,9 @@ extension ListIndexesInput: Swift.Encodable {
     }
 }
 
-extension ListIndexesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIndexesInput {
+
+    static func urlPathProvider(_ value: ListIndexesInput) -> Swift.String? {
         return "/ListIndexes"
     }
 }
@@ -2082,8 +2095,9 @@ extension ListSupportedResourceTypesInput: Swift.Encodable {
     }
 }
 
-extension ListSupportedResourceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSupportedResourceTypesInput {
+
+    static func urlPathProvider(_ value: ListSupportedResourceTypesInput) -> Swift.String? {
         return "/ListSupportedResourceTypes"
     }
 }
@@ -2197,9 +2211,10 @@ enum ListSupportedResourceTypesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2315,8 +2330,9 @@ extension ListViewsInput: Swift.Encodable {
     }
 }
 
-extension ListViewsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListViewsInput {
+
+    static func urlPathProvider(_ value: ListViewsInput) -> Swift.String? {
         return "/ListViews"
     }
 }
@@ -2883,8 +2899,9 @@ extension SearchInput: Swift.Encodable {
     }
 }
 
-extension SearchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchInput {
+
+    static func urlPathProvider(_ value: SearchInput) -> Swift.String? {
         return "/Search"
     }
 }
@@ -3181,9 +3198,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3373,26 +3391,26 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
         "UntagResourceInput(resourceArn: \(Swift.String(describing: resourceArn)), tagKeys: \"CONTENT_REDACTED\")"}
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3469,8 +3487,9 @@ extension UpdateIndexTypeInput: Swift.Encodable {
     }
 }
 
-extension UpdateIndexTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIndexTypeInput {
+
+    static func urlPathProvider(_ value: UpdateIndexTypeInput) -> Swift.String? {
         return "/UpdateIndexType"
     }
 }
@@ -3629,8 +3648,9 @@ extension UpdateViewInput: Swift.Encodable {
     }
 }
 
-extension UpdateViewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateViewInput {
+
+    static func urlPathProvider(_ value: UpdateViewInput) -> Swift.String? {
         return "/UpdateView"
     }
 }

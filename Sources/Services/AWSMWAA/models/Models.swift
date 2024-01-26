@@ -57,9 +57,10 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-extension CreateCliTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateCliTokenInput {
+
+    static func urlPathProvider(_ value: CreateCliTokenInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/clitoken/\(name.urlPercentEncoding())"
@@ -262,9 +263,10 @@ extension CreateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -551,9 +553,10 @@ enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CreateWebLoginTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension CreateWebLoginTokenInput {
+
+    static func urlPathProvider(_ value: CreateWebLoginTokenInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/webtoken/\(name.urlPercentEncoding())"
@@ -671,9 +674,10 @@ enum CreateWebLoginTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -1263,9 +1267,10 @@ extension MWAAClientTypes {
     }
 }
 
-extension GetEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"
@@ -1467,25 +1472,25 @@ extension MWAAClientTypes {
 
 }
 
-extension ListEnvironmentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListEnvironmentsInput {
+
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
         return "/environments"
     }
 }
@@ -1587,9 +1592,10 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2160,9 +2166,10 @@ extension PublishMetricsInput: Swift.Encodable {
     }
 }
 
-extension PublishMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let environmentName = environmentName else {
+extension PublishMetricsInput {
+
+    static func urlPathProvider(_ value: PublishMetricsInput) -> Swift.String? {
+        guard let environmentName = value.environmentName else {
             return nil
         }
         return "/metrics/environments/\(environmentName.urlPercentEncoding())"
@@ -2374,9 +2381,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2556,26 +2564,26 @@ extension MWAAClientTypes {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2725,9 +2733,10 @@ extension UpdateEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateEnvironmentInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/environments/\(name.urlPercentEncoding())"

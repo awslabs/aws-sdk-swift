@@ -2,9 +2,10 @@
 import AWSClientRuntime
 import ClientRuntime
 
-extension AcceptInboundCrossClusterSearchConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crossClusterSearchConnectionId = crossClusterSearchConnectionId else {
+extension AcceptInboundCrossClusterSearchConnectionInput {
+
+    static func urlPathProvider(_ value: AcceptInboundCrossClusterSearchConnectionInput) -> Swift.String? {
+        guard let crossClusterSearchConnectionId = value.crossClusterSearchConnectionId else {
             return nil
         }
         return "/2015-01-01/es/ccs/inboundConnection/\(crossClusterSearchConnectionId.urlPercentEncoding())/accept"
@@ -211,8 +212,9 @@ extension AddTagsInput: Swift.Encodable {
     }
 }
 
-extension AddTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsInput {
+
+    static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
         return "/2015-01-01/tags"
     }
 }
@@ -626,12 +628,13 @@ extension ElasticsearchClientTypes {
 
 }
 
-extension AssociatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension AssociatePackageInput {
+
+    static func urlPathProvider(_ value: AssociatePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
-        guard let domainName = domainName else {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/packages/associate/\(packageID.urlPercentEncoding())/\(domainName.urlPercentEncoding())"
@@ -736,9 +739,10 @@ extension AuthorizeVpcEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension AuthorizeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension AuthorizeVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: AuthorizeVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/authorizeVpcEndpointAccess"
@@ -1506,8 +1510,9 @@ extension CancelElasticsearchServiceSoftwareUpdateInput: Swift.Encodable {
     }
 }
 
-extension CancelElasticsearchServiceSoftwareUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelElasticsearchServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: CancelElasticsearchServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2015-01-01/es/serviceSoftwareUpdate/cancel"
     }
 }
@@ -2181,8 +2186,9 @@ extension CreateElasticsearchDomainInput: Swift.Encodable {
     }
 }
 
-extension CreateElasticsearchDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateElasticsearchDomainInput {
+
+    static func urlPathProvider(_ value: CreateElasticsearchDomainInput) -> Swift.String? {
         return "/2015-01-01/es/domain"
     }
 }
@@ -2442,8 +2448,9 @@ extension CreateOutboundCrossClusterSearchConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateOutboundCrossClusterSearchConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOutboundCrossClusterSearchConnectionInput {
+
+    static func urlPathProvider(_ value: CreateOutboundCrossClusterSearchConnectionInput) -> Swift.String? {
         return "/2015-01-01/es/ccs/outboundConnection"
     }
 }
@@ -2616,8 +2623,9 @@ extension CreatePackageInput: Swift.Encodable {
     }
 }
 
-extension CreatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePackageInput {
+
+    static func urlPathProvider(_ value: CreatePackageInput) -> Swift.String? {
         return "/2015-01-01/packages"
     }
 }
@@ -2757,8 +2765,9 @@ extension CreateVpcEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcEndpointInput {
+
+    static func urlPathProvider(_ value: CreateVpcEndpointInput) -> Swift.String? {
         return "/2015-01-01/es/vpcEndpoints"
     }
 }
@@ -2868,9 +2877,10 @@ enum CreateVpcEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteElasticsearchDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DeleteElasticsearchDomainInput {
+
+    static func urlPathProvider(_ value: DeleteElasticsearchDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())"
@@ -2955,8 +2965,9 @@ enum DeleteElasticsearchDomainOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteElasticsearchServiceRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteElasticsearchServiceRoleInput {
+
+    static func urlPathProvider(_ value: DeleteElasticsearchServiceRoleInput) -> Swift.String? {
         return "/2015-01-01/es/role"
     }
 }
@@ -2998,9 +3009,10 @@ enum DeleteElasticsearchServiceRoleOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DeleteInboundCrossClusterSearchConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crossClusterSearchConnectionId = crossClusterSearchConnectionId else {
+extension DeleteInboundCrossClusterSearchConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteInboundCrossClusterSearchConnectionInput) -> Swift.String? {
+        guard let crossClusterSearchConnectionId = value.crossClusterSearchConnectionId else {
             return nil
         }
         return "/2015-01-01/es/ccs/inboundConnection/\(crossClusterSearchConnectionId.urlPercentEncoding())"
@@ -3083,9 +3095,10 @@ enum DeleteInboundCrossClusterSearchConnectionOutputError: ClientRuntime.HttpRes
     }
 }
 
-extension DeleteOutboundCrossClusterSearchConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crossClusterSearchConnectionId = crossClusterSearchConnectionId else {
+extension DeleteOutboundCrossClusterSearchConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteOutboundCrossClusterSearchConnectionInput) -> Swift.String? {
+        guard let crossClusterSearchConnectionId = value.crossClusterSearchConnectionId else {
             return nil
         }
         return "/2015-01-01/es/ccs/outboundConnection/\(crossClusterSearchConnectionId.urlPercentEncoding())"
@@ -3168,9 +3181,10 @@ enum DeleteOutboundCrossClusterSearchConnectionOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension DeletePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension DeletePackageInput {
+
+    static func urlPathProvider(_ value: DeletePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2015-01-01/packages/\(packageID.urlPercentEncoding())"
@@ -3257,9 +3271,10 @@ enum DeletePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vpcEndpointId = vpcEndpointId else {
+extension DeleteVpcEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteVpcEndpointInput) -> Swift.String? {
+        guard let vpcEndpointId = value.vpcEndpointId else {
             return nil
         }
         return "/2015-01-01/es/vpcEndpoints/\(vpcEndpointId.urlPercentEncoding())"
@@ -3403,9 +3418,10 @@ extension DescribeDomainAutoTunesInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainAutoTunesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainAutoTunesInput {
+
+    static func urlPathProvider(_ value: DescribeDomainAutoTunesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/autoTunes"
@@ -3528,22 +3544,22 @@ enum DescribeDomainAutoTunesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeDomainChangeProgressInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let changeId = changeId {
-                let changeIdQueryItem = ClientRuntime.URLQueryItem(name: "changeid".urlPercentEncoding(), value: Swift.String(changeId).urlPercentEncoding())
-                items.append(changeIdQueryItem)
-            }
-            return items
+extension DescribeDomainChangeProgressInput {
+
+    static func queryItemProvider(_ value: DescribeDomainChangeProgressInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let changeId = value.changeId {
+            let changeIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "changeid".urlPercentEncoding(), value: Swift.String(changeId).urlPercentEncoding())
+            items.append(changeIdQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeDomainChangeProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainChangeProgressInput {
+
+    static func urlPathProvider(_ value: DescribeDomainChangeProgressInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/progress"
@@ -3632,9 +3648,10 @@ enum DescribeDomainChangeProgressOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeElasticsearchDomainConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeElasticsearchDomainConfigInput {
+
+    static func urlPathProvider(_ value: DescribeElasticsearchDomainConfigInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/config"
@@ -3720,9 +3737,10 @@ enum DescribeElasticsearchDomainConfigOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeElasticsearchDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeElasticsearchDomainInput {
+
+    static func urlPathProvider(_ value: DescribeElasticsearchDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())"
@@ -3824,8 +3842,9 @@ extension DescribeElasticsearchDomainsInput: Swift.Encodable {
     }
 }
 
-extension DescribeElasticsearchDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeElasticsearchDomainsInput {
+
+    static func urlPathProvider(_ value: DescribeElasticsearchDomainsInput) -> Swift.String? {
         return "/2015-01-01/es/domain-info"
     }
 }
@@ -3933,25 +3952,25 @@ enum DescribeElasticsearchDomainsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeElasticsearchInstanceTypeLimitsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            return items
+extension DescribeElasticsearchInstanceTypeLimitsInput {
+
+    static func queryItemProvider(_ value: DescribeElasticsearchInstanceTypeLimitsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeElasticsearchInstanceTypeLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let elasticsearchVersion = elasticsearchVersion else {
+extension DescribeElasticsearchInstanceTypeLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeElasticsearchInstanceTypeLimitsInput) -> Swift.String? {
+        guard let elasticsearchVersion = value.elasticsearchVersion else {
             return nil
         }
-        guard let instanceType = instanceType else {
+        guard let instanceType = value.instanceType else {
             return nil
         }
         return "/2015-01-01/es/instanceTypeLimits/\(elasticsearchVersion.urlPercentEncoding())/\(instanceType.rawValue.urlPercentEncoding())"
@@ -4086,8 +4105,9 @@ extension DescribeInboundCrossClusterSearchConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeInboundCrossClusterSearchConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInboundCrossClusterSearchConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeInboundCrossClusterSearchConnectionsInput) -> Swift.String? {
         return "/2015-01-01/es/ccs/inboundConnection/search"
     }
 }
@@ -4252,8 +4272,9 @@ extension DescribeOutboundCrossClusterSearchConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeOutboundCrossClusterSearchConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOutboundCrossClusterSearchConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeOutboundCrossClusterSearchConnectionsInput) -> Swift.String? {
         return "/2015-01-01/es/ccs/outboundConnection/search"
     }
 }
@@ -4510,8 +4531,9 @@ extension DescribePackagesInput: Swift.Encodable {
     }
 }
 
-extension DescribePackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePackagesInput {
+
+    static func urlPathProvider(_ value: DescribePackagesInput) -> Swift.String? {
         return "/2015-01-01/packages/describe"
     }
 }
@@ -4644,29 +4666,29 @@ enum DescribePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReservedElasticsearchInstanceOfferingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let reservedElasticsearchInstanceOfferingId = reservedElasticsearchInstanceOfferingId {
-                let reservedElasticsearchInstanceOfferingIdQueryItem = ClientRuntime.URLQueryItem(name: "offeringId".urlPercentEncoding(), value: Swift.String(reservedElasticsearchInstanceOfferingId).urlPercentEncoding())
-                items.append(reservedElasticsearchInstanceOfferingIdQueryItem)
-            }
-            return items
+extension DescribeReservedElasticsearchInstanceOfferingsInput {
+
+    static func queryItemProvider(_ value: DescribeReservedElasticsearchInstanceOfferingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let reservedElasticsearchInstanceOfferingId = value.reservedElasticsearchInstanceOfferingId {
+            let reservedElasticsearchInstanceOfferingIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "offeringId".urlPercentEncoding(), value: Swift.String(reservedElasticsearchInstanceOfferingId).urlPercentEncoding())
+            items.append(reservedElasticsearchInstanceOfferingIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeReservedElasticsearchInstanceOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedElasticsearchInstanceOfferingsInput {
+
+    static func urlPathProvider(_ value: DescribeReservedElasticsearchInstanceOfferingsInput) -> Swift.String? {
         return "/2015-01-01/es/reservedInstanceOfferings"
     }
 }
@@ -4775,29 +4797,29 @@ enum DescribeReservedElasticsearchInstanceOfferingsOutputError: ClientRuntime.Ht
     }
 }
 
-extension DescribeReservedElasticsearchInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let reservedElasticsearchInstanceId = reservedElasticsearchInstanceId {
-                let reservedElasticsearchInstanceIdQueryItem = ClientRuntime.URLQueryItem(name: "reservationId".urlPercentEncoding(), value: Swift.String(reservedElasticsearchInstanceId).urlPercentEncoding())
-                items.append(reservedElasticsearchInstanceIdQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension DescribeReservedElasticsearchInstancesInput {
+
+    static func queryItemProvider(_ value: DescribeReservedElasticsearchInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let reservedElasticsearchInstanceId = value.reservedElasticsearchInstanceId {
+            let reservedElasticsearchInstanceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "reservationId".urlPercentEncoding(), value: Swift.String(reservedElasticsearchInstanceId).urlPercentEncoding())
+            items.append(reservedElasticsearchInstanceIdQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeReservedElasticsearchInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedElasticsearchInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeReservedElasticsearchInstancesInput) -> Swift.String? {
         return "/2015-01-01/es/reservedInstances"
     }
 }
@@ -4922,8 +4944,9 @@ extension DescribeVpcEndpointsInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcEndpointsInput {
+
+    static func urlPathProvider(_ value: DescribeVpcEndpointsInput) -> Swift.String? {
         return "/2015-01-01/es/vpcEndpoints/describe"
     }
 }
@@ -5108,12 +5131,13 @@ extension DisabledOperationExceptionBody: Swift.Decodable {
     }
 }
 
-extension DissociatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension DissociatePackageInput {
+
+    static func urlPathProvider(_ value: DissociatePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
-        guard let domainName = domainName else {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/packages/dissociate/\(packageID.urlPercentEncoding())/\(domainName.urlPercentEncoding())"
@@ -6975,21 +6999,21 @@ extension ElasticsearchClientTypes {
 
 }
 
-extension GetCompatibleElasticsearchVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            return items
+extension GetCompatibleElasticsearchVersionsInput {
+
+    static func queryItemProvider(_ value: GetCompatibleElasticsearchVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
         }
+        return items
     }
 }
 
-extension GetCompatibleElasticsearchVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCompatibleElasticsearchVersionsInput {
+
+    static func urlPathProvider(_ value: GetCompatibleElasticsearchVersionsInput) -> Swift.String? {
         return "/2015-01-01/es/compatibleVersions"
     }
 }
@@ -7081,26 +7105,26 @@ enum GetCompatibleElasticsearchVersionsOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension GetPackageVersionHistoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetPackageVersionHistoryInput {
+
+    static func queryItemProvider(_ value: GetPackageVersionHistoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetPackageVersionHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension GetPackageVersionHistoryInput {
+
+    static func urlPathProvider(_ value: GetPackageVersionHistoryInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2015-01-01/packages/\(packageID.urlPercentEncoding())/history"
@@ -7221,26 +7245,26 @@ enum GetPackageVersionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetUpgradeHistoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetUpgradeHistoryInput {
+
+    static func queryItemProvider(_ value: GetUpgradeHistoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetUpgradeHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetUpgradeHistoryInput {
+
+    static func urlPathProvider(_ value: GetUpgradeHistoryInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/upgradeDomain/\(domainName.urlPercentEncoding())/history"
@@ -7353,9 +7377,10 @@ enum GetUpgradeHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUpgradeStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetUpgradeStatusInput {
+
+    static func urlPathProvider(_ value: GetUpgradeStatusInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/upgradeDomain/\(domainName.urlPercentEncoding())/status"
@@ -8030,21 +8055,21 @@ extension ElasticsearchClientTypes {
 
 }
 
-extension ListDomainNamesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let engineType = engineType {
-                let engineTypeQueryItem = ClientRuntime.URLQueryItem(name: "engineType".urlPercentEncoding(), value: Swift.String(engineType.rawValue).urlPercentEncoding())
-                items.append(engineTypeQueryItem)
-            }
-            return items
+extension ListDomainNamesInput {
+
+    static func queryItemProvider(_ value: ListDomainNamesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let engineType = value.engineType {
+            let engineTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "engineType".urlPercentEncoding(), value: Swift.String(engineType.rawValue).urlPercentEncoding())
+            items.append(engineTypeQueryItem)
         }
+        return items
     }
 }
 
-extension ListDomainNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainNamesInput {
+
+    static func urlPathProvider(_ value: ListDomainNamesInput) -> Swift.String? {
         return "/2015-01-01/domain"
     }
 }
@@ -8133,26 +8158,26 @@ enum ListDomainNamesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDomainsForPackageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDomainsForPackageInput {
+
+    static func queryItemProvider(_ value: ListDomainsForPackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDomainsForPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension ListDomainsForPackageInput {
+
+    static func urlPathProvider(_ value: ListDomainsForPackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2015-01-01/packages/\(packageID.urlPercentEncoding())/domains"
@@ -8264,30 +8289,30 @@ enum ListDomainsForPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListElasticsearchInstanceTypesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListElasticsearchInstanceTypesInput {
+
+    static func queryItemProvider(_ value: ListElasticsearchInstanceTypesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListElasticsearchInstanceTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let elasticsearchVersion = elasticsearchVersion else {
+extension ListElasticsearchInstanceTypesInput {
+
+    static func urlPathProvider(_ value: ListElasticsearchInstanceTypesInput) -> Swift.String? {
+        guard let elasticsearchVersion = value.elasticsearchVersion else {
             return nil
         }
         return "/2015-01-01/es/instanceTypes/\(elasticsearchVersion.urlPercentEncoding())"
@@ -8403,25 +8428,25 @@ enum ListElasticsearchInstanceTypesOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListElasticsearchVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListElasticsearchVersionsInput {
+
+    static func queryItemProvider(_ value: ListElasticsearchVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListElasticsearchVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListElasticsearchVersionsInput {
+
+    static func urlPathProvider(_ value: ListElasticsearchVersionsInput) -> Swift.String? {
         return "/2015-01-01/es/versions"
     }
 }
@@ -8526,26 +8551,26 @@ enum ListElasticsearchVersionsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListPackagesForDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPackagesForDomainInput {
+
+    static func queryItemProvider(_ value: ListPackagesForDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPackagesForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListPackagesForDomainInput {
+
+    static func urlPathProvider(_ value: ListPackagesForDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/domain/\(domainName.urlPercentEncoding())/packages"
@@ -8658,23 +8683,23 @@ enum ListPackagesForDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension ListTagsInput {
+
+    static func queryItemProvider(_ value: ListTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
         return "/2015-01-01/tags"
     }
 }
@@ -8766,22 +8791,22 @@ enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVpcEndpointAccessInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointAccessInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointAccessInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/listVpcEndpointAccess"
@@ -8891,22 +8916,22 @@ enum ListVpcEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVpcEndpointsForDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointsForDomainInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointsForDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointsForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListVpcEndpointsForDomainInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointsForDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/vpcEndpoints"
@@ -9016,21 +9041,21 @@ enum ListVpcEndpointsForDomainOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListVpcEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointsInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVpcEndpointsInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointsInput) -> Swift.String? {
         return "/2015-01-01/es/vpcEndpoints"
     }
 }
@@ -10126,8 +10151,9 @@ extension PurchaseReservedElasticsearchInstanceOfferingInput: Swift.Encodable {
     }
 }
 
-extension PurchaseReservedElasticsearchInstanceOfferingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PurchaseReservedElasticsearchInstanceOfferingInput {
+
+    static func urlPathProvider(_ value: PurchaseReservedElasticsearchInstanceOfferingInput) -> Swift.String? {
         return "/2015-01-01/es/purchaseReservedInstanceOffering"
     }
 }
@@ -10291,9 +10317,10 @@ extension ElasticsearchClientTypes {
 
 }
 
-extension RejectInboundCrossClusterSearchConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let crossClusterSearchConnectionId = crossClusterSearchConnectionId else {
+extension RejectInboundCrossClusterSearchConnectionInput {
+
+    static func urlPathProvider(_ value: RejectInboundCrossClusterSearchConnectionInput) -> Swift.String? {
+        guard let crossClusterSearchConnectionId = value.crossClusterSearchConnectionId else {
             return nil
         }
         return "/2015-01-01/es/ccs/inboundConnection/\(crossClusterSearchConnectionId.urlPercentEncoding())/reject"
@@ -10396,8 +10423,9 @@ extension RemoveTagsInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsInput {
+
+    static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
         return "/2015-01-01/tags-removal"
     }
 }
@@ -10917,9 +10945,10 @@ extension RevokeVpcEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension RevokeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension RevokeVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: RevokeVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/revokeVpcEndpointAccess"
@@ -11576,8 +11605,9 @@ extension StartElasticsearchServiceSoftwareUpdateInput: Swift.Encodable {
     }
 }
 
-extension StartElasticsearchServiceSoftwareUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartElasticsearchServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: StartElasticsearchServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2015-01-01/es/serviceSoftwareUpdate/start"
     }
 }
@@ -12003,9 +12033,10 @@ extension UpdateElasticsearchDomainConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateElasticsearchDomainConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension UpdateElasticsearchDomainConfigInput {
+
+    static func urlPathProvider(_ value: UpdateElasticsearchDomainConfigInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2015-01-01/es/domain/\(domainName.urlPercentEncoding())/config"
@@ -12261,8 +12292,9 @@ extension UpdatePackageInput: Swift.Encodable {
     }
 }
 
-extension UpdatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePackageInput {
+
+    static func urlPathProvider(_ value: UpdatePackageInput) -> Swift.String? {
         return "/2015-01-01/packages/update"
     }
 }
@@ -12396,8 +12428,9 @@ extension UpdateVpcEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVpcEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateVpcEndpointInput) -> Swift.String? {
         return "/2015-01-01/es/vpcEndpoints/update"
     }
 }
@@ -12520,8 +12553,9 @@ extension UpgradeElasticsearchDomainInput: Swift.Encodable {
     }
 }
 
-extension UpgradeElasticsearchDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpgradeElasticsearchDomainInput {
+
+    static func urlPathProvider(_ value: UpgradeElasticsearchDomainInput) -> Swift.String? {
         return "/2015-01-01/es/upgradeDomain"
     }
 }

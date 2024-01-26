@@ -4022,15 +4022,16 @@ extension BatchCreateCustomVocabularyItemInput: Swift.Encodable {
     }
 }
 
-extension BatchCreateCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension BatchCreateCustomVocabularyItemInput {
+
+    static func urlPathProvider(_ value: BatchCreateCustomVocabularyItemInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary/DEFAULT/batchcreate"
@@ -4219,15 +4220,16 @@ extension BatchDeleteCustomVocabularyItemInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension BatchDeleteCustomVocabularyItemInput {
+
+    static func urlPathProvider(_ value: BatchDeleteCustomVocabularyItemInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary/DEFAULT/batchdelete"
@@ -4416,15 +4418,16 @@ extension BatchUpdateCustomVocabularyItemInput: Swift.Encodable {
     }
 }
 
-extension BatchUpdateCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension BatchUpdateCustomVocabularyItemInput {
+
+    static func urlPathProvider(_ value: BatchUpdateCustomVocabularyItemInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary/DEFAULT/batchupdate"
@@ -6497,15 +6500,16 @@ extension LexModelsV2ClientTypes {
 
 }
 
-extension BuildBotLocaleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension BuildBotLocaleInput {
+
+    static func urlPathProvider(_ value: BuildBotLocaleInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())"
@@ -7976,9 +7980,10 @@ extension CreateBotAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateBotAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateBotAliasInput {
+
+    static func urlPathProvider(_ value: CreateBotAliasInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases"
@@ -8313,8 +8318,9 @@ extension CreateBotInput: Swift.Encodable {
     }
 }
 
-extension CreateBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBotInput {
+
+    static func urlPathProvider(_ value: CreateBotInput) -> Swift.String? {
         return "/bots"
     }
 }
@@ -8471,12 +8477,13 @@ extension CreateBotLocaleInput: Swift.Encodable {
     }
 }
 
-extension CreateBotLocaleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateBotLocaleInput {
+
+    static func urlPathProvider(_ value: CreateBotLocaleInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales"
@@ -8922,9 +8929,10 @@ extension CreateBotVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateBotVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateBotVersionInput {
+
+    static func urlPathProvider(_ value: CreateBotVersionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions"
@@ -9123,8 +9131,9 @@ extension CreateExportInput: Swift.Encodable {
     }
 }
 
-extension CreateExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExportInput {
+
+    static func urlPathProvider(_ value: CreateExportInput) -> Swift.String? {
         return "/exports"
     }
 }
@@ -9337,15 +9346,16 @@ extension CreateIntentInput: Swift.Encodable {
     }
 }
 
-extension CreateIntentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateIntentInput {
+
+    static func urlPathProvider(_ value: CreateIntentInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents"
@@ -9767,9 +9777,10 @@ extension CreateResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension CreateResourcePolicyInput {
+
+    static func urlPathProvider(_ value: CreateResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())"
@@ -9917,22 +9928,22 @@ extension CreateResourcePolicyStatementInput: Swift.Encodable {
     }
 }
 
-extension CreateResourcePolicyStatementInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let expectedRevisionId = expectedRevisionId {
-                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-                items.append(expectedRevisionIdQueryItem)
-            }
-            return items
+extension CreateResourcePolicyStatementInput {
+
+    static func queryItemProvider(_ value: CreateResourcePolicyStatementInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let expectedRevisionId = value.expectedRevisionId {
+            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            items.append(expectedRevisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension CreateResourcePolicyStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension CreateResourcePolicyStatementInput {
+
+    static func urlPathProvider(_ value: CreateResourcePolicyStatementInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())/statements"
@@ -10150,18 +10161,19 @@ extension CreateSlotInput: Swift.Encodable {
     }
 }
 
-extension CreateSlotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateSlotInput {
+
+    static func urlPathProvider(_ value: CreateSlotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())/slots"
@@ -10482,15 +10494,16 @@ extension CreateSlotTypeInput: Swift.Encodable {
     }
 }
 
-extension CreateSlotTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension CreateSlotTypeInput {
+
+    static func urlPathProvider(_ value: CreateSlotTypeInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/slottypes"
@@ -10793,9 +10806,10 @@ extension CreateTestSetDiscrepancyReportInput: Swift.Encodable {
     }
 }
 
-extension CreateTestSetDiscrepancyReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension CreateTestSetDiscrepancyReportInput {
+
+    static func urlPathProvider(_ value: CreateTestSetDiscrepancyReportInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())/testsetdiscrepancy"
@@ -10922,8 +10936,9 @@ enum CreateTestSetDiscrepancyReportOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension CreateUploadUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUploadUrlInput {
+
+    static func urlPathProvider(_ value: CreateUploadUrlInput) -> Swift.String? {
         return "/createuploadurl"
     }
 }
@@ -11500,25 +11515,25 @@ extension LexModelsV2ClientTypes {
 
 }
 
-extension DeleteBotAliasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteBotAliasInput {
+
+    static func queryItemProvider(_ value: DeleteBotAliasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteBotAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteBotAliasInput {
+
+    static func urlPathProvider(_ value: DeleteBotAliasInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases/\(botAliasId.urlPercentEncoding())"
@@ -11632,22 +11647,22 @@ enum DeleteBotAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBotInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteBotInput {
+
+    static func queryItemProvider(_ value: DeleteBotInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteBotInput {
+
+    static func urlPathProvider(_ value: DeleteBotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())"
@@ -11680,15 +11695,16 @@ extension DeleteBotInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteBotLocaleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteBotLocaleInput {
+
+    static func urlPathProvider(_ value: DeleteBotLocaleInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())"
@@ -11879,25 +11895,25 @@ enum DeleteBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteBotVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteBotVersionInput {
+
+    static func queryItemProvider(_ value: DeleteBotVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteBotVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteBotVersionInput {
+
+    static func urlPathProvider(_ value: DeleteBotVersionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())"
@@ -12011,15 +12027,16 @@ enum DeleteBotVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCustomVocabularyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteCustomVocabularyInput {
+
+    static func urlPathProvider(_ value: DeleteCustomVocabularyInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary"
@@ -12144,9 +12161,10 @@ enum DeleteCustomVocabularyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let exportId = exportId else {
+extension DeleteExportInput {
+
+    static func urlPathProvider(_ value: DeleteExportInput) -> Swift.String? {
+        guard let exportId = value.exportId else {
             return nil
         }
         return "/exports/\(exportId.urlPercentEncoding())"
@@ -12240,9 +12258,10 @@ enum DeleteExportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let importId = importId else {
+extension DeleteImportInput {
+
+    static func urlPathProvider(_ value: DeleteImportInput) -> Swift.String? {
+        guard let importId = value.importId else {
             return nil
         }
         return "/imports/\(importId.urlPercentEncoding())"
@@ -12336,18 +12355,19 @@ enum DeleteImportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIntentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteIntentInput {
+
+    static func urlPathProvider(_ value: DeleteIntentInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())"
@@ -12417,22 +12437,22 @@ enum DeleteIntentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let expectedRevisionId = expectedRevisionId {
-                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-                items.append(expectedRevisionIdQueryItem)
-            }
-            return items
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let expectedRevisionId = value.expectedRevisionId {
+            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            items.append(expectedRevisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())"
@@ -12529,25 +12549,25 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteResourcePolicyStatementInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let expectedRevisionId = expectedRevisionId {
-                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-                items.append(expectedRevisionIdQueryItem)
-            }
-            return items
+extension DeleteResourcePolicyStatementInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyStatementInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let expectedRevisionId = value.expectedRevisionId {
+            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            items.append(expectedRevisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteResourcePolicyStatementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension DeleteResourcePolicyStatementInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyStatementInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
-        guard let statementId = statementId else {
+        guard let statementId = value.statementId else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())/statements/\(statementId.urlPercentEncoding())"
@@ -12649,21 +12669,22 @@ enum DeleteResourcePolicyStatementOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteSlotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteSlotInput {
+
+    static func urlPathProvider(_ value: DeleteSlotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
-        guard let slotId = slotId else {
+        guard let slotId = value.slotId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())/slots/\(slotId.urlPercentEncoding())"
@@ -12738,31 +12759,31 @@ enum DeleteSlotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSlotTypeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let skipResourceInUseCheck = skipResourceInUseCheck {
-                let skipResourceInUseCheckQueryItem = ClientRuntime.URLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
-                items.append(skipResourceInUseCheckQueryItem)
-            }
-            return items
+extension DeleteSlotTypeInput {
+
+    static func queryItemProvider(_ value: DeleteSlotTypeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let skipResourceInUseCheck = value.skipResourceInUseCheck {
+            let skipResourceInUseCheckQueryItem = ClientRuntime.SDKURLQueryItem(name: "skipResourceInUseCheck".urlPercentEncoding(), value: Swift.String(skipResourceInUseCheck).urlPercentEncoding())
+            items.append(skipResourceInUseCheckQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteSlotTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteSlotTypeInput {
+
+    static func urlPathProvider(_ value: DeleteSlotTypeInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let slotTypeId = slotTypeId else {
+        guard let slotTypeId = value.slotTypeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/slottypes/\(slotTypeId.urlPercentEncoding())"
@@ -12836,9 +12857,10 @@ enum DeleteSlotTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteTestSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension DeleteTestSetInput {
+
+    static func urlPathProvider(_ value: DeleteTestSetInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())"
@@ -12893,26 +12915,26 @@ enum DeleteTestSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteUtterancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let sessionId = sessionId {
-                let sessionIdQueryItem = ClientRuntime.URLQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
-                items.append(sessionIdQueryItem)
-            }
-            if let localeId = localeId {
-                let localeIdQueryItem = ClientRuntime.URLQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
-                items.append(localeIdQueryItem)
-            }
-            return items
+extension DeleteUtterancesInput {
+
+    static func queryItemProvider(_ value: DeleteUtterancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let sessionId = value.sessionId {
+            let sessionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+            items.append(sessionIdQueryItem)
         }
+        if let localeId = value.localeId {
+            let localeIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "localeId".urlPercentEncoding(), value: Swift.String(localeId).urlPercentEncoding())
+            items.append(localeIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteUtterancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DeleteUtterancesInput {
+
+    static func urlPathProvider(_ value: DeleteUtterancesInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/utterances"
@@ -12972,12 +12994,13 @@ enum DeleteUtterancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBotAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotAliasInput {
+
+    static func urlPathProvider(_ value: DescribeBotAliasInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases/\(botAliasId.urlPercentEncoding())"
@@ -13213,9 +13236,10 @@ enum DescribeBotAliasOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotInput {
+
+    static func urlPathProvider(_ value: DescribeBotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())"
@@ -13244,15 +13268,16 @@ extension DescribeBotInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeBotLocaleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotLocaleInput {
+
+    static func urlPathProvider(_ value: DescribeBotLocaleInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())"
@@ -13716,18 +13741,19 @@ enum DescribeBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeBotRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotRecommendationInput {
+
+    static func urlPathProvider(_ value: DescribeBotRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let botRecommendationId = botRecommendationId else {
+        guard let botRecommendationId = value.botRecommendationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations/\(botRecommendationId.urlPercentEncoding())"
@@ -13934,18 +13960,19 @@ enum DescribeBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeBotResourceGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotResourceGenerationInput {
+
+    static func urlPathProvider(_ value: DescribeBotResourceGenerationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let generationId = generationId else {
+        guard let generationId = value.generationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generations/\(generationId.urlPercentEncoding())"
@@ -14152,12 +14179,13 @@ enum DescribeBotResourceGenerationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DescribeBotVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeBotVersionInput {
+
+    static func urlPathProvider(_ value: DescribeBotVersionInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())"
@@ -14393,15 +14421,16 @@ enum DescribeBotVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeCustomVocabularyMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeCustomVocabularyMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeCustomVocabularyMetadataInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary/DEFAULT/metadata"
@@ -14545,9 +14574,10 @@ enum DescribeCustomVocabularyMetadataOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DescribeExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let exportId = exportId else {
+extension DescribeExportInput {
+
+    static func urlPathProvider(_ value: DescribeExportInput) -> Swift.String? {
+        guard let exportId = value.exportId else {
             return nil
         }
         return "/exports/\(exportId.urlPercentEncoding())"
@@ -14709,9 +14739,10 @@ enum DescribeExportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let importId = importId else {
+extension DescribeImportInput {
+
+    static func urlPathProvider(_ value: DescribeImportInput) -> Swift.String? {
+        guard let importId = value.importId else {
             return nil
         }
         return "/imports/\(importId.urlPercentEncoding())"
@@ -14883,18 +14914,19 @@ enum DescribeImportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeIntentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeIntentInput {
+
+    static func urlPathProvider(_ value: DescribeIntentInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())"
@@ -15209,9 +15241,10 @@ enum DescribeIntentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension DescribeResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DescribeResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())"
@@ -15313,21 +15346,22 @@ enum DescribeResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeSlotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeSlotInput {
+
+    static func urlPathProvider(_ value: DescribeSlotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
-        guard let slotId = slotId else {
+        guard let slotId = value.slotId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())/slots/\(slotId.urlPercentEncoding())"
@@ -15561,18 +15595,19 @@ enum DescribeSlotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeSlotTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension DescribeSlotTypeInput {
+
+    static func urlPathProvider(_ value: DescribeSlotTypeInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let slotTypeId = slotTypeId else {
+        guard let slotTypeId = value.slotTypeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/slottypes/\(slotTypeId.urlPercentEncoding())"
@@ -15800,9 +15835,10 @@ enum DescribeSlotTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTestExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testExecutionId = testExecutionId else {
+extension DescribeTestExecutionInput {
+
+    static func urlPathProvider(_ value: DescribeTestExecutionInput) -> Swift.String? {
+        guard let testExecutionId = value.testExecutionId else {
             return nil
         }
         return "/testexecutions/\(testExecutionId.urlPercentEncoding())"
@@ -15985,9 +16021,10 @@ enum DescribeTestExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeTestSetDiscrepancyReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetDiscrepancyReportId = testSetDiscrepancyReportId else {
+extension DescribeTestSetDiscrepancyReportInput {
+
+    static func urlPathProvider(_ value: DescribeTestSetDiscrepancyReportInput) -> Swift.String? {
+        guard let testSetDiscrepancyReportId = value.testSetDiscrepancyReportId else {
             return nil
         }
         return "/testsetdiscrepancy/\(testSetDiscrepancyReportId.urlPercentEncoding())"
@@ -16160,9 +16197,10 @@ enum DescribeTestSetDiscrepancyReportOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DescribeTestSetGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetGenerationId = testSetGenerationId else {
+extension DescribeTestSetGenerationInput {
+
+    static func urlPathProvider(_ value: DescribeTestSetGenerationInput) -> Swift.String? {
+        guard let testSetGenerationId = value.testSetGenerationId else {
             return nil
         }
         return "/testsetgenerations/\(testSetGenerationId.urlPercentEncoding())"
@@ -16355,9 +16393,10 @@ enum DescribeTestSetGenerationOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeTestSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension DescribeTestSetInput {
+
+    static func urlPathProvider(_ value: DescribeTestSetInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())"
@@ -17848,15 +17887,16 @@ extension GenerateBotElementInput: Swift.Encodable {
     }
 }
 
-extension GenerateBotElementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension GenerateBotElementInput {
+
+    static func urlPathProvider(_ value: GenerateBotElementInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generate"
@@ -18241,9 +18281,10 @@ extension LexModelsV2ClientTypes {
 
 }
 
-extension GetTestExecutionArtifactsUrlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testExecutionId = testExecutionId else {
+extension GetTestExecutionArtifactsUrlInput {
+
+    static func urlPathProvider(_ value: GetTestExecutionArtifactsUrlInput) -> Swift.String? {
+        guard let testExecutionId = value.testExecutionId else {
             return nil
         }
         return "/testexecutions/\(testExecutionId.urlPercentEncoding())/artifacturl"
@@ -20438,9 +20479,10 @@ extension ListAggregatedUtterancesInput: Swift.Encodable {
     }
 }
 
-extension ListAggregatedUtterancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListAggregatedUtterancesInput {
+
+    static func urlPathProvider(_ value: ListAggregatedUtterancesInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/aggregatedutterances"
@@ -20723,9 +20765,10 @@ extension ListBotAliasesInput: Swift.Encodable {
     }
 }
 
-extension ListBotAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListBotAliasesInput {
+
+    static func urlPathProvider(_ value: ListBotAliasesInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases"
@@ -20884,12 +20927,13 @@ extension ListBotLocalesInput: Swift.Encodable {
     }
 }
 
-extension ListBotLocalesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListBotLocalesInput {
+
+    static func urlPathProvider(_ value: ListBotLocalesInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales"
@@ -21077,15 +21121,16 @@ extension ListBotRecommendationsInput: Swift.Encodable {
     }
 }
 
-extension ListBotRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListBotRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListBotRecommendationsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations"
@@ -21267,15 +21312,16 @@ extension ListBotResourceGenerationsInput: Swift.Encodable {
     }
 }
 
-extension ListBotResourceGenerationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListBotResourceGenerationsInput {
+
+    static func urlPathProvider(_ value: ListBotResourceGenerationsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/generations"
@@ -21465,9 +21511,10 @@ extension ListBotVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListBotVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListBotVersionsInput {
+
+    static func urlPathProvider(_ value: ListBotVersionsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions"
@@ -21634,8 +21681,9 @@ extension ListBotsInput: Swift.Encodable {
     }
 }
 
-extension ListBotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBotsInput {
+
+    static func urlPathProvider(_ value: ListBotsInput) -> Swift.String? {
         return "/bots"
     }
 }
@@ -21795,9 +21843,10 @@ extension ListBuiltInIntentsInput: Swift.Encodable {
     }
 }
 
-extension ListBuiltInIntentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let localeId = localeId else {
+extension ListBuiltInIntentsInput {
+
+    static func urlPathProvider(_ value: ListBuiltInIntentsInput) -> Swift.String? {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/builtins/locales/\(localeId.urlPercentEncoding())/intents"
@@ -21957,9 +22006,10 @@ extension ListBuiltInSlotTypesInput: Swift.Encodable {
     }
 }
 
-extension ListBuiltInSlotTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let localeId = localeId else {
+extension ListBuiltInSlotTypesInput {
+
+    static func urlPathProvider(_ value: ListBuiltInSlotTypesInput) -> Swift.String? {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/builtins/locales/\(localeId.urlPercentEncoding())/slottypes"
@@ -22115,15 +22165,16 @@ extension ListCustomVocabularyItemsInput: Swift.Encodable {
     }
 }
 
-extension ListCustomVocabularyItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListCustomVocabularyItemsInput {
+
+    static func urlPathProvider(_ value: ListCustomVocabularyItemsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/customvocabulary/DEFAULT/list"
@@ -22325,8 +22376,9 @@ extension ListExportsInput: Swift.Encodable {
     }
 }
 
-extension ListExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExportsInput {
+
+    static func urlPathProvider(_ value: ListExportsInput) -> Swift.String? {
         return "/exports"
     }
 }
@@ -22558,8 +22610,9 @@ extension ListImportsInput: Swift.Encodable {
     }
 }
 
-extension ListImportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImportsInput {
+
+    static func urlPathProvider(_ value: ListImportsInput) -> Swift.String? {
         return "/imports"
     }
 }
@@ -22804,9 +22857,10 @@ extension ListIntentMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListIntentMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListIntentMetricsInput {
+
+    static func urlPathProvider(_ value: ListIntentMetricsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/intentmetrics"
@@ -23057,9 +23111,10 @@ extension ListIntentPathsInput: Swift.Encodable {
     }
 }
 
-extension ListIntentPathsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListIntentPathsInput {
+
+    static func urlPathProvider(_ value: ListIntentPathsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/intentpaths"
@@ -23258,9 +23313,10 @@ extension ListIntentStageMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListIntentStageMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListIntentStageMetricsInput {
+
+    static func urlPathProvider(_ value: ListIntentStageMetricsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/intentstagemetrics"
@@ -23511,15 +23567,16 @@ extension ListIntentsInput: Swift.Encodable {
     }
 }
 
-extension ListIntentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListIntentsInput {
+
+    static func urlPathProvider(_ value: ListIntentsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents"
@@ -23722,18 +23779,19 @@ extension ListRecommendedIntentsInput: Swift.Encodable {
     }
 }
 
-extension ListRecommendedIntentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListRecommendedIntentsInput {
+
+    static func urlPathProvider(_ value: ListRecommendedIntentsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let botRecommendationId = botRecommendationId else {
+        guard let botRecommendationId = value.botRecommendationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations/\(botRecommendationId.urlPercentEncoding())/intents"
@@ -23946,9 +24004,10 @@ extension ListSessionAnalyticsDataInput: Swift.Encodable {
     }
 }
 
-extension ListSessionAnalyticsDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListSessionAnalyticsDataInput {
+
+    static func urlPathProvider(_ value: ListSessionAnalyticsDataInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/sessions"
@@ -24176,9 +24235,10 @@ extension ListSessionMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListSessionMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListSessionMetricsInput {
+
+    static func urlPathProvider(_ value: ListSessionMetricsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/sessionmetrics"
@@ -24429,15 +24489,16 @@ extension ListSlotTypesInput: Swift.Encodable {
     }
 }
 
-extension ListSlotTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListSlotTypesInput {
+
+    static func urlPathProvider(_ value: ListSlotTypesInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/slottypes"
@@ -24651,18 +24712,19 @@ extension ListSlotsInput: Swift.Encodable {
     }
 }
 
-extension ListSlotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListSlotsInput {
+
+    static func urlPathProvider(_ value: ListSlotsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())/slots"
@@ -24863,9 +24925,10 @@ enum ListSlotsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceARN = resourceARN else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceARN = value.resourceARN else {
             return nil
         }
         return "/tags/\(resourceARN.urlPercentEncoding())"
@@ -24978,9 +25041,10 @@ extension ListTestExecutionResultItemsInput: Swift.Encodable {
     }
 }
 
-extension ListTestExecutionResultItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testExecutionId = testExecutionId else {
+extension ListTestExecutionResultItemsInput {
+
+    static func urlPathProvider(_ value: ListTestExecutionResultItemsInput) -> Swift.String? {
+        guard let testExecutionId = value.testExecutionId else {
             return nil
         }
         return "/testexecutions/\(testExecutionId.urlPercentEncoding())/results"
@@ -25123,8 +25187,9 @@ extension ListTestExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListTestExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTestExecutionsInput {
+
+    static func urlPathProvider(_ value: ListTestExecutionsInput) -> Swift.String? {
         return "/testexecutions"
     }
 }
@@ -25263,9 +25328,10 @@ extension ListTestSetRecordsInput: Swift.Encodable {
     }
 }
 
-extension ListTestSetRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension ListTestSetRecordsInput {
+
+    static func urlPathProvider(_ value: ListTestSetRecordsInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())/records"
@@ -25408,8 +25474,9 @@ extension ListTestSetsInput: Swift.Encodable {
     }
 }
 
-extension ListTestSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTestSetsInput {
+
+    static func urlPathProvider(_ value: ListTestSetsInput) -> Swift.String? {
         return "/testsets"
     }
 }
@@ -25567,9 +25634,10 @@ extension ListUtteranceAnalyticsDataInput: Swift.Encodable {
     }
 }
 
-extension ListUtteranceAnalyticsDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListUtteranceAnalyticsDataInput {
+
+    static func urlPathProvider(_ value: ListUtteranceAnalyticsDataInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/utterances"
@@ -25804,9 +25872,10 @@ extension ListUtteranceMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListUtteranceMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension ListUtteranceMetricsInput {
+
+    static func urlPathProvider(_ value: ListUtteranceMetricsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/analytics/utterancemetrics"
@@ -28007,18 +28076,19 @@ extension SearchAssociatedTranscriptsInput: Swift.Encodable {
     }
 }
 
-extension SearchAssociatedTranscriptsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension SearchAssociatedTranscriptsInput {
+
+    static func urlPathProvider(_ value: SearchAssociatedTranscriptsInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let botRecommendationId = botRecommendationId else {
+        guard let botRecommendationId = value.botRecommendationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations/\(botRecommendationId.urlPercentEncoding())/associatedtranscripts"
@@ -30316,15 +30386,16 @@ extension StartBotRecommendationInput: Swift.Encodable {
     }
 }
 
-extension StartBotRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension StartBotRecommendationInput {
+
+    static func urlPathProvider(_ value: StartBotRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations"
@@ -30523,15 +30594,16 @@ extension StartBotResourceGenerationInput: Swift.Encodable {
     }
 }
 
-extension StartBotResourceGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension StartBotResourceGenerationInput {
+
+    static func urlPathProvider(_ value: StartBotResourceGenerationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/startgeneration"
@@ -30728,8 +30800,9 @@ extension StartImportInput: Swift.Encodable {
     }
 }
 
-extension StartImportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartImportInput {
+
+    static func urlPathProvider(_ value: StartImportInput) -> Swift.String? {
         return "/imports"
     }
 }
@@ -30906,9 +30979,10 @@ extension StartTestExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartTestExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension StartTestExecutionInput {
+
+    static func urlPathProvider(_ value: StartTestExecutionInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())/testexecutions"
@@ -31108,8 +31182,9 @@ extension StartTestSetGenerationInput: Swift.Encodable {
     }
 }
 
-extension StartTestSetGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartTestSetGenerationInput {
+
+    static func urlPathProvider(_ value: StartTestSetGenerationInput) -> Swift.String? {
         return "/testsetgenerations"
     }
 }
@@ -31420,18 +31495,19 @@ extension LexModelsV2ClientTypes {
 
 }
 
-extension StopBotRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension StopBotRecommendationInput {
+
+    static func urlPathProvider(_ value: StopBotRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let botRecommendationId = botRecommendationId else {
+        guard let botRecommendationId = value.botRecommendationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations/\(botRecommendationId.urlPercentEncoding())/stopbotrecommendation"
@@ -31770,9 +31846,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceARN = resourceARN else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceARN = value.resourceARN else {
             return nil
         }
         return "/tags/\(resourceARN.urlPercentEncoding())"
@@ -33773,26 +33850,26 @@ extension LexModelsV2ClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceARN = resourceARN else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceARN = value.resourceARN else {
             return nil
         }
         return "/tags/\(resourceARN.urlPercentEncoding())"
@@ -33886,12 +33963,13 @@ extension UpdateBotAliasInput: Swift.Encodable {
     }
 }
 
-extension UpdateBotAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateBotAliasInput {
+
+    static func urlPathProvider(_ value: UpdateBotAliasInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botAliasId = botAliasId else {
+        guard let botAliasId = value.botAliasId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botaliases/\(botAliasId.urlPercentEncoding())"
@@ -34191,9 +34269,10 @@ extension UpdateBotInput: Swift.Encodable {
     }
 }
 
-extension UpdateBotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateBotInput {
+
+    static func urlPathProvider(_ value: UpdateBotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())"
@@ -34319,15 +34398,16 @@ extension UpdateBotLocaleInput: Swift.Encodable {
     }
 }
 
-extension UpdateBotLocaleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateBotLocaleInput {
+
+    static func urlPathProvider(_ value: UpdateBotLocaleInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())"
@@ -34774,18 +34854,19 @@ extension UpdateBotRecommendationInput: Swift.Encodable {
     }
 }
 
-extension UpdateBotRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateBotRecommendationInput {
+
+    static func urlPathProvider(_ value: UpdateBotRecommendationInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let botRecommendationId = botRecommendationId else {
+        guard let botRecommendationId = value.botRecommendationId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/botrecommendations/\(botRecommendationId.urlPercentEncoding())"
@@ -34996,9 +35077,10 @@ extension UpdateExportInput: Swift.Encodable {
     }
 }
 
-extension UpdateExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let exportId = exportId else {
+extension UpdateExportInput {
+
+    static func urlPathProvider(_ value: UpdateExportInput) -> Swift.String? {
+        guard let exportId = value.exportId else {
             return nil
         }
         return "/exports/\(exportId.urlPercentEncoding())"
@@ -35217,18 +35299,19 @@ extension UpdateIntentInput: Swift.Encodable {
     }
 }
 
-extension UpdateIntentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateIntentInput {
+
+    static func urlPathProvider(_ value: UpdateIntentInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())"
@@ -35701,22 +35784,22 @@ extension UpdateResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourcePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let expectedRevisionId = expectedRevisionId {
-                let expectedRevisionIdQueryItem = ClientRuntime.URLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
-                items.append(expectedRevisionIdQueryItem)
-            }
-            return items
+extension UpdateResourcePolicyInput {
+
+    static func queryItemProvider(_ value: UpdateResourcePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let expectedRevisionId = value.expectedRevisionId {
+            let expectedRevisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            items.append(expectedRevisionIdQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UpdateResourcePolicyInput {
+
+    static func urlPathProvider(_ value: UpdateResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/policy/\(resourceArn.urlPercentEncoding())"
@@ -35864,21 +35947,22 @@ extension UpdateSlotInput: Swift.Encodable {
     }
 }
 
-extension UpdateSlotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateSlotInput {
+
+    static func urlPathProvider(_ value: UpdateSlotInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let intentId = intentId else {
+        guard let intentId = value.intentId else {
             return nil
         }
-        guard let slotId = slotId else {
+        guard let slotId = value.slotId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/intents/\(intentId.urlPercentEncoding())/slots/\(slotId.urlPercentEncoding())"
@@ -36214,18 +36298,19 @@ extension UpdateSlotTypeInput: Swift.Encodable {
     }
 }
 
-extension UpdateSlotTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let botId = botId else {
+extension UpdateSlotTypeInput {
+
+    static func urlPathProvider(_ value: UpdateSlotTypeInput) -> Swift.String? {
+        guard let botId = value.botId else {
             return nil
         }
-        guard let botVersion = botVersion else {
+        guard let botVersion = value.botVersion else {
             return nil
         }
-        guard let localeId = localeId else {
+        guard let localeId = value.localeId else {
             return nil
         }
-        guard let slotTypeId = slotTypeId else {
+        guard let slotTypeId = value.slotTypeId else {
             return nil
         }
         return "/bots/\(botId.urlPercentEncoding())/botversions/\(botVersion.urlPercentEncoding())/botlocales/\(localeId.urlPercentEncoding())/slottypes/\(slotTypeId.urlPercentEncoding())"
@@ -36540,9 +36625,10 @@ extension UpdateTestSetInput: Swift.Encodable {
     }
 }
 
-extension UpdateTestSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let testSetId = testSetId else {
+extension UpdateTestSetInput {
+
+    static func urlPathProvider(_ value: UpdateTestSetInput) -> Swift.String? {
+        guard let testSetId = value.testSetId else {
             return nil
         }
         return "/testsets/\(testSetId.urlPercentEncoding())"

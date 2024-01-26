@@ -209,9 +209,10 @@ extension CreateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension CreateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v1/sms-voice/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations"
@@ -300,8 +301,9 @@ extension CreateConfigurationSetInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationSetInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetInput) -> Swift.String? {
         return "/v1/sms-voice/configuration-sets"
     }
 }
@@ -361,12 +363,13 @@ enum CreateConfigurationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension DeleteConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
-        guard let eventDestinationName = eventDestinationName else {
+        guard let eventDestinationName = value.eventDestinationName else {
             return nil
         }
         return "/v1/sms-voice/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations/\(eventDestinationName.urlPercentEncoding())"
@@ -425,9 +428,10 @@ enum DeleteConfigurationSetEventDestinationOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension DeleteConfigurationSetInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v1/sms-voice/configuration-sets/\(configurationSetName.urlPercentEncoding())"
@@ -713,9 +717,10 @@ extension PinpointSMSVoiceClientTypes {
     }
 }
 
-extension GetConfigurationSetEventDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension GetConfigurationSetEventDestinationsInput {
+
+    static func urlPathProvider(_ value: GetConfigurationSetEventDestinationsInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
         return "/v1/sms-voice/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations"
@@ -963,25 +968,25 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListConfigurationSetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let pageSize = pageSize {
-                let pageSizeQueryItem = ClientRuntime.URLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-                items.append(pageSizeQueryItem)
-            }
-            return items
+extension ListConfigurationSetsInput {
+
+    static func queryItemProvider(_ value: ListConfigurationSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConfigurationSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationSetsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationSetsInput) -> Swift.String? {
         return "/v1/sms-voice/configuration-sets"
     }
 }
@@ -1278,8 +1283,9 @@ extension SendVoiceMessageInput: Swift.Encodable {
     }
 }
 
-extension SendVoiceMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendVoiceMessageInput {
+
+    static func urlPathProvider(_ value: SendVoiceMessageInput) -> Swift.String? {
         return "/v1/sms-voice/voice/message"
     }
 }
@@ -1502,12 +1508,13 @@ extension UpdateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let configurationSetName = configurationSetName else {
+extension UpdateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetEventDestinationInput) -> Swift.String? {
+        guard let configurationSetName = value.configurationSetName else {
             return nil
         }
-        guard let eventDestinationName = eventDestinationName else {
+        guard let eventDestinationName = value.eventDestinationName else {
             return nil
         }
         return "/v1/sms-voice/configuration-sets/\(configurationSetName.urlPercentEncoding())/event-destinations/\(eventDestinationName.urlPercentEncoding())"

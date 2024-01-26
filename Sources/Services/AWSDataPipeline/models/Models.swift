@@ -26,8 +26,9 @@ extension ActivatePipelineInput: Swift.Encodable {
     }
 }
 
-extension ActivatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ActivatePipelineInput {
+
+    static func urlPathProvider(_ value: ActivatePipelineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -132,8 +133,9 @@ extension AddTagsInput: Swift.Encodable {
     }
 }
 
-extension AddTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsInput {
+
+    static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -239,8 +241,9 @@ extension CreatePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePipelineInput {
+
+    static func urlPathProvider(_ value: CreatePipelineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -380,8 +383,9 @@ extension DeactivatePipelineInput: Swift.Encodable {
     }
 }
 
-extension DeactivatePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeactivatePipelineInput {
+
+    static func urlPathProvider(_ value: DeactivatePipelineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -462,8 +466,9 @@ extension DeletePipelineInput: Swift.Encodable {
     }
 }
 
-extension DeletePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePipelineInput {
+
+    static func urlPathProvider(_ value: DeletePipelineInput) -> Swift.String? {
         return "/"
     }
 }
@@ -549,8 +554,9 @@ extension DescribeObjectsInput: Swift.Encodable {
     }
 }
 
-extension DescribeObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeObjectsInput {
+
+    static func urlPathProvider(_ value: DescribeObjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -720,8 +726,9 @@ extension DescribePipelinesInput: Swift.Encodable {
     }
 }
 
-extension DescribePipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePipelinesInput {
+
+    static func urlPathProvider(_ value: DescribePipelinesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -851,8 +858,9 @@ extension EvaluateExpressionInput: Swift.Encodable {
     }
 }
 
-extension EvaluateExpressionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EvaluateExpressionInput {
+
+    static func urlPathProvider(_ value: EvaluateExpressionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1035,8 +1043,9 @@ extension GetPipelineDefinitionInput: Swift.Encodable {
     }
 }
 
-extension GetPipelineDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPipelineDefinitionInput {
+
+    static func urlPathProvider(_ value: GetPipelineDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1351,8 +1360,9 @@ extension ListPipelinesInput: Swift.Encodable {
     }
 }
 
-extension ListPipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPipelinesInput {
+
+    static func urlPathProvider(_ value: ListPipelinesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2104,8 +2114,9 @@ extension PollForTaskInput: Swift.Encodable {
     }
 }
 
-extension PollForTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PollForTaskInput {
+
+    static func urlPathProvider(_ value: PollForTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2244,8 +2255,9 @@ extension PutPipelineDefinitionInput: Swift.Encodable {
     }
 }
 
-extension PutPipelineDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutPipelineDefinitionInput {
+
+    static func urlPathProvider(_ value: PutPipelineDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2502,8 +2514,9 @@ extension QueryObjectsInput: Swift.Encodable {
     }
 }
 
-extension QueryObjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension QueryObjectsInput {
+
+    static func urlPathProvider(_ value: QueryObjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2675,8 +2688,9 @@ extension RemoveTagsInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsInput {
+
+    static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2774,8 +2788,9 @@ extension ReportTaskProgressInput: Swift.Encodable {
     }
 }
 
-extension ReportTaskProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReportTaskProgressInput {
+
+    static func urlPathProvider(_ value: ReportTaskProgressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2905,8 +2920,9 @@ extension ReportTaskRunnerHeartbeatInput: Swift.Encodable {
     }
 }
 
-extension ReportTaskRunnerHeartbeatInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReportTaskRunnerHeartbeatInput {
+
+    static func urlPathProvider(_ value: ReportTaskRunnerHeartbeatInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3080,8 +3096,9 @@ extension SetStatusInput: Swift.Encodable {
     }
 }
 
-extension SetStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetStatusInput {
+
+    static func urlPathProvider(_ value: SetStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3196,8 +3213,9 @@ extension SetTaskStatusInput: Swift.Encodable {
     }
 }
 
-extension SetTaskStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetTaskStatusInput {
+
+    static func urlPathProvider(_ value: SetTaskStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3540,8 +3558,9 @@ extension ValidatePipelineDefinitionInput: Swift.Encodable {
     }
 }
 
-extension ValidatePipelineDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidatePipelineDefinitionInput {
+
+    static func urlPathProvider(_ value: ValidatePipelineDefinitionInput) -> Swift.String? {
         return "/"
     }
 }

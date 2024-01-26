@@ -180,8 +180,9 @@ extension JoinStorageSessionInput: Swift.Encodable {
     }
 }
 
-extension JoinStorageSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension JoinStorageSessionInput {
+
+    static func urlPathProvider(_ value: JoinStorageSessionInput) -> Swift.String? {
         return "/joinStorageSession"
     }
 }

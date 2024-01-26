@@ -729,8 +729,9 @@ extension CreateClusterInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterInput {
+
+    static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
         return "/cluster"
     }
 }
@@ -984,8 +985,9 @@ extension CreateClusterSnapshotInput: Swift.Encodable {
     }
 }
 
-extension CreateClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: CreateClusterSnapshotInput) -> Swift.String? {
         return "/cluster-snapshot"
     }
 }
@@ -1103,9 +1105,10 @@ enum CreateClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterArn = clusterArn else {
+extension DeleteClusterInput {
+
+    static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
             return nil
         }
         return "/cluster/\(clusterArn.urlPercentEncoding())"
@@ -1191,9 +1194,10 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotArn = snapshotArn else {
+extension DeleteClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: DeleteClusterSnapshotInput) -> Swift.String? {
+        guard let snapshotArn = value.snapshotArn else {
             return nil
         }
         return "/cluster-snapshot/\(snapshotArn.urlPercentEncoding())"
@@ -1279,9 +1283,10 @@ enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterArn = clusterArn else {
+extension GetClusterInput {
+
+    static func urlPathProvider(_ value: GetClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
             return nil
         }
         return "/cluster/\(clusterArn.urlPercentEncoding())"
@@ -1366,9 +1371,10 @@ enum GetClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetClusterSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotArn = snapshotArn else {
+extension GetClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: GetClusterSnapshotInput) -> Swift.String? {
+        guard let snapshotArn = value.snapshotArn else {
             return nil
         }
         return "/cluster-snapshot/\(snapshotArn.urlPercentEncoding())"
@@ -1509,29 +1515,29 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListClusterSnapshotsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clusterArn = clusterArn {
-                let clusterArnQueryItem = ClientRuntime.URLQueryItem(name: "clusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
-                items.append(clusterArnQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListClusterSnapshotsInput {
+
+    static func queryItemProvider(_ value: ListClusterSnapshotsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clusterArn = value.clusterArn {
+            let clusterArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
+            items.append(clusterArnQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListClusterSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClusterSnapshotsInput {
+
+    static func urlPathProvider(_ value: ListClusterSnapshotsInput) -> Swift.String? {
         return "/cluster-snapshots"
     }
 }
@@ -1638,25 +1644,25 @@ enum ListClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListClustersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListClustersInput {
+
+    static func queryItemProvider(_ value: ListClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListClustersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListClustersInput {
+
+    static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
         return "/clusters"
     }
 }
@@ -1759,9 +1765,10 @@ enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1970,9 +1977,10 @@ extension RestoreClusterFromSnapshotInput: Swift.Encodable {
     }
 }
 
-extension RestoreClusterFromSnapshotInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let snapshotArn = snapshotArn else {
+extension RestoreClusterFromSnapshotInput {
+
+    static func urlPathProvider(_ value: RestoreClusterFromSnapshotInput) -> Swift.String? {
+        guard let snapshotArn = value.snapshotArn else {
             return nil
         }
         return "/cluster-snapshot/\(snapshotArn.urlPercentEncoding())/restore"
@@ -2255,9 +2263,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2396,26 +2405,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2525,9 +2534,10 @@ extension UpdateClusterInput: Swift.Encodable {
     }
 }
 
-extension UpdateClusterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterArn = clusterArn else {
+extension UpdateClusterInput {
+
+    static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
             return nil
         }
         return "/cluster/\(clusterArn.urlPercentEncoding())"
