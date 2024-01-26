@@ -269,6 +269,46 @@ extension EventBridgeClientTypes {
     }
 }
 
+extension EventBridgeClientTypes.AppSyncParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphQLOperation = "GraphQLOperation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let graphQLOperation = self.graphQLOperation {
+            try encodeContainer.encode(graphQLOperation, forKey: .graphQLOperation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphQLOperationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphQLOperation)
+        graphQLOperation = graphQLOperationDecoded
+    }
+}
+
+extension EventBridgeClientTypes.AppSyncParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AppSyncParameters(graphQLOperation: \"CONTENT_REDACTED\")"}
+}
+
+extension EventBridgeClientTypes {
+    /// Contains the GraphQL operation to be parsed and executed, if the event target is an AppSync API.
+    public struct AppSyncParameters: Swift.Equatable {
+        /// The GraphQL operation; that is, the query, mutation, or subscription to be parsed and executed by the GraphQL service. For more information, see [Operations](https://docs.aws.amazon.com/appsync/latest/devguide/graphql-architecture.html#graphql-operations) in the AppSync User Guide.
+        public var graphQLOperation: Swift.String?
+
+        public init(
+            graphQLOperation: Swift.String? = nil
+        )
+        {
+            self.graphQLOperation = graphQLOperation
+        }
+    }
+
+}
+
 extension EventBridgeClientTypes.Archive: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case archiveName = "ArchiveName"
@@ -12177,6 +12217,7 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension EventBridgeClientTypes.Target: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appSyncParameters = "AppSyncParameters"
         case arn = "Arn"
         case batchParameters = "BatchParameters"
         case deadLetterConfig = "DeadLetterConfig"
@@ -12197,6 +12238,9 @@ extension EventBridgeClientTypes.Target: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appSyncParameters = self.appSyncParameters {
+            try encodeContainer.encode(appSyncParameters, forKey: .appSyncParameters)
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -12281,12 +12325,16 @@ extension EventBridgeClientTypes.Target: Swift.Codable {
         deadLetterConfig = deadLetterConfigDecoded
         let retryPolicyDecoded = try containerValues.decodeIfPresent(EventBridgeClientTypes.RetryPolicy.self, forKey: .retryPolicy)
         retryPolicy = retryPolicyDecoded
+        let appSyncParametersDecoded = try containerValues.decodeIfPresent(EventBridgeClientTypes.AppSyncParameters.self, forKey: .appSyncParameters)
+        appSyncParameters = appSyncParametersDecoded
     }
 }
 
 extension EventBridgeClientTypes {
     /// Targets are the resources to be invoked when a rule is triggered. For a complete list of services and resources that can be set as a target, see [PutTargets](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutTargets.html). If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see [Sending and Receiving Events Between Amazon Web Services Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html) in the Amazon EventBridge User Guide.
     public struct Target: Swift.Equatable {
+        /// Contains the GraphQL operation to be parsed and executed, if the event target is an AppSync API.
+        public var appSyncParameters: EventBridgeClientTypes.AppSyncParameters?
         /// The Amazon Resource Name (ARN) of the target.
         /// This member is required.
         public var arn: Swift.String?
@@ -12323,6 +12371,7 @@ extension EventBridgeClientTypes {
         public var sqsParameters: EventBridgeClientTypes.SqsParameters?
 
         public init(
+            appSyncParameters: EventBridgeClientTypes.AppSyncParameters? = nil,
             arn: Swift.String? = nil,
             batchParameters: EventBridgeClientTypes.BatchParameters? = nil,
             deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
@@ -12341,6 +12390,7 @@ extension EventBridgeClientTypes {
             sqsParameters: EventBridgeClientTypes.SqsParameters? = nil
         )
         {
+            self.appSyncParameters = appSyncParameters
             self.arn = arn
             self.batchParameters = batchParameters
             self.deadLetterConfig = deadLetterConfig

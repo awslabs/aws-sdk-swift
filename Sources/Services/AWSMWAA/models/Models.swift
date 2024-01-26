@@ -584,7 +584,11 @@ extension CreateWebLoginTokenInputBody: Swift.Decodable {
 
 extension CreateWebLoginTokenOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
+<<<<<<< HEAD
         "CreateWebLoginTokenOutput(webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
+=======
+        "CreateWebLoginTokenOutput(airflowIdentity: \(Swift.String(describing: airflowIdentity)), iamIdentity: \(Swift.String(describing: iamIdentity)), webServerHostname: \(Swift.String(describing: webServerHostname)), webToken: \"CONTENT_REDACTED\")"}
+>>>>>>> main
 }
 
 extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
@@ -592,9 +596,19 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CreateWebLoginTokenOutputBody = try responseDecoder.decode(responseBody: data)
+<<<<<<< HEAD
             self.webServerHostname = output.webServerHostname
             self.webToken = output.webToken
         } else {
+=======
+            self.airflowIdentity = output.airflowIdentity
+            self.iamIdentity = output.iamIdentity
+            self.webServerHostname = output.webServerHostname
+            self.webToken = output.webToken
+        } else {
+            self.airflowIdentity = nil
+            self.iamIdentity = nil
+>>>>>>> main
             self.webServerHostname = nil
             self.webToken = nil
         }
@@ -602,16 +616,33 @@ extension CreateWebLoginTokenOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateWebLoginTokenOutput: Swift.Equatable {
+<<<<<<< HEAD
+=======
+    /// The user name of the Apache Airflow identity creating the web login token.
+    public var airflowIdentity: Swift.String?
+    /// The name of the IAM identity creating the web login token. This might be an IAM user, or an assumed or federated identity. For example, assumed-role/Admin/your-name.
+    public var iamIdentity: Swift.String?
+>>>>>>> main
     /// The Airflow web server hostname for the environment.
     public var webServerHostname: Swift.String?
     /// An Airflow web server login token.
     public var webToken: Swift.String?
 
     public init(
+<<<<<<< HEAD
+=======
+        airflowIdentity: Swift.String? = nil,
+        iamIdentity: Swift.String? = nil,
+>>>>>>> main
         webServerHostname: Swift.String? = nil,
         webToken: Swift.String? = nil
     )
     {
+<<<<<<< HEAD
+=======
+        self.airflowIdentity = airflowIdentity
+        self.iamIdentity = iamIdentity
+>>>>>>> main
         self.webServerHostname = webServerHostname
         self.webToken = webToken
     }
@@ -620,10 +651,20 @@ public struct CreateWebLoginTokenOutput: Swift.Equatable {
 struct CreateWebLoginTokenOutputBody: Swift.Equatable {
     let webToken: Swift.String?
     let webServerHostname: Swift.String?
+<<<<<<< HEAD
+=======
+    let iamIdentity: Swift.String?
+    let airflowIdentity: Swift.String?
+>>>>>>> main
 }
 
 extension CreateWebLoginTokenOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+<<<<<<< HEAD
+=======
+        case airflowIdentity = "AirflowIdentity"
+        case iamIdentity = "IamIdentity"
+>>>>>>> main
         case webServerHostname = "WebServerHostname"
         case webToken = "WebToken"
     }
@@ -634,6 +675,13 @@ extension CreateWebLoginTokenOutputBody: Swift.Decodable {
         webToken = webTokenDecoded
         let webServerHostnameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webServerHostname)
         webServerHostname = webServerHostnameDecoded
+<<<<<<< HEAD
+=======
+        let iamIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamIdentity)
+        iamIdentity = iamIdentityDecoded
+        let airflowIdentityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .airflowIdentity)
+        airflowIdentity = airflowIdentityDecoded
+>>>>>>> main
     }
 }
 

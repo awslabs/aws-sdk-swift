@@ -23128,9 +23128,11 @@ extension FederationSourceRetryableException {
     }
 }
 
+/// A federation source failed, but the operation may be retried.
 public struct FederationSourceRetryableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// A message describing the problem.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -32939,6 +32941,8 @@ extension GetUnfilteredPartitionMetadataInput: Swift.Encodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case partitionValues = "PartitionValues"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableName = "TableName"
     }
@@ -32959,6 +32963,12 @@ extension GetUnfilteredPartitionMetadataInput: Swift.Encodable {
             for valuestring0 in partitionValues {
                 try partitionValuesContainer.encode(valuestring0)
             }
+        }
+        if let querySessionContext = self.querySessionContext {
+            try encodeContainer.encode(querySessionContext, forKey: .querySessionContext)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
@@ -32990,6 +33000,10 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
     /// (Required) A list of partition key values.
     /// This member is required.
     public var partitionValues: [Swift.String]?
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public var querySessionContext: GlueClientTypes.QuerySessionContext?
+    /// Specified only if the base tables belong to a different Amazon Web Services Region.
+    public var region: Swift.String?
     /// (Required) A list of supported permission types.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
@@ -33002,6 +33016,8 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         partitionValues: [Swift.String]? = nil,
+        querySessionContext: GlueClientTypes.QuerySessionContext? = nil,
+        region: Swift.String? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
     )
@@ -33010,18 +33026,22 @@ public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.partitionValues = partitionValues
+        self.querySessionContext = querySessionContext
+        self.region = region
         self.supportedPermissionTypes = supportedPermissionTypes
         self.tableName = tableName
     }
 }
 
 struct GetUnfilteredPartitionMetadataInputBody: Swift.Equatable {
+    let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
     let partitionValues: [Swift.String]?
     let auditContext: GlueClientTypes.AuditContext?
     let supportedPermissionTypes: [GlueClientTypes.PermissionType]?
+    let querySessionContext: GlueClientTypes.QuerySessionContext?
 }
 
 extension GetUnfilteredPartitionMetadataInputBody: Swift.Decodable {
@@ -33030,12 +33050,16 @@ extension GetUnfilteredPartitionMetadataInputBody: Swift.Decodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case partitionValues = "PartitionValues"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableName = "TableName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
         let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
         catalogId = catalogIdDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
@@ -33066,6 +33090,8 @@ extension GetUnfilteredPartitionMetadataInputBody: Swift.Decodable {
             }
         }
         supportedPermissionTypes = supportedPermissionTypesDecoded0
+        let querySessionContextDecoded = try containerValues.decodeIfPresent(GlueClientTypes.QuerySessionContext.self, forKey: .querySessionContext)
+        querySessionContext = querySessionContextDecoded
     }
 }
 
@@ -33164,6 +33190,8 @@ extension GetUnfilteredPartitionsMetadataInput: Swift.Encodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
         case segment = "Segment"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableName = "TableName"
@@ -33188,6 +33216,12 @@ extension GetUnfilteredPartitionsMetadataInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let querySessionContext = self.querySessionContext {
+            try encodeContainer.encode(querySessionContext, forKey: .querySessionContext)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
         }
         if let segment = self.segment {
             try encodeContainer.encode(segment, forKey: .segment)
@@ -33246,6 +33280,10 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A continuation token, if this is not the first call to retrieve these partitions.
     public var nextToken: Swift.String?
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public var querySessionContext: GlueClientTypes.QuerySessionContext?
+    /// Specified only if the base tables belong to a different Amazon Web Services Region.
+    public var region: Swift.String?
     /// The segment of the table's partitions to scan in this request.
     public var segment: GlueClientTypes.Segment?
     /// A list of supported permission types.
@@ -33262,6 +33300,8 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
         expression: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        querySessionContext: GlueClientTypes.QuerySessionContext? = nil,
+        region: Swift.String? = nil,
         segment: GlueClientTypes.Segment? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil,
         tableName: Swift.String? = nil
@@ -33273,6 +33313,8 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
         self.expression = expression
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.querySessionContext = querySessionContext
+        self.region = region
         self.segment = segment
         self.supportedPermissionTypes = supportedPermissionTypes
         self.tableName = tableName
@@ -33280,6 +33322,7 @@ public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
 }
 
 struct GetUnfilteredPartitionsMetadataInputBody: Swift.Equatable {
+    let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -33289,6 +33332,7 @@ struct GetUnfilteredPartitionsMetadataInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let segment: GlueClientTypes.Segment?
     let maxResults: Swift.Int?
+    let querySessionContext: GlueClientTypes.QuerySessionContext?
 }
 
 extension GetUnfilteredPartitionsMetadataInputBody: Swift.Decodable {
@@ -33299,6 +33343,8 @@ extension GetUnfilteredPartitionsMetadataInputBody: Swift.Decodable {
         case expression = "Expression"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
         case segment = "Segment"
         case supportedPermissionTypes = "SupportedPermissionTypes"
         case tableName = "TableName"
@@ -33306,6 +33352,8 @@ extension GetUnfilteredPartitionsMetadataInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
         let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
         catalogId = catalogIdDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
@@ -33333,6 +33381,8 @@ extension GetUnfilteredPartitionsMetadataInputBody: Swift.Decodable {
         segment = segmentDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let querySessionContextDecoded = try containerValues.decodeIfPresent(GlueClientTypes.QuerySessionContext.self, forKey: .querySessionContext)
+        querySessionContext = querySessionContextDecoded
     }
 }
 
@@ -33419,6 +33469,10 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case name = "Name"
+        case permissions = "Permissions"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
+        case supportedDialect = "SupportedDialect"
         case supportedPermissionTypes = "SupportedPermissionTypes"
     }
 
@@ -33435,6 +33489,21 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
+            }
+        }
+        if let querySessionContext = self.querySessionContext {
+            try encodeContainer.encode(querySessionContext, forKey: .querySessionContext)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+        if let supportedDialect = self.supportedDialect {
+            try encodeContainer.encode(supportedDialect, forKey: .supportedDialect)
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
@@ -33463,6 +33532,14 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
     /// (Required) Specifies the name of a table for which you are requesting metadata.
     /// This member is required.
     public var name: Swift.String?
+    /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.
+    public var permissions: [GlueClientTypes.Permission]?
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public var querySessionContext: GlueClientTypes.QuerySessionContext?
+    /// Specified only if the base tables belong to a different Amazon Web Services Region.
+    public var region: Swift.String?
+    /// A structure specifying the dialect and dialect version used by the query engine.
+    public var supportedDialect: GlueClientTypes.SupportedDialect?
     /// (Required) A list of supported permission types.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
@@ -33472,6 +33549,10 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         name: Swift.String? = nil,
+        permissions: [GlueClientTypes.Permission]? = nil,
+        querySessionContext: GlueClientTypes.QuerySessionContext? = nil,
+        region: Swift.String? = nil,
+        supportedDialect: GlueClientTypes.SupportedDialect? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil
     )
     {
@@ -33479,16 +33560,24 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.name = name
+        self.permissions = permissions
+        self.querySessionContext = querySessionContext
+        self.region = region
+        self.supportedDialect = supportedDialect
         self.supportedPermissionTypes = supportedPermissionTypes
     }
 }
 
 struct GetUnfilteredTableMetadataInputBody: Swift.Equatable {
+    let region: Swift.String?
     let catalogId: Swift.String?
     let databaseName: Swift.String?
     let name: Swift.String?
     let auditContext: GlueClientTypes.AuditContext?
     let supportedPermissionTypes: [GlueClientTypes.PermissionType]?
+    let supportedDialect: GlueClientTypes.SupportedDialect?
+    let permissions: [GlueClientTypes.Permission]?
+    let querySessionContext: GlueClientTypes.QuerySessionContext?
 }
 
 extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
@@ -33497,11 +33586,17 @@ extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case name = "Name"
+        case permissions = "Permissions"
+        case querySessionContext = "QuerySessionContext"
+        case region = "Region"
+        case supportedDialect = "SupportedDialect"
         case supportedPermissionTypes = "SupportedPermissionTypes"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
         let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
         catalogId = catalogIdDecoded
         let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
@@ -33521,6 +33616,24 @@ extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
             }
         }
         supportedPermissionTypes = supportedPermissionTypesDecoded0
+<<<<<<< HEAD
+=======
+        let supportedDialectDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SupportedDialect.self, forKey: .supportedDialect)
+        supportedDialect = supportedDialectDecoded
+        let permissionsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Permission?].self, forKey: .permissions)
+        var permissionsDecoded0:[GlueClientTypes.Permission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [GlueClientTypes.Permission]()
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+        let querySessionContextDecoded = try containerValues.decodeIfPresent(GlueClientTypes.QuerySessionContext.self, forKey: .querySessionContext)
+        querySessionContext = querySessionContextDecoded
+>>>>>>> main
     }
 }
 
@@ -33532,11 +33645,17 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.authorizedColumns = output.authorizedColumns
             self.cellFilters = output.cellFilters
             self.isRegisteredWithLakeFormation = output.isRegisteredWithLakeFormation
+            self.permissions = output.permissions
+            self.queryAuthorizationId = output.queryAuthorizationId
+            self.resourceArn = output.resourceArn
             self.table = output.table
         } else {
             self.authorizedColumns = nil
             self.cellFilters = nil
             self.isRegisteredWithLakeFormation = false
+            self.permissions = nil
+            self.queryAuthorizationId = nil
+            self.resourceArn = nil
             self.table = nil
         }
     }
@@ -33549,6 +33668,12 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     public var cellFilters: [GlueClientTypes.ColumnRowFilter]?
     /// A Boolean value that indicates whether the partition location is registered with Lake Formation.
     public var isRegisteredWithLakeFormation: Swift.Bool
+    /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.
+    public var permissions: [GlueClientTypes.Permission]?
+    /// A cryptographically generated query identifier generated by Glue or Lake Formation.
+    public var queryAuthorizationId: Swift.String?
+    /// The resource ARN of the parent resource extracted from the request.
+    public var resourceArn: Swift.String?
     /// A Table object containing the table metadata.
     public var table: GlueClientTypes.Table?
 
@@ -33556,12 +33681,18 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
         authorizedColumns: [Swift.String]? = nil,
         cellFilters: [GlueClientTypes.ColumnRowFilter]? = nil,
         isRegisteredWithLakeFormation: Swift.Bool = false,
+        permissions: [GlueClientTypes.Permission]? = nil,
+        queryAuthorizationId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
         table: GlueClientTypes.Table? = nil
     )
     {
         self.authorizedColumns = authorizedColumns
         self.cellFilters = cellFilters
         self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
+        self.permissions = permissions
+        self.queryAuthorizationId = queryAuthorizationId
+        self.resourceArn = resourceArn
         self.table = table
     }
 }
@@ -33571,6 +33702,9 @@ struct GetUnfilteredTableMetadataOutputBody: Swift.Equatable {
     let authorizedColumns: [Swift.String]?
     let isRegisteredWithLakeFormation: Swift.Bool
     let cellFilters: [GlueClientTypes.ColumnRowFilter]?
+    let queryAuthorizationId: Swift.String?
+    let resourceArn: Swift.String?
+    let permissions: [GlueClientTypes.Permission]?
 }
 
 extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
@@ -33578,6 +33712,9 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
         case authorizedColumns = "AuthorizedColumns"
         case cellFilters = "CellFilters"
         case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
+        case permissions = "Permissions"
+        case queryAuthorizationId = "QueryAuthorizationId"
+        case resourceArn = "ResourceArn"
         case table = "Table"
     }
 
@@ -33609,6 +33746,39 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
             }
         }
         cellFilters = cellFiltersDecoded0
+        let queryAuthorizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAuthorizationId)
+        queryAuthorizationId = queryAuthorizationIdDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let permissionsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Permission?].self, forKey: .permissions)
+        var permissionsDecoded0:[GlueClientTypes.Permission]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [GlueClientTypes.Permission]()
+            for enum0 in permissionsContainer {
+                if let enum0 = enum0 {
+                    permissionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+    }
+}
+
+enum GetUnfilteredTableMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FederationSourceException": return try await FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "FederationSourceRetryableException": return try await FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GlueEncryptionException": return try await GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PermissionTypeMismatchException": return try await PermissionTypeMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -46406,6 +46576,96 @@ enum QuerySchemaVersionMetadataOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+<<<<<<< HEAD
+=======
+extension GlueClientTypes.QuerySessionContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalContext = "AdditionalContext"
+        case clusterId = "ClusterId"
+        case queryAuthorizationId = "QueryAuthorizationId"
+        case queryId = "QueryId"
+        case queryStartTime = "QueryStartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalContext = additionalContext {
+            var additionalContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalContext)
+            for (dictKey0, additionalContextMap0) in additionalContext {
+                try additionalContextContainer.encode(additionalContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let clusterId = self.clusterId {
+            try encodeContainer.encode(clusterId, forKey: .clusterId)
+        }
+        if let queryAuthorizationId = self.queryAuthorizationId {
+            try encodeContainer.encode(queryAuthorizationId, forKey: .queryAuthorizationId)
+        }
+        if let queryId = self.queryId {
+            try encodeContainer.encode(queryId, forKey: .queryId)
+        }
+        if let queryStartTime = self.queryStartTime {
+            try encodeContainer.encodeTimestamp(queryStartTime, format: .epochSeconds, forKey: .queryStartTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let queryStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .queryStartTime)
+        queryStartTime = queryStartTimeDecoded
+        let clusterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterId)
+        clusterId = clusterIdDecoded
+        let queryAuthorizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAuthorizationId)
+        queryAuthorizationId = queryAuthorizationIdDecoded
+        let additionalContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalContext)
+        var additionalContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalContextContainer = additionalContextContainer {
+            additionalContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contextvalue0) in additionalContextContainer {
+                if let contextvalue0 = contextvalue0 {
+                    additionalContextDecoded0?[key0] = contextvalue0
+                }
+            }
+        }
+        additionalContext = additionalContextDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    public struct QuerySessionContext: Swift.Equatable {
+        /// An opaque string-string map passed by the query engine.
+        public var additionalContext: [Swift.String:Swift.String]?
+        /// An identifier string for the consumer cluster.
+        public var clusterId: Swift.String?
+        /// A cryptographically generated query identifier generated by Glue or Lake Formation.
+        public var queryAuthorizationId: Swift.String?
+        /// A unique identifier generated by the query engine for the query.
+        public var queryId: Swift.String?
+        /// A timestamp provided by the query engine for when the query started.
+        public var queryStartTime: ClientRuntime.Date?
+
+        public init(
+            additionalContext: [Swift.String:Swift.String]? = nil,
+            clusterId: Swift.String? = nil,
+            queryAuthorizationId: Swift.String? = nil,
+            queryId: Swift.String? = nil,
+            queryStartTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.additionalContext = additionalContext
+            self.clusterId = clusterId
+            self.queryAuthorizationId = queryAuthorizationId
+            self.queryId = queryId
+            self.queryStartTime = queryStartTime
+        }
+    }
+
+}
+
+>>>>>>> main
 extension GlueClientTypes {
     public enum QuoteChar: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -56715,6 +56975,51 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.SupportedDialect: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dialect = "Dialect"
+        case dialectVersion = "DialectVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dialect = self.dialect {
+            try encodeContainer.encode(dialect.rawValue, forKey: .dialect)
+        }
+        if let dialectVersion = self.dialectVersion {
+            try encodeContainer.encode(dialectVersion, forKey: .dialectVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dialectDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ViewDialect.self, forKey: .dialect)
+        dialect = dialectDecoded
+        let dialectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dialectVersion)
+        dialectVersion = dialectVersionDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure specifying the dialect and dialect version used by the query engine.
+    public struct SupportedDialect: Swift.Equatable {
+        /// The dialect of the query engine.
+        public var dialect: GlueClientTypes.ViewDialect?
+        /// The version of the dialect of the query engine. For example, 3.0.0.
+        public var dialectVersion: Swift.String?
+
+        public init(
+            dialect: GlueClientTypes.ViewDialect? = nil,
+            dialectVersion: Swift.String? = nil
+        )
+        {
+            self.dialect = dialect
+            self.dialectVersion = dialectVersion
+        }
+    }
+
+}
+
 extension GlueClientTypes.Table: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"
@@ -63325,6 +63630,41 @@ extension VersionMismatchExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension GlueClientTypes {
+    public enum ViewDialect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case athena
+        case redshift
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewDialect] {
+            return [
+                .athena,
+                .redshift,
+                .spark,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .redshift: return "REDSHIFT"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ViewDialect(rawValue: rawValue) ?? ViewDialect.sdkUnknown(rawValue)
+        }
     }
 }
 

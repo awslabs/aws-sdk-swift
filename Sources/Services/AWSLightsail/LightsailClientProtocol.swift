@@ -295,7 +295,11 @@ public protocol LightsailClientProtocol {
     func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput
     /// Performs the `CreateDisk` operation on the `Lightsail_20161128` service.
     ///
+<<<<<<< HEAD
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+=======
+    /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+>>>>>>> main
     ///
     /// - Parameter CreateDiskInput : [no documentation found]
     ///
@@ -314,7 +318,11 @@ public protocol LightsailClientProtocol {
     func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput
     /// Performs the `CreateDiskFromSnapshot` operation on the `Lightsail_20161128` service.
     ///
+<<<<<<< HEAD
     /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+=======
+    /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+>>>>>>> main
     ///
     /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
     ///
@@ -370,7 +378,11 @@ public protocol LightsailClientProtocol {
     func createDistribution(input: CreateDistributionInput) async throws -> CreateDistributionOutput
     /// Performs the `CreateDomain` operation on the `Lightsail_20161128` service.
     ///
+<<<<<<< HEAD
     /// Creates a domain resource for the specified domain (e.g., example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+=======
+    /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags).
+>>>>>>> main
     ///
     /// - Parameter CreateDomainInput : [no documentation found]
     ///
@@ -2004,7 +2016,11 @@ public protocol LightsailClientProtocol {
     func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput
     /// Performs the `GetOperationsForResource` operation on the `Lightsail_20161128` service.
     ///
+<<<<<<< HEAD
     /// Gets operations for a specific resource (e.g., an instance or a static IP).
+=======
+    /// Gets operations for a specific resource (an instance or a static IP).
+>>>>>>> main
     ///
     /// - Parameter GetOperationsForResourceInput : [no documentation found]
     ///
@@ -2268,6 +2284,26 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetSetupHistory` operation on the `Lightsail_20161128` service.
+    ///
+    /// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance.
+    ///
+    /// - Parameter GetSetupHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetSetupHistoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput
+>>>>>>> main
     /// Performs the `GetStaticIp` operation on the `Lightsail_20161128` service.
     ///
     /// Returns information about an Amazon Lightsail static IP.
@@ -2565,6 +2601,26 @@ public protocol LightsailClientProtocol {
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `SetupInstanceHttps` operation on the `Lightsail_20161128` service.
+    ///
+    /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length.
+    ///
+    /// - Parameter SetupInstanceHttpsInput : [no documentation found]
+    ///
+    /// - Returns: `SetupInstanceHttpsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput
+>>>>>>> main
     /// Performs the `StartGUISession` operation on the `Lightsail_20161128` service.
     ///
     /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.

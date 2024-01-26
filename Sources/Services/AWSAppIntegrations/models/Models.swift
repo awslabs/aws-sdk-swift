@@ -57,6 +57,61 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension AppIntegrationsClientTypes.ApplicationAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case applicationAssociationArn = "ApplicationAssociationArn"
+        case clientId = "ClientId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationArn = self.applicationArn {
+            try encodeContainer.encode(applicationArn, forKey: .applicationArn)
+        }
+        if let applicationAssociationArn = self.applicationAssociationArn {
+            try encodeContainer.encode(applicationAssociationArn, forKey: .applicationAssociationArn)
+        }
+        if let clientId = self.clientId {
+            try encodeContainer.encode(clientId, forKey: .clientId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationAssociationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationAssociationArn)
+        applicationAssociationArn = applicationAssociationArnDecoded
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
+        clientId = clientIdDecoded
+    }
+}
+
+extension AppIntegrationsClientTypes {
+    /// Summary information about the Application Association.
+    public struct ApplicationAssociationSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Application.
+        public var applicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Application Association.
+        public var applicationAssociationArn: Swift.String?
+        /// The identifier for the client that is associated with the Application Association.
+        public var clientId: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            applicationAssociationArn: Swift.String? = nil,
+            clientId: Swift.String? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.applicationAssociationArn = applicationAssociationArn
+            self.clientId = clientId
+        }
+    }
+
+}
+
 extension AppIntegrationsClientTypes.ApplicationSourceConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case externalUrlConfig = "ExternalUrlConfig"
@@ -184,6 +239,7 @@ extension CreateApplicationInput: Swift.Encodable {
         case description = "Description"
         case name = "Name"
         case namespace = "Namespace"
+        case permissions = "Permissions"
         case publications = "Publications"
         case subscriptions = "Subscriptions"
         case tags = "Tags"
@@ -205,6 +261,12 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let namespace = self.namespace {
             try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0)
+            }
         }
         if let publications = publications {
             var publicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publications)
@@ -247,9 +309,13 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The namespace of the application.
     /// This member is required.
     public var namespace: Swift.String?
+    /// The configuration of events or requests that the application has access to.
+    public var permissions: [Swift.String]?
     /// The events that the application publishes.
+    @available(*, deprecated, message: "Publications has been replaced with Permissions")
     public var publications: [AppIntegrationsClientTypes.Publication]?
     /// The events that the application subscribes.
+    @available(*, deprecated, message: "Subscriptions has been replaced with Permissions")
     public var subscriptions: [AppIntegrationsClientTypes.Subscription]?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
@@ -260,6 +326,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -270,6 +337,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         self.description = description
         self.name = name
         self.namespace = namespace
+        self.permissions = permissions
         self.publications = publications
         self.subscriptions = subscriptions
         self.tags = tags
@@ -285,6 +353,7 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let publications: [AppIntegrationsClientTypes.Publication]?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let permissions: [Swift.String]?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
@@ -294,6 +363,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case description = "Description"
         case name = "Name"
         case namespace = "Namespace"
+        case permissions = "Permissions"
         case publications = "Publications"
         case subscriptions = "Subscriptions"
         case tags = "Tags"
@@ -344,6 +414,20 @@ extension CreateApplicationInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+<<<<<<< HEAD
+=======
+        let permissionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .permissions)
+        var permissionsDecoded0:[Swift.String]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [Swift.String]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+>>>>>>> main
     }
 }
 
@@ -408,6 +492,10 @@ enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceQuotaExceededException": return try await ResourceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1079,6 +1167,62 @@ extension AppIntegrationsClientTypes {
 
 }
 
+extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let arn = arn else {
+            return nil
+        }
+        return "/applications/\(arn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteApplicationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Application.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeleteApplicationInputBody: Swift.Equatable {
+}
+
+extension DeleteApplicationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteApplicationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteDataIntegrationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let dataIntegrationIdentifier = dataIntegrationIdentifier else {
@@ -1658,6 +1802,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTime = output.lastModifiedTime
             self.name = output.name
             self.namespace = output.namespace
+            self.permissions = output.permissions
             self.publications = output.publications
             self.subscriptions = output.subscriptions
             self.tags = output.tags
@@ -1670,6 +1815,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTime = nil
             self.name = nil
             self.namespace = nil
+            self.permissions = nil
             self.publications = nil
             self.subscriptions = nil
             self.tags = nil
@@ -1694,9 +1840,13 @@ public struct GetApplicationOutput: Swift.Equatable {
     public var name: Swift.String?
     /// The namespace of the application.
     public var namespace: Swift.String?
+    /// The configuration of events or requests that the application has access to.
+    public var permissions: [Swift.String]?
     /// The events that the application publishes.
+    @available(*, deprecated, message: "Publications has been replaced with Permissions")
     public var publications: [AppIntegrationsClientTypes.Publication]?
     /// The events that the application subscribes.
+    @available(*, deprecated, message: "Subscriptions has been replaced with Permissions")
     public var subscriptions: [AppIntegrationsClientTypes.Subscription]?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
@@ -1710,6 +1860,7 @@ public struct GetApplicationOutput: Swift.Equatable {
         lastModifiedTime: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1723,6 +1874,7 @@ public struct GetApplicationOutput: Swift.Equatable {
         self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.namespace = namespace
+        self.permissions = permissions
         self.publications = publications
         self.subscriptions = subscriptions
         self.tags = tags
@@ -1741,6 +1893,7 @@ struct GetApplicationOutputBody: Swift.Equatable {
     let createdTime: ClientRuntime.Date?
     let lastModifiedTime: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
+    let permissions: [Swift.String]?
 }
 
 extension GetApplicationOutputBody: Swift.Decodable {
@@ -1753,6 +1906,7 @@ extension GetApplicationOutputBody: Swift.Decodable {
         case lastModifiedTime = "LastModifiedTime"
         case name = "Name"
         case namespace = "Namespace"
+        case permissions = "Permissions"
         case publications = "Publications"
         case subscriptions = "Subscriptions"
         case tags = "Tags"
@@ -1809,6 +1963,32 @@ extension GetApplicationOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let permissionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .permissions)
+        var permissionsDecoded0:[Swift.String]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [Swift.String]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
+    }
+}
+
+enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -2287,6 +2467,136 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListApplicationAssociationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListApplicationAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let applicationId = applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/associations"
+    }
+}
+
+public struct ListApplicationAssociationsInput: Swift.Equatable {
+    /// A unique identifier for the Application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAssociationsInputBody: Swift.Equatable {
+}
+
+extension ListApplicationAssociationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListApplicationAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListApplicationAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationAssociations = output.applicationAssociations
+            self.nextToken = output.nextToken
+        } else {
+            self.applicationAssociations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListApplicationAssociationsOutput: Swift.Equatable {
+    /// List of Application Associations for the Application.
+    public var applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationAssociations = applicationAssociations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListApplicationAssociationsOutputBody: Swift.Equatable {
+    let applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListApplicationAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationAssociations = "ApplicationAssociations"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationAssociationsContainer = try containerValues.decodeIfPresent([AppIntegrationsClientTypes.ApplicationAssociationSummary?].self, forKey: .applicationAssociations)
+        var applicationAssociationsDecoded0:[AppIntegrationsClientTypes.ApplicationAssociationSummary]? = nil
+        if let applicationAssociationsContainer = applicationAssociationsContainer {
+            applicationAssociationsDecoded0 = [AppIntegrationsClientTypes.ApplicationAssociationSummary]()
+            for structure0 in applicationAssociationsContainer {
+                if let structure0 = structure0 {
+                    applicationAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        applicationAssociations = applicationAssociationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListApplicationAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3423,6 +3733,61 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension UnsupportedOperationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The operation is not supported.
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct UnsupportedOperationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension UnsupportedOperationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3505,6 +3870,7 @@ extension UpdateApplicationInput: Swift.Encodable {
         case applicationSourceConfig = "ApplicationSourceConfig"
         case description = "Description"
         case name = "Name"
+        case permissions = "Permissions"
         case publications = "Publications"
         case subscriptions = "Subscriptions"
     }
@@ -3519,6 +3885,12 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let permissions = permissions {
+            var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0)
+            }
         }
         if let publications = publications {
             var publicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publications)
@@ -3554,9 +3926,13 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var description: Swift.String?
     /// The name of the application.
     public var name: Swift.String?
+    /// The configuration of events or requests that the application has access to.
+    public var permissions: [Swift.String]?
     /// The events that the application publishes.
+    @available(*, deprecated, message: "Publications has been replaced with Permissions")
     public var publications: [AppIntegrationsClientTypes.Publication]?
     /// The events that the application subscribes.
+    @available(*, deprecated, message: "Subscriptions has been replaced with Permissions")
     public var subscriptions: [AppIntegrationsClientTypes.Subscription]?
 
     public init(
@@ -3564,6 +3940,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil
     )
@@ -3572,6 +3949,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         self.arn = arn
         self.description = description
         self.name = name
+        self.permissions = permissions
         self.publications = publications
         self.subscriptions = subscriptions
     }
@@ -3583,6 +3961,7 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     let subscriptions: [AppIntegrationsClientTypes.Subscription]?
     let publications: [AppIntegrationsClientTypes.Publication]?
+    let permissions: [Swift.String]?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
@@ -3590,6 +3969,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case applicationSourceConfig = "ApplicationSourceConfig"
         case description = "Description"
         case name = "Name"
+        case permissions = "Permissions"
         case publications = "Publications"
         case subscriptions = "Subscriptions"
     }
@@ -3624,6 +4004,17 @@ extension UpdateApplicationInputBody: Swift.Decodable {
             }
         }
         publications = publicationsDecoded0
+        let permissionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .permissions)
+        var permissionsDecoded0:[Swift.String]? = nil
+        if let permissionsContainer = permissionsContainer {
+            permissionsDecoded0 = [Swift.String]()
+            for string0 in permissionsContainer {
+                if let string0 = string0 {
+                    permissionsDecoded0?.append(string0)
+                }
+            }
+        }
+        permissions = permissionsDecoded0
     }
 }
 
@@ -3647,6 +4038,7 @@ enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

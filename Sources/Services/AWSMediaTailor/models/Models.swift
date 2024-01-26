@@ -1172,6 +1172,7 @@ extension CreateChannelInput: Swift.Encodable {
         case playbackMode = "PlaybackMode"
         case tags = "tags"
         case tier = "Tier"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1196,6 +1197,9 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let tier = self.tier {
             try encodeContainer.encode(tier.rawValue, forKey: .tier)
+        }
+        if let timeShiftConfiguration = self.timeShiftConfiguration {
+            try encodeContainer.encode(timeShiftConfiguration, forKey: .timeShiftConfiguration)
         }
     }
 }
@@ -1225,6 +1229,8 @@ public struct CreateChannelInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The tier of the channel.
     public var tier: MediaTailorClientTypes.Tier?
+    /// The time-shifted viewing configuration you want to associate to the channel.
+    public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
         channelName: Swift.String? = nil,
@@ -1232,7 +1238,8 @@ public struct CreateChannelInput: Swift.Equatable {
         outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
         playbackMode: MediaTailorClientTypes.PlaybackMode? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        tier: MediaTailorClientTypes.Tier? = nil
+        tier: MediaTailorClientTypes.Tier? = nil,
+        timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
         self.channelName = channelName
@@ -1241,6 +1248,7 @@ public struct CreateChannelInput: Swift.Equatable {
         self.playbackMode = playbackMode
         self.tags = tags
         self.tier = tier
+        self.timeShiftConfiguration = timeShiftConfiguration
     }
 }
 
@@ -1250,6 +1258,7 @@ struct CreateChannelInputBody: Swift.Equatable {
     let playbackMode: MediaTailorClientTypes.PlaybackMode?
     let tags: [Swift.String:Swift.String]?
     let tier: MediaTailorClientTypes.Tier?
+    let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
@@ -1259,6 +1268,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case playbackMode = "PlaybackMode"
         case tags = "tags"
         case tier = "Tier"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1291,6 +1301,8 @@ extension CreateChannelInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let tierDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.Tier.self, forKey: .tier)
         tier = tierDecoded
+        let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
+        timeShiftConfiguration = timeShiftConfigurationDecoded
     }
 }
 
@@ -1309,6 +1321,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = output.playbackMode
             self.tags = output.tags
             self.tier = output.tier
+            self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
             self.channelName = nil
@@ -1320,6 +1333,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = nil
             self.tags = nil
             self.tier = nil
+            self.timeShiftConfiguration = nil
         }
     }
 }
@@ -1345,6 +1359,8 @@ public struct CreateChannelOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The tier of the channel.
     public var tier: Swift.String?
+    /// The time-shifted viewing configuration assigned to the channel.
+    public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
         arn: Swift.String? = nil,
@@ -1356,7 +1372,8 @@ public struct CreateChannelOutput: Swift.Equatable {
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        tier: Swift.String? = nil
+        tier: Swift.String? = nil,
+        timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
         self.arn = arn
@@ -1369,6 +1386,7 @@ public struct CreateChannelOutput: Swift.Equatable {
         self.playbackMode = playbackMode
         self.tags = tags
         self.tier = tier
+        self.timeShiftConfiguration = timeShiftConfiguration
     }
 }
 
@@ -1383,6 +1401,7 @@ struct CreateChannelOutputBody: Swift.Equatable {
     let playbackMode: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let tier: Swift.String?
+    let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 }
 
 extension CreateChannelOutputBody: Swift.Decodable {
@@ -1397,6 +1416,7 @@ extension CreateChannelOutputBody: Swift.Decodable {
         case playbackMode = "PlaybackMode"
         case tags = "tags"
         case tier = "Tier"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1439,6 +1459,18 @@ extension CreateChannelOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let tierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tier)
         tier = tierDecoded
+        let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
+        timeShiftConfiguration = timeShiftConfigurationDecoded
+    }
+}
+
+enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -3344,6 +3376,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = output.playbackMode
             self.tags = output.tags
             self.tier = output.tier
+            self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
             self.channelName = nil
@@ -3356,6 +3389,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = nil
             self.tags = nil
             self.tier = nil
+            self.timeShiftConfiguration = nil
         }
     }
 }
@@ -3384,6 +3418,8 @@ public struct DescribeChannelOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The channel's tier.
     public var tier: Swift.String?
+    /// The time-shifted viewing configuration for the channel.
+    public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
         arn: Swift.String? = nil,
@@ -3396,7 +3432,8 @@ public struct DescribeChannelOutput: Swift.Equatable {
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        tier: Swift.String? = nil
+        tier: Swift.String? = nil,
+        timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
         self.arn = arn
@@ -3410,6 +3447,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
         self.playbackMode = playbackMode
         self.tags = tags
         self.tier = tier
+        self.timeShiftConfiguration = timeShiftConfiguration
     }
 }
 
@@ -3425,6 +3463,7 @@ struct DescribeChannelOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let tier: Swift.String?
     let logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel?
+    let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 }
 
 extension DescribeChannelOutputBody: Swift.Decodable {
@@ -3440,6 +3479,7 @@ extension DescribeChannelOutputBody: Swift.Decodable {
         case playbackMode = "PlaybackMode"
         case tags = "tags"
         case tier = "Tier"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3484,6 +3524,18 @@ extension DescribeChannelOutputBody: Swift.Decodable {
         tier = tierDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LogConfigurationForChannel.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
+        timeShiftConfiguration = timeShiftConfigurationDecoded
+    }
+}
+
+enum DescribeChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8759,6 +8811,42 @@ extension MediaTailorClientTypes {
     }
 }
 
+extension MediaTailorClientTypes.TimeShiftConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxTimeDelaySeconds = "MaxTimeDelaySeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxTimeDelaySeconds = self.maxTimeDelaySeconds {
+            try encodeContainer.encode(maxTimeDelaySeconds, forKey: .maxTimeDelaySeconds)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxTimeDelaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxTimeDelaySeconds)
+        maxTimeDelaySeconds = maxTimeDelaySecondsDecoded
+    }
+}
+
+extension MediaTailorClientTypes {
+    /// The configuration for time-shifted viewing.
+    public struct TimeShiftConfiguration: Swift.Equatable {
+        /// The maximum time delay for time-shifted viewing. The minimum allowed maximum time delay is 0 seconds, and the maximum allowed maximum time delay is 21600 seconds (6 hours).
+        /// This member is required.
+        public var maxTimeDelaySeconds: Swift.Int?
+
+        public init(
+            maxTimeDelaySeconds: Swift.Int? = nil
+        )
+        {
+            self.maxTimeDelaySeconds = maxTimeDelaySeconds
+        }
+    }
+
+}
+
 extension MediaTailorClientTypes.TimeSignalMessage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case segmentationDescriptors = "SegmentationDescriptors"
@@ -8993,6 +9081,7 @@ extension UpdateChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9005,6 +9094,9 @@ extension UpdateChannelInput: Swift.Encodable {
             for requestoutputitem0 in outputs {
                 try outputsContainer.encode(requestoutputitem0)
             }
+        }
+        if let timeShiftConfiguration = self.timeShiftConfiguration {
+            try encodeContainer.encode(timeShiftConfiguration, forKey: .timeShiftConfiguration)
         }
     }
 }
@@ -9027,28 +9119,34 @@ public struct UpdateChannelInput: Swift.Equatable {
     /// The channel's output properties.
     /// This member is required.
     public var outputs: [MediaTailorClientTypes.RequestOutputItem]?
+    /// The time-shifted viewing configuration you want to associate to the channel.
+    public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
         channelName: Swift.String? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
-        outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil
+        outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
+        timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
         self.channelName = channelName
         self.fillerSlate = fillerSlate
         self.outputs = outputs
+        self.timeShiftConfiguration = timeShiftConfiguration
     }
 }
 
 struct UpdateChannelInputBody: Swift.Equatable {
     let fillerSlate: MediaTailorClientTypes.SlateSource?
     let outputs: [MediaTailorClientTypes.RequestOutputItem]?
+    let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 }
 
 extension UpdateChannelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9066,6 +9164,8 @@ extension UpdateChannelInputBody: Swift.Decodable {
             }
         }
         outputs = outputsDecoded0
+        let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
+        timeShiftConfiguration = timeShiftConfigurationDecoded
     }
 }
 
@@ -9084,6 +9184,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = output.playbackMode
             self.tags = output.tags
             self.tier = output.tier
+            self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
             self.channelName = nil
@@ -9095,6 +9196,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.playbackMode = nil
             self.tags = nil
             self.tier = nil
+            self.timeShiftConfiguration = nil
         }
     }
 }
@@ -9120,6 +9222,8 @@ public struct UpdateChannelOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The tier associated with this Channel.
     public var tier: Swift.String?
+    /// The time-shifted viewing configuration for the channel.
+    public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
         arn: Swift.String? = nil,
@@ -9131,7 +9235,8 @@ public struct UpdateChannelOutput: Swift.Equatable {
         outputs: [MediaTailorClientTypes.ResponseOutputItem]? = nil,
         playbackMode: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        tier: Swift.String? = nil
+        tier: Swift.String? = nil,
+        timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
         self.arn = arn
@@ -9144,6 +9249,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
         self.playbackMode = playbackMode
         self.tags = tags
         self.tier = tier
+        self.timeShiftConfiguration = timeShiftConfiguration
     }
 }
 
@@ -9158,6 +9264,7 @@ struct UpdateChannelOutputBody: Swift.Equatable {
     let playbackMode: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let tier: Swift.String?
+    let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 }
 
 extension UpdateChannelOutputBody: Swift.Decodable {
@@ -9172,6 +9279,7 @@ extension UpdateChannelOutputBody: Swift.Decodable {
         case playbackMode = "PlaybackMode"
         case tags = "tags"
         case tier = "Tier"
+        case timeShiftConfiguration = "TimeShiftConfiguration"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9214,6 +9322,18 @@ extension UpdateChannelOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let tierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tier)
         tier = tierDecoded
+        let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
+        timeShiftConfiguration = timeShiftConfigurationDecoded
+    }
+}
+
+enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

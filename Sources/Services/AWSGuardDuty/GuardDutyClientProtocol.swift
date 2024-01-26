@@ -91,7 +91,11 @@ public protocol GuardDutyClientProtocol {
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput
     /// Performs the `CreateMembers` operation on the `GuardDutyAPIService` service.
     ///
+<<<<<<< HEAD
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, before using [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html), use CreateMembers after GuardDuty has been enabled in potential member accounts. If you disassociate a member from a GuardDuty delegated administrator, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
+=======
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. When you use CreateMembers as an Organizations delegated administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For more information about the existing auto-enable settings for your organization, see [DescribeOrganizationConfiguration](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeOrganizationConfiguration.html). If you are adding accounts by invitation, before using [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html), use CreateMembers after GuardDuty has been enabled in potential member accounts. If you disassociate a member from a GuardDuty delegated administrator, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
+>>>>>>> main
     ///
     /// - Parameter CreateMembersInput : [no documentation found]
     ///
@@ -386,7 +390,11 @@ public protocol GuardDutyClientProtocol {
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutput
     /// Performs the `GetCoverageStatistics` operation on the `GuardDutyAPIService` service.
     ///
+<<<<<<< HEAD
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
+=======
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
+>>>>>>> main
     ///
     /// - Parameter GetCoverageStatisticsInput : [no documentation found]
     ///
@@ -539,6 +547,23 @@ public protocol GuardDutyClientProtocol {
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
     func getMembers(input: GetMembersInput) async throws -> GetMembersOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `GetOrganizationStatistics` operation on the `GuardDutyAPIService` service.
+    ///
+    /// Retrieves how many active member accounts in your Amazon Web Services organization have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new Amazon Web Services organization, it might take up to 24 hours to generate the statistics for the entire organization.
+    ///
+    /// - Parameter GetOrganizationStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetOrganizationStatisticsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    func getOrganizationStatistics(input: GetOrganizationStatisticsInput) async throws -> GetOrganizationStatisticsOutput
+>>>>>>> main
     /// Performs the `GetRemainingFreeTrialDays` operation on the `GuardDutyAPIService` service.
     ///
     /// Provides the number of days left for each data source used in the free trial period.
@@ -597,7 +622,11 @@ public protocol GuardDutyClientProtocol {
     func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutput
     /// Performs the `ListCoverage` operation on the `GuardDutyAPIService` service.
     ///
+<<<<<<< HEAD
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+=======
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
+>>>>>>> main
     ///
     /// - Parameter ListCoverageInput : [no documentation found]
     ///

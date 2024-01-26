@@ -443,6 +443,25 @@ public protocol EKSClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     func describeIdentityProviderConfig(input: DescribeIdentityProviderConfigInput) async throws -> DescribeIdentityProviderConfigOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DescribeInsight` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Returns details about an insight that you specify using its ID.
+    ///
+    /// - Parameter DescribeInsightInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInsightOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    func describeInsight(input: DescribeInsightInput) async throws -> DescribeInsightOutput
+>>>>>>> main
     /// Performs the `DescribeNodegroup` operation on the `AWSWesleyFrontend` service.
     ///
     /// Describes a managed node group.
@@ -651,6 +670,25 @@ public protocol EKSClientProtocol {
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
     func listIdentityProviderConfigs(input: ListIdentityProviderConfigsInput) async throws -> ListIdentityProviderConfigsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `ListInsights` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Returns a list of all insights checked for against the specified cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    ///
+    /// - Parameter ListInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInsightsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    func listInsights(input: ListInsightsInput) async throws -> ListInsightsOutput
+>>>>>>> main
     /// Performs the `ListNodegroups` operation on the `AWSWesleyFrontend` service.
     ///
     /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.

@@ -72,6 +72,7 @@ public struct EndpointParams {
         self.useGlobalEndpoint = useGlobalEndpoint
         self.useObjectLambdaEndpoint = useObjectLambdaEndpoint
         self.useS3ExpressControlEndpoint = useS3ExpressControlEndpoint
+<<<<<<< HEAD
     }
     public init (authSchemeParams: S3AuthSchemeResolverParameters) {
         self.accelerate = authSchemeParams.accelerate
@@ -90,6 +91,8 @@ public struct EndpointParams {
         self.useGlobalEndpoint = authSchemeParams.useGlobalEndpoint
         self.useObjectLambdaEndpoint = authSchemeParams.useObjectLambdaEndpoint
         self.useS3ExpressControlEndpoint = authSchemeParams.useS3ExpressControlEndpoint
+=======
+>>>>>>> main
     }
 }
 

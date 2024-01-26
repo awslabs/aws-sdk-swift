@@ -36,7 +36,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// AAC Profile.
+    /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
     public enum AacCodecProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hev1
         case hev2
@@ -114,7 +114,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Rate Control Mode.
+    /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
     public enum AacRateControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cbr
         case vbr
@@ -253,19 +253,19 @@ extension MediaConvertClientTypes {
         public var audioDescriptionBroadcasterMix: MediaConvertClientTypes.AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public var bitrate: Swift.Int?
-        /// AAC Profile.
+        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
-        /// Rate Control Mode.
+        /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
         public var rateControlMode: MediaConvertClientTypes.AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
         public var rawFormat: MediaConvertClientTypes.AacRawFormat?
-        /// Specify the Sample rate in Hz. Valid sample rates depend on the Profile and Coding mode that you select. The following list shows valid sample rates for each Profile and Coding mode. * LC Profile, Coding mode 1.0, 2.0, and Receiver Mix: 8000, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200, 96000. * LC Profile, Coding mode 5.1: 32000, 44100, 48000, 96000. * HEV1 Profile, Coding mode 1.0 and Receiver Mix: 22050, 24000, 32000, 44100, 48000. * HEV1 Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000. * HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
+        /// Specify the AAC sample rate in samples per second (Hz). Valid sample rates depend on the AAC profile and Coding mode that you select. For a list of supported sample rates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html
         public var sampleRate: Swift.Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public var specification: MediaConvertClientTypes.AacSpecification?
-        /// VBR Quality Level - Only used if rate_control_mode is VBR.
+        /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
         public var vbrQuality: MediaConvertClientTypes.AacVbrQuality?
 
         public init(
@@ -328,7 +328,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// VBR Quality Level - Only used if rate_control_mode is VBR.
+    /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
     public enum AacVbrQuality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case high
         case low
@@ -7030,6 +7030,81 @@ extension MediaConvertClientTypes {
     }
 }
 
+extension MediaConvertClientTypes.ColorConversion3DLUTSetting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileInput = "fileInput"
+        case inputColorSpace = "inputColorSpace"
+        case inputMasteringLuminance = "inputMasteringLuminance"
+        case outputColorSpace = "outputColorSpace"
+        case outputMasteringLuminance = "outputMasteringLuminance"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileInput = self.fileInput {
+            try encodeContainer.encode(fileInput, forKey: .fileInput)
+        }
+        if let inputColorSpace = self.inputColorSpace {
+            try encodeContainer.encode(inputColorSpace.rawValue, forKey: .inputColorSpace)
+        }
+        if let inputMasteringLuminance = self.inputMasteringLuminance {
+            try encodeContainer.encode(inputMasteringLuminance, forKey: .inputMasteringLuminance)
+        }
+        if let outputColorSpace = self.outputColorSpace {
+            try encodeContainer.encode(outputColorSpace.rawValue, forKey: .outputColorSpace)
+        }
+        if let outputMasteringLuminance = self.outputMasteringLuminance {
+            try encodeContainer.encode(outputMasteringLuminance, forKey: .outputMasteringLuminance)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fileInputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileInput)
+        fileInput = fileInputDecoded
+        let inputColorSpaceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ColorSpace.self, forKey: .inputColorSpace)
+        inputColorSpace = inputColorSpaceDecoded
+        let inputMasteringLuminanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inputMasteringLuminance)
+        inputMasteringLuminance = inputMasteringLuminanceDecoded
+        let outputColorSpaceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ColorSpace.self, forKey: .outputColorSpace)
+        outputColorSpace = outputColorSpaceDecoded
+        let outputMasteringLuminanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .outputMasteringLuminance)
+        outputMasteringLuminance = outputMasteringLuminanceDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Custom 3D lut settings
+    public struct ColorConversion3DLUTSetting: Swift.Equatable {
+        /// Specify the input file S3, HTTP, or HTTPS URL for your 3D LUT .cube file. Note that MediaConvert accepts 3D LUT files up to 8MB in size.
+        public var fileInput: Swift.String?
+        /// Specify which inputs use this 3D LUT, according to their color space.
+        public var inputColorSpace: MediaConvertClientTypes.ColorSpace?
+        /// Specify which inputs use this 3D LUT, according to their luminance. To apply this 3D LUT to HDR10 or P3D65 (HDR) inputs with a specific mastering luminance: Enter an integer from 0 to 2147483647, corresponding to the input's Maximum luminance value. To apply this 3D LUT to any input regardless of its luminance: Leave blank, or enter 0.
+        public var inputMasteringLuminance: Swift.Int?
+        /// Specify which outputs use this 3D LUT, according to their color space.
+        public var outputColorSpace: MediaConvertClientTypes.ColorSpace?
+        /// Specify which outputs use this 3D LUT, according to their luminance. To apply this 3D LUT to HDR10 or P3D65 (HDR) outputs with a specific luminance: Enter an integer from 0 to 2147483647, corresponding to the output's luminance. To apply this 3D LUT to any output regardless of its luminance: Leave blank, or enter 0.
+        public var outputMasteringLuminance: Swift.Int?
+
+        public init(
+            fileInput: Swift.String? = nil,
+            inputColorSpace: MediaConvertClientTypes.ColorSpace? = nil,
+            inputMasteringLuminance: Swift.Int? = nil,
+            outputColorSpace: MediaConvertClientTypes.ColorSpace? = nil,
+            outputMasteringLuminance: Swift.Int? = nil
+        )
+        {
+            self.fileInput = fileInput
+            self.inputColorSpace = inputColorSpace
+            self.inputMasteringLuminance = inputMasteringLuminance
+            self.outputColorSpace = outputColorSpace
+            self.outputMasteringLuminance = outputMasteringLuminance
+        }
+    }
+
+}
+
 extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case brightness = "brightness"
@@ -7039,6 +7114,7 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         case hdr10Metadata = "hdr10Metadata"
         case hdrToSdrToneMapper = "hdrToSdrToneMapper"
         case hue = "hue"
+        case maxLuminance = "maxLuminance"
         case sampleRangeConversion = "sampleRangeConversion"
         case saturation = "saturation"
         case sdrReferenceWhiteLevel = "sdrReferenceWhiteLevel"
@@ -7067,6 +7143,9 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         if let hue = self.hue {
             try encodeContainer.encode(hue, forKey: .hue)
         }
+        if let maxLuminance = self.maxLuminance {
+            try encodeContainer.encode(maxLuminance, forKey: .maxLuminance)
+        }
         if let sampleRangeConversion = self.sampleRangeConversion {
             try encodeContainer.encode(sampleRangeConversion.rawValue, forKey: .sampleRangeConversion)
         }
@@ -7094,6 +7173,8 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         hdrToSdrToneMapper = hdrToSdrToneMapperDecoded
         let hueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hue)
         hue = hueDecoded
+        let maxLuminanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxLuminance)
+        maxLuminance = maxLuminanceDecoded
         let sampleRangeConversionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.SampleRangeConversion.self, forKey: .sampleRangeConversion)
         sampleRangeConversion = sampleRangeConversionDecoded
         let saturationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .saturation)
@@ -7130,6 +7211,8 @@ extension MediaConvertClientTypes {
         public var hdrToSdrToneMapper: MediaConvertClientTypes.HDRToSDRToneMapper?
         /// Hue in degrees.
         public var hue: Swift.Int?
+        /// Specify the maximum mastering display luminance. Enter an integer from 0 to 2147483647, in units of 0.0001 nits. For example, enter 10000000 for 1000 nits.
+        public var maxLuminance: Swift.Int?
         /// Specify how MediaConvert limits the color sample range for this output. To create a limited range output from a full range input: Choose Limited range squeeze. For full range inputs, MediaConvert performs a linear offset to color samples equally across all pixels and frames. Color samples in 10-bit outputs are limited to 64 through 940, and 8-bit outputs are limited to 16 through 235. Note: For limited range inputs, values for color samples are passed through to your output unchanged. MediaConvert does not limit the sample range. To correct pixels in your input that are out of range or out of gamut: Choose Limited range clip. Use for broadcast applications. MediaConvert conforms any pixels outside of the values that you specify under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also corrects any YUV values that, when converted to RGB, would be outside the bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance. With either limited range conversion, MediaConvert writes the sample range metadata in the output.
         public var sampleRangeConversion: MediaConvertClientTypes.SampleRangeConversion?
         /// Saturation level.
@@ -7145,6 +7228,7 @@ extension MediaConvertClientTypes {
             hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata? = nil,
             hdrToSdrToneMapper: MediaConvertClientTypes.HDRToSDRToneMapper? = nil,
             hue: Swift.Int? = nil,
+            maxLuminance: Swift.Int? = nil,
             sampleRangeConversion: MediaConvertClientTypes.SampleRangeConversion? = nil,
             saturation: Swift.Int? = nil,
             sdrReferenceWhiteLevel: Swift.Int? = nil
@@ -7157,6 +7241,7 @@ extension MediaConvertClientTypes {
             self.hdr10Metadata = hdr10Metadata
             self.hdrToSdrToneMapper = hdrToSdrToneMapper
             self.hue = hue
+            self.maxLuminance = maxLuminance
             self.sampleRangeConversion = sampleRangeConversion
             self.saturation = saturation
             self.sdrReferenceWhiteLevel = sdrReferenceWhiteLevel
@@ -7567,6 +7652,7 @@ extension MediaConvertClientTypes {
         case mxf
         case raw
         case webm
+        case y4m
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContainerType] {
@@ -7582,6 +7668,7 @@ extension MediaConvertClientTypes {
                 .mxf,
                 .raw,
                 .webm,
+                .y4m,
                 .sdkUnknown("")
             ]
         }
@@ -7602,6 +7689,7 @@ extension MediaConvertClientTypes {
             case .mxf: return "MXF"
             case .raw: return "RAW"
             case .webm: return "WEBM"
+            case .y4m: return "Y4M"
             case let .sdkUnknown(s): return s
             }
         }
@@ -20820,6 +20908,7 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adAvailOffset = "adAvailOffset"
         case availBlanking = "availBlanking"
+        case colorConversion3DLUTSettings = "colorConversion3DLUTSettings"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
         case followSource = "followSource"
@@ -20840,6 +20929,12 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         }
         if let availBlanking = self.availBlanking {
             try encodeContainer.encode(availBlanking, forKey: .availBlanking)
+        }
+        if let colorConversion3DLUTSettings = colorConversion3DLUTSettings {
+            var colorConversion3DLUTSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorConversion3DLUTSettings)
+            for colorconversion3dlutsetting0 in colorConversion3DLUTSettings {
+                try colorConversion3DLUTSettingsContainer.encode(colorconversion3dlutsetting0)
+            }
         }
         if let esam = self.esam {
             try encodeContainer.encode(esam, forKey: .esam)
@@ -20888,6 +20983,17 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         adAvailOffset = adAvailOffsetDecoded
         let availBlankingDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.AvailBlanking.self, forKey: .availBlanking)
         availBlanking = availBlankingDecoded
+        let colorConversion3DLUTSettingsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.ColorConversion3DLUTSetting?].self, forKey: .colorConversion3DLUTSettings)
+        var colorConversion3DLUTSettingsDecoded0:[MediaConvertClientTypes.ColorConversion3DLUTSetting]? = nil
+        if let colorConversion3DLUTSettingsContainer = colorConversion3DLUTSettingsContainer {
+            colorConversion3DLUTSettingsDecoded0 = [MediaConvertClientTypes.ColorConversion3DLUTSetting]()
+            for structure0 in colorConversion3DLUTSettingsContainer {
+                if let structure0 = structure0 {
+                    colorConversion3DLUTSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        colorConversion3DLUTSettings = colorConversion3DLUTSettingsDecoded0
         let esamDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.EsamSettings.self, forKey: .esam)
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
@@ -20938,6 +21044,8 @@ extension MediaConvertClientTypes {
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
         public var availBlanking: MediaConvertClientTypes.AvailBlanking?
+        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs.
+        public var colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
@@ -20964,6 +21072,7 @@ extension MediaConvertClientTypes {
         public init(
             adAvailOffset: Swift.Int? = nil,
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
+            colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
             followSource: Swift.Int? = nil,
@@ -20979,6 +21088,7 @@ extension MediaConvertClientTypes {
         {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
+            self.colorConversion3DLUTSettings = colorConversion3DLUTSettings
             self.esam = esam
             self.extendedDataServices = extendedDataServices
             self.followSource = followSource
@@ -21246,6 +21356,7 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adAvailOffset = "adAvailOffset"
         case availBlanking = "availBlanking"
+        case colorConversion3DLUTSettings = "colorConversion3DLUTSettings"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
         case followSource = "followSource"
@@ -21266,6 +21377,12 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         }
         if let availBlanking = self.availBlanking {
             try encodeContainer.encode(availBlanking, forKey: .availBlanking)
+        }
+        if let colorConversion3DLUTSettings = colorConversion3DLUTSettings {
+            var colorConversion3DLUTSettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorConversion3DLUTSettings)
+            for colorconversion3dlutsetting0 in colorConversion3DLUTSettings {
+                try colorConversion3DLUTSettingsContainer.encode(colorconversion3dlutsetting0)
+            }
         }
         if let esam = self.esam {
             try encodeContainer.encode(esam, forKey: .esam)
@@ -21314,6 +21431,17 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         adAvailOffset = adAvailOffsetDecoded
         let availBlankingDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.AvailBlanking.self, forKey: .availBlanking)
         availBlanking = availBlankingDecoded
+        let colorConversion3DLUTSettingsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.ColorConversion3DLUTSetting?].self, forKey: .colorConversion3DLUTSettings)
+        var colorConversion3DLUTSettingsDecoded0:[MediaConvertClientTypes.ColorConversion3DLUTSetting]? = nil
+        if let colorConversion3DLUTSettingsContainer = colorConversion3DLUTSettingsContainer {
+            colorConversion3DLUTSettingsDecoded0 = [MediaConvertClientTypes.ColorConversion3DLUTSetting]()
+            for structure0 in colorConversion3DLUTSettingsContainer {
+                if let structure0 = structure0 {
+                    colorConversion3DLUTSettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        colorConversion3DLUTSettings = colorConversion3DLUTSettingsDecoded0
         let esamDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.EsamSettings.self, forKey: .esam)
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
@@ -21364,6 +21492,8 @@ extension MediaConvertClientTypes {
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
         public var availBlanking: MediaConvertClientTypes.AvailBlanking?
+        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs.
+        public var colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
@@ -21390,6 +21520,7 @@ extension MediaConvertClientTypes {
         public init(
             adAvailOffset: Swift.Int? = nil,
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
+            colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
             followSource: Swift.Int? = nil,
@@ -21405,6 +21536,7 @@ extension MediaConvertClientTypes {
         {
             self.adAvailOffset = adAvailOffset
             self.availBlanking = availBlanking
+            self.colorConversion3DLUTSettings = colorConversion3DLUTSettings
             self.esam = esam
             self.extendedDataServices = extendedDataServices
             self.followSource = followSource
@@ -31921,6 +32053,358 @@ extension MediaConvertClientTypes {
     }
 }
 
+extension MediaConvertClientTypes {
+    /// The four character code for the uncompressed video.
+    public enum UncompressedFourcc: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case i420
+        case i422
+        case i444
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedFourcc] {
+            return [
+                .i420,
+                .i422,
+                .i444,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .i420: return "I420"
+            case .i422: return "I422"
+            case .i444: return "I444"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedFourcc(rawValue: rawValue) ?? UncompressedFourcc.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
+    public enum UncompressedFramerateControl: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case initializeFromSource
+        case specified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedFramerateControl] {
+            return [
+                .initializeFromSource,
+                .specified,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .initializeFromSource: return "INITIALIZE_FROM_SOURCE"
+            case .specified: return "SPECIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedFramerateControl(rawValue: rawValue) ?? UncompressedFramerateControl.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+    public enum UncompressedFramerateConversionAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case duplicateDrop
+        case frameformer
+        case interpolate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedFramerateConversionAlgorithm] {
+            return [
+                .duplicateDrop,
+                .frameformer,
+                .interpolate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .duplicateDrop: return "DUPLICATE_DROP"
+            case .frameformer: return "FRAMEFORMER"
+            case .interpolate: return "INTERPOLATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedFramerateConversionAlgorithm(rawValue: rawValue) ?? UncompressedFramerateConversionAlgorithm.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Optional. Choose the scan line type for this output. If you don't specify a value, MediaConvert will create a progressive output.
+    public enum UncompressedInterlaceMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case interlaced
+        case progressive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedInterlaceMode] {
+            return [
+                .interlaced,
+                .progressive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .interlaced: return "INTERLACED"
+            case .progressive: return "PROGRESSIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedInterlaceMode(rawValue: rawValue) ?? UncompressedInterlaceMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
+    public enum UncompressedScanTypeConversionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case interlaced
+        case interlacedOptimize
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedScanTypeConversionMode] {
+            return [
+                .interlaced,
+                .interlacedOptimize,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .interlaced: return "INTERLACED"
+            case .interlacedOptimize: return "INTERLACED_OPTIMIZE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedScanTypeConversionMode(rawValue: rawValue) ?? UncompressedScanTypeConversionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes.UncompressedSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fourcc = "fourcc"
+        case framerateControl = "framerateControl"
+        case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+        case framerateDenominator = "framerateDenominator"
+        case framerateNumerator = "framerateNumerator"
+        case interlaceMode = "interlaceMode"
+        case scanTypeConversionMode = "scanTypeConversionMode"
+        case slowPal = "slowPal"
+        case telecine = "telecine"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fourcc = self.fourcc {
+            try encodeContainer.encode(fourcc.rawValue, forKey: .fourcc)
+        }
+        if let framerateControl = self.framerateControl {
+            try encodeContainer.encode(framerateControl.rawValue, forKey: .framerateControl)
+        }
+        if let framerateConversionAlgorithm = self.framerateConversionAlgorithm {
+            try encodeContainer.encode(framerateConversionAlgorithm.rawValue, forKey: .framerateConversionAlgorithm)
+        }
+        if let framerateDenominator = self.framerateDenominator {
+            try encodeContainer.encode(framerateDenominator, forKey: .framerateDenominator)
+        }
+        if let framerateNumerator = self.framerateNumerator {
+            try encodeContainer.encode(framerateNumerator, forKey: .framerateNumerator)
+        }
+        if let interlaceMode = self.interlaceMode {
+            try encodeContainer.encode(interlaceMode.rawValue, forKey: .interlaceMode)
+        }
+        if let scanTypeConversionMode = self.scanTypeConversionMode {
+            try encodeContainer.encode(scanTypeConversionMode.rawValue, forKey: .scanTypeConversionMode)
+        }
+        if let slowPal = self.slowPal {
+            try encodeContainer.encode(slowPal.rawValue, forKey: .slowPal)
+        }
+        if let telecine = self.telecine {
+            try encodeContainer.encode(telecine.rawValue, forKey: .telecine)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fourccDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedFourcc.self, forKey: .fourcc)
+        fourcc = fourccDecoded
+        let framerateControlDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedFramerateControl.self, forKey: .framerateControl)
+        framerateControl = framerateControlDecoded
+        let framerateConversionAlgorithmDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedFramerateConversionAlgorithm.self, forKey: .framerateConversionAlgorithm)
+        framerateConversionAlgorithm = framerateConversionAlgorithmDecoded
+        let framerateDenominatorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .framerateDenominator)
+        framerateDenominator = framerateDenominatorDecoded
+        let framerateNumeratorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .framerateNumerator)
+        framerateNumerator = framerateNumeratorDecoded
+        let interlaceModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedInterlaceMode.self, forKey: .interlaceMode)
+        interlaceMode = interlaceModeDecoded
+        let scanTypeConversionModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedScanTypeConversionMode.self, forKey: .scanTypeConversionMode)
+        scanTypeConversionMode = scanTypeConversionModeDecoded
+        let slowPalDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedSlowPal.self, forKey: .slowPal)
+        slowPal = slowPalDecoded
+        let telecineDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedTelecine.self, forKey: .telecine)
+        telecine = telecineDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
+    public struct UncompressedSettings: Swift.Equatable {
+        /// The four character code for the uncompressed video.
+        public var fourcc: MediaConvertClientTypes.UncompressedFourcc?
+        /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
+        public var framerateControl: MediaConvertClientTypes.UncompressedFramerateControl?
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        public var framerateConversionAlgorithm: MediaConvertClientTypes.UncompressedFramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public var framerateDenominator: Swift.Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public var framerateNumerator: Swift.Int?
+        /// Optional. Choose the scan line type for this output. If you don't specify a value, MediaConvert will create a progressive output.
+        public var interlaceMode: MediaConvertClientTypes.UncompressedInterlaceMode?
+        /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
+        public var scanTypeConversionMode: MediaConvertClientTypes.UncompressedScanTypeConversionMode?
+        /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Framerate to 25.
+        public var slowPal: MediaConvertClientTypes.UncompressedSlowPal?
+        /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine to create a smoother picture. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+        public var telecine: MediaConvertClientTypes.UncompressedTelecine?
+
+        public init(
+            fourcc: MediaConvertClientTypes.UncompressedFourcc? = nil,
+            framerateControl: MediaConvertClientTypes.UncompressedFramerateControl? = nil,
+            framerateConversionAlgorithm: MediaConvertClientTypes.UncompressedFramerateConversionAlgorithm? = nil,
+            framerateDenominator: Swift.Int? = nil,
+            framerateNumerator: Swift.Int? = nil,
+            interlaceMode: MediaConvertClientTypes.UncompressedInterlaceMode? = nil,
+            scanTypeConversionMode: MediaConvertClientTypes.UncompressedScanTypeConversionMode? = nil,
+            slowPal: MediaConvertClientTypes.UncompressedSlowPal? = nil,
+            telecine: MediaConvertClientTypes.UncompressedTelecine? = nil
+        )
+        {
+            self.fourcc = fourcc
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+            self.interlaceMode = interlaceMode
+            self.scanTypeConversionMode = scanTypeConversionMode
+            self.slowPal = slowPal
+            self.telecine = telecine
+        }
+    }
+
+}
+
+extension MediaConvertClientTypes {
+    /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output by relabeling the video frames and resampling your audio. Note that enabling this setting will slightly reduce the duration of your video. Related settings: You must also set Framerate to 25.
+    public enum UncompressedSlowPal: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedSlowPal] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedSlowPal(rawValue: rawValue) ?? UncompressedSlowPal.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// When you do frame rate conversion from 23.976 frames per second (fps) to 29.97 fps, and your output scan type is interlaced, you can optionally enable hard telecine to create a smoother picture. When you keep the default value, None, MediaConvert does a standard frame rate conversion to 29.97 without doing anything with the field polarity to create a smoother picture.
+    public enum UncompressedTelecine: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hard
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UncompressedTelecine] {
+            return [
+                .hard,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hard: return "HARD"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UncompressedTelecine(rawValue: rawValue) ?? UncompressedTelecine.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagKeys = "tagKeys"
@@ -32887,6 +33371,7 @@ extension MediaConvertClientTypes {
         case mpeg2
         case passthrough
         case prores
+        case uncompressed
         case vc3
         case vp8
         case vp9
@@ -32903,6 +33388,7 @@ extension MediaConvertClientTypes {
                 .mpeg2,
                 .passthrough,
                 .prores,
+                .uncompressed,
                 .vc3,
                 .vp8,
                 .vp9,
@@ -32924,6 +33410,7 @@ extension MediaConvertClientTypes {
             case .mpeg2: return "MPEG2"
             case .passthrough: return "PASSTHROUGH"
             case .prores: return "PRORES"
+            case .uncompressed: return "UNCOMPRESSED"
             case .vc3: return "VC3"
             case .vp8: return "VP8"
             case .vp9: return "VP9"
@@ -32949,6 +33436,7 @@ extension MediaConvertClientTypes.VideoCodecSettings: Swift.Codable {
         case h265Settings = "h265Settings"
         case mpeg2Settings = "mpeg2Settings"
         case proresSettings = "proresSettings"
+        case uncompressedSettings = "uncompressedSettings"
         case vc3Settings = "vc3Settings"
         case vp8Settings = "vp8Settings"
         case vp9Settings = "vp9Settings"
@@ -32980,6 +33468,9 @@ extension MediaConvertClientTypes.VideoCodecSettings: Swift.Codable {
         }
         if let proresSettings = self.proresSettings {
             try encodeContainer.encode(proresSettings, forKey: .proresSettings)
+        }
+        if let uncompressedSettings = self.uncompressedSettings {
+            try encodeContainer.encode(uncompressedSettings, forKey: .uncompressedSettings)
         }
         if let vc3Settings = self.vc3Settings {
             try encodeContainer.encode(vc3Settings, forKey: .vc3Settings)
@@ -33013,6 +33504,8 @@ extension MediaConvertClientTypes.VideoCodecSettings: Swift.Codable {
         mpeg2Settings = mpeg2SettingsDecoded
         let proresSettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ProresSettings.self, forKey: .proresSettings)
         proresSettings = proresSettingsDecoded
+        let uncompressedSettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.UncompressedSettings.self, forKey: .uncompressedSettings)
+        uncompressedSettings = uncompressedSettingsDecoded
         let vc3SettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Vc3Settings.self, forKey: .vc3Settings)
         vc3Settings = vc3SettingsDecoded
         let vp8SettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Vp8Settings.self, forKey: .vp8Settings)
@@ -33025,7 +33518,7 @@ extension MediaConvertClientTypes.VideoCodecSettings: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
-    /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+    /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
     public struct VideoCodecSettings: Swift.Equatable {
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
         public var av1Settings: MediaConvertClientTypes.Av1Settings?
@@ -33043,6 +33536,8 @@ extension MediaConvertClientTypes {
         public var mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings?
         /// Required when you set Codec to the value PRORES.
         public var proresSettings: MediaConvertClientTypes.ProresSettings?
+        /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
+        public var uncompressedSettings: MediaConvertClientTypes.UncompressedSettings?
         /// Required when you set Codec to the value VC3
         public var vc3Settings: MediaConvertClientTypes.Vc3Settings?
         /// Required when you set Codec to the value VP8.
@@ -33061,6 +33556,7 @@ extension MediaConvertClientTypes {
             h265Settings: MediaConvertClientTypes.H265Settings? = nil,
             mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings? = nil,
             proresSettings: MediaConvertClientTypes.ProresSettings? = nil,
+            uncompressedSettings: MediaConvertClientTypes.UncompressedSettings? = nil,
             vc3Settings: MediaConvertClientTypes.Vc3Settings? = nil,
             vp8Settings: MediaConvertClientTypes.Vp8Settings? = nil,
             vp9Settings: MediaConvertClientTypes.Vp9Settings? = nil,
@@ -33075,6 +33571,7 @@ extension MediaConvertClientTypes {
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
             self.proresSettings = proresSettings
+            self.uncompressedSettings = uncompressedSettings
             self.vc3Settings = vc3Settings
             self.vp8Settings = vp8Settings
             self.vp9Settings = vp9Settings
@@ -33194,7 +33691,7 @@ extension MediaConvertClientTypes {
         public var afdSignaling: MediaConvertClientTypes.AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public var antiAlias: MediaConvertClientTypes.AntiAlias?
-        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
         public var codecSettings: MediaConvertClientTypes.VideoCodecSettings?
         /// Choose Insert for this setting to include color metadata in this output. Choose Ignore to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public var colorMetadata: MediaConvertClientTypes.ColorMetadata?
@@ -33593,6 +34090,7 @@ extension MediaConvertClientTypes.VideoSelector: Swift.Codable {
         case colorSpaceUsage = "colorSpaceUsage"
         case embeddedTimecodeOverride = "embeddedTimecodeOverride"
         case hdr10Metadata = "hdr10Metadata"
+        case maxLuminance = "maxLuminance"
         case padVideo = "padVideo"
         case pid = "pid"
         case programNumber = "programNumber"
@@ -33616,6 +34114,9 @@ extension MediaConvertClientTypes.VideoSelector: Swift.Codable {
         }
         if let hdr10Metadata = self.hdr10Metadata {
             try encodeContainer.encode(hdr10Metadata, forKey: .hdr10Metadata)
+        }
+        if let maxLuminance = self.maxLuminance {
+            try encodeContainer.encode(maxLuminance, forKey: .maxLuminance)
         }
         if let padVideo = self.padVideo {
             try encodeContainer.encode(padVideo.rawValue, forKey: .padVideo)
@@ -33646,6 +34147,8 @@ extension MediaConvertClientTypes.VideoSelector: Swift.Codable {
         embeddedTimecodeOverride = embeddedTimecodeOverrideDecoded
         let hdr10MetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Hdr10Metadata.self, forKey: .hdr10Metadata)
         hdr10Metadata = hdr10MetadataDecoded
+        let maxLuminanceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxLuminance)
+        maxLuminance = maxLuminanceDecoded
         let padVideoDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.PadVideo.self, forKey: .padVideo)
         padVideo = padVideoDecoded
         let pidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pid)
@@ -33682,6 +34185,8 @@ extension MediaConvertClientTypes {
         public var embeddedTimecodeOverride: MediaConvertClientTypes.EmbeddedTimecodeOverride?
         /// Use these settings to provide HDR 10 metadata that is missing or inaccurate in your input video. Appropriate values vary depending on the input video and must be provided by a color grader. The color grader generates these values during the HDR 10 mastering process. The valid range for each of these settings is 0 to 50,000. Each increment represents 0.00002 in CIE1931 color coordinate. Related settings - When you specify these values, you must also set Color space to HDR 10. To specify whether the the values you specify here take precedence over the values in the metadata of your input file, set Color space usage. To specify whether color metadata is included in an output, set Color metadata. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public var hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata?
+        /// Specify the maximum mastering display luminance. Enter an integer from 0 to 2147483647, in units of 0.0001 nits. For example, enter 10000000 for 1000 nits.
+        public var maxLuminance: Swift.Int?
         /// Use this setting if your input has video and audio durations that don't align, and your output or player has strict alignment requirements. Examples: Input audio track has a delayed start. Input video track ends before audio ends. When you set Pad video to Black, MediaConvert generates black video frames so that output video and audio durations match. Black video frames are added at the beginning or end, depending on your input. To keep the default behavior and not generate black video, set Pad video to Disabled or leave blank.
         public var padVideo: MediaConvertClientTypes.PadVideo?
         /// Use PID to select specific video data from an input file. Specify this value as an integer; the system automatically converts it to the hexidecimal value. For example, 257 selects PID 0x101. A PID, or packet identifier, is an identifier for a set of data in an MPEG-2 transport stream container.
@@ -33699,6 +34204,7 @@ extension MediaConvertClientTypes {
             colorSpaceUsage: MediaConvertClientTypes.ColorSpaceUsage? = nil,
             embeddedTimecodeOverride: MediaConvertClientTypes.EmbeddedTimecodeOverride? = nil,
             hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata? = nil,
+            maxLuminance: Swift.Int? = nil,
             padVideo: MediaConvertClientTypes.PadVideo? = nil,
             pid: Swift.Int? = nil,
             programNumber: Swift.Int? = nil,
@@ -33711,6 +34217,7 @@ extension MediaConvertClientTypes {
             self.colorSpaceUsage = colorSpaceUsage
             self.embeddedTimecodeOverride = embeddedTimecodeOverride
             self.hdr10Metadata = hdr10Metadata
+            self.maxLuminance = maxLuminance
             self.padVideo = padVideo
             self.pid = pid
             self.programNumber = programNumber

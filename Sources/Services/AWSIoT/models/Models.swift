@@ -8308,7 +8308,11 @@ public struct CreateJobInput: Swift.Equatable {
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
     public var description: Swift.String?
+<<<<<<< HEAD
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+=======
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+>>>>>>> main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -8650,7 +8654,11 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     /// A description of the job document.
     /// This member is required.
     public var description: Swift.String?
+<<<<<<< HEAD
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+=======
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+>>>>>>> main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document. Required if you don't specify a value for documentSource.
     public var document: Swift.String?
@@ -17498,7 +17506,11 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// A description of the job template.
     public var description: Swift.String?
+<<<<<<< HEAD
     /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+=======
+    /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+>>>>>>> main
     public var destinationPackageVersions: [Swift.String]?
     /// The job document.
     public var document: Swift.String?
@@ -18033,7 +18045,7 @@ extension DescribeProvisioningTemplateOutput: ClientRuntime.HttpResponseBinding 
             self.creationDate = nil
             self.defaultVersionId = nil
             self.description = nil
-            self.enabled = false
+            self.enabled = nil
             self.lastModifiedDate = nil
             self.preProvisioningHook = nil
             self.provisioningRoleArn = nil
@@ -18053,7 +18065,7 @@ public struct DescribeProvisioningTemplateOutput: Swift.Equatable {
     /// The description of the provisioning template.
     public var description: Swift.String?
     /// True if the provisioning template is enabled, otherwise false.
-    public var enabled: Swift.Bool
+    public var enabled: Swift.Bool?
     /// The date when the provisioning template was last modified.
     public var lastModifiedDate: ClientRuntime.Date?
     /// Gets information about a pre-provisioned hook.
@@ -18073,7 +18085,7 @@ public struct DescribeProvisioningTemplateOutput: Swift.Equatable {
         creationDate: ClientRuntime.Date? = nil,
         defaultVersionId: Swift.Int? = nil,
         description: Swift.String? = nil,
-        enabled: Swift.Bool = false,
+        enabled: Swift.Bool? = nil,
         lastModifiedDate: ClientRuntime.Date? = nil,
         preProvisioningHook: IoTClientTypes.ProvisioningHook? = nil,
         provisioningRoleArn: Swift.String? = nil,
@@ -18105,7 +18117,7 @@ struct DescribeProvisioningTemplateOutputBody: Swift.Equatable {
     let lastModifiedDate: ClientRuntime.Date?
     let defaultVersionId: Swift.Int?
     let templateBody: Swift.String?
-    let enabled: Swift.Bool
+    let enabled: Swift.Bool?
     let provisioningRoleArn: Swift.String?
     let preProvisioningHook: IoTClientTypes.ProvisioningHook?
     let type: IoTClientTypes.TemplateType?
@@ -18142,7 +18154,7 @@ extension DescribeProvisioningTemplateOutputBody: Swift.Decodable {
         defaultVersionId = defaultVersionIdDecoded
         let templateBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateBody)
         templateBody = templateBodyDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let provisioningRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisioningRoleArn)
         provisioningRoleArn = provisioningRoleArnDecoded
@@ -25564,7 +25576,11 @@ extension IoTClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// A short text description of the job.
         public var description: Swift.String?
+<<<<<<< HEAD
         /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+=======
+        /// The package version Amazon Resource Names (ARNs) that are installed on the device when the job successfully completes. The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).The package version must be in either the Published or Deprecated state when the job deploys. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle). Note:The following Length Constraints relates to a single ARN. Up to 25 package version ARNs are allowed.
+>>>>>>> main
         public var destinationPackageVersions: [Swift.String]?
         /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public var documentParameters: [Swift.String:Swift.String]?
@@ -35504,8 +35520,6 @@ extension IoTClientTypes {
     public enum LogTargetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case clientId
         case `default`
-        case deviceDefender
-        case eventType
         case principalId
         case sourceIp
         case thingGroup
@@ -35515,8 +35529,6 @@ extension IoTClientTypes {
             return [
                 .clientId,
                 .default,
-                .deviceDefender,
-                .eventType,
                 .principalId,
                 .sourceIp,
                 .thingGroup,
@@ -35531,8 +35543,6 @@ extension IoTClientTypes {
             switch self {
             case .clientId: return "CLIENT_ID"
             case .default: return "DEFAULT"
-            case .deviceDefender: return "DEVICE_DEFENDER"
-            case .eventType: return "EVENT_TYPE"
             case .principalId: return "PRINCIPAL_ID"
             case .sourceIp: return "SOURCE_IP"
             case .thingGroup: return "THING_GROUP"
@@ -37931,7 +37941,7 @@ extension IoTClientTypes.ProvisioningTemplateSummary: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if enabled != false {
+        if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
         }
         if let lastModifiedDate = self.lastModifiedDate {
@@ -37960,7 +37970,7 @@ extension IoTClientTypes.ProvisioningTemplateSummary: Swift.Codable {
         creationDate = creationDateDecoded
         let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
         lastModifiedDate = lastModifiedDateDecoded
-        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let typeDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TemplateType.self, forKey: .type)
         type = typeDecoded
@@ -37975,7 +37985,7 @@ extension IoTClientTypes {
         /// The description of the provisioning template.
         public var description: Swift.String?
         /// True if the fleet provision template is enabled, otherwise false.
-        public var enabled: Swift.Bool
+        public var enabled: Swift.Bool?
         /// The date when the provisioning template summary was last modified.
         public var lastModifiedDate: ClientRuntime.Date?
         /// The ARN of the provisioning template.
@@ -37988,7 +37998,7 @@ extension IoTClientTypes {
         public init(
             creationDate: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
-            enabled: Swift.Bool = false,
+            enabled: Swift.Bool? = nil,
             lastModifiedDate: ClientRuntime.Date? = nil,
             templateArn: Swift.String? = nil,
             templateName: Swift.String? = nil,
@@ -44147,7 +44157,7 @@ extension IoTClientTypes.ThingConnectivity: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if connected != false {
+        if let connected = self.connected {
             try encodeContainer.encode(connected, forKey: .connected)
         }
         if let disconnectReason = self.disconnectReason {
@@ -44160,7 +44170,7 @@ extension IoTClientTypes.ThingConnectivity: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let connectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .connected) ?? false
+        let connectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .connected)
         connected = connectedDecoded
         let timestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timestamp)
         timestamp = timestampDecoded
@@ -44173,14 +44183,14 @@ extension IoTClientTypes {
     /// The connectivity status of the thing.
     public struct ThingConnectivity: Swift.Equatable {
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
-        public var connected: Swift.Bool
+        public var connected: Swift.Bool?
         /// The reason why the client is disconnected. If the thing has been disconnected for approximately an hour, the disconnectReason value might be missing.
         public var disconnectReason: Swift.String?
         /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
         public var timestamp: Swift.Int?
 
         public init(
-            connected: Swift.Bool = false,
+            connected: Swift.Bool? = nil,
             disconnectReason: Swift.String? = nil,
             timestamp: Swift.Int? = nil
         )
@@ -48757,6 +48767,7 @@ enum UpdatePackageConfigurationOutputError: ClientRuntime.HttpResponseErrorBindi
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -48881,6 +48892,7 @@ enum UpdatePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -49026,6 +49038,7 @@ enum UpdatePackageVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

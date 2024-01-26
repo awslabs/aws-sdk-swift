@@ -1325,7 +1325,7 @@ extension Macie2ClientTypes.BucketCountByEncryptionType: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets whose settings do or don't specify default server-side encryption behavior for objects that are added to the buckets. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
     public struct BucketCountByEncryptionType: Swift.Equatable {
-        /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an Amazon Web Services managed KMS key or a customer managed KMS key. By default, these buckets encrypt new objects automatically using SSE-KMS encryption.
+        /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an KMS key, either an Amazon Web Services managed key or a customer managed key. By default, these buckets encrypt new objects automatically using DSSE-KMS or SSE-KMS encryption.
         public var kmsManaged: Swift.Int?
         /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an Amazon S3 managed key. By default, these buckets encrypt new objects automatically using SSE-S3 encryption.
         public var s3Managed: Swift.Int?
@@ -2164,9 +2164,11 @@ extension Macie2ClientTypes {
         public var kmsMasterKeyId: Swift.String?
         /// The server-side encryption algorithm that's used by default to encrypt objects that are added to the bucket. Possible values are:
         ///
-        /// * AES256 - New objects are encrypted with an Amazon S3 managed key. They use SSE-S3 encryption.
+        /// * AES256 - New objects use SSE-S3 encryption. They're encrypted with an Amazon S3 managed key.
         ///
-        /// * aws:kms - New objects are encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key. They use SSE-KMS encryption.
+        /// * aws:kms - New objects use SSE-KMS encryption. They're encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key.
+        ///
+        /// * aws:kms:dsse - New objects use DSSE-KMS encryption. They're encrypted with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or a customer managed key.
         ///
         /// * NONE - The bucket's default encryption settings don't specify server-side encryption behavior for new objects.
         public var type: Macie2ClientTypes.ModelType?
@@ -6521,6 +6523,7 @@ extension Macie2ClientTypes {
         case `none`
         case unknown
         case awsKms
+        case awsKmsDsse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EncryptionType] {
@@ -6529,6 +6532,7 @@ extension Macie2ClientTypes {
                 .none,
                 .unknown,
                 .awsKms,
+                .awsKmsDsse,
                 .sdkUnknown("")
             ]
         }
@@ -6542,6 +6546,7 @@ extension Macie2ClientTypes {
             case .none: return "NONE"
             case .unknown: return "UNKNOWN"
             case .awsKms: return "aws:kms"
+            case .awsKmsDsse: return "aws:kms:dsse"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9650,17 +9655,29 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     ///
     /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
     ///
+<<<<<<< HEAD
     /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
     ///
     /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
     /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
+=======
+    /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available in the current Amazon Web Services Region, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
+    ///
+    /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+    ///
+    /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
+>>>>>>> main
     ///
     /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
     ///
     /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
     ///
+<<<<<<< HEAD
     /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+=======
+    /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+>>>>>>> main
     ///
     /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
     ///
@@ -14091,11 +14108,11 @@ extension Macie2ClientTypes.ObjectCountByEncryptionType: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the number of objects that are in an S3 bucket and use certain types of server-side encryption, use client-side encryption, or aren't encrypted.
     public struct ObjectCountByEncryptionType: Swift.Equatable {
-        /// The total number of objects that are encrypted with a customer-provided key. The objects use customer-provided server-side encryption (SSE-C).
+        /// The total number of objects that are encrypted with customer-provided keys. The objects use server-side encryption with customer-provided keys (SSE-C).
         public var customerManaged: Swift.Int?
-        /// The total number of objects that are encrypted with an KMS key, either an Amazon Web Services managed key or a customer managed key. The objects use KMS encryption (SSE-KMS).
+        /// The total number of objects that are encrypted with KMS keys, either Amazon Web Services managed keys or customer managed keys. The objects use dual-layer server-side encryption or server-side encryption with KMS keys (DSSE-KMS or SSE-KMS).
         public var kmsManaged: Swift.Int?
-        /// The total number of objects that are encrypted with an Amazon S3 managed key. The objects use Amazon S3 managed encryption (SSE-S3).
+        /// The total number of objects that are encrypted with Amazon S3 managed keys. The objects use server-side encryption with Amazon S3 managed keys (SSE-S3).
         public var s3Managed: Swift.Int?
         /// The total number of objects that use client-side encryption or aren't encrypted.
         public var unencrypted: Swift.Int?
@@ -15203,9 +15220,15 @@ extension Macie2ClientTypes.RetrievalConfiguration: Swift.Codable {
 extension Macie2ClientTypes {
     /// Provides information about the access method and settings that are used to retrieve occurrences of sensitive data reported by findings.
     public struct RetrievalConfiguration: Swift.Equatable {
+<<<<<<< HEAD
         /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). The trust policy must include an sts:ExternalId condition that requires this ID. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume a role. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
         public var externalId: Swift.String?
         /// The access method that's used when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
+=======
+        /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). This value is null if the value for retrievalMode is CALLER_CREDENTIALS. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume an IAM role. For a Macie administrator to retrieve sensitive data from an affected S3 object for a member account, the trust policy for the role in the member account must include an sts:ExternalId condition that requires this ID.
+        public var externalId: Swift.String?
+        /// The access method that's used to retrieve sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
+>>>>>>> main
         /// This member is required.
         public var retrievalMode: Macie2ClientTypes.RetrievalMode?
         /// The name of the IAM role that is in the affected Amazon Web Services account and Amazon Macie is allowed to assume when retrieving sensitive data from affected S3 objects for the account. This value is null if the value for retrievalMode is CALLER_CREDENTIALS.
@@ -15288,7 +15311,7 @@ extension Macie2ClientTypes {
     public struct RevealConfiguration: Swift.Equatable {
         /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
         public var kmsKeyId: Swift.String?
-        /// The status of the configuration for the Amazon Macie account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account.
+        /// The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 objects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
         public var status: Macie2ClientTypes.RevealStatus?
 
@@ -18771,6 +18794,7 @@ extension Macie2ClientTypes {
         case aes256
         case `none`
         case awsKms
+        case awsKmsDsse
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelType] {
@@ -18778,6 +18802,7 @@ extension Macie2ClientTypes {
                 .aes256,
                 .none,
                 .awsKms,
+                .awsKmsDsse,
                 .sdkUnknown("")
             ]
         }
@@ -18790,6 +18815,7 @@ extension Macie2ClientTypes {
             case .aes256: return "AES256"
             case .none: return "NONE"
             case .awsKms: return "aws:kms"
+            case .awsKmsDsse: return "aws:kms:dsse"
             case let .sdkUnknown(s): return s
             }
         }
@@ -18913,17 +18939,29 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
         ///
         /// * ACCOUNT_NOT_IN_ORGANIZATION - The affected account isn't currently part of your organization. Or the account is part of your organization but Macie isn't currently enabled for the account. You're not allowed to access the affected S3 object by using Macie.
         ///
+<<<<<<< HEAD
         /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
         ///
         /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
         /// * MEMBER_ROLE_TOO_PERMISSIVE - The affected member account is configured to retrieve occurrences of sensitive data by using an IAM role whose trust or permissions policy doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID. Macie can't assume the role to retrieve the sensitive data.
+=======
+        /// * INVALID_CLASSIFICATION_RESULT - There isn't a corresponding sensitive data discovery result for the finding. Or the corresponding sensitive data discovery result isn't available in the current Amazon Web Services Region, is malformed or corrupted, or uses an unsupported storage format. Macie can't verify the location of the sensitive data to retrieve.
+        ///
+        /// * INVALID_RESULT_SIGNATURE - The corresponding sensitive data discovery result is stored in an S3 object that wasn't signed by Macie. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
+        ///
+        /// * MEMBER_ROLE_TOO_PERMISSIVE - The trust or permissions policy for the IAM role in the affected member account doesn't meet Macie requirements for restricting access to the role. Or the role's trust policy doesn't specify the correct external ID for your organization. Macie can't assume the role to retrieve the sensitive data.
+>>>>>>> main
         ///
         /// * MISSING_GET_MEMBER_PERMISSION - You're not allowed to retrieve information about the association between your account and the affected account. Macie can't determine whether you’re allowed to access the affected S3 object as the delegated Macie administrator for the affected account.
         ///
         /// * OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object exceeds the size quota for retrieving occurrences of sensitive data from this type of file.
         ///
+<<<<<<< HEAD
         /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, or deleted. Or the object was changed after Macie created the finding.
+=======
+        /// * OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object was renamed, moved, deleted, or changed after Macie created the finding. Or the object is encrypted with an KMS key that's currently disabled.
+>>>>>>> main
         ///
         /// * RESULT_NOT_SIGNED - The corresponding sensitive data discovery result is stored in an S3 object that hasn't been signed. Macie can't verify the integrity and authenticity of the sensitive data discovery result. Therefore, Macie can't verify the location of the sensitive data to retrieve.
         ///
@@ -20134,7 +20172,11 @@ extension Macie2ClientTypes.UpdateRetrievalConfiguration: Swift.Codable {
 }
 
 extension Macie2ClientTypes {
+<<<<<<< HEAD
     /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume when retrieving the sensitive data, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Retrieving sensitive data samples with findings](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd.html) in the Amazon Macie User Guide.
+=======
+    /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
+>>>>>>> main
     public struct UpdateRetrievalConfiguration: Swift.Equatable {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
@@ -20181,7 +20223,11 @@ public struct UpdateRevealConfigurationInput: Swift.Equatable {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     /// This member is required.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
+<<<<<<< HEAD
     /// The access method and settings to use to retrieve the sensitive data.
+=======
+    /// The access method and settings to use when retrieving the sensitive data.
+>>>>>>> main
     public var retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 
     public init(
@@ -20231,7 +20277,11 @@ extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
 public struct UpdateRevealConfigurationOutput: Swift.Equatable {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
+<<<<<<< HEAD
     /// The access method and settings to use to retrieve the sensitive data.
+=======
+    /// The access method and settings to use when retrieving the sensitive data.
+>>>>>>> main
     public var retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
 
     public init(

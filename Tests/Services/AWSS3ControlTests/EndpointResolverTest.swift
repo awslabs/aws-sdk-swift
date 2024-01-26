@@ -645,7 +645,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// outpost access points do not support dualstack@us-west-2
+    /// outpost access points support dualstack@us-west-2
     func testResolve20() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
@@ -657,42 +657,32 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost Access Points do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        var headers = Headers()
+        headers.add(name: "x-amz-account-id", values: ["123456789012"])
+        headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
-    /// outpost access points do not support dualstack@cn-north-1
+    /// outpost access points support dualstack@af-south-1
     func testResolve21() throws {
         let endpointParams = EndpointParams(
-            accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
-            accountId: "123456789012",
-            region: "cn-north-1",
-            requiresAccountId: true,
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost Access Points do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// outpost access points do not support dualstack@af-south-1
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
+            accessPointName: "arn:aws:s3-outposts:af-south-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             accountId: "123456789012",
             region: "af-south-1",
             requiresAccountId: true,
@@ -701,14 +691,60 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost Access Points do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "af-south-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        var headers = Headers()
+        headers.add(name: "x-amz-account-id", values: ["123456789012"])
+        headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.af-south-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// outpost access points support fips + dualstack@af-south-1
+    func testResolve22() throws {
+        let endpointParams = EndpointParams(
+            accessPointName: "arn:aws:s3-outposts:af-south-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
+            accountId: "123456789012",
+            region: "af-south-1",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "af-south-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        var headers = Headers()
+        headers.add(name: "x-amz-account-id", values: ["123456789012"])
+        headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.af-south-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
     /// invalid ARN: must be include outpost ID@us-west-2
@@ -1110,8 +1146,40 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// CreateBucket + OutpostId endpoint url@us-east-2
+    /// ListRegionalBucket + OutpostId + fips + dualstack@us-east-2
     func testResolve37() throws {
+        let endpointParams = EndpointParams(
+            accountId: "123456789012",
+            outpostId: "op-123",
+            region: "us-east-2",
+            requiresAccountId: true,
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "us-east-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// CreateBucket + OutpostId endpoint url@us-east-2
+    func testResolve38() throws {
         let endpointParams = EndpointParams(
             bucket: "blah",
             endpoint: "https://beta.example.com",
@@ -1144,10 +1212,10 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dualstack cannot be used with outposts when an endpoint URL is set@us-west-2.
-    func testResolve38() throws {
+    func testResolve39() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
-            endpoint: "https://beta.example.com",
+            endpoint: "https://s3-outposts.us-west-2.api.aws",
             region: "us-west-2",
             requiresAccountId: true,
             useDualStack: true,
@@ -1158,30 +1226,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost Access Points do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// Dual-stack cannot be used with outposts@us-west-2
-    func testResolve39() throws {
-        let endpointParams = EndpointParams(
-            bucket: "bucketname",
-            endpoint: "https://beta.example.com",
-            outpostId: "op-123",
-            region: "us-west-2",
-            requiresAccountId: false,
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outposts do not support dual-stack", message)
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
             default:
                 XCTFail()
             }
@@ -1353,25 +1398,37 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Outposts do not support dualstack@us-west-2
+    /// bucket ARN in aws partition with fips + dualstack@us-east-2
     func testResolve45() throws {
         let endpointParams = EndpointParams(
-            bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
-            region: "us-west-2",
+            bucket: "arn:aws:s3-outposts:us-east-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
+            region: "us-east-2",
             requiresAccountId: true,
             useDualStack: true,
-            useFIPS: false
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost buckets do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "us-east-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        var headers = Headers()
+        headers.add(name: "x-amz-account-id", values: ["123456789012"])
+        headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts-fips.us-east-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
     /// vanilla bucket arn requires account id@cn-north-1
@@ -1539,7 +1596,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Outposts do not support dualstack@us-west-2
+    /// Outposts support dualstack @us-west-2
     func testResolve51() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
@@ -1550,14 +1607,26 @@ class EndpointResolverTest: XCTestCase {
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost buckets do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3-outposts",
+                        "signingRegion": "us-west-2",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        var headers = Headers()
+        headers.add(name: "x-amz-account-id", values: ["123456789012"])
+        headers.add(name: "x-amz-outpost-id", values: ["op-01234567890123456"])
+        let expected = try ClientRuntime.Endpoint(urlString: "https://s3-outposts.us-west-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
     /// vanilla bucket arn requires account id@af-south-1
@@ -1725,29 +1794,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Outposts do not support dualstack@us-west-2
-    func testResolve57() throws {
-        let endpointParams = EndpointParams(
-            bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
-            region: "us-west-2",
-            requiresAccountId: true,
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost buckets do not support dual-stack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// Invalid ARN: missing outpost id and bucket@us-west-2
-    func testResolve58() throws {
+    func testResolve57() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost",
             region: "us-west-2",
@@ -1768,7 +1816,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: missing bucket@us-west-2
-    func testResolve59() throws {
+    func testResolve58() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456",
             region: "us-west-2",
@@ -1789,7 +1837,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: missing outpost and bucket ids@us-west-2
-    func testResolve60() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:bucket",
             region: "us-west-2",
@@ -1810,7 +1858,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: missing bucket id@us-west-2
-    func testResolve61() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket",
             region: "us-west-2",
@@ -1831,7 +1879,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// account id inserted into hostname@us-west-2
-    func testResolve62() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             accountId: "1234567890",
             region: "us-west-2",
@@ -1862,7 +1910,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// account id prefix with dualstack@us-east-1
-    func testResolve63() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             accountId: "1234567890",
             region: "us-east-1",
@@ -1893,7 +1941,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// account id prefix with fips@us-east-1
-    func testResolve64() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             accountId: "1234567890",
             region: "us-east-1",
@@ -1924,7 +1972,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom account id prefix with fips@us-east-1
-    func testResolve65() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             region: "us-east-1",
@@ -1955,7 +2003,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// standard url @ us-east-1
-    func testResolve66() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1"
         )
@@ -1982,7 +2030,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// fips url @ us-east-1
-    func testResolve67() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useFIPS: true
@@ -2010,7 +2058,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// dualstack url @ us-east-1
-    func testResolve68() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: true
@@ -2038,7 +2086,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// fips,dualstack url @ us-east-1
-    func testResolve69() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: true,
@@ -2067,7 +2115,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// standard url @ cn-north-1
-    func testResolve70() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1"
         )
@@ -2094,7 +2142,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// fips @ cn-north-1
-    func testResolve71() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -2113,7 +2161,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom account id prefix @us-east-1
-    func testResolve72() throws {
+    func testResolve71() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             region: "us-east-1",
@@ -2144,7 +2192,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid account id prefix @us-east-1
-    func testResolve73() throws {
+    func testResolve72() throws {
         let endpointParams = EndpointParams(
             accountId: "/?invalid&not-host*label",
             region: "us-east-1",
@@ -2165,7 +2213,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom account id prefix with fips@us-east-1
-    func testResolve74() throws {
+    func testResolve73() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             region: "us-east-1",
@@ -2196,7 +2244,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom account id prefix with dualstack,fips@us-east-1
-    func testResolve75() throws {
+    func testResolve74() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             region: "us-east-1",
@@ -2227,7 +2275,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// custom account id with custom endpoint
-    func testResolve76() throws {
+    func testResolve75() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             endpoint: "https://example.com",
@@ -2257,7 +2305,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// RequiresAccountId with AccountId unset
-    func testResolve77() throws {
+    func testResolve76() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             requiresAccountId: true
@@ -2275,7 +2323,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// RequiresAccountId with AccountId unset and custom endpoint
-    func testResolve78() throws {
+    func testResolve77() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://beta.example.com",
             region: "us-east-1",
@@ -2294,7 +2342,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// RequiresAccountId with invalid AccountId and custom endpoint
-    func testResolve79() throws {
+    func testResolve78() throws {
         let endpointParams = EndpointParams(
             accountId: "/?invalid&not-host*label",
             endpoint: "https://beta.example.com",
@@ -2314,7 +2362,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// account id with custom endpoint, fips
-    func testResolve80() throws {
+    func testResolve79() throws {
         let endpointParams = EndpointParams(
             accountId: "123456789012",
             endpoint: "https://example.com",
@@ -2340,6 +2388,35 @@ class EndpointResolverTest: XCTestCase {
 
         let headers = Headers()
         let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// custom endpoint, fips
+    func testResolve80() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            region: "us-east-1",
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ] as [String: AnyHashable]
+                ] as [AnyHashable]
+            ]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2373,37 +2450,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// custom endpoint, fips
-    func testResolve82() throws {
-        let endpointParams = EndpointParams(
-            endpoint: "https://example.com",
-            region: "us-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// custom endpoint, DualStack
-    func testResolve83() throws {
+    func testResolve82() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -2423,7 +2471,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// region not set
-    func testResolve84() throws {
+    func testResolve83() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()
@@ -2439,7 +2487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// invalid partition
-    func testResolve85() throws {
+    func testResolve84() throws {
         let endpointParams = EndpointParams(
             region: "invalid-region 42"
         )
@@ -2456,7 +2504,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ListRegionalBuckets + OutpostId without accountId set.
-    func testResolve86() throws {
+    func testResolve85() throws {
         let endpointParams = EndpointParams(
             outpostId: "op-123",
             region: "us-east-2",
@@ -2477,7 +2525,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ListRegionalBuckets + OutpostId with invalid accountId set.
-    func testResolve87() throws {
+    func testResolve86() throws {
         let endpointParams = EndpointParams(
             accountId: "/?invalid&not-host*label",
             outpostId: "op-123",
@@ -2499,7 +2547,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// accesspoint set but missing accountId
-    func testResolve88() throws {
+    func testResolve87() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint",
             region: "us-west-2",
@@ -2520,7 +2568,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outpost accesspoint ARN with missing accountId
-    func testResolve89() throws {
+    func testResolve88() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2::outpost:op-01234567890123456:outpost:op1",
             region: "us-west-2",
@@ -2541,7 +2589,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// bucket ARN with missing accountId
-    func testResolve90() throws {
+    func testResolve89() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2::outpost:op-01234567890123456:bucket:mybucket",
             region: "us-west-2",
@@ -2562,7 +2610,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// endpoint url with accesspoint (non-arn)
-    func testResolve91() throws {
+    func testResolve90() throws {
         let endpointParams = EndpointParams(
             accessPointName: "apname",
             accountId: "123456789012",
@@ -2595,7 +2643,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// access point name with an accesspoint arn@us-west-2
-    func testResolve92() throws {
+    func testResolve91() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             endpoint: "https://beta.example.com",
@@ -2629,7 +2677,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// DualStack + Custom endpoint is not supported(non-arn)
-    func testResolve93() throws {
+    func testResolve92() throws {
         let endpointParams = EndpointParams(
             accessPointName: "apname",
             accountId: "123456789012",
@@ -2651,11 +2699,11 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// get bucket with endpoint_url and dualstack is not supported@us-west-2
-    func testResolve94() throws {
+    /// get bucket with custom endpoint and dualstack is not supported@us-west-2
+    func testResolve93() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
-            endpoint: "https://beta.example.com",
+            endpoint: "https://s3-outposts.us-west-2.api.aws",
             region: "us-west-2",
             requiresAccountId: true,
             useDualStack: true,
@@ -2666,7 +2714,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid configuration: Outpost buckets do not support dual-stack", message)
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
             default:
                 XCTFail()
             }
@@ -2674,7 +2722,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ListRegionalBuckets + OutpostId with fips in CN.
-    func testResolve95() throws {
+    func testResolve94() throws {
         let endpointParams = EndpointParams(
             accountId: "0123456789012",
             outpostId: "op-123",
@@ -2696,7 +2744,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ListRegionalBuckets + invalid OutpostId.
-    func testResolve96() throws {
+    func testResolve95() throws {
         let endpointParams = EndpointParams(
             accountId: "0123456789012",
             outpostId: "?outpost/invalid+",
@@ -2718,7 +2766,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// bucket ARN with mismatched accountId
-    func testResolve97() throws {
+    func testResolve96() throws {
         let endpointParams = EndpointParams(
             accountId: "0123456789012",
             bucket: "arn:aws:s3-outposts:us-west-2:999999:outpost:op-01234567890123456:bucket:mybucket",
@@ -2740,7 +2788,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// OutpostId with invalid region
-    func testResolve98() throws {
+    func testResolve97() throws {
         let endpointParams = EndpointParams(
             accountId: "0123456",
             outpostId: "op-123",
@@ -2762,7 +2810,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// OutpostId with RequireAccountId unset
-    func testResolve99() throws {
+    func testResolve98() throws {
         let endpointParams = EndpointParams(
             outpostId: "op-123",
             region: "us-west-2",
@@ -2792,7 +2840,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Outpost Accesspoint ARN with arn region and client region mismatch with UseArnRegion=false
-    func testResolve100() throws {
+    func testResolve99() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             accountId: "123456789012",
@@ -2815,7 +2863,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Outpost Bucket ARN with arn region and client region mismatch with UseArnRegion=false
-    func testResolve101() throws {
+    func testResolve100() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:bucket:mybucket",
             endpoint: "https://beta.example.com",
@@ -2838,7 +2886,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Accesspoint ARN with region mismatch and UseArnRegion unset
-    func testResolve102() throws {
+    func testResolve101() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             accountId: "123456789012",
@@ -2872,7 +2920,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Bucket ARN with region mismatch and UseArnRegion unset
-    func testResolve103() throws {
+    func testResolve102() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-east-1:123456789012:outpost:op-01234567890123456:bucket:mybucket",
             region: "us-west-2",
@@ -2905,7 +2953,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Outpost Bucket ARN with partition mismatch with UseArnRegion=true
-    func testResolve104() throws {
+    func testResolve103() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:cn-north-1:123456789012:outpost:op-01234567890123456:bucket:mybucket",
             region: "us-west-2",
@@ -2927,7 +2975,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Accesspoint ARN with partition mismatch and UseArnRegion=true
-    func testResolve105() throws {
+    func testResolve104() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:cn-north-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             accountId: "123456789012",
@@ -2950,7 +2998,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Accesspoint ARN with region mismatch, UseArnRegion=false and custom endpoint
-    func testResolve106() throws {
+    func testResolve105() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:cn-north-1:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
             endpoint: "https://example.com",
@@ -2973,7 +3021,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// outpost bucket arn@us-west-2
-    func testResolve107() throws {
+    func testResolve106() throws {
         let endpointParams = EndpointParams(
             bucket: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:bucket:mybucket",
             region: "us-west-2",
@@ -3006,7 +3054,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control with bucket
-    func testResolve108() throws {
+    func testResolve107() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
             endpoint: "https://10.0.1.12:433",
@@ -3037,7 +3085,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control without bucket
-    func testResolve109() throws {
+    func testResolve108() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://10.0.1.12:433",
             region: "snow",
@@ -3067,7 +3115,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control with bucket and without port
-    func testResolve110() throws {
+    func testResolve109() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
             endpoint: "https://10.0.1.12",
@@ -3098,7 +3146,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control with bucket and with DNS
-    func testResolve111() throws {
+    func testResolve110() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
             endpoint: "http://s3snow.com",
@@ -3129,7 +3177,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control with FIPS enabled
-    func testResolve112() throws {
+    func testResolve111() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
             endpoint: "https://10.0.1.12:433",
@@ -3150,7 +3198,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// S3 Snow Control with Dualstack enabled
-    func testResolve113() throws {
+    func testResolve112() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
             endpoint: "https://10.0.1.12:433",

@@ -1099,6 +1099,7 @@ extension CreateFirewallRuleInput: Swift.Encodable {
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
+        case qtype = "Qtype"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1132,6 +1133,9 @@ extension CreateFirewallRuleInput: Swift.Encodable {
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let qtype = self.qtype {
+            try encodeContainer.encode(qtype, forKey: .qtype)
         }
     }
 }
@@ -1184,6 +1188,34 @@ public struct CreateFirewallRuleInput: Swift.Equatable {
     /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
     /// This member is required.
     public var priority: Swift.Int?
+    /// The DNS query type you want the rule to evaluate. Allowed values are;
+    ///
+    /// * A: Returns an IPv4 address.
+    ///
+    /// * AAAA: Returns an Ipv6 address.
+    ///
+    /// * CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+    ///
+    /// * CNAME: Returns another domain name.
+    ///
+    /// * DS: Record that identifies the DNSSEC signing key of a delegated zone.
+    ///
+    /// * MX: Specifies mail servers.
+    ///
+    /// * NAPTR: Regular-expression-based rewriting of domain names.
+    ///
+    /// * NS: Authoritative name servers.
+    ///
+    /// * PTR: Maps an IP address to a domain name.
+    ///
+    /// * SOA: Start of authority record for the zone.
+    ///
+    /// * SPF: Lists the servers authorized to send emails from a domain.
+    ///
+    /// * SRV: Application specific values that identify servers.
+    ///
+    /// * TXT: Verifies email senders and application-specific values.
+    public var qtype: Swift.String?
 
     public init(
         action: Route53ResolverClientTypes.Action? = nil,
@@ -1195,7 +1227,8 @@ public struct CreateFirewallRuleInput: Swift.Equatable {
         firewallDomainListId: Swift.String? = nil,
         firewallRuleGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = nil
+        priority: Swift.Int? = nil,
+        qtype: Swift.String? = nil
     )
     {
         self.action = action
@@ -1208,6 +1241,7 @@ public struct CreateFirewallRuleInput: Swift.Equatable {
         self.firewallRuleGroupId = firewallRuleGroupId
         self.name = name
         self.priority = priority
+        self.qtype = qtype
     }
 }
 
@@ -1222,6 +1256,7 @@ struct CreateFirewallRuleInputBody: Swift.Equatable {
     let blockOverrideDnsType: Route53ResolverClientTypes.BlockOverrideDnsType?
     let blockOverrideTtl: Swift.Int?
     let name: Swift.String?
+    let qtype: Swift.String?
 }
 
 extension CreateFirewallRuleInputBody: Swift.Decodable {
@@ -1236,6 +1271,7 @@ extension CreateFirewallRuleInputBody: Swift.Decodable {
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
+        case qtype = "Qtype"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1260,6 +1296,48 @@ extension CreateFirewallRuleInputBody: Swift.Decodable {
         blockOverrideTtl = blockOverrideTtlDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
+        qtype = qtypeDecoded
+    }
+}
+
+extension CreateFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateFirewallRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.firewallRule = output.firewallRule
+        } else {
+            self.firewallRule = nil
+        }
+    }
+}
+
+public struct CreateFirewallRuleOutput: Swift.Equatable {
+    /// The firewall rule that you just created.
+    public var firewallRule: Route53ResolverClientTypes.FirewallRule?
+
+    public init(
+        firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
+    )
+    {
+        self.firewallRule = firewallRule
+    }
+}
+
+struct CreateFirewallRuleOutputBody: Swift.Equatable {
+    let firewallRule: Route53ResolverClientTypes.FirewallRule?
+}
+
+extension CreateFirewallRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firewallRule = "FirewallRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firewallRuleDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallRule.self, forKey: .firewallRule)
+        firewallRule = firewallRuleDecoded
     }
 }
 
@@ -2367,6 +2445,7 @@ extension DeleteFirewallRuleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case firewallDomainListId = "FirewallDomainListId"
         case firewallRuleGroupId = "FirewallRuleGroupId"
+        case qtype = "Qtype"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2376,6 +2455,9 @@ extension DeleteFirewallRuleInput: Swift.Encodable {
         }
         if let firewallRuleGroupId = self.firewallRuleGroupId {
             try encodeContainer.encode(firewallRuleGroupId, forKey: .firewallRuleGroupId)
+        }
+        if let qtype = self.qtype {
+            try encodeContainer.encode(qtype, forKey: .qtype)
         }
     }
 }
@@ -2393,26 +2475,58 @@ public struct DeleteFirewallRuleInput: Swift.Equatable {
     /// The unique identifier of the firewall rule group that you want to delete the rule from.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
+    /// The DNS query type that the rule you are deleting evaluates. Allowed values are;
+    ///
+    /// * A: Returns an IPv4 address.
+    ///
+    /// * AAAA: Returns an Ipv6 address.
+    ///
+    /// * CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+    ///
+    /// * CNAME: Returns another domain name.
+    ///
+    /// * DS: Record that identifies the DNSSEC signing key of a delegated zone.
+    ///
+    /// * MX: Specifies mail servers.
+    ///
+    /// * NAPTR: Regular-expression-based rewriting of domain names.
+    ///
+    /// * NS: Authoritative name servers.
+    ///
+    /// * PTR: Maps an IP address to a domain name.
+    ///
+    /// * SOA: Start of authority record for the zone.
+    ///
+    /// * SPF: Lists the servers authorized to send emails from a domain.
+    ///
+    /// * SRV: Application specific values that identify servers.
+    ///
+    /// * TXT: Verifies email senders and application-specific values.
+    public var qtype: Swift.String?
 
     public init(
         firewallDomainListId: Swift.String? = nil,
-        firewallRuleGroupId: Swift.String? = nil
+        firewallRuleGroupId: Swift.String? = nil,
+        qtype: Swift.String? = nil
     )
     {
         self.firewallDomainListId = firewallDomainListId
         self.firewallRuleGroupId = firewallRuleGroupId
+        self.qtype = qtype
     }
 }
 
 struct DeleteFirewallRuleInputBody: Swift.Equatable {
     let firewallRuleGroupId: Swift.String?
     let firewallDomainListId: Swift.String?
+    let qtype: Swift.String?
 }
 
 extension DeleteFirewallRuleInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case firewallDomainListId = "FirewallDomainListId"
         case firewallRuleGroupId = "FirewallRuleGroupId"
+        case qtype = "Qtype"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2421,6 +2535,8 @@ extension DeleteFirewallRuleInputBody: Swift.Decodable {
         firewallRuleGroupId = firewallRuleGroupIdDecoded
         let firewallDomainListIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallDomainListId)
         firewallDomainListId = firewallDomainListIdDecoded
+        let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
+        qtype = qtypeDecoded
     }
 }
 
@@ -2464,6 +2580,49 @@ extension DeleteFirewallRuleOutputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension DeleteFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteFirewallRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.firewallRule = output.firewallRule
+        } else {
+            self.firewallRule = nil
+        }
+    }
+}
+
+public struct DeleteFirewallRuleOutput: Swift.Equatable {
+    /// The specification for the firewall rule that you just deleted.
+    public var firewallRule: Route53ResolverClientTypes.FirewallRule?
+
+    public init(
+        firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
+    )
+    {
+        self.firewallRule = firewallRule
+    }
+}
+
+struct DeleteFirewallRuleOutputBody: Swift.Equatable {
+    let firewallRule: Route53ResolverClientTypes.FirewallRule?
+}
+
+extension DeleteFirewallRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firewallRule = "FirewallRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firewallRuleDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallRule.self, forKey: .firewallRule)
+        firewallRule = firewallRuleDecoded
+    }
+}
+
+=======
+>>>>>>> main
 enum DeleteFirewallRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3917,6 +4076,7 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         case modificationTime = "ModificationTime"
         case name = "Name"
         case priority = "Priority"
+        case qtype = "Qtype"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3957,6 +4117,9 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
         }
+        if let qtype = self.qtype {
+            try encodeContainer.encode(qtype, forKey: .qtype)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3985,6 +4148,8 @@ extension Route53ResolverClientTypes.FirewallRule: Swift.Codable {
         creationTime = creationTimeDecoded
         let modificationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modificationTime)
         modificationTime = modificationTimeDecoded
+        let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
+        qtype = qtypeDecoded
     }
 }
 
@@ -4027,6 +4192,34 @@ extension Route53ResolverClientTypes {
         public var name: Swift.String?
         /// The priority of the rule in the rule group. This value must be unique within the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
         public var priority: Swift.Int?
+        /// The DNS query type you want the rule to evaluate. Allowed values are;
+        ///
+        /// * A: Returns an IPv4 address.
+        ///
+        /// * AAAA: Returns an Ipv6 address.
+        ///
+        /// * CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+        ///
+        /// * CNAME: Returns another domain name.
+        ///
+        /// * DS: Record that identifies the DNSSEC signing key of a delegated zone.
+        ///
+        /// * MX: Specifies mail servers.
+        ///
+        /// * NAPTR: Regular-expression-based rewriting of domain names.
+        ///
+        /// * NS: Authoritative name servers.
+        ///
+        /// * PTR: Maps an IP address to a domain name.
+        ///
+        /// * SOA: Start of authority record for the zone.
+        ///
+        /// * SPF: Lists the servers authorized to send emails from a domain.
+        ///
+        /// * SRV: Application specific values that identify servers.
+        ///
+        /// * TXT: Verifies email senders and application-specific values.
+        public var qtype: Swift.String?
 
         public init(
             action: Route53ResolverClientTypes.Action? = nil,
@@ -4040,7 +4233,8 @@ extension Route53ResolverClientTypes {
             firewallRuleGroupId: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
-            priority: Swift.Int? = nil
+            priority: Swift.Int? = nil,
+            qtype: Swift.String? = nil
         )
         {
             self.action = action
@@ -4055,6 +4249,7 @@ extension Route53ResolverClientTypes {
             self.modificationTime = modificationTime
             self.name = name
             self.priority = priority
+            self.qtype = qtype
         }
     }
 
@@ -12846,6 +13041,7 @@ extension UpdateFirewallRuleInput: Swift.Encodable {
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
+        case qtype = "Qtype"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -12876,6 +13072,9 @@ extension UpdateFirewallRuleInput: Swift.Encodable {
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let qtype = self.qtype {
+            try encodeContainer.encode(qtype, forKey: .qtype)
         }
     }
 }
@@ -12919,6 +13118,34 @@ public struct UpdateFirewallRuleInput: Swift.Equatable {
     public var name: Swift.String?
     /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
     public var priority: Swift.Int?
+    /// The DNS query type you want the rule to evaluate. Allowed values are;
+    ///
+    /// * A: Returns an IPv4 address.
+    ///
+    /// * AAAA: Returns an Ipv6 address.
+    ///
+    /// * CAA: Restricts CAs that can create SSL/TLS certifications for the domain.
+    ///
+    /// * CNAME: Returns another domain name.
+    ///
+    /// * DS: Record that identifies the DNSSEC signing key of a delegated zone.
+    ///
+    /// * MX: Specifies mail servers.
+    ///
+    /// * NAPTR: Regular-expression-based rewriting of domain names.
+    ///
+    /// * NS: Authoritative name servers.
+    ///
+    /// * PTR: Maps an IP address to a domain name.
+    ///
+    /// * SOA: Start of authority record for the zone.
+    ///
+    /// * SPF: Lists the servers authorized to send emails from a domain.
+    ///
+    /// * SRV: Application specific values that identify servers.
+    ///
+    /// * TXT: Verifies email senders and application-specific values.
+    public var qtype: Swift.String?
 
     public init(
         action: Route53ResolverClientTypes.Action? = nil,
@@ -12929,7 +13156,8 @@ public struct UpdateFirewallRuleInput: Swift.Equatable {
         firewallDomainListId: Swift.String? = nil,
         firewallRuleGroupId: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = nil
+        priority: Swift.Int? = nil,
+        qtype: Swift.String? = nil
     )
     {
         self.action = action
@@ -12941,6 +13169,7 @@ public struct UpdateFirewallRuleInput: Swift.Equatable {
         self.firewallRuleGroupId = firewallRuleGroupId
         self.name = name
         self.priority = priority
+        self.qtype = qtype
     }
 }
 
@@ -12954,6 +13183,7 @@ struct UpdateFirewallRuleInputBody: Swift.Equatable {
     let blockOverrideDnsType: Route53ResolverClientTypes.BlockOverrideDnsType?
     let blockOverrideTtl: Swift.Int?
     let name: Swift.String?
+    let qtype: Swift.String?
 }
 
 extension UpdateFirewallRuleInputBody: Swift.Decodable {
@@ -12967,6 +13197,7 @@ extension UpdateFirewallRuleInputBody: Swift.Decodable {
         case firewallRuleGroupId = "FirewallRuleGroupId"
         case name = "Name"
         case priority = "Priority"
+        case qtype = "Qtype"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -12989,6 +13220,48 @@ extension UpdateFirewallRuleInputBody: Swift.Decodable {
         blockOverrideTtl = blockOverrideTtlDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let qtypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .qtype)
+        qtype = qtypeDecoded
+    }
+}
+
+extension UpdateFirewallRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateFirewallRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.firewallRule = output.firewallRule
+        } else {
+            self.firewallRule = nil
+        }
+    }
+}
+
+public struct UpdateFirewallRuleOutput: Swift.Equatable {
+    /// The firewall rule that you just updated.
+    public var firewallRule: Route53ResolverClientTypes.FirewallRule?
+
+    public init(
+        firewallRule: Route53ResolverClientTypes.FirewallRule? = nil
+    )
+    {
+        self.firewallRule = firewallRule
+    }
+}
+
+struct UpdateFirewallRuleOutputBody: Swift.Equatable {
+    let firewallRule: Route53ResolverClientTypes.FirewallRule?
+}
+
+extension UpdateFirewallRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case firewallRule = "FirewallRule"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let firewallRuleDecoded = try containerValues.decodeIfPresent(Route53ResolverClientTypes.FirewallRule.self, forKey: .firewallRule)
+        firewallRule = firewallRuleDecoded
     }
 }
 

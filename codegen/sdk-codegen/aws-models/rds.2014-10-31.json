@@ -758,7 +758,13 @@
                     "target": "com.amazonaws.rds#DescribeValidDBInstanceModifications"
                 },
                 {
+                    "target": "com.amazonaws.rds#DisableHttpEndpoint"
+                },
+                {
                     "target": "com.amazonaws.rds#DownloadDBLogFilePortion"
+                },
+                {
+                    "target": "com.amazonaws.rds#EnableHttpEndpoint"
                 },
                 {
                     "target": "com.amazonaws.rds#FailoverDBCluster"
@@ -3968,6 +3974,63 @@
                                 "CopyTagsToSnapshot": false
                             }
                         }
+                    },
+                    {
+                        "title": "To create a PostgreSQL-compatible DB cluster",
+                        "documentation": "The following example creates a PostgreSQL-compatible Aurora DB cluster.",
+                        "input": {
+                            "DBClusterIdentifier": "sample-pg-cluster",
+                            "Engine": "aurora-postgresql",
+                            "MasterUsername": "admin",
+                            "MasterUserPassword": "mypassword",
+                            "VpcSecurityGroupIds": [
+                                "sg-0b91305example"
+                            ],
+                            "DBSubnetGroupName": "default"
+                        },
+                        "output": {
+                            "DBCluster": {
+                                "Endpoint": "sample-pg-cluster.cluster-cnpexample.us-east-1.rds.amazonaws.com",
+                                "HttpEndpointEnabled": false,
+                                "DBClusterMembers": [],
+                                "EngineMode": "provisioned",
+                                "CopyTagsToSnapshot": false,
+                                "HostedZoneId": "Z2R2ITUGPM61AM",
+                                "IAMDatabaseAuthenticationEnabled": false,
+                                "AllocatedStorage": 1,
+                                "VpcSecurityGroups": [
+                                    {
+                                        "VpcSecurityGroupId": "sg-0b91305example",
+                                        "Status": "active"
+                                    }
+                                ],
+                                "DeletionProtection": false,
+                                "StorageEncrypted": false,
+                                "BackupRetentionPeriod": 1,
+                                "PreferredBackupWindow": "09:56-10:26",
+                                "ClusterCreateTime": "2019-06-07T23:26:08.371Z",
+                                "DBClusterParameterGroup": "default.aurora-postgresql9.6",
+                                "EngineVersion": "9.6.9",
+                                "Engine": "aurora-postgresql",
+                                "Status": "creating",
+                                "DBClusterIdentifier": "sample-pg-cluster",
+                                "MultiAZ": false,
+                                "Port": 5432,
+                                "DBClusterArn": "arn:aws:rds:us-east-1:123456789012:cluster:sample-pg-cluster",
+                                "AssociatedRoles": [],
+                                "DbClusterResourceId": "cluster-ANPAJ4AE5446DAEXAMPLE",
+                                "PreferredMaintenanceWindow": "wed:03:33-wed:04:03",
+                                "ReaderEndpoint": "sample-pg-cluster.cluster-ro-cnpexample.us-east-1.rds.amazonaws.com",
+                                "MasterUsername": "master",
+                                "AvailabilityZones": [
+                                    "us-east-1a",
+                                    "us-east-1b",
+                                    "us-east-1c"
+                                ],
+                                "ReadReplicaIdentifiers": [],
+                                "DBSubnetGroup": "default"
+                            }
+                        }
                     }
                 ]
             }
@@ -4268,7 +4331,7 @@
                 "EnableHttpEndpoint": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            is disabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>RDS Data API is supported with the following DB clusters:</p>\n         <ul>\n            <li>\n               <p>Aurora PostgreSQL Serverless v2 and provisioned</p>\n            </li>\n            <li>\n               <p>Aurora PostgreSQL and Aurora MySQL Serverless v1</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -7111,7 +7174,7 @@
                 "HttpEndpointEnabled": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint for an Aurora Serverless v1 DB cluster is enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n          SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n          from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n          <i>Amazon Aurora User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled for an Aurora DB cluster.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n          SQL queries on the DB cluster. You can also query your database\n          from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n          <i>Amazon Aurora User Guide</i>.</p>"
                     }
                 },
                 "ActivityStreamMode": {
@@ -13214,6 +13277,23 @@
                                 }
                             ]
                         }
+                    },
+                    {
+                        "title": "To describe DB cluster endpoints of a single DB cluster",
+                        "documentation": "The following example retrieves details for the DB cluster endpoints of a single specified DB cluster. Aurora Serverless clusters have only a single endpoint with a type of WRITER.",
+                        "input": {
+                            "DBClusterIdentifier": "serverless-cluster"
+                        },
+                        "output": {
+                            "DBClusterEndpoints": [
+                                {
+                                    "Status": "available",
+                                    "Endpoint": "serverless-cluster.cluster-cnpexample.us-east-1.rds.amazonaws.com",
+                                    "DBClusterIdentifier": "serverless-cluster",
+                                    "EndpointType": "WRITER"
+                                }
+                            ]
+                        }
                     }
                 ],
                 "smithy.api#paginated": {
@@ -17631,6 +17711,65 @@
                 "smithy.api#pattern": ".*"
             }
         },
+<<<<<<< HEAD
+=======
+        "com.amazonaws.rds#DisableHttpEndpoint": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#DisableHttpEndpointRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#DisableHttpEndpointResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#InvalidResourceStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#ResourceNotFoundFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.rds#DisableHttpEndpointRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the DB cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#DisableHttpEndpointResponse": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the DB cluster.</p>"
+                    }
+                },
+                "HttpEndpointEnabled": {
+                    "target": "com.amazonaws.rds#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+>>>>>>> main
         "com.amazonaws.rds#DocLink": {
             "type": "structure",
             "members": {
@@ -17925,6 +18064,65 @@
                 "smithy.api#httpError": 400
             }
         },
+<<<<<<< HEAD
+=======
+        "com.amazonaws.rds#EnableHttpEndpoint": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.rds#EnableHttpEndpointRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.rds#EnableHttpEndpointResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.rds#InvalidResourceStateFault"
+                },
+                {
+                    "target": "com.amazonaws.rds#ResourceNotFoundFault"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint \n          isn't enabled.</p>\n         <p>When enabled, this endpoint provides a connectionless web service API (RDS Data API) \n          for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console \n          with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, \n        use the <code>EnableHttpEndpoint</code> parameter of the <code>ModifyDBCluster</code> operation.</p>\n         </note>"
+            }
+        },
+        "com.amazonaws.rds#EnableHttpEndpointRequest": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the DB cluster.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.rds#EnableHttpEndpointResponse": {
+            "type": "structure",
+            "members": {
+                "ResourceArn": {
+                    "target": "com.amazonaws.rds#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the DB cluster.</p>"
+                    }
+                },
+                "HttpEndpointEnabled": {
+                    "target": "com.amazonaws.rds#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the HTTP endpoint is enabled or disabled for the DB cluster.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+>>>>>>> main
         "com.amazonaws.rds#EncryptionContextMap": {
             "type": "map",
             "key": {
@@ -19753,6 +19951,23 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.rds#InvalidResourceStateFault": {
+            "type": "structure",
+            "members": {
+                "message": {
+                    "target": "com.amazonaws.rds#ExceptionMessage"
+                }
+            },
+            "traits": {
+                "aws.protocols#awsQueryError": {
+                    "code": "InvalidResourceStateFault",
+                    "httpResponseCode": 400
+                },
+                "smithy.api#documentation": "<p>The operation can't be performed because another operation is in progress.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
         "com.amazonaws.rds#InvalidRestoreFault": {
             "type": "structure",
             "members": {
@@ -20791,7 +21006,7 @@
                 "EnableHttpEndpoint": {
                     "target": "com.amazonaws.rds#BooleanOptional",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            is disabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using the Data API for Aurora Serverless v1</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
+                        "smithy.api#documentation": "<p>Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint \n            isn't enabled.</p>\n         <p>When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running\n            SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database\n            from inside the RDS console with the RDS query editor.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html\">Using RDS Data API</a> in the \n            <i>Amazon Aurora User Guide</i>.</p>\n         <note>\n            <p>This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL \n        Serverless v2 or provisioned DB cluster, use the <code>EnableHttpEndpoint</code> and <code>DisableHttpEndpoint</code> operations.</p>\n         </note>\n         <p>Valid for Cluster Type: Aurora DB clusters only</p>"
                     }
                 },
                 "CopyTagsToSnapshot": {
@@ -22045,6 +22260,30 @@
                                         "AttributeValues": [
                                             "111122223333",
                                             "444455556666"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "title": "To prevent an AWS account from restoring a DB snapshot",
+                        "documentation": "The following example removes permission from the AWS account with the identifier 444455556666 to restore the DB snapshot named mydbsnapshot.",
+                        "input": {
+                            "DBSnapshotIdentifier": "mydbsnapshot",
+                            "AttributeName": "restore",
+                            "ValuesToRemove": [
+                                "444455556666"
+                            ]
+                        },
+                        "output": {
+                            "DBSnapshotAttributesResult": {
+                                "DBSnapshotIdentifier": "mydbsnapshot",
+                                "DBSnapshotAttributes": [
+                                    {
+                                        "AttributeName": "restore",
+                                        "AttributeValues": [
+                                            "111122223333"
                                         ]
                                     }
                                 ]

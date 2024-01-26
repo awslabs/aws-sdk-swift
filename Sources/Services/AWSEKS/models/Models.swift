@@ -1692,6 +1692,35 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+    public enum Category: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case upgradeReadiness
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Category] {
+            return [
+                .upgradeReadiness,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .upgradeReadiness: return "UPGRADE_READINESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Category(rawValue: rawValue) ?? Category.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension EKSClientTypes.Certificate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case data
@@ -1821,6 +1850,61 @@ extension ClientExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension EKSClientTypes.ClientStat: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastRequestTime
+        case numberOfRequestsLast30Days
+        case userAgent
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastRequestTime = self.lastRequestTime {
+            try encodeContainer.encodeTimestamp(lastRequestTime, format: .epochSeconds, forKey: .lastRequestTime)
+        }
+        if numberOfRequestsLast30Days != 0 {
+            try encodeContainer.encode(numberOfRequestsLast30Days, forKey: .numberOfRequestsLast30Days)
+        }
+        if let userAgent = self.userAgent {
+            try encodeContainer.encode(userAgent, forKey: .userAgent)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userAgentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userAgent)
+        userAgent = userAgentDecoded
+        let numberOfRequestsLast30DaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfRequestsLast30Days) ?? 0
+        numberOfRequestsLast30Days = numberOfRequestsLast30DaysDecoded
+        let lastRequestTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRequestTime)
+        lastRequestTime = lastRequestTimeDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// Details about clients using the deprecated resources.
+    public struct ClientStat: Swift.Equatable {
+        /// The timestamp of the last request seen from the Kubernetes client.
+        public var lastRequestTime: ClientRuntime.Date?
+        /// The number of requests from the Kubernetes client seen over the last 30 days.
+        public var numberOfRequestsLast30Days: Swift.Int
+        /// The user agent of the Kubernetes client using the deprecated resource.
+        public var userAgent: Swift.String?
+
+        public init(
+            lastRequestTime: ClientRuntime.Date? = nil,
+            numberOfRequestsLast30Days: Swift.Int = 0,
+            userAgent: Swift.String? = nil
+        )
+        {
+            self.lastRequestTime = lastRequestTime
+            self.numberOfRequestsLast30Days = numberOfRequestsLast30Days
+            self.userAgent = userAgent
+        }
+    }
+
 }
 
 extension EKSClientTypes.Cluster: Swift.Codable {
@@ -2771,12 +2855,20 @@ public struct CreateAccessEntryInput: Swift.Equatable {
     public var clusterName: Swift.String?
     /// The value for name that you've specified for kind: Group as a subject in a Kubernetes RoleBinding or ClusterRoleBinding object. Amazon EKS doesn't confirm that the value for name exists in any bindings on your cluster. You can specify one or more names. Kubernetes authorizes the principalArn of the access entry to access any cluster objects that you've specified in a Kubernetes Role or ClusterRole object that is also specified in a binding's roleRef. For more information about creating Kubernetes RoleBinding, ClusterRoleBinding, Role, or ClusterRole objects, see [Using RBAC Authorization in the Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/). If you want Amazon EKS to authorize the principalArn (instead of, or in addition to Kubernetes authorizing the principalArn), you can associate one or more access policies to the access entry using AssociateAccessPolicy. If you associate any access policies, the principalARN has all permissions assigned in the associated access policies and all permissions in any Kubernetes Role or ClusterRole objects that the group names are bound to.
     public var kubernetesGroups: [Swift.String]?
+<<<<<<< HEAD
     /// The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp) recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
+=======
+    /// The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. The valid principals differ depending on the type of the access entry in the type field. The only valid ARN is IAM roles for the types of access entries for nodes: . You can use every IAM principal type for STANDARD access entries. You can't use the STS session principal type with access entries because this is a temporary principal for each session and not a permanent identity that can be assigned permissions. [IAM best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp) recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
+>>>>>>> main
     /// This member is required.
     public var principalArn: Swift.String?
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     public var tags: [Swift.String:Swift.String]?
+<<<<<<< HEAD
     /// If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-authConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
+=======
+    /// The type of the new access entry. Valid values are Standard, FARGATE_LINUX, EC2_LINUX, and EC2_WINDOWS. If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-authConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
+>>>>>>> main
     public var type: Swift.String?
     /// The username to authenticate to Kubernetes with. We recommend not specifying a username and letting Amazon EKS specify it for you. For more information about the value Amazon EKS specifies for you, or constraints before specifying your own username, see [Creating access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html#creating-access-entries) in the Amazon EKS User Guide.
     public var username: Swift.String?
@@ -4927,6 +5019,23 @@ extension DeletePodIdentityAssociationOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let associationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.PodIdentityAssociation.self, forKey: .association)
         association = associationDecoded
+<<<<<<< HEAD
+    }
+}
+
+enum DeletePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+=======
+>>>>>>> main
     }
 }
 
@@ -4942,6 +5051,93 @@ enum DeletePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBin
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension EKSClientTypes.DeprecationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientStats
+        case replacedWith
+        case startServingReplacementVersion
+        case stopServingVersion
+        case usage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientStats = clientStats {
+            var clientStatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientStats)
+            for clientstat0 in clientStats {
+                try clientStatsContainer.encode(clientstat0)
+            }
+        }
+        if let replacedWith = self.replacedWith {
+            try encodeContainer.encode(replacedWith, forKey: .replacedWith)
+        }
+        if let startServingReplacementVersion = self.startServingReplacementVersion {
+            try encodeContainer.encode(startServingReplacementVersion, forKey: .startServingReplacementVersion)
+        }
+        if let stopServingVersion = self.stopServingVersion {
+            try encodeContainer.encode(stopServingVersion, forKey: .stopServingVersion)
+        }
+        if let usage = self.usage {
+            try encodeContainer.encode(usage, forKey: .usage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usage)
+        usage = usageDecoded
+        let replacedWithDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replacedWith)
+        replacedWith = replacedWithDecoded
+        let stopServingVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stopServingVersion)
+        stopServingVersion = stopServingVersionDecoded
+        let startServingReplacementVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startServingReplacementVersion)
+        startServingReplacementVersion = startServingReplacementVersionDecoded
+        let clientStatsContainer = try containerValues.decodeIfPresent([EKSClientTypes.ClientStat?].self, forKey: .clientStats)
+        var clientStatsDecoded0:[EKSClientTypes.ClientStat]? = nil
+        if let clientStatsContainer = clientStatsContainer {
+            clientStatsDecoded0 = [EKSClientTypes.ClientStat]()
+            for structure0 in clientStatsContainer {
+                if let structure0 = structure0 {
+                    clientStatsDecoded0?.append(structure0)
+                }
+            }
+        }
+        clientStats = clientStatsDecoded0
+    }
+}
+
+extension EKSClientTypes {
+    /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
+    public struct DeprecationDetail: Swift.Equatable {
+        /// Details about Kubernetes clients using the deprecated resources.
+        public var clientStats: [EKSClientTypes.ClientStat]?
+        /// The newer version of the resource to migrate to if applicable.
+        public var replacedWith: Swift.String?
+        /// The version of the software where the newer resource version became available to migrate to if applicable.
+        public var startServingReplacementVersion: Swift.String?
+        /// The version of the software where the deprecated resource version will stop being served.
+        public var stopServingVersion: Swift.String?
+        /// The deprecated version of the resource.
+        public var usage: Swift.String?
+
+        public init(
+            clientStats: [EKSClientTypes.ClientStat]? = nil,
+            replacedWith: Swift.String? = nil,
+            startServingReplacementVersion: Swift.String? = nil,
+            stopServingVersion: Swift.String? = nil,
+            usage: Swift.String? = nil
+        )
+        {
+            self.clientStats = clientStats
+            self.replacedWith = replacedWith
+            self.startServingReplacementVersion = startServingReplacementVersion
+            self.stopServingVersion = stopServingVersion
+            self.usage = usage
+        }
+    }
+
 }
 
 extension DeregisterClusterInput: ClientRuntime.URLPathProvider {
@@ -5884,6 +6080,102 @@ enum DescribeIdentityProviderConfigOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DescribeInsightInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        guard let id = id else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeInsightInput: Swift.Equatable {
+    /// The name of the cluster to describe the insight for.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The identity of the insight to describe.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.id = id
+    }
+}
+
+struct DescribeInsightInputBody: Swift.Equatable {
+}
+
+extension DescribeInsightInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeInsightOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeInsightOutputBody = try responseDecoder.decode(responseBody: data)
+            self.insight = output.insight
+        } else {
+            self.insight = nil
+        }
+    }
+}
+
+public struct DescribeInsightOutput: Swift.Equatable {
+    /// The full description of the insight.
+    public var insight: EKSClientTypes.Insight?
+
+    public init(
+        insight: EKSClientTypes.Insight? = nil
+    )
+    {
+        self.insight = insight
+    }
+}
+
+struct DescribeInsightOutputBody: Swift.Equatable {
+    let insight: EKSClientTypes.Insight?
+}
+
+extension DescribeInsightOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case insight
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let insightDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Insight.self, forKey: .insight)
+        insight = insightDecoded
+    }
+}
+
+enum DescribeInsightOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension DescribeNodegroupInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -7276,6 +7568,556 @@ extension EKSClientTypes {
         )
         {
             self.oidc = oidc
+        }
+    }
+
+}
+
+extension EKSClientTypes.Insight: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalInfo
+        case category
+        case categorySpecificSummary
+        case description
+        case id
+        case insightStatus
+        case kubernetesVersion
+        case lastRefreshTime
+        case lastTransitionTime
+        case name
+        case recommendation
+        case resources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalInfo = additionalInfo {
+            var additionalInfoContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalInfo)
+            for (dictKey0, additionalInfoMap0) in additionalInfo {
+                try additionalInfoContainer.encode(additionalInfoMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let categorySpecificSummary = self.categorySpecificSummary {
+            try encodeContainer.encode(categorySpecificSummary, forKey: .categorySpecificSummary)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let insightStatus = self.insightStatus {
+            try encodeContainer.encode(insightStatus, forKey: .insightStatus)
+        }
+        if let kubernetesVersion = self.kubernetesVersion {
+            try encodeContainer.encode(kubernetesVersion, forKey: .kubernetesVersion)
+        }
+        if let lastRefreshTime = self.lastRefreshTime {
+            try encodeContainer.encodeTimestamp(lastRefreshTime, format: .epochSeconds, forKey: .lastRefreshTime)
+        }
+        if let lastTransitionTime = self.lastTransitionTime {
+            try encodeContainer.encodeTimestamp(lastTransitionTime, format: .epochSeconds, forKey: .lastTransitionTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recommendation = self.recommendation {
+            try encodeContainer.encode(recommendation, forKey: .recommendation)
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for insightresourcedetail0 in resources {
+                try resourcesContainer.encode(insightresourcedetail0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Category.self, forKey: .category)
+        category = categoryDecoded
+        let kubernetesVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kubernetesVersion)
+        kubernetesVersion = kubernetesVersionDecoded
+        let lastRefreshTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRefreshTime)
+        lastRefreshTime = lastRefreshTimeDecoded
+        let lastTransitionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastTransitionTime)
+        lastTransitionTime = lastTransitionTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let insightStatusDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightStatus.self, forKey: .insightStatus)
+        insightStatus = insightStatusDecoded
+        let recommendationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recommendation)
+        recommendation = recommendationDecoded
+        let additionalInfoContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalInfo)
+        var additionalInfoDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalInfoContainer = additionalInfoContainer {
+            additionalInfoDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in additionalInfoContainer {
+                if let string0 = string0 {
+                    additionalInfoDecoded0?[key0] = string0
+                }
+            }
+        }
+        additionalInfo = additionalInfoDecoded0
+        let resourcesContainer = try containerValues.decodeIfPresent([EKSClientTypes.InsightResourceDetail?].self, forKey: .resources)
+        var resourcesDecoded0:[EKSClientTypes.InsightResourceDetail]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [EKSClientTypes.InsightResourceDetail]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let categorySpecificSummaryDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightCategorySpecificSummary.self, forKey: .categorySpecificSummary)
+        categorySpecificSummary = categorySpecificSummaryDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// A check that provides recommendations to remedy potential upgrade-impacting issues.
+    public struct Insight: Swift.Equatable {
+        /// Links to sources that provide additional context on the insight.
+        public var additionalInfo: [Swift.String:Swift.String]?
+        /// The category of the insight.
+        public var category: EKSClientTypes.Category?
+        /// Summary information that relates to the category of the insight. Currently only returned with certain insights having category UPGRADE_READINESS.
+        public var categorySpecificSummary: EKSClientTypes.InsightCategorySpecificSummary?
+        /// The description of the insight which includes alert criteria, remediation recommendation, and additional resources (contains Markdown).
+        public var description: Swift.String?
+        /// The ID of the insight.
+        public var id: Swift.String?
+        /// An object containing more detail on the status of the insight resource.
+        public var insightStatus: EKSClientTypes.InsightStatus?
+        /// The Kubernetes minor version associated with an insight if applicable.
+        public var kubernetesVersion: Swift.String?
+        /// The time Amazon EKS last successfully completed a refresh of this insight check on the cluster.
+        public var lastRefreshTime: ClientRuntime.Date?
+        /// The time the status of the insight last changed.
+        public var lastTransitionTime: ClientRuntime.Date?
+        /// The name of the insight.
+        public var name: Swift.String?
+        /// A summary of how to remediate the finding of this insight if applicable.
+        public var recommendation: Swift.String?
+        /// The details about each resource listed in the insight check result.
+        public var resources: [EKSClientTypes.InsightResourceDetail]?
+
+        public init(
+            additionalInfo: [Swift.String:Swift.String]? = nil,
+            category: EKSClientTypes.Category? = nil,
+            categorySpecificSummary: EKSClientTypes.InsightCategorySpecificSummary? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            insightStatus: EKSClientTypes.InsightStatus? = nil,
+            kubernetesVersion: Swift.String? = nil,
+            lastRefreshTime: ClientRuntime.Date? = nil,
+            lastTransitionTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            recommendation: Swift.String? = nil,
+            resources: [EKSClientTypes.InsightResourceDetail]? = nil
+        )
+        {
+            self.additionalInfo = additionalInfo
+            self.category = category
+            self.categorySpecificSummary = categorySpecificSummary
+            self.description = description
+            self.id = id
+            self.insightStatus = insightStatus
+            self.kubernetesVersion = kubernetesVersion
+            self.lastRefreshTime = lastRefreshTime
+            self.lastTransitionTime = lastTransitionTime
+            self.name = name
+            self.recommendation = recommendation
+            self.resources = resources
+        }
+    }
+
+}
+
+extension EKSClientTypes.InsightCategorySpecificSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deprecationDetails
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deprecationDetails = deprecationDetails {
+            var deprecationDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deprecationDetails)
+            for deprecationdetail0 in deprecationDetails {
+                try deprecationDetailsContainer.encode(deprecationdetail0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deprecationDetailsContainer = try containerValues.decodeIfPresent([EKSClientTypes.DeprecationDetail?].self, forKey: .deprecationDetails)
+        var deprecationDetailsDecoded0:[EKSClientTypes.DeprecationDetail]? = nil
+        if let deprecationDetailsContainer = deprecationDetailsContainer {
+            deprecationDetailsDecoded0 = [EKSClientTypes.DeprecationDetail]()
+            for structure0 in deprecationDetailsContainer {
+                if let structure0 = structure0 {
+                    deprecationDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deprecationDetails = deprecationDetailsDecoded0
+    }
+}
+
+extension EKSClientTypes {
+    /// Summary information that relates to the category of the insight. Currently only returned with certain insights having category UPGRADE_READINESS.
+    public struct InsightCategorySpecificSummary: Swift.Equatable {
+        /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
+        public var deprecationDetails: [EKSClientTypes.DeprecationDetail]?
+
+        public init(
+            deprecationDetails: [EKSClientTypes.DeprecationDetail]? = nil
+        )
+        {
+            self.deprecationDetails = deprecationDetails
+        }
+    }
+
+}
+
+extension EKSClientTypes.InsightResourceDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case insightStatus
+        case kubernetesResourceUri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let insightStatus = self.insightStatus {
+            try encodeContainer.encode(insightStatus, forKey: .insightStatus)
+        }
+        if let kubernetesResourceUri = self.kubernetesResourceUri {
+            try encodeContainer.encode(kubernetesResourceUri, forKey: .kubernetesResourceUri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let insightStatusDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightStatus.self, forKey: .insightStatus)
+        insightStatus = insightStatusDecoded
+        let kubernetesResourceUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kubernetesResourceUri)
+        kubernetesResourceUri = kubernetesResourceUriDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// Returns information about the resource being evaluated.
+    public struct InsightResourceDetail: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) if applicable.
+        public var arn: Swift.String?
+        /// An object containing more detail on the status of the insight resource.
+        public var insightStatus: EKSClientTypes.InsightStatus?
+        /// The Kubernetes resource URI if applicable.
+        public var kubernetesResourceUri: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            insightStatus: EKSClientTypes.InsightStatus? = nil,
+            kubernetesResourceUri: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.insightStatus = insightStatus
+            self.kubernetesResourceUri = kubernetesResourceUri
+        }
+    }
+
+}
+
+extension EKSClientTypes.InsightStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightStatusValue.self, forKey: .status)
+        status = statusDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// The status of the insight.
+    public struct InsightStatus: Swift.Equatable {
+        /// Explanation on the reasoning for the status of the resource.
+        public var reason: Swift.String?
+        /// The status of the resource.
+        public var status: EKSClientTypes.InsightStatusValue?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: EKSClientTypes.InsightStatusValue? = nil
+        )
+        {
+            self.reason = reason
+            self.status = status
+        }
+    }
+
+}
+
+extension EKSClientTypes {
+    public enum InsightStatusValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case error
+        case passing
+        case unknown
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightStatusValue] {
+            return [
+                .error,
+                .passing,
+                .unknown,
+                .warning,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .passing: return "PASSING"
+            case .unknown: return "UNKNOWN"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InsightStatusValue(rawValue: rawValue) ?? InsightStatusValue.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EKSClientTypes.InsightSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case category
+        case description
+        case id
+        case insightStatus
+        case kubernetesVersion
+        case lastRefreshTime
+        case lastTransitionTime
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let insightStatus = self.insightStatus {
+            try encodeContainer.encode(insightStatus, forKey: .insightStatus)
+        }
+        if let kubernetesVersion = self.kubernetesVersion {
+            try encodeContainer.encode(kubernetesVersion, forKey: .kubernetesVersion)
+        }
+        if let lastRefreshTime = self.lastRefreshTime {
+            try encodeContainer.encodeTimestamp(lastRefreshTime, format: .epochSeconds, forKey: .lastRefreshTime)
+        }
+        if let lastTransitionTime = self.lastTransitionTime {
+            try encodeContainer.encodeTimestamp(lastTransitionTime, format: .epochSeconds, forKey: .lastTransitionTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(EKSClientTypes.Category.self, forKey: .category)
+        category = categoryDecoded
+        let kubernetesVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kubernetesVersion)
+        kubernetesVersion = kubernetesVersionDecoded
+        let lastRefreshTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRefreshTime)
+        lastRefreshTime = lastRefreshTimeDecoded
+        let lastTransitionTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastTransitionTime)
+        lastTransitionTime = lastTransitionTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let insightStatusDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightStatus.self, forKey: .insightStatus)
+        insightStatus = insightStatusDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// The summarized description of the insight.
+    public struct InsightSummary: Swift.Equatable {
+        /// The category of the insight.
+        public var category: EKSClientTypes.Category?
+        /// The description of the insight which includes alert criteria, remediation recommendation, and additional resources (contains Markdown).
+        public var description: Swift.String?
+        /// The ID of the insight.
+        public var id: Swift.String?
+        /// An object containing more detail on the status of the insight.
+        public var insightStatus: EKSClientTypes.InsightStatus?
+        /// The Kubernetes minor version associated with an insight if applicable.
+        public var kubernetesVersion: Swift.String?
+        /// The time Amazon EKS last successfully completed a refresh of this insight check on the cluster.
+        public var lastRefreshTime: ClientRuntime.Date?
+        /// The time the status of the insight last changed.
+        public var lastTransitionTime: ClientRuntime.Date?
+        /// The name of the insight.
+        public var name: Swift.String?
+
+        public init(
+            category: EKSClientTypes.Category? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            insightStatus: EKSClientTypes.InsightStatus? = nil,
+            kubernetesVersion: Swift.String? = nil,
+            lastRefreshTime: ClientRuntime.Date? = nil,
+            lastTransitionTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.category = category
+            self.description = description
+            self.id = id
+            self.insightStatus = insightStatus
+            self.kubernetesVersion = kubernetesVersion
+            self.lastRefreshTime = lastRefreshTime
+            self.lastTransitionTime = lastTransitionTime
+            self.name = name
+        }
+    }
+
+}
+
+extension EKSClientTypes.InsightsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categories
+        case kubernetesVersions
+        case statuses
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categories = categories {
+            var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
+            for category0 in categories {
+                try categoriesContainer.encode(category0.rawValue)
+            }
+        }
+        if let kubernetesVersions = kubernetesVersions {
+            var kubernetesVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .kubernetesVersions)
+            for string0 in kubernetesVersions {
+                try kubernetesVersionsContainer.encode(string0)
+            }
+        }
+        if let statuses = statuses {
+            var statusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statuses)
+            for insightstatusvalue0 in statuses {
+                try statusesContainer.encode(insightstatusvalue0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let categoriesContainer = try containerValues.decodeIfPresent([EKSClientTypes.Category?].self, forKey: .categories)
+        var categoriesDecoded0:[EKSClientTypes.Category]? = nil
+        if let categoriesContainer = categoriesContainer {
+            categoriesDecoded0 = [EKSClientTypes.Category]()
+            for enum0 in categoriesContainer {
+                if let enum0 = enum0 {
+                    categoriesDecoded0?.append(enum0)
+                }
+            }
+        }
+        categories = categoriesDecoded0
+        let kubernetesVersionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .kubernetesVersions)
+        var kubernetesVersionsDecoded0:[Swift.String]? = nil
+        if let kubernetesVersionsContainer = kubernetesVersionsContainer {
+            kubernetesVersionsDecoded0 = [Swift.String]()
+            for string0 in kubernetesVersionsContainer {
+                if let string0 = string0 {
+                    kubernetesVersionsDecoded0?.append(string0)
+                }
+            }
+        }
+        kubernetesVersions = kubernetesVersionsDecoded0
+        let statusesContainer = try containerValues.decodeIfPresent([EKSClientTypes.InsightStatusValue?].self, forKey: .statuses)
+        var statusesDecoded0:[EKSClientTypes.InsightStatusValue]? = nil
+        if let statusesContainer = statusesContainer {
+            statusesDecoded0 = [EKSClientTypes.InsightStatusValue]()
+            for enum0 in statusesContainer {
+                if let enum0 = enum0 {
+                    statusesDecoded0?.append(enum0)
+                }
+            }
+        }
+        statuses = statusesDecoded0
+    }
+}
+
+extension EKSClientTypes {
+    /// The criteria to use for the insights.
+    public struct InsightsFilter: Swift.Equatable {
+        /// The categories to use to filter insights.
+        public var categories: [EKSClientTypes.Category]?
+        /// The Kubernetes versions to use to filter the insights.
+        public var kubernetesVersions: [Swift.String]?
+        /// The statuses to use to filter the insights.
+        public var statuses: [EKSClientTypes.InsightStatusValue]?
+
+        public init(
+            categories: [EKSClientTypes.Category]? = nil,
+            kubernetesVersions: [Swift.String]? = nil,
+            statuses: [EKSClientTypes.InsightStatusValue]? = nil
+        )
+        {
+            self.categories = categories
+            self.kubernetesVersions = kubernetesVersions
+            self.statuses = statuses
         }
     }
 
@@ -8781,7 +9623,11 @@ extension ListIdentityProviderConfigsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListIdentityProviderConfigsOutput: Swift.Equatable {
     /// The identity provider configurations for the cluster.
     public var identityProviderConfigs: [EKSClientTypes.IdentityProviderConfig]?
+<<<<<<< HEAD
     /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+=======
+    /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+>>>>>>> main
     public var nextToken: Swift.String?
 
     public init(
@@ -8838,6 +9684,161 @@ enum ListIdentityProviderConfigsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+<<<<<<< HEAD
+=======
+extension ListInsightsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListInsightsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights"
+    }
+}
+
+public struct ListInsightsInput: Swift.Equatable {
+    /// The name of the Amazon EKS cluster associated with the insights.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The criteria to filter your list of insights for your cluster. You can filter which insights are returned by category, associated Kubernetes version, and status.
+    public var filter: EKSClientTypes.InsightsFilter?
+    /// The maximum number of identity provider configurations returned by ListInsights in paginated output. When you use this parameter, ListInsights returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListInsights request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListInsights returns up to 100 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListInsights request. When the results of a ListInsights request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        filter: EKSClientTypes.InsightsFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListInsightsInputBody: Swift.Equatable {
+    let filter: EKSClientTypes.InsightsFilter?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListInsightsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(EKSClientTypes.InsightsFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListInsightsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListInsightsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.insights = output.insights
+            self.nextToken = output.nextToken
+        } else {
+            self.insights = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListInsightsOutput: Swift.Equatable {
+    /// The returned list of insights.
+    public var insights: [EKSClientTypes.InsightSummary]?
+    /// The nextToken value to include in a future ListInsights request. When the results of a ListInsights request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        insights: [EKSClientTypes.InsightSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.insights = insights
+        self.nextToken = nextToken
+    }
+}
+
+struct ListInsightsOutputBody: Swift.Equatable {
+    let insights: [EKSClientTypes.InsightSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListInsightsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case insights
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let insightsContainer = try containerValues.decodeIfPresent([EKSClientTypes.InsightSummary?].self, forKey: .insights)
+        var insightsDecoded0:[EKSClientTypes.InsightSummary]? = nil
+        if let insightsContainer = insightsContainer {
+            insightsDecoded0 = [EKSClientTypes.InsightSummary]()
+            for structure0 in insightsContainer {
+                if let structure0 = structure0 {
+                    insightsDecoded0?.append(structure0)
+                }
+            }
+        }
+        insights = insightsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+>>>>>>> main
 extension ListNodegroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {

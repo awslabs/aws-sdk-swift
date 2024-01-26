@@ -21,6 +21,7 @@ extension AccessDeniedException {
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -220,13 +221,13 @@ extension ECSClientTypes.Attachment: Swift.Codable {
 extension ECSClientTypes {
     /// An object representing a container instance or task attachment.
     public struct Attachment: Swift.Equatable {
-        /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC address, the subnet ID, and the private IPv4 address.
+        /// Details of the attachment. For elastic network interfaces, this includes the network interface ID, the MAC address, the subnet ID, and the private IPv4 address. For Service Connect services, this includes portName, clientAliases, discoveryName, and ingressPortOverride. For elastic block storage, this includes roleArn, encrypted, filesystemType, iops, kmsKeyId, sizeInGiB, snapshotId, tagSpecifications, throughput, and volumeType.
         public var details: [ECSClientTypes.KeyValuePair]?
         /// The unique identifier for the attachment.
         public var id: Swift.String?
         /// The status of the attachment. Valid values are PRECREATED, CREATED, ATTACHING, ATTACHED, DETACHING, DETACHED, DELETED, and FAILED.
         public var status: Swift.String?
-        /// The type of the attachment, such as ElasticNetworkInterface.
+        /// The type of the attachment, such as ElasticNetworkInterface, Service Connect, and AmazonElasticBlockStorage.
         public var type: Swift.String?
 
         public init(
@@ -377,6 +378,7 @@ extension AttributeLimitExceededException {
 public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -416,6 +418,7 @@ extension AttributeLimitExceededExceptionBody: Swift.Decodable {
 extension ECSClientTypes.AutoScalingGroupProvider: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingGroupArn
+        case managedDraining
         case managedScaling
         case managedTerminationProtection
     }
@@ -424,6 +427,9 @@ extension ECSClientTypes.AutoScalingGroupProvider: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoScalingGroupArn = self.autoScalingGroupArn {
             try encodeContainer.encode(autoScalingGroupArn, forKey: .autoScalingGroupArn)
+        }
+        if let managedDraining = self.managedDraining {
+            try encodeContainer.encode(managedDraining.rawValue, forKey: .managedDraining)
         }
         if let managedScaling = self.managedScaling {
             try encodeContainer.encode(managedScaling, forKey: .managedScaling)
@@ -441,6 +447,8 @@ extension ECSClientTypes.AutoScalingGroupProvider: Swift.Codable {
         managedScaling = managedScalingDecoded
         let managedTerminationProtectionDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ManagedTerminationProtection.self, forKey: .managedTerminationProtection)
         managedTerminationProtection = managedTerminationProtectionDecoded
+        let managedDrainingDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ManagedDraining.self, forKey: .managedDraining)
+        managedDraining = managedDrainingDecoded
     }
 }
 
@@ -450,6 +458,8 @@ extension ECSClientTypes {
         /// The Amazon Resource Name (ARN) that identifies the Auto Scaling group, or the Auto Scaling group name.
         /// This member is required.
         public var autoScalingGroupArn: Swift.String?
+        /// The managed draining option for the Auto Scaling group capacity provider. When you enable this, Amazon ECS manages and gracefully drains the EC2 container instances that are in the Auto Scaling group capacity provider.
+        public var managedDraining: ECSClientTypes.ManagedDraining?
         /// The managed scaling settings for the Auto Scaling group capacity provider.
         public var managedScaling: ECSClientTypes.ManagedScaling?
         /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. The default is off. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions on as well. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
@@ -457,11 +467,13 @@ extension ECSClientTypes {
 
         public init(
             autoScalingGroupArn: Swift.String? = nil,
+            managedDraining: ECSClientTypes.ManagedDraining? = nil,
             managedScaling: ECSClientTypes.ManagedScaling? = nil,
             managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
         )
         {
             self.autoScalingGroupArn = autoScalingGroupArn
+            self.managedDraining = managedDraining
             self.managedScaling = managedScaling
             self.managedTerminationProtection = managedTerminationProtection
         }
@@ -471,12 +483,16 @@ extension ECSClientTypes {
 
 extension ECSClientTypes.AutoScalingGroupProviderUpdate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedDraining
         case managedScaling
         case managedTerminationProtection
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedDraining = self.managedDraining {
+            try encodeContainer.encode(managedDraining.rawValue, forKey: .managedDraining)
+        }
         if let managedScaling = self.managedScaling {
             try encodeContainer.encode(managedScaling, forKey: .managedScaling)
         }
@@ -491,22 +507,28 @@ extension ECSClientTypes.AutoScalingGroupProviderUpdate: Swift.Codable {
         managedScaling = managedScalingDecoded
         let managedTerminationProtectionDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ManagedTerminationProtection.self, forKey: .managedTerminationProtection)
         managedTerminationProtection = managedTerminationProtectionDecoded
+        let managedDrainingDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ManagedDraining.self, forKey: .managedDraining)
+        managedDraining = managedDrainingDecoded
     }
 }
 
 extension ECSClientTypes {
     /// The details of the Auto Scaling group capacity provider to update.
     public struct AutoScalingGroupProviderUpdate: Swift.Equatable {
+        /// The managed draining option for the Auto Scaling group capacity provider. When you enable this, Amazon ECS manages and gracefully drains the EC2 container instances that are in the Auto Scaling group capacity provider.
+        public var managedDraining: ECSClientTypes.ManagedDraining?
         /// The managed scaling settings for the Auto Scaling group capacity provider.
         public var managedScaling: ECSClientTypes.ManagedScaling?
         /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions on. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
         public var managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection?
 
         public init(
+            managedDraining: ECSClientTypes.ManagedDraining? = nil,
             managedScaling: ECSClientTypes.ManagedScaling? = nil,
             managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection? = nil
         )
         {
+            self.managedDraining = managedDraining
             self.managedScaling = managedScaling
             self.managedTerminationProtection = managedTerminationProtection
         }
@@ -613,6 +635,7 @@ extension BlockedException {
 public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -982,6 +1005,7 @@ extension ClientException {
 public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1359,6 +1383,7 @@ extension ClusterContainsContainerInstancesException {
 public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1414,6 +1439,7 @@ extension ClusterContainsServicesException {
 public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1469,6 +1495,7 @@ extension ClusterContainsTasksException {
 public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1565,6 +1592,7 @@ extension ClusterNotFoundException {
 public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1806,6 +1834,10 @@ extension ConflictException {
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+<<<<<<< HEAD
+=======
+        /// Message that describes the cause of the exception.
+>>>>>>> main
         public internal(set) var message: Swift.String? = nil
         /// The existing task ARNs which are already associated with the clientToken.
         public internal(set) var resourceIds: [Swift.String]? = nil
@@ -4017,6 +4049,7 @@ extension CreateServiceInput: Swift.Encodable {
         case serviceRegistries
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4108,6 +4141,12 @@ extension CreateServiceInput: Swift.Encodable {
         if let taskDefinition = self.taskDefinition {
             try encodeContainer.encode(taskDefinition, forKey: .taskDefinition)
         }
+        if let volumeConfigurations = volumeConfigurations {
+            var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
+            for servicevolumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(servicevolumeconfiguration0)
+            }
+        }
     }
 }
 
@@ -4183,6 +4222,8 @@ public struct CreateServiceInput: Swift.Equatable {
     public var tags: [ECSClientTypes.Tag]?
     /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or CODE_DEPLOY deployment controllers. For more information about deployment types, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html).
     public var taskDefinition: Swift.String?
+    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
+    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -4207,7 +4248,8 @@ public struct CreateServiceInput: Swift.Equatable {
         serviceName: Swift.String? = nil,
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: Swift.String? = nil
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
@@ -4233,6 +4275,7 @@ public struct CreateServiceInput: Swift.Equatable {
         self.serviceRegistries = serviceRegistries
         self.tags = tags
         self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
     }
 }
 
@@ -4260,6 +4303,7 @@ struct CreateServiceInputBody: Swift.Equatable {
     let propagateTags: ECSClientTypes.PropagateTags?
     let enableExecuteCommand: Swift.Bool?
     let serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+    let volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
 }
 
 extension CreateServiceInputBody: Swift.Decodable {
@@ -4287,6 +4331,7 @@ extension CreateServiceInputBody: Swift.Decodable {
         case serviceRegistries
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4391,6 +4436,57 @@ extension CreateServiceInputBody: Swift.Decodable {
         enableExecuteCommand = enableExecuteCommandDecoded
         let serviceConnectConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectConfiguration.self, forKey: .serviceConnectConfiguration)
         serviceConnectConfiguration = serviceConnectConfigurationDecoded
+        let volumeConfigurationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceVolumeConfiguration?].self, forKey: .volumeConfigurations)
+        var volumeConfigurationsDecoded0:[ECSClientTypes.ServiceVolumeConfiguration]? = nil
+        if let volumeConfigurationsContainer = volumeConfigurationsContainer {
+            volumeConfigurationsDecoded0 = [ECSClientTypes.ServiceVolumeConfiguration]()
+            for structure0 in volumeConfigurationsContainer {
+                if let structure0 = structure0 {
+                    volumeConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumeConfigurations = volumeConfigurationsDecoded0
+    }
+}
+
+extension CreateServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.service = output.service
+        } else {
+            self.service = nil
+        }
+    }
+}
+
+public struct CreateServiceOutput: Swift.Equatable {
+    /// The full description of your service following the create call. A service will return either a capacityProviderStrategy or launchType parameter, but not both, depending where one was specified when it was created. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. if the service uses the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
+    public var service: ECSClientTypes.Service?
+
+    public init(
+        service: ECSClientTypes.Service? = nil
+    )
+    {
+        self.service = service
+    }
+}
+
+struct CreateServiceOutputBody: Swift.Equatable {
+    let service: ECSClientTypes.Service?
+}
+
+extension CreateServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case service
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceDecoded = try containerValues.decodeIfPresent(ECSClientTypes.Service.self, forKey: .service)
+        service = serviceDecoded
     }
 }
 
@@ -5658,6 +5754,7 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         case status
         case taskDefinition
         case updatedAt
+        case volumeConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5722,6 +5819,12 @@ extension ECSClientTypes.Deployment: Swift.Codable {
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
         }
+        if let volumeConfigurations = volumeConfigurations {
+            var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
+            for servicevolumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(servicevolumeconfiguration0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5780,6 +5883,17 @@ extension ECSClientTypes.Deployment: Swift.Codable {
             }
         }
         serviceConnectResources = serviceConnectResourcesDecoded0
+        let volumeConfigurationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceVolumeConfiguration?].self, forKey: .volumeConfigurations)
+        var volumeConfigurationsDecoded0:[ECSClientTypes.ServiceVolumeConfiguration]? = nil
+        if let volumeConfigurationsContainer = volumeConfigurationsContainer {
+            volumeConfigurationsDecoded0 = [ECSClientTypes.ServiceVolumeConfiguration]()
+            for structure0 in volumeConfigurationsContainer {
+                if let structure0 = structure0 {
+                    volumeConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumeConfigurations = volumeConfigurationsDecoded0
     }
 }
 
@@ -5822,6 +5936,8 @@ extension ECSClientTypes {
         public var taskDefinition: Swift.String?
         /// The Unix timestamp for the time when the service deployment was last updated.
         public var updatedAt: ClientRuntime.Date?
+        /// The details of the volume that was configuredAtLaunch. You can configure different settings like the size, throughput, volumeType, and ecryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+        public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
 
         public init(
             capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -5841,7 +5957,8 @@ extension ECSClientTypes {
             serviceConnectResources: [ECSClientTypes.ServiceConnectServiceResource]? = nil,
             status: Swift.String? = nil,
             taskDefinition: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: ClientRuntime.Date? = nil,
+            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
         )
         {
             self.capacityProviderStrategy = capacityProviderStrategy
@@ -5862,6 +5979,7 @@ extension ECSClientTypes {
             self.status = status
             self.taskDefinition = taskDefinition
             self.updatedAt = updatedAt
+            self.volumeConfigurations = volumeConfigurations
         }
     }
 
@@ -8015,6 +8133,103 @@ extension ECSClientTypes {
 
 }
 
+extension ECSClientTypes {
+    public enum EBSResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case volume
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EBSResourceType] {
+            return [
+                .volume,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .volume: return "volume"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EBSResourceType(rawValue: rawValue) ?? EBSResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ECSClientTypes.EBSTagSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case propagateTags
+        case resourceType
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let propagateTags = self.propagateTags {
+            try encodeContainer.encode(propagateTags.rawValue, forKey: .propagateTags)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.EBSResourceType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ECSClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ECSClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ECSClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let propagateTagsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.PropagateTags.self, forKey: .propagateTags)
+        propagateTags = propagateTagsDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The tag specifications of an Amazon EBS volume.
+    public struct EBSTagSpecification: Swift.Equatable {
+        /// Determines whether to propagate the tags from the task definition to  the Amazon EBS volume. Tags can only propagate to a SERVICE specified in  ServiceVolumeConfiguration. If no value is specified, the tags aren't  propagated.
+        public var propagateTags: ECSClientTypes.PropagateTags?
+        /// The type of volume resource.
+        /// This member is required.
+        public var resourceType: ECSClientTypes.EBSResourceType?
+        /// The tags applied to this Amazon EBS volume. AmazonECSCreated and AmazonECSManaged are reserved tags that can't be used.
+        public var tags: [ECSClientTypes.Tag]?
+
+        public init(
+            propagateTags: ECSClientTypes.PropagateTags? = nil,
+            resourceType: ECSClientTypes.EBSResourceType? = nil,
+            tags: [ECSClientTypes.Tag]? = nil
+        )
+        {
+            self.propagateTags = propagateTags
+            self.resourceType = resourceType
+            self.tags = tags
+        }
+    }
+
+}
+
 extension ECSClientTypes.EFSAuthorizationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointId
@@ -9619,6 +9834,7 @@ extension InvalidParameterException {
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9858,6 +10074,7 @@ extension LimitExceededException {
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -11998,6 +12215,38 @@ extension ECSClientTypes {
 
 }
 
+extension ECSClientTypes {
+    public enum ManagedDraining: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedDraining] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ManagedDraining(rawValue: rawValue) ?? ManagedDraining.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ECSClientTypes.ManagedScaling: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceWarmupPeriod
@@ -12156,6 +12405,7 @@ extension MissingVersionException {
 public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12266,6 +12516,7 @@ extension NamespaceNotFoundException {
 public struct NamespaceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12566,6 +12817,7 @@ extension NoUpdateAvailableException {
 public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12936,6 +13188,7 @@ extension PlatformTaskDefinitionIncompatibilityException {
 public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -12991,6 +13244,7 @@ extension PlatformUnknownException {
 public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -14741,6 +14995,7 @@ extension ResourceInUseException {
 public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -14796,6 +15051,7 @@ extension ResourceNotFoundException {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -14931,6 +15187,7 @@ extension RunTaskInput: Swift.Encodable {
         case startedBy
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -15001,6 +15258,12 @@ extension RunTaskInput: Swift.Encodable {
         if let taskDefinition = self.taskDefinition {
             try encodeContainer.encode(taskDefinition, forKey: .taskDefinition)
         }
+        if let volumeConfigurations = volumeConfigurations {
+            var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
+            for taskvolumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(taskvolumeconfiguration0)
+            }
+        }
     }
 }
 
@@ -15062,6 +15325,8 @@ public struct RunTaskInput: Swift.Equatable {
     /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision isn't specified, the latest ACTIVE revision is used. When you create a policy for run-task, you can set the resource to be the latest task definition revision, or a specific revision. The full ARN value must match the value that you specified as the Resource of the principal's permissions policy. When you specify the policy resource as the latest task definition version (by setting the Resource in the policy to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName), then set this value to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName. When you specify the policy resource as a specific task definition version (by setting the Resource in the policy to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1 or arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*), then set this value to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1. For more information, see [Policy Resources for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources) in the Amazon Elastic Container Service developer Guide.
     /// This member is required.
     public var taskDefinition: Swift.String?
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+    public var volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -15081,7 +15346,8 @@ public struct RunTaskInput: Swift.Equatable {
         referenceId: Swift.String? = nil,
         startedBy: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: Swift.String? = nil
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]? = nil
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
@@ -15102,6 +15368,7 @@ public struct RunTaskInput: Swift.Equatable {
         self.startedBy = startedBy
         self.tags = tags
         self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
     }
 }
 
@@ -15124,6 +15391,10 @@ struct RunTaskInputBody: Swift.Equatable {
     let tags: [ECSClientTypes.Tag]?
     let taskDefinition: Swift.String?
     let clientToken: Swift.String?
+<<<<<<< HEAD
+=======
+    let volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
+>>>>>>> main
 }
 
 extension RunTaskInputBody: Swift.Decodable {
@@ -15146,6 +15417,7 @@ extension RunTaskInputBody: Swift.Decodable {
         case startedBy
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15222,6 +15494,20 @@ extension RunTaskInputBody: Swift.Decodable {
         taskDefinition = taskDefinitionDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+<<<<<<< HEAD
+=======
+        let volumeConfigurationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.TaskVolumeConfiguration?].self, forKey: .volumeConfigurations)
+        var volumeConfigurationsDecoded0:[ECSClientTypes.TaskVolumeConfiguration]? = nil
+        if let volumeConfigurationsContainer = volumeConfigurationsContainer {
+            volumeConfigurationsDecoded0 = [ECSClientTypes.TaskVolumeConfiguration]()
+            for structure0 in volumeConfigurationsContainer {
+                if let structure0 = structure0 {
+                    volumeConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumeConfigurations = volumeConfigurationsDecoded0
+>>>>>>> main
     }
 }
 
@@ -15569,6 +15855,7 @@ extension ServerException {
 public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16405,6 +16692,171 @@ extension ECSClientTypes {
     }
 }
 
+extension ECSClientTypes.ServiceManagedEBSVolumeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encrypted
+        case filesystemType
+        case iops
+        case kmsKeyId
+        case roleArn
+        case sizeInGiB
+        case snapshotId
+        case tagSpecifications
+        case throughput
+        case volumeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encrypted = self.encrypted {
+            try encodeContainer.encode(encrypted, forKey: .encrypted)
+        }
+        if let filesystemType = self.filesystemType {
+            try encodeContainer.encode(filesystemType.rawValue, forKey: .filesystemType)
+        }
+        if let iops = self.iops {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let sizeInGiB = self.sizeInGiB {
+            try encodeContainer.encode(sizeInGiB, forKey: .sizeInGiB)
+        }
+        if let snapshotId = self.snapshotId {
+            try encodeContainer.encode(snapshotId, forKey: .snapshotId)
+        }
+        if let tagSpecifications = tagSpecifications {
+            var tagSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagSpecifications)
+            for ebstagspecification0 in tagSpecifications {
+                try tagSpecificationsContainer.encode(ebstagspecification0)
+            }
+        }
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType, forKey: .volumeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
+        encrypted = encryptedDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB)
+        sizeInGiB = sizeInGiBDecoded
+        let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
+        snapshotId = snapshotIdDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
+        iops = iopsDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput)
+        throughput = throughputDecoded
+        let tagSpecificationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.EBSTagSpecification?].self, forKey: .tagSpecifications)
+        var tagSpecificationsDecoded0:[ECSClientTypes.EBSTagSpecification]? = nil
+        if let tagSpecificationsContainer = tagSpecificationsContainer {
+            tagSpecificationsDecoded0 = [ECSClientTypes.EBSTagSpecification]()
+            for structure0 in tagSpecificationsContainer {
+                if let structure0 = structure0 {
+                    tagSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tagSpecifications = tagSpecificationsDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let filesystemTypeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TaskFilesystemType.self, forKey: .filesystemType)
+        filesystemType = filesystemTypeDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. Many of these parameters map 1:1 with the Amazon EBS CreateVolume API request parameters.
+    public struct ServiceManagedEBSVolumeConfiguration: Swift.Equatable {
+        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var encrypted: Swift.Bool?
+        /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
+        public var filesystemType: ECSClientTypes.TaskFilesystemType?
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
+        ///
+        /// * gp3: 3,000 - 16,000 IOPS
+        ///
+        /// * io1: 100 - 64,000 IOPS
+        ///
+        /// * io2: 100 - 256,000 IOPS
+        ///
+        ///
+        /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var iops: Swift.Int?
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        public var kmsKeyId: Swift.String?
+        /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The size of the volume in GiB. You must specify either a volume size or a snapshot ID. If you specify a snapshot ID, the snapshot size is used for the volume size by default. You can optionally specify a volume size greater than or equal to the snapshot size. This parameter maps 1:1 with the Size parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. The following are the supported volume size values for each volume type.
+        ///
+        /// * gp2 and gp3: 1-16,384
+        ///
+        /// * io1 and io2: 4-16,384
+        ///
+        /// * st1 and sc1: 125-16,384
+        ///
+        /// * standard: 1-1,024
+        public var sizeInGiB: Swift.Int?
+        /// The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var snapshotId: Swift.String?
+        /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
+        /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
+        public var throughput: Swift.Int?
+        /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
+        ///
+        /// * General Purpose SSD: gp2|gp3
+        ///
+        /// * Provisioned IOPS SSD: io1|io2
+        ///
+        /// * Throughput Optimized HDD: st1
+        ///
+        /// * Cold HDD: sc1
+        ///
+        /// * Magnetic: standard The magnetic volume type is not supported on Fargate.
+        public var volumeType: Swift.String?
+
+        public init(
+            encrypted: Swift.Bool? = nil,
+            filesystemType: ECSClientTypes.TaskFilesystemType? = nil,
+            iops: Swift.Int? = nil,
+            kmsKeyId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            sizeInGiB: Swift.Int? = nil,
+            snapshotId: Swift.String? = nil,
+            tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
+            throughput: Swift.Int? = nil,
+            volumeType: Swift.String? = nil
+        )
+        {
+            self.encrypted = encrypted
+            self.filesystemType = filesystemType
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.roleArn = roleArn
+            self.sizeInGiB = sizeInGiB
+            self.snapshotId = snapshotId
+            self.tagSpecifications = tagSpecifications
+            self.throughput = throughput
+            self.volumeType = volumeType
+        }
+    }
+
+}
+
 extension ServiceNotActiveException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -16424,6 +16876,7 @@ extension ServiceNotActiveException {
 public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16479,6 +16932,7 @@ extension ServiceNotFoundException {
 public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16575,6 +17029,52 @@ extension ECSClientTypes {
             self.containerPort = containerPort
             self.port = port
             self.registryArn = registryArn
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceVolumeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedEBSVolume
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedEBSVolume = self.managedEBSVolume {
+            try encodeContainer.encode(managedEBSVolume, forKey: .managedEBSVolume)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let managedEBSVolumeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceManagedEBSVolumeConfiguration.self, forKey: .managedEBSVolume)
+        managedEBSVolume = managedEBSVolumeDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
+    public struct ServiceVolumeConfiguration: Swift.Equatable {
+        /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task in the service. The Amazon EBS volumes are visible in your account in the Amazon EC2 console once they are created.
+        public var managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration?
+        /// The name of the volume. This value must match the volume name from the Volume object in the task definition.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            managedEBSVolume: ECSClientTypes.ServiceManagedEBSVolumeConfiguration? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.managedEBSVolume = managedEBSVolume
+            self.name = name
         }
     }
 
@@ -16868,6 +17368,7 @@ extension StartTaskInput: Swift.Encodable {
         case startedBy
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16913,6 +17414,12 @@ extension StartTaskInput: Swift.Encodable {
         }
         if let taskDefinition = self.taskDefinition {
             try encodeContainer.encode(taskDefinition, forKey: .taskDefinition)
+        }
+        if let volumeConfigurations = volumeConfigurations {
+            var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
+            for taskvolumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(taskvolumeconfiguration0)
+            }
         }
     }
 }
@@ -16964,6 +17471,8 @@ public struct StartTaskInput: Swift.Equatable {
     /// The family and revision (family:revision) or full ARN of the task definition to start. If a revision isn't specified, the latest ACTIVE revision is used.
     /// This member is required.
     public var taskDefinition: Swift.String?
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+    public var volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
 
     public init(
         cluster: Swift.String? = nil,
@@ -16977,7 +17486,8 @@ public struct StartTaskInput: Swift.Equatable {
         referenceId: Swift.String? = nil,
         startedBy: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
-        taskDefinition: Swift.String? = nil
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]? = nil
     )
     {
         self.cluster = cluster
@@ -16992,6 +17502,7 @@ public struct StartTaskInput: Swift.Equatable {
         self.startedBy = startedBy
         self.tags = tags
         self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
     }
 }
 
@@ -17008,6 +17519,7 @@ struct StartTaskInputBody: Swift.Equatable {
     let startedBy: Swift.String?
     let tags: [ECSClientTypes.Tag]?
     let taskDefinition: Swift.String?
+    let volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
 }
 
 extension StartTaskInputBody: Swift.Decodable {
@@ -17024,6 +17536,7 @@ extension StartTaskInputBody: Swift.Decodable {
         case startedBy
         case tags
         case taskDefinition
+        case volumeConfigurations
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -17070,6 +17583,20 @@ extension StartTaskInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let taskDefinitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskDefinition)
         taskDefinition = taskDefinitionDecoded
+<<<<<<< HEAD
+=======
+        let volumeConfigurationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.TaskVolumeConfiguration?].self, forKey: .volumeConfigurations)
+        var volumeConfigurationsDecoded0:[ECSClientTypes.TaskVolumeConfiguration]? = nil
+        if let volumeConfigurationsContainer = volumeConfigurationsContainer {
+            volumeConfigurationsDecoded0 = [ECSClientTypes.TaskVolumeConfiguration]()
+            for structure0 in volumeConfigurationsContainer {
+                if let structure0 = structure0 {
+                    volumeConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumeConfigurations = volumeConfigurationsDecoded0
+>>>>>>> main
     }
 }
 
@@ -17150,6 +17677,10 @@ enum StartTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ClusterNotFoundException": return try await ClusterNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "UnsupportedFeatureException": return try await UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> main
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -18096,6 +18627,7 @@ extension TargetNotConnectedException {
 public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18151,6 +18683,7 @@ extension TargetNotFoundException {
 public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19301,6 +19834,252 @@ extension ECSClientTypes {
     }
 }
 
+extension ECSClientTypes {
+    public enum TaskFilesystemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ext3
+        case ext4
+        case xfs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaskFilesystemType] {
+            return [
+                .ext3,
+                .ext4,
+                .xfs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ext3: return "ext3"
+            case .ext4: return "ext4"
+            case .xfs: return "xfs"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TaskFilesystemType(rawValue: rawValue) ?? TaskFilesystemType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ECSClientTypes.TaskManagedEBSVolumeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encrypted
+        case filesystemType
+        case iops
+        case kmsKeyId
+        case roleArn
+        case sizeInGiB
+        case snapshotId
+        case tagSpecifications
+        case terminationPolicy
+        case throughput
+        case volumeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encrypted = self.encrypted {
+            try encodeContainer.encode(encrypted, forKey: .encrypted)
+        }
+        if let filesystemType = self.filesystemType {
+            try encodeContainer.encode(filesystemType.rawValue, forKey: .filesystemType)
+        }
+        if let iops = self.iops {
+            try encodeContainer.encode(iops, forKey: .iops)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let sizeInGiB = self.sizeInGiB {
+            try encodeContainer.encode(sizeInGiB, forKey: .sizeInGiB)
+        }
+        if let snapshotId = self.snapshotId {
+            try encodeContainer.encode(snapshotId, forKey: .snapshotId)
+        }
+        if let tagSpecifications = tagSpecifications {
+            var tagSpecificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagSpecifications)
+            for ebstagspecification0 in tagSpecifications {
+                try tagSpecificationsContainer.encode(ebstagspecification0)
+            }
+        }
+        if let terminationPolicy = self.terminationPolicy {
+            try encodeContainer.encode(terminationPolicy, forKey: .terminationPolicy)
+        }
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType, forKey: .volumeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let encryptedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .encrypted)
+        encrypted = encryptedDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB)
+        sizeInGiB = sizeInGiBDecoded
+        let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
+        snapshotId = snapshotIdDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
+        iops = iopsDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .throughput)
+        throughput = throughputDecoded
+        let tagSpecificationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.EBSTagSpecification?].self, forKey: .tagSpecifications)
+        var tagSpecificationsDecoded0:[ECSClientTypes.EBSTagSpecification]? = nil
+        if let tagSpecificationsContainer = tagSpecificationsContainer {
+            tagSpecificationsDecoded0 = [ECSClientTypes.EBSTagSpecification]()
+            for structure0 in tagSpecificationsContainer {
+                if let structure0 = structure0 {
+                    tagSpecificationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tagSpecifications = tagSpecificationsDecoded0
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let terminationPolicyDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy.self, forKey: .terminationPolicy)
+        terminationPolicy = terminationPolicyDecoded
+        let filesystemTypeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TaskFilesystemType.self, forKey: .filesystemType)
+        filesystemType = filesystemTypeDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task.
+    public struct TaskManagedEBSVolumeConfiguration: Swift.Equatable {
+        /// Indicates whether the volume should be encrypted. If no value is specified, encryption is turned on by default. This parameter maps 1:1 with the Encrypted parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var encrypted: Swift.Bool?
+        /// The Linux filesystem type for the volume. For volumes created from a snapshot, you must specify the same filesystem type that the volume was using when the snapshot was created. If there is a filesystem type mismatch, the task will fail to start. The available filesystem types are  ext3, ext4, and xfs. If no value is specified, the xfs filesystem type is used by default.
+        public var filesystemType: ECSClientTypes.TaskFilesystemType?
+        /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type.
+        ///
+        /// * gp3: 3,000 - 16,000 IOPS
+        ///
+        /// * io1: 100 - 64,000 IOPS
+        ///
+        /// * io2: 100 - 256,000 IOPS
+        ///
+        ///
+        /// This parameter is required for io1 and io2 volume types. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for st1, sc1, or standard volume types. This parameter maps 1:1 with the Iops parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var iops: Swift.Int?
+        /// The Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption. When encryption is turned on and no Amazon Web Services Key Management Service key is specified, the default Amazon Web Services managed key for Amazon EBS volumes is used. This parameter maps 1:1 with the KmsKeyId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. Amazon Web Services authenticates the Amazon Web Services Key Management Service key asynchronously. Therefore, if you specify an ID, alias, or ARN that is invalid, the action can appear to complete, but eventually fails.
+        public var kmsKeyId: Swift.String?
+        /// The ARN of the IAM role to associate with this volume. This is the Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. We recommend using the Amazon ECS-managed AmazonECSInfrastructureRolePolicyForVolumes IAM policy with this role. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The size of the volume in GiB. You must specify either a volume size or a snapshot ID. If you specify a snapshot ID, the snapshot size is used for the volume size by default. You can optionally specify a volume size greater than or equal to the snapshot size. This parameter maps 1:1 with the Size parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. The following are the supported volume size values for each volume type.
+        ///
+        /// * gp2 and gp3: 1-16,384
+        ///
+        /// * io1 and io2: 4-16,384
+        ///
+        /// * st1 and sc1: 125-16,384
+        ///
+        /// * standard: 1-1,024
+        public var sizeInGiB: Swift.Int?
+        /// The snapshot that Amazon ECS uses to create the volume. You must specify either a snapshot ID or a volume size. This parameter maps 1:1 with the SnapshotId parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var snapshotId: Swift.String?
+        /// The tags to apply to the volume. Amazon ECS applies service-managed tags by default. This parameter maps 1:1 with the TagSpecifications.N parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference.
+        public var tagSpecifications: [ECSClientTypes.EBSTagSpecification]?
+        /// The termination policy for the volume when the task exits. This provides a way to control whether Amazon ECS terminates the Amazon EBS volume when the task stops.
+        public var terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy?
+        /// The throughput to provision for a volume, in MiB/s, with a maximum of 1,000 MiB/s. This parameter maps 1:1 with the Throughput parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. This parameter is only supported for the gp3 volume type.
+        public var throughput: Swift.Int?
+        /// The volume type. This parameter maps 1:1 with the VolumeType parameter of the [CreateVolume API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateVolume.html) in the Amazon EC2 API Reference. For more information, see [Amazon EBS volume types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html) in the Amazon EC2 User Guide. The following are the supported volume types.
+        ///
+        /// * General Purpose SSD: gp2|gp3
+        ///
+        /// * Provisioned IOPS SSD: io1|io2
+        ///
+        /// * Throughput Optimized HDD: st1
+        ///
+        /// * Cold HDD: sc1
+        ///
+        /// * Magnetic: standard The magnetic volume type is not supported on Fargate.
+        public var volumeType: Swift.String?
+
+        public init(
+            encrypted: Swift.Bool? = nil,
+            filesystemType: ECSClientTypes.TaskFilesystemType? = nil,
+            iops: Swift.Int? = nil,
+            kmsKeyId: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            sizeInGiB: Swift.Int? = nil,
+            snapshotId: Swift.String? = nil,
+            tagSpecifications: [ECSClientTypes.EBSTagSpecification]? = nil,
+            terminationPolicy: ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy? = nil,
+            throughput: Swift.Int? = nil,
+            volumeType: Swift.String? = nil
+        )
+        {
+            self.encrypted = encrypted
+            self.filesystemType = filesystemType
+            self.iops = iops
+            self.kmsKeyId = kmsKeyId
+            self.roleArn = roleArn
+            self.sizeInGiB = sizeInGiB
+            self.snapshotId = snapshotId
+            self.tagSpecifications = tagSpecifications
+            self.terminationPolicy = terminationPolicy
+            self.throughput = throughput
+            self.volumeType = volumeType
+        }
+    }
+
+}
+
+extension ECSClientTypes.TaskManagedEBSVolumeTerminationPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteOnTermination
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleteOnTermination = self.deleteOnTermination {
+            try encodeContainer.encode(deleteOnTermination, forKey: .deleteOnTermination)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deleteOnTerminationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteOnTermination)
+        deleteOnTermination = deleteOnTerminationDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// The termination policy for the Amazon EBS volume when the task exits. For more information, see [Amazon ECS volume termination policy](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ebs-volumes.html#ebs-volume-types).
+    public struct TaskManagedEBSVolumeTerminationPolicy: Swift.Equatable {
+        /// Indicates whether the volume should be deleted on when the task stops. If a value of true is specified,  Amazon ECS deletes the Amazon EBS volume on your behalf when the task goes into the STOPPED state. If no value is specified, the  default value is true is used. When set to false, Amazon ECS leaves the volume in your  account.
+        /// This member is required.
+        public var deleteOnTermination: Swift.Bool?
+
+        public init(
+            deleteOnTermination: Swift.Bool? = nil
+        )
+        {
+            self.deleteOnTermination = deleteOnTermination
+        }
+    }
+
+}
+
 extension ECSClientTypes.TaskOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerOverrides
@@ -19810,6 +20589,7 @@ extension TaskSetNotFoundException {
 public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19888,6 +20668,52 @@ extension ECSClientTypes {
             self = TaskStopCode(rawValue: rawValue) ?? TaskStopCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ECSClientTypes.TaskVolumeConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedEBSVolume
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let managedEBSVolume = self.managedEBSVolume {
+            try encodeContainer.encode(managedEBSVolume, forKey: .managedEBSVolume)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let managedEBSVolumeDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TaskManagedEBSVolumeConfiguration.self, forKey: .managedEBSVolume)
+        managedEBSVolume = managedEBSVolumeDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// Configuration settings for the task volume that was configuredAtLaunch that weren't set during RegisterTaskDef.
+    public struct TaskVolumeConfiguration: Swift.Equatable {
+        /// The configuration for the Amazon EBS volume that Amazon ECS creates and manages on your behalf. These settings are used to create each Amazon EBS volume, with one volume created for each task. The Amazon EBS volumes are visible in your account in the Amazon EC2 console once they are created.
+        public var managedEBSVolume: ECSClientTypes.TaskManagedEBSVolumeConfiguration?
+        /// The name of the volume. This value must match the volume name from the Volume object in the task definition.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            managedEBSVolume: ECSClientTypes.TaskManagedEBSVolumeConfiguration? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.managedEBSVolume = managedEBSVolume
+            self.name = name
+        }
+    }
+
 }
 
 extension ECSClientTypes.Tmpfs: Swift.Codable {
@@ -20139,6 +20965,7 @@ extension UnsupportedFeatureException {
 public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -20968,6 +21795,7 @@ extension UpdateInProgressException {
 public struct UpdateInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21024,6 +21852,7 @@ extension UpdateServiceInput: Swift.Encodable {
         case serviceConnectConfiguration
         case serviceRegistries
         case taskDefinition
+        case volumeConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -21097,6 +21926,12 @@ extension UpdateServiceInput: Swift.Encodable {
         if let taskDefinition = self.taskDefinition {
             try encodeContainer.encode(taskDefinition, forKey: .taskDefinition)
         }
+        if let volumeConfigurations = volumeConfigurations {
+            var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
+            for servicevolumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(servicevolumeconfiguration0)
+            }
+        }
     }
 }
 
@@ -21144,6 +21979,8 @@ public struct UpdateServiceInput: Swift.Equatable {
     public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
     /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
     public var taskDefinition: Swift.String?
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment.
+    public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -21163,7 +22000,8 @@ public struct UpdateServiceInput: Swift.Equatable {
         service: Swift.String? = nil,
         serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
-        taskDefinition: Swift.String? = nil
+        taskDefinition: Swift.String? = nil,
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
@@ -21184,6 +22022,7 @@ public struct UpdateServiceInput: Swift.Equatable {
         self.serviceConnectConfiguration = serviceConnectConfiguration
         self.serviceRegistries = serviceRegistries
         self.taskDefinition = taskDefinition
+        self.volumeConfigurations = volumeConfigurations
     }
 }
 
@@ -21206,6 +22045,7 @@ struct UpdateServiceInputBody: Swift.Equatable {
     let propagateTags: ECSClientTypes.PropagateTags?
     let serviceRegistries: [ECSClientTypes.ServiceRegistry]?
     let serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
+    let volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
 }
 
 extension UpdateServiceInputBody: Swift.Decodable {
@@ -21228,6 +22068,7 @@ extension UpdateServiceInputBody: Swift.Decodable {
         case serviceConnectConfiguration
         case serviceRegistries
         case taskDefinition
+        case volumeConfigurations
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -21313,6 +22154,57 @@ extension UpdateServiceInputBody: Swift.Decodable {
         serviceRegistries = serviceRegistriesDecoded0
         let serviceConnectConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectConfiguration.self, forKey: .serviceConnectConfiguration)
         serviceConnectConfiguration = serviceConnectConfigurationDecoded
+        let volumeConfigurationsContainer = try containerValues.decodeIfPresent([ECSClientTypes.ServiceVolumeConfiguration?].self, forKey: .volumeConfigurations)
+        var volumeConfigurationsDecoded0:[ECSClientTypes.ServiceVolumeConfiguration]? = nil
+        if let volumeConfigurationsContainer = volumeConfigurationsContainer {
+            volumeConfigurationsDecoded0 = [ECSClientTypes.ServiceVolumeConfiguration]()
+            for structure0 in volumeConfigurationsContainer {
+                if let structure0 = structure0 {
+                    volumeConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumeConfigurations = volumeConfigurationsDecoded0
+    }
+}
+
+extension UpdateServiceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateServiceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.service = output.service
+        } else {
+            self.service = nil
+        }
+    }
+}
+
+public struct UpdateServiceOutput: Swift.Equatable {
+    /// The full description of your service following the update call.
+    public var service: ECSClientTypes.Service?
+
+    public init(
+        service: ECSClientTypes.Service? = nil
+    )
+    {
+        self.service = service
+    }
+}
+
+struct UpdateServiceOutputBody: Swift.Equatable {
+    let service: ECSClientTypes.Service?
+}
+
+extension UpdateServiceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case service
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceDecoded = try containerValues.decodeIfPresent(ECSClientTypes.Service.self, forKey: .service)
+        service = serviceDecoded
     }
 }
 
@@ -21371,6 +22263,7 @@ enum UpdateServiceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceNotActiveException": return try await ServiceNotActiveException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceNotFoundException": return try await ServiceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedFeatureException": return try await UnsupportedFeatureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -21901,6 +22794,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes.Volume: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuredAtLaunch
         case dockerVolumeConfiguration
         case efsVolumeConfiguration
         case fsxWindowsFileServerVolumeConfiguration
@@ -21910,6 +22804,9 @@ extension ECSClientTypes.Volume: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuredAtLaunch = self.configuredAtLaunch {
+            try encodeContainer.encode(configuredAtLaunch, forKey: .configuredAtLaunch)
+        }
         if let dockerVolumeConfiguration = self.dockerVolumeConfiguration {
             try encodeContainer.encode(dockerVolumeConfiguration, forKey: .dockerVolumeConfiguration)
         }
@@ -21939,12 +22836,16 @@ extension ECSClientTypes.Volume: Swift.Codable {
         efsVolumeConfiguration = efsVolumeConfigurationDecoded
         let fsxWindowsFileServerVolumeConfigurationDecoded = try containerValues.decodeIfPresent(ECSClientTypes.FSxWindowsFileServerVolumeConfiguration.self, forKey: .fsxWindowsFileServerVolumeConfiguration)
         fsxWindowsFileServerVolumeConfiguration = fsxWindowsFileServerVolumeConfigurationDecoded
+        let configuredAtLaunchDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .configuredAtLaunch)
+        configuredAtLaunch = configuredAtLaunchDecoded
     }
 }
 
 extension ECSClientTypes {
-    /// A data volume that's used in a task definition. For tasks that use the Amazon Elastic File System (Amazon EFS), specify an efsVolumeConfiguration. For Windows tasks that use Amazon FSx for Windows File Server file system, specify a fsxWindowsFileServerVolumeConfiguration. For tasks that use a Docker volume, specify a DockerVolumeConfiguration. For tasks that use a bind mount host volume, specify a host and optional sourcePath. For more information, see [Using Data Volumes in Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html).
+    /// The data volume configuration for tasks launched using this task definition. Specifying a volume configuration in a task definition is optional. The volume configuration may contain multiple volumes but only one volume configured at launch is supported. Each volume defined in the volume configuration may only specify a name and one of either configuredAtLaunch, dockerVolumeConfiguration, efsVolumeConfiguration, fsxWindowsFileServerVolumeConfiguration, or host. If an empty volume configuration is specified, by default Amazon ECS uses a host volume. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html).
     public struct Volume: Swift.Equatable {
+        /// Indicates whether the volume should be configured at launch time. This is used to create Amazon EBS volumes for standalone tasks or tasks created as part of a service. Each task definition revision may only have one volume configured at launch in the volume configuration. To configure a volume at launch time, use this task definition revision and specify a volumeConfigurations object when calling the CreateService, UpdateService, RunTask or StartTask APIs.
+        public var configuredAtLaunch: Swift.Bool?
         /// This parameter is specified when you use Docker volumes. Windows containers only support the use of the local driver. To use bind mounts, specify the host parameter instead. Docker volumes aren't supported by tasks run on Fargate.
         public var dockerVolumeConfiguration: ECSClientTypes.DockerVolumeConfiguration?
         /// This parameter is specified when you use an Amazon Elastic File System file system for task storage.
@@ -21953,10 +22854,11 @@ extension ECSClientTypes {
         public var fsxWindowsFileServerVolumeConfiguration: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration?
         /// This parameter is specified when you use bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data isn't guaranteed to persist after the containers that are associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public var host: ECSClientTypes.HostVolumeProperties?
-        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints. This is required wwhen you use an Amazon EFS volume.
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. When using a volume configured at launch, the name is required and must also be specified as the volume name in the ServiceVolumeConfiguration or TaskVolumeConfiguration parameter when creating your service or standalone task. For all other types of volumes, this name is referenced in the sourceVolume parameter of the mountPoints object in the container definition. When a volume is using the efsVolumeConfiguration, the name is required.
         public var name: Swift.String?
 
         public init(
+            configuredAtLaunch: Swift.Bool? = nil,
             dockerVolumeConfiguration: ECSClientTypes.DockerVolumeConfiguration? = nil,
             efsVolumeConfiguration: ECSClientTypes.EFSVolumeConfiguration? = nil,
             fsxWindowsFileServerVolumeConfiguration: ECSClientTypes.FSxWindowsFileServerVolumeConfiguration? = nil,
@@ -21964,6 +22866,7 @@ extension ECSClientTypes {
             name: Swift.String? = nil
         )
         {
+            self.configuredAtLaunch = configuredAtLaunch
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.fsxWindowsFileServerVolumeConfiguration = fsxWindowsFileServerVolumeConfiguration

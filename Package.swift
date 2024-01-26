@@ -230,8 +230,13 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
+<<<<<<< HEAD
     clientRuntimeVersion: "0.37.0",
     crtVersion: "0.20.0"
+=======
+    clientRuntimeVersion: "0.39.0",
+    crtVersion: "0.22.0"
+>>>>>>> main
 )
 
 // Uncomment this line to exclude runtime unit tests
@@ -488,6 +493,7 @@ let serviceTargets: [String] = [
     "AWSNeptunedata",
     "AWSNetworkFirewall",
     "AWSNetworkManager",
+    "AWSNetworkMonitor",
     "AWSNimble",
     "AWSOAM",
     "AWSOSIS",
@@ -584,6 +590,7 @@ let serviceTargets: [String] = [
     "AWSSnowball",
     "AWSSsmSap",
     "AWSStorageGateway",
+    "AWSSupplyChain",
     "AWSSupport",
     "AWSSupportApp",
     "AWSSynthetics",
@@ -632,8 +639,4 @@ let servicesWithIntegrationTests: [String] = [
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
 
-<<<<<<< HEAD
-=======
 addResolvedTargets()
-
->>>>>>> main

@@ -743,6 +743,40 @@ extension PaginatorSequence where OperationStackInput == ListPhoneNumbersV2Input
     }
 }
 extension ConnectClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListPredefinedAttributesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPredefinedAttributesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPredefinedAttributesOutput`
+    public func listPredefinedAttributesPaginated(input: ListPredefinedAttributesInput) -> ClientRuntime.PaginatorSequence<ListPredefinedAttributesInput, ListPredefinedAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPredefinedAttributesInput, ListPredefinedAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPredefinedAttributes(input:))
+    }
+}
+
+extension ListPredefinedAttributesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPredefinedAttributesInput {
+        return ListPredefinedAttributesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPredefinedAttributesInput, OperationStackOutput == ListPredefinedAttributesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPredefinedAttributesPaginated`
+    /// to access the nested member `[ConnectClientTypes.PredefinedAttributeSummary]`
+    /// - Returns: `[ConnectClientTypes.PredefinedAttributeSummary]`
+    public func predefinedAttributeSummaryList() async throws -> [ConnectClientTypes.PredefinedAttributeSummary] {
+        return try await self.asyncCompactMap { item in item.predefinedAttributeSummaryList }
+    }
+}
+extension ConnectClient {
+>>>>>>> main
     /// Paginate over `[ListPromptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1275,6 +1309,41 @@ extension PaginatorSequence where OperationStackInput == ListUserHierarchyGroups
     }
 }
 extension ConnectClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListUserProficienciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUserProficienciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUserProficienciesOutput`
+    public func listUserProficienciesPaginated(input: ListUserProficienciesInput) -> ClientRuntime.PaginatorSequence<ListUserProficienciesInput, ListUserProficienciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListUserProficienciesInput, ListUserProficienciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUserProficiencies(input:))
+    }
+}
+
+extension ListUserProficienciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUserProficienciesInput {
+        return ListUserProficienciesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userId: self.userId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListUserProficienciesInput, OperationStackOutput == ListUserProficienciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listUserProficienciesPaginated`
+    /// to access the nested member `[ConnectClientTypes.UserProficiency]`
+    /// - Returns: `[ConnectClientTypes.UserProficiency]`
+    public func userProficiencyList() async throws -> [ConnectClientTypes.UserProficiency] {
+        return try await self.asyncCompactMap { item in item.userProficiencyList }
+    }
+}
+extension ConnectClient {
+>>>>>>> main
     /// Paginate over `[ListUsersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1405,6 +1474,43 @@ extension PaginatorSequence where OperationStackInput == SearchAvailablePhoneNum
     }
 }
 extension ConnectClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[SearchContactsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchContactsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchContactsOutput`
+    public func searchContactsPaginated(input: SearchContactsInput) -> ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchContactsInput, SearchContactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchContacts(input:))
+    }
+}
+
+extension SearchContactsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchContactsInput {
+        return SearchContactsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            sort: self.sort,
+            timeRange: self.timeRange
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchContactsInput, OperationStackOutput == SearchContactsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchContactsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactSearchSummary]`
+    /// - Returns: `[ConnectClientTypes.ContactSearchSummary]`
+    public func contacts() async throws -> [ConnectClientTypes.ContactSearchSummary] {
+        return try await self.asyncCompactMap { item in item.contacts }
+    }
+}
+extension ConnectClient {
+>>>>>>> main
     /// Paginate over `[SearchHoursOfOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1438,6 +1544,41 @@ extension PaginatorSequence where OperationStackInput == SearchHoursOfOperations
     }
 }
 extension ConnectClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[SearchPredefinedAttributesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchPredefinedAttributesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchPredefinedAttributesOutput`
+    public func searchPredefinedAttributesPaginated(input: SearchPredefinedAttributesInput) -> ClientRuntime.PaginatorSequence<SearchPredefinedAttributesInput, SearchPredefinedAttributesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchPredefinedAttributesInput, SearchPredefinedAttributesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchPredefinedAttributes(input:))
+    }
+}
+
+extension SearchPredefinedAttributesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchPredefinedAttributesInput {
+        return SearchPredefinedAttributesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchPredefinedAttributesInput, OperationStackOutput == SearchPredefinedAttributesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchPredefinedAttributesPaginated`
+    /// to access the nested member `[ConnectClientTypes.PredefinedAttribute]`
+    /// - Returns: `[ConnectClientTypes.PredefinedAttribute]`
+    public func predefinedAttributes() async throws -> [ConnectClientTypes.PredefinedAttribute] {
+        return try await self.asyncCompactMap { item in item.predefinedAttributes }
+    }
+}
+extension ConnectClient {
+>>>>>>> main
     /// Paginate over `[SearchPromptsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -2551,7 +2551,8 @@ extension SearchInput: ClientRuntime.PaginateToken {
             resource: self.resource,
             searchExpression: self.searchExpression,
             sortBy: self.sortBy,
-            sortOrder: self.sortOrder
+            sortOrder: self.sortOrder,
+            visibilityConditions: self.visibilityConditions
         )}
 }
 

@@ -310,6 +310,10 @@ public protocol QConnectClientProtocol {
     /// Performs the `GetRecommendations` operation on the `WisdomService` service.
     ///
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
+<<<<<<< HEAD
+=======
+    @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
+>>>>>>> main
     ///
     /// - Parameter GetRecommendationsInput : [no documentation found]
     ///
@@ -470,6 +474,10 @@ public protocol QConnectClientProtocol {
     /// Performs the `QueryAssistant` operation on the `WisdomService` service.
     ///
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
+<<<<<<< HEAD
+=======
+    @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
+>>>>>>> main
     ///
     /// - Parameter QueryAssistantInput : [no documentation found]
     ///

@@ -1479,6 +1479,23 @@ public protocol RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     func describeValidDBInstanceModifications(input: DescribeValidDBInstanceModificationsInput) async throws -> DescribeValidDBInstanceModificationsOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `DisableHttpEndpoint` operation on the `AmazonRDSv19` service.
+    ///
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    ///
+    /// - Parameter DisableHttpEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DisableHttpEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
+    func disableHttpEndpoint(input: DisableHttpEndpointInput) async throws -> DisableHttpEndpointOutput
+>>>>>>> main
     /// Performs the `DownloadDBLogFilePortion` operation on the `AmazonRDSv19` service.
     ///
     /// Downloads all or a portion of the specified log file, up to 1 MB in size. This command doesn't apply to RDS Custom.
@@ -1493,6 +1510,23 @@ public protocol RDSClientProtocol {
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBLogFileNotFoundFault` : LogFileName doesn't refer to an existing DB log file.
     func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutput
+<<<<<<< HEAD
+=======
+    /// Performs the `EnableHttpEndpoint` operation on the `AmazonRDSv19` service.
+    ///
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    ///
+    /// - Parameter EnableHttpEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `EnableHttpEndpointOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidResourceStateFault` : The operation can't be performed because another operation is in progress.
+    /// - `ResourceNotFoundFault` : The specified resource ID was not found.
+    func enableHttpEndpoint(input: EnableHttpEndpointInput) async throws -> EnableHttpEndpointOutput
+>>>>>>> main
     /// Performs the `FailoverDBCluster` operation on the `AmazonRDSv19` service.
     ///
     /// Forces a failover for a DB cluster. For an Aurora DB cluster, failover for a DB cluster promotes one of the Aurora Replicas (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). For a Multi-AZ DB cluster, failover for a DB cluster promotes one of the readable standby DB instances (read-only instances) in the DB cluster to be the primary DB instance (the cluster writer). An Amazon Aurora DB cluster automatically fails over to an Aurora Replica, if one exists, when the primary DB instance fails. A Multi-AZ DB cluster automatically fails over to a readable standby DB instance when the primary DB instance fails. To simulate a failure of a primary instance for testing, you can force a failover. Because each instance in a DB cluster has its own endpoint address, make sure to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.

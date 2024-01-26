@@ -2,7 +2,14 @@
 
 import ClientRuntime
 
-/// Amazon RDS Data Service Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora Serverless v1 DB cluster. To run these statements, you work with the Data Service API. The Data Service API isn't supported on Amazon Aurora Serverless v2 DB clusters. For more information about the Data Service API, see [Using the Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide.
+/// RDS Data API Amazon RDS provides an HTTP endpoint to run SQL statements on an Amazon Aurora DB cluster. To run these statements, you use the RDS Data API (Data API). Data API is available with the following types of Aurora databases:
+///
+/// * Aurora PostgreSQL - Serverless v2, Serverless v1, and provisioned
+///
+/// * Aurora MySQL - Serverless v1 only
+///
+///
+/// For more information about the Data API, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide.
 public protocol RDSDataClientProtocol {
     /// Performs the `BatchExecuteStatement` operation on the `RdsDataService` service.
     ///
@@ -15,12 +22,28 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
+    /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
+    /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+    /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
+    /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
+    ///
+    /// * RDS Data API timed out retrieving the secret.
+    ///
+    /// * The secret provided wasn't found.
+    ///
+    /// * The secret couldn't be decrypted.
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
+<<<<<<< HEAD
+=======
+    /// - `TransactionNotFoundException` : The transaction ID wasn't found.
+>>>>>>> main
     func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutput
     /// Performs the `BeginTransaction` operation on the `RdsDataService` service.
     ///
@@ -33,12 +56,28 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
+    /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
+    /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+    /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
+    /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
+    ///
+    /// * RDS Data API timed out retrieving the secret.
+    ///
+    /// * The secret provided wasn't found.
+    ///
+    /// * The secret couldn't be decrypted.
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
+<<<<<<< HEAD
+=======
+    /// - `TransactionNotFoundException` : The transaction ID wasn't found.
+>>>>>>> main
     func beginTransaction(input: BeginTransactionInput) async throws -> BeginTransactionOutput
     /// Performs the `CommitTransaction` operation on the `RdsDataService` service.
     ///
@@ -51,17 +90,37 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
+    /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
+    /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+    /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
+    ///
+    /// * RDS Data API timed out retrieving the secret.
+    ///
+    /// * The secret provided wasn't found.
+    ///
+    /// * The secret couldn't be decrypted.
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
+<<<<<<< HEAD
     func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
     /// Performs the `ExecuteSql` operation on the `RdsDataService` service.
     ///
     /// Runs one or more SQL statements. This operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+=======
+    /// - `TransactionNotFoundException` : The transaction ID wasn't found.
+    func commitTransaction(input: CommitTransactionInput) async throws -> CommitTransactionOutput
+    /// Performs the `ExecuteSql` operation on the `RdsDataService` service.
+    ///
+    /// Runs one or more SQL statements. This operation isn't supported for Aurora PostgreSQL Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
+>>>>>>> main
     @available(*, deprecated, message: "The ExecuteSql API is deprecated, please use the ExecuteStatement API. API deprecated since 2019-03-21")
     ///
     /// - Parameter ExecuteSqlInput : The request parameters represent the input of a request to run one or more SQL statements.
@@ -71,11 +130,15 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `InternalServerErrorException` : An internal error occurred.
+<<<<<<< HEAD
     /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+=======
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
+>>>>>>> main
     func executeSql(input: ExecuteSqlInput) async throws -> ExecuteSqlOutput
     /// Performs the `ExecuteStatement` operation on the `RdsDataService` service.
     ///
@@ -88,12 +151,35 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
+    /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
+    /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+    /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
+    /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
+    ///
+    /// * RDS Data API timed out retrieving the secret.
+    ///
+    /// * The secret provided wasn't found.
+    ///
+    /// * The secret couldn't be decrypted.
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
+<<<<<<< HEAD
+=======
+    /// - `TransactionNotFoundException` : The transaction ID wasn't found.
+    /// - `UnsupportedResultException` : There was a problem with the result because of one of the following conditions:
+    ///
+    /// * It contained an unsupported data type.
+    ///
+    /// * It contained a multidimensional array.
+    ///
+    /// * The size was too large.
+>>>>>>> main
     func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutput
     /// Performs the `RollbackTransaction` operation on the `RdsDataService` service.
     ///
@@ -106,13 +192,29 @@ public protocol RDSDataClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `BadRequestException` : There is an error in the call or in a SQL statement.
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
+    /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
+    /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
+    /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
     /// - `InternalServerErrorException` : An internal error occurred.
+    /// - `InvalidSecretException` : The Secrets Manager secret used with the request isn't valid.
     /// - `NotFoundException` : The resourceArn, secretArn, or transactionId value can't be found.
-    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter is not available.
+    /// - `SecretsErrorException` : There was a problem with the Secrets Manager secret used with the request, caused by one of the following conditions:
+    ///
+    /// * RDS Data API timed out retrieving the secret.
+    ///
+    /// * The secret provided wasn't found.
+    ///
+    /// * The secret couldn't be decrypted.
+    /// - `ServiceUnavailableError` : The service specified by the resourceArn parameter isn't available.
     /// - `StatementTimeoutException` : The execution of the SQL statement timed out.
+<<<<<<< HEAD
+=======
+    /// - `TransactionNotFoundException` : The transaction ID wasn't found.
+>>>>>>> main
     func rollbackTransaction(input: RollbackTransactionInput) async throws -> RollbackTransactionOutput
 }
 
