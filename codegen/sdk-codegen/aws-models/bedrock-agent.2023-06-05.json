@@ -1817,8 +1817,6 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.bedrockagent#ColumnName": {
             "type": "string",
             "traits": {
@@ -1829,7 +1827,6 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9_\\-]+$"
             }
         },
->>>>>>> main
         "com.amazonaws.bedrockagent#ConflictException": {
             "type": "structure",
             "members": {
@@ -4490,15 +4487,12 @@
                     "traits": {
                         "smithy.api#enumValue": "REDIS_ENTERPRISE_CLOUD"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "RDS": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "RDS"
                     }
->>>>>>> main
                 }
             },
             "traits": {
@@ -5341,11 +5335,7 @@
                     "min": 1,
                     "max": 2048
                 },
-<<<<<<< HEAD
-                "smithy.api#pattern": "(^[a-zA-Z0-9-_.]+$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}))$)|(^([0-9a-zA-Z][_-]?)+$)|^([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63})$"
-=======
                 "smithy.api#pattern": "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$"
->>>>>>> main
             }
         },
         "com.amazonaws.bedrockagent#Name": {
@@ -5729,8 +5719,6 @@
                 "smithy.api#documentation": "Prompt Type."
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.bedrockagent#RdsArn": {
             "type": "string",
             "traits": {
@@ -5828,7 +5816,6 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9_\\.\\-]+$"
             }
         },
->>>>>>> main
         "com.amazonaws.bedrockagent#RecommendedAction": {
             "type": "string",
             "traits": {
@@ -6032,11 +6019,7 @@
             "type": "string",
             "traits": {
                 "smithy.api#documentation": "Arn of a SecretsManager Secret.",
-<<<<<<< HEAD
-                "smithy.api#pattern": "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9/_+=.@-]{1,63}$"
-=======
                 "smithy.api#pattern": "^arn:aws(|-cn|-us-gov):secretsmanager:[a-z0-9-]{1,20}:([0-9]{12}|):secret:[a-zA-Z0-9!/_+=.@-]{1,512}$"
->>>>>>> main
             }
         },
         "com.amazonaws.bedrockagent#ServerSideEncryptionConfiguration": {
@@ -6212,12 +6195,9 @@
                 },
                 "redisEnterpriseCloudConfiguration": {
                     "target": "com.amazonaws.bedrockagent#RedisEnterpriseCloudConfiguration"
-<<<<<<< HEAD
-=======
                 },
                 "rdsConfiguration": {
                     "target": "com.amazonaws.bedrockagent#RdsConfiguration"
->>>>>>> main
                 }
             },
             "traits": {

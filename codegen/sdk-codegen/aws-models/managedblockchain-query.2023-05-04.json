@@ -24,11 +24,7 @@
                 "contractIdentifier": {
                     "target": "com.amazonaws.managedblockchainquery#ContractIdentifier",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>The container for the contract identifier containing its blockchain network \n             and address.</p>",
-=======
                         "smithy.api#documentation": "<p>The container for the contract identifier containing its blockchain network \n       and address.</p>",
->>>>>>> main
                         "smithy.api#required": {}
                     }
                 },
@@ -278,8 +274,6 @@
                 "smithy.api#pattern": "^[-A-Za-z0-9]{13,74}$"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.managedblockchainquery#ConfirmationStatus": {
             "type": "string",
             "traits": {
@@ -291,7 +285,6 @@
                 ]
             }
         },
->>>>>>> main
         "com.amazonaws.managedblockchainquery#ContractFilter": {
             "type": "structure",
             "members": {
@@ -394,8 +387,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.managedblockchainquery#ExecutionStatus": {
             "type": "string",
             "traits": {
@@ -411,7 +402,6 @@
                 ]
             }
         },
->>>>>>> main
         "com.amazonaws.managedblockchainquery#GetAssetContract": {
             "type": "operation",
             "input": {
@@ -1203,14 +1193,6 @@
                         "value": "BITCOIN_TESTNET",
                         "name": "BITCOIN_TESTNET",
                         "documentation": "Bitcoin test network"
-<<<<<<< HEAD
-                    },
-                    {
-                        "value": "ETHEREUM_SEPOLIA_TESTNET",
-                        "name": "ETHEREUM_SEPOLIA_TESTNET",
-                        "documentation": "SEPOLIA network (ethereum testnet)"
-=======
->>>>>>> main
                     }
                 ]
             }

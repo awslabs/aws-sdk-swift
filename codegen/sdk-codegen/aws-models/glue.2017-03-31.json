@@ -6982,8 +6982,6 @@
                 "target": "com.amazonaws.glue#GenericString"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.glue#ContextKey": {
             "type": "string",
             "traits": {
@@ -7002,7 +7000,6 @@
                 }
             }
         },
->>>>>>> main
         "com.amazonaws.glue#ContextWords": {
             "type": "list",
             "member": {

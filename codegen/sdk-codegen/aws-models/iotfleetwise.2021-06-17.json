@@ -5611,33 +5611,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#ManifestStatus": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "ACTIVE",
-                        "name": "ACTIVE"
-                    },
-                    {
-                        "value": "DRAFT",
-                        "name": "DRAFT"
-                    },
-                    {
-                        "value": "INVALID",
-                        "name": "INVALID"
-                    },
-                    {
-                        "value": "VALIDATING",
-                        "name": "VALIDATING"
-=======
             "type": "enum",
             "members": {
                 "ACTIVE": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ACTIVE"
->>>>>>> main
                     }
                 },
                 "DRAFT": {
@@ -5658,28 +5637,6 @@
                         "smithy.api#enumValue": "VALIDATING"
                     }
                 }
-            }
-        },
-        "com.amazonaws.iotfleetwise#MessageSignal": {
-            "type": "structure",
-            "members": {
-                "topicName": {
-                    "target": "com.amazonaws.iotfleetwise#TopicName",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The topic name for the message signal. It corresponds to topics in ROS 2. </p>",
-                        "smithy.api#required": {}
-                    }
-                },
-                "structuredMessage": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessage",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The structured message for the message signal. It can be defined with either a <code>primitiveMessageDefinition</code>, <code>structuredMessageListDefinition</code>, or <code>structuredMessageDefinition</code> recursively.</p>",
-                        "smithy.api#required": {}
-                    }
-                }
-            },
-            "traits": {
-                "smithy.api#documentation": "<p>The decoding information for a specific message which support higher order data types. </p>"
             }
         },
         "com.amazonaws.iotfleetwise#MessageSignal": {
@@ -5880,49 +5837,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#NetworkInterfaceFailureReason": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "DUPLICATE_NETWORK_INTERFACE",
-                        "name": "DUPLICATE_INTERFACE"
-                    },
-                    {
-                        "value": "CONFLICTING_NETWORK_INTERFACE",
-                        "name": "CONFLICTING_NETWORK_INTERFACE"
-                    },
-                    {
-                        "value": "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS",
-                        "name": "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
-                    },
-                    {
-                        "value": "CAN_NETWORK_INTERFACE_INFO_IS_NULL",
-                        "name": "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "OBD_NETWORK_INTERFACE_INFO_IS_NULL",
-                        "name": "OBD_NETWORK_INTERFACE_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS",
-                        "name": "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
-                    },
-                    {
-                        "value": "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL",
-                        "name": "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "CUSTOMER_DECODED_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL",
-                        "name": "CUSTOMER_DECODED_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
-=======
             "type": "enum",
             "members": {
                 "DUPLICATE_INTERFACE": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "DUPLICATE_NETWORK_INTERFACE"
->>>>>>> main
                     }
                 },
                 "CONFLICTING_NETWORK_INTERFACE": {
@@ -5964,33 +5884,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#NetworkInterfaceType": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "CAN_INTERFACE",
-                        "name": "CAN_INTERFACE"
-                    },
-                    {
-                        "value": "OBD_INTERFACE",
-                        "name": "OBD_INTERFACE"
-                    },
-                    {
-                        "value": "VEHICLE_MIDDLEWARE",
-                        "name": "VEHICLE_MIDDLEWARE"
-                    },
-                    {
-                        "value": "CUSTOMER_DECODED_INTERFACE",
-                        "name": "CUSTOMER_DECODED_INTERFACE"
-=======
             "type": "enum",
             "members": {
                 "CAN_INTERFACE": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "CAN_INTERFACE"
->>>>>>> main
                     }
                 },
                 "OBD_INTERFACE": {
@@ -6118,148 +6017,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#NodeDataEncoding": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "BINARY",
-                        "name": "BINARY"
-                    },
-                    {
-                        "value": "TYPED",
-                        "name": "TYPED"
-                    }
-                ]
-            }
-        },
-        "com.amazonaws.iotfleetwise#NodeDataType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "INT8",
-                        "name": "INT8"
-                    },
-                    {
-                        "value": "UINT8",
-                        "name": "UINT8"
-                    },
-                    {
-                        "value": "INT16",
-                        "name": "INT16"
-                    },
-                    {
-                        "value": "UINT16",
-                        "name": "UINT16"
-                    },
-                    {
-                        "value": "INT32",
-                        "name": "INT32"
-                    },
-                    {
-                        "value": "UINT32",
-                        "name": "UINT32"
-                    },
-                    {
-                        "value": "INT64",
-                        "name": "INT64"
-                    },
-                    {
-                        "value": "UINT64",
-                        "name": "UINT64"
-                    },
-                    {
-                        "value": "BOOLEAN",
-                        "name": "BOOLEAN"
-                    },
-                    {
-                        "value": "FLOAT",
-                        "name": "FLOAT"
-                    },
-                    {
-                        "value": "DOUBLE",
-                        "name": "DOUBLE"
-                    },
-                    {
-                        "value": "STRING",
-                        "name": "STRING"
-                    },
-                    {
-                        "value": "UNIX_TIMESTAMP",
-                        "name": "UNIX_TIMESTAMP"
-                    },
-                    {
-                        "value": "INT8_ARRAY",
-                        "name": "INT8_ARRAY"
-                    },
-                    {
-                        "value": "UINT8_ARRAY",
-                        "name": "UINT8_ARRAY"
-                    },
-                    {
-                        "value": "INT16_ARRAY",
-                        "name": "INT16_ARRAY"
-                    },
-                    {
-                        "value": "UINT16_ARRAY",
-                        "name": "UINT16_ARRAY"
-                    },
-                    {
-                        "value": "INT32_ARRAY",
-                        "name": "INT32_ARRAY"
-                    },
-                    {
-                        "value": "UINT32_ARRAY",
-                        "name": "UINT32_ARRAY"
-                    },
-                    {
-                        "value": "INT64_ARRAY",
-                        "name": "INT64_ARRAY"
-                    },
-                    {
-                        "value": "UINT64_ARRAY",
-                        "name": "UINT64_ARRAY"
-                    },
-                    {
-                        "value": "BOOLEAN_ARRAY",
-                        "name": "BOOLEAN_ARRAY"
-                    },
-                    {
-                        "value": "FLOAT_ARRAY",
-                        "name": "FLOAT_ARRAY"
-                    },
-                    {
-                        "value": "DOUBLE_ARRAY",
-                        "name": "DOUBLE_ARRAY"
-                    },
-                    {
-                        "value": "STRING_ARRAY",
-                        "name": "STRING_ARRAY"
-                    },
-                    {
-                        "value": "UNIX_TIMESTAMP_ARRAY",
-                        "name": "UNIX_TIMESTAMP_ARRAY"
-                    },
-                    {
-                        "value": "UNKNOWN",
-                        "name": "UNKNOWN"
-                    },
-                    {
-                        "value": "STRUCT",
-                        "name": "STRUCT"
-                    },
-                    {
-                        "value": "STRUCT_ARRAY",
-                        "name": "STRUCT_ARRAY"
-=======
             "type": "enum",
             "members": {
                 "BINARY": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "BINARY"
->>>>>>> main
                     }
                 },
                 "TYPED": {
@@ -6870,72 +6633,6 @@
             }
         },
         "com.amazonaws.iotfleetwise#ROS2PrimitiveType": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "BOOL",
-                        "name": "BOOL"
-                    },
-                    {
-                        "value": "BYTE",
-                        "name": "BYTE"
-                    },
-                    {
-                        "value": "CHAR",
-                        "name": "CHAR"
-                    },
-                    {
-                        "value": "FLOAT32",
-                        "name": "FLOAT32"
-                    },
-                    {
-                        "value": "FLOAT64",
-                        "name": "FLOAT64"
-                    },
-                    {
-                        "value": "INT8",
-                        "name": "INT8"
-                    },
-                    {
-                        "value": "UINT8",
-                        "name": "UINT8"
-                    },
-                    {
-                        "value": "INT16",
-                        "name": "INT16"
-                    },
-                    {
-                        "value": "UINT16",
-                        "name": "UINT16"
-                    },
-                    {
-                        "value": "INT32",
-                        "name": "INT32"
-                    },
-                    {
-                        "value": "UINT32",
-                        "name": "UINT32"
-                    },
-                    {
-                        "value": "INT64",
-                        "name": "INT64"
-                    },
-                    {
-                        "value": "UINT64",
-                        "name": "UINT64"
-                    },
-                    {
-                        "value": "STRING",
-                        "name": "STRING"
-                    },
-                    {
-                        "value": "WSTRING",
-                        "name": "WSTRING"
-                    }
-                ]
-=======
             "type": "enum",
             "members": {
                 "BOOL": {
@@ -7028,7 +6725,6 @@
                         "smithy.api#enumValue": "WSTRING"
                     }
                 }
->>>>>>> main
             }
         },
         "com.amazonaws.iotfleetwise#RegisterAccount": {
@@ -7418,81 +7114,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#SignalDecoderFailureReason": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "DUPLICATE_SIGNAL",
-                        "name": "DUPLICATE_SIGNAL"
-                    },
-                    {
-                        "value": "CONFLICTING_SIGNAL",
-                        "name": "CONFLICTING_SIGNAL"
-                    },
-                    {
-                        "value": "SIGNAL_TO_ADD_ALREADY_EXISTS",
-                        "name": "SIGNAL_TO_ADD_ALREADY_EXISTS"
-                    },
-                    {
-                        "value": "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE",
-                        "name": "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE"
-                    },
-                    {
-                        "value": "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE",
-                        "name": "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE"
-                    },
-                    {
-                        "value": "SIGNAL_NOT_IN_MODEL",
-                        "name": "SIGNAL_NOT_IN_MODEL"
-                    },
-                    {
-                        "value": "CAN_SIGNAL_INFO_IS_NULL",
-                        "name": "CAN_SIGNAL_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "OBD_SIGNAL_INFO_IS_NULL",
-                        "name": "OBD_SIGNAL_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL",
-                        "name": "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL"
-                    },
-                    {
-                        "value": "MESSAGE_SIGNAL_INFO_IS_NULL",
-                        "name": "MESSAGE_SIGNAL_INFO_IS_NULL"
-                    },
-                    {
-                        "value": "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE",
-                        "name": "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE"
-                    },
-                    {
-                        "value": "STRUCT_SIZE_MISMATCH",
-                        "name": "STRUCT_SIZE_MISMATCH"
-                    },
-                    {
-                        "value": "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL",
-                        "name": "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL"
-                    },
-                    {
-                        "value": "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG",
-                        "name": "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG"
-                    },
-                    {
-                        "value": "EMPTY_MESSAGE_SIGNAL",
-                        "name": "EMPTY_MESSAGE_SIGNAL"
-                    },
-                    {
-                        "value": "CUSTOMER_DECODED_SIGNAL_INFO_IS_NULL",
-                        "name": "CUSTOMER_DECODED_SIGNAL_INFO_IS_NULL"
-=======
             "type": "enum",
             "members": {
                 "DUPLICATE_SIGNAL": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "DUPLICATE_SIGNAL"
->>>>>>> main
                     }
                 },
                 "CONFLICTING_SIGNAL": {
@@ -7582,33 +7209,12 @@
             }
         },
         "com.amazonaws.iotfleetwise#SignalDecoderType": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "CAN_SIGNAL",
-                        "name": "CAN_SIGNAL"
-                    },
-                    {
-                        "value": "OBD_SIGNAL",
-                        "name": "OBD_SIGNAL"
-                    },
-                    {
-                        "value": "MESSAGE_SIGNAL",
-                        "name": "MESSAGE_SIGNAL"
-                    },
-                    {
-                        "value": "CUSTOMER_DECODED_SIGNAL",
-                        "name": "CUSTOMER_DECODED_SIGNAL"
-=======
             "type": "enum",
             "members": {
                 "CAN_SIGNAL": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "CAN_SIGNAL"
->>>>>>> main
                     }
                 },
                 "OBD_SIGNAL": {
@@ -7877,130 +7483,6 @@
                         "smithy.api#enumValue": "DYNAMIC_BOUNDED_CAPACITY"
                     }
                 }
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructureMessageName": {
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 150
-                }
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructuredMessage": {
-            "type": "union",
-            "members": {
-                "primitiveMessageDefinition": {
-                    "target": "com.amazonaws.iotfleetwise#PrimitiveMessageDefinition",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Represents a primitive type node of the complex data structure.</p>"
-                    }
-                },
-                "structuredMessageListDefinition": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessageListDefinition",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Represents a list type node of the complex data structure.</p>"
-                    }
-                },
-                "structuredMessageDefinition": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessageDefinition",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Represents a struct type node of the complex data structure.</p>"
-                    }
-                }
-            },
-            "traits": {
-                "smithy.api#documentation": "<p>The structured message for the message signal. It can be defined with either a <code>primitiveMessageDefinition</code>, <code>structuredMessageListDefinition</code>, or <code>structuredMessageDefinition</code> recursively.</p>"
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructuredMessageDefinition": {
-            "type": "list",
-            "member": {
-                "target": "com.amazonaws.iotfleetwise#StructuredMessageFieldNameAndDataTypePair"
-            },
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 500
-                }
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructuredMessageFieldNameAndDataTypePair": {
-            "type": "structure",
-            "members": {
-                "fieldName": {
-                    "target": "com.amazonaws.iotfleetwise#StructureMessageName",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The field name of the structured message. It determines how a data value is referenced in the target language. </p>",
-                        "smithy.api#required": {}
-                    }
-                },
-                "dataType": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessage",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The data type. </p>",
-                        "smithy.api#required": {}
-                    }
-                }
-            },
-            "traits": {
-                "smithy.api#documentation": "<p>Represents a <code>StructureMessageName</code> to <code>DataType</code> map element.</p>"
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructuredMessageListDefinition": {
-            "type": "structure",
-            "members": {
-                "name": {
-                    "target": "com.amazonaws.iotfleetwise#StructureMessageName",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The name of the structured message list definition. </p>",
-                        "smithy.api#required": {}
-                    }
-                },
-                "memberType": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessage",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The member type of the structured message list definition.</p>",
-                        "smithy.api#required": {}
-                    }
-                },
-                "listType": {
-                    "target": "com.amazonaws.iotfleetwise#StructuredMessageListType",
-                    "traits": {
-                        "smithy.api#documentation": "<p>The type of list of the structured message list definition.</p>",
-                        "smithy.api#required": {}
-                    }
-                },
-                "capacity": {
-                    "target": "com.amazonaws.iotfleetwise#nonNegativeInteger",
-                    "traits": {
-                        "smithy.api#default": 0,
-                        "smithy.api#documentation": "<p>The capacity of the structured message list definition when the list type is <code>FIXED_CAPACITY</code> or <code>DYNAMIC_BOUNDED_CAPACITY</code>.</p>"
-                    }
-                }
-            },
-            "traits": {
-                "smithy.api#documentation": "<p>Represents a list type node of the complex data structure.</p>"
-            }
-        },
-        "com.amazonaws.iotfleetwise#StructuredMessageListType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "FIXED_CAPACITY",
-                        "name": "FIXED_CAPACITY"
-                    },
-                    {
-                        "value": "DYNAMIC_UNBOUNDED_CAPACITY",
-                        "name": "DYNAMIC_UNBOUNDED_CAPACITY"
-                    },
-                    {
-                        "value": "DYNAMIC_BOUNDED_CAPACITY",
-                        "name": "DYNAMIC_BOUNDED_CAPACITY"
-                    }
-                ]
             }
         },
         "com.amazonaws.iotfleetwise#Tag": {
@@ -8302,19 +7784,6 @@
             }
         },
         "com.amazonaws.iotfleetwise#TopicName": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 150
-                },
-                "smithy.api#pattern": "^[a-zA-Z0-9_\\-#:./]+$"
-            }
-        },
-        "com.amazonaws.iotfleetwise#TriggerMode": {
-=======
->>>>>>> main
             "type": "string",
             "traits": {
                 "smithy.api#length": {
@@ -9255,16 +8724,6 @@
             }
         },
         "com.amazonaws.iotfleetwise#VehicleMiddlewareProtocol": {
-<<<<<<< HEAD
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "ROS_2",
-                        "name": "ROS_2"
-                    }
-                ]
-=======
             "type": "enum",
             "members": {
                 "ROS_2": {
@@ -9273,7 +8732,6 @@
                         "smithy.api#enumValue": "ROS_2"
                     }
                 }
->>>>>>> main
             }
         },
         "com.amazonaws.iotfleetwise#VehicleResource": {

@@ -2172,11 +2172,7 @@
                 "ExternalFiltering": {
                     "target": "com.amazonaws.lakeformation#ExternalFilteringConfiguration",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>A list of the account IDs of Amazon Web Services accounts of third-party applications\n         that are allowed to to access data managed by Lake Formation.</p>"
-=======
                         "smithy.api#documentation": "<p>A list of the account IDs of Amazon Web Services accounts of third-party applications\n         that are allowed to access data managed by Lake Formation.</p>"
->>>>>>> main
                     }
                 }
             },

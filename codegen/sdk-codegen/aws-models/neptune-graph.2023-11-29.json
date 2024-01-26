@@ -2662,8 +2662,6 @@
                     "ApiType": {
                         "value": "ControlPlane"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "smithy.waiters#waitable": {
                     "GraphAvailable": {
@@ -2726,7 +2724,6 @@
                             }
                         ]
                     }
->>>>>>> main
                 }
             }
         },
@@ -2879,8 +2876,6 @@
                     "ApiType": {
                         "value": "ControlPlane"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "smithy.waiters#waitable": {
                     "GraphSnapshotAvailable": {
@@ -2943,7 +2938,6 @@
                             }
                         ]
                     }
->>>>>>> main
                 }
             }
         },
@@ -3051,8 +3045,6 @@
                     "ApiType": {
                         "value": "ControlPlane"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "smithy.waiters#waitable": {
                     "ImportTaskSuccessful": {
@@ -3139,7 +3131,6 @@
                             }
                         ]
                     }
->>>>>>> main
                 }
             }
         },
@@ -3266,8 +3257,6 @@
                     "ApiType": {
                         "value": "ControlPlane"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "smithy.waiters#waitable": {
                     "PrivateGraphEndpointAvailable": {
@@ -3330,7 +3319,6 @@
                             }
                         ]
                     }
->>>>>>> main
                 }
             }
         },

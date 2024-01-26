@@ -1485,8 +1485,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.eks#AdditionalInfoMap": {
             "type": "map",
             "key": {
@@ -1496,7 +1494,6 @@
                 "target": "com.amazonaws.eks#String"
             }
         },
->>>>>>> main
         "com.amazonaws.eks#Addon": {
             "type": "structure",
             "members": {
@@ -2839,7 +2836,7 @@
                 "groupName": {
                     "target": "com.amazonaws.eks#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the placement group for the Kubernetes control plane instances. This setting\n            can't be changed after cluster creation. </p>"
+                        "smithy.api#documentation": "<p>The name of the placement group for the Kubernetes control plane instances. This\n            setting can't be changed after cluster creation. </p>"
                     }
                 }
             },
@@ -2932,11 +2929,7 @@
                 "principalArn": {
                     "target": "com.amazonaws.eks#String",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>The ARN of the IAM principal for the <code>AccessEntry</code>. You can specify one ARN for each access entry. You can't specify the\n            same ARN in more than one access entry. This value can't be changed after access entry\n            creation.</p>\n         <p>\n            <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp\">IAM best practices</a> recommend using IAM roles with\n            temporary credentials, rather than IAM users with long-term credentials.\n        </p>",
-=======
                         "smithy.api#documentation": "<p>The ARN of the IAM principal for the <code>AccessEntry</code>. You can specify one ARN for each access entry. You can't specify the\n            same ARN in more than one access entry. This value can't be changed after access entry\n            creation.</p>\n         <p>The valid principals differ depending on the type of the access entry in the <code>type</code> field.\n            The only valid ARN is IAM roles for the types of access entries for nodes: <code></code>\n            <code></code>. You can use every IAM principal type for <code>STANDARD</code> access entries.\n            You can't use the STS session principal type with access entries because this is a temporary\n            principal for each session and not a permanent identity that can be assigned permissions.</p>\n         <p>\n            <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp\">IAM best practices</a> recommend using IAM roles with\n            temporary credentials, rather than IAM users with long-term credentials.\n        </p>",
->>>>>>> main
                         "smithy.api#required": {}
                     }
                 },
@@ -2968,11 +2961,7 @@
                 "type": {
                     "target": "com.amazonaws.eks#String",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>If the <code>principalArn</code> is for an IAM role that's used for\n            self-managed Amazon EC2 nodes, specify <code>EC2_LINUX</code> or\n                <code>EC2_WINDOWS</code>. Amazon EKS grants the necessary permissions to the\n            node for you. If the <code>principalArn</code> is for any other purpose, specify\n                <code>STANDARD</code>. If you don't specify a value, Amazon EKS sets the\n            value to <code>STANDARD</code>. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the\n                <code>aws-auth</code>\n            <code>ConfigMap</code> for the roles. You can't change this value once you've created\n            the access entry.</p>\n         <p>If you set the value to <code>EC2_LINUX</code> or <code>EC2_WINDOWS</code>, you can't\n            specify values for <code>kubernetesGroups</code>, or associate an\n                <code>AccessPolicy</code> to the access entry.</p>"
-=======
                         "smithy.api#documentation": "<p>The type of the new access entry. Valid values are <code>Standard</code>,\n            <code>FARGATE_LINUX</code>, <code>EC2_LINUX</code>, and <code>EC2_WINDOWS</code>.</p>\n         <p>If the <code>principalArn</code> is for an IAM role that's used for\n            self-managed Amazon EC2 nodes, specify <code>EC2_LINUX</code> or\n                <code>EC2_WINDOWS</code>. Amazon EKS grants the necessary permissions to the\n            node for you. If the <code>principalArn</code> is for any other purpose, specify\n                <code>STANDARD</code>. If you don't specify a value, Amazon EKS sets the\n            value to <code>STANDARD</code>. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the\n                <code>aws-auth</code>\n            <code>ConfigMap</code> for the roles. You can't change this value once you've created\n            the access entry.</p>\n         <p>If you set the value to <code>EC2_LINUX</code> or <code>EC2_WINDOWS</code>, you can't\n            specify values for <code>kubernetesGroups</code>, or associate an\n                <code>AccessPolicy</code> to the access entry.</p>"
->>>>>>> main
                     }
                 }
             },
@@ -4223,8 +4212,6 @@
                 "smithy.api#output": {}
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.eks#DeprecationDetail": {
             "type": "structure",
             "members": {
@@ -4269,7 +4256,6 @@
                 "target": "com.amazonaws.eks#DeprecationDetail"
             }
         },
->>>>>>> main
         "com.amazonaws.eks#DeregisterCluster": {
             "type": "operation",
             "input": {
@@ -6195,8 +6181,6 @@
                 "target": "com.amazonaws.eks#String"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.eks#Insight": {
             "type": "structure",
             "members": {
@@ -6466,7 +6450,6 @@
                 "smithy.api#documentation": "<p>The criteria to use for the insights.</p>"
             }
         },
->>>>>>> main
         "com.amazonaws.eks#Integer": {
             "type": "integer",
             "traits": {
@@ -7454,9 +7437,6 @@
                 "nextToken": {
                     "target": "com.amazonaws.eks#String",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future\n            <code>ListIdentityProviderConfigsResponse</code> request. When the results of a\n            <code>ListIdentityProviderConfigsResponse</code> request exceed\n            <code>maxResults</code>, you can use this value to retrieve the next page of\n            results. This value is <code>null</code> when there are no more results to\n            return.</p>"
-=======
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future\n                <code>ListIdentityProviderConfigsResponse</code> request. When the results of a\n                <code>ListIdentityProviderConfigsResponse</code> request exceed\n                <code>maxResults</code>, you can use this value to retrieve the next page of\n            results. This value is <code>null</code> when there are no more results to\n            return.</p>\n         <note>\n            <p>This token should be treated as an opaque identifier that is used only to\n                retrieve the next items in a list and not for other programmatic purposes.</p>\n         </note>"
                     }
                 }
@@ -7558,7 +7538,6 @@
                     "target": "com.amazonaws.eks#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future <code>ListInsights</code>\n            request. When the results of a <code>ListInsights</code> request exceed\n            <code>maxResults</code>, you can use this value to retrieve the next page of\n            results. This value is <code>null</code> when there are no more results to\n            return.</p>"
->>>>>>> main
                     }
                 }
             },

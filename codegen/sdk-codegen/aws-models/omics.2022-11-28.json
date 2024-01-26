@@ -8323,11 +8323,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to list multipart read set uploads",
-<<<<<<< HEAD
-                "smithy.api#documentation": "<p>\n      Lists all multipart read set uploads and their statuses. \n    </p>",
-=======
                 "smithy.api#documentation": "<p>\n      Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.\n    </p>",
->>>>>>> main
                 "smithy.api#endpoint": {
                     "hostPrefix": "control-storage-"
                 },

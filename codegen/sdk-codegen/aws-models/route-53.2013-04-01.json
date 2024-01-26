@@ -1619,17 +1619,6 @@
                             "expect": {
                                 "error": "Invalid Configuration: Missing Region"
                             }
-                        },
-                        {
-                            "documentation": "Partition doesn't support DualStack",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
-                            }
                         }
                     ],
                     "version": "1.0"
@@ -5657,11 +5646,7 @@
                 "CountryCode": {
                     "target": "com.amazonaws.route53#GeoLocationCountryCode",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>For geolocation resource record sets, the two-letter code for a country.</p>\n         <p>Amazon Route 53 uses the two-letter country codes that are specified in <a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO standard 3166-1\n\t\t\t\talpha-2</a>.</p>\n         <p>Route 53 also supports the contry code <b>UA</b> forr Ukraine.</p>"
-=======
                         "smithy.api#documentation": "<p>For geolocation resource record sets, the two-letter code for a country.</p>\n         <p>Amazon Route 53 uses the two-letter country codes that are specified in <a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO standard 3166-1\n\t\t\t\talpha-2</a>.</p>\n         <p>Route 53 also supports the country code <b>UA</b> for\n\t\t\tUkraine.</p>"
->>>>>>> main
                     }
                 },
                 "SubdivisionCode": {
@@ -6097,11 +6082,7 @@
                 "CountryCode": {
                     "target": "com.amazonaws.route53#GeoLocationCountryCode",
                     "traits": {
-<<<<<<< HEAD
-                        "smithy.api#documentation": "<p>Amazon Route 53 uses the two-letter country codes that are specified in <a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO standard 3166-1\n\t\t\t\talpha-2</a>.</p>\n         <p>Route 53 also supports the contry code <b>UA</b> forr Ukraine.</p>",
-=======
                         "smithy.api#documentation": "<p>Amazon Route 53 uses the two-letter country codes that are specified in <a href=\"https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2\">ISO standard 3166-1\n\t\t\t\talpha-2</a>.</p>\n         <p>Route 53 also supports the country code <b>UA</b> for\n\t\t\tUkraine.</p>",
->>>>>>> main
                         "smithy.api#httpQuery": "countrycode"
                     }
                 },
