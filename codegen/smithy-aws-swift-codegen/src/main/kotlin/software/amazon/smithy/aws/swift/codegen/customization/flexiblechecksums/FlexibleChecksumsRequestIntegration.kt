@@ -28,11 +28,11 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware,
     ) {
-        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).getOrNull()
-        val input = operationShape.input.getOrNull()?.let { ctx.model.expectShape<StructureShape>(it) }
+        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).orElse(null)
+        val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
 
         val useFlexibleChecksum = (httpChecksumTrait != null) &&
-            (httpChecksumTrait.requestAlgorithmMember?.getOrNull() != null) &&
+            (httpChecksumTrait.requestAlgorithmMember?.orElse(null) != null) &&
             (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
 
         if (useFlexibleChecksum) {
@@ -51,10 +51,10 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
-        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).getOrNull()
+        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()
         val algorithmMember = ctx.model.expectShape(op.inputShape).getMember(inputMemberName)
-        val algorithmEnumShape = ctx.model.expectShape(algorithmMember.getOrNull()?.target)
+        val algorithmEnumShape = ctx.model.expectShape(algorithmMember.orElse(null)?.target)
 
         // Will pass list of checksums to Swift middleware to handle the rest
         val algorithmNames: List<String> = algorithmEnumShape.members().map { it.memberName }
