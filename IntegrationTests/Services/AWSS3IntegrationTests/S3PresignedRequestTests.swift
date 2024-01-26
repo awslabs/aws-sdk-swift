@@ -45,6 +45,7 @@ class S3PresignedRequestTests: S3XCTestCase {
         let fetchedObject = try await client.getObject(input: getObjectInput)
 
         XCTAssertNotNil(fetchedObject.metadata)
-        XCTAssert(fetchedObject.metadata!["filename"] == key)
+        let metadata = try XCTUnwrap(fetchedObject.metadata)
+        XCTAssertEqual(metadata["filename"], key)
     }
 }

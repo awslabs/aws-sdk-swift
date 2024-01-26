@@ -37,6 +37,8 @@ class STSPresignedRequestTests: XCTestCase {
         let account = String(describing: output.account)
 
         XCTAssertNotNil(userID, "User ID should not be nil.")
+        XCTAssertTrue(!userID.isEmpty)
         XCTAssertNotNil(account, "Account ID should not be nil.")
+        XCTAssertTrue(!account.isEmpty)
     }
 }

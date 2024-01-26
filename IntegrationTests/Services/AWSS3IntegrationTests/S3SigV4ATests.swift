@@ -131,7 +131,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertTrue(response.keyCount == 1)
+        XCTAssertEqual(response.keyCount, 1)
     }
 
     func testS3MRAPSigV4APresignedRequest() async throws {
@@ -161,7 +161,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertTrue(response.keyCount == 1)
+        XCTAssertEqual(response.keyCount, 1)
     }
 
     func testS3MRAPSigV4APresignedURL() async throws {
@@ -182,6 +182,6 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertTrue(response.keyCount == 1)
+        XCTAssertEqual(response.keyCount, 1)
     }
 }

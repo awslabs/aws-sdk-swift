@@ -86,7 +86,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                         // SigV4 case
                         write("case .sigV4(let param):")
                         indent()
-                        write("var sigV4Option = AuthOption(schemeID: \"${SigV4Trait.ID}\")")
+                        write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4Trait.ID)
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegion)")
                         write("validAuthOptions.append(sigV4Option)")
@@ -94,7 +94,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
-                        write("var sigV4Option = AuthOption(schemeID: \"${SigV4ATrait.ID}\")")
+                        write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4ATrait.ID)
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
                         write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])")
                         write("validAuthOptions.append(sigV4Option)")

@@ -33,18 +33,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
 
         // Used to fix signingConfig.date for testing signRequest().
         if let date = signingProperties.get(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests")) {
-            signingConfig = AWSSigningConfig(
-                credentials: signingConfig.credentials,
-                expiration: signingConfig.expiration,
-                signedBodyHeader: signingConfig.signedBodyHeader,
-                signedBodyValue: signingConfig.signedBodyValue,
-                flags: signingConfig.flags,
-                date: date,
-                service: signingConfig.service,
-                region: signingConfig.region,
-                signatureType: signingConfig.signatureType,
-                signingAlgorithm: signingConfig.signingAlgorithm
-            )
+            signingConfig = fixDateForTests(signingConfig, date)
         }
 
         let unsignedRequest = requestBuilder.build()
@@ -209,5 +198,20 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             logger.error("Failed to sign request: \(err)")
             return nil
         }
+    }
+    
+    private func fixDateForTests(_ signingConfig: AWSSigningConfig, _ fixedDate: Date) -> AWSSigningConfig {
+        return AWSSigningConfig(
+            credentials: signingConfig.credentials,
+            expiration: signingConfig.expiration,
+            signedBodyHeader: signingConfig.signedBodyHeader,
+            signedBodyValue: signingConfig.signedBodyValue,
+            flags: signingConfig.flags,
+            date: fixedDate,
+            service: signingConfig.service,
+            region: signingConfig.region,
+            signatureType: signingConfig.signatureType,
+            signingAlgorithm: signingConfig.signingAlgorithm
+        )
     }
 }

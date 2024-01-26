@@ -109,6 +109,6 @@ class EventBridgeSigV4ATests: XCTestCase {
         ))
         // Confirm that returned response has 0 failed entries
         let count = response.failedEntryCount
-        XCTAssertNotNil(count == 0)
+        XCTAssertEqual(count, 0)
     }
 }

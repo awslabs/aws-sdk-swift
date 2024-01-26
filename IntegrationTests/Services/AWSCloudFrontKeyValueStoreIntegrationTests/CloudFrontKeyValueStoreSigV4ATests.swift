@@ -80,8 +80,8 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
         ))
         // Confirm that the key was uploaded successfully using SigV4A signing flow
         let keys = try await kvsClient.listKeys(input: ListKeysInput(kvsARN: kvsArn))
-        XCTAssertNotNil(keys.items)
-        XCTAssertTrue(keys.items![0].key == key)
-        XCTAssertTrue(keys.items![0].value == value)
+        let items = try XCTUnwrap(keys.items)
+        XCTAssertEqual(items[0].key, key)
+        XCTAssertEqual(items[0].value, value)
     }
 }
