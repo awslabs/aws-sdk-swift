@@ -82,7 +82,7 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
     {
         let metadata = input.operationInput.metadata ?? [:]
         for (metadataKey, metadataValue) in metadata {
-            let queryItem = URLQueryItem(
+            let queryItem = ClientRuntime.SDKURLQueryItem(
                 name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
                 value: metadataValue.urlPercentEncoding()
             )
