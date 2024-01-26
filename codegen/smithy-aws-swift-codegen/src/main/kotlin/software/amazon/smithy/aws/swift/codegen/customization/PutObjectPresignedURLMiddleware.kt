@@ -1,6 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
@@ -25,7 +26,7 @@ class PutObjectPresignedURLMiddleware(
         writer.apply {
             write("let metadata = input.operationInput.metadata ?? [:]")
             openBlock("for (metadataKey, metadataValue) in metadata {", "}") {
-                openBlock("let queryItem = URLQueryItem(", ")") {
+                openBlock("let queryItem = \$N(", ")", ClientRuntimeTypes.Core.SDKURLQueryItem) {
                     write("name: \"x-amz-meta-\\(metadataKey.urlPercentEncoding())\",")
                     write("value: metadataValue.urlPercentEncoding()")
                 }

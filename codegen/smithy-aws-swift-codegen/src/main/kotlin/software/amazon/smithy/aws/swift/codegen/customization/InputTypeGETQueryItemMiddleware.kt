@@ -6,7 +6,7 @@ import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.TimestampShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.URLQueryItem
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.SDKURLQueryItem
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -57,7 +57,7 @@ class InputTypeGETQueryItemMiddleware(
     }
 
     private fun writeRenderItem(queryKey: String, queryValue: String) {
-        writer.write("let queryItem = \$N(name: \"${queryKey}\".urlPercentEncoding(), value: \$N($queryValue).urlPercentEncoding())", URLQueryItem, SwiftTypes.String)
+        writer.write("let queryItem = \$N(name: \"${queryKey}\".urlPercentEncoding(), value: \$N($queryValue).urlPercentEncoding())", SDKURLQueryItem, SwiftTypes.String)
         writer.write("input.builder.withQueryItem(queryItem)")
     }
 
