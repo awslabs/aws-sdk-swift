@@ -104,7 +104,12 @@ class EventBridgeSigV4ATests: XCTestCase {
 
     func testEventBridgeSigV4A() async throws {
         // Call putEvents with EventBridge client that only has SigV4a auth scheme configured
-        let event = EventBridgeClientTypes.PutEventsRequestEntry(eventBusName: eventBusName)
+        let event = EventBridgeClientTypes.PutEventsRequestEntry(
+            detail: "{}",
+            detailType: "test",
+            eventBusName: eventBusName,
+            source: "test"
+        )
         let response = try await sigv4aEventBridgeClient.putEvents(input: PutEventsInput(
             endpointId: endpointId,
             entries: [event]
