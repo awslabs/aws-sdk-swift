@@ -646,8 +646,9 @@ extension CancelFlowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension CancelFlowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelFlowExecutionsInput {
+
+    static func urlPathProvider(_ value: CancelFlowExecutionsInput) -> Swift.String? {
         return "/cancel-flow-executions"
     }
 }
@@ -3179,8 +3180,9 @@ extension CreateConnectorProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectorProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectorProfileInput {
+
+    static func urlPathProvider(_ value: CreateConnectorProfileInput) -> Swift.String? {
         return "/create-connector-profile"
     }
 }
@@ -3378,8 +3380,9 @@ extension CreateFlowInput: Swift.Encodable {
     }
 }
 
-extension CreateFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFlowInput {
+
+    static func urlPathProvider(_ value: CreateFlowInput) -> Swift.String? {
         return "/create-flow"
     }
 }
@@ -4410,8 +4413,9 @@ extension DeleteConnectorProfileInput: Swift.Encodable {
     }
 }
 
-extension DeleteConnectorProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConnectorProfileInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorProfileInput) -> Swift.String? {
         return "/delete-connector-profile"
     }
 }
@@ -4493,8 +4497,9 @@ extension DeleteFlowInput: Swift.Encodable {
     }
 }
 
-extension DeleteFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFlowInput {
+
+    static func urlPathProvider(_ value: DeleteFlowInput) -> Swift.String? {
         return "/delete-flow"
     }
 }
@@ -4584,8 +4589,9 @@ extension DescribeConnectorEntityInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectorEntityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectorEntityInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorEntityInput) -> Swift.String? {
         return "/describe-connector-entity"
     }
 }
@@ -4725,8 +4731,9 @@ extension DescribeConnectorInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectorInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorInput) -> Swift.String? {
         return "/describe-connector"
     }
 }
@@ -4853,8 +4860,9 @@ extension DescribeConnectorProfilesInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectorProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectorProfilesInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorProfilesInput) -> Swift.String? {
         return "/describe-connector-profiles"
     }
 }
@@ -5023,8 +5031,9 @@ extension DescribeConnectorsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectorsInput {
+
+    static func urlPathProvider(_ value: DescribeConnectorsInput) -> Swift.String? {
         return "/describe-connectors"
     }
 }
@@ -5193,8 +5202,9 @@ extension DescribeFlowExecutionRecordsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFlowExecutionRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFlowExecutionRecordsInput {
+
+    static func urlPathProvider(_ value: DescribeFlowExecutionRecordsInput) -> Swift.String? {
         return "/describe-flow-execution-records"
     }
 }
@@ -5329,8 +5339,9 @@ extension DescribeFlowInput: Swift.Encodable {
     }
 }
 
-extension DescribeFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFlowInput {
+
+    static func urlPathProvider(_ value: DescribeFlowInput) -> Swift.String? {
         return "/describe-flow"
     }
 }
@@ -7851,8 +7862,9 @@ extension ListConnectorEntitiesInput: Swift.Encodable {
     }
 }
 
-extension ListConnectorEntitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectorEntitiesInput {
+
+    static func urlPathProvider(_ value: ListConnectorEntitiesInput) -> Swift.String? {
         return "/list-connector-entities"
     }
 }
@@ -8024,8 +8036,9 @@ extension ListConnectorsInput: Swift.Encodable {
     }
 }
 
-extension ListConnectorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
         return "/list-connectors"
     }
 }
@@ -8154,8 +8167,9 @@ extension ListFlowsInput: Swift.Encodable {
     }
 }
 
-extension ListFlowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFlowsInput {
+
+    static func urlPathProvider(_ value: ListFlowsInput) -> Swift.String? {
         return "/list-flows"
     }
 }
@@ -8267,9 +8281,10 @@ enum ListFlowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -10518,8 +10533,9 @@ extension RegisterConnectorInput: Swift.Encodable {
     }
 }
 
-extension RegisterConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterConnectorInput {
+
+    static func urlPathProvider(_ value: RegisterConnectorInput) -> Swift.String? {
         return "/register-connector"
     }
 }
@@ -10727,8 +10743,9 @@ extension ResetConnectorMetadataCacheInput: Swift.Encodable {
     }
 }
 
-extension ResetConnectorMetadataCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResetConnectorMetadataCacheInput {
+
+    static func urlPathProvider(_ value: ResetConnectorMetadataCacheInput) -> Swift.String? {
         return "/reset-connector-metadata-cache"
     }
 }
@@ -13749,8 +13766,9 @@ extension StartFlowInput: Swift.Encodable {
     }
 }
 
-extension StartFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFlowInput {
+
+    static func urlPathProvider(_ value: StartFlowInput) -> Swift.String? {
         return "/start-flow"
     }
 }
@@ -13879,8 +13897,9 @@ extension StopFlowInput: Swift.Encodable {
     }
 }
 
-extension StopFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopFlowInput {
+
+    static func urlPathProvider(_ value: StopFlowInput) -> Swift.String? {
         return "/stop-flow"
     }
 }
@@ -14107,9 +14126,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -14712,8 +14732,9 @@ extension UnregisterConnectorInput: Swift.Encodable {
     }
 }
 
-extension UnregisterConnectorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnregisterConnectorInput {
+
+    static func urlPathProvider(_ value: UnregisterConnectorInput) -> Swift.String? {
         return "/unregister-connector"
     }
 }
@@ -14833,26 +14854,26 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -14934,8 +14955,9 @@ extension UpdateConnectorProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectorProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConnectorProfileInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorProfileInput) -> Swift.String? {
         return "/update-connector-profile"
     }
 }
@@ -15075,8 +15097,9 @@ extension UpdateConnectorRegistrationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectorRegistrationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConnectorRegistrationInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorRegistrationInput) -> Swift.String? {
         return "/update-connector-registration"
     }
 }
@@ -15240,8 +15263,9 @@ extension UpdateFlowInput: Swift.Encodable {
     }
 }
 
-extension UpdateFlowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFlowInput {
+
+    static func urlPathProvider(_ value: UpdateFlowInput) -> Swift.String? {
         return "/update-flow"
     }
 }

@@ -21,9 +21,10 @@ extension IoT1ClickDevicesClientTypes {
 
 }
 
-extension ClaimDevicesByClaimCodeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let claimCode = claimCode else {
+extension ClaimDevicesByClaimCodeInput {
+
+    static func urlPathProvider(_ value: ClaimDevicesByClaimCodeInput) -> Swift.String? {
+        guard let claimCode = value.claimCode else {
             return nil
         }
         return "/claims/\(claimCode.urlPercentEncoding())"
@@ -115,9 +116,10 @@ enum ClaimDevicesByClaimCodeOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension DescribeDeviceInput {
+
+    static func urlPathProvider(_ value: DescribeDeviceInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())"
@@ -475,9 +477,10 @@ extension FinalizeDeviceClaimInput: Swift.Encodable {
     }
 }
 
-extension FinalizeDeviceClaimInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension FinalizeDeviceClaimInput {
+
+    static func urlPathProvider(_ value: FinalizeDeviceClaimInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/finalize-claim"
@@ -646,9 +649,10 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetDeviceMethodsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension GetDeviceMethodsInput {
+
+    static func urlPathProvider(_ value: GetDeviceMethodsInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/methods"
@@ -739,9 +743,10 @@ enum GetDeviceMethodsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension InitiateDeviceClaimInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension InitiateDeviceClaimInput {
+
+    static func urlPathProvider(_ value: InitiateDeviceClaimInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/initiate-claim"
@@ -971,9 +976,10 @@ extension InvokeDeviceMethodInput: Swift.Encodable {
     }
 }
 
-extension InvokeDeviceMethodInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension InvokeDeviceMethodInput {
+
+    static func urlPathProvider(_ value: InvokeDeviceMethodInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/methods"
@@ -1077,38 +1083,38 @@ enum InvokeDeviceMethodOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDeviceEventsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let toTimeStamp = toTimeStamp else {
-                let message = "Creating a URL Query Item failed. toTimeStamp is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let toTimeStampQueryItem = ClientRuntime.URLQueryItem(name: "toTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toTimeStamp)).urlPercentEncoding())
-            items.append(toTimeStampQueryItem)
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let fromTimeStamp = fromTimeStamp else {
-                let message = "Creating a URL Query Item failed. fromTimeStamp is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let fromTimeStampQueryItem = ClientRuntime.URLQueryItem(name: "fromTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromTimeStamp)).urlPercentEncoding())
-            items.append(fromTimeStampQueryItem)
-            return items
+extension ListDeviceEventsInput {
+
+    static func queryItemProvider(_ value: ListDeviceEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let toTimeStamp = value.toTimeStamp else {
+            let message = "Creating a URL Query Item failed. toTimeStamp is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let toTimeStampQueryItem = ClientRuntime.SDKURLQueryItem(name: "toTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: toTimeStamp)).urlPercentEncoding())
+        items.append(toTimeStampQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let fromTimeStamp = value.fromTimeStamp else {
+            let message = "Creating a URL Query Item failed. fromTimeStamp is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let fromTimeStampQueryItem = ClientRuntime.SDKURLQueryItem(name: "fromTimeStamp".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: fromTimeStamp)).urlPercentEncoding())
+        items.append(fromTimeStampQueryItem)
+        return items
     }
 }
 
-extension ListDeviceEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension ListDeviceEventsInput {
+
+    static func urlPathProvider(_ value: ListDeviceEventsInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/events"
@@ -1228,29 +1234,29 @@ enum ListDeviceEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDevicesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let deviceType = deviceType {
-                let deviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "deviceType".urlPercentEncoding(), value: Swift.String(deviceType).urlPercentEncoding())
-                items.append(deviceTypeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDevicesInput {
+
+    static func queryItemProvider(_ value: ListDevicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let deviceType = value.deviceType {
+            let deviceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "deviceType".urlPercentEncoding(), value: Swift.String(deviceType).urlPercentEncoding())
+            items.append(deviceTypeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDevicesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDevicesInput {
+
+    static func urlPathProvider(_ value: ListDevicesInput) -> Swift.String? {
         return "/devices"
     }
 }
@@ -1356,9 +1362,10 @@ enum ListDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1724,9 +1731,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1799,9 +1807,10 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UnclaimDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension UnclaimDeviceInput {
+
+    static func urlPathProvider(_ value: UnclaimDeviceInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/unclaim"
@@ -1883,26 +1892,26 @@ enum UnclaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1972,9 +1981,10 @@ extension UpdateDeviceStateInput: Swift.Encodable {
     }
 }
 
-extension UpdateDeviceStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceId = deviceId else {
+extension UpdateDeviceStateInput {
+
+    static func urlPathProvider(_ value: UpdateDeviceStateInput) -> Swift.String? {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/devices/\(deviceId.urlPercentEncoding())/state"

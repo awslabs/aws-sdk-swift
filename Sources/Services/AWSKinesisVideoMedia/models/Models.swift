@@ -133,8 +133,9 @@ extension GetMediaInput: Swift.Encodable {
     }
 }
 
-extension GetMediaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMediaInput {
+
+    static func urlPathProvider(_ value: GetMediaInput) -> Swift.String? {
         return "/getMedia"
     }
 }

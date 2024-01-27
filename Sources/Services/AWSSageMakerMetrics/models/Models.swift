@@ -75,8 +75,9 @@ extension BatchPutMetricsInput: Swift.Encodable {
     }
 }
 
-extension BatchPutMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchPutMetricsInput {
+
+    static func urlPathProvider(_ value: BatchPutMetricsInput) -> Swift.String? {
         return "/BatchPutMetrics"
     }
 }

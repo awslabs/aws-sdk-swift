@@ -69,8 +69,9 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
 
 }
 
-extension GetServiceSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceSettingsInput {
+
+    static func urlPathProvider(_ value: GetServiceSettingsInput) -> Swift.String? {
         return "/subscription/GetServiceSettings"
     }
 }
@@ -509,8 +510,9 @@ extension ListLinuxSubscriptionInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListLinuxSubscriptionInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLinuxSubscriptionInstancesInput {
+
+    static func urlPathProvider(_ value: ListLinuxSubscriptionInstancesInput) -> Swift.String? {
         return "/subscription/ListLinuxSubscriptionInstances"
     }
 }
@@ -690,8 +692,9 @@ extension ListLinuxSubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension ListLinuxSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLinuxSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListLinuxSubscriptionsInput) -> Swift.String? {
         return "/subscription/ListLinuxSubscriptions"
     }
 }
@@ -1078,8 +1081,9 @@ extension UpdateServiceSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateServiceSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateServiceSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateServiceSettingsInput) -> Swift.String? {
         return "/subscription/UpdateServiceSettings"
     }
 }

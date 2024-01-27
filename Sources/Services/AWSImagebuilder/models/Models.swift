@@ -393,8 +393,9 @@ extension CancelImageCreationInput: Swift.Encodable {
     }
 }
 
-extension CancelImageCreationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelImageCreationInput {
+
+    static func urlPathProvider(_ value: CancelImageCreationInput) -> Swift.String? {
         return "/CancelImageCreation"
     }
 }
@@ -532,8 +533,9 @@ extension CancelLifecycleExecutionInput: Swift.Encodable {
     }
 }
 
-extension CancelLifecycleExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelLifecycleExecutionInput {
+
+    static func urlPathProvider(_ value: CancelLifecycleExecutionInput) -> Swift.String? {
         return "/CancelLifecycleExecution"
     }
 }
@@ -2167,8 +2169,9 @@ extension CreateComponentInput: Swift.Encodable {
     }
 }
 
-extension CreateComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateComponentInput {
+
+    static func urlPathProvider(_ value: CreateComponentInput) -> Swift.String? {
         return "/CreateComponent"
     }
 }
@@ -2463,8 +2466,9 @@ extension CreateContainerRecipeInput: Swift.Encodable {
     }
 }
 
-extension CreateContainerRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateContainerRecipeInput {
+
+    static func urlPathProvider(_ value: CreateContainerRecipeInput) -> Swift.String? {
         return "/CreateContainerRecipe"
     }
 }
@@ -2758,8 +2762,9 @@ extension CreateDistributionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateDistributionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDistributionConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateDistributionConfigurationInput) -> Swift.String? {
         return "/CreateDistributionConfiguration"
     }
 }
@@ -2985,8 +2990,9 @@ extension CreateImageInput: Swift.Encodable {
     }
 }
 
-extension CreateImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateImageInput {
+
+    static func urlPathProvider(_ value: CreateImageInput) -> Swift.String? {
         return "/CreateImage"
     }
 }
@@ -3273,8 +3279,9 @@ extension CreateImagePipelineInput: Swift.Encodable {
     }
 }
 
-extension CreateImagePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateImagePipelineInput {
+
+    static func urlPathProvider(_ value: CreateImagePipelineInput) -> Swift.String? {
         return "/CreateImagePipeline"
     }
 }
@@ -3578,8 +3585,9 @@ extension CreateImageRecipeInput: Swift.Encodable {
     }
 }
 
-extension CreateImageRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateImageRecipeInput {
+
+    static func urlPathProvider(_ value: CreateImageRecipeInput) -> Swift.String? {
         return "/CreateImageRecipe"
     }
 }
@@ -3874,8 +3882,9 @@ extension CreateInfrastructureConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateInfrastructureConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateInfrastructureConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateInfrastructureConfigurationInput) -> Swift.String? {
         return "/CreateInfrastructureConfiguration"
     }
 }
@@ -4182,8 +4191,9 @@ extension CreateLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: CreateLifecyclePolicyInput) -> Swift.String? {
         return "/CreateLifecyclePolicy"
     }
 }
@@ -4426,8 +4436,9 @@ extension CreateWorkflowInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkflowInput {
+
+    static func urlPathProvider(_ value: CreateWorkflowInput) -> Swift.String? {
         return "/CreateWorkflow"
     }
 }
@@ -4823,23 +4834,23 @@ extension ImagebuilderClientTypes {
 
 }
 
-extension DeleteComponentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let componentBuildVersionArn = componentBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let componentBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
-            items.append(componentBuildVersionArnQueryItem)
-            return items
+extension DeleteComponentInput {
+
+    static func queryItemProvider(_ value: DeleteComponentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let componentBuildVersionArn = value.componentBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let componentBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
+        items.append(componentBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension DeleteComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteComponentInput {
+
+    static func urlPathProvider(_ value: DeleteComponentInput) -> Swift.String? {
         return "/DeleteComponent"
     }
 }
@@ -4933,23 +4944,23 @@ enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteContainerRecipeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let containerRecipeArn = containerRecipeArn else {
-                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
-            items.append(containerRecipeArnQueryItem)
-            return items
+extension DeleteContainerRecipeInput {
+
+    static func queryItemProvider(_ value: DeleteContainerRecipeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let containerRecipeArn = value.containerRecipeArn else {
+            let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let containerRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
+        items.append(containerRecipeArnQueryItem)
+        return items
     }
 }
 
-extension DeleteContainerRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteContainerRecipeInput {
+
+    static func urlPathProvider(_ value: DeleteContainerRecipeInput) -> Swift.String? {
         return "/DeleteContainerRecipe"
     }
 }
@@ -5043,23 +5054,23 @@ enum DeleteContainerRecipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDistributionConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let distributionConfigurationArn = distributionConfigurationArn else {
-                let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let distributionConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
-            items.append(distributionConfigurationArnQueryItem)
-            return items
+extension DeleteDistributionConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteDistributionConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let distributionConfigurationArn = value.distributionConfigurationArn else {
+            let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let distributionConfigurationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
+        items.append(distributionConfigurationArnQueryItem)
+        return items
     }
 }
 
-extension DeleteDistributionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDistributionConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteDistributionConfigurationInput) -> Swift.String? {
         return "/DeleteDistributionConfiguration"
     }
 }
@@ -5153,23 +5164,23 @@ enum DeleteDistributionConfigurationOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension DeleteImageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageBuildVersionArn = imageBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
-            items.append(imageBuildVersionArnQueryItem)
-            return items
+extension DeleteImageInput {
+
+    static func queryItemProvider(_ value: DeleteImageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageBuildVersionArn = value.imageBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
+        items.append(imageBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension DeleteImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteImageInput {
+
+    static func urlPathProvider(_ value: DeleteImageInput) -> Swift.String? {
         return "/DeleteImage"
     }
 }
@@ -5263,23 +5274,23 @@ enum DeleteImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteImagePipelineInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imagePipelineArn = imagePipelineArn else {
-                let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imagePipelineArnQueryItem = ClientRuntime.URLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
-            items.append(imagePipelineArnQueryItem)
-            return items
+extension DeleteImagePipelineInput {
+
+    static func queryItemProvider(_ value: DeleteImagePipelineInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imagePipelineArn = value.imagePipelineArn else {
+            let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imagePipelineArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
+        items.append(imagePipelineArnQueryItem)
+        return items
     }
 }
 
-extension DeleteImagePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteImagePipelineInput {
+
+    static func urlPathProvider(_ value: DeleteImagePipelineInput) -> Swift.String? {
         return "/DeleteImagePipeline"
     }
 }
@@ -5373,23 +5384,23 @@ enum DeleteImagePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteImageRecipeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageRecipeArn = imageRecipeArn else {
-                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
-            items.append(imageRecipeArnQueryItem)
-            return items
+extension DeleteImageRecipeInput {
+
+    static func queryItemProvider(_ value: DeleteImageRecipeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageRecipeArn = value.imageRecipeArn else {
+            let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
+        items.append(imageRecipeArnQueryItem)
+        return items
     }
 }
 
-extension DeleteImageRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteImageRecipeInput {
+
+    static func urlPathProvider(_ value: DeleteImageRecipeInput) -> Swift.String? {
         return "/DeleteImageRecipe"
     }
 }
@@ -5483,23 +5494,23 @@ enum DeleteImageRecipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteInfrastructureConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let infrastructureConfigurationArn = infrastructureConfigurationArn else {
-                let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let infrastructureConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
-            items.append(infrastructureConfigurationArnQueryItem)
-            return items
+extension DeleteInfrastructureConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteInfrastructureConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let infrastructureConfigurationArn = value.infrastructureConfigurationArn else {
+            let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let infrastructureConfigurationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
+        items.append(infrastructureConfigurationArnQueryItem)
+        return items
     }
 }
 
-extension DeleteInfrastructureConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteInfrastructureConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteInfrastructureConfigurationInput) -> Swift.String? {
         return "/DeleteInfrastructureConfiguration"
     }
 }
@@ -5593,23 +5604,23 @@ enum DeleteInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DeleteLifecyclePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let lifecyclePolicyArn = lifecyclePolicyArn else {
-                let message = "Creating a URL Query Item failed. lifecyclePolicyArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let lifecyclePolicyArnQueryItem = ClientRuntime.URLQueryItem(name: "lifecyclePolicyArn".urlPercentEncoding(), value: Swift.String(lifecyclePolicyArn).urlPercentEncoding())
-            items.append(lifecyclePolicyArnQueryItem)
-            return items
+extension DeleteLifecyclePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteLifecyclePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let lifecyclePolicyArn = value.lifecyclePolicyArn else {
+            let message = "Creating a URL Query Item failed. lifecyclePolicyArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let lifecyclePolicyArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "lifecyclePolicyArn".urlPercentEncoding(), value: Swift.String(lifecyclePolicyArn).urlPercentEncoding())
+        items.append(lifecyclePolicyArnQueryItem)
+        return items
     }
 }
 
-extension DeleteLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
         return "/DeleteLifecyclePolicy"
     }
 }
@@ -5693,23 +5704,23 @@ enum DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteWorkflowInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowBuildVersionArn = workflowBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
-            items.append(workflowBuildVersionArnQueryItem)
-            return items
+extension DeleteWorkflowInput {
+
+    static func queryItemProvider(_ value: DeleteWorkflowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowBuildVersionArn = value.workflowBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
+        items.append(workflowBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension DeleteWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkflowInput {
+
+    static func urlPathProvider(_ value: DeleteWorkflowInput) -> Swift.String? {
         return "/DeleteWorkflow"
     }
 }
@@ -6696,23 +6707,23 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetComponentInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let componentBuildVersionArn = componentBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let componentBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
-            items.append(componentBuildVersionArnQueryItem)
-            return items
+extension GetComponentInput {
+
+    static func queryItemProvider(_ value: GetComponentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let componentBuildVersionArn = value.componentBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. componentBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let componentBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "componentBuildVersionArn".urlPercentEncoding(), value: Swift.String(componentBuildVersionArn).urlPercentEncoding())
+        items.append(componentBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension GetComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComponentInput {
+
+    static func urlPathProvider(_ value: GetComponentInput) -> Swift.String? {
         return "/GetComponent"
     }
 }
@@ -6805,23 +6816,23 @@ enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetComponentPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let componentArn = componentArn else {
-                let message = "Creating a URL Query Item failed. componentArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let componentArnQueryItem = ClientRuntime.URLQueryItem(name: "componentArn".urlPercentEncoding(), value: Swift.String(componentArn).urlPercentEncoding())
-            items.append(componentArnQueryItem)
-            return items
+extension GetComponentPolicyInput {
+
+    static func queryItemProvider(_ value: GetComponentPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let componentArn = value.componentArn else {
+            let message = "Creating a URL Query Item failed. componentArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let componentArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "componentArn".urlPercentEncoding(), value: Swift.String(componentArn).urlPercentEncoding())
+        items.append(componentArnQueryItem)
+        return items
     }
 }
 
-extension GetComponentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetComponentPolicyInput {
+
+    static func urlPathProvider(_ value: GetComponentPolicyInput) -> Swift.String? {
         return "/GetComponentPolicy"
     }
 }
@@ -6914,23 +6925,23 @@ enum GetComponentPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetContainerRecipeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let containerRecipeArn = containerRecipeArn else {
-                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
-            items.append(containerRecipeArnQueryItem)
-            return items
+extension GetContainerRecipeInput {
+
+    static func queryItemProvider(_ value: GetContainerRecipeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let containerRecipeArn = value.containerRecipeArn else {
+            let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let containerRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
+        items.append(containerRecipeArnQueryItem)
+        return items
     }
 }
 
-extension GetContainerRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContainerRecipeInput {
+
+    static func urlPathProvider(_ value: GetContainerRecipeInput) -> Swift.String? {
         return "/GetContainerRecipe"
     }
 }
@@ -7023,23 +7034,23 @@ enum GetContainerRecipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetContainerRecipePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let containerRecipeArn = containerRecipeArn else {
-                let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let containerRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
-            items.append(containerRecipeArnQueryItem)
-            return items
+extension GetContainerRecipePolicyInput {
+
+    static func queryItemProvider(_ value: GetContainerRecipePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let containerRecipeArn = value.containerRecipeArn else {
+            let message = "Creating a URL Query Item failed. containerRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let containerRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerRecipeArn".urlPercentEncoding(), value: Swift.String(containerRecipeArn).urlPercentEncoding())
+        items.append(containerRecipeArnQueryItem)
+        return items
     }
 }
 
-extension GetContainerRecipePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetContainerRecipePolicyInput {
+
+    static func urlPathProvider(_ value: GetContainerRecipePolicyInput) -> Swift.String? {
         return "/GetContainerRecipePolicy"
     }
 }
@@ -7132,23 +7143,23 @@ enum GetContainerRecipePolicyOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetDistributionConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let distributionConfigurationArn = distributionConfigurationArn else {
-                let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let distributionConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
-            items.append(distributionConfigurationArnQueryItem)
-            return items
+extension GetDistributionConfigurationInput {
+
+    static func queryItemProvider(_ value: GetDistributionConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let distributionConfigurationArn = value.distributionConfigurationArn else {
+            let message = "Creating a URL Query Item failed. distributionConfigurationArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let distributionConfigurationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "distributionConfigurationArn".urlPercentEncoding(), value: Swift.String(distributionConfigurationArn).urlPercentEncoding())
+        items.append(distributionConfigurationArnQueryItem)
+        return items
     }
 }
 
-extension GetDistributionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDistributionConfigurationInput {
+
+    static func urlPathProvider(_ value: GetDistributionConfigurationInput) -> Swift.String? {
         return "/GetDistributionConfiguration"
     }
 }
@@ -7241,23 +7252,23 @@ enum GetDistributionConfigurationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetImageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageBuildVersionArn = imageBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
-            items.append(imageBuildVersionArnQueryItem)
-            return items
+extension GetImageInput {
+
+    static func queryItemProvider(_ value: GetImageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageBuildVersionArn = value.imageBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. imageBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageBuildVersionArn".urlPercentEncoding(), value: Swift.String(imageBuildVersionArn).urlPercentEncoding())
+        items.append(imageBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension GetImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImageInput {
+
+    static func urlPathProvider(_ value: GetImageInput) -> Swift.String? {
         return "/GetImage"
     }
 }
@@ -7350,23 +7361,23 @@ enum GetImageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImagePipelineInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imagePipelineArn = imagePipelineArn else {
-                let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imagePipelineArnQueryItem = ClientRuntime.URLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
-            items.append(imagePipelineArnQueryItem)
-            return items
+extension GetImagePipelineInput {
+
+    static func queryItemProvider(_ value: GetImagePipelineInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imagePipelineArn = value.imagePipelineArn else {
+            let message = "Creating a URL Query Item failed. imagePipelineArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imagePipelineArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imagePipelineArn".urlPercentEncoding(), value: Swift.String(imagePipelineArn).urlPercentEncoding())
+        items.append(imagePipelineArnQueryItem)
+        return items
     }
 }
 
-extension GetImagePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImagePipelineInput {
+
+    static func urlPathProvider(_ value: GetImagePipelineInput) -> Swift.String? {
         return "/GetImagePipeline"
     }
 }
@@ -7459,23 +7470,23 @@ enum GetImagePipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImagePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageArn = imageArn else {
-                let message = "Creating a URL Query Item failed. imageArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageArnQueryItem = ClientRuntime.URLQueryItem(name: "imageArn".urlPercentEncoding(), value: Swift.String(imageArn).urlPercentEncoding())
-            items.append(imageArnQueryItem)
-            return items
+extension GetImagePolicyInput {
+
+    static func queryItemProvider(_ value: GetImagePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageArn = value.imageArn else {
+            let message = "Creating a URL Query Item failed. imageArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageArn".urlPercentEncoding(), value: Swift.String(imageArn).urlPercentEncoding())
+        items.append(imageArnQueryItem)
+        return items
     }
 }
 
-extension GetImagePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImagePolicyInput {
+
+    static func urlPathProvider(_ value: GetImagePolicyInput) -> Swift.String? {
         return "/GetImagePolicy"
     }
 }
@@ -7568,23 +7579,23 @@ enum GetImagePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImageRecipeInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageRecipeArn = imageRecipeArn else {
-                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
-            items.append(imageRecipeArnQueryItem)
-            return items
+extension GetImageRecipeInput {
+
+    static func queryItemProvider(_ value: GetImageRecipeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageRecipeArn = value.imageRecipeArn else {
+            let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
+        items.append(imageRecipeArnQueryItem)
+        return items
     }
 }
 
-extension GetImageRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImageRecipeInput {
+
+    static func urlPathProvider(_ value: GetImageRecipeInput) -> Swift.String? {
         return "/GetImageRecipe"
     }
 }
@@ -7677,23 +7688,23 @@ enum GetImageRecipeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetImageRecipePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let imageRecipeArn = imageRecipeArn else {
-                let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let imageRecipeArnQueryItem = ClientRuntime.URLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
-            items.append(imageRecipeArnQueryItem)
-            return items
+extension GetImageRecipePolicyInput {
+
+    static func queryItemProvider(_ value: GetImageRecipePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let imageRecipeArn = value.imageRecipeArn else {
+            let message = "Creating a URL Query Item failed. imageRecipeArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let imageRecipeArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "imageRecipeArn".urlPercentEncoding(), value: Swift.String(imageRecipeArn).urlPercentEncoding())
+        items.append(imageRecipeArnQueryItem)
+        return items
     }
 }
 
-extension GetImageRecipePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetImageRecipePolicyInput {
+
+    static func urlPathProvider(_ value: GetImageRecipePolicyInput) -> Swift.String? {
         return "/GetImageRecipePolicy"
     }
 }
@@ -7786,23 +7797,23 @@ enum GetImageRecipePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetInfrastructureConfigurationInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let infrastructureConfigurationArn = infrastructureConfigurationArn else {
-                let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let infrastructureConfigurationArnQueryItem = ClientRuntime.URLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
-            items.append(infrastructureConfigurationArnQueryItem)
-            return items
+extension GetInfrastructureConfigurationInput {
+
+    static func queryItemProvider(_ value: GetInfrastructureConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let infrastructureConfigurationArn = value.infrastructureConfigurationArn else {
+            let message = "Creating a URL Query Item failed. infrastructureConfigurationArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let infrastructureConfigurationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "infrastructureConfigurationArn".urlPercentEncoding(), value: Swift.String(infrastructureConfigurationArn).urlPercentEncoding())
+        items.append(infrastructureConfigurationArnQueryItem)
+        return items
     }
 }
 
-extension GetInfrastructureConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInfrastructureConfigurationInput {
+
+    static func urlPathProvider(_ value: GetInfrastructureConfigurationInput) -> Swift.String? {
         return "/GetInfrastructureConfiguration"
     }
 }
@@ -7897,23 +7908,23 @@ enum GetInfrastructureConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetLifecycleExecutionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let lifecycleExecutionId = lifecycleExecutionId else {
-                let message = "Creating a URL Query Item failed. lifecycleExecutionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let lifecycleExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "lifecycleExecutionId".urlPercentEncoding(), value: Swift.String(lifecycleExecutionId).urlPercentEncoding())
-            items.append(lifecycleExecutionIdQueryItem)
-            return items
+extension GetLifecycleExecutionInput {
+
+    static func queryItemProvider(_ value: GetLifecycleExecutionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let lifecycleExecutionId = value.lifecycleExecutionId else {
+            let message = "Creating a URL Query Item failed. lifecycleExecutionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let lifecycleExecutionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "lifecycleExecutionId".urlPercentEncoding(), value: Swift.String(lifecycleExecutionId).urlPercentEncoding())
+        items.append(lifecycleExecutionIdQueryItem)
+        return items
     }
 }
 
-extension GetLifecycleExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLifecycleExecutionInput {
+
+    static func urlPathProvider(_ value: GetLifecycleExecutionInput) -> Swift.String? {
         return "/GetLifecycleExecution"
     }
 }
@@ -7996,23 +8007,23 @@ enum GetLifecycleExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLifecyclePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let lifecyclePolicyArn = lifecyclePolicyArn else {
-                let message = "Creating a URL Query Item failed. lifecyclePolicyArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let lifecyclePolicyArnQueryItem = ClientRuntime.URLQueryItem(name: "lifecyclePolicyArn".urlPercentEncoding(), value: Swift.String(lifecyclePolicyArn).urlPercentEncoding())
-            items.append(lifecyclePolicyArnQueryItem)
-            return items
+extension GetLifecyclePolicyInput {
+
+    static func queryItemProvider(_ value: GetLifecyclePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let lifecyclePolicyArn = value.lifecyclePolicyArn else {
+            let message = "Creating a URL Query Item failed. lifecyclePolicyArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let lifecyclePolicyArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "lifecyclePolicyArn".urlPercentEncoding(), value: Swift.String(lifecyclePolicyArn).urlPercentEncoding())
+        items.append(lifecyclePolicyArnQueryItem)
+        return items
     }
 }
 
-extension GetLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: GetLifecyclePolicyInput) -> Swift.String? {
         return "/GetLifecyclePolicy"
     }
 }
@@ -8095,23 +8106,23 @@ enum GetLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowExecutionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowExecutionId = workflowExecutionId else {
-                let message = "Creating a URL Query Item failed. workflowExecutionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowExecutionId".urlPercentEncoding(), value: Swift.String(workflowExecutionId).urlPercentEncoding())
-            items.append(workflowExecutionIdQueryItem)
-            return items
+extension GetWorkflowExecutionInput {
+
+    static func queryItemProvider(_ value: GetWorkflowExecutionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowExecutionId = value.workflowExecutionId else {
+            let message = "Creating a URL Query Item failed. workflowExecutionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowExecutionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowExecutionId".urlPercentEncoding(), value: Swift.String(workflowExecutionId).urlPercentEncoding())
+        items.append(workflowExecutionIdQueryItem)
+        return items
     }
 }
 
-extension GetWorkflowExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkflowExecutionInput {
+
+    static func urlPathProvider(_ value: GetWorkflowExecutionInput) -> Swift.String? {
         return "/GetWorkflowExecution"
     }
 }
@@ -8324,23 +8335,23 @@ enum GetWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowBuildVersionArn = workflowBuildVersionArn else {
-                let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
-            items.append(workflowBuildVersionArnQueryItem)
-            return items
+extension GetWorkflowInput {
+
+    static func queryItemProvider(_ value: GetWorkflowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowBuildVersionArn = value.workflowBuildVersionArn else {
+            let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowBuildVersionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
+        items.append(workflowBuildVersionArnQueryItem)
+        return items
     }
 }
 
-extension GetWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkflowInput {
+
+    static func urlPathProvider(_ value: GetWorkflowInput) -> Swift.String? {
         return "/GetWorkflow"
     }
 }
@@ -8423,23 +8434,23 @@ enum GetWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowStepExecutionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let stepExecutionId = stepExecutionId else {
-                let message = "Creating a URL Query Item failed. stepExecutionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let stepExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "stepExecutionId".urlPercentEncoding(), value: Swift.String(stepExecutionId).urlPercentEncoding())
-            items.append(stepExecutionIdQueryItem)
-            return items
+extension GetWorkflowStepExecutionInput {
+
+    static func queryItemProvider(_ value: GetWorkflowStepExecutionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let stepExecutionId = value.stepExecutionId else {
+            let message = "Creating a URL Query Item failed. stepExecutionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let stepExecutionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "stepExecutionId".urlPercentEncoding(), value: Swift.String(stepExecutionId).urlPercentEncoding())
+        items.append(stepExecutionIdQueryItem)
+        return items
     }
 }
 
-extension GetWorkflowStepExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetWorkflowStepExecutionInput {
+
+    static func urlPathProvider(_ value: GetWorkflowStepExecutionInput) -> Swift.String? {
         return "/GetWorkflowStepExecution"
     }
 }
@@ -10786,8 +10797,9 @@ extension ImportComponentInput: Swift.Encodable {
     }
 }
 
-extension ImportComponentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportComponentInput {
+
+    static func urlPathProvider(_ value: ImportComponentInput) -> Swift.String? {
         return "/ImportComponent"
     }
 }
@@ -11047,8 +11059,9 @@ extension ImportVmImageInput: Swift.Encodable {
     }
 }
 
-extension ImportVmImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportVmImageInput {
+
+    static func urlPathProvider(_ value: ImportVmImageInput) -> Swift.String? {
         return "/ImportVmImage"
     }
 }
@@ -13910,8 +13923,9 @@ extension ListComponentBuildVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentBuildVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentBuildVersionsInput {
+
+    static func urlPathProvider(_ value: ListComponentBuildVersionsInput) -> Swift.String? {
         return "/ListComponentBuildVersions"
     }
 }
@@ -14079,8 +14093,9 @@ extension ListComponentsInput: Swift.Encodable {
     }
 }
 
-extension ListComponentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListComponentsInput {
+
+    static func urlPathProvider(_ value: ListComponentsInput) -> Swift.String? {
         return "/ListComponents"
     }
 }
@@ -14280,8 +14295,9 @@ extension ListContainerRecipesInput: Swift.Encodable {
     }
 }
 
-extension ListContainerRecipesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListContainerRecipesInput {
+
+    static func urlPathProvider(_ value: ListContainerRecipesInput) -> Swift.String? {
         return "/ListContainerRecipes"
     }
 }
@@ -14465,8 +14481,9 @@ extension ListDistributionConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListDistributionConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDistributionConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListDistributionConfigurationsInput) -> Swift.String? {
         return "/ListDistributionConfigurations"
     }
 }
@@ -14638,8 +14655,9 @@ extension ListImageBuildVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListImageBuildVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImageBuildVersionsInput {
+
+    static func urlPathProvider(_ value: ListImageBuildVersionsInput) -> Swift.String? {
         return "/ListImageBuildVersions"
     }
 }
@@ -14823,8 +14841,9 @@ extension ListImagePackagesInput: Swift.Encodable {
     }
 }
 
-extension ListImagePackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImagePackagesInput {
+
+    static func urlPathProvider(_ value: ListImagePackagesInput) -> Swift.String? {
         return "/ListImagePackages"
     }
 }
@@ -14989,8 +15008,9 @@ extension ListImagePipelineImagesInput: Swift.Encodable {
     }
 }
 
-extension ListImagePipelineImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImagePipelineImagesInput {
+
+    static func urlPathProvider(_ value: ListImagePipelineImagesInput) -> Swift.String? {
         return "/ListImagePipelineImages"
     }
 }
@@ -15172,8 +15192,9 @@ extension ListImagePipelinesInput: Swift.Encodable {
     }
 }
 
-extension ListImagePipelinesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImagePipelinesInput {
+
+    static func urlPathProvider(_ value: ListImagePipelinesInput) -> Swift.String? {
         return "/ListImagePipelines"
     }
 }
@@ -15357,8 +15378,9 @@ extension ListImageRecipesInput: Swift.Encodable {
     }
 }
 
-extension ListImageRecipesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImageRecipesInput {
+
+    static func urlPathProvider(_ value: ListImageRecipesInput) -> Swift.String? {
         return "/ListImageRecipes"
     }
 }
@@ -15533,8 +15555,9 @@ extension ListImageScanFindingAggregationsInput: Swift.Encodable {
     }
 }
 
-extension ListImageScanFindingAggregationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImageScanFindingAggregationsInput {
+
+    static func urlPathProvider(_ value: ListImageScanFindingAggregationsInput) -> Swift.String? {
         return "/ListImageScanFindingAggregations"
     }
 }
@@ -15706,8 +15729,9 @@ extension ListImageScanFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListImageScanFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImageScanFindingsInput {
+
+    static func urlPathProvider(_ value: ListImageScanFindingsInput) -> Swift.String? {
         return "/ListImageScanFindings"
     }
 }
@@ -15898,8 +15922,9 @@ extension ListImagesInput: Swift.Encodable {
     }
 }
 
-extension ListImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListImagesInput {
+
+    static func urlPathProvider(_ value: ListImagesInput) -> Swift.String? {
         return "/ListImages"
     }
 }
@@ -16101,8 +16126,9 @@ extension ListInfrastructureConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListInfrastructureConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInfrastructureConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListInfrastructureConfigurationsInput) -> Swift.String? {
         return "/ListInfrastructureConfigurations"
     }
 }
@@ -16271,8 +16297,9 @@ extension ListLifecycleExecutionResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListLifecycleExecutionResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLifecycleExecutionResourcesInput {
+
+    static func urlPathProvider(_ value: ListLifecycleExecutionResourcesInput) -> Swift.String? {
         return "/ListLifecycleExecutionResources"
     }
 }
@@ -16447,8 +16474,9 @@ extension ListLifecycleExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListLifecycleExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLifecycleExecutionsInput {
+
+    static func urlPathProvider(_ value: ListLifecycleExecutionsInput) -> Swift.String? {
         return "/ListLifecycleExecutions"
     }
 }
@@ -16598,8 +16626,9 @@ extension ListLifecyclePoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListLifecyclePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLifecyclePoliciesInput {
+
+    static func urlPathProvider(_ value: ListLifecyclePoliciesInput) -> Swift.String? {
         return "/ListLifecyclePolicies"
     }
 }
@@ -16733,9 +16762,10 @@ enum ListLifecyclePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -16843,8 +16873,9 @@ extension ListWaitingWorkflowStepsInput: Swift.Encodable {
     }
 }
 
-extension ListWaitingWorkflowStepsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWaitingWorkflowStepsInput {
+
+    static func urlPathProvider(_ value: ListWaitingWorkflowStepsInput) -> Swift.String? {
         return "/ListWaitingWorkflowSteps"
     }
 }
@@ -16982,8 +17013,9 @@ extension ListWorkflowBuildVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowBuildVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowBuildVersionsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowBuildVersionsInput) -> Swift.String? {
         return "/ListWorkflowBuildVersions"
     }
 }
@@ -17130,8 +17162,9 @@ extension ListWorkflowExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowExecutionsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowExecutionsInput) -> Swift.String? {
         return "/ListWorkflowExecutions"
     }
 }
@@ -17308,8 +17341,9 @@ extension ListWorkflowStepExecutionsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowStepExecutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowStepExecutionsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowStepExecutionsInput) -> Swift.String? {
         return "/ListWorkflowStepExecutions"
     }
 }
@@ -17517,8 +17551,9 @@ extension ListWorkflowsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkflowsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
         return "/ListWorkflows"
     }
 }
@@ -18129,8 +18164,9 @@ extension PutComponentPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutComponentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutComponentPolicyInput {
+
+    static func urlPathProvider(_ value: PutComponentPolicyInput) -> Swift.String? {
         return "/PutComponentPolicy"
     }
 }
@@ -18258,8 +18294,9 @@ extension PutContainerRecipePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutContainerRecipePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutContainerRecipePolicyInput {
+
+    static func urlPathProvider(_ value: PutContainerRecipePolicyInput) -> Swift.String? {
         return "/PutContainerRecipePolicy"
     }
 }
@@ -18387,8 +18424,9 @@ extension PutImagePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutImagePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImagePolicyInput {
+
+    static func urlPathProvider(_ value: PutImagePolicyInput) -> Swift.String? {
         return "/PutImagePolicy"
     }
 }
@@ -18516,8 +18554,9 @@ extension PutImageRecipePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutImageRecipePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutImageRecipePolicyInput {
+
+    static func urlPathProvider(_ value: PutImageRecipePolicyInput) -> Swift.String? {
         return "/PutImageRecipePolicy"
     }
 }
@@ -19294,8 +19333,9 @@ extension SendWorkflowStepActionInput: Swift.Encodable {
     }
 }
 
-extension SendWorkflowStepActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendWorkflowStepActionInput {
+
+    static func urlPathProvider(_ value: SendWorkflowStepActionInput) -> Swift.String? {
         return "/SendWorkflowStepAction"
     }
 }
@@ -19691,8 +19731,9 @@ extension StartImagePipelineExecutionInput: Swift.Encodable {
     }
 }
 
-extension StartImagePipelineExecutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartImagePipelineExecutionInput {
+
+    static func urlPathProvider(_ value: StartImagePipelineExecutionInput) -> Swift.String? {
         return "/StartImagePipelineExecution"
     }
 }
@@ -19851,8 +19892,9 @@ extension StartResourceStateUpdateInput: Swift.Encodable {
     }
 }
 
-extension StartResourceStateUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartResourceStateUpdateInput {
+
+    static func urlPathProvider(_ value: StartResourceStateUpdateInput) -> Swift.String? {
         return "/StartResourceStateUpdate"
     }
 }
@@ -20056,9 +20098,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -20178,26 +20221,26 @@ extension ImagebuilderClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -20282,8 +20325,9 @@ extension UpdateDistributionConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateDistributionConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDistributionConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateDistributionConfigurationInput) -> Swift.String? {
         return "/UpdateDistributionConfiguration"
     }
 }
@@ -20499,8 +20543,9 @@ extension UpdateImagePipelineInput: Swift.Encodable {
     }
 }
 
-extension UpdateImagePipelineInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateImagePipelineInput {
+
+    static func urlPathProvider(_ value: UpdateImagePipelineInput) -> Swift.String? {
         return "/UpdateImagePipeline"
     }
 }
@@ -20797,8 +20842,9 @@ extension UpdateInfrastructureConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateInfrastructureConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateInfrastructureConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateInfrastructureConfigurationInput) -> Swift.String? {
         return "/UpdateInfrastructureConfiguration"
     }
 }
@@ -21083,8 +21129,9 @@ extension UpdateLifecyclePolicyInput: Swift.Encodable {
     }
 }
 
-extension UpdateLifecyclePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLifecyclePolicyInput {
+
+    static func urlPathProvider(_ value: UpdateLifecyclePolicyInput) -> Swift.String? {
         return "/UpdateLifecyclePolicy"
     }
 }

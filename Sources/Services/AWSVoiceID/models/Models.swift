@@ -83,8 +83,9 @@ extension AssociateFraudsterInput: Swift.Encodable {
     }
 }
 
-extension AssociateFraudsterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateFraudsterInput {
+
+    static func urlPathProvider(_ value: AssociateFraudsterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -556,8 +557,9 @@ extension CreateDomainInput: Swift.Encodable {
     }
 }
 
-extension CreateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDomainInput {
+
+    static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -720,8 +722,9 @@ extension CreateWatchlistInput: Swift.Encodable {
     }
 }
 
-extension CreateWatchlistInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWatchlistInput {
+
+    static func urlPathProvider(_ value: CreateWatchlistInput) -> Swift.String? {
         return "/"
     }
 }
@@ -850,8 +853,9 @@ extension DeleteDomainInput: Swift.Encodable {
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDomainInput {
+
+    static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -933,8 +937,9 @@ extension DeleteFraudsterInput: Swift.Encodable {
     }
 }
 
-extension DeleteFraudsterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFraudsterInput {
+
+    static func urlPathProvider(_ value: DeleteFraudsterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1025,8 +1030,9 @@ extension DeleteSpeakerInput: Swift.Encodable {
     }
 }
 
-extension DeleteSpeakerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSpeakerInput {
+
+    static func urlPathProvider(_ value: DeleteSpeakerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1112,8 +1118,9 @@ extension DeleteWatchlistInput: Swift.Encodable {
     }
 }
 
-extension DeleteWatchlistInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWatchlistInput {
+
+    static func urlPathProvider(_ value: DeleteWatchlistInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1195,8 +1202,9 @@ extension DescribeDomainInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainInput {
+
+    static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1307,8 +1315,9 @@ extension DescribeFraudsterInput: Swift.Encodable {
     }
 }
 
-extension DescribeFraudsterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFraudsterInput {
+
+    static func urlPathProvider(_ value: DescribeFraudsterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1423,8 +1432,9 @@ extension DescribeFraudsterRegistrationJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeFraudsterRegistrationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFraudsterRegistrationJobInput {
+
+    static func urlPathProvider(_ value: DescribeFraudsterRegistrationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1539,8 +1549,9 @@ extension DescribeSpeakerEnrollmentJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeSpeakerEnrollmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSpeakerEnrollmentJobInput {
+
+    static func urlPathProvider(_ value: DescribeSpeakerEnrollmentJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1660,8 +1671,9 @@ extension DescribeSpeakerInput: Swift.Encodable {
     }
 }
 
-extension DescribeSpeakerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSpeakerInput {
+
+    static func urlPathProvider(_ value: DescribeSpeakerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1776,8 +1788,9 @@ extension DescribeWatchlistInput: Swift.Encodable {
     }
 }
 
-extension DescribeWatchlistInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWatchlistInput {
+
+    static func urlPathProvider(_ value: DescribeWatchlistInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1901,8 +1914,9 @@ extension DisassociateFraudsterInput: Swift.Encodable {
     }
 }
 
-extension DisassociateFraudsterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateFraudsterInput {
+
+    static func urlPathProvider(_ value: DisassociateFraudsterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2466,8 +2480,9 @@ extension EvaluateSessionInput: Swift.Encodable {
     }
 }
 
-extension EvaluateSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EvaluateSessionInput {
+
+    static func urlPathProvider(_ value: EvaluateSessionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3635,8 +3650,9 @@ extension ListDomainsInput: Swift.Encodable {
     }
 }
 
-extension ListDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainsInput {
+
+    static func urlPathProvider(_ value: ListDomainsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3775,8 +3791,9 @@ extension ListFraudsterRegistrationJobsInput: Swift.Encodable {
     }
 }
 
-extension ListFraudsterRegistrationJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFraudsterRegistrationJobsInput {
+
+    static func urlPathProvider(_ value: ListFraudsterRegistrationJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3933,8 +3950,9 @@ extension ListFraudstersInput: Swift.Encodable {
     }
 }
 
-extension ListFraudstersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFraudstersInput {
+
+    static func urlPathProvider(_ value: ListFraudstersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4091,8 +4109,9 @@ extension ListSpeakerEnrollmentJobsInput: Swift.Encodable {
     }
 }
 
-extension ListSpeakerEnrollmentJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSpeakerEnrollmentJobsInput {
+
+    static func urlPathProvider(_ value: ListSpeakerEnrollmentJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4245,8 +4264,9 @@ extension ListSpeakersInput: Swift.Encodable {
     }
 }
 
-extension ListSpeakersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSpeakersInput {
+
+    static func urlPathProvider(_ value: ListSpeakersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4383,8 +4403,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4503,8 +4524,9 @@ extension ListWatchlistsInput: Swift.Encodable {
     }
 }
 
-extension ListWatchlistsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWatchlistsInput {
+
+    static func urlPathProvider(_ value: ListWatchlistsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4650,8 +4672,9 @@ extension OptOutSpeakerInput: Swift.Encodable {
     }
 }
 
-extension OptOutSpeakerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension OptOutSpeakerInput {
+
+    static func urlPathProvider(_ value: OptOutSpeakerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5738,8 +5761,9 @@ extension StartFraudsterRegistrationJobInput: Swift.Encodable {
     }
 }
 
-extension StartFraudsterRegistrationJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartFraudsterRegistrationJobInput {
+
+    static func urlPathProvider(_ value: StartFraudsterRegistrationJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5923,8 +5947,9 @@ extension StartSpeakerEnrollmentJobInput: Swift.Encodable {
     }
 }
 
-extension StartSpeakerEnrollmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSpeakerEnrollmentJobInput {
+
+    static func urlPathProvider(_ value: StartSpeakerEnrollmentJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6173,8 +6198,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6327,8 +6353,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6436,8 +6463,9 @@ extension UpdateDomainInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDomainInput {
+
+    static func urlPathProvider(_ value: UpdateDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6583,8 +6611,9 @@ extension UpdateWatchlistInput: Swift.Encodable {
     }
 }
 
-extension UpdateWatchlistInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWatchlistInput {
+
+    static func urlPathProvider(_ value: UpdateWatchlistInput) -> Swift.String? {
         return "/"
     }
 }

@@ -395,8 +395,9 @@ extension ListRealtimeContactAnalysisSegmentsInput: Swift.Encodable {
     }
 }
 
-extension ListRealtimeContactAnalysisSegmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRealtimeContactAnalysisSegmentsInput {
+
+    static func urlPathProvider(_ value: ListRealtimeContactAnalysisSegmentsInput) -> Swift.String? {
         return "/realtime-contact-analysis/analysis-segments"
     }
 }

@@ -99,7 +99,7 @@ extension KinesisVideoWebRTCStorageClient: KinesisVideoWebRTCStorageClientProtoc
                       .withSigningRegion(value: config.signingRegion)
                       .build()
         var operation = ClientRuntime.OperationStack<JoinStorageSessionInput, JoinStorageSessionOutput>(id: "joinStorageSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>(JoinStorageSessionInput.urlPathProvider(_:)))
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<JoinStorageSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))

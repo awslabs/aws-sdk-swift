@@ -117,8 +117,9 @@ extension AssociateUserInput: Swift.Encodable {
     }
 }
 
-extension AssociateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateUserInput {
+
+    static func urlPathProvider(_ value: AssociateUserInput) -> Swift.String? {
         return "/user/AssociateUser"
     }
 }
@@ -308,8 +309,9 @@ extension DeregisterIdentityProviderInput: Swift.Encodable {
     }
 }
 
-extension DeregisterIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterIdentityProviderInput {
+
+    static func urlPathProvider(_ value: DeregisterIdentityProviderInput) -> Swift.String? {
         return "/identity-provider/DeregisterIdentityProvider"
     }
 }
@@ -435,8 +437,9 @@ extension DisassociateUserInput: Swift.Encodable {
     }
 }
 
-extension DisassociateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateUserInput {
+
+    static func urlPathProvider(_ value: DisassociateUserInput) -> Swift.String? {
         return "/user/DisassociateUser"
     }
 }
@@ -996,8 +999,9 @@ extension ListIdentityProvidersInput: Swift.Encodable {
     }
 }
 
-extension ListIdentityProvidersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentityProvidersInput {
+
+    static func urlPathProvider(_ value: ListIdentityProvidersInput) -> Swift.String? {
         return "/identity-provider/ListIdentityProviders"
     }
 }
@@ -1139,8 +1143,9 @@ extension ListInstancesInput: Swift.Encodable {
     }
 }
 
-extension ListInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInstancesInput {
+
+    static func urlPathProvider(_ value: ListInstancesInput) -> Swift.String? {
         return "/instance/ListInstances"
     }
 }
@@ -1306,8 +1311,9 @@ extension ListProductSubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension ListProductSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProductSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListProductSubscriptionsInput) -> Swift.String? {
         return "/user/ListProductSubscriptions"
     }
 }
@@ -1491,8 +1497,9 @@ extension ListUserAssociationsInput: Swift.Encodable {
     }
 }
 
-extension ListUserAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUserAssociationsInput {
+
+    static func urlPathProvider(_ value: ListUserAssociationsInput) -> Swift.String? {
         return "/user/ListUserAssociations"
     }
 }
@@ -1774,8 +1781,9 @@ extension RegisterIdentityProviderInput: Swift.Encodable {
     }
 }
 
-extension RegisterIdentityProviderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterIdentityProviderInput {
+
+    static func urlPathProvider(_ value: RegisterIdentityProviderInput) -> Swift.String? {
         return "/identity-provider/RegisterIdentityProvider"
     }
 }
@@ -2078,8 +2086,9 @@ extension StartProductSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension StartProductSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartProductSubscriptionInput {
+
+    static func urlPathProvider(_ value: StartProductSubscriptionInput) -> Swift.String? {
         return "/user/StartProductSubscription"
     }
 }
@@ -2222,8 +2231,9 @@ extension StopProductSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension StopProductSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopProductSubscriptionInput {
+
+    static func urlPathProvider(_ value: StopProductSubscriptionInput) -> Swift.String? {
         return "/user/StopProductSubscription"
     }
 }
@@ -2417,8 +2427,9 @@ extension UpdateIdentityProviderSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateIdentityProviderSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateIdentityProviderSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateIdentityProviderSettingsInput) -> Swift.String? {
         return "/identity-provider/UpdateIdentityProviderSettings"
     }
 }

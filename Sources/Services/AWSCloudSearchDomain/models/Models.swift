@@ -614,77 +614,77 @@ extension SearchExceptionBody: Swift.Decodable {
     }
 }
 
-extension SearchInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "format", value: "sdk"))
-            items.append(ClientRuntime.URLQueryItem(name: "pretty", value: "true"))
-            if let cursor = cursor {
-                let cursorQueryItem = ClientRuntime.URLQueryItem(name: "cursor".urlPercentEncoding(), value: Swift.String(cursor).urlPercentEncoding())
-                items.append(cursorQueryItem)
-            }
-            if let queryOptions = queryOptions {
-                let queryOptionsQueryItem = ClientRuntime.URLQueryItem(name: "q.options".urlPercentEncoding(), value: Swift.String(queryOptions).urlPercentEncoding())
-                items.append(queryOptionsQueryItem)
-            }
-            guard let query = query else {
-                let message = "Creating a URL Query Item failed. query is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
-            items.append(queryQueryItem)
-            if let start = start {
-                let startQueryItem = ClientRuntime.URLQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
-                items.append(startQueryItem)
-            }
-            if let sort = sort {
-                let sortQueryItem = ClientRuntime.URLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort).urlPercentEncoding())
-                items.append(sortQueryItem)
-            }
-            if let queryParser = queryParser {
-                let queryParserQueryItem = ClientRuntime.URLQueryItem(name: "q.parser".urlPercentEncoding(), value: Swift.String(queryParser.rawValue).urlPercentEncoding())
-                items.append(queryParserQueryItem)
-            }
-            if let highlight = highlight {
-                let highlightQueryItem = ClientRuntime.URLQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
-                items.append(highlightQueryItem)
-            }
-            if let size = size {
-                let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
-                items.append(sizeQueryItem)
-            }
-            if let stats = stats {
-                let statsQueryItem = ClientRuntime.URLQueryItem(name: "stats".urlPercentEncoding(), value: Swift.String(stats).urlPercentEncoding())
-                items.append(statsQueryItem)
-            }
-            if let expr = expr {
-                let exprQueryItem = ClientRuntime.URLQueryItem(name: "expr".urlPercentEncoding(), value: Swift.String(expr).urlPercentEncoding())
-                items.append(exprQueryItem)
-            }
-            if let facet = facet {
-                let facetQueryItem = ClientRuntime.URLQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
-                items.append(facetQueryItem)
-            }
-            if let partial = partial {
-                let partialQueryItem = ClientRuntime.URLQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
-                items.append(partialQueryItem)
-            }
-            if let `return` = `return` {
-                let returnQueryItem = ClientRuntime.URLQueryItem(name: "return".urlPercentEncoding(), value: Swift.String(`return`).urlPercentEncoding())
-                items.append(returnQueryItem)
-            }
-            if let filterQuery = filterQuery {
-                let filterQueryQueryItem = ClientRuntime.URLQueryItem(name: "fq".urlPercentEncoding(), value: Swift.String(filterQuery).urlPercentEncoding())
-                items.append(filterQueryQueryItem)
-            }
-            return items
+extension SearchInput {
+
+    static func queryItemProvider(_ value: SearchInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "pretty", value: "true"))
+        if let cursor = value.cursor {
+            let cursorQueryItem = ClientRuntime.SDKURLQueryItem(name: "cursor".urlPercentEncoding(), value: Swift.String(cursor).urlPercentEncoding())
+            items.append(cursorQueryItem)
         }
+        if let queryOptions = value.queryOptions {
+            let queryOptionsQueryItem = ClientRuntime.SDKURLQueryItem(name: "q.options".urlPercentEncoding(), value: Swift.String(queryOptions).urlPercentEncoding())
+            items.append(queryOptionsQueryItem)
+        }
+        guard let query = value.query else {
+            let message = "Creating a URL Query Item failed. query is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+        items.append(queryQueryItem)
+        if let start = value.start {
+            let startQueryItem = ClientRuntime.SDKURLQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
+            items.append(startQueryItem)
+        }
+        if let sort = value.sort {
+            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort).urlPercentEncoding())
+            items.append(sortQueryItem)
+        }
+        if let queryParser = value.queryParser {
+            let queryParserQueryItem = ClientRuntime.SDKURLQueryItem(name: "q.parser".urlPercentEncoding(), value: Swift.String(queryParser.rawValue).urlPercentEncoding())
+            items.append(queryParserQueryItem)
+        }
+        if let highlight = value.highlight {
+            let highlightQueryItem = ClientRuntime.SDKURLQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
+            items.append(highlightQueryItem)
+        }
+        if let size = value.size {
+            let sizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
+            items.append(sizeQueryItem)
+        }
+        if let stats = value.stats {
+            let statsQueryItem = ClientRuntime.SDKURLQueryItem(name: "stats".urlPercentEncoding(), value: Swift.String(stats).urlPercentEncoding())
+            items.append(statsQueryItem)
+        }
+        if let expr = value.expr {
+            let exprQueryItem = ClientRuntime.SDKURLQueryItem(name: "expr".urlPercentEncoding(), value: Swift.String(expr).urlPercentEncoding())
+            items.append(exprQueryItem)
+        }
+        if let facet = value.facet {
+            let facetQueryItem = ClientRuntime.SDKURLQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
+            items.append(facetQueryItem)
+        }
+        if let partial = value.partial {
+            let partialQueryItem = ClientRuntime.SDKURLQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
+            items.append(partialQueryItem)
+        }
+        if let `return` = value.`return` {
+            let returnQueryItem = ClientRuntime.SDKURLQueryItem(name: "return".urlPercentEncoding(), value: Swift.String(`return`).urlPercentEncoding())
+            items.append(returnQueryItem)
+        }
+        if let filterQuery = value.filterQuery {
+            let filterQueryQueryItem = ClientRuntime.SDKURLQueryItem(name: "fq".urlPercentEncoding(), value: Swift.String(filterQuery).urlPercentEncoding())
+            items.append(filterQueryQueryItem)
+        }
+        return items
     }
 }
 
-extension SearchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchInput {
+
+    static func urlPathProvider(_ value: SearchInput) -> Swift.String? {
         return "/2013-01-01/search"
     }
 }
@@ -951,35 +951,35 @@ extension CloudSearchDomainClientTypes {
 
 }
 
-extension SuggestInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "format", value: "sdk"))
-            items.append(ClientRuntime.URLQueryItem(name: "pretty", value: "true"))
-            guard let suggester = suggester else {
-                let message = "Creating a URL Query Item failed. suggester is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let suggesterQueryItem = ClientRuntime.URLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
-            items.append(suggesterQueryItem)
-            if let size = size {
-                let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
-                items.append(sizeQueryItem)
-            }
-            guard let query = query else {
-                let message = "Creating a URL Query Item failed. query is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
-            items.append(queryQueryItem)
-            return items
+extension SuggestInput {
+
+    static func queryItemProvider(_ value: SuggestInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
+        items.append(ClientRuntime.SDKURLQueryItem(name: "pretty", value: "true"))
+        guard let suggester = value.suggester else {
+            let message = "Creating a URL Query Item failed. suggester is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let suggesterQueryItem = ClientRuntime.SDKURLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
+        items.append(suggesterQueryItem)
+        if let size = value.size {
+            let sizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
+            items.append(sizeQueryItem)
+        }
+        guard let query = value.query else {
+            let message = "Creating a URL Query Item failed. query is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+        items.append(queryQueryItem)
+        return items
     }
 }
 
-extension SuggestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SuggestInput {
+
+    static func urlPathProvider(_ value: SuggestInput) -> Swift.String? {
         return "/2013-01-01/suggest"
     }
 }
@@ -1258,28 +1258,29 @@ extension UploadDocumentsInput: Swift.Encodable {
     }
 }
 
-extension UploadDocumentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UploadDocumentsInput {
+
+    static func headerProvider(_ value: UploadDocumentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
         return items
     }
 }
 
-extension UploadDocumentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "format", value: "sdk"))
-            return items
-        }
+extension UploadDocumentsInput {
+
+    static func queryItemProvider(_ value: UploadDocumentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
+        return items
     }
 }
 
-extension UploadDocumentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UploadDocumentsInput {
+
+    static func urlPathProvider(_ value: UploadDocumentsInput) -> Swift.String? {
         return "/2013-01-01/documents/batch"
     }
 }

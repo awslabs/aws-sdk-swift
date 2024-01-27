@@ -742,8 +742,9 @@ extension CreateAutoPredictorInput: Swift.Encodable {
     }
 }
 
-extension CreateAutoPredictorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAutoPredictorInput {
+
+    static func urlPathProvider(_ value: CreateAutoPredictorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1013,8 +1014,9 @@ extension CreateDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetGroupInput {
+
+    static func urlPathProvider(_ value: CreateDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1212,8 +1214,9 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetImportJobInput {
+
+    static func urlPathProvider(_ value: CreateDatasetImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1450,8 +1453,9 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1659,8 +1663,9 @@ extension CreateExplainabilityExportInput: Swift.Encodable {
     }
 }
 
-extension CreateExplainabilityExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExplainabilityExportInput {
+
+    static func urlPathProvider(_ value: CreateExplainabilityExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1852,8 +1857,9 @@ extension CreateExplainabilityInput: Swift.Encodable {
     }
 }
 
-extension CreateExplainabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExplainabilityInput {
+
+    static func urlPathProvider(_ value: CreateExplainabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2061,8 +2067,9 @@ extension CreateForecastExportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateForecastExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateForecastExportJobInput {
+
+    static func urlPathProvider(_ value: CreateForecastExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2243,8 +2250,9 @@ extension CreateForecastInput: Swift.Encodable {
     }
 }
 
-extension CreateForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateForecastInput {
+
+    static func urlPathProvider(_ value: CreateForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2428,8 +2436,9 @@ extension CreateMonitorInput: Swift.Encodable {
     }
 }
 
-extension CreateMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMonitorInput {
+
+    static func urlPathProvider(_ value: CreateMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2576,8 +2585,9 @@ extension CreatePredictorBacktestExportJobInput: Swift.Encodable {
     }
 }
 
-extension CreatePredictorBacktestExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePredictorBacktestExportJobInput {
+
+    static func urlPathProvider(_ value: CreatePredictorBacktestExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2799,8 +2809,9 @@ extension CreatePredictorInput: Swift.Encodable {
     }
 }
 
-extension CreatePredictorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePredictorInput {
+
+    static func urlPathProvider(_ value: CreatePredictorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3089,8 +3100,9 @@ extension CreateWhatIfAnalysisInput: Swift.Encodable {
     }
 }
 
-extension CreateWhatIfAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWhatIfAnalysisInput {
+
+    static func urlPathProvider(_ value: CreateWhatIfAnalysisInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3254,8 +3266,9 @@ extension CreateWhatIfForecastExportInput: Swift.Encodable {
     }
 }
 
-extension CreateWhatIfForecastExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWhatIfForecastExportInput {
+
+    static func urlPathProvider(_ value: CreateWhatIfForecastExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3431,8 +3444,9 @@ extension CreateWhatIfForecastInput: Swift.Encodable {
     }
 }
 
-extension CreateWhatIfForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWhatIfForecastInput {
+
+    static func urlPathProvider(_ value: CreateWhatIfForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4092,8 +4106,9 @@ extension DeleteDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4163,8 +4178,9 @@ extension DeleteDatasetImportJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetImportJobInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4234,8 +4250,9 @@ extension DeleteDatasetInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4305,8 +4322,9 @@ extension DeleteExplainabilityExportInput: Swift.Encodable {
     }
 }
 
-extension DeleteExplainabilityExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteExplainabilityExportInput {
+
+    static func urlPathProvider(_ value: DeleteExplainabilityExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4376,8 +4394,9 @@ extension DeleteExplainabilityInput: Swift.Encodable {
     }
 }
 
-extension DeleteExplainabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteExplainabilityInput {
+
+    static func urlPathProvider(_ value: DeleteExplainabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4447,8 +4466,9 @@ extension DeleteForecastExportJobInput: Swift.Encodable {
     }
 }
 
-extension DeleteForecastExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteForecastExportJobInput {
+
+    static func urlPathProvider(_ value: DeleteForecastExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4518,8 +4538,9 @@ extension DeleteForecastInput: Swift.Encodable {
     }
 }
 
-extension DeleteForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteForecastInput {
+
+    static func urlPathProvider(_ value: DeleteForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4589,8 +4610,9 @@ extension DeleteMonitorInput: Swift.Encodable {
     }
 }
 
-extension DeleteMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMonitorInput {
+
+    static func urlPathProvider(_ value: DeleteMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4660,8 +4682,9 @@ extension DeletePredictorBacktestExportJobInput: Swift.Encodable {
     }
 }
 
-extension DeletePredictorBacktestExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePredictorBacktestExportJobInput {
+
+    static func urlPathProvider(_ value: DeletePredictorBacktestExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4731,8 +4754,9 @@ extension DeletePredictorInput: Swift.Encodable {
     }
 }
 
-extension DeletePredictorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePredictorInput {
+
+    static func urlPathProvider(_ value: DeletePredictorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4802,8 +4826,9 @@ extension DeleteResourceTreeInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourceTreeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourceTreeInput {
+
+    static func urlPathProvider(_ value: DeleteResourceTreeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4873,8 +4898,9 @@ extension DeleteWhatIfAnalysisInput: Swift.Encodable {
     }
 }
 
-extension DeleteWhatIfAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWhatIfAnalysisInput {
+
+    static func urlPathProvider(_ value: DeleteWhatIfAnalysisInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4944,8 +4970,9 @@ extension DeleteWhatIfForecastExportInput: Swift.Encodable {
     }
 }
 
-extension DeleteWhatIfForecastExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWhatIfForecastExportInput {
+
+    static func urlPathProvider(_ value: DeleteWhatIfForecastExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5015,8 +5042,9 @@ extension DeleteWhatIfForecastInput: Swift.Encodable {
     }
 }
 
-extension DeleteWhatIfForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWhatIfForecastInput {
+
+    static func urlPathProvider(_ value: DeleteWhatIfForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5086,8 +5114,9 @@ extension DescribeAutoPredictorInput: Swift.Encodable {
     }
 }
 
-extension DescribeAutoPredictorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAutoPredictorInput {
+
+    static func urlPathProvider(_ value: DescribeAutoPredictorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5411,8 +5440,9 @@ extension DescribeDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetGroupInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5591,8 +5621,9 @@ extension DescribeDatasetImportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetImportJobInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5882,8 +5913,9 @@ extension DescribeDatasetInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6083,8 +6115,9 @@ extension DescribeExplainabilityExportInput: Swift.Encodable {
     }
 }
 
-extension DescribeExplainabilityExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExplainabilityExportInput {
+
+    static func urlPathProvider(_ value: DescribeExplainabilityExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6281,8 +6314,9 @@ extension DescribeExplainabilityInput: Swift.Encodable {
     }
 }
 
-extension DescribeExplainabilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExplainabilityInput {
+
+    static func urlPathProvider(_ value: DescribeExplainabilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6529,8 +6563,9 @@ extension DescribeForecastExportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeForecastExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeForecastExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeForecastExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6730,8 +6765,9 @@ extension DescribeForecastInput: Swift.Encodable {
     }
 }
 
-extension DescribeForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeForecastInput {
+
+    static func urlPathProvider(_ value: DescribeForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6960,8 +6996,9 @@ extension DescribeMonitorInput: Swift.Encodable {
     }
 }
 
-extension DescribeMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMonitorInput {
+
+    static func urlPathProvider(_ value: DescribeMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7160,8 +7197,9 @@ extension DescribePredictorBacktestExportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribePredictorBacktestExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePredictorBacktestExportJobInput {
+
+    static func urlPathProvider(_ value: DescribePredictorBacktestExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7358,8 +7396,9 @@ extension DescribePredictorInput: Swift.Encodable {
     }
 }
 
-extension DescribePredictorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePredictorInput {
+
+    static func urlPathProvider(_ value: DescribePredictorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7745,8 +7784,9 @@ extension DescribeWhatIfAnalysisInput: Swift.Encodable {
     }
 }
 
-extension DescribeWhatIfAnalysisInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWhatIfAnalysisInput {
+
+    static func urlPathProvider(_ value: DescribeWhatIfAnalysisInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7952,8 +7992,9 @@ extension DescribeWhatIfForecastExportInput: Swift.Encodable {
     }
 }
 
-extension DescribeWhatIfForecastExportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWhatIfForecastExportInput {
+
+    static func urlPathProvider(_ value: DescribeWhatIfForecastExportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8172,8 +8213,9 @@ extension DescribeWhatIfForecastInput: Swift.Encodable {
     }
 }
 
-extension DescribeWhatIfForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWhatIfForecastInput {
+
+    static func urlPathProvider(_ value: DescribeWhatIfForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9675,8 +9717,9 @@ extension GetAccuracyMetricsInput: Swift.Encodable {
     }
 }
 
-extension GetAccuracyMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccuracyMetricsInput {
+
+    static func urlPathProvider(_ value: GetAccuracyMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10177,8 +10220,9 @@ extension ListDatasetGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetGroupsInput {
+
+    static func urlPathProvider(_ value: ListDatasetGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10313,8 +10357,9 @@ extension ListDatasetImportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetImportJobsInput {
+
+    static func urlPathProvider(_ value: ListDatasetImportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10469,8 +10514,9 @@ extension ListDatasetsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10605,8 +10651,9 @@ extension ListExplainabilitiesInput: Swift.Encodable {
     }
 }
 
-extension ListExplainabilitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExplainabilitiesInput {
+
+    static func urlPathProvider(_ value: ListExplainabilitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10765,8 +10812,9 @@ extension ListExplainabilityExportsInput: Swift.Encodable {
     }
 }
 
-extension ListExplainabilityExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExplainabilityExportsInput {
+
+    static func urlPathProvider(_ value: ListExplainabilityExportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10925,8 +10973,9 @@ extension ListForecastExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListForecastExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListForecastExportJobsInput {
+
+    static func urlPathProvider(_ value: ListForecastExportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11088,8 +11137,9 @@ extension ListForecastsInput: Swift.Encodable {
     }
 }
 
-extension ListForecastsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListForecastsInput {
+
+    static func urlPathProvider(_ value: ListForecastsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11255,8 +11305,9 @@ extension ListMonitorEvaluationsInput: Swift.Encodable {
     }
 }
 
-extension ListMonitorEvaluationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMonitorEvaluationsInput {
+
+    static func urlPathProvider(_ value: ListMonitorEvaluationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11428,8 +11479,9 @@ extension ListMonitorsInput: Swift.Encodable {
     }
 }
 
-extension ListMonitorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMonitorsInput {
+
+    static func urlPathProvider(_ value: ListMonitorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11591,8 +11643,9 @@ extension ListPredictorBacktestExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListPredictorBacktestExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPredictorBacktestExportJobsInput {
+
+    static func urlPathProvider(_ value: ListPredictorBacktestExportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11751,8 +11804,9 @@ extension ListPredictorsInput: Swift.Encodable {
     }
 }
 
-extension ListPredictorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPredictorsInput {
+
+    static func urlPathProvider(_ value: ListPredictorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11903,8 +11957,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12023,8 +12078,9 @@ extension ListWhatIfAnalysesInput: Swift.Encodable {
     }
 }
 
-extension ListWhatIfAnalysesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWhatIfAnalysesInput {
+
+    static func urlPathProvider(_ value: ListWhatIfAnalysesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12186,8 +12242,9 @@ extension ListWhatIfForecastExportsInput: Swift.Encodable {
     }
 }
 
-extension ListWhatIfForecastExportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWhatIfForecastExportsInput {
+
+    static func urlPathProvider(_ value: ListWhatIfForecastExportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12349,8 +12406,9 @@ extension ListWhatIfForecastsInput: Swift.Encodable {
     }
 }
 
-extension ListWhatIfForecastsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWhatIfForecastsInput {
+
+    static func urlPathProvider(_ value: ListWhatIfForecastsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13919,8 +13977,9 @@ extension ResumeResourceInput: Swift.Encodable {
     }
 }
 
-extension ResumeResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResumeResourceInput {
+
+    static func urlPathProvider(_ value: ResumeResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14355,8 +14414,9 @@ extension StopResourceInput: Swift.Encodable {
     }
 }
 
-extension StopResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopResourceInput {
+
+    static func urlPathProvider(_ value: StopResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14678,8 +14738,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15266,8 +15327,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15361,8 +15423,9 @@ extension UpdateDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDatasetGroupInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }

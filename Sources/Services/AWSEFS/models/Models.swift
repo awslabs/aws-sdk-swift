@@ -625,8 +625,9 @@ extension CreateAccessPointInput: Swift.Encodable {
     }
 }
 
-extension CreateAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessPointInput {
+
+    static func urlPathProvider(_ value: CreateAccessPointInput) -> Swift.String? {
         return "/2015-02-01/access-points"
     }
 }
@@ -907,8 +908,9 @@ extension CreateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension CreateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFileSystemInput {
+
+    static func urlPathProvider(_ value: CreateFileSystemInput) -> Swift.String? {
         return "/2015-02-01/file-systems"
     }
 }
@@ -1300,8 +1302,9 @@ extension CreateMountTargetInput: Swift.Encodable {
     }
 }
 
-extension CreateMountTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMountTargetInput {
+
+    static func urlPathProvider(_ value: CreateMountTargetInput) -> Swift.String? {
         return "/2015-02-01/mount-targets"
     }
 }
@@ -1544,9 +1547,10 @@ extension CreateReplicationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sourceFileSystemId = sourceFileSystemId else {
+extension CreateReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateReplicationConfigurationInput) -> Swift.String? {
+        guard let sourceFileSystemId = value.sourceFileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(sourceFileSystemId.urlPercentEncoding())/replication-configuration"
@@ -1739,9 +1743,10 @@ extension CreateTagsInput: Swift.Encodable {
     }
 }
 
-extension CreateTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension CreateTagsInput {
+
+    static func urlPathProvider(_ value: CreateTagsInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/create-tags/\(fileSystemId.urlPercentEncoding())"
@@ -1873,9 +1878,10 @@ extension EFSClientTypes {
 
 }
 
-extension DeleteAccessPointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessPointId = accessPointId else {
+extension DeleteAccessPointInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointInput) -> Swift.String? {
+        guard let accessPointId = value.accessPointId else {
             return nil
         }
         return "/2015-02-01/access-points/\(accessPointId.urlPercentEncoding())"
@@ -1927,9 +1933,10 @@ enum DeleteAccessPointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DeleteFileSystemInput {
+
+    static func urlPathProvider(_ value: DeleteFileSystemInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())"
@@ -1983,9 +1990,10 @@ enum DeleteFileSystemOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFileSystemPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DeleteFileSystemPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteFileSystemPolicyInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/policy"
@@ -2038,9 +2046,10 @@ enum DeleteFileSystemPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMountTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mountTargetId = mountTargetId else {
+extension DeleteMountTargetInput {
+
+    static func urlPathProvider(_ value: DeleteMountTargetInput) -> Swift.String? {
+        guard let mountTargetId = value.mountTargetId else {
             return nil
         }
         return "/2015-02-01/mount-targets/\(mountTargetId.urlPercentEncoding())"
@@ -2094,9 +2103,10 @@ enum DeleteMountTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteReplicationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sourceFileSystemId = sourceFileSystemId else {
+extension DeleteReplicationConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteReplicationConfigurationInput) -> Swift.String? {
+        guard let sourceFileSystemId = value.sourceFileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(sourceFileSystemId.urlPercentEncoding())/replication-configuration"
@@ -2165,9 +2175,10 @@ extension DeleteTagsInput: Swift.Encodable {
     }
 }
 
-extension DeleteTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DeleteTagsInput {
+
+    static func urlPathProvider(_ value: DeleteTagsInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/delete-tags/\(fileSystemId.urlPercentEncoding())"
@@ -2308,33 +2319,33 @@ extension DependencyTimeoutBody: Swift.Decodable {
     }
 }
 
-extension DescribeAccessPointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let accessPointId = accessPointId {
-                let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
-                items.append(accessPointIdQueryItem)
-            }
-            if let fileSystemId = fileSystemId {
-                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-                items.append(fileSystemIdQueryItem)
-            }
-            return items
+extension DescribeAccessPointsInput {
+
+    static func queryItemProvider(_ value: DescribeAccessPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let accessPointId = value.accessPointId {
+            let accessPointIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
+            items.append(accessPointIdQueryItem)
+        }
+        if let fileSystemId = value.fileSystemId {
+            let fileSystemIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+            items.append(fileSystemIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeAccessPointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccessPointsInput {
+
+    static func urlPathProvider(_ value: DescribeAccessPointsInput) -> Swift.String? {
         return "/2015-02-01/access-points"
     }
 }
@@ -2462,8 +2473,9 @@ extension DescribeAccountPreferencesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountPreferencesInput {
+
+    static func urlPathProvider(_ value: DescribeAccountPreferencesInput) -> Swift.String? {
         return "/2015-02-01/account-preferences"
     }
 }
@@ -2565,9 +2577,10 @@ enum DescribeAccountPreferencesOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeBackupPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DescribeBackupPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeBackupPolicyInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/backup-policy"
@@ -2651,9 +2664,10 @@ enum DescribeBackupPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeFileSystemPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DescribeFileSystemPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeFileSystemPolicyInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/policy"
@@ -2746,33 +2760,33 @@ enum DescribeFileSystemPolicyOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DescribeFileSystemsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let creationToken = creationToken {
-                let creationTokenQueryItem = ClientRuntime.URLQueryItem(name: "CreationToken".urlPercentEncoding(), value: Swift.String(creationToken).urlPercentEncoding())
-                items.append(creationTokenQueryItem)
-            }
-            if let fileSystemId = fileSystemId {
-                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-                items.append(fileSystemIdQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeFileSystemsInput {
+
+    static func queryItemProvider(_ value: DescribeFileSystemsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let creationToken = value.creationToken {
+            let creationTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationToken".urlPercentEncoding(), value: Swift.String(creationToken).urlPercentEncoding())
+            items.append(creationTokenQueryItem)
         }
+        if let fileSystemId = value.fileSystemId {
+            let fileSystemIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+            items.append(fileSystemIdQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeFileSystemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFileSystemsInput {
+
+    static func urlPathProvider(_ value: DescribeFileSystemsInput) -> Swift.String? {
         return "/2015-02-01/file-systems"
     }
 }
@@ -2893,9 +2907,10 @@ enum DescribeFileSystemsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DescribeLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeLifecycleConfigurationInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/lifecycle-configuration"
@@ -2986,9 +3001,10 @@ enum DescribeLifecycleConfigurationOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension DescribeMountTargetSecurityGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mountTargetId = mountTargetId else {
+extension DescribeMountTargetSecurityGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeMountTargetSecurityGroupsInput) -> Swift.String? {
+        guard let mountTargetId = value.mountTargetId else {
             return nil
         }
         return "/2015-02-01/mount-targets/\(mountTargetId.urlPercentEncoding())/security-groups"
@@ -3082,37 +3098,37 @@ enum DescribeMountTargetSecurityGroupsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeMountTargetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let accessPointId = accessPointId {
-                let accessPointIdQueryItem = ClientRuntime.URLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
-                items.append(accessPointIdQueryItem)
-            }
-            if let fileSystemId = fileSystemId {
-                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-                items.append(fileSystemIdQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let mountTargetId = mountTargetId {
-                let mountTargetIdQueryItem = ClientRuntime.URLQueryItem(name: "MountTargetId".urlPercentEncoding(), value: Swift.String(mountTargetId).urlPercentEncoding())
-                items.append(mountTargetIdQueryItem)
-            }
-            return items
+extension DescribeMountTargetsInput {
+
+    static func queryItemProvider(_ value: DescribeMountTargetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let accessPointId = value.accessPointId {
+            let accessPointIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "AccessPointId".urlPercentEncoding(), value: Swift.String(accessPointId).urlPercentEncoding())
+            items.append(accessPointIdQueryItem)
         }
+        if let fileSystemId = value.fileSystemId {
+            let fileSystemIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+            items.append(fileSystemIdQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let mountTargetId = value.mountTargetId {
+            let mountTargetIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "MountTargetId".urlPercentEncoding(), value: Swift.String(mountTargetId).urlPercentEncoding())
+            items.append(mountTargetIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeMountTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMountTargetsInput {
+
+    static func urlPathProvider(_ value: DescribeMountTargetsInput) -> Swift.String? {
         return "/2015-02-01/mount-targets"
     }
 }
@@ -3240,29 +3256,29 @@ enum DescribeMountTargetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReplicationConfigurationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let fileSystemId = fileSystemId {
-                let fileSystemIdQueryItem = ClientRuntime.URLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
-                items.append(fileSystemIdQueryItem)
-            }
-            return items
+extension DescribeReplicationConfigurationsInput {
+
+    static func queryItemProvider(_ value: DescribeReplicationConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let fileSystemId = value.fileSystemId {
+            let fileSystemIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "FileSystemId".urlPercentEncoding(), value: Swift.String(fileSystemId).urlPercentEncoding())
+            items.append(fileSystemIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeReplicationConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReplicationConfigurationsInput {
+
+    static func urlPathProvider(_ value: DescribeReplicationConfigurationsInput) -> Swift.String? {
         return "/2015-02-01/file-systems/replication-configurations"
     }
 }
@@ -3370,26 +3386,26 @@ enum DescribeReplicationConfigurationsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension DescribeTagsInput {
+
+    static func queryItemProvider(_ value: DescribeTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension DescribeTagsInput {
+
+    static func urlPathProvider(_ value: DescribeTagsInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/tags/\(fileSystemId.urlPercentEncoding())"
@@ -4780,26 +4796,26 @@ extension EFSClientTypes {
 
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/2015-02-01/resource-tags/\(resourceId.urlPercentEncoding())"
@@ -4925,9 +4941,10 @@ extension ModifyMountTargetSecurityGroupsInput: Swift.Encodable {
     }
 }
 
-extension ModifyMountTargetSecurityGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let mountTargetId = mountTargetId else {
+extension ModifyMountTargetSecurityGroupsInput {
+
+    static func urlPathProvider(_ value: ModifyMountTargetSecurityGroupsInput) -> Swift.String? {
+        guard let mountTargetId = value.mountTargetId else {
             return nil
         }
         return "/2015-02-01/mount-targets/\(mountTargetId.urlPercentEncoding())/security-groups"
@@ -5580,8 +5597,9 @@ extension PutAccountPreferencesInput: Swift.Encodable {
     }
 }
 
-extension PutAccountPreferencesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutAccountPreferencesInput {
+
+    static func urlPathProvider(_ value: PutAccountPreferencesInput) -> Swift.String? {
         return "/2015-02-01/account-preferences"
     }
 }
@@ -5680,9 +5698,10 @@ extension PutBackupPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutBackupPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension PutBackupPolicyInput {
+
+    static func urlPathProvider(_ value: PutBackupPolicyInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/backup-policy"
@@ -5795,9 +5814,10 @@ extension PutFileSystemPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutFileSystemPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension PutFileSystemPolicyInput {
+
+    static func urlPathProvider(_ value: PutFileSystemPolicyInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/policy"
@@ -5927,9 +5947,10 @@ extension PutLifecycleConfigurationInput: Swift.Encodable {
     }
 }
 
-extension PutLifecycleConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension PutLifecycleConfigurationInput {
+
+    static func urlPathProvider(_ value: PutLifecycleConfigurationInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/lifecycle-configuration"
@@ -6835,9 +6856,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/2015-02-01/resource-tags/\(resourceId.urlPercentEncoding())"
@@ -7348,26 +7370,26 @@ extension UnsupportedAvailabilityZoneBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceId = resourceId else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceId = value.resourceId else {
             return nil
         }
         return "/2015-02-01/resource-tags/\(resourceId.urlPercentEncoding())"
@@ -7442,9 +7464,10 @@ extension UpdateFileSystemInput: Swift.Encodable {
     }
 }
 
-extension UpdateFileSystemInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension UpdateFileSystemInput {
+
+    static func urlPathProvider(_ value: UpdateFileSystemInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())"
@@ -7751,9 +7774,10 @@ extension UpdateFileSystemProtectionInput: Swift.Encodable {
     }
 }
 
-extension UpdateFileSystemProtectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let fileSystemId = fileSystemId else {
+extension UpdateFileSystemProtectionInput {
+
+    static func urlPathProvider(_ value: UpdateFileSystemProtectionInput) -> Swift.String? {
+        guard let fileSystemId = value.fileSystemId else {
             return nil
         }
         return "/2015-02-01/file-systems/\(fileSystemId.urlPercentEncoding())/protection"

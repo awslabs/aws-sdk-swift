@@ -15,15 +15,16 @@ extension AssociateDeviceWithPlacementInput: Swift.Encodable {
     }
 }
 
-extension AssociateDeviceWithPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension AssociateDeviceWithPlacementInput {
+
+    static func urlPathProvider(_ value: AssociateDeviceWithPlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
-        guard let deviceTemplateName = deviceTemplateName else {
+        guard let deviceTemplateName = value.deviceTemplateName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())/devices/\(deviceTemplateName.urlPercentEncoding())"
@@ -118,9 +119,10 @@ extension CreatePlacementInput: Swift.Encodable {
     }
 }
 
-extension CreatePlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension CreatePlacementInput {
+
+    static func urlPathProvider(_ value: CreatePlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements"
@@ -230,8 +232,9 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/projects"
     }
 }
@@ -321,12 +324,13 @@ enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DeletePlacementInput {
+
+    static func urlPathProvider(_ value: DeletePlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())"
@@ -384,9 +388,10 @@ enum DeletePlacementOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())"
@@ -439,12 +444,13 @@ enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribePlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribePlacementInput {
+
+    static func urlPathProvider(_ value: DescribePlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())"
@@ -532,9 +538,10 @@ enum DescribePlacementOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DescribeProjectInput {
+
+    static func urlPathProvider(_ value: DescribeProjectInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())"
@@ -674,15 +681,16 @@ extension IoT1ClickProjectsClientTypes {
 
 }
 
-extension DisassociateDeviceFromPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension DisassociateDeviceFromPlacementInput {
+
+    static func urlPathProvider(_ value: DisassociateDeviceFromPlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
-        guard let deviceTemplateName = deviceTemplateName else {
+        guard let deviceTemplateName = value.deviceTemplateName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())/devices/\(deviceTemplateName.urlPercentEncoding())"
@@ -745,12 +753,13 @@ enum DisassociateDeviceFromPlacementOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetDevicesInPlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension GetDevicesInPlacementInput {
+
+    static func urlPathProvider(_ value: GetDevicesInPlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())/devices"
@@ -979,26 +988,26 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListPlacementsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPlacementsInput {
+
+    static func queryItemProvider(_ value: ListPlacementsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPlacementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension ListPlacementsInput {
+
+    static func urlPathProvider(_ value: ListPlacementsInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements"
@@ -1108,25 +1117,25 @@ enum ListPlacementsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListProjectsInput {
+
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
         return "/projects"
     }
 }
@@ -1228,9 +1237,10 @@ enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -1899,9 +1909,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2040,26 +2051,26 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2132,12 +2143,13 @@ extension UpdatePlacementInput: Swift.Encodable {
     }
 }
 
-extension UpdatePlacementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension UpdatePlacementInput {
+
+    static func urlPathProvider(_ value: UpdatePlacementInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let placementName = placementName else {
+        guard let placementName = value.placementName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())/placements/\(placementName.urlPercentEncoding())"
@@ -2232,9 +2244,10 @@ extension UpdateProjectInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let projectName = projectName else {
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/projects/\(projectName.urlPercentEncoding())"

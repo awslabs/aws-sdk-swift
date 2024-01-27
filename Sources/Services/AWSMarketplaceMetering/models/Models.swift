@@ -22,8 +22,9 @@ extension BatchMeterUsageInput: Swift.Encodable {
     }
 }
 
-extension BatchMeterUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchMeterUsageInput {
+
+    static func urlPathProvider(_ value: BatchMeterUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -970,8 +971,9 @@ extension MeterUsageInput: Swift.Encodable {
     }
 }
 
-extension MeterUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MeterUsageInput {
+
+    static func urlPathProvider(_ value: MeterUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1192,8 +1194,9 @@ extension RegisterUsageInput: Swift.Encodable {
     }
 }
 
-extension RegisterUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterUsageInput {
+
+    static func urlPathProvider(_ value: RegisterUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1325,8 +1328,9 @@ extension ResolveCustomerInput: Swift.Encodable {
     }
 }
 
-extension ResolveCustomerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ResolveCustomerInput {
+
+    static func urlPathProvider(_ value: ResolveCustomerInput) -> Swift.String? {
         return "/"
     }
 }

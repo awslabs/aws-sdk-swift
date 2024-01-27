@@ -374,8 +374,9 @@ extension AssociateConnectionAliasInput: Swift.Encodable {
     }
 }
 
-extension AssociateConnectionAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateConnectionAliasInput {
+
+    static func urlPathProvider(_ value: AssociateConnectionAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -494,8 +495,9 @@ extension AssociateIpGroupsInput: Swift.Encodable {
     }
 }
 
-extension AssociateIpGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateIpGroupsInput {
+
+    static func urlPathProvider(_ value: AssociateIpGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -590,8 +592,9 @@ extension AssociateWorkspaceApplicationInput: Swift.Encodable {
     }
 }
 
-extension AssociateWorkspaceApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateWorkspaceApplicationInput {
+
+    static func urlPathProvider(_ value: AssociateWorkspaceApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -894,8 +897,9 @@ extension AuthorizeIpRulesInput: Swift.Encodable {
     }
 }
 
-extension AuthorizeIpRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AuthorizeIpRulesInput {
+
+    static func urlPathProvider(_ value: AuthorizeIpRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1814,8 +1818,9 @@ extension CopyWorkspaceImageInput: Swift.Encodable {
     }
 }
 
-extension CopyWorkspaceImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CopyWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: CopyWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1970,8 +1975,9 @@ extension CreateConnectClientAddInInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectClientAddInInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectClientAddInInput {
+
+    static func urlPathProvider(_ value: CreateConnectClientAddInInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2098,8 +2104,9 @@ extension CreateConnectionAliasInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectionAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectionAliasInput {
+
+    static func urlPathProvider(_ value: CreateConnectionAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2237,8 +2244,9 @@ extension CreateIpGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateIpGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateIpGroupInput {
+
+    static func urlPathProvider(_ value: CreateIpGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2389,8 +2397,9 @@ extension CreateStandbyWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension CreateStandbyWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStandbyWorkspacesInput {
+
+    static func urlPathProvider(_ value: CreateStandbyWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2545,8 +2554,9 @@ extension CreateTagsInput: Swift.Encodable {
     }
 }
 
-extension CreateTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTagsInput {
+
+    static func urlPathProvider(_ value: CreateTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2649,8 +2659,9 @@ extension CreateUpdatedWorkspaceImageInput: Swift.Encodable {
     }
 }
 
-extension CreateUpdatedWorkspaceImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUpdatedWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: CreateUpdatedWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2816,8 +2827,9 @@ extension CreateWorkspaceBundleInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkspaceBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkspaceBundleInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceBundleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2996,8 +3008,9 @@ extension CreateWorkspaceImageInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkspaceImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: CreateWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3209,8 +3222,9 @@ extension CreateWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkspacesInput {
+
+    static func urlPathProvider(_ value: CreateWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3862,8 +3876,9 @@ extension DeleteClientBrandingInput: Swift.Encodable {
     }
 }
 
-extension DeleteClientBrandingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteClientBrandingInput {
+
+    static func urlPathProvider(_ value: DeleteClientBrandingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3955,8 +3970,9 @@ extension DeleteConnectClientAddInInput: Swift.Encodable {
     }
 }
 
-extension DeleteConnectClientAddInInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConnectClientAddInInput {
+
+    static func urlPathProvider(_ value: DeleteConnectClientAddInInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4035,8 +4051,9 @@ extension DeleteConnectionAliasInput: Swift.Encodable {
     }
 }
 
-extension DeleteConnectionAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConnectionAliasInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4109,8 +4126,9 @@ extension DeleteIpGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteIpGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIpGroupInput {
+
+    static func urlPathProvider(_ value: DeleteIpGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4188,8 +4206,9 @@ extension DeleteTagsInput: Swift.Encodable {
     }
 }
 
-extension DeleteTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTagsInput {
+
+    static func urlPathProvider(_ value: DeleteTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4276,8 +4295,9 @@ extension DeleteWorkspaceBundleInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorkspaceBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkspaceBundleInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceBundleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4347,8 +4367,9 @@ extension DeleteWorkspaceImageInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorkspaceImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: DeleteWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4422,8 +4443,9 @@ extension DeployWorkspaceApplicationsInput: Swift.Encodable {
     }
 }
 
-extension DeployWorkspaceApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeployWorkspaceApplicationsInput {
+
+    static func urlPathProvider(_ value: DeployWorkspaceApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4534,8 +4556,9 @@ extension DeregisterWorkspaceDirectoryInput: Swift.Encodable {
     }
 }
 
-extension DeregisterWorkspaceDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterWorkspaceDirectoryInput {
+
+    static func urlPathProvider(_ value: DeregisterWorkspaceDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4602,8 +4625,9 @@ extension DescribeAccountInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountInput {
+
+    static func urlPathProvider(_ value: DescribeAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4635,8 +4659,9 @@ extension DescribeAccountModificationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountModificationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountModificationsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountModificationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4828,8 +4853,9 @@ extension DescribeApplicationAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5016,8 +5042,9 @@ extension DescribeApplicationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationsInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5218,8 +5245,9 @@ extension DescribeBundleAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeBundleAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBundleAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeBundleAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5347,8 +5375,9 @@ extension DescribeClientBrandingInput: Swift.Encodable {
     }
 }
 
-extension DescribeClientBrandingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeClientBrandingInput {
+
+    static func urlPathProvider(_ value: DescribeClientBrandingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5501,8 +5530,9 @@ extension DescribeClientPropertiesInput: Swift.Encodable {
     }
 }
 
-extension DescribeClientPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeClientPropertiesInput {
+
+    static func urlPathProvider(_ value: DescribeClientPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5628,8 +5658,9 @@ extension DescribeConnectClientAddInsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectClientAddInsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectClientAddInsInput {
+
+    static func urlPathProvider(_ value: DescribeConnectClientAddInsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5772,8 +5803,9 @@ extension DescribeConnectionAliasPermissionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectionAliasPermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectionAliasPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionAliasPermissionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5934,8 +5966,9 @@ extension DescribeConnectionAliasesInput: Swift.Encodable {
     }
 }
 
-extension DescribeConnectionAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConnectionAliasesInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionAliasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6093,8 +6126,9 @@ extension DescribeImageAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeImageAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeImageAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeImageAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6233,8 +6267,9 @@ extension DescribeIpGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeIpGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeIpGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeIpGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6376,8 +6411,9 @@ extension DescribeTagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTagsInput {
+
+    static func urlPathProvider(_ value: DescribeTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6491,8 +6527,9 @@ extension DescribeWorkspaceAssociationsInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceAssociationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6631,8 +6668,9 @@ extension DescribeWorkspaceBundlesInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceBundlesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceBundlesInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceBundlesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6784,8 +6822,9 @@ extension DescribeWorkspaceDirectoriesInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceDirectoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceDirectoriesInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceDirectoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6934,8 +6973,9 @@ extension DescribeWorkspaceImagePermissionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceImagePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceImagePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceImagePermissionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7095,8 +7135,9 @@ extension DescribeWorkspaceImagesInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceImagesInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7245,8 +7286,9 @@ extension DescribeWorkspaceSnapshotsInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspaceSnapshotsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspaceSnapshotsInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceSnapshotsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7381,8 +7423,9 @@ extension DescribeWorkspacesConnectionStatusInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspacesConnectionStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspacesConnectionStatusInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspacesConnectionStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7538,8 +7581,9 @@ extension DescribeWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension DescribeWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeWorkspacesInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7705,8 +7749,9 @@ extension DisassociateConnectionAliasInput: Swift.Encodable {
     }
 }
 
-extension DisassociateConnectionAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateConnectionAliasInput {
+
+    static func urlPathProvider(_ value: DisassociateConnectionAliasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7785,8 +7830,9 @@ extension DisassociateIpGroupsInput: Swift.Encodable {
     }
 }
 
-extension DisassociateIpGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateIpGroupsInput {
+
+    static func urlPathProvider(_ value: DisassociateIpGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7879,8 +7925,9 @@ extension DisassociateWorkspaceApplicationInput: Swift.Encodable {
     }
 }
 
-extension DisassociateWorkspaceApplicationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateWorkspaceApplicationInput {
+
+    static func urlPathProvider(_ value: DisassociateWorkspaceApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8416,8 +8463,9 @@ extension ImportClientBrandingInput: Swift.Encodable {
     }
 }
 
-extension ImportClientBrandingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportClientBrandingInput {
+
+    static func urlPathProvider(_ value: ImportClientBrandingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8642,8 +8690,9 @@ extension ImportWorkspaceImageInput: Swift.Encodable {
     }
 }
 
-extension ImportWorkspaceImageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: ImportWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9226,8 +9275,9 @@ extension ListAvailableManagementCidrRangesInput: Swift.Encodable {
     }
 }
 
-extension ListAvailableManagementCidrRangesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAvailableManagementCidrRangesInput {
+
+    static func urlPathProvider(_ value: ListAvailableManagementCidrRangesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9397,8 +9447,9 @@ extension MigrateWorkspaceInput: Swift.Encodable {
     }
 }
 
-extension MigrateWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension MigrateWorkspaceInput {
+
+    static func urlPathProvider(_ value: MigrateWorkspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9636,8 +9687,9 @@ extension ModifyAccountInput: Swift.Encodable {
     }
 }
 
-extension ModifyAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyAccountInput {
+
+    static func urlPathProvider(_ value: ModifyAccountInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9727,8 +9779,9 @@ extension ModifyCertificateBasedAuthPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifyCertificateBasedAuthPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyCertificateBasedAuthPropertiesInput {
+
+    static func urlPathProvider(_ value: ModifyCertificateBasedAuthPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9828,8 +9881,9 @@ extension ModifyClientPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifyClientPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyClientPropertiesInput {
+
+    static func urlPathProvider(_ value: ModifyClientPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9919,8 +9973,9 @@ extension ModifySamlPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifySamlPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifySamlPropertiesInput {
+
+    static func urlPathProvider(_ value: ModifySamlPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10024,8 +10079,9 @@ extension ModifySelfservicePermissionsInput: Swift.Encodable {
     }
 }
 
-extension ModifySelfservicePermissionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifySelfservicePermissionsInput {
+
+    static func urlPathProvider(_ value: ModifySelfservicePermissionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10108,8 +10164,9 @@ extension ModifyWorkspaceAccessPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifyWorkspaceAccessPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyWorkspaceAccessPropertiesInput {
+
+    static func urlPathProvider(_ value: ModifyWorkspaceAccessPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10191,8 +10248,9 @@ extension ModifyWorkspaceCreationPropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifyWorkspaceCreationPropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyWorkspaceCreationPropertiesInput {
+
+    static func urlPathProvider(_ value: ModifyWorkspaceCreationPropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10280,8 +10338,9 @@ extension ModifyWorkspacePropertiesInput: Swift.Encodable {
     }
 }
 
-extension ModifyWorkspacePropertiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyWorkspacePropertiesInput {
+
+    static func urlPathProvider(_ value: ModifyWorkspacePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10375,8 +10434,9 @@ extension ModifyWorkspaceStateInput: Swift.Encodable {
     }
 }
 
-extension ModifyWorkspaceStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyWorkspaceStateInput {
+
+    static func urlPathProvider(_ value: ModifyWorkspaceStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10860,8 +10920,9 @@ extension RebootWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension RebootWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RebootWorkspacesInput {
+
+    static func urlPathProvider(_ value: RebootWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11016,8 +11077,9 @@ extension RebuildWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension RebuildWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RebuildWorkspacesInput {
+
+    static func urlPathProvider(_ value: RebuildWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11191,8 +11253,9 @@ extension RegisterWorkspaceDirectoryInput: Swift.Encodable {
     }
 }
 
-extension RegisterWorkspaceDirectoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterWorkspaceDirectoryInput {
+
+    static func urlPathProvider(_ value: RegisterWorkspaceDirectoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11809,8 +11872,9 @@ extension RestoreWorkspaceInput: Swift.Encodable {
     }
 }
 
-extension RestoreWorkspaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RestoreWorkspaceInput {
+
+    static func urlPathProvider(_ value: RestoreWorkspaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11888,8 +11952,9 @@ extension RevokeIpRulesInput: Swift.Encodable {
     }
 }
 
-extension RevokeIpRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RevokeIpRulesInput {
+
+    static func urlPathProvider(_ value: RevokeIpRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12468,8 +12533,9 @@ extension StartWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension StartWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartWorkspacesInput {
+
+    static func urlPathProvider(_ value: StartWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12622,8 +12688,9 @@ extension StopWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension StopWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopWorkspacesInput {
+
+    static func urlPathProvider(_ value: StopWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12887,8 +12954,9 @@ extension TerminateWorkspacesInput: Swift.Encodable {
     }
 }
 
-extension TerminateWorkspacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TerminateWorkspacesInput {
+
+    static func urlPathProvider(_ value: TerminateWorkspacesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13125,8 +13193,9 @@ extension UpdateConnectClientAddInInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectClientAddInInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConnectClientAddInInput {
+
+    static func urlPathProvider(_ value: UpdateConnectClientAddInInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13225,8 +13294,9 @@ extension UpdateConnectionAliasPermissionInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectionAliasPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConnectionAliasPermissionInput {
+
+    static func urlPathProvider(_ value: UpdateConnectionAliasPermissionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13361,8 +13431,9 @@ extension UpdateRulesOfIpGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateRulesOfIpGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRulesOfIpGroupInput {
+
+    static func urlPathProvider(_ value: UpdateRulesOfIpGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13456,8 +13527,9 @@ extension UpdateWorkspaceBundleInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkspaceBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWorkspaceBundleInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceBundleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13544,8 +13616,9 @@ extension UpdateWorkspaceImagePermissionInput: Swift.Encodable {
     }
 }
 
-extension UpdateWorkspaceImagePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWorkspaceImagePermissionInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceImagePermissionInput) -> Swift.String? {
         return "/"
     }
 }

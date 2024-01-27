@@ -48,9 +48,10 @@ extension AddNotificationChannelsInput: Swift.Encodable {
     }
 }
 
-extension AddNotificationChannelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension AddNotificationChannelsInput {
+
+    static func urlPathProvider(_ value: AddNotificationChannelsInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/notificationConfiguration"
@@ -561,34 +562,34 @@ extension BatchGetFrameMetricDataInput: Swift.Encodable {
     }
 }
 
-extension BatchGetFrameMetricDataInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let period = period {
-                let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
-                items.append(periodQueryItem)
-            }
-            if let startTime = startTime {
-                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-                items.append(startTimeQueryItem)
-            }
-            if let endTime = endTime {
-                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-                items.append(endTimeQueryItem)
-            }
-            if let targetResolution = targetResolution {
-                let targetResolutionQueryItem = ClientRuntime.URLQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
-                items.append(targetResolutionQueryItem)
-            }
-            return items
+extension BatchGetFrameMetricDataInput {
+
+    static func queryItemProvider(_ value: BatchGetFrameMetricDataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let period = value.period {
+            let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+            items.append(periodQueryItem)
         }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let endTime = value.endTime {
+            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
+        }
+        if let targetResolution = value.targetResolution {
+            let targetResolutionQueryItem = ClientRuntime.SDKURLQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
+            items.append(targetResolutionQueryItem)
+        }
+        return items
     }
 }
 
-extension BatchGetFrameMetricDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension BatchGetFrameMetricDataInput {
+
+    static func urlPathProvider(_ value: BatchGetFrameMetricDataInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/frames/-/metrics"
@@ -934,9 +935,10 @@ extension ConfigureAgentInput: Swift.Encodable {
     }
 }
 
-extension ConfigureAgentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension ConfigureAgentInput {
+
+    static func urlPathProvider(_ value: ConfigureAgentInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/configureAgent"
@@ -1151,23 +1153,23 @@ extension CreateProfilingGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateProfilingGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let clientToken = clientToken else {
-                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
-            return items
+extension CreateProfilingGroupInput {
+
+    static func queryItemProvider(_ value: CreateProfilingGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let clientToken = value.clientToken else {
+            let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        items.append(clientTokenQueryItem)
+        return items
     }
 }
 
-extension CreateProfilingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProfilingGroupInput {
+
+    static func urlPathProvider(_ value: CreateProfilingGroupInput) -> Swift.String? {
         return "/profilingGroups"
     }
 }
@@ -1296,9 +1298,10 @@ enum CreateProfilingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProfilingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension DeleteProfilingGroupInput {
+
+    static func urlPathProvider(_ value: DeleteProfilingGroupInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())"
@@ -1354,9 +1357,10 @@ enum DeleteProfilingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeProfilingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension DescribeProfilingGroupInput {
+
+    static func urlPathProvider(_ value: DescribeProfilingGroupInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())"
@@ -1709,29 +1713,29 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
-extension GetFindingsReportAccountSummaryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let dailyReportsOnly = dailyReportsOnly {
-                let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
-                items.append(dailyReportsOnlyQueryItem)
-            }
-            return items
+extension GetFindingsReportAccountSummaryInput {
+
+    static func queryItemProvider(_ value: GetFindingsReportAccountSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let dailyReportsOnly = value.dailyReportsOnly {
+            let dailyReportsOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+            items.append(dailyReportsOnlyQueryItem)
+        }
+        return items
     }
 }
 
-extension GetFindingsReportAccountSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFindingsReportAccountSummaryInput {
+
+    static func urlPathProvider(_ value: GetFindingsReportAccountSummaryInput) -> Swift.String? {
         return "/internal/findingsReports"
     }
 }
@@ -1840,9 +1844,10 @@ enum GetFindingsReportAccountSummaryOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetNotificationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension GetNotificationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetNotificationConfigurationInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/notificationConfiguration"
@@ -1928,9 +1933,10 @@ enum GetNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension GetPolicyInput {
+
+    static func urlPathProvider(_ value: GetPolicyInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/policy"
@@ -2026,44 +2032,45 @@ enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetProfileInput {
+
+    static func headerProvider(_ value: GetProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
         return items
     }
 }
 
-extension GetProfileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxDepth = maxDepth {
-                let maxDepthQueryItem = ClientRuntime.URLQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
-                items.append(maxDepthQueryItem)
-            }
-            if let period = period {
-                let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
-                items.append(periodQueryItem)
-            }
-            if let startTime = startTime {
-                let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-                items.append(startTimeQueryItem)
-            }
-            if let endTime = endTime {
-                let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-                items.append(endTimeQueryItem)
-            }
-            return items
+extension GetProfileInput {
+
+    static func queryItemProvider(_ value: GetProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxDepth = value.maxDepth {
+            let maxDepthQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
+            items.append(maxDepthQueryItem)
         }
+        if let period = value.period {
+            let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+            items.append(periodQueryItem)
+        }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let endTime = value.endTime {
+            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
+        }
+        return items
     }
 }
 
-extension GetProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension GetProfileInput {
+
+    static func urlPathProvider(_ value: GetProfileInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/profile"
@@ -2193,34 +2200,34 @@ enum GetProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetRecommendationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let startTime = startTime else {
-                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-            guard let endTime = endTime else {
-                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
-            if let locale = locale {
-                let localeQueryItem = ClientRuntime.URLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
-                items.append(localeQueryItem)
-            }
-            return items
+extension GetRecommendationsInput {
+
+    static func queryItemProvider(_ value: GetRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let startTime = value.startTime else {
+            let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        items.append(startTimeQueryItem)
+        guard let endTime = value.endTime else {
+            let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        items.append(endTimeQueryItem)
+        if let locale = value.locale {
+            let localeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
+            items.append(localeQueryItem)
+        }
+        return items
     }
 }
 
-extension GetRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension GetRecommendationsInput {
+
+    static func urlPathProvider(_ value: GetRecommendationsInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/internal/profilingGroups/\(profilingGroupName.urlPercentEncoding())/recommendations"
@@ -2460,42 +2467,42 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListFindingsReportsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let dailyReportsOnly = dailyReportsOnly {
-                let dailyReportsOnlyQueryItem = ClientRuntime.URLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
-                items.append(dailyReportsOnlyQueryItem)
-            }
-            guard let startTime = startTime else {
-                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-            guard let endTime = endTime else {
-                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
-            return items
+extension ListFindingsReportsInput {
+
+    static func queryItemProvider(_ value: ListFindingsReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let dailyReportsOnly = value.dailyReportsOnly {
+            let dailyReportsOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+            items.append(dailyReportsOnlyQueryItem)
+        }
+        guard let startTime = value.startTime else {
+            let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        items.append(startTimeQueryItem)
+        guard let endTime = value.endTime else {
+            let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        items.append(endTimeQueryItem)
+        return items
     }
 }
 
-extension ListFindingsReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension ListFindingsReportsInput {
+
+    static func urlPathProvider(_ value: ListFindingsReportsInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/internal/profilingGroups/\(profilingGroupName.urlPercentEncoding())/findingsReports"
@@ -2622,48 +2629,48 @@ enum ListFindingsReportsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProfileTimesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let period = period else {
-                let message = "Creating a URL Query Item failed. period is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let periodQueryItem = ClientRuntime.URLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period.rawValue).urlPercentEncoding())
-            items.append(periodQueryItem)
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let orderBy = orderBy {
-                let orderByQueryItem = ClientRuntime.URLQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
-                items.append(orderByQueryItem)
-            }
-            guard let startTime = startTime else {
-                let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
-            items.append(startTimeQueryItem)
-            guard let endTime = endTime else {
-                let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let endTimeQueryItem = ClientRuntime.URLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
-            items.append(endTimeQueryItem)
-            return items
+extension ListProfileTimesInput {
+
+    static func queryItemProvider(_ value: ListProfileTimesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let period = value.period else {
+            let message = "Creating a URL Query Item failed. period is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period.rawValue).urlPercentEncoding())
+        items.append(periodQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let orderBy = value.orderBy {
+            let orderByQueryItem = ClientRuntime.SDKURLQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
+            items.append(orderByQueryItem)
+        }
+        guard let startTime = value.startTime else {
+            let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        items.append(startTimeQueryItem)
+        guard let endTime = value.endTime else {
+            let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        items.append(endTimeQueryItem)
+        return items
     }
 }
 
-extension ListProfileTimesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension ListProfileTimesInput {
+
+    static func urlPathProvider(_ value: ListProfileTimesInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/profileTimes"
@@ -2801,29 +2808,29 @@ enum ListProfileTimesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListProfilingGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let includeDescription = includeDescription {
-                let includeDescriptionQueryItem = ClientRuntime.URLQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
-                items.append(includeDescriptionQueryItem)
-            }
-            return items
+extension ListProfilingGroupsInput {
+
+    static func queryItemProvider(_ value: ListProfilingGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let includeDescription = value.includeDescription {
+            let includeDescriptionQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
+            items.append(includeDescriptionQueryItem)
+        }
+        return items
     }
 }
 
-extension ListProfilingGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProfilingGroupsInput {
+
+    static func urlPathProvider(_ value: ListProfilingGroupsInput) -> Swift.String? {
         return "/profilingGroups"
     }
 }
@@ -2950,9 +2957,10 @@ enum ListProfilingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3485,32 +3493,33 @@ extension PostAgentProfileInput: Swift.Encodable {
     }
 }
 
-extension PostAgentProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PostAgentProfileInput {
+
+    static func headerProvider(_ value: PostAgentProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
         return items
     }
 }
 
-extension PostAgentProfileInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let profileToken = profileToken {
-                let profileTokenQueryItem = ClientRuntime.URLQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
-                items.append(profileTokenQueryItem)
-            }
-            return items
+extension PostAgentProfileInput {
+
+    static func queryItemProvider(_ value: PostAgentProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let profileToken = value.profileToken {
+            let profileTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
+            items.append(profileTokenQueryItem)
         }
+        return items
     }
 }
 
-extension PostAgentProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension PostAgentProfileInput {
+
+    static func urlPathProvider(_ value: PostAgentProfileInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/agentProfile"
@@ -3817,12 +3826,13 @@ extension PutPermissionInput: Swift.Encodable {
     }
 }
 
-extension PutPermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension PutPermissionInput {
+
+    static func urlPathProvider(_ value: PutPermissionInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
-        guard let actionGroup = actionGroup else {
+        guard let actionGroup = value.actionGroup else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/policy/\(actionGroup.rawValue.urlPercentEncoding())"
@@ -4057,12 +4067,13 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
-extension RemoveNotificationChannelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension RemoveNotificationChannelInput {
+
+    static func urlPathProvider(_ value: RemoveNotificationChannelInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
-        guard let channelId = channelId else {
+        guard let channelId = value.channelId else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/notificationConfiguration/\(channelId.urlPercentEncoding())"
@@ -4152,27 +4163,27 @@ enum RemoveNotificationChannelOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension RemovePermissionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let revisionId = revisionId else {
-                let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let revisionIdQueryItem = ClientRuntime.URLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
-            items.append(revisionIdQueryItem)
-            return items
+extension RemovePermissionInput {
+
+    static func queryItemProvider(_ value: RemovePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let revisionId = value.revisionId else {
+            let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+        items.append(revisionIdQueryItem)
+        return items
     }
 }
 
-extension RemovePermissionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension RemovePermissionInput {
+
+    static func urlPathProvider(_ value: RemovePermissionInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
-        guard let actionGroup = actionGroup else {
+        guard let actionGroup = value.actionGroup else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())/policy/\(actionGroup.rawValue.urlPercentEncoding())"
@@ -4409,12 +4420,13 @@ extension SubmitFeedbackInput: Swift.Encodable {
     }
 }
 
-extension SubmitFeedbackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension SubmitFeedbackInput {
+
+    static func urlPathProvider(_ value: SubmitFeedbackInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
-        guard let anomalyInstanceId = anomalyInstanceId else {
+        guard let anomalyInstanceId = value.anomalyInstanceId else {
             return nil
         }
         return "/internal/profilingGroups/\(profilingGroupName.urlPercentEncoding())/anomalies/\(anomalyInstanceId.urlPercentEncoding())/feedback"
@@ -4510,9 +4522,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4677,26 +4690,26 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4766,9 +4779,10 @@ extension UpdateProfilingGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateProfilingGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let profilingGroupName = profilingGroupName else {
+extension UpdateProfilingGroupInput {
+
+    static func urlPathProvider(_ value: UpdateProfilingGroupInput) -> Swift.String? {
+        guard let profilingGroupName = value.profilingGroupName else {
             return nil
         }
         return "/profilingGroups/\(profilingGroupName.urlPercentEncoding())"

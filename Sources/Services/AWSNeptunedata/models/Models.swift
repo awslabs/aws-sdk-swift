@@ -271,9 +271,10 @@ extension BulkLoadIdNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-extension CancelGremlinQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let queryId = queryId else {
+extension CancelGremlinQueryInput {
+
+    static func urlPathProvider(_ value: CancelGremlinQueryInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
             return nil
         }
         return "/gremlin/status/\(queryId.urlPercentEncoding())"
@@ -366,9 +367,10 @@ enum CancelGremlinQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CancelLoaderJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loadId = loadId else {
+extension CancelLoaderJobInput {
+
+    static func urlPathProvider(_ value: CancelLoaderJobInput) -> Swift.String? {
+        guard let loadId = value.loadId else {
             return nil
         }
         return "/loader/\(loadId.urlPercentEncoding())"
@@ -460,26 +462,26 @@ enum CancelLoaderJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension CancelMLDataProcessingJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            if let clean = clean {
-                let cleanQueryItem = ClientRuntime.URLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
-                items.append(cleanQueryItem)
-            }
-            return items
+extension CancelMLDataProcessingJobInput {
+
+    static func queryItemProvider(_ value: CancelMLDataProcessingJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        if let clean = value.clean {
+            let cleanQueryItem = ClientRuntime.SDKURLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
+            items.append(cleanQueryItem)
+        }
+        return items
     }
 }
 
-extension CancelMLDataProcessingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CancelMLDataProcessingJobInput {
+
+    static func urlPathProvider(_ value: CancelMLDataProcessingJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/dataprocessing/\(id.urlPercentEncoding())"
@@ -577,26 +579,26 @@ enum CancelMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension CancelMLModelTrainingJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            if let clean = clean {
-                let cleanQueryItem = ClientRuntime.URLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
-                items.append(cleanQueryItem)
-            }
-            return items
+extension CancelMLModelTrainingJobInput {
+
+    static func queryItemProvider(_ value: CancelMLModelTrainingJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        if let clean = value.clean {
+            let cleanQueryItem = ClientRuntime.SDKURLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
+            items.append(cleanQueryItem)
+        }
+        return items
     }
 }
 
-extension CancelMLModelTrainingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CancelMLModelTrainingJobInput {
+
+    static func urlPathProvider(_ value: CancelMLModelTrainingJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/modeltraining/\(id.urlPercentEncoding())"
@@ -694,26 +696,26 @@ enum CancelMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension CancelMLModelTransformJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            if let clean = clean {
-                let cleanQueryItem = ClientRuntime.URLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
-                items.append(cleanQueryItem)
-            }
-            return items
+extension CancelMLModelTransformJobInput {
+
+    static func queryItemProvider(_ value: CancelMLModelTransformJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        if let clean = value.clean {
+            let cleanQueryItem = ClientRuntime.SDKURLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
+            items.append(cleanQueryItem)
+        }
+        return items
     }
 }
 
-extension CancelMLModelTransformJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension CancelMLModelTransformJobInput {
+
+    static func urlPathProvider(_ value: CancelMLModelTransformJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/modeltransform/\(id.urlPercentEncoding())"
@@ -811,22 +813,22 @@ enum CancelMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension CancelOpenCypherQueryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let silent = silent {
-                let silentQueryItem = ClientRuntime.URLQueryItem(name: "silent".urlPercentEncoding(), value: Swift.String(silent).urlPercentEncoding())
-                items.append(silentQueryItem)
-            }
-            return items
+extension CancelOpenCypherQueryInput {
+
+    static func queryItemProvider(_ value: CancelOpenCypherQueryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let silent = value.silent {
+            let silentQueryItem = ClientRuntime.SDKURLQueryItem(name: "silent".urlPercentEncoding(), value: Swift.String(silent).urlPercentEncoding())
+            items.append(silentQueryItem)
         }
+        return items
     }
 }
 
-extension CancelOpenCypherQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let queryId = queryId else {
+extension CancelOpenCypherQueryInput {
+
+    static func urlPathProvider(_ value: CancelOpenCypherQueryInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
             return nil
         }
         return "/opencypher/status/\(queryId.urlPercentEncoding())"
@@ -1295,8 +1297,9 @@ extension CreateMLEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateMLEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMLEndpointInput {
+
+    static func urlPathProvider(_ value: CreateMLEndpointInput) -> Swift.String? {
         return "/ml/endpoints"
     }
 }
@@ -1576,26 +1579,26 @@ extension NeptunedataClientTypes {
 
 }
 
-extension DeleteMLEndpointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            if let clean = clean {
-                let cleanQueryItem = ClientRuntime.URLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
-                items.append(cleanQueryItem)
-            }
-            return items
+extension DeleteMLEndpointInput {
+
+    static func queryItemProvider(_ value: DeleteMLEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        if let clean = value.clean {
+            let cleanQueryItem = ClientRuntime.SDKURLQueryItem(name: "clean".urlPercentEncoding(), value: Swift.String(clean).urlPercentEncoding())
+            items.append(cleanQueryItem)
+        }
+        return items
     }
 }
 
-extension DeleteMLEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteMLEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteMLEndpointInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/endpoints/\(id.urlPercentEncoding())"
@@ -1693,8 +1696,9 @@ enum DeleteMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeletePropertygraphStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeletePropertygraphStatisticsInput {
+
+    static func urlPathProvider(_ value: DeletePropertygraphStatisticsInput) -> Swift.String? {
         return "/propertygraph/statistics"
     }
 }
@@ -1795,8 +1799,9 @@ enum DeletePropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension DeleteSparqlStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSparqlStatisticsInput {
+
+    static func urlPathProvider(_ value: DeleteSparqlStatisticsInput) -> Swift.String? {
         return "/sparql/statistics"
     }
 }
@@ -2045,8 +2050,9 @@ extension ExecuteFastResetInput: Swift.Encodable {
     }
 }
 
-extension ExecuteFastResetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteFastResetInput {
+
+    static func urlPathProvider(_ value: ExecuteFastResetInput) -> Swift.String? {
         return "/system"
     }
 }
@@ -2179,8 +2185,9 @@ extension ExecuteGremlinExplainQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteGremlinExplainQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteGremlinExplainQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteGremlinExplainQueryInput) -> Swift.String? {
         return "/gremlin/explain"
     }
 }
@@ -2314,8 +2321,9 @@ extension ExecuteGremlinProfileQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteGremlinProfileQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteGremlinProfileQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteGremlinProfileQueryInput) -> Swift.String? {
         return "/gremlin/profile"
     }
 }
@@ -2465,18 +2473,20 @@ extension ExecuteGremlinQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteGremlinQueryInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ExecuteGremlinQueryInput {
+
+    static func headerProvider(_ value: ExecuteGremlinQueryInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let serializer = serializer {
+        if let serializer = value.serializer {
             items.add(Header(name: "accept", value: Swift.String(serializer)))
         }
         return items
     }
 }
 
-extension ExecuteGremlinQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteGremlinQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteGremlinQueryInput) -> Swift.String? {
         return "/gremlin"
     }
 }
@@ -2635,8 +2645,9 @@ extension ExecuteOpenCypherExplainQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteOpenCypherExplainQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteOpenCypherExplainQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteOpenCypherExplainQueryInput) -> Swift.String? {
         return "/opencypher/explain"
     }
 }
@@ -2777,8 +2788,9 @@ extension ExecuteOpenCypherQueryInput: Swift.Encodable {
     }
 }
 
-extension ExecuteOpenCypherQueryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ExecuteOpenCypherQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteOpenCypherQueryInput) -> Swift.String? {
         return "/opencypher"
     }
 }
@@ -3129,8 +3141,9 @@ extension NeptunedataClientTypes {
     }
 }
 
-extension GetEngineStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetEngineStatusInput {
+
+    static func urlPathProvider(_ value: GetEngineStatusInput) -> Swift.String? {
         return "/status"
     }
 }
@@ -3354,9 +3367,10 @@ enum GetEngineStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGremlinQueryStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let queryId = queryId else {
+extension GetGremlinQueryStatusInput {
+
+    static func urlPathProvider(_ value: GetGremlinQueryStatusInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
             return nil
         }
         return "/gremlin/status/\(queryId.urlPercentEncoding())"
@@ -3471,34 +3485,34 @@ enum GetGremlinQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLoaderJobStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let errorsPerPage = errorsPerPage {
-                let errorsPerPageQueryItem = ClientRuntime.URLQueryItem(name: "errorsPerPage".urlPercentEncoding(), value: Swift.String(errorsPerPage).urlPercentEncoding())
-                items.append(errorsPerPageQueryItem)
-            }
-            if let details = details {
-                let detailsQueryItem = ClientRuntime.URLQueryItem(name: "details".urlPercentEncoding(), value: Swift.String(details).urlPercentEncoding())
-                items.append(detailsQueryItem)
-            }
-            if let page = page {
-                let pageQueryItem = ClientRuntime.URLQueryItem(name: "page".urlPercentEncoding(), value: Swift.String(page).urlPercentEncoding())
-                items.append(pageQueryItem)
-            }
-            if let errors = errors {
-                let errorsQueryItem = ClientRuntime.URLQueryItem(name: "errors".urlPercentEncoding(), value: Swift.String(errors).urlPercentEncoding())
-                items.append(errorsQueryItem)
-            }
-            return items
+extension GetLoaderJobStatusInput {
+
+    static func queryItemProvider(_ value: GetLoaderJobStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let errorsPerPage = value.errorsPerPage {
+            let errorsPerPageQueryItem = ClientRuntime.SDKURLQueryItem(name: "errorsPerPage".urlPercentEncoding(), value: Swift.String(errorsPerPage).urlPercentEncoding())
+            items.append(errorsPerPageQueryItem)
         }
+        if let details = value.details {
+            let detailsQueryItem = ClientRuntime.SDKURLQueryItem(name: "details".urlPercentEncoding(), value: Swift.String(details).urlPercentEncoding())
+            items.append(detailsQueryItem)
+        }
+        if let page = value.page {
+            let pageQueryItem = ClientRuntime.SDKURLQueryItem(name: "page".urlPercentEncoding(), value: Swift.String(page).urlPercentEncoding())
+            items.append(pageQueryItem)
+        }
+        if let errors = value.errors {
+            let errorsQueryItem = ClientRuntime.SDKURLQueryItem(name: "errors".urlPercentEncoding(), value: Swift.String(errors).urlPercentEncoding())
+            items.append(errorsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetLoaderJobStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loadId = loadId else {
+extension GetLoaderJobStatusInput {
+
+    static func urlPathProvider(_ value: GetLoaderJobStatusInput) -> Swift.String? {
+        guard let loadId = value.loadId else {
             return nil
         }
         return "/loader/\(loadId.urlPercentEncoding())"
@@ -3618,22 +3632,22 @@ enum GetLoaderJobStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMLDataProcessingJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension GetMLDataProcessingJobInput {
+
+    static func queryItemProvider(_ value: GetMLDataProcessingJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        return items
     }
 }
 
-extension GetMLDataProcessingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMLDataProcessingJobInput {
+
+    static func urlPathProvider(_ value: GetMLDataProcessingJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/dataprocessing/\(id.urlPercentEncoding())"
@@ -3747,22 +3761,22 @@ enum GetMLDataProcessingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMLEndpointInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension GetMLEndpointInput {
+
+    static func queryItemProvider(_ value: GetMLEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        return items
     }
 }
 
-extension GetMLEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMLEndpointInput {
+
+    static func urlPathProvider(_ value: GetMLEndpointInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/endpoints/\(id.urlPercentEncoding())"
@@ -3886,22 +3900,22 @@ enum GetMLEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMLModelTrainingJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension GetMLModelTrainingJobInput {
+
+    static func queryItemProvider(_ value: GetMLModelTrainingJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        return items
     }
 }
 
-extension GetMLModelTrainingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMLModelTrainingJobInput {
+
+    static func urlPathProvider(_ value: GetMLModelTrainingJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/modeltraining/\(id.urlPercentEncoding())"
@@ -4054,22 +4068,22 @@ enum GetMLModelTrainingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMLModelTransformJobInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension GetMLModelTransformJobInput {
+
+    static func queryItemProvider(_ value: GetMLModelTransformJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
         }
+        return items
     }
 }
 
-extension GetMLModelTransformJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetMLModelTransformJobInput {
+
+    static func urlPathProvider(_ value: GetMLModelTransformJobInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/ml/modeltransform/\(id.urlPercentEncoding())"
@@ -4212,9 +4226,10 @@ enum GetMLModelTransformJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetOpenCypherQueryStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let queryId = queryId else {
+extension GetOpenCypherQueryStatusInput {
+
+    static func urlPathProvider(_ value: GetOpenCypherQueryStatusInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
             return nil
         }
         return "/opencypher/status/\(queryId.urlPercentEncoding())"
@@ -4330,8 +4345,9 @@ enum GetOpenCypherQueryStatusOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetPropertygraphStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPropertygraphStatisticsInput {
+
+    static func urlPathProvider(_ value: GetPropertygraphStatisticsInput) -> Swift.String? {
         return "/propertygraph/statistics"
     }
 }
@@ -4425,43 +4441,44 @@ enum GetPropertygraphStatisticsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetPropertygraphStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetPropertygraphStreamInput {
+
+    static func headerProvider(_ value: GetPropertygraphStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let encoding = encoding {
+        if let encoding = value.encoding {
             items.add(Header(name: "Accept-Encoding", value: Swift.String(encoding.rawValue)))
         }
         return items
     }
 }
 
-extension GetPropertygraphStreamInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let commitNum = commitNum {
-                let commitNumQueryItem = ClientRuntime.URLQueryItem(name: "commitNum".urlPercentEncoding(), value: Swift.String(commitNum).urlPercentEncoding())
-                items.append(commitNumQueryItem)
-            }
-            if let opNum = opNum {
-                let opNumQueryItem = ClientRuntime.URLQueryItem(name: "opNum".urlPercentEncoding(), value: Swift.String(opNum).urlPercentEncoding())
-                items.append(opNumQueryItem)
-            }
-            if let iteratorType = iteratorType {
-                let iteratorTypeQueryItem = ClientRuntime.URLQueryItem(name: "iteratorType".urlPercentEncoding(), value: Swift.String(iteratorType.rawValue).urlPercentEncoding())
-                items.append(iteratorTypeQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension GetPropertygraphStreamInput {
+
+    static func queryItemProvider(_ value: GetPropertygraphStreamInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let commitNum = value.commitNum {
+            let commitNumQueryItem = ClientRuntime.SDKURLQueryItem(name: "commitNum".urlPercentEncoding(), value: Swift.String(commitNum).urlPercentEncoding())
+            items.append(commitNumQueryItem)
         }
+        if let opNum = value.opNum {
+            let opNumQueryItem = ClientRuntime.SDKURLQueryItem(name: "opNum".urlPercentEncoding(), value: Swift.String(opNum).urlPercentEncoding())
+            items.append(opNumQueryItem)
+        }
+        if let iteratorType = value.iteratorType {
+            let iteratorTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "iteratorType".urlPercentEncoding(), value: Swift.String(iteratorType.rawValue).urlPercentEncoding())
+            items.append(iteratorTypeQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension GetPropertygraphStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPropertygraphStreamInput {
+
+    static func urlPathProvider(_ value: GetPropertygraphStreamInput) -> Swift.String? {
         return "/propertygraph/stream"
     }
 }
@@ -4636,21 +4653,21 @@ enum GetPropertygraphStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPropertygraphSummaryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let mode = mode {
-                let modeQueryItem = ClientRuntime.URLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
-                items.append(modeQueryItem)
-            }
-            return items
+extension GetPropertygraphSummaryInput {
+
+    static func queryItemProvider(_ value: GetPropertygraphSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let mode = value.mode {
+            let modeQueryItem = ClientRuntime.SDKURLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            items.append(modeQueryItem)
         }
+        return items
     }
 }
 
-extension GetPropertygraphSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetPropertygraphSummaryInput {
+
+    static func urlPathProvider(_ value: GetPropertygraphSummaryInput) -> Swift.String? {
         return "/propertygraph/statistics/summary"
     }
 }
@@ -4748,21 +4765,21 @@ enum GetPropertygraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetRDFGraphSummaryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let mode = mode {
-                let modeQueryItem = ClientRuntime.URLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
-                items.append(modeQueryItem)
-            }
-            return items
+extension GetRDFGraphSummaryInput {
+
+    static func queryItemProvider(_ value: GetRDFGraphSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let mode = value.mode {
+            let modeQueryItem = ClientRuntime.SDKURLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            items.append(modeQueryItem)
         }
+        return items
     }
 }
 
-extension GetRDFGraphSummaryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRDFGraphSummaryInput {
+
+    static func urlPathProvider(_ value: GetRDFGraphSummaryInput) -> Swift.String? {
         return "/rdf/statistics/summary"
     }
 }
@@ -4860,8 +4877,9 @@ enum GetRDFGraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSparqlStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSparqlStatisticsInput {
+
+    static func urlPathProvider(_ value: GetSparqlStatisticsInput) -> Swift.String? {
         return "/sparql/statistics"
     }
 }
@@ -4955,43 +4973,44 @@ enum GetSparqlStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSparqlStreamInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetSparqlStreamInput {
+
+    static func headerProvider(_ value: GetSparqlStreamInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let encoding = encoding {
+        if let encoding = value.encoding {
             items.add(Header(name: "Accept-Encoding", value: Swift.String(encoding.rawValue)))
         }
         return items
     }
 }
 
-extension GetSparqlStreamInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let commitNum = commitNum {
-                let commitNumQueryItem = ClientRuntime.URLQueryItem(name: "commitNum".urlPercentEncoding(), value: Swift.String(commitNum).urlPercentEncoding())
-                items.append(commitNumQueryItem)
-            }
-            if let opNum = opNum {
-                let opNumQueryItem = ClientRuntime.URLQueryItem(name: "opNum".urlPercentEncoding(), value: Swift.String(opNum).urlPercentEncoding())
-                items.append(opNumQueryItem)
-            }
-            if let iteratorType = iteratorType {
-                let iteratorTypeQueryItem = ClientRuntime.URLQueryItem(name: "iteratorType".urlPercentEncoding(), value: Swift.String(iteratorType.rawValue).urlPercentEncoding())
-                items.append(iteratorTypeQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension GetSparqlStreamInput {
+
+    static func queryItemProvider(_ value: GetSparqlStreamInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let commitNum = value.commitNum {
+            let commitNumQueryItem = ClientRuntime.SDKURLQueryItem(name: "commitNum".urlPercentEncoding(), value: Swift.String(commitNum).urlPercentEncoding())
+            items.append(commitNumQueryItem)
         }
+        if let opNum = value.opNum {
+            let opNumQueryItem = ClientRuntime.SDKURLQueryItem(name: "opNum".urlPercentEncoding(), value: Swift.String(opNum).urlPercentEncoding())
+            items.append(opNumQueryItem)
+        }
+        if let iteratorType = value.iteratorType {
+            let iteratorTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "iteratorType".urlPercentEncoding(), value: Swift.String(iteratorType.rawValue).urlPercentEncoding())
+            items.append(iteratorTypeQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension GetSparqlStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSparqlStreamInput {
+
+    static func urlPathProvider(_ value: GetSparqlStreamInput) -> Swift.String? {
         return "/sparql/stream"
     }
 }
@@ -5741,21 +5760,21 @@ extension NeptunedataClientTypes {
     }
 }
 
-extension ListGremlinQueriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeWaiting = includeWaiting {
-                let includeWaitingQueryItem = ClientRuntime.URLQueryItem(name: "includeWaiting".urlPercentEncoding(), value: Swift.String(includeWaiting).urlPercentEncoding())
-                items.append(includeWaitingQueryItem)
-            }
-            return items
+extension ListGremlinQueriesInput {
+
+    static func queryItemProvider(_ value: ListGremlinQueriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeWaiting = value.includeWaiting {
+            let includeWaitingQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeWaiting".urlPercentEncoding(), value: Swift.String(includeWaiting).urlPercentEncoding())
+            items.append(includeWaitingQueryItem)
         }
+        return items
     }
 }
 
-extension ListGremlinQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGremlinQueriesInput {
+
+    static func urlPathProvider(_ value: ListGremlinQueriesInput) -> Swift.String? {
         return "/gremlin/status"
     }
 }
@@ -5876,25 +5895,25 @@ enum ListGremlinQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLoaderJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeQueuedLoads = includeQueuedLoads {
-                let includeQueuedLoadsQueryItem = ClientRuntime.URLQueryItem(name: "includeQueuedLoads".urlPercentEncoding(), value: Swift.String(includeQueuedLoads).urlPercentEncoding())
-                items.append(includeQueuedLoadsQueryItem)
-            }
-            if let limit = limit {
-                let limitQueryItem = ClientRuntime.URLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
-                items.append(limitQueryItem)
-            }
-            return items
+extension ListLoaderJobsInput {
+
+    static func queryItemProvider(_ value: ListLoaderJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeQueuedLoads = value.includeQueuedLoads {
+            let includeQueuedLoadsQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeQueuedLoads".urlPercentEncoding(), value: Swift.String(includeQueuedLoads).urlPercentEncoding())
+            items.append(includeQueuedLoadsQueryItem)
         }
+        if let limit = value.limit {
+            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLoaderJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLoaderJobsInput {
+
+    static func urlPathProvider(_ value: ListLoaderJobsInput) -> Swift.String? {
         return "/loader"
     }
 }
@@ -5998,25 +6017,25 @@ enum ListLoaderJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMLDataProcessingJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension ListMLDataProcessingJobsInput {
+
+    static func queryItemProvider(_ value: ListMLDataProcessingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMLDataProcessingJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMLDataProcessingJobsInput {
+
+    static func urlPathProvider(_ value: ListMLDataProcessingJobsInput) -> Swift.String? {
         return "/ml/dataprocessing"
     }
 }
@@ -6116,25 +6135,25 @@ enum ListMLDataProcessingJobsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListMLEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension ListMLEndpointsInput {
+
+    static func queryItemProvider(_ value: ListMLEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMLEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMLEndpointsInput {
+
+    static func urlPathProvider(_ value: ListMLEndpointsInput) -> Swift.String? {
         return "/ml/endpoints"
     }
 }
@@ -6234,25 +6253,25 @@ enum ListMLEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListMLModelTrainingJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension ListMLModelTrainingJobsInput {
+
+    static func queryItemProvider(_ value: ListMLModelTrainingJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMLModelTrainingJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMLModelTrainingJobsInput {
+
+    static func urlPathProvider(_ value: ListMLModelTrainingJobsInput) -> Swift.String? {
         return "/ml/modeltraining"
     }
 }
@@ -6352,25 +6371,25 @@ enum ListMLModelTrainingJobsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListMLModelTransformJobsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let neptuneIamRoleArn = neptuneIamRoleArn {
-                let neptuneIamRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
-                items.append(neptuneIamRoleArnQueryItem)
-            }
-            return items
+extension ListMLModelTransformJobsInput {
+
+    static func queryItemProvider(_ value: ListMLModelTransformJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let neptuneIamRoleArn = value.neptuneIamRoleArn {
+            let neptuneIamRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "neptuneIamRoleArn".urlPercentEncoding(), value: Swift.String(neptuneIamRoleArn).urlPercentEncoding())
+            items.append(neptuneIamRoleArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMLModelTransformJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMLModelTransformJobsInput {
+
+    static func urlPathProvider(_ value: ListMLModelTransformJobsInput) -> Swift.String? {
         return "/ml/modeltransform"
     }
 }
@@ -6470,21 +6489,21 @@ enum ListMLModelTransformJobsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListOpenCypherQueriesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeWaiting = includeWaiting {
-                let includeWaitingQueryItem = ClientRuntime.URLQueryItem(name: "includeWaiting".urlPercentEncoding(), value: Swift.String(includeWaiting).urlPercentEncoding())
-                items.append(includeWaitingQueryItem)
-            }
-            return items
+extension ListOpenCypherQueriesInput {
+
+    static func queryItemProvider(_ value: ListOpenCypherQueriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeWaiting = value.includeWaiting {
+            let includeWaitingQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeWaiting".urlPercentEncoding(), value: Swift.String(includeWaiting).urlPercentEncoding())
+            items.append(includeWaitingQueryItem)
         }
+        return items
     }
 }
 
-extension ListOpenCypherQueriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOpenCypherQueriesInput {
+
+    static func urlPathProvider(_ value: ListOpenCypherQueriesInput) -> Swift.String? {
         return "/opencypher/status"
     }
 }
@@ -6903,8 +6922,9 @@ extension ManagePropertygraphStatisticsInput: Swift.Encodable {
     }
 }
 
-extension ManagePropertygraphStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ManagePropertygraphStatisticsInput {
+
+    static func urlPathProvider(_ value: ManagePropertygraphStatisticsInput) -> Swift.String? {
         return "/propertygraph/statistics"
     }
 }
@@ -7024,8 +7044,9 @@ extension ManageSparqlStatisticsInput: Swift.Encodable {
     }
 }
 
-extension ManageSparqlStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ManageSparqlStatisticsInput {
+
+    static func urlPathProvider(_ value: ManageSparqlStatisticsInput) -> Swift.String? {
         return "/sparql/statistics"
     }
 }
@@ -9441,8 +9462,9 @@ extension StartLoaderJobInput: Swift.Encodable {
     }
 }
 
-extension StartLoaderJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartLoaderJobInput {
+
+    static func urlPathProvider(_ value: StartLoaderJobInput) -> Swift.String? {
         return "/loader"
     }
 }
@@ -9796,8 +9818,9 @@ extension StartMLDataProcessingJobInput: Swift.Encodable {
     }
 }
 
-extension StartMLDataProcessingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMLDataProcessingJobInput {
+
+    static func urlPathProvider(_ value: StartMLDataProcessingJobInput) -> Swift.String? {
         return "/ml/dataprocessing"
     }
 }
@@ -10130,8 +10153,9 @@ extension StartMLModelTrainingJobInput: Swift.Encodable {
     }
 }
 
-extension StartMLModelTrainingJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMLModelTrainingJobInput {
+
+    static func urlPathProvider(_ value: StartMLModelTrainingJobInput) -> Swift.String? {
         return "/ml/modeltraining"
     }
 }
@@ -10472,8 +10496,9 @@ extension StartMLModelTransformJobInput: Swift.Encodable {
     }
 }
 
-extension StartMLModelTransformJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMLModelTransformJobInput {
+
+    static func urlPathProvider(_ value: StartMLModelTransformJobInput) -> Swift.String? {
         return "/ml/modeltransform"
     }
 }

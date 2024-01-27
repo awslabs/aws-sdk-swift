@@ -207,8 +207,9 @@ extension BatchDeleteBuildsInput: Swift.Encodable {
     }
 }
 
-extension BatchDeleteBuildsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchDeleteBuildsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteBuildsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -346,8 +347,9 @@ extension BatchGetBuildBatchesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetBuildBatchesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetBuildBatchesInput {
+
+    static func urlPathProvider(_ value: BatchGetBuildBatchesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -485,8 +487,9 @@ extension BatchGetBuildsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetBuildsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetBuildsInput {
+
+    static func urlPathProvider(_ value: BatchGetBuildsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -624,8 +627,9 @@ extension BatchGetProjectsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetProjectsInput {
+
+    static func urlPathProvider(_ value: BatchGetProjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -763,8 +767,9 @@ extension BatchGetReportGroupsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetReportGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetReportGroupsInput {
+
+    static func urlPathProvider(_ value: BatchGetReportGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -902,8 +907,9 @@ extension BatchGetReportsInput: Swift.Encodable {
     }
 }
 
-extension BatchGetReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetReportsInput {
+
+    static func urlPathProvider(_ value: BatchGetReportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3252,8 +3258,9 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3588,8 +3595,9 @@ extension CreateReportGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateReportGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReportGroupInput {
+
+    static func urlPathProvider(_ value: CreateReportGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3742,8 +3750,9 @@ extension CreateWebhookInput: Swift.Encodable {
     }
 }
 
-extension CreateWebhookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWebhookInput {
+
+    static func urlPathProvider(_ value: CreateWebhookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3960,8 +3969,9 @@ extension DeleteBuildBatchInput: Swift.Encodable {
     }
 }
 
-extension DeleteBuildBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteBuildBatchInput {
+
+    static func urlPathProvider(_ value: DeleteBuildBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4097,8 +4107,9 @@ extension DeleteProjectInput: Swift.Encodable {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4170,8 +4181,9 @@ extension DeleteReportGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteReportGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReportGroupInput {
+
+    static func urlPathProvider(_ value: DeleteReportGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4247,8 +4259,9 @@ extension DeleteReportInput: Swift.Encodable {
     }
 }
 
-extension DeleteReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReportInput {
+
+    static func urlPathProvider(_ value: DeleteReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4316,8 +4329,9 @@ extension DeleteResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4385,8 +4399,9 @@ extension DeleteSourceCredentialsInput: Swift.Encodable {
     }
 }
 
-extension DeleteSourceCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSourceCredentialsInput {
+
+    static func urlPathProvider(_ value: DeleteSourceCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4485,8 +4500,9 @@ extension DeleteWebhookInput: Swift.Encodable {
     }
 }
 
-extension DeleteWebhookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWebhookInput {
+
+    static func urlPathProvider(_ value: DeleteWebhookInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4580,8 +4596,9 @@ extension DescribeCodeCoveragesInput: Swift.Encodable {
     }
 }
 
-extension DescribeCodeCoveragesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCodeCoveragesInput {
+
+    static func urlPathProvider(_ value: DescribeCodeCoveragesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4758,8 +4775,9 @@ extension DescribeTestCasesInput: Swift.Encodable {
     }
 }
 
-extension DescribeTestCasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTestCasesInput {
+
+    static func urlPathProvider(_ value: DescribeTestCasesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5309,8 +5327,9 @@ extension GetReportGroupTrendInput: Swift.Encodable {
     }
 }
 
-extension GetReportGroupTrendInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReportGroupTrendInput {
+
+    static func urlPathProvider(_ value: GetReportGroupTrendInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5445,8 +5464,9 @@ extension GetResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5634,8 +5654,9 @@ extension ImportSourceCredentialsInput: Swift.Encodable {
     }
 }
 
-extension ImportSourceCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportSourceCredentialsInput {
+
+    static func urlPathProvider(_ value: ImportSourceCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5824,8 +5845,9 @@ extension InvalidateProjectCacheInput: Swift.Encodable {
     }
 }
 
-extension InvalidateProjectCacheInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension InvalidateProjectCacheInput {
+
+    static func urlPathProvider(_ value: InvalidateProjectCacheInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5966,8 +5988,9 @@ extension ListBuildBatchesForProjectInput: Swift.Encodable {
     }
 }
 
-extension ListBuildBatchesForProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBuildBatchesForProjectInput {
+
+    static func urlPathProvider(_ value: ListBuildBatchesForProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6132,8 +6155,9 @@ extension ListBuildBatchesInput: Swift.Encodable {
     }
 }
 
-extension ListBuildBatchesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBuildBatchesInput {
+
+    static func urlPathProvider(_ value: ListBuildBatchesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6285,8 +6309,9 @@ extension ListBuildsForProjectInput: Swift.Encodable {
     }
 }
 
-extension ListBuildsForProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBuildsForProjectInput {
+
+    static func urlPathProvider(_ value: ListBuildsForProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6431,8 +6456,9 @@ extension ListBuildsInput: Swift.Encodable {
     }
 }
 
-extension ListBuildsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBuildsInput {
+
+    static func urlPathProvider(_ value: ListBuildsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6555,8 +6581,9 @@ extension ListCuratedEnvironmentImagesInput: Swift.Encodable {
     }
 }
 
-extension ListCuratedEnvironmentImagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCuratedEnvironmentImagesInput {
+
+    static func urlPathProvider(_ value: ListCuratedEnvironmentImagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6655,8 +6682,9 @@ extension ListProjectsInput: Swift.Encodable {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6816,8 +6844,9 @@ extension ListReportGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListReportGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportGroupsInput {
+
+    static func urlPathProvider(_ value: ListReportGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6979,8 +7008,9 @@ extension ListReportsForReportGroupInput: Swift.Encodable {
     }
 }
 
-extension ListReportsForReportGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportsForReportGroupInput {
+
+    static func urlPathProvider(_ value: ListReportsForReportGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7142,8 +7172,9 @@ extension ListReportsInput: Swift.Encodable {
     }
 }
 
-extension ListReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReportsInput {
+
+    static func urlPathProvider(_ value: ListReportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7299,8 +7330,9 @@ extension ListSharedProjectsInput: Swift.Encodable {
     }
 }
 
-extension ListSharedProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSharedProjectsInput {
+
+    static func urlPathProvider(_ value: ListSharedProjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7460,8 +7492,9 @@ extension ListSharedReportGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListSharedReportGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSharedReportGroupsInput {
+
+    static func urlPathProvider(_ value: ListSharedReportGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7604,8 +7637,9 @@ extension ListSourceCredentialsInput: Swift.Encodable {
     }
 }
 
-extension ListSourceCredentialsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSourceCredentialsInput {
+
+    static func urlPathProvider(_ value: ListSourceCredentialsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9406,8 +9440,9 @@ extension PutResourcePolicyInput: Swift.Encodable {
     }
 }
 
-extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10477,8 +10512,9 @@ extension RetryBuildBatchInput: Swift.Encodable {
     }
 }
 
-extension RetryBuildBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetryBuildBatchInput {
+
+    static func urlPathProvider(_ value: RetryBuildBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10628,8 +10664,9 @@ extension RetryBuildInput: Swift.Encodable {
     }
 }
 
-extension RetryBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RetryBuildInput {
+
+    static func urlPathProvider(_ value: RetryBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11310,8 +11347,9 @@ extension StartBuildBatchInput: Swift.Encodable {
     }
 }
 
-extension StartBuildBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBuildBatchInput {
+
+    static func urlPathProvider(_ value: StartBuildBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11818,8 +11856,9 @@ extension StartBuildInput: Swift.Encodable {
     }
 }
 
-extension StartBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBuildInput {
+
+    static func urlPathProvider(_ value: StartBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12239,8 +12278,9 @@ extension StopBuildBatchInput: Swift.Encodable {
     }
 }
 
-extension StopBuildBatchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopBuildBatchInput {
+
+    static func urlPathProvider(_ value: StopBuildBatchInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12339,8 +12379,9 @@ extension StopBuildInput: Swift.Encodable {
     }
 }
 
-extension StopBuildInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopBuildInput {
+
+    static func urlPathProvider(_ value: StopBuildInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12809,8 +12850,9 @@ extension UpdateProjectInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13133,8 +13175,9 @@ extension UpdateProjectVisibilityInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectVisibilityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateProjectVisibilityInput {
+
+    static func urlPathProvider(_ value: UpdateProjectVisibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13281,8 +13324,9 @@ extension UpdateReportGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateReportGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateReportGroupInput {
+
+    static func urlPathProvider(_ value: UpdateReportGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13432,8 +13476,9 @@ extension UpdateWebhookInput: Swift.Encodable {
     }
 }
 
-extension UpdateWebhookInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateWebhookInput {
+
+    static func urlPathProvider(_ value: UpdateWebhookInput) -> Swift.String? {
         return "/"
     }
 }

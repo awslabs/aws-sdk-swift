@@ -19,8 +19,9 @@ extension AcceptQualificationRequestInput: Swift.Encodable {
     }
 }
 
-extension AcceptQualificationRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptQualificationRequestInput {
+
+    static func urlPathProvider(_ value: AcceptQualificationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -105,8 +106,9 @@ extension ApproveAssignmentInput: Swift.Encodable {
     }
 }
 
-extension ApproveAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ApproveAssignmentInput {
+
+    static func urlPathProvider(_ value: ApproveAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -383,8 +385,9 @@ extension AssociateQualificationWithWorkerInput: Swift.Encodable {
     }
 }
 
-extension AssociateQualificationWithWorkerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateQualificationWithWorkerInput {
+
+    static func urlPathProvider(_ value: AssociateQualificationWithWorkerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -617,8 +620,9 @@ extension CreateAdditionalAssignmentsForHITInput: Swift.Encodable {
     }
 }
 
-extension CreateAdditionalAssignmentsForHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAdditionalAssignmentsForHITInput {
+
+    static func urlPathProvider(_ value: CreateAdditionalAssignmentsForHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -770,8 +774,9 @@ extension CreateHITInput: Swift.Encodable {
     }
 }
 
-extension CreateHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHITInput {
+
+    static func urlPathProvider(_ value: CreateHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1039,8 +1044,9 @@ extension CreateHITTypeInput: Swift.Encodable {
     }
 }
 
-extension CreateHITTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHITTypeInput {
+
+    static func urlPathProvider(_ value: CreateHITTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1238,8 +1244,9 @@ extension CreateHITWithHITTypeInput: Swift.Encodable {
     }
 }
 
-extension CreateHITWithHITTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateHITWithHITTypeInput {
+
+    static func urlPathProvider(_ value: CreateHITWithHITTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1456,8 +1463,9 @@ extension CreateQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension CreateQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateQualificationTypeInput {
+
+    static func urlPathProvider(_ value: CreateQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1634,8 +1642,9 @@ extension CreateWorkerBlockInput: Swift.Encodable {
     }
 }
 
-extension CreateWorkerBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateWorkerBlockInput {
+
+    static func urlPathProvider(_ value: CreateWorkerBlockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1713,8 +1722,9 @@ extension DeleteHITInput: Swift.Encodable {
     }
 }
 
-extension DeleteHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteHITInput {
+
+    static func urlPathProvider(_ value: DeleteHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1783,8 +1793,9 @@ extension DeleteQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension DeleteQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteQualificationTypeInput {
+
+    static func urlPathProvider(_ value: DeleteQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1857,8 +1868,9 @@ extension DeleteWorkerBlockInput: Swift.Encodable {
     }
 }
 
-extension DeleteWorkerBlockInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteWorkerBlockInput {
+
+    static func urlPathProvider(_ value: DeleteWorkerBlockInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1943,8 +1955,9 @@ extension DisassociateQualificationFromWorkerInput: Swift.Encodable {
     }
 }
 
-extension DisassociateQualificationFromWorkerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateQualificationFromWorkerInput {
+
+    static func urlPathProvider(_ value: DisassociateQualificationFromWorkerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2087,8 +2100,9 @@ extension GetAccountBalanceInput: Swift.Encodable {
     }
 }
 
-extension GetAccountBalanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountBalanceInput {
+
+    static func urlPathProvider(_ value: GetAccountBalanceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2182,8 +2196,9 @@ extension GetAssignmentInput: Swift.Encodable {
     }
 }
 
-extension GetAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAssignmentInput {
+
+    static func urlPathProvider(_ value: GetAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2296,8 +2311,9 @@ extension GetFileUploadURLInput: Swift.Encodable {
     }
 }
 
-extension GetFileUploadURLInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetFileUploadURLInput {
+
+    static func urlPathProvider(_ value: GetFileUploadURLInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2405,8 +2421,9 @@ extension GetHITInput: Swift.Encodable {
     }
 }
 
-extension GetHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetHITInput {
+
+    static func urlPathProvider(_ value: GetHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2509,8 +2526,9 @@ extension GetQualificationScoreInput: Swift.Encodable {
     }
 }
 
-extension GetQualificationScoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQualificationScoreInput {
+
+    static func urlPathProvider(_ value: GetQualificationScoreInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2618,8 +2636,9 @@ extension GetQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension GetQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetQualificationTypeInput {
+
+    static func urlPathProvider(_ value: GetQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3141,8 +3160,9 @@ extension ListAssignmentsForHITInput: Swift.Encodable {
     }
 }
 
-extension ListAssignmentsForHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssignmentsForHITInput {
+
+    static func urlPathProvider(_ value: ListAssignmentsForHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3314,8 +3334,9 @@ extension ListBonusPaymentsInput: Swift.Encodable {
     }
 }
 
-extension ListBonusPaymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBonusPaymentsInput {
+
+    static func urlPathProvider(_ value: ListBonusPaymentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3473,8 +3494,9 @@ extension ListHITsForQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension ListHITsForQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHITsForQualificationTypeInput {
+
+    static func urlPathProvider(_ value: ListHITsForQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3622,8 +3644,9 @@ extension ListHITsInput: Swift.Encodable {
     }
 }
 
-extension ListHITsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListHITsInput {
+
+    static func urlPathProvider(_ value: ListHITsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3765,8 +3788,9 @@ extension ListQualificationRequestsInput: Swift.Encodable {
     }
 }
 
-extension ListQualificationRequestsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQualificationRequestsInput {
+
+    static func urlPathProvider(_ value: ListQualificationRequestsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3925,8 +3949,9 @@ extension ListQualificationTypesInput: Swift.Encodable {
     }
 }
 
-extension ListQualificationTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListQualificationTypesInput {
+
+    static func urlPathProvider(_ value: ListQualificationTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4109,8 +4134,9 @@ extension ListReviewPolicyResultsForHITInput: Swift.Encodable {
     }
 }
 
-extension ListReviewPolicyResultsForHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReviewPolicyResultsForHITInput {
+
+    static func urlPathProvider(_ value: ListReviewPolicyResultsForHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4320,8 +4346,9 @@ extension ListReviewableHITsInput: Swift.Encodable {
     }
 }
 
-extension ListReviewableHITsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReviewableHITsInput {
+
+    static func urlPathProvider(_ value: ListReviewableHITsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4476,8 +4503,9 @@ extension ListWorkerBlocksInput: Swift.Encodable {
     }
 }
 
-extension ListWorkerBlocksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkerBlocksInput {
+
+    static func urlPathProvider(_ value: ListWorkerBlocksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4623,8 +4651,9 @@ extension ListWorkersWithQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension ListWorkersWithQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListWorkersWithQualificationTypeInput {
+
+    static func urlPathProvider(_ value: ListWorkersWithQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5042,8 +5071,9 @@ extension NotifyWorkersInput: Swift.Encodable {
     }
 }
 
-extension NotifyWorkersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension NotifyWorkersInput {
+
+    static func urlPathProvider(_ value: NotifyWorkersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5819,8 +5849,9 @@ extension RejectAssignmentInput: Swift.Encodable {
     }
 }
 
-extension RejectAssignmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectAssignmentInput {
+
+    static func urlPathProvider(_ value: RejectAssignmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5902,8 +5933,9 @@ extension RejectQualificationRequestInput: Swift.Encodable {
     }
 }
 
-extension RejectQualificationRequestInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectQualificationRequestInput {
+
+    static func urlPathProvider(_ value: RejectQualificationRequestInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6479,8 +6511,9 @@ extension SendBonusInput: Swift.Encodable {
     }
 }
 
-extension SendBonusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendBonusInput {
+
+    static func urlPathProvider(_ value: SendBonusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6588,8 +6621,9 @@ extension SendTestEventNotificationInput: Swift.Encodable {
     }
 }
 
-extension SendTestEventNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendTestEventNotificationInput {
+
+    static func urlPathProvider(_ value: SendTestEventNotificationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6735,8 +6769,9 @@ extension UpdateExpirationForHITInput: Swift.Encodable {
     }
 }
 
-extension UpdateExpirationForHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateExpirationForHITInput {
+
+    static func urlPathProvider(_ value: UpdateExpirationForHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6818,8 +6853,9 @@ extension UpdateHITReviewStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateHITReviewStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateHITReviewStatusInput {
+
+    static func urlPathProvider(_ value: UpdateHITReviewStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6904,8 +6940,9 @@ extension UpdateHITTypeOfHITInput: Swift.Encodable {
     }
 }
 
-extension UpdateHITTypeOfHITInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateHITTypeOfHITInput {
+
+    static func urlPathProvider(_ value: UpdateHITTypeOfHITInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6991,8 +7028,9 @@ extension UpdateNotificationSettingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateNotificationSettingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateNotificationSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateNotificationSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7109,8 +7147,9 @@ extension UpdateQualificationTypeInput: Swift.Encodable {
     }
 }
 
-extension UpdateQualificationTypeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateQualificationTypeInput {
+
+    static func urlPathProvider(_ value: UpdateQualificationTypeInput) -> Swift.String? {
         return "/"
     }
 }

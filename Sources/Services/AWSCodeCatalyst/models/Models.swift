@@ -246,8 +246,9 @@ extension CreateAccessTokenInput: Swift.Encodable {
     }
 }
 
-extension CreateAccessTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessTokenInput {
+
+    static func urlPathProvider(_ value: CreateAccessTokenInput) -> Swift.String? {
         return "/v1/accessTokens"
     }
 }
@@ -427,12 +428,13 @@ extension CreateDevEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension CreateDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension CreateDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: CreateDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments"
@@ -655,9 +657,10 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects"
@@ -802,18 +805,19 @@ extension CreateSourceRepositoryBranchInput: Swift.Encodable {
     }
 }
 
-extension CreateSourceRepositoryBranchInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension CreateSourceRepositoryBranchInput {
+
+    static func urlPathProvider(_ value: CreateSourceRepositoryBranchInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let sourceRepositoryName = sourceRepositoryName else {
+        guard let sourceRepositoryName = value.sourceRepositoryName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(sourceRepositoryName.urlPercentEncoding())/branches/\(name.urlPercentEncoding())"
@@ -963,15 +967,16 @@ extension CreateSourceRepositoryInput: Swift.Encodable {
     }
 }
 
-extension CreateSourceRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension CreateSourceRepositoryInput {
+
+    static func urlPathProvider(_ value: CreateSourceRepositoryInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
@@ -1106,9 +1111,10 @@ enum CreateSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAccessTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteAccessTokenInput {
+
+    static func urlPathProvider(_ value: DeleteAccessTokenInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/accessTokens/\(id.urlPercentEncoding())"
@@ -1159,15 +1165,16 @@ enum DeleteAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension DeleteDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: DeleteDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())"
@@ -1281,12 +1288,13 @@ enum DeleteDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(name.urlPercentEncoding())"
@@ -1394,15 +1402,16 @@ enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSourceRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension DeleteSourceRepositoryInput {
+
+    static func urlPathProvider(_ value: DeleteSourceRepositoryInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
@@ -1516,9 +1525,10 @@ enum DeleteSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteSpaceInput {
+
+    static func urlPathProvider(_ value: DeleteSpaceInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(name.urlPercentEncoding())"
@@ -2546,15 +2556,16 @@ extension CodeCatalystClientTypes {
     }
 }
 
-extension GetDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: GetDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())"
@@ -2803,12 +2814,13 @@ enum GetDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetProjectInput {
+
+    static func urlPathProvider(_ value: GetProjectInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(name.urlPercentEncoding())"
@@ -2925,15 +2937,16 @@ enum GetProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSourceRepositoryCloneUrlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetSourceRepositoryCloneUrlsInput {
+
+    static func urlPathProvider(_ value: GetSourceRepositoryCloneUrlsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let sourceRepositoryName = sourceRepositoryName else {
+        guard let sourceRepositoryName = value.sourceRepositoryName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(sourceRepositoryName.urlPercentEncoding())/cloneUrls"
@@ -3025,15 +3038,16 @@ enum GetSourceRepositoryCloneUrlsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetSourceRepositoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetSourceRepositoryInput {
+
+    static func urlPathProvider(_ value: GetSourceRepositoryInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(name.urlPercentEncoding())"
@@ -3179,9 +3193,10 @@ enum GetSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetSpaceInput {
+
+    static func urlPathProvider(_ value: GetSpaceInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(name.urlPercentEncoding())"
@@ -3294,9 +3309,10 @@ enum GetSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetSubscriptionInput {
+
+    static func urlPathProvider(_ value: GetSubscriptionInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/subscription"
@@ -3387,25 +3403,25 @@ enum GetSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUserDetailsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let id = id {
-                let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
-                items.append(idQueryItem)
-            }
-            if let userName = userName {
-                let userNameQueryItem = ClientRuntime.URLQueryItem(name: "userName".urlPercentEncoding(), value: Swift.String(userName).urlPercentEncoding())
-                items.append(userNameQueryItem)
-            }
-            return items
+extension GetUserDetailsInput {
+
+    static func queryItemProvider(_ value: GetUserDetailsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let id = value.id {
+            let idQueryItem = ClientRuntime.SDKURLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
         }
+        if let userName = value.userName {
+            let userNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "userName".urlPercentEncoding(), value: Swift.String(userName).urlPercentEncoding())
+            items.append(userNameQueryItem)
+        }
+        return items
     }
 }
 
-extension GetUserDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUserDetailsInput {
+
+    static func urlPathProvider(_ value: GetUserDetailsInput) -> Swift.String? {
         return "/userDetails"
     }
 }
@@ -3527,15 +3543,16 @@ enum GetUserDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetWorkflowInput {
+
+    static func urlPathProvider(_ value: GetWorkflowInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/workflows/\(id.urlPercentEncoding())"
@@ -3735,15 +3752,16 @@ enum GetWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetWorkflowRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension GetWorkflowRunInput {
+
+    static func urlPathProvider(_ value: GetWorkflowRunInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/workflowRuns/\(id.urlPercentEncoding())"
@@ -4075,8 +4093,9 @@ extension ListAccessTokensInput: Swift.Encodable {
     }
 }
 
-extension ListAccessTokensInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessTokensInput {
+
+    static func urlPathProvider(_ value: ListAccessTokensInput) -> Swift.String? {
         return "/v1/accessTokens"
     }
 }
@@ -4206,15 +4225,16 @@ extension ListDevEnvironmentSessionsInput: Swift.Encodable {
     }
 }
 
-extension ListDevEnvironmentSessionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListDevEnvironmentSessionsInput {
+
+    static func urlPathProvider(_ value: ListDevEnvironmentSessionsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let devEnvironmentId = devEnvironmentId else {
+        guard let devEnvironmentId = value.devEnvironmentId else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(devEnvironmentId.urlPercentEncoding())/sessions"
@@ -4372,9 +4392,10 @@ extension ListDevEnvironmentsInput: Swift.Encodable {
     }
 }
 
-extension ListDevEnvironmentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListDevEnvironmentsInput {
+
+    static func urlPathProvider(_ value: ListDevEnvironmentsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/devEnvironments"
@@ -4548,9 +4569,10 @@ extension ListEventLogsInput: Swift.Encodable {
     }
 }
 
-extension ListEventLogsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListEventLogsInput {
+
+    static func urlPathProvider(_ value: ListEventLogsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/eventLogs"
@@ -4720,9 +4742,10 @@ extension ListProjectsInput: Swift.Encodable {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects"
@@ -4875,12 +4898,13 @@ extension ListSourceRepositoriesInput: Swift.Encodable {
     }
 }
 
-extension ListSourceRepositoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListSourceRepositoriesInput {
+
+    static func urlPathProvider(_ value: ListSourceRepositoriesInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories"
@@ -5100,15 +5124,16 @@ extension ListSourceRepositoryBranchesInput: Swift.Encodable {
     }
 }
 
-extension ListSourceRepositoryBranchesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListSourceRepositoryBranchesInput {
+
+    static func urlPathProvider(_ value: ListSourceRepositoryBranchesInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let sourceRepositoryName = sourceRepositoryName else {
+        guard let sourceRepositoryName = value.sourceRepositoryName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/sourceRepositories/\(sourceRepositoryName.urlPercentEncoding())/branches"
@@ -5316,8 +5341,9 @@ extension ListSpacesInput: Swift.Encodable {
     }
 }
 
-extension ListSpacesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSpacesInput {
+
+    static func urlPathProvider(_ value: ListSpacesInput) -> Swift.String? {
         return "/v1/spaces"
     }
 }
@@ -5437,33 +5463,33 @@ extension ListWorkflowRunsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowRunsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let workflowId = workflowId {
-                let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-                items.append(workflowIdQueryItem)
-            }
-            return items
+extension ListWorkflowRunsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let workflowId = value.workflowId {
+            let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+            items.append(workflowIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWorkflowRunsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListWorkflowRunsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowRunsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/workflowRuns"
@@ -5616,29 +5642,29 @@ extension ListWorkflowsInput: Swift.Encodable {
     }
 }
 
-extension ListWorkflowsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListWorkflowsInput {
+
+    static func queryItemProvider(_ value: ListWorkflowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListWorkflowsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension ListWorkflowsInput {
+
+    static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/workflows"
@@ -6294,15 +6320,16 @@ extension StartDevEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension StartDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension StartDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: StartDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/start"
@@ -6476,15 +6503,16 @@ extension StartDevEnvironmentSessionInput: Swift.Encodable {
     }
 }
 
-extension StartDevEnvironmentSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension StartDevEnvironmentSessionInput {
+
+    static func urlPathProvider(_ value: StartDevEnvironmentSessionInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/session"
@@ -6649,27 +6677,27 @@ extension StartWorkflowRunInput: Swift.Encodable {
     }
 }
 
-extension StartWorkflowRunInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let workflowId = workflowId else {
-                let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let workflowIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
-            items.append(workflowIdQueryItem)
-            return items
+extension StartWorkflowRunInput {
+
+    static func queryItemProvider(_ value: StartWorkflowRunInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let workflowId = value.workflowId else {
+            let message = "Creating a URL Query Item failed. workflowId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let workflowIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workflowId".urlPercentEncoding(), value: Swift.String(workflowId).urlPercentEncoding())
+        items.append(workflowIdQueryItem)
+        return items
     }
 }
 
-extension StartWorkflowRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension StartWorkflowRunInput {
+
+    static func urlPathProvider(_ value: StartWorkflowRunInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/workflowRuns"
@@ -6805,15 +6833,16 @@ enum StartWorkflowRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension StopDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: StopDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/stop"
@@ -6938,18 +6967,19 @@ enum StopDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopDevEnvironmentSessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension StopDevEnvironmentSessionInput {
+
+    static func urlPathProvider(_ value: StopDevEnvironmentSessionInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
-        guard let sessionId = sessionId else {
+        guard let sessionId = value.sessionId else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())/session/\(sessionId.urlPercentEncoding())"
@@ -7167,15 +7197,16 @@ extension UpdateDevEnvironmentInput: Swift.Encodable {
     }
 }
 
-extension UpdateDevEnvironmentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension UpdateDevEnvironmentInput {
+
+    static func urlPathProvider(_ value: UpdateDevEnvironmentInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let projectName = projectName else {
+        guard let projectName = value.projectName else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(projectName.urlPercentEncoding())/devEnvironments/\(id.urlPercentEncoding())"
@@ -7413,12 +7444,13 @@ extension UpdateProjectInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let spaceName = spaceName else {
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
+        guard let spaceName = value.spaceName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(spaceName.urlPercentEncoding())/projects/\(name.urlPercentEncoding())"
@@ -7558,9 +7590,10 @@ extension UpdateSpaceInput: Swift.Encodable {
     }
 }
 
-extension UpdateSpaceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateSpaceInput {
+
+    static func urlPathProvider(_ value: UpdateSpaceInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/v1/spaces/\(name.urlPercentEncoding())"
@@ -7830,8 +7863,9 @@ extension ValidationExceptionBody: Swift.Decodable {
     }
 }
 
-extension VerifySessionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifySessionInput {
+
+    static func urlPathProvider(_ value: VerifySessionInput) -> Swift.String? {
         return "/session"
     }
 }

@@ -58,9 +58,10 @@ extension OpenSearchClientTypes {
 
 }
 
-extension AcceptInboundConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension AcceptInboundConnectionInput {
+
+    static func urlPathProvider(_ value: AcceptInboundConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/2021-01-01/opensearch/cc/inboundConnection/\(connectionId.urlPercentEncoding())/accept"
@@ -382,9 +383,10 @@ extension AddDataSourceInput: Swift.Encodable {
     }
 }
 
-extension AddDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension AddDataSourceInput {
+
+    static func urlPathProvider(_ value: AddDataSourceInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
@@ -521,8 +523,9 @@ extension AddTagsInput: Swift.Encodable {
     }
 }
 
-extension AddTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsInput {
+
+    static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
         return "/2021-01-01/tags"
     }
 }
@@ -925,12 +928,13 @@ extension OpenSearchClientTypes {
 
 }
 
-extension AssociatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension AssociatePackageInput {
+
+    static func urlPathProvider(_ value: AssociatePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
-        guard let domainName = domainName else {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/packages/associate/\(packageID.urlPercentEncoding())/\(domainName.urlPercentEncoding())"
@@ -1035,9 +1039,10 @@ extension AuthorizeVpcEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension AuthorizeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension AuthorizeVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: AuthorizeVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/authorizeVpcEndpointAccess"
@@ -1924,8 +1929,9 @@ extension CancelServiceSoftwareUpdateInput: Swift.Encodable {
     }
 }
 
-extension CancelServiceSoftwareUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CancelServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: CancelServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel"
     }
 }
@@ -2885,8 +2891,9 @@ extension CreateDomainInput: Swift.Encodable {
     }
 }
 
-extension CreateDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDomainInput {
+
+    static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
         return "/2021-01-01/opensearch/domain"
     }
 }
@@ -3189,8 +3196,9 @@ extension CreateOutboundConnectionInput: Swift.Encodable {
     }
 }
 
-extension CreateOutboundConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOutboundConnectionInput {
+
+    static func urlPathProvider(_ value: CreateOutboundConnectionInput) -> Swift.String? {
         return "/2021-01-01/opensearch/cc/outboundConnection"
     }
 }
@@ -3399,8 +3407,9 @@ extension CreatePackageInput: Swift.Encodable {
     }
 }
 
-extension CreatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePackageInput {
+
+    static func urlPathProvider(_ value: CreatePackageInput) -> Swift.String? {
         return "/2021-01-01/packages"
     }
 }
@@ -3540,8 +3549,9 @@ extension CreateVpcEndpointInput: Swift.Encodable {
     }
 }
 
-extension CreateVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateVpcEndpointInput {
+
+    static func urlPathProvider(_ value: CreateVpcEndpointInput) -> Swift.String? {
         return "/2021-01-01/opensearch/vpcEndpoints"
     }
 }
@@ -3776,12 +3786,13 @@ extension OpenSearchClientTypes {
 
 }
 
-extension DeleteDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DeleteDataSourceInput {
+
+    static func urlPathProvider(_ value: DeleteDataSourceInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
@@ -3873,9 +3884,10 @@ enum DeleteDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DeleteDomainInput {
+
+    static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())"
@@ -3960,9 +3972,10 @@ enum DeleteDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteInboundConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension DeleteInboundConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteInboundConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/2021-01-01/opensearch/cc/inboundConnection/\(connectionId.urlPercentEncoding())"
@@ -4045,9 +4058,10 @@ enum DeleteInboundConnectionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteOutboundConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension DeleteOutboundConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteOutboundConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/2021-01-01/opensearch/cc/outboundConnection/\(connectionId.urlPercentEncoding())"
@@ -4130,9 +4144,10 @@ enum DeleteOutboundConnectionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeletePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension DeletePackageInput {
+
+    static func urlPathProvider(_ value: DeletePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2021-01-01/packages/\(packageID.urlPercentEncoding())"
@@ -4219,9 +4234,10 @@ enum DeletePackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vpcEndpointId = vpcEndpointId else {
+extension DeleteVpcEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteVpcEndpointInput) -> Swift.String? {
+        guard let vpcEndpointId = value.vpcEndpointId else {
             return nil
         }
         return "/2021-01-01/opensearch/vpcEndpoints/\(vpcEndpointId.urlPercentEncoding())"
@@ -4419,9 +4435,10 @@ extension DescribeDomainAutoTunesInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainAutoTunesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainAutoTunesInput {
+
+    static func urlPathProvider(_ value: DescribeDomainAutoTunesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/autoTunes"
@@ -4544,22 +4561,22 @@ enum DescribeDomainAutoTunesOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DescribeDomainChangeProgressInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let changeId = changeId {
-                let changeIdQueryItem = ClientRuntime.URLQueryItem(name: "changeid".urlPercentEncoding(), value: Swift.String(changeId).urlPercentEncoding())
-                items.append(changeIdQueryItem)
-            }
-            return items
+extension DescribeDomainChangeProgressInput {
+
+    static func queryItemProvider(_ value: DescribeDomainChangeProgressInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let changeId = value.changeId {
+            let changeIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "changeid".urlPercentEncoding(), value: Swift.String(changeId).urlPercentEncoding())
+            items.append(changeIdQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeDomainChangeProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainChangeProgressInput {
+
+    static func urlPathProvider(_ value: DescribeDomainChangeProgressInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/progress"
@@ -4648,9 +4665,10 @@ enum DescribeDomainChangeProgressOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DescribeDomainConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainConfigInput {
+
+    static func urlPathProvider(_ value: DescribeDomainConfigInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/config"
@@ -4736,9 +4754,10 @@ enum DescribeDomainConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDomainHealthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainHealthInput {
+
+    static func urlPathProvider(_ value: DescribeDomainHealthInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/health"
@@ -4969,9 +4988,10 @@ enum DescribeDomainHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainInput {
+
+    static func urlPathProvider(_ value: DescribeDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())"
@@ -5001,9 +5021,10 @@ extension DescribeDomainInputBody: Swift.Decodable {
     }
 }
 
-extension DescribeDomainNodesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDomainNodesInput {
+
+    static func urlPathProvider(_ value: DescribeDomainNodesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/nodes"
@@ -5171,8 +5192,9 @@ extension DescribeDomainsInput: Swift.Encodable {
     }
 }
 
-extension DescribeDomainsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDomainsInput {
+
+    static func urlPathProvider(_ value: DescribeDomainsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/domain-info"
     }
 }
@@ -5280,26 +5302,26 @@ enum DescribeDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDryRunProgressInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let dryRunId = dryRunId {
-                let dryRunIdQueryItem = ClientRuntime.URLQueryItem(name: "dryRunId".urlPercentEncoding(), value: Swift.String(dryRunId).urlPercentEncoding())
-                items.append(dryRunIdQueryItem)
-            }
-            if let loadDryRunConfig = loadDryRunConfig {
-                let loadDryRunConfigQueryItem = ClientRuntime.URLQueryItem(name: "loadDryRunConfig".urlPercentEncoding(), value: Swift.String(loadDryRunConfig).urlPercentEncoding())
-                items.append(loadDryRunConfigQueryItem)
-            }
-            return items
+extension DescribeDryRunProgressInput {
+
+    static func queryItemProvider(_ value: DescribeDryRunProgressInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let dryRunId = value.dryRunId {
+            let dryRunIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dryRunId".urlPercentEncoding(), value: Swift.String(dryRunId).urlPercentEncoding())
+            items.append(dryRunIdQueryItem)
         }
+        if let loadDryRunConfig = value.loadDryRunConfig {
+            let loadDryRunConfigQueryItem = ClientRuntime.SDKURLQueryItem(name: "loadDryRunConfig".urlPercentEncoding(), value: Swift.String(loadDryRunConfig).urlPercentEncoding())
+            items.append(loadDryRunConfigQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeDryRunProgressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension DescribeDryRunProgressInput {
+
+    static func urlPathProvider(_ value: DescribeDryRunProgressInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dryRun"
@@ -5435,8 +5457,9 @@ extension DescribeInboundConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeInboundConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInboundConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeInboundConnectionsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/cc/inboundConnection/search"
     }
 }
@@ -5567,25 +5590,25 @@ enum DescribeInboundConnectionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DescribeInstanceTypeLimitsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            return items
+extension DescribeInstanceTypeLimitsInput {
+
+    static func queryItemProvider(_ value: DescribeInstanceTypeLimitsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeInstanceTypeLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let engineVersion = engineVersion else {
+extension DescribeInstanceTypeLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeInstanceTypeLimitsInput) -> Swift.String? {
+        guard let engineVersion = value.engineVersion else {
             return nil
         }
-        guard let instanceType = instanceType else {
+        guard let instanceType = value.instanceType else {
             return nil
         }
         return "/2021-01-01/opensearch/instanceTypeLimits/\(engineVersion.urlPercentEncoding())/\(instanceType.rawValue.urlPercentEncoding())"
@@ -5714,8 +5737,9 @@ extension DescribeOutboundConnectionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeOutboundConnectionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOutboundConnectionsInput {
+
+    static func urlPathProvider(_ value: DescribeOutboundConnectionsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/cc/outboundConnection/search"
     }
 }
@@ -5968,8 +5992,9 @@ extension DescribePackagesInput: Swift.Encodable {
     }
 }
 
-extension DescribePackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribePackagesInput {
+
+    static func urlPathProvider(_ value: DescribePackagesInput) -> Swift.String? {
         return "/2021-01-01/packages/describe"
     }
 }
@@ -6103,29 +6128,29 @@ enum DescribePackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeReservedInstanceOfferingsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let reservedInstanceOfferingId = reservedInstanceOfferingId {
-                let reservedInstanceOfferingIdQueryItem = ClientRuntime.URLQueryItem(name: "offeringId".urlPercentEncoding(), value: Swift.String(reservedInstanceOfferingId).urlPercentEncoding())
-                items.append(reservedInstanceOfferingIdQueryItem)
-            }
-            return items
+extension DescribeReservedInstanceOfferingsInput {
+
+    static func queryItemProvider(_ value: DescribeReservedInstanceOfferingsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let reservedInstanceOfferingId = value.reservedInstanceOfferingId {
+            let reservedInstanceOfferingIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "offeringId".urlPercentEncoding(), value: Swift.String(reservedInstanceOfferingId).urlPercentEncoding())
+            items.append(reservedInstanceOfferingIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeReservedInstanceOfferingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedInstanceOfferingsInput {
+
+    static func urlPathProvider(_ value: DescribeReservedInstanceOfferingsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/reservedInstanceOfferings"
     }
 }
@@ -6234,29 +6259,29 @@ enum DescribeReservedInstanceOfferingsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DescribeReservedInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let reservedInstanceId = reservedInstanceId {
-                let reservedInstanceIdQueryItem = ClientRuntime.URLQueryItem(name: "reservationId".urlPercentEncoding(), value: Swift.String(reservedInstanceId).urlPercentEncoding())
-                items.append(reservedInstanceIdQueryItem)
-            }
-            return items
+extension DescribeReservedInstancesInput {
+
+    static func queryItemProvider(_ value: DescribeReservedInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let reservedInstanceId = value.reservedInstanceId {
+            let reservedInstanceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "reservationId".urlPercentEncoding(), value: Swift.String(reservedInstanceId).urlPercentEncoding())
+            items.append(reservedInstanceIdQueryItem)
+        }
+        return items
     }
 }
 
-extension DescribeReservedInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReservedInstancesInput {
+
+    static func urlPathProvider(_ value: DescribeReservedInstancesInput) -> Swift.String? {
         return "/2021-01-01/opensearch/reservedInstances"
     }
 }
@@ -6381,8 +6406,9 @@ extension DescribeVpcEndpointsInput: Swift.Encodable {
     }
 }
 
-extension DescribeVpcEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeVpcEndpointsInput {
+
+    static func urlPathProvider(_ value: DescribeVpcEndpointsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/vpcEndpoints/describe"
     }
 }
@@ -6565,12 +6591,13 @@ extension DisabledOperationExceptionBody: Swift.Decodable {
     }
 }
 
-extension DissociatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension DissociatePackageInput {
+
+    static func urlPathProvider(_ value: DissociatePackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
-        guard let domainName = domainName else {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/packages/dissociate/\(packageID.urlPercentEncoding())/\(domainName.urlPercentEncoding())"
@@ -8485,21 +8512,21 @@ extension OpenSearchClientTypes {
 
 }
 
-extension GetCompatibleVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            return items
+extension GetCompatibleVersionsInput {
+
+    static func queryItemProvider(_ value: GetCompatibleVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
         }
+        return items
     }
 }
 
-extension GetCompatibleVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCompatibleVersionsInput {
+
+    static func urlPathProvider(_ value: GetCompatibleVersionsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/compatibleVersions"
     }
 }
@@ -8591,12 +8618,13 @@ enum GetCompatibleVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetDataSourceInput {
+
+    static func urlPathProvider(_ value: GetDataSourceInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
@@ -8708,24 +8736,24 @@ enum GetDataSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDomainMaintenanceStatusInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let maintenanceId = maintenanceId else {
-                let message = "Creating a URL Query Item failed. maintenanceId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let maintenanceIdQueryItem = ClientRuntime.URLQueryItem(name: "maintenanceId".urlPercentEncoding(), value: Swift.String(maintenanceId).urlPercentEncoding())
-            items.append(maintenanceIdQueryItem)
-            return items
+extension GetDomainMaintenanceStatusInput {
+
+    static func queryItemProvider(_ value: GetDomainMaintenanceStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let maintenanceId = value.maintenanceId else {
+            let message = "Creating a URL Query Item failed. maintenanceId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let maintenanceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "maintenanceId".urlPercentEncoding(), value: Swift.String(maintenanceId).urlPercentEncoding())
+        items.append(maintenanceIdQueryItem)
+        return items
     }
 }
 
-extension GetDomainMaintenanceStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetDomainMaintenanceStatusInput {
+
+    static func urlPathProvider(_ value: GetDomainMaintenanceStatusInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenance"
@@ -8866,26 +8894,26 @@ enum GetDomainMaintenanceStatusOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetPackageVersionHistoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetPackageVersionHistoryInput {
+
+    static func queryItemProvider(_ value: GetPackageVersionHistoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetPackageVersionHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension GetPackageVersionHistoryInput {
+
+    static func urlPathProvider(_ value: GetPackageVersionHistoryInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2021-01-01/packages/\(packageID.urlPercentEncoding())/history"
@@ -9008,26 +9036,26 @@ enum GetPackageVersionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetUpgradeHistoryInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension GetUpgradeHistoryInput {
+
+    static func queryItemProvider(_ value: GetUpgradeHistoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension GetUpgradeHistoryInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetUpgradeHistoryInput {
+
+    static func urlPathProvider(_ value: GetUpgradeHistoryInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/upgradeDomain/\(domainName.urlPercentEncoding())/history"
@@ -9140,9 +9168,10 @@ enum GetUpgradeHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetUpgradeStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension GetUpgradeStatusInput {
+
+    static func urlPathProvider(_ value: GetUpgradeStatusInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/upgradeDomain/\(domainName.urlPercentEncoding())/status"
@@ -10025,9 +10054,10 @@ extension OpenSearchClientTypes {
 
 }
 
-extension ListDataSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListDataSourcesInput {
+
+    static func urlPathProvider(_ value: ListDataSourcesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource"
@@ -10123,34 +10153,34 @@ enum ListDataSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDomainMaintenancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let action = action {
-                let actionQueryItem = ClientRuntime.URLQueryItem(name: "action".urlPercentEncoding(), value: Swift.String(action.rawValue).urlPercentEncoding())
-                items.append(actionQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDomainMaintenancesInput {
+
+    static func queryItemProvider(_ value: ListDomainMaintenancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let action = value.action {
+            let actionQueryItem = ClientRuntime.SDKURLQueryItem(name: "action".urlPercentEncoding(), value: Swift.String(action.rawValue).urlPercentEncoding())
+            items.append(actionQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDomainMaintenancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListDomainMaintenancesInput {
+
+    static func urlPathProvider(_ value: ListDomainMaintenancesInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenances"
@@ -10271,21 +10301,21 @@ enum ListDomainMaintenancesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDomainNamesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let engineType = engineType {
-                let engineTypeQueryItem = ClientRuntime.URLQueryItem(name: "engineType".urlPercentEncoding(), value: Swift.String(engineType.rawValue).urlPercentEncoding())
-                items.append(engineTypeQueryItem)
-            }
-            return items
+extension ListDomainNamesInput {
+
+    static func queryItemProvider(_ value: ListDomainNamesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let engineType = value.engineType {
+            let engineTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "engineType".urlPercentEncoding(), value: Swift.String(engineType.rawValue).urlPercentEncoding())
+            items.append(engineTypeQueryItem)
         }
+        return items
     }
 }
 
-extension ListDomainNamesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDomainNamesInput {
+
+    static func urlPathProvider(_ value: ListDomainNamesInput) -> Swift.String? {
         return "/2021-01-01/domain"
     }
 }
@@ -10374,26 +10404,26 @@ enum ListDomainNamesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDomainsForPackageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDomainsForPackageInput {
+
+    static func queryItemProvider(_ value: ListDomainsForPackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDomainsForPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let packageID = packageID else {
+extension ListDomainsForPackageInput {
+
+    static func urlPathProvider(_ value: ListDomainsForPackageInput) -> Swift.String? {
+        guard let packageID = value.packageID else {
             return nil
         }
         return "/2021-01-01/packages/\(packageID.urlPercentEncoding())/domains"
@@ -10506,38 +10536,38 @@ enum ListDomainsForPackageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInstanceTypeDetailsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let domainName = domainName {
-                let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
-                items.append(domainNameQueryItem)
-            }
-            if let retrieveAZs = retrieveAZs {
-                let retrieveAZsQueryItem = ClientRuntime.URLQueryItem(name: "retrieveAZs".urlPercentEncoding(), value: Swift.String(retrieveAZs).urlPercentEncoding())
-                items.append(retrieveAZsQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let instanceType = instanceType {
-                let instanceTypeQueryItem = ClientRuntime.URLQueryItem(name: "instanceType".urlPercentEncoding(), value: Swift.String(instanceType).urlPercentEncoding())
-                items.append(instanceTypeQueryItem)
-            }
-            return items
+extension ListInstanceTypeDetailsInput {
+
+    static func queryItemProvider(_ value: ListInstanceTypeDetailsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let domainName = value.domainName {
+            let domainNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
+            items.append(domainNameQueryItem)
+        }
+        if let retrieveAZs = value.retrieveAZs {
+            let retrieveAZsQueryItem = ClientRuntime.SDKURLQueryItem(name: "retrieveAZs".urlPercentEncoding(), value: Swift.String(retrieveAZs).urlPercentEncoding())
+            items.append(retrieveAZsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let instanceType = value.instanceType {
+            let instanceTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "instanceType".urlPercentEncoding(), value: Swift.String(instanceType).urlPercentEncoding())
+            items.append(instanceTypeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInstanceTypeDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let engineVersion = engineVersion else {
+extension ListInstanceTypeDetailsInput {
+
+    static func urlPathProvider(_ value: ListInstanceTypeDetailsInput) -> Swift.String? {
+        guard let engineVersion = value.engineVersion else {
             return nil
         }
         return "/2021-01-01/opensearch/instanceTypeDetails/\(engineVersion.urlPercentEncoding())"
@@ -10659,26 +10689,26 @@ enum ListInstanceTypeDetailsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListPackagesForDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListPackagesForDomainInput {
+
+    static func queryItemProvider(_ value: ListPackagesForDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPackagesForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListPackagesForDomainInput {
+
+    static func urlPathProvider(_ value: ListPackagesForDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/domain/\(domainName.urlPercentEncoding())/packages"
@@ -10791,26 +10821,26 @@ enum ListPackagesForDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListScheduledActionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListScheduledActionsInput {
+
+    static func queryItemProvider(_ value: ListScheduledActionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListScheduledActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListScheduledActionsInput {
+
+    static func urlPathProvider(_ value: ListScheduledActionsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/scheduledActions"
@@ -10921,23 +10951,23 @@ enum ListScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let arn = arn else {
-                let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let arnQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
-            items.append(arnQueryItem)
-            return items
+extension ListTagsInput {
+
+    static func queryItemProvider(_ value: ListTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let arn = value.arn else {
+            let message = "Creating a URL Query Item failed. arn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        items.append(arnQueryItem)
+        return items
     }
 }
 
-extension ListTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsInput {
+
+    static func urlPathProvider(_ value: ListTagsInput) -> Swift.String? {
         return "/2021-01-01/tags"
     }
 }
@@ -11029,25 +11059,25 @@ enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListVersionsInput {
+
+    static func queryItemProvider(_ value: ListVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVersionsInput {
+
+    static func urlPathProvider(_ value: ListVersionsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/versions"
     }
 }
@@ -11152,22 +11182,22 @@ enum ListVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVpcEndpointAccessInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointAccessInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointAccessInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/listVpcEndpointAccess"
@@ -11275,22 +11305,22 @@ enum ListVpcEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListVpcEndpointsForDomainInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointsForDomainInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointsForDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointsForDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension ListVpcEndpointsForDomainInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointsForDomainInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/vpcEndpoints"
@@ -11398,21 +11428,21 @@ enum ListVpcEndpointsForDomainOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListVpcEndpointsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListVpcEndpointsInput {
+
+    static func queryItemProvider(_ value: ListVpcEndpointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension ListVpcEndpointsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVpcEndpointsInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointsInput) -> Swift.String? {
         return "/2021-01-01/opensearch/vpcEndpoints"
     }
 }
@@ -13280,8 +13310,9 @@ extension PurchaseReservedInstanceOfferingInput: Swift.Encodable {
     }
 }
 
-extension PurchaseReservedInstanceOfferingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PurchaseReservedInstanceOfferingInput {
+
+    static func urlPathProvider(_ value: PurchaseReservedInstanceOfferingInput) -> Swift.String? {
         return "/2021-01-01/opensearch/purchaseReservedInstanceOffering"
     }
 }
@@ -13445,9 +13476,10 @@ extension OpenSearchClientTypes {
 
 }
 
-extension RejectInboundConnectionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectionId = connectionId else {
+extension RejectInboundConnectionInput {
+
+    static func urlPathProvider(_ value: RejectInboundConnectionInput) -> Swift.String? {
+        guard let connectionId = value.connectionId else {
             return nil
         }
         return "/2021-01-01/opensearch/cc/inboundConnection/\(connectionId.urlPercentEncoding())/reject"
@@ -13550,8 +13582,9 @@ extension RemoveTagsInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsInput {
+
+    static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
         return "/2021-01-01/tags-removal"
     }
 }
@@ -14081,9 +14114,10 @@ extension RevokeVpcEndpointAccessInput: Swift.Encodable {
     }
 }
 
-extension RevokeVpcEndpointAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension RevokeVpcEndpointAccessInput {
+
+    static func urlPathProvider(_ value: RevokeVpcEndpointAccessInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/revokeVpcEndpointAccess"
@@ -15155,9 +15189,10 @@ extension StartDomainMaintenanceInput: Swift.Encodable {
     }
 }
 
-extension StartDomainMaintenanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension StartDomainMaintenanceInput {
+
+    static func urlPathProvider(_ value: StartDomainMaintenanceInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenance"
@@ -15284,8 +15319,9 @@ extension StartServiceSoftwareUpdateInput: Swift.Encodable {
     }
 }
 
-extension StartServiceSoftwareUpdateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartServiceSoftwareUpdateInput {
+
+    static func urlPathProvider(_ value: StartServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/start"
     }
 }
@@ -15665,12 +15701,13 @@ extension UpdateDataSourceInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension UpdateDataSourceInput {
+
+    static func urlPathProvider(_ value: UpdateDataSourceInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
-        guard let name = name else {
+        guard let name = value.name else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dataSource/\(name.urlPercentEncoding())"
@@ -15869,9 +15906,10 @@ extension UpdateDomainConfigInput: Swift.Encodable {
     }
 }
 
-extension UpdateDomainConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension UpdateDomainConfigInput {
+
+    static func urlPathProvider(_ value: UpdateDomainConfigInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/config"
@@ -16182,8 +16220,9 @@ extension UpdatePackageInput: Swift.Encodable {
     }
 }
 
-extension UpdatePackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdatePackageInput {
+
+    static func urlPathProvider(_ value: UpdatePackageInput) -> Swift.String? {
         return "/2021-01-01/packages/update"
     }
 }
@@ -16325,9 +16364,10 @@ extension UpdateScheduledActionInput: Swift.Encodable {
     }
 }
 
-extension UpdateScheduledActionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let domainName = domainName else {
+extension UpdateScheduledActionInput {
+
+    static func urlPathProvider(_ value: UpdateScheduledActionInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/scheduledAction/update"
@@ -16474,8 +16514,9 @@ extension UpdateVpcEndpointInput: Swift.Encodable {
     }
 }
 
-extension UpdateVpcEndpointInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateVpcEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateVpcEndpointInput) -> Swift.String? {
         return "/2021-01-01/opensearch/vpcEndpoints/update"
     }
 }
@@ -16603,8 +16644,9 @@ extension UpgradeDomainInput: Swift.Encodable {
     }
 }
 
-extension UpgradeDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpgradeDomainInput {
+
+    static func urlPathProvider(_ value: UpgradeDomainInput) -> Swift.String? {
         return "/2021-01-01/opensearch/upgradeDomain"
     }
 }

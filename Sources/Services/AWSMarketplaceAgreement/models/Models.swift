@@ -703,8 +703,9 @@ extension DescribeAgreementInput: Swift.Encodable {
     }
 }
 
-extension DescribeAgreementInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAgreementInput {
+
+    static func urlPathProvider(_ value: DescribeAgreementInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1288,8 +1289,9 @@ extension GetAgreementTermsInput: Swift.Encodable {
     }
 }
 
-extension GetAgreementTermsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAgreementTermsInput {
+
+    static func urlPathProvider(_ value: GetAgreementTermsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2166,8 +2168,9 @@ extension SearchAgreementsInput: Swift.Encodable {
     }
 }
 
-extension SearchAgreementsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SearchAgreementsInput {
+
+    static func urlPathProvider(_ value: SearchAgreementsInput) -> Swift.String? {
         return "/"
     }
 }

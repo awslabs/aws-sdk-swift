@@ -172,8 +172,9 @@ extension AssociateCreatedArtifactInput: Swift.Encodable {
     }
 }
 
-extension AssociateCreatedArtifactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateCreatedArtifactInput {
+
+    static func urlPathProvider(_ value: AssociateCreatedArtifactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -287,8 +288,9 @@ extension AssociateDiscoveredResourceInput: Swift.Encodable {
     }
 }
 
-extension AssociateDiscoveredResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateDiscoveredResourceInput {
+
+    static func urlPathProvider(_ value: AssociateDiscoveredResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -395,8 +397,9 @@ extension CreateProgressUpdateStreamInput: Swift.Encodable {
     }
 }
 
-extension CreateProgressUpdateStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProgressUpdateStreamInput {
+
+    static func urlPathProvider(_ value: CreateProgressUpdateStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -529,8 +532,9 @@ extension DeleteProgressUpdateStreamInput: Swift.Encodable {
     }
 }
 
-extension DeleteProgressUpdateStreamInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProgressUpdateStreamInput {
+
+    static func urlPathProvider(_ value: DeleteProgressUpdateStreamInput) -> Swift.String? {
         return "/"
     }
 }
@@ -614,8 +618,9 @@ extension DescribeApplicationStateInput: Swift.Encodable {
     }
 }
 
-extension DescribeApplicationStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeApplicationStateInput {
+
+    static func urlPathProvider(_ value: DescribeApplicationStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -734,8 +739,9 @@ extension DescribeMigrationTaskInput: Swift.Encodable {
     }
 }
 
-extension DescribeMigrationTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMigrationTaskInput {
+
+    static func urlPathProvider(_ value: DescribeMigrationTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -860,8 +866,9 @@ extension DisassociateCreatedArtifactInput: Swift.Encodable {
     }
 }
 
-extension DisassociateCreatedArtifactInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateCreatedArtifactInput {
+
+    static func urlPathProvider(_ value: DisassociateCreatedArtifactInput) -> Swift.String? {
         return "/"
     }
 }
@@ -975,8 +982,9 @@ extension DisassociateDiscoveredResourceInput: Swift.Encodable {
     }
 }
 
-extension DisassociateDiscoveredResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateDiscoveredResourceInput {
+
+    static func urlPathProvider(_ value: DisassociateDiscoveredResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1242,8 +1250,9 @@ extension ImportMigrationTaskInput: Swift.Encodable {
     }
 }
 
-extension ImportMigrationTaskInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ImportMigrationTaskInput {
+
+    static func urlPathProvider(_ value: ImportMigrationTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1457,8 +1466,9 @@ extension ListApplicationStatesInput: Swift.Encodable {
     }
 }
 
-extension ListApplicationStatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListApplicationStatesInput {
+
+    static func urlPathProvider(_ value: ListApplicationStatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1616,8 +1626,9 @@ extension ListCreatedArtifactsInput: Swift.Encodable {
     }
 }
 
-extension ListCreatedArtifactsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCreatedArtifactsInput {
+
+    static func urlPathProvider(_ value: ListCreatedArtifactsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1777,8 +1788,9 @@ extension ListDiscoveredResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListDiscoveredResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDiscoveredResourcesInput {
+
+    static func urlPathProvider(_ value: ListDiscoveredResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1934,8 +1946,9 @@ extension ListMigrationTasksInput: Swift.Encodable {
     }
 }
 
-extension ListMigrationTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMigrationTasksInput {
+
+    static func urlPathProvider(_ value: ListMigrationTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2078,8 +2091,9 @@ extension ListProgressUpdateStreamsInput: Swift.Encodable {
     }
 }
 
-extension ListProgressUpdateStreamsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProgressUpdateStreamsInput {
+
+    static func urlPathProvider(_ value: ListProgressUpdateStreamsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2392,8 +2406,9 @@ extension NotifyApplicationStateInput: Swift.Encodable {
     }
 }
 
-extension NotifyApplicationStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension NotifyApplicationStateInput {
+
+    static func urlPathProvider(_ value: NotifyApplicationStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2515,8 +2530,9 @@ extension NotifyMigrationTaskStateInput: Swift.Encodable {
     }
 }
 
-extension NotifyMigrationTaskStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension NotifyMigrationTaskStateInput {
+
+    static func urlPathProvider(_ value: NotifyMigrationTaskStateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2741,8 +2757,9 @@ extension PutResourceAttributesInput: Swift.Encodable {
     }
 }
 
-extension PutResourceAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutResourceAttributesInput {
+
+    static func urlPathProvider(_ value: PutResourceAttributesInput) -> Swift.String? {
         return "/"
     }
 }

@@ -422,8 +422,9 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -494,8 +495,9 @@ extension CreateGroupMembershipInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupMembershipInput {
+
+    static func urlPathProvider(_ value: CreateGroupMembershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -762,8 +764,9 @@ extension CreateUserInput: Swift.Encodable {
     }
 }
 
-extension CreateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserInput {
+
+    static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1013,8 +1016,9 @@ extension DeleteGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1074,8 +1078,9 @@ extension DeleteGroupMembershipInput: Swift.Encodable {
     }
 }
 
-extension DeleteGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGroupMembershipInput {
+
+    static func urlPathProvider(_ value: DeleteGroupMembershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1185,8 +1190,9 @@ extension DeleteUserInput: Swift.Encodable {
     }
 }
 
-extension DeleteUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUserInput {
+
+    static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1271,8 +1277,9 @@ extension DescribeGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGroupInput {
+
+    static func urlPathProvider(_ value: DescribeGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1332,8 +1339,9 @@ extension DescribeGroupMembershipInput: Swift.Encodable {
     }
 }
 
-extension DescribeGroupMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeGroupMembershipInput {
+
+    static func urlPathProvider(_ value: DescribeGroupMembershipInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1591,8 +1599,9 @@ extension DescribeUserInput: Swift.Encodable {
     }
 }
 
-extension DescribeUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUserInput {
+
+    static func urlPathProvider(_ value: DescribeUserInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2063,8 +2072,9 @@ extension GetGroupIdInput: Swift.Encodable {
     }
 }
 
-extension GetGroupIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupIdInput {
+
+    static func urlPathProvider(_ value: GetGroupIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2194,8 +2204,9 @@ extension GetGroupMembershipIdInput: Swift.Encodable {
     }
 }
 
-extension GetGroupMembershipIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetGroupMembershipIdInput {
+
+    static func urlPathProvider(_ value: GetGroupMembershipIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2330,8 +2341,9 @@ extension GetUserIdInput: Swift.Encodable {
     }
 }
 
-extension GetUserIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUserIdInput {
+
+    static func urlPathProvider(_ value: GetUserIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2758,8 +2770,9 @@ extension IsMemberInGroupsInput: Swift.Encodable {
     }
 }
 
-extension IsMemberInGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension IsMemberInGroupsInput {
+
+    static func urlPathProvider(_ value: IsMemberInGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2909,8 +2922,9 @@ extension ListGroupMembershipsForMemberInput: Swift.Encodable {
     }
 }
 
-extension ListGroupMembershipsForMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupMembershipsForMemberInput {
+
+    static func urlPathProvider(_ value: ListGroupMembershipsForMemberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3068,8 +3082,9 @@ extension ListGroupMembershipsInput: Swift.Encodable {
     }
 }
 
-extension ListGroupMembershipsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupMembershipsInput {
+
+    static func urlPathProvider(_ value: ListGroupMembershipsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3230,8 +3245,9 @@ extension ListGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupsInput {
+
+    static func urlPathProvider(_ value: ListGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3401,8 +3417,9 @@ extension ListUsersInput: Swift.Encodable {
     }
 }
 
-extension ListUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUsersInput {
+
+    static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4064,8 +4081,9 @@ extension UpdateGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4176,8 +4194,9 @@ extension UpdateUserInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateUserInput {
+
+    static func urlPathProvider(_ value: UpdateUserInput) -> Swift.String? {
         return "/"
     }
 }

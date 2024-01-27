@@ -250,9 +250,10 @@ extension CreateBillOfMaterialsImportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateBillOfMaterialsImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let instanceId = instanceId else {
+extension CreateBillOfMaterialsImportJobInput {
+
+    static func urlPathProvider(_ value: CreateBillOfMaterialsImportJobInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
             return nil
         }
         return "/api/configuration/instances/\(instanceId.urlPercentEncoding())/bill-of-materials-import-jobs"
@@ -377,12 +378,13 @@ extension SupplyChainClientTypes {
     }
 }
 
-extension GetBillOfMaterialsImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let instanceId = instanceId else {
+extension GetBillOfMaterialsImportJobInput {
+
+    static func urlPathProvider(_ value: GetBillOfMaterialsImportJobInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
             return nil
         }
-        guard let jobId = jobId else {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/api/configuration/instances/\(instanceId.urlPercentEncoding())/bill-of-materials-import-jobs/\(jobId.urlPercentEncoding())"

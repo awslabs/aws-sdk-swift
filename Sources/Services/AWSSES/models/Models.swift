@@ -743,8 +743,9 @@ extension CloneReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension CloneReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CloneReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: CloneReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1275,8 +1276,9 @@ extension CreateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetEventDestinationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1357,8 +1359,9 @@ extension CreateConfigurationSetInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationSetInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1430,8 +1433,9 @@ extension CreateConfigurationSetTrackingOptionsInput: Swift.Encodable {
     }
 }
 
-extension CreateConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConfigurationSetTrackingOptionsInput {
+
+    static func urlPathProvider(_ value: CreateConfigurationSetTrackingOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1524,8 +1528,9 @@ extension CreateCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: CreateCustomVerificationEmailTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1639,8 +1644,9 @@ extension CreateReceiptFilterInput: Swift.Encodable {
     }
 }
 
-extension CreateReceiptFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReceiptFilterInput {
+
+    static func urlPathProvider(_ value: CreateReceiptFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1714,8 +1720,9 @@ extension CreateReceiptRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateReceiptRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReceiptRuleInput {
+
+    static func urlPathProvider(_ value: CreateReceiptRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1805,8 +1812,9 @@ extension CreateReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension CreateReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: CreateReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1880,8 +1888,9 @@ extension CreateTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateTemplateInput {
+
+    static func urlPathProvider(_ value: CreateTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2247,8 +2256,9 @@ extension DeleteConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetEventDestinationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2325,8 +2335,9 @@ extension DeleteConfigurationSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigurationSetInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2393,8 +2404,9 @@ extension DeleteConfigurationSetTrackingOptionsInput: Swift.Encodable {
     }
 }
 
-extension DeleteConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteConfigurationSetTrackingOptionsInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationSetTrackingOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2462,8 +2474,9 @@ extension DeleteCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteCustomVerificationEmailTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2528,8 +2541,9 @@ extension DeleteIdentityInput: Swift.Encodable {
     }
 }
 
-extension DeleteIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIdentityInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2598,8 +2612,9 @@ extension DeleteIdentityPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteIdentityPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteIdentityPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2674,8 +2689,9 @@ extension DeleteReceiptFilterInput: Swift.Encodable {
     }
 }
 
-extension DeleteReceiptFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReceiptFilterInput {
+
+    static func urlPathProvider(_ value: DeleteReceiptFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2744,8 +2760,9 @@ extension DeleteReceiptRuleInput: Swift.Encodable {
     }
 }
 
-extension DeleteReceiptRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReceiptRuleInput {
+
+    static func urlPathProvider(_ value: DeleteReceiptRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2821,8 +2838,9 @@ extension DeleteReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension DeleteReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: DeleteReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2889,8 +2907,9 @@ extension DeleteTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2955,8 +2974,9 @@ extension DeleteVerifiedEmailAddressInput: Swift.Encodable {
     }
 }
 
-extension DeleteVerifiedEmailAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteVerifiedEmailAddressInput {
+
+    static func urlPathProvider(_ value: DeleteVerifiedEmailAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3053,8 +3073,9 @@ extension DescribeActiveReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension DescribeActiveReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeActiveReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: DescribeActiveReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3166,8 +3187,9 @@ extension DescribeConfigurationSetInput: Swift.Encodable {
     }
 }
 
-extension DescribeConfigurationSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeConfigurationSetInput {
+
+    static func urlPathProvider(_ value: DescribeConfigurationSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3350,8 +3372,9 @@ extension DescribeReceiptRuleInput: Swift.Encodable {
     }
 }
 
-extension DescribeReceiptRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReceiptRuleInput {
+
+    static func urlPathProvider(_ value: DescribeReceiptRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3459,8 +3482,9 @@ extension DescribeReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension DescribeReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: DescribeReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4233,8 +4257,9 @@ extension GetAccountSendingEnabledInput: Swift.Encodable {
     }
 }
 
-extension GetAccountSendingEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAccountSendingEnabledInput {
+
+    static func urlPathProvider(_ value: GetAccountSendingEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4306,8 +4331,9 @@ extension GetCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: GetCustomVerificationEmailTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4464,8 +4490,9 @@ extension GetIdentityDkimAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityDkimAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityDkimAttributesInput {
+
+    static func urlPathProvider(_ value: GetIdentityDkimAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4606,8 +4633,9 @@ extension GetIdentityMailFromDomainAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityMailFromDomainAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityMailFromDomainAttributesInput {
+
+    static func urlPathProvider(_ value: GetIdentityMailFromDomainAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4748,8 +4776,9 @@ extension GetIdentityNotificationAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityNotificationAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityNotificationAttributesInput {
+
+    static func urlPathProvider(_ value: GetIdentityNotificationAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4893,8 +4922,9 @@ extension GetIdentityPoliciesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityPoliciesInput {
+
+    static func urlPathProvider(_ value: GetIdentityPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5044,8 +5074,9 @@ extension GetIdentityVerificationAttributesInput: Swift.Encodable {
     }
 }
 
-extension GetIdentityVerificationAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIdentityVerificationAttributesInput {
+
+    static func urlPathProvider(_ value: GetIdentityVerificationAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5174,8 +5205,9 @@ extension GetSendQuotaInput: Swift.Encodable {
     }
 }
 
-extension GetSendQuotaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSendQuotaInput {
+
+    static func urlPathProvider(_ value: GetSendQuotaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5264,8 +5296,9 @@ extension GetSendStatisticsInput: Swift.Encodable {
     }
 }
 
-extension GetSendStatisticsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSendStatisticsInput {
+
+    static func urlPathProvider(_ value: GetSendStatisticsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5354,8 +5387,9 @@ extension GetTemplateInput: Swift.Encodable {
     }
 }
 
-extension GetTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTemplateInput {
+
+    static func urlPathProvider(_ value: GetTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6721,8 +6755,9 @@ extension ListConfigurationSetsInput: Swift.Encodable {
     }
 }
 
-extension ListConfigurationSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConfigurationSetsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6856,8 +6891,9 @@ extension ListCustomVerificationEmailTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCustomVerificationEmailTemplatesInput {
+
+    static func urlPathProvider(_ value: ListCustomVerificationEmailTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6994,8 +7030,9 @@ extension ListIdentitiesInput: Swift.Encodable {
     }
 }
 
-extension ListIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentitiesInput {
+
+    static func urlPathProvider(_ value: ListIdentitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7135,8 +7172,9 @@ extension ListIdentityPoliciesInput: Swift.Encodable {
     }
 }
 
-extension ListIdentityPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentityPoliciesInput {
+
+    static func urlPathProvider(_ value: ListIdentityPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7248,8 +7286,9 @@ extension ListReceiptFiltersInput: Swift.Encodable {
     }
 }
 
-extension ListReceiptFiltersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceiptFiltersInput {
+
+    static func urlPathProvider(_ value: ListReceiptFiltersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7339,8 +7378,9 @@ extension ListReceiptRuleSetsInput: Swift.Encodable {
     }
 }
 
-extension ListReceiptRuleSetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListReceiptRuleSetsInput {
+
+    static func urlPathProvider(_ value: ListReceiptRuleSetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7466,8 +7506,9 @@ extension ListTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTemplatesInput {
+
+    static func urlPathProvider(_ value: ListTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7593,8 +7634,9 @@ extension ListVerifiedEmailAddressesInput: Swift.Encodable {
     }
 }
 
-extension ListVerifiedEmailAddressesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListVerifiedEmailAddressesInput {
+
+    static func urlPathProvider(_ value: ListVerifiedEmailAddressesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8130,8 +8172,9 @@ extension PutConfigurationSetDeliveryOptionsInput: Swift.Encodable {
     }
 }
 
-extension PutConfigurationSetDeliveryOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutConfigurationSetDeliveryOptionsInput {
+
+    static func urlPathProvider(_ value: PutConfigurationSetDeliveryOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8213,8 +8256,9 @@ extension PutIdentityPolicyInput: Swift.Encodable {
     }
 }
 
-extension PutIdentityPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutIdentityPolicyInput {
+
+    static func urlPathProvider(_ value: PutIdentityPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8900,8 +8944,9 @@ extension ReorderReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension ReorderReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ReorderReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: ReorderReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9389,8 +9434,9 @@ extension SendBounceInput: Swift.Encodable {
     }
 }
 
-extension SendBounceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendBounceInput {
+
+    static func urlPathProvider(_ value: SendBounceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9604,8 +9650,9 @@ extension SendBulkTemplatedEmailInput: Swift.Encodable {
     }
 }
 
-extension SendBulkTemplatedEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendBulkTemplatedEmailInput {
+
+    static func urlPathProvider(_ value: SendBulkTemplatedEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9864,8 +9911,9 @@ extension SendCustomVerificationEmailInput: Swift.Encodable {
     }
 }
 
-extension SendCustomVerificationEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendCustomVerificationEmailInput {
+
+    static func urlPathProvider(_ value: SendCustomVerificationEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10101,8 +10149,9 @@ extension SendEmailInput: Swift.Encodable {
     }
 }
 
-extension SendEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendEmailInput {
+
+    static func urlPathProvider(_ value: SendEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10344,8 +10393,9 @@ extension SendRawEmailInput: Swift.Encodable {
     }
 }
 
-extension SendRawEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendRawEmailInput {
+
+    static func urlPathProvider(_ value: SendRawEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10600,8 +10650,9 @@ extension SendTemplatedEmailInput: Swift.Encodable {
     }
 }
 
-extension SendTemplatedEmailInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendTemplatedEmailInput {
+
+    static func urlPathProvider(_ value: SendTemplatedEmailInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10821,8 +10872,9 @@ extension SetActiveReceiptRuleSetInput: Swift.Encodable {
     }
 }
 
-extension SetActiveReceiptRuleSetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetActiveReceiptRuleSetInput {
+
+    static func urlPathProvider(_ value: SetActiveReceiptRuleSetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10891,8 +10943,9 @@ extension SetIdentityDkimEnabledInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityDkimEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityDkimEnabledInput {
+
+    static func urlPathProvider(_ value: SetIdentityDkimEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10970,8 +11023,9 @@ extension SetIdentityFeedbackForwardingEnabledInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityFeedbackForwardingEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityFeedbackForwardingEnabledInput {
+
+    static func urlPathProvider(_ value: SetIdentityFeedbackForwardingEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11052,8 +11106,9 @@ extension SetIdentityHeadersInNotificationsEnabledInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityHeadersInNotificationsEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityHeadersInNotificationsEnabledInput {
+
+    static func urlPathProvider(_ value: SetIdentityHeadersInNotificationsEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11143,8 +11198,9 @@ extension SetIdentityMailFromDomainInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityMailFromDomainInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityMailFromDomainInput {
+
+    static func urlPathProvider(_ value: SetIdentityMailFromDomainInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11232,8 +11288,9 @@ extension SetIdentityNotificationTopicInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityNotificationTopicInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetIdentityNotificationTopicInput {
+
+    static func urlPathProvider(_ value: SetIdentityNotificationTopicInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11322,8 +11379,9 @@ extension SetReceiptRulePositionInput: Swift.Encodable {
     }
 }
 
-extension SetReceiptRulePositionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetReceiptRulePositionInput {
+
+    static func urlPathProvider(_ value: SetReceiptRulePositionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11660,8 +11718,9 @@ extension TestRenderTemplateInput: Swift.Encodable {
     }
 }
 
-extension TestRenderTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TestRenderTemplateInput {
+
+    static func urlPathProvider(_ value: TestRenderTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11963,8 +12022,9 @@ extension UpdateAccountSendingEnabledInput: Swift.Encodable {
     }
 }
 
-extension UpdateAccountSendingEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAccountSendingEnabledInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSendingEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12031,8 +12091,9 @@ extension UpdateConfigurationSetEventDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetEventDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConfigurationSetEventDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetEventDestinationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12115,8 +12176,9 @@ extension UpdateConfigurationSetReputationMetricsEnabledInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetReputationMetricsEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConfigurationSetReputationMetricsEnabledInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetReputationMetricsEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12194,8 +12256,9 @@ extension UpdateConfigurationSetSendingEnabledInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetSendingEnabledInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConfigurationSetSendingEnabledInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetSendingEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12273,8 +12336,9 @@ extension UpdateConfigurationSetTrackingOptionsInput: Swift.Encodable {
     }
 }
 
-extension UpdateConfigurationSetTrackingOptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateConfigurationSetTrackingOptionsInput {
+
+    static func urlPathProvider(_ value: UpdateConfigurationSetTrackingOptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12367,8 +12431,9 @@ extension UpdateCustomVerificationEmailTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateCustomVerificationEmailTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCustomVerificationEmailTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateCustomVerificationEmailTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12479,8 +12544,9 @@ extension UpdateReceiptRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateReceiptRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateReceiptRuleInput {
+
+    static func urlPathProvider(_ value: UpdateReceiptRuleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12561,8 +12627,9 @@ extension UpdateTemplateInput: Swift.Encodable {
     }
 }
 
-extension UpdateTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12669,8 +12736,9 @@ extension VerifyDomainDkimInput: Swift.Encodable {
     }
 }
 
-extension VerifyDomainDkimInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyDomainDkimInput {
+
+    static func urlPathProvider(_ value: VerifyDomainDkimInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12785,8 +12853,9 @@ extension VerifyDomainIdentityInput: Swift.Encodable {
     }
 }
 
-extension VerifyDomainIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyDomainIdentityInput {
+
+    static func urlPathProvider(_ value: VerifyDomainIdentityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12884,8 +12953,9 @@ extension VerifyEmailAddressInput: Swift.Encodable {
     }
 }
 
-extension VerifyEmailAddressInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyEmailAddressInput {
+
+    static func urlPathProvider(_ value: VerifyEmailAddressInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12950,8 +13020,9 @@ extension VerifyEmailIdentityInput: Swift.Encodable {
     }
 }
 
-extension VerifyEmailIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension VerifyEmailIdentityInput {
+
+    static func urlPathProvider(_ value: VerifyEmailIdentityInput) -> Swift.String? {
         return "/"
     }
 }

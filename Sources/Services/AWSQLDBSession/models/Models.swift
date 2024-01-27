@@ -941,8 +941,9 @@ extension SendCommandInput: Swift.Encodable {
     }
 }
 
-extension SendCommandInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendCommandInput {
+
+    static func urlPathProvider(_ value: SendCommandInput) -> Swift.String? {
         return "/"
     }
 }

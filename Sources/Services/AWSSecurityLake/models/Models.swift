@@ -472,8 +472,9 @@ extension CreateAwsLogSourceInput: Swift.Encodable {
     }
 }
 
-extension CreateAwsLogSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAwsLogSourceInput {
+
+    static func urlPathProvider(_ value: CreateAwsLogSourceInput) -> Swift.String? {
         return "/v1/datalake/logsources/aws"
     }
 }
@@ -609,8 +610,9 @@ extension CreateCustomLogSourceInput: Swift.Encodable {
     }
 }
 
-extension CreateCustomLogSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCustomLogSourceInput {
+
+    static func urlPathProvider(_ value: CreateCustomLogSourceInput) -> Swift.String? {
         return "/v1/datalake/logsources/custom"
     }
 }
@@ -812,8 +814,9 @@ extension CreateDataLakeExceptionSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataLakeExceptionSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateDataLakeExceptionSubscriptionInput) -> Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
@@ -917,8 +920,9 @@ extension CreateDataLakeInput: Swift.Encodable {
     }
 }
 
-extension CreateDataLakeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataLakeInput {
+
+    static func urlPathProvider(_ value: CreateDataLakeInput) -> Swift.String? {
         return "/v1/datalake"
     }
 }
@@ -1003,8 +1007,9 @@ extension CreateDataLakeOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDataLakeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateDataLakeOrganizationConfigurationInput) -> Swift.String? {
         return "/v1/datalake/organization/configuration"
     }
 }
@@ -1180,8 +1185,9 @@ extension CreateSubscriberInput: Swift.Encodable {
     }
 }
 
-extension CreateSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSubscriberInput {
+
+    static func urlPathProvider(_ value: CreateSubscriberInput) -> Swift.String? {
         return "/v1/subscribers"
     }
 }
@@ -1297,9 +1303,10 @@ extension CreateSubscriberNotificationInput: Swift.Encodable {
     }
 }
 
-extension CreateSubscriberNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension CreateSubscriberNotificationInput {
+
+    static func urlPathProvider(_ value: CreateSubscriberNotificationInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"
@@ -2576,8 +2583,9 @@ extension DeleteAwsLogSourceInput: Swift.Encodable {
     }
 }
 
-extension DeleteAwsLogSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAwsLogSourceInput {
+
+    static func urlPathProvider(_ value: DeleteAwsLogSourceInput) -> Swift.String? {
         return "/v1/datalake/logsources/aws/delete"
     }
 }
@@ -2685,22 +2693,22 @@ enum DeleteAwsLogSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCustomLogSourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let sourceVersion = sourceVersion {
-                let sourceVersionQueryItem = ClientRuntime.URLQueryItem(name: "sourceVersion".urlPercentEncoding(), value: Swift.String(sourceVersion).urlPercentEncoding())
-                items.append(sourceVersionQueryItem)
-            }
-            return items
+extension DeleteCustomLogSourceInput {
+
+    static func queryItemProvider(_ value: DeleteCustomLogSourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let sourceVersion = value.sourceVersion {
+            let sourceVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "sourceVersion".urlPercentEncoding(), value: Swift.String(sourceVersion).urlPercentEncoding())
+            items.append(sourceVersionQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteCustomLogSourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let sourceName = sourceName else {
+extension DeleteCustomLogSourceInput {
+
+    static func urlPathProvider(_ value: DeleteCustomLogSourceInput) -> Swift.String? {
+        guard let sourceName = value.sourceName else {
             return nil
         }
         return "/v1/datalake/logsources/custom/\(sourceName.urlPercentEncoding())"
@@ -2759,8 +2767,9 @@ enum DeleteCustomLogSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataLakeExceptionSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteDataLakeExceptionSubscriptionInput) -> Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
@@ -2821,8 +2830,9 @@ extension DeleteDataLakeInput: Swift.Encodable {
     }
 }
 
-extension DeleteDataLakeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataLakeInput {
+
+    static func urlPathProvider(_ value: DeleteDataLakeInput) -> Swift.String? {
         return "/v1/datalake/delete"
     }
 }
@@ -2881,8 +2891,9 @@ extension DeleteDataLakeOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDataLakeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteDataLakeOrganizationConfigurationInput) -> Swift.String? {
         return "/v1/datalake/organization/configuration/delete"
     }
 }
@@ -2977,9 +2988,10 @@ enum DeleteDataLakeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension DeleteSubscriberInput {
+
+    static func urlPathProvider(_ value: DeleteSubscriberInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
@@ -3008,9 +3020,10 @@ extension DeleteSubscriberInputBody: Swift.Decodable {
     }
 }
 
-extension DeleteSubscriberNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension DeleteSubscriberNotificationInput {
+
+    static func urlPathProvider(_ value: DeleteSubscriberNotificationInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"
@@ -3091,8 +3104,9 @@ enum DeleteSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeregisterDataLakeDelegatedAdministratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterDataLakeDelegatedAdministratorInput {
+
+    static func urlPathProvider(_ value: DeregisterDataLakeDelegatedAdministratorInput) -> Swift.String? {
         return "/v1/datalake/delegate"
     }
 }
@@ -3137,8 +3151,9 @@ enum DeregisterDataLakeDelegatedAdministratorOutputError: ClientRuntime.HttpResp
     }
 }
 
-extension GetDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataLakeExceptionSubscriptionInput {
+
+    static func urlPathProvider(_ value: GetDataLakeExceptionSubscriptionInput) -> Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
@@ -3233,8 +3248,9 @@ enum GetDataLakeExceptionSubscriptionOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetDataLakeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataLakeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetDataLakeOrganizationConfigurationInput) -> Swift.String? {
         return "/v1/datalake/organization/configuration"
     }
 }
@@ -3342,8 +3358,9 @@ extension GetDataLakeSourcesInput: Swift.Encodable {
     }
 }
 
-extension GetDataLakeSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDataLakeSourcesInput {
+
+    static func urlPathProvider(_ value: GetDataLakeSourcesInput) -> Swift.String? {
         return "/v1/datalake/sources"
     }
 }
@@ -3486,9 +3503,10 @@ enum GetDataLakeSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension GetSubscriberInput {
+
+    static func urlPathProvider(_ value: GetSubscriberInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
@@ -3761,8 +3779,9 @@ extension ListDataLakeExceptionsInput: Swift.Encodable {
     }
 }
 
-extension ListDataLakeExceptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDataLakeExceptionsInput {
+
+    static func urlPathProvider(_ value: ListDataLakeExceptionsInput) -> Swift.String? {
         return "/v1/datalake/exceptions"
     }
 }
@@ -3895,23 +3914,23 @@ enum ListDataLakeExceptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDataLakesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let regions = regions {
-                regions.forEach { queryItemValue in
-                    let queryItem = ClientRuntime.URLQueryItem(name: "regions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                    items.append(queryItem)
-                }
+extension ListDataLakesInput {
+
+    static func queryItemProvider(_ value: ListDataLakesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let regions = value.regions {
+            regions.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "regions".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
             }
-            return items
         }
+        return items
     }
 }
 
-extension ListDataLakesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDataLakesInput {
+
+    static func urlPathProvider(_ value: ListDataLakesInput) -> Swift.String? {
         return "/v1/datalakes"
     }
 }
@@ -4040,8 +4059,9 @@ extension ListLogSourcesInput: Swift.Encodable {
     }
 }
 
-extension ListLogSourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLogSourcesInput {
+
+    static func urlPathProvider(_ value: ListLogSourcesInput) -> Swift.String? {
         return "/v1/datalake/logsources/list"
     }
 }
@@ -4208,25 +4228,25 @@ enum ListLogSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListSubscribersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSubscribersInput {
+
+    static func queryItemProvider(_ value: ListSubscribersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSubscribersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSubscribersInput {
+
+    static func urlPathProvider(_ value: ListSubscribersInput) -> Swift.String? {
         return "/v1/subscribers"
     }
 }
@@ -4331,9 +4351,10 @@ enum ListSubscribersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -4601,8 +4622,9 @@ extension RegisterDataLakeDelegatedAdministratorInput: Swift.Encodable {
     }
 }
 
-extension RegisterDataLakeDelegatedAdministratorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterDataLakeDelegatedAdministratorInput {
+
+    static func urlPathProvider(_ value: RegisterDataLakeDelegatedAdministratorInput) -> Swift.String? {
         return "/v1/datalake/delegate"
     }
 }
@@ -5097,9 +5119,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -5259,26 +5282,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
@@ -5359,8 +5382,9 @@ extension UpdateDataLakeExceptionSubscriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataLakeExceptionSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataLakeExceptionSubscriptionInput {
+
+    static func urlPathProvider(_ value: UpdateDataLakeExceptionSubscriptionInput) -> Swift.String? {
         return "/v1/datalake/exceptions/subscription"
     }
 }
@@ -5453,8 +5477,9 @@ extension UpdateDataLakeInput: Swift.Encodable {
     }
 }
 
-extension UpdateDataLakeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDataLakeInput {
+
+    static func urlPathProvider(_ value: UpdateDataLakeInput) -> Swift.String? {
         return "/v1/datalake"
     }
 }
@@ -5590,9 +5615,10 @@ extension UpdateSubscriberInput: Swift.Encodable {
     }
 }
 
-extension UpdateSubscriberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension UpdateSubscriberInput {
+
+    static func urlPathProvider(_ value: UpdateSubscriberInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())"
@@ -5678,9 +5704,10 @@ extension UpdateSubscriberNotificationInput: Swift.Encodable {
     }
 }
 
-extension UpdateSubscriberNotificationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriberId = subscriberId else {
+extension UpdateSubscriberNotificationInput {
+
+    static func urlPathProvider(_ value: UpdateSubscriberNotificationInput) -> Swift.String? {
+        guard let subscriberId = value.subscriberId else {
             return nil
         }
         return "/v1/subscribers/\(subscriberId.urlPercentEncoding())/notification"

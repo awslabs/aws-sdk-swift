@@ -383,24 +383,24 @@ extension CloudFrontClientTypes {
 
 }
 
-extension AssociateAliasInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let alias = alias else {
-                let message = "Creating a URL Query Item failed. alias is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let aliasQueryItem = ClientRuntime.URLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
-            items.append(aliasQueryItem)
-            return items
+extension AssociateAliasInput {
+
+    static func queryItemProvider(_ value: AssociateAliasInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let alias = value.alias else {
+            let message = "Creating a URL Query Item failed. alias is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let aliasQueryItem = ClientRuntime.SDKURLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
+        items.append(aliasQueryItem)
+        return items
     }
 }
 
-extension AssociateAliasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let targetDistributionId = targetDistributionId else {
+extension AssociateAliasInput {
+
+    static func urlPathProvider(_ value: AssociateAliasInput) -> Swift.String? {
+        guard let targetDistributionId = value.targetDistributionId else {
             return nil
         }
         return "/2020-05-31/distribution/\(targetDistributionId.urlPercentEncoding())/associate-alias"
@@ -2857,22 +2857,24 @@ extension CopyDistributionInput {
     }
 }
 
-extension CopyDistributionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CopyDistributionInput {
+
+    static func headerProvider(_ value: CopyDistributionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
-        if let staging = staging {
+        if let staging = value.staging {
             items.add(Header(name: "Staging", value: Swift.String(staging)))
         }
         return items
     }
 }
 
-extension CopyDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let primaryDistributionId = primaryDistributionId else {
+extension CopyDistributionInput {
+
+    static func urlPathProvider(_ value: CopyDistributionInput) -> Swift.String? {
+        guard let primaryDistributionId = value.primaryDistributionId else {
             return nil
         }
         return "/2020-05-31/distribution/\(primaryDistributionId.urlPercentEncoding())/copy"
@@ -3070,8 +3072,9 @@ extension CreateCachePolicyInput {
     }
 }
 
-extension CreateCachePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCachePolicyInput {
+
+    static func urlPathProvider(_ value: CreateCachePolicyInput) -> Swift.String? {
         return "/2020-05-31/cache-policy"
     }
 }
@@ -3190,8 +3193,9 @@ extension CreateCloudFrontOriginAccessIdentityInput {
     }
 }
 
-extension CreateCloudFrontOriginAccessIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCloudFrontOriginAccessIdentityInput {
+
+    static func urlPathProvider(_ value: CreateCloudFrontOriginAccessIdentityInput) -> Swift.String? {
         return "/2020-05-31/origin-access-identity/cloudfront"
     }
 }
@@ -3309,8 +3313,9 @@ extension CreateContinuousDeploymentPolicyInput {
     }
 }
 
-extension CreateContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateContinuousDeploymentPolicyInput {
+
+    static func urlPathProvider(_ value: CreateContinuousDeploymentPolicyInput) -> Swift.String? {
         return "/2020-05-31/continuous-deployment-policy"
     }
 }
@@ -3427,8 +3432,9 @@ extension CreateDistributionInput {
     }
 }
 
-extension CreateDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDistributionInput {
+
+    static func urlPathProvider(_ value: CreateDistributionInput) -> Swift.String? {
         return "/2020-05-31/distribution"
     }
 }
@@ -3606,18 +3612,18 @@ extension CreateDistributionWithTagsInput {
     }
 }
 
-extension CreateDistributionWithTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
-            return items
-        }
+extension CreateDistributionWithTagsInput {
+
+    static func queryItemProvider(_ value: CreateDistributionWithTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "WithTags", value: nil))
+        return items
     }
 }
 
-extension CreateDistributionWithTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDistributionWithTagsInput {
+
+    static func urlPathProvider(_ value: CreateDistributionWithTagsInput) -> Swift.String? {
         return "/2020-05-31/distribution"
     }
 }
@@ -3796,8 +3802,9 @@ extension CreateFieldLevelEncryptionConfigInput {
     }
 }
 
-extension CreateFieldLevelEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFieldLevelEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: CreateFieldLevelEncryptionConfigInput) -> Swift.String? {
         return "/2020-05-31/field-level-encryption"
     }
 }
@@ -3916,8 +3923,9 @@ extension CreateFieldLevelEncryptionProfileInput {
     }
 }
 
-extension CreateFieldLevelEncryptionProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFieldLevelEncryptionProfileInput {
+
+    static func urlPathProvider(_ value: CreateFieldLevelEncryptionProfileInput) -> Swift.String? {
         return "/2020-05-31/field-level-encryption-profile"
     }
 }
@@ -4045,8 +4053,9 @@ extension CreateFunctionInput {
     }
 }
 
-extension CreateFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFunctionInput {
+
+    static func urlPathProvider(_ value: CreateFunctionInput) -> Swift.String? {
         return "/2020-05-31/function"
     }
 }
@@ -4188,9 +4197,10 @@ extension CreateInvalidationInput {
     }
 }
 
-extension CreateInvalidationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension CreateInvalidationInput {
+
+    static func urlPathProvider(_ value: CreateInvalidationInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
         return "/2020-05-31/distribution/\(distributionId.urlPercentEncoding())/invalidation"
@@ -4308,8 +4318,9 @@ extension CreateKeyGroupInput {
     }
 }
 
-extension CreateKeyGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyGroupInput {
+
+    static func urlPathProvider(_ value: CreateKeyGroupInput) -> Swift.String? {
         return "/2020-05-31/key-group"
     }
 }
@@ -4428,8 +4439,9 @@ extension CreateKeyValueStoreInput {
     }
 }
 
-extension CreateKeyValueStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateKeyValueStoreInput {
+
+    static func urlPathProvider(_ value: CreateKeyValueStoreInput) -> Swift.String? {
         return "/2020-05-31/key-value-store"
     }
 }
@@ -4561,9 +4573,10 @@ extension CreateMonitoringSubscriptionInput {
     }
 }
 
-extension CreateMonitoringSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension CreateMonitoringSubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateMonitoringSubscriptionInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
         return "/2020-05-31/distributions/\(distributionId.urlPercentEncoding())/monitoring-subscription"
@@ -4667,8 +4680,9 @@ extension CreateOriginAccessControlInput {
     }
 }
 
-extension CreateOriginAccessControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOriginAccessControlInput {
+
+    static func urlPathProvider(_ value: CreateOriginAccessControlInput) -> Swift.String? {
         return "/2020-05-31/origin-access-control"
     }
 }
@@ -4782,8 +4796,9 @@ extension CreateOriginRequestPolicyInput {
     }
 }
 
-extension CreateOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateOriginRequestPolicyInput {
+
+    static func urlPathProvider(_ value: CreateOriginRequestPolicyInput) -> Swift.String? {
         return "/2020-05-31/origin-request-policy"
     }
 }
@@ -4902,8 +4917,9 @@ extension CreatePublicKeyInput {
     }
 }
 
-extension CreatePublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreatePublicKeyInput {
+
+    static func urlPathProvider(_ value: CreatePublicKeyInput) -> Swift.String? {
         return "/2020-05-31/public-key"
     }
 }
@@ -5023,8 +5039,9 @@ extension CreateRealtimeLogConfigInput {
     }
 }
 
-extension CreateRealtimeLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRealtimeLogConfigInput {
+
+    static func urlPathProvider(_ value: CreateRealtimeLogConfigInput) -> Swift.String? {
         return "/2020-05-31/realtime-log-config"
     }
 }
@@ -5183,8 +5200,9 @@ extension CreateResponseHeadersPolicyInput {
     }
 }
 
-extension CreateResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResponseHeadersPolicyInput {
+
+    static func urlPathProvider(_ value: CreateResponseHeadersPolicyInput) -> Swift.String? {
         return "/2020-05-31/response-headers-policy"
     }
 }
@@ -5303,8 +5321,9 @@ extension CreateStreamingDistributionInput {
     }
 }
 
-extension CreateStreamingDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamingDistributionInput {
+
+    static func urlPathProvider(_ value: CreateStreamingDistributionInput) -> Swift.String? {
         return "/2020-05-31/streaming-distribution"
     }
 }
@@ -5430,18 +5449,18 @@ extension CreateStreamingDistributionWithTagsInput {
     }
 }
 
-extension CreateStreamingDistributionWithTagsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "WithTags", value: nil))
-            return items
-        }
+extension CreateStreamingDistributionWithTagsInput {
+
+    static func queryItemProvider(_ value: CreateStreamingDistributionWithTagsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "WithTags", value: nil))
+        return items
     }
 }
 
-extension CreateStreamingDistributionWithTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateStreamingDistributionWithTagsInput {
+
+    static func urlPathProvider(_ value: CreateStreamingDistributionWithTagsInput) -> Swift.String? {
         return "/2020-05-31/streaming-distribution"
     }
 }
@@ -6038,19 +6057,21 @@ extension CloudFrontClientTypes {
 
 }
 
-extension DeleteCachePolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteCachePolicyInput {
+
+    static func headerProvider(_ value: DeleteCachePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteCachePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteCachePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteCachePolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/cache-policy/\(id.urlPercentEncoding())"
@@ -6099,19 +6120,21 @@ enum DeleteCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteCloudFrontOriginAccessIdentityInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteCloudFrontOriginAccessIdentityInput {
+
+    static func headerProvider(_ value: DeleteCloudFrontOriginAccessIdentityInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteCloudFrontOriginAccessIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteCloudFrontOriginAccessIdentityInput {
+
+    static func urlPathProvider(_ value: DeleteCloudFrontOriginAccessIdentityInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-identity/cloudfront/\(id.urlPercentEncoding())"
@@ -6160,19 +6183,21 @@ enum DeleteCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension DeleteContinuousDeploymentPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteContinuousDeploymentPolicyInput {
+
+    static func headerProvider(_ value: DeleteContinuousDeploymentPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteContinuousDeploymentPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteContinuousDeploymentPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
@@ -6221,19 +6246,21 @@ enum DeleteContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DeleteDistributionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteDistributionInput {
+
+    static func headerProvider(_ value: DeleteDistributionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteDistributionInput {
+
+    static func urlPathProvider(_ value: DeleteDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())"
@@ -6301,19 +6328,21 @@ enum DeleteDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFieldLevelEncryptionConfigInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFieldLevelEncryptionConfigInput {
+
+    static func headerProvider(_ value: DeleteFieldLevelEncryptionConfigInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteFieldLevelEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteFieldLevelEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: DeleteFieldLevelEncryptionConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption/\(id.urlPercentEncoding())"
@@ -6361,19 +6390,21 @@ enum DeleteFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension DeleteFieldLevelEncryptionProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFieldLevelEncryptionProfileInput {
+
+    static func headerProvider(_ value: DeleteFieldLevelEncryptionProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteFieldLevelEncryptionProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteFieldLevelEncryptionProfileInput {
+
+    static func urlPathProvider(_ value: DeleteFieldLevelEncryptionProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption-profile/\(id.urlPercentEncoding())"
@@ -6421,19 +6452,21 @@ enum DeleteFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DeleteFunctionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteFunctionInput {
+
+    static func headerProvider(_ value: DeleteFunctionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteFunctionInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())"
@@ -6482,19 +6515,21 @@ enum DeleteFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKeyGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteKeyGroupInput {
+
+    static func headerProvider(_ value: DeleteKeyGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteKeyGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteKeyGroupInput {
+
+    static func urlPathProvider(_ value: DeleteKeyGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/key-group/\(id.urlPercentEncoding())"
@@ -6541,19 +6576,21 @@ enum DeleteKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteKeyValueStoreInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteKeyValueStoreInput {
+
+    static func headerProvider(_ value: DeleteKeyValueStoreInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteKeyValueStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DeleteKeyValueStoreInput {
+
+    static func urlPathProvider(_ value: DeleteKeyValueStoreInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/key-value-store/\(name.urlPercentEncoding())"
@@ -6602,9 +6639,10 @@ enum DeleteKeyValueStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMonitoringSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension DeleteMonitoringSubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteMonitoringSubscriptionInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
         return "/2020-05-31/distributions/\(distributionId.urlPercentEncoding())/monitoring-subscription"
@@ -6647,19 +6685,21 @@ enum DeleteMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension DeleteOriginAccessControlInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteOriginAccessControlInput {
+
+    static func headerProvider(_ value: DeleteOriginAccessControlInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteOriginAccessControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteOriginAccessControlInput {
+
+    static func urlPathProvider(_ value: DeleteOriginAccessControlInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-control/\(id.urlPercentEncoding())"
@@ -6707,19 +6747,21 @@ enum DeleteOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteOriginRequestPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteOriginRequestPolicyInput {
+
+    static func headerProvider(_ value: DeleteOriginRequestPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteOriginRequestPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteOriginRequestPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-request-policy/\(id.urlPercentEncoding())"
@@ -6768,19 +6810,21 @@ enum DeleteOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeletePublicKeyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeletePublicKeyInput {
+
+    static func headerProvider(_ value: DeletePublicKeyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeletePublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeletePublicKeyInput {
+
+    static func urlPathProvider(_ value: DeletePublicKeyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/public-key/\(id.urlPercentEncoding())"
@@ -6841,8 +6885,9 @@ extension DeleteRealtimeLogConfigInput {
     }
 }
 
-extension DeleteRealtimeLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRealtimeLogConfigInput {
+
+    static func urlPathProvider(_ value: DeleteRealtimeLogConfigInput) -> Swift.String? {
         return "/2020-05-31/delete-realtime-log-config"
     }
 }
@@ -6906,19 +6951,21 @@ enum DeleteRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteResponseHeadersPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteResponseHeadersPolicyInput {
+
+    static func headerProvider(_ value: DeleteResponseHeadersPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteResponseHeadersPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResponseHeadersPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/response-headers-policy/\(id.urlPercentEncoding())"
@@ -6967,19 +7014,21 @@ enum DeleteResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DeleteStreamingDistributionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension DeleteStreamingDistributionInput {
+
+    static func headerProvider(_ value: DeleteStreamingDistributionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension DeleteStreamingDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension DeleteStreamingDistributionInput {
+
+    static func urlPathProvider(_ value: DeleteStreamingDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/streaming-distribution/\(id.urlPercentEncoding())"
@@ -7028,22 +7077,22 @@ enum DeleteStreamingDistributionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension DescribeFunctionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let stage = stage {
-                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-                items.append(stageQueryItem)
-            }
-            return items
+extension DescribeFunctionInput {
+
+    static func queryItemProvider(_ value: DescribeFunctionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let stage = value.stage {
+            let stageQueryItem = ClientRuntime.SDKURLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+            items.append(stageQueryItem)
         }
+        return items
     }
 }
 
-extension DescribeFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeFunctionInput {
+
+    static func urlPathProvider(_ value: DescribeFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())/describe"
@@ -7126,9 +7175,10 @@ enum DescribeFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeKeyValueStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension DescribeKeyValueStoreInput {
+
+    static func urlPathProvider(_ value: DescribeKeyValueStoreInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/key-value-store/\(name.urlPercentEncoding())"
@@ -10155,9 +10205,10 @@ extension CloudFrontClientTypes {
     }
 }
 
-extension GetCachePolicyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCachePolicyConfigInput {
+
+    static func urlPathProvider(_ value: GetCachePolicyConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/cache-policy/\(id.urlPercentEncoding())/config"
@@ -10236,9 +10287,10 @@ enum GetCachePolicyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCachePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCachePolicyInput {
+
+    static func urlPathProvider(_ value: GetCachePolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/cache-policy/\(id.urlPercentEncoding())"
@@ -10317,9 +10369,10 @@ enum GetCachePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCloudFrontOriginAccessIdentityConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCloudFrontOriginAccessIdentityConfigInput {
+
+    static func urlPathProvider(_ value: GetCloudFrontOriginAccessIdentityConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-identity/cloudfront/\(id.urlPercentEncoding())/config"
@@ -10400,9 +10453,10 @@ enum GetCloudFrontOriginAccessIdentityConfigOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension GetCloudFrontOriginAccessIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetCloudFrontOriginAccessIdentityInput {
+
+    static func urlPathProvider(_ value: GetCloudFrontOriginAccessIdentityInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-identity/cloudfront/\(id.urlPercentEncoding())"
@@ -10483,9 +10537,10 @@ enum GetCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension GetContinuousDeploymentPolicyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetContinuousDeploymentPolicyConfigInput {
+
+    static func urlPathProvider(_ value: GetContinuousDeploymentPolicyConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())/config"
@@ -10564,9 +10619,10 @@ enum GetContinuousDeploymentPolicyConfigOutputError: ClientRuntime.HttpResponseE
     }
 }
 
-extension GetContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetContinuousDeploymentPolicyInput {
+
+    static func urlPathProvider(_ value: GetContinuousDeploymentPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
@@ -10645,9 +10701,10 @@ enum GetContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetDistributionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetDistributionConfigInput {
+
+    static func urlPathProvider(_ value: GetDistributionConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())/config"
@@ -10728,9 +10785,10 @@ enum GetDistributionConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetDistributionInput {
+
+    static func urlPathProvider(_ value: GetDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())"
@@ -10811,9 +10869,10 @@ enum GetDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFieldLevelEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFieldLevelEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: GetFieldLevelEncryptionConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption/\(id.urlPercentEncoding())/config"
@@ -10892,9 +10951,10 @@ enum GetFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetFieldLevelEncryptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFieldLevelEncryptionInput {
+
+    static func urlPathProvider(_ value: GetFieldLevelEncryptionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption/\(id.urlPercentEncoding())"
@@ -10973,9 +11033,10 @@ enum GetFieldLevelEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetFieldLevelEncryptionProfileConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFieldLevelEncryptionProfileConfigInput {
+
+    static func urlPathProvider(_ value: GetFieldLevelEncryptionProfileConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption-profile/\(id.urlPercentEncoding())/config"
@@ -11054,9 +11115,10 @@ enum GetFieldLevelEncryptionProfileConfigOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension GetFieldLevelEncryptionProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFieldLevelEncryptionProfileInput {
+
+    static func urlPathProvider(_ value: GetFieldLevelEncryptionProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption-profile/\(id.urlPercentEncoding())"
@@ -11135,22 +11197,22 @@ enum GetFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetFunctionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let stage = stage {
-                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-                items.append(stageQueryItem)
-            }
-            return items
+extension GetFunctionInput {
+
+    static func queryItemProvider(_ value: GetFunctionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let stage = value.stage {
+            let stageQueryItem = ClientRuntime.SDKURLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+            items.append(stageQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension GetFunctionInput {
+
+    static func urlPathProvider(_ value: GetFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())"
@@ -11257,12 +11319,13 @@ enum GetFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetInvalidationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension GetInvalidationInput {
+
+    static func urlPathProvider(_ value: GetInvalidationInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
-        guard let id = id else {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(distributionId.urlPercentEncoding())/invalidation/\(id.urlPercentEncoding())"
@@ -11340,9 +11403,10 @@ enum GetInvalidationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKeyGroupConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetKeyGroupConfigInput {
+
+    static func urlPathProvider(_ value: GetKeyGroupConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/key-group/\(id.urlPercentEncoding())/config"
@@ -11420,9 +11484,10 @@ enum GetKeyGroupConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetKeyGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetKeyGroupInput {
+
+    static func urlPathProvider(_ value: GetKeyGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/key-group/\(id.urlPercentEncoding())"
@@ -11500,9 +11565,10 @@ enum GetKeyGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMonitoringSubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension GetMonitoringSubscriptionInput {
+
+    static func urlPathProvider(_ value: GetMonitoringSubscriptionInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
         return "/2020-05-31/distributions/\(distributionId.urlPercentEncoding())/monitoring-subscription"
@@ -11574,9 +11640,10 @@ enum GetMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetOriginAccessControlConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetOriginAccessControlConfigInput {
+
+    static func urlPathProvider(_ value: GetOriginAccessControlConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-control/\(id.urlPercentEncoding())/config"
@@ -11655,9 +11722,10 @@ enum GetOriginAccessControlConfigOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetOriginAccessControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetOriginAccessControlInput {
+
+    static func urlPathProvider(_ value: GetOriginAccessControlInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-control/\(id.urlPercentEncoding())"
@@ -11736,9 +11804,10 @@ enum GetOriginAccessControlOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetOriginRequestPolicyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetOriginRequestPolicyConfigInput {
+
+    static func urlPathProvider(_ value: GetOriginRequestPolicyConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-request-policy/\(id.urlPercentEncoding())/config"
@@ -11817,9 +11886,10 @@ enum GetOriginRequestPolicyConfigOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetOriginRequestPolicyInput {
+
+    static func urlPathProvider(_ value: GetOriginRequestPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-request-policy/\(id.urlPercentEncoding())"
@@ -11898,9 +11968,10 @@ enum GetOriginRequestPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPublicKeyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetPublicKeyConfigInput {
+
+    static func urlPathProvider(_ value: GetPublicKeyConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/public-key/\(id.urlPercentEncoding())/config"
@@ -11979,9 +12050,10 @@ enum GetPublicKeyConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetPublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetPublicKeyInput {
+
+    static func urlPathProvider(_ value: GetPublicKeyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/public-key/\(id.urlPercentEncoding())"
@@ -12073,8 +12145,9 @@ extension GetRealtimeLogConfigInput {
     }
 }
 
-extension GetRealtimeLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRealtimeLogConfigInput {
+
+    static func urlPathProvider(_ value: GetRealtimeLogConfigInput) -> Swift.String? {
         return "/2020-05-31/get-realtime-log-config"
     }
 }
@@ -12167,9 +12240,10 @@ enum GetRealtimeLogConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResponseHeadersPolicyConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetResponseHeadersPolicyConfigInput {
+
+    static func urlPathProvider(_ value: GetResponseHeadersPolicyConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/response-headers-policy/\(id.urlPercentEncoding())/config"
@@ -12248,9 +12322,10 @@ enum GetResponseHeadersPolicyConfigOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetResponseHeadersPolicyInput {
+
+    static func urlPathProvider(_ value: GetResponseHeadersPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/response-headers-policy/\(id.urlPercentEncoding())"
@@ -12329,9 +12404,10 @@ enum GetResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetStreamingDistributionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetStreamingDistributionConfigInput {
+
+    static func urlPathProvider(_ value: GetStreamingDistributionConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/streaming-distribution/\(id.urlPercentEncoding())/config"
@@ -12412,9 +12488,10 @@ enum GetStreamingDistributionConfigOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetStreamingDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetStreamingDistributionInput {
+
+    static func urlPathProvider(_ value: GetStreamingDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/streaming-distribution/\(id.urlPercentEncoding())"
@@ -15450,29 +15527,29 @@ extension CloudFrontClientTypes {
 
 }
 
-extension ListCachePoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListCachePoliciesInput {
+
+    static func queryItemProvider(_ value: ListCachePoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCachePoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCachePoliciesInput {
+
+    static func urlPathProvider(_ value: ListCachePoliciesInput) -> Swift.String? {
         return "/2020-05-31/cache-policy"
     }
 }
@@ -15552,25 +15629,25 @@ enum ListCachePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListCloudFrontOriginAccessIdentitiesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListCloudFrontOriginAccessIdentitiesInput {
+
+    static func queryItemProvider(_ value: ListCloudFrontOriginAccessIdentitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCloudFrontOriginAccessIdentitiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCloudFrontOriginAccessIdentitiesInput {
+
+    static func urlPathProvider(_ value: ListCloudFrontOriginAccessIdentitiesInput) -> Swift.String? {
         return "/2020-05-31/origin-access-identity/cloudfront"
     }
 }
@@ -15642,37 +15719,37 @@ enum ListCloudFrontOriginAccessIdentitiesOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension ListConflictingAliasesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let alias = alias else {
-                let message = "Creating a URL Query Item failed. alias is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let aliasQueryItem = ClientRuntime.URLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
-            items.append(aliasQueryItem)
-            guard let distributionId = distributionId else {
-                let message = "Creating a URL Query Item failed. distributionId is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let distributionIdQueryItem = ClientRuntime.URLQueryItem(name: "DistributionId".urlPercentEncoding(), value: Swift.String(distributionId).urlPercentEncoding())
-            items.append(distributionIdQueryItem)
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListConflictingAliasesInput {
+
+    static func queryItemProvider(_ value: ListConflictingAliasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let alias = value.alias else {
+            let message = "Creating a URL Query Item failed. alias is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let aliasQueryItem = ClientRuntime.SDKURLQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
+        items.append(aliasQueryItem)
+        guard let distributionId = value.distributionId else {
+            let message = "Creating a URL Query Item failed. distributionId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let distributionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "DistributionId".urlPercentEncoding(), value: Swift.String(distributionId).urlPercentEncoding())
+        items.append(distributionIdQueryItem)
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConflictingAliasesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConflictingAliasesInput {
+
+    static func urlPathProvider(_ value: ListConflictingAliasesInput) -> Swift.String? {
         return "/2020-05-31/conflicting-alias"
     }
 }
@@ -15753,25 +15830,25 @@ enum ListConflictingAliasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListContinuousDeploymentPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListContinuousDeploymentPoliciesInput {
+
+    static func queryItemProvider(_ value: ListContinuousDeploymentPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListContinuousDeploymentPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListContinuousDeploymentPoliciesInput {
+
+    static func urlPathProvider(_ value: ListContinuousDeploymentPoliciesInput) -> Swift.String? {
         return "/2020-05-31/continuous-deployment-policy"
     }
 }
@@ -15843,26 +15920,26 @@ enum ListContinuousDeploymentPoliciesOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ListDistributionsByCachePolicyIdInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsByCachePolicyIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByCachePolicyIdInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsByCachePolicyIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let cachePolicyId = cachePolicyId else {
+extension ListDistributionsByCachePolicyIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByCachePolicyIdInput) -> Swift.String? {
+        guard let cachePolicyId = value.cachePolicyId else {
             return nil
         }
         return "/2020-05-31/distributionsByCachePolicyId/\(cachePolicyId.urlPercentEncoding())"
@@ -15941,26 +16018,26 @@ enum ListDistributionsByCachePolicyIdOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ListDistributionsByKeyGroupInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsByKeyGroupInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByKeyGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsByKeyGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let keyGroupId = keyGroupId else {
+extension ListDistributionsByKeyGroupInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByKeyGroupInput) -> Swift.String? {
+        guard let keyGroupId = value.keyGroupId else {
             return nil
         }
         return "/2020-05-31/distributionsByKeyGroupId/\(keyGroupId.urlPercentEncoding())"
@@ -16038,26 +16115,26 @@ enum ListDistributionsByKeyGroupOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListDistributionsByOriginRequestPolicyIdInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsByOriginRequestPolicyIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByOriginRequestPolicyIdInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsByOriginRequestPolicyIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let originRequestPolicyId = originRequestPolicyId else {
+extension ListDistributionsByOriginRequestPolicyIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByOriginRequestPolicyIdInput) -> Swift.String? {
+        guard let originRequestPolicyId = value.originRequestPolicyId else {
             return nil
         }
         return "/2020-05-31/distributionsByOriginRequestPolicyId/\(originRequestPolicyId.urlPercentEncoding())"
@@ -16153,8 +16230,9 @@ extension ListDistributionsByRealtimeLogConfigInput {
     }
 }
 
-extension ListDistributionsByRealtimeLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDistributionsByRealtimeLogConfigInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByRealtimeLogConfigInput) -> Swift.String? {
         return "/2020-05-31/distributionsByRealtimeLogConfig"
     }
 }
@@ -16260,26 +16338,26 @@ enum ListDistributionsByRealtimeLogConfigOutputError: ClientRuntime.HttpResponse
     }
 }
 
-extension ListDistributionsByResponseHeadersPolicyIdInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsByResponseHeadersPolicyIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByResponseHeadersPolicyIdInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsByResponseHeadersPolicyIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let responseHeadersPolicyId = responseHeadersPolicyId else {
+extension ListDistributionsByResponseHeadersPolicyIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByResponseHeadersPolicyIdInput) -> Swift.String? {
+        guard let responseHeadersPolicyId = value.responseHeadersPolicyId else {
             return nil
         }
         return "/2020-05-31/distributionsByResponseHeadersPolicyId/\(responseHeadersPolicyId.urlPercentEncoding())"
@@ -16358,26 +16436,26 @@ enum ListDistributionsByResponseHeadersPolicyIdOutputError: ClientRuntime.HttpRe
     }
 }
 
-extension ListDistributionsByWebACLIdInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsByWebACLIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByWebACLIdInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsByWebACLIdInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let webACLId = webACLId else {
+extension ListDistributionsByWebACLIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByWebACLIdInput) -> Swift.String? {
+        guard let webACLId = value.webACLId else {
             return nil
         }
         return "/2020-05-31/distributionsByWebACLId/\(webACLId.urlPercentEncoding())"
@@ -16457,25 +16535,25 @@ enum ListDistributionsByWebACLIdOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListDistributionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListDistributionsInput {
+
+    static func queryItemProvider(_ value: ListDistributionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDistributionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDistributionsInput {
+
+    static func urlPathProvider(_ value: ListDistributionsInput) -> Swift.String? {
         return "/2020-05-31/distribution"
     }
 }
@@ -16547,25 +16625,25 @@ enum ListDistributionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFieldLevelEncryptionConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFieldLevelEncryptionConfigsInput {
+
+    static func queryItemProvider(_ value: ListFieldLevelEncryptionConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFieldLevelEncryptionConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFieldLevelEncryptionConfigsInput {
+
+    static func urlPathProvider(_ value: ListFieldLevelEncryptionConfigsInput) -> Swift.String? {
         return "/2020-05-31/field-level-encryption"
     }
 }
@@ -16635,25 +16713,25 @@ enum ListFieldLevelEncryptionConfigsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListFieldLevelEncryptionProfilesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFieldLevelEncryptionProfilesInput {
+
+    static func queryItemProvider(_ value: ListFieldLevelEncryptionProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFieldLevelEncryptionProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFieldLevelEncryptionProfilesInput {
+
+    static func urlPathProvider(_ value: ListFieldLevelEncryptionProfilesInput) -> Swift.String? {
         return "/2020-05-31/field-level-encryption-profile"
     }
 }
@@ -16723,29 +16801,29 @@ enum ListFieldLevelEncryptionProfilesOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension ListFunctionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let stage = stage {
-                let stageQueryItem = ClientRuntime.URLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
-                items.append(stageQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListFunctionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let stage = value.stage {
+            let stageQueryItem = ClientRuntime.SDKURLQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+            items.append(stageQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFunctionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionsInput) -> Swift.String? {
         return "/2020-05-31/function"
     }
 }
@@ -16820,26 +16898,26 @@ enum ListFunctionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListInvalidationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListInvalidationsInput {
+
+    static func queryItemProvider(_ value: ListInvalidationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListInvalidationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let distributionId = distributionId else {
+extension ListInvalidationsInput {
+
+    static func urlPathProvider(_ value: ListInvalidationsInput) -> Swift.String? {
+        guard let distributionId = value.distributionId else {
             return nil
         }
         return "/2020-05-31/distribution/\(distributionId.urlPercentEncoding())/invalidation"
@@ -16920,25 +16998,25 @@ enum ListInvalidationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKeyGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListKeyGroupsInput {
+
+    static func queryItemProvider(_ value: ListKeyGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKeyGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeyGroupsInput {
+
+    static func urlPathProvider(_ value: ListKeyGroupsInput) -> Swift.String? {
         return "/2020-05-31/key-group"
     }
 }
@@ -17008,29 +17086,29 @@ enum ListKeyGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListKeyValueStoresInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListKeyValueStoresInput {
+
+    static func queryItemProvider(_ value: ListKeyValueStoresInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListKeyValueStoresInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListKeyValueStoresInput {
+
+    static func urlPathProvider(_ value: ListKeyValueStoresInput) -> Swift.String? {
         return "/2020-05-31/key-value-store"
     }
 }
@@ -17105,25 +17183,25 @@ enum ListKeyValueStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOriginAccessControlsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListOriginAccessControlsInput {
+
+    static func queryItemProvider(_ value: ListOriginAccessControlsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOriginAccessControlsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOriginAccessControlsInput {
+
+    static func urlPathProvider(_ value: ListOriginAccessControlsInput) -> Swift.String? {
         return "/2020-05-31/origin-access-control"
     }
 }
@@ -17193,29 +17271,29 @@ enum ListOriginAccessControlsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListOriginRequestPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListOriginRequestPoliciesInput {
+
+    static func queryItemProvider(_ value: ListOriginRequestPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOriginRequestPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOriginRequestPoliciesInput {
+
+    static func urlPathProvider(_ value: ListOriginRequestPoliciesInput) -> Swift.String? {
         return "/2020-05-31/origin-request-policy"
     }
 }
@@ -17295,25 +17373,25 @@ enum ListOriginRequestPoliciesOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListPublicKeysInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListPublicKeysInput {
+
+    static func queryItemProvider(_ value: ListPublicKeysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPublicKeysInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPublicKeysInput {
+
+    static func urlPathProvider(_ value: ListPublicKeysInput) -> Swift.String? {
         return "/2020-05-31/public-key"
     }
 }
@@ -17383,25 +17461,25 @@ enum ListPublicKeysOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRealtimeLogConfigsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            return items
+extension ListRealtimeLogConfigsInput {
+
+    static func queryItemProvider(_ value: ListRealtimeLogConfigsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRealtimeLogConfigsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRealtimeLogConfigsInput {
+
+    static func urlPathProvider(_ value: ListRealtimeLogConfigsInput) -> Swift.String? {
         return "/2020-05-31/realtime-log-config"
     }
 }
@@ -17473,29 +17551,29 @@ enum ListRealtimeLogConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListResponseHeadersPoliciesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListResponseHeadersPoliciesInput {
+
+    static func queryItemProvider(_ value: ListResponseHeadersPoliciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "Type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListResponseHeadersPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResponseHeadersPoliciesInput {
+
+    static func urlPathProvider(_ value: ListResponseHeadersPoliciesInput) -> Swift.String? {
         return "/2020-05-31/response-headers-policy"
     }
 }
@@ -17575,25 +17653,25 @@ enum ListResponseHeadersPoliciesOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListStreamingDistributionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let marker = marker {
-                let markerQueryItem = ClientRuntime.URLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
-                items.append(markerQueryItem)
-            }
-            if let maxItems = maxItems {
-                let maxItemsQueryItem = ClientRuntime.URLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
-                items.append(maxItemsQueryItem)
-            }
-            return items
+extension ListStreamingDistributionsInput {
+
+    static func queryItemProvider(_ value: ListStreamingDistributionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
         }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListStreamingDistributionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListStreamingDistributionsInput {
+
+    static func urlPathProvider(_ value: ListStreamingDistributionsInput) -> Swift.String? {
         return "/2020-05-31/streaming-distribution"
     }
 }
@@ -17665,23 +17743,23 @@ enum ListStreamingDistributionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resource = resource else {
-                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
-            items.append(resourceQueryItem)
-            return items
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resource = value.resource else {
+            let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
+        items.append(resourceQueryItem)
+        return items
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/2020-05-31/tagging"
     }
 }
@@ -21346,19 +21424,21 @@ extension CloudFrontClientTypes {
 
 }
 
-extension PublishFunctionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PublishFunctionInput {
+
+    static func headerProvider(_ value: PublishFunctionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension PublishFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension PublishFunctionInput {
+
+    static func urlPathProvider(_ value: PublishFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())/publish"
@@ -24825,24 +24905,24 @@ extension TagResourceInput {
     }
 }
 
-extension TagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Tag"))
-            guard let resource = resource else {
-                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
-            items.append(resourceQueryItem)
-            return items
+extension TagResourceInput {
+
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "Operation", value: "Tag"))
+        guard let resource = value.resource else {
+            let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
+        items.append(resourceQueryItem)
+        return items
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/2020-05-31/tagging"
     }
 }
@@ -25027,19 +25107,21 @@ extension TestFunctionInput {
     }
 }
 
-extension TestFunctionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension TestFunctionInput {
+
+    static func headerProvider(_ value: TestFunctionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension TestFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension TestFunctionInput {
+
+    static func urlPathProvider(_ value: TestFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())/test"
@@ -28408,24 +28490,24 @@ extension UntagResourceInput {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            items.append(ClientRuntime.URLQueryItem(name: "Operation", value: "Untag"))
-            guard let resource = resource else {
-                let message = "Creating a URL Query Item failed. resource is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceQueryItem = ClientRuntime.URLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
-            items.append(resourceQueryItem)
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        items.append(ClientRuntime.SDKURLQueryItem(name: "Operation", value: "Untag"))
+        guard let resource = value.resource else {
+            let message = "Creating a URL Query Item failed. resource is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
+        items.append(resourceQueryItem)
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/2020-05-31/tagging"
     }
 }
@@ -28499,19 +28581,21 @@ extension UpdateCachePolicyInput {
     }
 }
 
-extension UpdateCachePolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateCachePolicyInput {
+
+    static func headerProvider(_ value: UpdateCachePolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateCachePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateCachePolicyInput {
+
+    static func urlPathProvider(_ value: UpdateCachePolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/cache-policy/\(id.urlPercentEncoding())"
@@ -28635,19 +28719,21 @@ extension UpdateCloudFrontOriginAccessIdentityInput {
     }
 }
 
-extension UpdateCloudFrontOriginAccessIdentityInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateCloudFrontOriginAccessIdentityInput {
+
+    static func headerProvider(_ value: UpdateCloudFrontOriginAccessIdentityInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateCloudFrontOriginAccessIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateCloudFrontOriginAccessIdentityInput {
+
+    static func urlPathProvider(_ value: UpdateCloudFrontOriginAccessIdentityInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-identity/cloudfront/\(id.urlPercentEncoding())/config"
@@ -28770,19 +28856,21 @@ extension UpdateContinuousDeploymentPolicyInput {
     }
 }
 
-extension UpdateContinuousDeploymentPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateContinuousDeploymentPolicyInput {
+
+    static func headerProvider(_ value: UpdateContinuousDeploymentPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateContinuousDeploymentPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateContinuousDeploymentPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateContinuousDeploymentPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/continuous-deployment-policy/\(id.urlPercentEncoding())"
@@ -28902,19 +28990,21 @@ extension UpdateDistributionInput {
     }
 }
 
-extension UpdateDistributionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateDistributionInput {
+
+    static func headerProvider(_ value: UpdateDistributionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateDistributionInput {
+
+    static func urlPathProvider(_ value: UpdateDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())/config"
@@ -29084,32 +29174,33 @@ enum UpdateDistributionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension UpdateDistributionWithStagingConfigInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateDistributionWithStagingConfigInput {
+
+    static func headerProvider(_ value: UpdateDistributionWithStagingConfigInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateDistributionWithStagingConfigInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let stagingDistributionId = stagingDistributionId {
-                let stagingDistributionIdQueryItem = ClientRuntime.URLQueryItem(name: "StagingDistributionId".urlPercentEncoding(), value: Swift.String(stagingDistributionId).urlPercentEncoding())
-                items.append(stagingDistributionIdQueryItem)
-            }
-            return items
+extension UpdateDistributionWithStagingConfigInput {
+
+    static func queryItemProvider(_ value: UpdateDistributionWithStagingConfigInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let stagingDistributionId = value.stagingDistributionId {
+            let stagingDistributionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "StagingDistributionId".urlPercentEncoding(), value: Swift.String(stagingDistributionId).urlPercentEncoding())
+            items.append(stagingDistributionIdQueryItem)
         }
+        return items
     }
 }
 
-extension UpdateDistributionWithStagingConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateDistributionWithStagingConfigInput {
+
+    static func urlPathProvider(_ value: UpdateDistributionWithStagingConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())/promote-staging-config"
@@ -29266,19 +29357,21 @@ extension UpdateFieldLevelEncryptionConfigInput {
     }
 }
 
-extension UpdateFieldLevelEncryptionConfigInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateFieldLevelEncryptionConfigInput {
+
+    static func headerProvider(_ value: UpdateFieldLevelEncryptionConfigInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateFieldLevelEncryptionConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateFieldLevelEncryptionConfigInput {
+
+    static func urlPathProvider(_ value: UpdateFieldLevelEncryptionConfigInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption/\(id.urlPercentEncoding())/config"
@@ -29402,19 +29495,21 @@ extension UpdateFieldLevelEncryptionProfileInput {
     }
 }
 
-extension UpdateFieldLevelEncryptionProfileInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateFieldLevelEncryptionProfileInput {
+
+    static func headerProvider(_ value: UpdateFieldLevelEncryptionProfileInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateFieldLevelEncryptionProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateFieldLevelEncryptionProfileInput {
+
+    static func urlPathProvider(_ value: UpdateFieldLevelEncryptionProfileInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/field-level-encryption-profile/\(id.urlPercentEncoding())/config"
@@ -29546,19 +29641,21 @@ extension UpdateFunctionInput {
     }
 }
 
-extension UpdateFunctionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateFunctionInput {
+
+    static func headerProvider(_ value: UpdateFunctionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateFunctionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateFunctionInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/function/\(name.urlPercentEncoding())"
@@ -29695,19 +29792,21 @@ extension UpdateKeyGroupInput {
     }
 }
 
-extension UpdateKeyGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateKeyGroupInput {
+
+    static func headerProvider(_ value: UpdateKeyGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateKeyGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateKeyGroupInput {
+
+    static func urlPathProvider(_ value: UpdateKeyGroupInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/key-group/\(id.urlPercentEncoding())"
@@ -29826,19 +29925,21 @@ extension UpdateKeyValueStoreInput {
     }
 }
 
-extension UpdateKeyValueStoreInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateKeyValueStoreInput {
+
+    static func headerProvider(_ value: UpdateKeyValueStoreInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateKeyValueStoreInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let name = name else {
+extension UpdateKeyValueStoreInput {
+
+    static func urlPathProvider(_ value: UpdateKeyValueStoreInput) -> Swift.String? {
+        guard let name = value.name else {
             return nil
         }
         return "/2020-05-31/key-value-store/\(name.urlPercentEncoding())"
@@ -29957,19 +30058,21 @@ extension UpdateOriginAccessControlInput {
     }
 }
 
-extension UpdateOriginAccessControlInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateOriginAccessControlInput {
+
+    static func headerProvider(_ value: UpdateOriginAccessControlInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateOriginAccessControlInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateOriginAccessControlInput {
+
+    static func urlPathProvider(_ value: UpdateOriginAccessControlInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-access-control/\(id.urlPercentEncoding())/config"
@@ -30089,19 +30192,21 @@ extension UpdateOriginRequestPolicyInput {
     }
 }
 
-extension UpdateOriginRequestPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateOriginRequestPolicyInput {
+
+    static func headerProvider(_ value: UpdateOriginRequestPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateOriginRequestPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateOriginRequestPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateOriginRequestPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/origin-request-policy/\(id.urlPercentEncoding())"
@@ -30225,19 +30330,21 @@ extension UpdatePublicKeyInput {
     }
 }
 
-extension UpdatePublicKeyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdatePublicKeyInput {
+
+    static func headerProvider(_ value: UpdatePublicKeyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdatePublicKeyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdatePublicKeyInput {
+
+    static func urlPathProvider(_ value: UpdatePublicKeyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/public-key/\(id.urlPercentEncoding())/config"
@@ -30365,8 +30472,9 @@ extension UpdateRealtimeLogConfigInput {
     }
 }
 
-extension UpdateRealtimeLogConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRealtimeLogConfigInput {
+
+    static func urlPathProvider(_ value: UpdateRealtimeLogConfigInput) -> Swift.String? {
         return "/2020-05-31/realtime-log-config"
     }
 }
@@ -30528,19 +30636,21 @@ extension UpdateResponseHeadersPolicyInput {
     }
 }
 
-extension UpdateResponseHeadersPolicyInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateResponseHeadersPolicyInput {
+
+    static func headerProvider(_ value: UpdateResponseHeadersPolicyInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateResponseHeadersPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateResponseHeadersPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateResponseHeadersPolicyInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/response-headers-policy/\(id.urlPercentEncoding())"
@@ -30664,19 +30774,21 @@ extension UpdateStreamingDistributionInput {
     }
 }
 
-extension UpdateStreamingDistributionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateStreamingDistributionInput {
+
+    static func headerProvider(_ value: UpdateStreamingDistributionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let ifMatch = ifMatch {
+        if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
 }
 
-extension UpdateStreamingDistributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension UpdateStreamingDistributionInput {
+
+    static func urlPathProvider(_ value: UpdateStreamingDistributionInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/2020-05-31/streaming-distribution/\(id.urlPercentEncoding())/config"
