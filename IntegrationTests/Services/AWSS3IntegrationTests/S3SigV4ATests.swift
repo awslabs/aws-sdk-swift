@@ -121,6 +121,11 @@ class S3SigV4ATests: S3XCTestCase {
 
             mrapCount = try await s3ControlClient.listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput(accountId: accountId)).accessPoints?.count
         } while mrapCount == 1
+
+        // Wait some more before returning because
+        // deleting access point association with buckets takes more time
+        let seconds = 60
+        try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
     }
 
     func testS3MRAPSigV4A() async throws {
