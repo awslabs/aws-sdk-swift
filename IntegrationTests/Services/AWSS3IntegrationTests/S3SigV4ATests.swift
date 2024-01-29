@@ -114,18 +114,28 @@ class S3SigV4ATests: S3XCTestCase {
         ))
 
         // Wait until MRAP has been deleted before returning
-        var mrapCount: Int? = 1
+        var mrapExists = true
         repeat {
             let seconds = 20.0
             try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
 
-            mrapCount = try await s3ControlClient.listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput(accountId: accountId)).accessPoints?.count
-        } while mrapCount == 1
+            let mraps = try await s3ControlClient.listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput(accountId: accountId)).accessPoints
+            mrapExists = checkMRAPExists(mraps ?? [])
+        } while mrapExists
 
         // Wait some more before returning because
         // deleting access point association with buckets takes more time
         let seconds = 60.0
         try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
+    }
+
+    private func checkMRAPExists(_ mraps: [S3ControlClientTypes.MultiRegionAccessPointReport]) -> Bool {
+        for mrap in mraps {
+            if (mrap.name == mrapName) {
+                return true
+            }
+        }
+        return false
     }
 
     func testS3MRAPSigV4A() async throws {
