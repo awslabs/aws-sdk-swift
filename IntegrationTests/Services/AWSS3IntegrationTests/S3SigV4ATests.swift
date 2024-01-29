@@ -124,7 +124,7 @@ class S3SigV4ATests: S3XCTestCase {
 
         // Wait some more before returning because
         // deleting access point association with buckets takes more time
-        let seconds = 60
+        let seconds = 60.0
         try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
     }
 
