@@ -83,10 +83,13 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                             writer.write("default:")
                             writer.indent {
                                 writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                                writer.write(
-                                    "return \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
-                                    AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                                )
+                                writer.openBlock("Task {", "}") {
+                                    writer.write(
+                                        "let errorToReturn = await \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':exceptionType': \\(params.exceptionType); contentType: \\(params.contentType ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                        AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                                    )
+                                    writer.write("return errorToReturn")
+                                }
                             }
                             writer.write("}")
                         }
@@ -98,10 +101,13 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     writer.indent {
                         // this is a service exception still, just un-modeled
                         writer.write("let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)")
-                        writer.write(
-                            "throw \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
-                            AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
-                        )
+                        writer.openBlock("Task {", "}") {
+                            writer.write(
+                                "let errorToThrow = await \$L(httpResponse: httpResponse, message: \"error processing event stream, unrecognized ':errorType': \\(params.errorCode); message: \\(params.message ?? \"nil\")\", requestID: nil, typeName: nil)",
+                                AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+                            )
+                            writer.write("throw errorToThrow")
+                        }
                     }
                     writer.write("case .unknown(messageType: let messageType):")
                     writer.indent {
