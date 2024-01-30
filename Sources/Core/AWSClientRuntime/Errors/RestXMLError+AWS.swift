@@ -16,7 +16,7 @@ extension RestXMLError {
     ///
     /// - Throws: An error if it fails to decode the response body.
     public static func makeError(from response: HttpResponse) async throws -> RestXMLError {
-        response.statusCodeIsNotFoundAndBodyIsEmpty
+        await response.statusCodeIsNotFoundAndBodyIsEmpty
             ? .makeNotFoundError(requestID: response.requestId)
             : try await .init(httpResponse: response)
     }
