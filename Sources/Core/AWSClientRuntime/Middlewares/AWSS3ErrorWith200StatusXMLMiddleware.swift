@@ -24,7 +24,7 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackOutput>: Middle
         let response = try await next.handle(context: context, input: input)
 
         // Check if the status code is OK (200)
-        guard response.httpResponse.statusCode == .ok else {
+        guard await response.httpResponse.statusCode == .ok else {
             return response
         }
 
@@ -33,13 +33,13 @@ public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackOutput>: Middle
             return response
         }
 
-        response.httpResponse.body = .data(data)
+        await response.httpResponse.setBody(newBody: .data(data))
 
         let xmlString = String(data: data, encoding: .utf8) ?? ""
         if xmlString.contains("<Error>") {
             // Handle the error as a 500 Internal Server Error
             let modifiedResponse = response
-            modifiedResponse.httpResponse.statusCode = .internalServerError
+            await modifiedResponse.httpResponse.setStatusCode(newStatusCode: .internalServerError)
             return modifiedResponse
         }
 

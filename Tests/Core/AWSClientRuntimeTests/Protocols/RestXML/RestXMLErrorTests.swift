@@ -46,7 +46,8 @@ class RestXMLErrorTests: HttpResponseTestBase {
                 let expected = InvalidGreeting(
                     message: "Hi"
                 )
-                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
+                let actualCode = await actual.httpResponse.statusCode
+                XCTAssertEqual(actualCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.message, actual.message)
                 XCTAssertEqual("foo-id", actual.requestID)
             } else {
@@ -98,7 +99,8 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
+                let actualCode = await actual.httpResponse.statusCode
+                XCTAssertEqual(actualCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)
@@ -150,7 +152,8 @@ class RestXMLErrorTests: HttpResponseTestBase {
                     ),
                     topLevel: "Top level"
                 )
-                XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
+                let actualCode = await actual.httpResponse.statusCode
+                XCTAssertEqual(actualCode, HttpStatusCode(rawValue: 400))
                 XCTAssertEqual(expected.header, actual.header)
                 XCTAssertEqual(expected.topLevel, actual.topLevel)
                 XCTAssertEqual(expected.nested, actual.nested)

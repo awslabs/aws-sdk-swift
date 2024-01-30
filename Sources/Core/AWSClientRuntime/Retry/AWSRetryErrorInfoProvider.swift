@@ -53,11 +53,11 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
 
-    public static func errorInfo(for error: Error) -> ClientRuntime.RetryErrorInfo? {
+    public static func errorInfo(for error: Error) async -> ClientRuntime.RetryErrorInfo? {
 
         // Look for a header with a retry after value; use it as retry after hint
         var retryAfterHint: TimeInterval?
-        if let headers = (error as? HTTPError)?.httpResponse.headers,
+        if let headers = await (error as? HTTPError)?.httpResponse.headers,
            let delayString = headers.value(for: "Retry-After") ?? headers.value(for: "X-Amz-Retry-After"),
            let delay = TimeInterval(delayString) {
             retryAfterHint = delay
@@ -68,7 +68,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
         // Error can be a timeout error based on HTTP code
         if let httpError = error as? HTTPError,
-           timeoutStatusCodes.contains(httpError.httpResponse.statusCode.rawValue) {
+           timeoutStatusCodes.contains(await httpError.httpResponse.statusCode.rawValue) {
             isTimeout = true
         }
 
@@ -92,7 +92,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
         if let httpError = error as? HTTPError {
             // Handle the transient and timeout HTTP status codes as errors of retry type "transient".
-            if (transientStatusCodes + timeoutStatusCodes).contains(httpError.httpResponse.statusCode.rawValue) {
+            if (transientStatusCodes + timeoutStatusCodes).contains(await httpError.httpResponse.statusCode.rawValue) {
                 return RetryErrorInfo(errorType: .transient, retryAfterHint: retryAfterHint, isTimeout: isTimeout)
             }
         }
@@ -104,6 +104,6 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         }
 
         // If custom AWS error matching fails, use the default error info provider to finish matching.
-        return DefaultRetryErrorInfoProvider.errorInfo(for: error)
+        return await DefaultRetryErrorInfoProvider.errorInfo(for: error)
     }
 }

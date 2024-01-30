@@ -46,7 +46,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             """            
             extension ComplexXMLError {
                 public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-                    if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
+                    if let headerHeaderValue = await httpResponse.headers.value(for: "X-Header") {
                         self.properties.header = headerHeaderValue
                     } else {
                         self.properties.header = nil
@@ -114,7 +114,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             """
             extension ComplexXMLErrorNoErrorWrapping {
                 public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-                    if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
+                    if let headerHeaderValue = await httpResponse.headers.value(for: "X-Header") {
                         self.properties.header = headerHeaderValue
                     } else {
                         self.properties.header = nil

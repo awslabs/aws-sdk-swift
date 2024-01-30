@@ -36,7 +36,8 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 header: "Header",
                 topLevel: "Top level"
             )
-            XCTAssertEqual(actual.httpResponse.statusCode, HttpStatusCode(rawValue: 400))
+            let actualCode = await actual.httpResponse.statusCode
+            XCTAssertEqual(actualCode, HttpStatusCode(rawValue: 400))
             XCTAssertEqual(actual.header, expected.header)
             XCTAssertEqual(actual.topLevel, expected.topLevel)
         } else {
@@ -93,13 +94,13 @@ extension ComplexErrorBody: Decodable {
 extension ComplexError {
 
     public init (httpResponse: HttpResponse, decoder: ResponseDecoder? = nil, message: String? = nil, requestID: String? = nil) async throws {
-        if let Header = httpResponse.headers.value(for: "X-Header") {
+        if let Header = await httpResponse.headers.value(for: "X-Header") {
             self.header = Header
         } else {
             self.header = nil
         }
 
-        if case .data(let data) = httpResponse.body,
+        if case .data(let data) = await httpResponse.body,
             let unwrappedData = data,
             let responseDecoder = decoder {
             let output: ComplexErrorBody = try responseDecoder.decode(responseBody: unwrappedData)
@@ -116,7 +117,7 @@ extension ComplexError {
 public enum GreetingWithErrorsError: HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
         let errorDetails = try await RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.requestId
+        let requestID = await httpResponse.requestId
         switch errorDetails.errorType {
         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
         default: return UnknownAWSHTTPServiceError(message: errorDetails.errorMessage, httpResponse: httpResponse)
