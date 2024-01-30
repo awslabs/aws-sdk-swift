@@ -93,7 +93,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageMarshallab
         val contents = getFileContents(context.manifest, "/Example/models/TestStream+MessageUnmarshallable.swift")
         val expected = """
 extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshallable {
-    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) async throws {
         switch try message.type() {
         case .event(let params):
             switch params.eventType {
@@ -160,26 +160,20 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
                 self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
             }
         case .exception(let params):
-            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) async throws -> Swift.Error = { message, params in
                 switch params.exceptionType {
                 case "SomeError":
                     return try decoder.decode(responseBody: message.payload) as SomeError
                 default:
                     let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-                    Task {
-                        let errorToReturn = await AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
-                        return errorToReturn
-                    }
+                    return await AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                 }
             }
-            let error = try makeError(message, params)
+            let error = try await makeError(message, params)
             throw error
         case .error(let params):
             let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
-            Task {
-                let errorToThrow = await AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
-                throw errorToThrow
-            }
+            throw await AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
         case .unknown(messageType: let messageType):
             throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
