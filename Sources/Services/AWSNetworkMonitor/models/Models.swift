@@ -179,8 +179,9 @@ extension CreateMonitorInput: Swift.Encodable {
     }
 }
 
-extension CreateMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMonitorInput {
+
+    static func urlPathProvider(_ value: CreateMonitorInput) -> Swift.String? {
         return "/monitors"
     }
 }
@@ -496,9 +497,10 @@ extension CreateProbeInput: Swift.Encodable {
     }
 }
 
-extension CreateProbeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension CreateProbeInput {
+
+    static func urlPathProvider(_ value: CreateProbeInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())/probes"
@@ -752,9 +754,10 @@ enum CreateProbeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension DeleteMonitorInput {
+
+    static func urlPathProvider(_ value: DeleteMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())"
@@ -808,12 +811,13 @@ enum DeleteMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteProbeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension DeleteProbeInput {
+
+    static func urlPathProvider(_ value: DeleteProbeInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
-        guard let probeId = probeId else {
+        guard let probeId = value.probeId else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())/probes/\(probeId.urlPercentEncoding())"
@@ -873,9 +877,10 @@ enum DeleteProbeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension GetMonitorInput {
+
+    static func urlPathProvider(_ value: GetMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())"
@@ -1053,12 +1058,13 @@ enum GetMonitorOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetProbeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension GetProbeInput {
+
+    static func urlPathProvider(_ value: GetProbeInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
-        guard let probeId = probeId else {
+        guard let probeId = value.probeId else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())/probes/\(probeId.urlPercentEncoding())"
@@ -1334,29 +1340,29 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListMonitorsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let state = state {
-                let stateQueryItem = ClientRuntime.URLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
-                items.append(stateQueryItem)
-            }
-            return items
+extension ListMonitorsInput {
+
+    static func queryItemProvider(_ value: ListMonitorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        return items
     }
 }
 
-extension ListMonitorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMonitorsInput {
+
+    static func urlPathProvider(_ value: ListMonitorsInput) -> Swift.String? {
         return "/monitors"
     }
 }
@@ -1464,9 +1470,10 @@ enum ListMonitorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2163,9 +2170,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2296,26 +2304,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2388,9 +2396,10 @@ extension UpdateMonitorInput: Swift.Encodable {
     }
 }
 
-extension UpdateMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension UpdateMonitorInput {
+
+    static func urlPathProvider(_ value: UpdateMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())"
@@ -2568,12 +2577,13 @@ extension UpdateProbeInput: Swift.Encodable {
     }
 }
 
-extension UpdateProbeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let monitorName = monitorName else {
+extension UpdateProbeInput {
+
+    static func urlPathProvider(_ value: UpdateProbeInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
             return nil
         }
-        guard let probeId = probeId else {
+        guard let probeId = value.probeId else {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())/probes/\(probeId.urlPercentEncoding())"

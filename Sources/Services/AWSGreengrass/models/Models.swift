@@ -15,9 +15,10 @@ extension AssociateRoleToGroupInput: Swift.Encodable {
     }
 }
 
-extension AssociateRoleToGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension AssociateRoleToGroupInput {
+
+    static func urlPathProvider(_ value: AssociateRoleToGroupInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/role"
@@ -123,8 +124,9 @@ extension AssociateServiceRoleToAccountInput: Swift.Encodable {
     }
 }
 
-extension AssociateServiceRoleToAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateServiceRoleToAccountInput {
+
+    static func urlPathProvider(_ value: AssociateServiceRoleToAccountInput) -> Swift.String? {
         return "/greengrass/servicerole"
     }
 }
@@ -909,18 +911,20 @@ extension CreateConnectorDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectorDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateConnectorDefinitionInput {
+
+    static func headerProvider(_ value: CreateConnectorDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateConnectorDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateConnectorDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateConnectorDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/connectors"
     }
 }
@@ -1109,19 +1113,21 @@ extension CreateConnectorDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateConnectorDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateConnectorDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateConnectorDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateConnectorDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension CreateConnectorDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateConnectorDefinitionVersionInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())/versions"
@@ -1279,18 +1285,20 @@ extension CreateCoreDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateCoreDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateCoreDefinitionInput {
+
+    static func headerProvider(_ value: CreateCoreDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateCoreDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCoreDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateCoreDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/cores"
     }
 }
@@ -1480,19 +1488,21 @@ extension CreateCoreDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateCoreDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateCoreDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateCoreDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateCoreDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension CreateCoreDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateCoreDefinitionVersionInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())/versions"
@@ -1647,19 +1657,21 @@ extension CreateDeploymentInput: Swift.Encodable {
     }
 }
 
-extension CreateDeploymentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateDeploymentInput {
+
+    static func headerProvider(_ value: CreateDeploymentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension CreateDeploymentInput {
+
+    static func urlPathProvider(_ value: CreateDeploymentInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/deployments"
@@ -1805,18 +1817,20 @@ extension CreateDeviceDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateDeviceDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateDeviceDefinitionInput {
+
+    static func headerProvider(_ value: CreateDeviceDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateDeviceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDeviceDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateDeviceDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/devices"
     }
 }
@@ -2005,19 +2019,21 @@ extension CreateDeviceDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateDeviceDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateDeviceDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateDeviceDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateDeviceDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension CreateDeviceDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateDeviceDefinitionVersionInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())/versions"
@@ -2175,18 +2191,20 @@ extension CreateFunctionDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateFunctionDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateFunctionDefinitionInput {
+
+    static func headerProvider(_ value: CreateFunctionDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateFunctionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFunctionDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateFunctionDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/functions"
     }
 }
@@ -2379,19 +2397,21 @@ extension CreateFunctionDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateFunctionDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateFunctionDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateFunctionDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateFunctionDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension CreateFunctionDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateFunctionDefinitionVersionInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())/versions"
@@ -2534,19 +2554,21 @@ enum CreateFunctionDefinitionVersionOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension CreateGroupCertificateAuthorityInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateGroupCertificateAuthorityInput {
+
+    static func headerProvider(_ value: CreateGroupCertificateAuthorityInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateGroupCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension CreateGroupCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: CreateGroupCertificateAuthorityInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/certificateauthorities"
@@ -2655,18 +2677,20 @@ extension CreateGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateGroupInput {
+
+    static func headerProvider(_ value: CreateGroupInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGroupInput {
+
+    static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
         return "/greengrass/groups"
     }
 }
@@ -2877,19 +2901,21 @@ extension CreateGroupVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateGroupVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateGroupVersionInput {
+
+    static func headerProvider(_ value: CreateGroupVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateGroupVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension CreateGroupVersionInput {
+
+    static func urlPathProvider(_ value: CreateGroupVersionInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/versions"
@@ -3086,18 +3112,20 @@ extension CreateLoggerDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateLoggerDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateLoggerDefinitionInput {
+
+    static func headerProvider(_ value: CreateLoggerDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateLoggerDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLoggerDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateLoggerDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/loggers"
     }
 }
@@ -3286,19 +3314,21 @@ extension CreateLoggerDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateLoggerDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateLoggerDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateLoggerDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateLoggerDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension CreateLoggerDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateLoggerDefinitionVersionInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())/versions"
@@ -3456,18 +3486,20 @@ extension CreateResourceDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateResourceDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateResourceDefinitionInput {
+
+    static func headerProvider(_ value: CreateResourceDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateResourceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResourceDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateResourceDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/resources"
     }
 }
@@ -3656,19 +3688,21 @@ extension CreateResourceDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateResourceDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateResourceDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateResourceDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateResourceDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension CreateResourceDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateResourceDefinitionVersionInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())/versions"
@@ -3838,18 +3872,20 @@ extension CreateSoftwareUpdateJobInput: Swift.Encodable {
     }
 }
 
-extension CreateSoftwareUpdateJobInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateSoftwareUpdateJobInput {
+
+    static func headerProvider(_ value: CreateSoftwareUpdateJobInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateSoftwareUpdateJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSoftwareUpdateJobInput {
+
+    static func urlPathProvider(_ value: CreateSoftwareUpdateJobInput) -> Swift.String? {
         return "/greengrass/updates"
     }
 }
@@ -4036,18 +4072,20 @@ extension CreateSubscriptionDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateSubscriptionDefinitionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateSubscriptionDefinitionInput {
+
+    static func headerProvider(_ value: CreateSubscriptionDefinitionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateSubscriptionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSubscriptionDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateSubscriptionDefinitionInput) -> Swift.String? {
         return "/greengrass/definition/subscriptions"
     }
 }
@@ -4236,19 +4274,21 @@ extension CreateSubscriptionDefinitionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateSubscriptionDefinitionVersionInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension CreateSubscriptionDefinitionVersionInput {
+
+    static func headerProvider(_ value: CreateSubscriptionDefinitionVersionInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension CreateSubscriptionDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension CreateSubscriptionDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: CreateSubscriptionDefinitionVersionInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())/versions"
@@ -4499,9 +4539,10 @@ extension GreengrassClientTypes {
 
 }
 
-extension DeleteConnectorDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension DeleteConnectorDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorDefinitionInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())"
@@ -4551,9 +4592,10 @@ enum DeleteConnectorDefinitionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DeleteCoreDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension DeleteCoreDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteCoreDefinitionInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())"
@@ -4603,9 +4645,10 @@ enum DeleteCoreDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteDeviceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension DeleteDeviceDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteDeviceDefinitionInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())"
@@ -4655,9 +4698,10 @@ enum DeleteDeviceDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteFunctionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension DeleteFunctionDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteFunctionDefinitionInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())"
@@ -4707,9 +4751,10 @@ enum DeleteFunctionDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension DeleteGroupInput {
+
+    static func urlPathProvider(_ value: DeleteGroupInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())"
@@ -4759,9 +4804,10 @@ enum DeleteGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteLoggerDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension DeleteLoggerDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteLoggerDefinitionInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())"
@@ -4811,9 +4857,10 @@ enum DeleteLoggerDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteResourceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension DeleteResourceDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteResourceDefinitionInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())"
@@ -4863,9 +4910,10 @@ enum DeleteResourceDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteSubscriptionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension DeleteSubscriptionDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteSubscriptionDefinitionInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())"
@@ -5144,9 +5192,10 @@ extension GreengrassClientTypes {
 
 }
 
-extension DisassociateRoleFromGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension DisassociateRoleFromGroupInput {
+
+    static func urlPathProvider(_ value: DisassociateRoleFromGroupInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/role"
@@ -5227,8 +5276,9 @@ enum DisassociateRoleFromGroupOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DisassociateServiceRoleFromAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateServiceRoleFromAccountInput {
+
+    static func urlPathProvider(_ value: DisassociateServiceRoleFromAccountInput) -> Swift.String? {
         return "/greengrass/servicerole"
     }
 }
@@ -5885,9 +5935,10 @@ extension GreengrassClientTypes {
 
 }
 
-extension GetAssociatedRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetAssociatedRoleInput {
+
+    static func urlPathProvider(_ value: GetAssociatedRoleInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/role"
@@ -5978,9 +6029,10 @@ enum GetAssociatedRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetBulkDeploymentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bulkDeploymentId = bulkDeploymentId else {
+extension GetBulkDeploymentStatusInput {
+
+    static func urlPathProvider(_ value: GetBulkDeploymentStatusInput) -> Swift.String? {
+        guard let bulkDeploymentId = value.bulkDeploymentId else {
             return nil
         }
         return "/greengrass/bulk/deployments/\(bulkDeploymentId.urlPercentEncoding())/status"
@@ -6128,9 +6180,10 @@ enum GetBulkDeploymentStatusOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetConnectivityInfoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension GetConnectivityInfoInput {
+
+    static func urlPathProvider(_ value: GetConnectivityInfoInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/greengrass/things/\(thingName.urlPercentEncoding())/connectivityInfo"
@@ -6230,9 +6283,10 @@ enum GetConnectivityInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConnectorDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension GetConnectorDefinitionInput {
+
+    static func urlPathProvider(_ value: GetConnectorDefinitionInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())"
@@ -6391,25 +6445,25 @@ enum GetConnectorDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetConnectorDefinitionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension GetConnectorDefinitionVersionInput {
+
+    static func queryItemProvider(_ value: GetConnectorDefinitionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension GetConnectorDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension GetConnectorDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetConnectorDefinitionVersionInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
-        guard let connectorDefinitionVersionId = connectorDefinitionVersionId else {
+        guard let connectorDefinitionVersionId = value.connectorDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())/versions/\(connectorDefinitionVersionId.urlPercentEncoding())"
@@ -6548,9 +6602,10 @@ enum GetConnectorDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetCoreDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension GetCoreDefinitionInput {
+
+    static func urlPathProvider(_ value: GetCoreDefinitionInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())"
@@ -6709,12 +6764,13 @@ enum GetCoreDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCoreDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension GetCoreDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetCoreDefinitionVersionInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
-        guard let coreDefinitionVersionId = coreDefinitionVersionId else {
+        guard let coreDefinitionVersionId = value.coreDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())/versions/\(coreDefinitionVersionId.urlPercentEncoding())"
@@ -6849,12 +6905,13 @@ enum GetCoreDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetDeploymentStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetDeploymentStatusInput {
+
+    static func urlPathProvider(_ value: GetDeploymentStatusInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
-        guard let deploymentId = deploymentId else {
+        guard let deploymentId = value.deploymentId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/deployments/\(deploymentId.urlPercentEncoding())/status"
@@ -6988,9 +7045,10 @@ enum GetDeploymentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDeviceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension GetDeviceDefinitionInput {
+
+    static func urlPathProvider(_ value: GetDeviceDefinitionInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())"
@@ -7149,25 +7207,25 @@ enum GetDeviceDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetDeviceDefinitionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension GetDeviceDefinitionVersionInput {
+
+    static func queryItemProvider(_ value: GetDeviceDefinitionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension GetDeviceDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension GetDeviceDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetDeviceDefinitionVersionInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
-        guard let deviceDefinitionVersionId = deviceDefinitionVersionId else {
+        guard let deviceDefinitionVersionId = value.deviceDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())/versions/\(deviceDefinitionVersionId.urlPercentEncoding())"
@@ -7306,9 +7364,10 @@ enum GetDeviceDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetFunctionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension GetFunctionDefinitionInput {
+
+    static func urlPathProvider(_ value: GetFunctionDefinitionInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())"
@@ -7467,25 +7526,25 @@ enum GetFunctionDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFunctionDefinitionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension GetFunctionDefinitionVersionInput {
+
+    static func queryItemProvider(_ value: GetFunctionDefinitionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension GetFunctionDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension GetFunctionDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetFunctionDefinitionVersionInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
-        guard let functionDefinitionVersionId = functionDefinitionVersionId else {
+        guard let functionDefinitionVersionId = value.functionDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())/versions/\(functionDefinitionVersionId.urlPercentEncoding())"
@@ -7624,12 +7683,13 @@ enum GetFunctionDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetGroupCertificateAuthorityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetGroupCertificateAuthorityInput {
+
+    static func urlPathProvider(_ value: GetGroupCertificateAuthorityInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
-        guard let certificateAuthorityId = certificateAuthorityId else {
+        guard let certificateAuthorityId = value.certificateAuthorityId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/certificateauthorities/\(certificateAuthorityId.urlPercentEncoding())"
@@ -7735,9 +7795,10 @@ enum GetGroupCertificateAuthorityOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetGroupCertificateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetGroupCertificateConfigurationInput {
+
+    static func urlPathProvider(_ value: GetGroupCertificateConfigurationInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/certificateauthorities/configuration/expiry"
@@ -7838,9 +7899,10 @@ enum GetGroupCertificateConfigurationOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetGroupInput {
+
+    static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())"
@@ -7999,12 +8061,13 @@ enum GetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGroupVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension GetGroupVersionInput {
+
+    static func urlPathProvider(_ value: GetGroupVersionInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
-        guard let groupVersionId = groupVersionId else {
+        guard let groupVersionId = value.groupVersionId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/versions/\(groupVersionId.urlPercentEncoding())"
@@ -8129,9 +8192,10 @@ enum GetGroupVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLoggerDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension GetLoggerDefinitionInput {
+
+    static func urlPathProvider(_ value: GetLoggerDefinitionInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())"
@@ -8290,25 +8354,25 @@ enum GetLoggerDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetLoggerDefinitionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension GetLoggerDefinitionVersionInput {
+
+    static func queryItemProvider(_ value: GetLoggerDefinitionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension GetLoggerDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension GetLoggerDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetLoggerDefinitionVersionInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
-        guard let loggerDefinitionVersionId = loggerDefinitionVersionId else {
+        guard let loggerDefinitionVersionId = value.loggerDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())/versions/\(loggerDefinitionVersionId.urlPercentEncoding())"
@@ -8437,9 +8501,10 @@ enum GetLoggerDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension GetResourceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension GetResourceDefinitionInput {
+
+    static func urlPathProvider(_ value: GetResourceDefinitionInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())"
@@ -8598,12 +8663,13 @@ enum GetResourceDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetResourceDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension GetResourceDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetResourceDefinitionVersionInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
-        guard let resourceDefinitionVersionId = resourceDefinitionVersionId else {
+        guard let resourceDefinitionVersionId = value.resourceDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())/versions/\(resourceDefinitionVersionId.urlPercentEncoding())"
@@ -8728,8 +8794,9 @@ enum GetResourceDefinitionVersionOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetServiceRoleForAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetServiceRoleForAccountInput {
+
+    static func urlPathProvider(_ value: GetServiceRoleForAccountInput) -> Swift.String? {
         return "/greengrass/servicerole"
     }
 }
@@ -8809,9 +8876,10 @@ enum GetServiceRoleForAccountOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension GetSubscriptionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension GetSubscriptionDefinitionInput {
+
+    static func urlPathProvider(_ value: GetSubscriptionDefinitionInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())"
@@ -8970,25 +9038,25 @@ enum GetSubscriptionDefinitionOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension GetSubscriptionDefinitionVersionInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension GetSubscriptionDefinitionVersionInput {
+
+    static func queryItemProvider(_ value: GetSubscriptionDefinitionVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        return items
     }
 }
 
-extension GetSubscriptionDefinitionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension GetSubscriptionDefinitionVersionInput {
+
+    static func urlPathProvider(_ value: GetSubscriptionDefinitionVersionInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
-        guard let subscriptionDefinitionVersionId = subscriptionDefinitionVersionId else {
+        guard let subscriptionDefinitionVersionId = value.subscriptionDefinitionVersionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())/versions/\(subscriptionDefinitionVersionId.urlPercentEncoding())"
@@ -9127,9 +9195,10 @@ enum GetSubscriptionDefinitionVersionOutputError: ClientRuntime.HttpResponseErro
     }
 }
 
-extension GetThingRuntimeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension GetThingRuntimeConfigurationInput {
+
+    static func urlPathProvider(_ value: GetThingRuntimeConfigurationInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/greengrass/things/\(thingName.urlPercentEncoding())/runtimeconfig"
@@ -9565,26 +9634,26 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListBulkDeploymentDetailedReportsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBulkDeploymentDetailedReportsInput {
+
+    static func queryItemProvider(_ value: ListBulkDeploymentDetailedReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBulkDeploymentDetailedReportsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bulkDeploymentId = bulkDeploymentId else {
+extension ListBulkDeploymentDetailedReportsInput {
+
+    static func urlPathProvider(_ value: ListBulkDeploymentDetailedReportsInput) -> Swift.String? {
+        guard let bulkDeploymentId = value.bulkDeploymentId else {
             return nil
         }
         return "/greengrass/bulk/deployments/\(bulkDeploymentId.urlPercentEncoding())/detailed-reports"
@@ -9691,25 +9760,25 @@ enum ListBulkDeploymentDetailedReportsOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension ListBulkDeploymentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListBulkDeploymentsInput {
+
+    static func queryItemProvider(_ value: ListBulkDeploymentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListBulkDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBulkDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListBulkDeploymentsInput) -> Swift.String? {
         return "/greengrass/bulk/deployments"
     }
 }
@@ -9809,26 +9878,26 @@ enum ListBulkDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListConnectorDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConnectorDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListConnectorDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConnectorDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension ListConnectorDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListConnectorDefinitionVersionsInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())/versions"
@@ -9935,25 +10004,25 @@ enum ListConnectorDefinitionVersionsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListConnectorDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListConnectorDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListConnectorDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListConnectorDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListConnectorDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListConnectorDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/connectors"
     }
 }
@@ -10052,26 +10121,26 @@ enum ListConnectorDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension ListCoreDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCoreDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListCoreDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCoreDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension ListCoreDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListCoreDefinitionVersionsInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())/versions"
@@ -10178,25 +10247,25 @@ enum ListCoreDefinitionVersionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension ListCoreDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListCoreDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListCoreDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListCoreDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCoreDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListCoreDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/cores"
     }
 }
@@ -10295,26 +10364,26 @@ enum ListCoreDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDeploymentsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDeploymentsInput {
+
+    static func queryItemProvider(_ value: ListDeploymentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension ListDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentsInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/deployments"
@@ -10421,26 +10490,26 @@ enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListDeviceDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDeviceDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListDeviceDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDeviceDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension ListDeviceDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListDeviceDefinitionVersionsInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())/versions"
@@ -10547,25 +10616,25 @@ enum ListDeviceDefinitionVersionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListDeviceDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDeviceDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListDeviceDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDeviceDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDeviceDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListDeviceDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/devices"
     }
 }
@@ -10664,26 +10733,26 @@ enum ListDeviceDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListFunctionDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFunctionDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension ListFunctionDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionDefinitionVersionsInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())/versions"
@@ -10790,25 +10859,25 @@ enum ListFunctionDefinitionVersionsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListFunctionDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListFunctionDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListFunctionDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListFunctionDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFunctionDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListFunctionDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/functions"
     }
 }
@@ -10907,9 +10976,10 @@ enum ListFunctionDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListGroupCertificateAuthoritiesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension ListGroupCertificateAuthoritiesInput {
+
+    static func urlPathProvider(_ value: ListGroupCertificateAuthoritiesInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/certificateauthorities"
@@ -10999,26 +11069,26 @@ enum ListGroupCertificateAuthoritiesOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListGroupVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGroupVersionsInput {
+
+    static func queryItemProvider(_ value: ListGroupVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGroupVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension ListGroupVersionsInput {
+
+    static func urlPathProvider(_ value: ListGroupVersionsInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/versions"
@@ -11125,25 +11195,25 @@ enum ListGroupVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListGroupsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListGroupsInput {
+
+    static func queryItemProvider(_ value: ListGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGroupsInput {
+
+    static func urlPathProvider(_ value: ListGroupsInput) -> Swift.String? {
         return "/greengrass/groups"
     }
 }
@@ -11242,26 +11312,26 @@ enum ListGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListLoggerDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListLoggerDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListLoggerDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLoggerDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension ListLoggerDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListLoggerDefinitionVersionsInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())/versions"
@@ -11368,25 +11438,25 @@ enum ListLoggerDefinitionVersionsOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension ListLoggerDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListLoggerDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListLoggerDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListLoggerDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLoggerDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListLoggerDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/loggers"
     }
 }
@@ -11485,26 +11555,26 @@ enum ListLoggerDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListResourceDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListResourceDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListResourceDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListResourceDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension ListResourceDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListResourceDefinitionVersionsInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())/versions"
@@ -11611,25 +11681,25 @@ enum ListResourceDefinitionVersionsOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension ListResourceDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListResourceDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListResourceDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListResourceDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourceDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListResourceDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/resources"
     }
 }
@@ -11728,26 +11798,26 @@ enum ListResourceDefinitionsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension ListSubscriptionDefinitionVersionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSubscriptionDefinitionVersionsInput {
+
+    static func queryItemProvider(_ value: ListSubscriptionDefinitionVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSubscriptionDefinitionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension ListSubscriptionDefinitionVersionsInput {
+
+    static func urlPathProvider(_ value: ListSubscriptionDefinitionVersionsInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())/versions"
@@ -11854,25 +11924,25 @@ enum ListSubscriptionDefinitionVersionsOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension ListSubscriptionDefinitionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListSubscriptionDefinitionsInput {
+
+    static func queryItemProvider(_ value: ListSubscriptionDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSubscriptionDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSubscriptionDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListSubscriptionDefinitionsInput) -> Swift.String? {
         return "/greengrass/definition/subscriptions"
     }
 }
@@ -11971,9 +12041,10 @@ enum ListSubscriptionDefinitionsOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -12439,19 +12510,21 @@ extension ResetDeploymentsInput: Swift.Encodable {
     }
 }
 
-extension ResetDeploymentsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ResetDeploymentsInput {
+
+    static func headerProvider(_ value: ResetDeploymentsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension ResetDeploymentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension ResetDeploymentsInput {
+
+    static func urlPathProvider(_ value: ResetDeploymentsInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/deployments/$reset"
@@ -13089,18 +13162,20 @@ extension StartBulkDeploymentInput: Swift.Encodable {
     }
 }
 
-extension StartBulkDeploymentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension StartBulkDeploymentInput {
+
+    static func headerProvider(_ value: StartBulkDeploymentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let amznClientToken = amznClientToken {
+        if let amznClientToken = value.amznClientToken {
             items.add(Header(name: "X-Amzn-Client-Token", value: Swift.String(amznClientToken)))
         }
         return items
     }
 }
 
-extension StartBulkDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartBulkDeploymentInput {
+
+    static func urlPathProvider(_ value: StartBulkDeploymentInput) -> Swift.String? {
         return "/greengrass/bulk/deployments"
     }
 }
@@ -13225,9 +13300,10 @@ enum StartBulkDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopBulkDeploymentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let bulkDeploymentId = bulkDeploymentId else {
+extension StopBulkDeploymentInput {
+
+    static func urlPathProvider(_ value: StopBulkDeploymentInput) -> Swift.String? {
+        guard let bulkDeploymentId = value.bulkDeploymentId else {
             return nil
         }
         return "/greengrass/bulk/deployments/\(bulkDeploymentId.urlPercentEncoding())/$stop"
@@ -13409,9 +13485,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13596,26 +13673,26 @@ extension GreengrassClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -13737,9 +13814,10 @@ extension UpdateConnectivityInfoInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectivityInfoInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension UpdateConnectivityInfoInput {
+
+    static func urlPathProvider(_ value: UpdateConnectivityInfoInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/greengrass/things/\(thingName.urlPercentEncoding())/connectivityInfo"
@@ -13864,9 +13942,10 @@ extension UpdateConnectorDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateConnectorDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let connectorDefinitionId = connectorDefinitionId else {
+extension UpdateConnectorDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorDefinitionInput) -> Swift.String? {
+        guard let connectorDefinitionId = value.connectorDefinitionId else {
             return nil
         }
         return "/greengrass/definition/connectors/\(connectorDefinitionId.urlPercentEncoding())"
@@ -13940,9 +14019,10 @@ extension UpdateCoreDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateCoreDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let coreDefinitionId = coreDefinitionId else {
+extension UpdateCoreDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateCoreDefinitionInput) -> Swift.String? {
+        guard let coreDefinitionId = value.coreDefinitionId else {
             return nil
         }
         return "/greengrass/definition/cores/\(coreDefinitionId.urlPercentEncoding())"
@@ -14016,9 +14096,10 @@ extension UpdateDeviceDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateDeviceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let deviceDefinitionId = deviceDefinitionId else {
+extension UpdateDeviceDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateDeviceDefinitionInput) -> Swift.String? {
+        guard let deviceDefinitionId = value.deviceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/devices/\(deviceDefinitionId.urlPercentEncoding())"
@@ -14092,9 +14173,10 @@ extension UpdateFunctionDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateFunctionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let functionDefinitionId = functionDefinitionId else {
+extension UpdateFunctionDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateFunctionDefinitionInput) -> Swift.String? {
+        guard let functionDefinitionId = value.functionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/functions/\(functionDefinitionId.urlPercentEncoding())"
@@ -14168,9 +14250,10 @@ extension UpdateGroupCertificateConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupCertificateConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension UpdateGroupCertificateConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateGroupCertificateConfigurationInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())/certificateauthorities/configuration/expiry"
@@ -14295,9 +14378,10 @@ extension UpdateGroupInput: Swift.Encodable {
     }
 }
 
-extension UpdateGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let groupId = groupId else {
+extension UpdateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateGroupInput) -> Swift.String? {
+        guard let groupId = value.groupId else {
             return nil
         }
         return "/greengrass/groups/\(groupId.urlPercentEncoding())"
@@ -14371,9 +14455,10 @@ extension UpdateLoggerDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateLoggerDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let loggerDefinitionId = loggerDefinitionId else {
+extension UpdateLoggerDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateLoggerDefinitionInput) -> Swift.String? {
+        guard let loggerDefinitionId = value.loggerDefinitionId else {
             return nil
         }
         return "/greengrass/definition/loggers/\(loggerDefinitionId.urlPercentEncoding())"
@@ -14447,9 +14532,10 @@ extension UpdateResourceDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateResourceDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceDefinitionId = resourceDefinitionId else {
+extension UpdateResourceDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateResourceDefinitionInput) -> Swift.String? {
+        guard let resourceDefinitionId = value.resourceDefinitionId else {
             return nil
         }
         return "/greengrass/definition/resources/\(resourceDefinitionId.urlPercentEncoding())"
@@ -14523,9 +14609,10 @@ extension UpdateSubscriptionDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateSubscriptionDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let subscriptionDefinitionId = subscriptionDefinitionId else {
+extension UpdateSubscriptionDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateSubscriptionDefinitionInput) -> Swift.String? {
+        guard let subscriptionDefinitionId = value.subscriptionDefinitionId else {
             return nil
         }
         return "/greengrass/definition/subscriptions/\(subscriptionDefinitionId.urlPercentEncoding())"
@@ -14677,9 +14764,10 @@ extension UpdateThingRuntimeConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateThingRuntimeConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let thingName = thingName else {
+extension UpdateThingRuntimeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateThingRuntimeConfigurationInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
             return nil
         }
         return "/greengrass/things/\(thingName.urlPercentEncoding())/runtimeconfig"

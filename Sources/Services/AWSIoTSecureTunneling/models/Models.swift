@@ -45,17 +45,16 @@ extension CloseTunnelInput: Swift.Encodable {
     }
 }
 
-extension CloseTunnelInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension CloseTunnelInput {
+
+    static func queryItemProvider(_ value: CloseTunnelInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension CloseTunnelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CloseTunnelInput {
+
+    static func urlPathProvider(_ value: CloseTunnelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -192,8 +191,9 @@ extension DescribeTunnelInput: Swift.Encodable {
     }
 }
 
-extension DescribeTunnelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTunnelInput {
+
+    static func urlPathProvider(_ value: DescribeTunnelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -392,17 +392,16 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListTagsForResourceInput {
+
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -497,17 +496,16 @@ extension ListTunnelsInput: Swift.Encodable {
     }
 }
 
-extension ListTunnelsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            return items
-        }
+extension ListTunnelsInput {
+
+    static func queryItemProvider(_ value: ListTunnelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        return []
     }
 }
 
-extension ListTunnelsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTunnelsInput {
+
+    static func urlPathProvider(_ value: ListTunnelsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -638,8 +636,9 @@ extension OpenTunnelInput: Swift.Encodable {
     }
 }
 
-extension OpenTunnelInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension OpenTunnelInput {
+
+    static func urlPathProvider(_ value: OpenTunnelInput) -> Swift.String? {
         return "/"
     }
 }
@@ -863,8 +862,9 @@ extension RotateTunnelAccessTokenInput: Swift.Encodable {
     }
 }
 
-extension RotateTunnelAccessTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RotateTunnelAccessTokenInput {
+
+    static func urlPathProvider(_ value: RotateTunnelAccessTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1054,8 +1054,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1447,8 +1448,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }

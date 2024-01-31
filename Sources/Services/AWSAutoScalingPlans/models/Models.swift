@@ -138,8 +138,9 @@ extension CreateScalingPlanInput: Swift.Encodable {
     }
 }
 
-extension CreateScalingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateScalingPlanInput {
+
+    static func urlPathProvider(_ value: CreateScalingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -504,8 +505,9 @@ extension DeleteScalingPlanInput: Swift.Encodable {
     }
 }
 
-extension DeleteScalingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteScalingPlanInput {
+
+    static func urlPathProvider(_ value: DeleteScalingPlanInput) -> Swift.String? {
         return "/"
     }
 }
@@ -597,8 +599,9 @@ extension DescribeScalingPlanResourcesInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingPlanResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingPlanResourcesInput {
+
+    static func urlPathProvider(_ value: DescribeScalingPlanResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -765,8 +768,9 @@ extension DescribeScalingPlansInput: Swift.Encodable {
     }
 }
 
-extension DescribeScalingPlansInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeScalingPlansInput {
+
+    static func urlPathProvider(_ value: DescribeScalingPlansInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1001,8 +1005,9 @@ extension GetScalingPlanResourceForecastDataInput: Swift.Encodable {
     }
 }
 
-extension GetScalingPlanResourceForecastDataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetScalingPlanResourceForecastDataInput {
+
+    static func urlPathProvider(_ value: GetScalingPlanResourceForecastDataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2743,8 +2748,9 @@ extension UpdateScalingPlanInput: Swift.Encodable {
     }
 }
 
-extension UpdateScalingPlanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateScalingPlanInput {
+
+    static func urlPathProvider(_ value: UpdateScalingPlanInput) -> Swift.String? {
         return "/"
     }
 }

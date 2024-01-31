@@ -154,8 +154,9 @@ extension AddTagsInput: Swift.Encodable {
     }
 }
 
-extension AddTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddTagsInput {
+
+    static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -371,8 +372,9 @@ extension ApplySecurityGroupsToLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension ApplySecurityGroupsToLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ApplySecurityGroupsToLoadBalancerInput {
+
+    static func urlPathProvider(_ value: ApplySecurityGroupsToLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -527,8 +529,9 @@ extension AttachLoadBalancerToSubnetsInput: Swift.Encodable {
     }
 }
 
-extension AttachLoadBalancerToSubnetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AttachLoadBalancerToSubnetsInput {
+
+    static func urlPathProvider(_ value: AttachLoadBalancerToSubnetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -800,8 +803,9 @@ extension ConfigureHealthCheckInput: Swift.Encodable {
     }
 }
 
-extension ConfigureHealthCheckInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ConfigureHealthCheckInput {
+
+    static func urlPathProvider(_ value: ConfigureHealthCheckInput) -> Swift.String? {
         return "/"
     }
 }
@@ -996,8 +1000,9 @@ extension CreateAppCookieStickinessPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateAppCookieStickinessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppCookieStickinessPolicyInput {
+
+    static func urlPathProvider(_ value: CreateAppCookieStickinessPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1091,8 +1096,9 @@ extension CreateLBCookieStickinessPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateLBCookieStickinessPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLBCookieStickinessPolicyInput {
+
+    static func urlPathProvider(_ value: CreateLBCookieStickinessPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1242,8 +1248,9 @@ extension CreateLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension CreateLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLoadBalancerInput {
+
+    static func urlPathProvider(_ value: CreateLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1435,8 +1442,9 @@ extension CreateLoadBalancerListenersInput: Swift.Encodable {
     }
 }
 
-extension CreateLoadBalancerListenersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLoadBalancerListenersInput {
+
+    static func urlPathProvider(_ value: CreateLoadBalancerListenersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1614,8 +1622,9 @@ extension CreateLoadBalancerPolicyInput: Swift.Encodable {
     }
 }
 
-extension CreateLoadBalancerPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLoadBalancerPolicyInput {
+
+    static func urlPathProvider(_ value: CreateLoadBalancerPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1765,8 +1774,9 @@ extension DeleteLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension DeleteLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLoadBalancerInput {
+
+    static func urlPathProvider(_ value: DeleteLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1824,8 +1834,9 @@ extension DeleteLoadBalancerListenersInput: Swift.Encodable {
     }
 }
 
-extension DeleteLoadBalancerListenersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLoadBalancerListenersInput {
+
+    static func urlPathProvider(_ value: DeleteLoadBalancerListenersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1941,8 +1952,9 @@ extension DeleteLoadBalancerPolicyInput: Swift.Encodable {
     }
 }
 
-extension DeleteLoadBalancerPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLoadBalancerPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteLoadBalancerPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2085,8 +2097,9 @@ extension DeregisterInstancesFromLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension DeregisterInstancesFromLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeregisterInstancesFromLoadBalancerInput {
+
+    static func urlPathProvider(_ value: DeregisterInstancesFromLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2231,8 +2244,9 @@ extension DescribeAccountLimitsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAccountLimitsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAccountLimitsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountLimitsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2373,8 +2387,9 @@ extension DescribeInstanceHealthInput: Swift.Encodable {
     }
 }
 
-extension DescribeInstanceHealthInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeInstanceHealthInput {
+
+    static func urlPathProvider(_ value: DescribeInstanceHealthInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2515,8 +2530,9 @@ extension DescribeLoadBalancerAttributesInput: Swift.Encodable {
     }
 }
 
-extension DescribeLoadBalancerAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoadBalancerAttributesInput {
+
+    static func urlPathProvider(_ value: DescribeLoadBalancerAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2627,8 +2643,9 @@ extension DescribeLoadBalancerPoliciesInput: Swift.Encodable {
     }
 }
 
-extension DescribeLoadBalancerPoliciesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoadBalancerPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeLoadBalancerPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2777,8 +2794,9 @@ extension DescribeLoadBalancerPolicyTypesInput: Swift.Encodable {
     }
 }
 
-extension DescribeLoadBalancerPolicyTypesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoadBalancerPolicyTypesInput {
+
+    static func urlPathProvider(_ value: DescribeLoadBalancerPolicyTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2924,8 +2942,9 @@ extension DescribeLoadBalancersInput: Swift.Encodable {
     }
 }
 
-extension DescribeLoadBalancersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeLoadBalancersInput {
+
+    static func urlPathProvider(_ value: DescribeLoadBalancersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3092,8 +3111,9 @@ extension DescribeTagsInput: Swift.Encodable {
     }
 }
 
-extension DescribeTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeTagsInput {
+
+    static func urlPathProvider(_ value: DescribeTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3237,8 +3257,9 @@ extension DetachLoadBalancerFromSubnetsInput: Swift.Encodable {
     }
 }
 
-extension DetachLoadBalancerFromSubnetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DetachLoadBalancerFromSubnetsInput {
+
+    static func urlPathProvider(_ value: DetachLoadBalancerFromSubnetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3392,8 +3413,9 @@ extension DisableAvailabilityZonesForLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension DisableAvailabilityZonesForLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableAvailabilityZonesForLoadBalancerInput {
+
+    static func urlPathProvider(_ value: DisableAvailabilityZonesForLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3763,8 +3785,9 @@ extension EnableAvailabilityZonesForLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension EnableAvailabilityZonesForLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableAvailabilityZonesForLoadBalancerInput {
+
+    static func urlPathProvider(_ value: EnableAvailabilityZonesForLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5177,8 +5200,9 @@ extension ModifyLoadBalancerAttributesInput: Swift.Encodable {
     }
 }
 
-extension ModifyLoadBalancerAttributesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ModifyLoadBalancerAttributesInput {
+
+    static func urlPathProvider(_ value: ModifyLoadBalancerAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5939,8 +5963,9 @@ extension RegisterInstancesWithLoadBalancerInput: Swift.Encodable {
     }
 }
 
-extension RegisterInstancesWithLoadBalancerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterInstancesWithLoadBalancerInput {
+
+    static func urlPathProvider(_ value: RegisterInstancesWithLoadBalancerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6103,8 +6128,9 @@ extension RemoveTagsInput: Swift.Encodable {
     }
 }
 
-extension RemoveTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveTagsInput {
+
+    static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6220,8 +6246,9 @@ extension SetLoadBalancerListenerSSLCertificateInput: Swift.Encodable {
     }
 }
 
-extension SetLoadBalancerListenerSSLCertificateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetLoadBalancerListenerSSLCertificateInput {
+
+    static func urlPathProvider(_ value: SetLoadBalancerListenerSSLCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6325,8 +6352,9 @@ extension SetLoadBalancerPoliciesForBackendServerInput: Swift.Encodable {
     }
 }
 
-extension SetLoadBalancerPoliciesForBackendServerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetLoadBalancerPoliciesForBackendServerInput {
+
+    static func urlPathProvider(_ value: SetLoadBalancerPoliciesForBackendServerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6445,8 +6473,9 @@ extension SetLoadBalancerPoliciesOfListenerInput: Swift.Encodable {
     }
 }
 
-extension SetLoadBalancerPoliciesOfListenerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetLoadBalancerPoliciesOfListenerInput {
+
+    static func urlPathProvider(_ value: SetLoadBalancerPoliciesOfListenerInput) -> Swift.String? {
         return "/"
     }
 }

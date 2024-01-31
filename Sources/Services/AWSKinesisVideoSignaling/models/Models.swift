@@ -82,8 +82,9 @@ extension GetIceServerConfigInput: Swift.Encodable {
     }
 }
 
-extension GetIceServerConfigInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetIceServerConfigInput {
+
+    static func urlPathProvider(_ value: GetIceServerConfigInput) -> Swift.String? {
         return "/v1/get-ice-server-config"
     }
 }
@@ -524,8 +525,9 @@ extension SendAlexaOfferToMasterInput: Swift.Encodable {
     }
 }
 
-extension SendAlexaOfferToMasterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendAlexaOfferToMasterInput {
+
+    static func urlPathProvider(_ value: SendAlexaOfferToMasterInput) -> Swift.String? {
         return "/v1/send-alexa-offer-to-master"
     }
 }

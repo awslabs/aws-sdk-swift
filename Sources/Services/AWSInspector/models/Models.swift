@@ -154,8 +154,9 @@ extension AddAttributesToFindingsInput: Swift.Encodable {
     }
 }
 
-extension AddAttributesToFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AddAttributesToFindingsInput {
+
+    static func urlPathProvider(_ value: AddAttributesToFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2061,8 +2062,9 @@ extension CreateAssessmentTargetInput: Swift.Encodable {
     }
 }
 
-extension CreateAssessmentTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAssessmentTargetInput {
+
+    static func urlPathProvider(_ value: CreateAssessmentTargetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2197,8 +2199,9 @@ extension CreateAssessmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension CreateAssessmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAssessmentTemplateInput {
+
+    static func urlPathProvider(_ value: CreateAssessmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2355,8 +2358,9 @@ extension CreateExclusionsPreviewInput: Swift.Encodable {
     }
 }
 
-extension CreateExclusionsPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateExclusionsPreviewInput {
+
+    static func urlPathProvider(_ value: CreateExclusionsPreviewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2463,8 +2467,9 @@ extension CreateResourceGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateResourceGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateResourceGroupInput {
+
+    static func urlPathProvider(_ value: CreateResourceGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2576,8 +2581,9 @@ extension DeleteAssessmentRunInput: Swift.Encodable {
     }
 }
 
-extension DeleteAssessmentRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAssessmentRunInput {
+
+    static func urlPathProvider(_ value: DeleteAssessmentRunInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2650,8 +2656,9 @@ extension DeleteAssessmentTargetInput: Swift.Encodable {
     }
 }
 
-extension DeleteAssessmentTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAssessmentTargetInput {
+
+    static func urlPathProvider(_ value: DeleteAssessmentTargetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2724,8 +2731,9 @@ extension DeleteAssessmentTemplateInput: Swift.Encodable {
     }
 }
 
-extension DeleteAssessmentTemplateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAssessmentTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteAssessmentTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2801,8 +2809,9 @@ extension DescribeAssessmentRunsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAssessmentRunsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAssessmentRunsInput {
+
+    static func urlPathProvider(_ value: DescribeAssessmentRunsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2943,8 +2952,9 @@ extension DescribeAssessmentTargetsInput: Swift.Encodable {
     }
 }
 
-extension DescribeAssessmentTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAssessmentTargetsInput {
+
+    static func urlPathProvider(_ value: DescribeAssessmentTargetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3085,8 +3095,9 @@ extension DescribeAssessmentTemplatesInput: Swift.Encodable {
     }
 }
 
-extension DescribeAssessmentTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAssessmentTemplatesInput {
+
+    static func urlPathProvider(_ value: DescribeAssessmentTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3218,8 +3229,9 @@ extension DescribeCrossAccountAccessRoleInput: Swift.Encodable {
     }
 }
 
-extension DescribeCrossAccountAccessRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCrossAccountAccessRoleInput {
+
+    static func urlPathProvider(_ value: DescribeCrossAccountAccessRoleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3332,8 +3344,9 @@ extension DescribeExclusionsInput: Swift.Encodable {
     }
 }
 
-extension DescribeExclusionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeExclusionsInput {
+
+    static func urlPathProvider(_ value: DescribeExclusionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3486,8 +3499,9 @@ extension DescribeFindingsInput: Swift.Encodable {
     }
 }
 
-extension DescribeFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFindingsInput {
+
+    static func urlPathProvider(_ value: DescribeFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3636,8 +3650,9 @@ extension DescribeResourceGroupsInput: Swift.Encodable {
     }
 }
 
-extension DescribeResourceGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeResourceGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeResourceGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3782,8 +3797,9 @@ extension DescribeRulesPackagesInput: Swift.Encodable {
     }
 }
 
-extension DescribeRulesPackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRulesPackagesInput {
+
+    static func urlPathProvider(_ value: DescribeRulesPackagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4760,8 +4776,9 @@ extension GetAssessmentReportInput: Swift.Encodable {
     }
 }
 
-extension GetAssessmentReportInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAssessmentReportInput {
+
+    static func urlPathProvider(_ value: GetAssessmentReportInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4910,8 +4927,9 @@ extension GetExclusionsPreviewInput: Swift.Encodable {
     }
 }
 
-extension GetExclusionsPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetExclusionsPreviewInput {
+
+    static func urlPathProvider(_ value: GetExclusionsPreviewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5075,8 +5093,9 @@ extension GetTelemetryMetadataInput: Swift.Encodable {
     }
 }
 
-extension GetTelemetryMetadataInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTelemetryMetadataInput {
+
+    static func urlPathProvider(_ value: GetTelemetryMetadataInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5862,8 +5881,9 @@ extension ListAssessmentRunAgentsInput: Swift.Encodable {
     }
 }
 
-extension ListAssessmentRunAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssessmentRunAgentsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentRunAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6023,8 +6043,9 @@ extension ListAssessmentRunsInput: Swift.Encodable {
     }
 }
 
-extension ListAssessmentRunsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssessmentRunsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentRunsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6185,8 +6206,9 @@ extension ListAssessmentTargetsInput: Swift.Encodable {
     }
 }
 
-extension ListAssessmentTargetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssessmentTargetsInput {
+
+    static func urlPathProvider(_ value: ListAssessmentTargetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6336,8 +6358,9 @@ extension ListAssessmentTemplatesInput: Swift.Encodable {
     }
 }
 
-extension ListAssessmentTemplatesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAssessmentTemplatesInput {
+
+    static func urlPathProvider(_ value: ListAssessmentTemplatesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6498,8 +6521,9 @@ extension ListEventSubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension ListEventSubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventSubscriptionsInput {
+
+    static func urlPathProvider(_ value: ListEventSubscriptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6643,8 +6667,9 @@ extension ListExclusionsInput: Swift.Encodable {
     }
 }
 
-extension ListExclusionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListExclusionsInput {
+
+    static func urlPathProvider(_ value: ListExclusionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6796,8 +6821,9 @@ extension ListFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsInput {
+
+    static func urlPathProvider(_ value: ListFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6954,8 +6980,9 @@ extension ListRulesPackagesInput: Swift.Encodable {
     }
 }
 
-extension ListRulesPackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRulesPackagesInput {
+
+    static func urlPathProvider(_ value: ListRulesPackagesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7082,8 +7109,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7521,8 +7549,9 @@ extension PreviewAgentsInput: Swift.Encodable {
     }
 }
 
-extension PreviewAgentsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PreviewAgentsInput {
+
+    static func urlPathProvider(_ value: PreviewAgentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7793,8 +7822,9 @@ extension RegisterCrossAccountAccessRoleInput: Swift.Encodable {
     }
 }
 
-extension RegisterCrossAccountAccessRoleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RegisterCrossAccountAccessRoleInput {
+
+    static func urlPathProvider(_ value: RegisterCrossAccountAccessRoleInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7876,8 +7906,9 @@ extension RemoveAttributesFromFindingsInput: Swift.Encodable {
     }
 }
 
-extension RemoveAttributesFromFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RemoveAttributesFromFindingsInput {
+
+    static func urlPathProvider(_ value: RemoveAttributesFromFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8507,8 +8538,9 @@ extension SetTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension SetTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SetTagsForResourceInput {
+
+    static func urlPathProvider(_ value: SetTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8642,8 +8674,9 @@ extension StartAssessmentRunInput: Swift.Encodable {
     }
 }
 
-extension StartAssessmentRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartAssessmentRunInput {
+
+    static func urlPathProvider(_ value: StartAssessmentRunInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8793,8 +8826,9 @@ extension StopAssessmentRunInput: Swift.Encodable {
     }
 }
 
-extension StopAssessmentRunInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopAssessmentRunInput {
+
+    static func urlPathProvider(_ value: StopAssessmentRunInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8882,8 +8916,9 @@ extension SubscribeToEventInput: Swift.Encodable {
     }
 }
 
-extension SubscribeToEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SubscribeToEventInput {
+
+    static func urlPathProvider(_ value: SubscribeToEventInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9200,8 +9235,9 @@ extension UnsubscribeFromEventInput: Swift.Encodable {
     }
 }
 
-extension UnsubscribeFromEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UnsubscribeFromEventInput {
+
+    static func urlPathProvider(_ value: UnsubscribeFromEventInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9365,8 +9401,9 @@ extension UpdateAssessmentTargetInput: Swift.Encodable {
     }
 }
 
-extension UpdateAssessmentTargetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAssessmentTargetInput {
+
+    static func urlPathProvider(_ value: UpdateAssessmentTargetInput) -> Swift.String? {
         return "/"
     }
 }

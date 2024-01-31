@@ -373,9 +373,10 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetOrganizationRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationRecommendationIdentifier = organizationRecommendationIdentifier else {
+extension GetOrganizationRecommendationInput {
+
+    static func urlPathProvider(_ value: GetOrganizationRecommendationInput) -> Swift.String? {
+        guard let organizationRecommendationIdentifier = value.organizationRecommendationIdentifier else {
             return nil
         }
         return "/v1/organization-recommendations/\(organizationRecommendationIdentifier.urlPercentEncoding())"
@@ -459,9 +460,10 @@ enum GetOrganizationRecommendationOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension GetRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let recommendationIdentifier = recommendationIdentifier else {
+extension GetRecommendationInput {
+
+    static func urlPathProvider(_ value: GetRecommendationInput) -> Swift.String? {
+        guard let recommendationIdentifier = value.recommendationIdentifier else {
             return nil
         }
         return "/v1/recommendations/\(recommendationIdentifier.urlPercentEncoding())"
@@ -601,41 +603,41 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListChecksInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let pillar = pillar {
-                let pillarQueryItem = ClientRuntime.URLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
-                items.append(pillarQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let language = language {
-                let languageQueryItem = ClientRuntime.URLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language.rawValue).urlPercentEncoding())
-                items.append(languageQueryItem)
-            }
-            if let source = source {
-                let sourceQueryItem = ClientRuntime.URLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
-                items.append(sourceQueryItem)
-            }
-            if let awsService = awsService {
-                let awsServiceQueryItem = ClientRuntime.URLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
-                items.append(awsServiceQueryItem)
-            }
-            return items
+extension ListChecksInput {
+
+    static func queryItemProvider(_ value: ListChecksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let pillar = value.pillar {
+            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            items.append(pillarQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let language = value.language {
+            let languageQueryItem = ClientRuntime.SDKURLQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language.rawValue).urlPercentEncoding())
+            items.append(languageQueryItem)
+        }
+        if let source = value.source {
+            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            items.append(sourceQueryItem)
+        }
+        if let awsService = value.awsService {
+            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            items.append(awsServiceQueryItem)
+        }
+        return items
     }
 }
 
-extension ListChecksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListChecksInput {
+
+    static func urlPathProvider(_ value: ListChecksInput) -> Swift.String? {
         return "/v1/checks"
     }
 }
@@ -755,30 +757,30 @@ enum ListChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListOrganizationRecommendationAccountsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let affectedAccountId = affectedAccountId {
-                let affectedAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
-                items.append(affectedAccountIdQueryItem)
-            }
-            return items
+extension ListOrganizationRecommendationAccountsInput {
+
+    static func queryItemProvider(_ value: ListOrganizationRecommendationAccountsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let affectedAccountId = value.affectedAccountId {
+            let affectedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
+            items.append(affectedAccountIdQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOrganizationRecommendationAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationRecommendationIdentifier = organizationRecommendationIdentifier else {
+extension ListOrganizationRecommendationAccountsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationRecommendationAccountsInput) -> Swift.String? {
+        guard let organizationRecommendationIdentifier = value.organizationRecommendationIdentifier else {
             return nil
         }
         return "/v1/organization-recommendations/\(organizationRecommendationIdentifier.urlPercentEncoding())/accounts"
@@ -894,38 +896,38 @@ enum ListOrganizationRecommendationAccountsOutputError: ClientRuntime.HttpRespon
     }
 }
 
-extension ListOrganizationRecommendationResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let regionCode = regionCode {
-                let regionCodeQueryItem = ClientRuntime.URLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
-                items.append(regionCodeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let affectedAccountId = affectedAccountId {
-                let affectedAccountIdQueryItem = ClientRuntime.URLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
-                items.append(affectedAccountIdQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListOrganizationRecommendationResourcesInput {
+
+    static func queryItemProvider(_ value: ListOrganizationRecommendationResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let regionCode = value.regionCode {
+            let regionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
+            items.append(regionCodeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let affectedAccountId = value.affectedAccountId {
+            let affectedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "affectedAccountId".urlPercentEncoding(), value: Swift.String(affectedAccountId).urlPercentEncoding())
+            items.append(affectedAccountIdQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOrganizationRecommendationResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationRecommendationIdentifier = organizationRecommendationIdentifier else {
+extension ListOrganizationRecommendationResourcesInput {
+
+    static func urlPathProvider(_ value: ListOrganizationRecommendationResourcesInput) -> Swift.String? {
+        guard let organizationRecommendationIdentifier = value.organizationRecommendationIdentifier else {
             return nil
         }
         return "/v1/organization-recommendations/\(organizationRecommendationIdentifier.urlPercentEncoding())/resources"
@@ -1049,57 +1051,57 @@ enum ListOrganizationRecommendationResourcesOutputError: ClientRuntime.HttpRespo
     }
 }
 
-extension ListOrganizationRecommendationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let beforeLastUpdatedAt = beforeLastUpdatedAt {
-                let beforeLastUpdatedAtQueryItem = ClientRuntime.URLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
-                items.append(beforeLastUpdatedAtQueryItem)
-            }
-            if let pillar = pillar {
-                let pillarQueryItem = ClientRuntime.URLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
-                items.append(pillarQueryItem)
-            }
-            if let afterLastUpdatedAt = afterLastUpdatedAt {
-                let afterLastUpdatedAtQueryItem = ClientRuntime.URLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
-                items.append(afterLastUpdatedAtQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let checkIdentifier = checkIdentifier {
-                let checkIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
-                items.append(checkIdentifierQueryItem)
-            }
-            if let source = source {
-                let sourceQueryItem = ClientRuntime.URLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
-                items.append(sourceQueryItem)
-            }
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let awsService = awsService {
-                let awsServiceQueryItem = ClientRuntime.URLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
-                items.append(awsServiceQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListOrganizationRecommendationsInput {
+
+    static func queryItemProvider(_ value: ListOrganizationRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let beforeLastUpdatedAt = value.beforeLastUpdatedAt {
+            let beforeLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
+            items.append(beforeLastUpdatedAtQueryItem)
         }
+        if let pillar = value.pillar {
+            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            items.append(pillarQueryItem)
+        }
+        if let afterLastUpdatedAt = value.afterLastUpdatedAt {
+            let afterLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
+            items.append(afterLastUpdatedAtQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let checkIdentifier = value.checkIdentifier {
+            let checkIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
+            items.append(checkIdentifierQueryItem)
+        }
+        if let source = value.source {
+            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            items.append(sourceQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let awsService = value.awsService {
+            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            items.append(awsServiceQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListOrganizationRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOrganizationRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationRecommendationsInput) -> Swift.String? {
         return "/v1/organization-recommendations"
     }
 }
@@ -1235,34 +1237,34 @@ enum ListOrganizationRecommendationsOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension ListRecommendationResourcesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let regionCode = regionCode {
-                let regionCodeQueryItem = ClientRuntime.URLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
-                items.append(regionCodeQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListRecommendationResourcesInput {
+
+    static func queryItemProvider(_ value: ListRecommendationResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let regionCode = value.regionCode {
+            let regionCodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "regionCode".urlPercentEncoding(), value: Swift.String(regionCode).urlPercentEncoding())
+            items.append(regionCodeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecommendationResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let recommendationIdentifier = recommendationIdentifier else {
+extension ListRecommendationResourcesInput {
+
+    static func urlPathProvider(_ value: ListRecommendationResourcesInput) -> Swift.String? {
+        guard let recommendationIdentifier = value.recommendationIdentifier else {
             return nil
         }
         return "/v1/recommendations/\(recommendationIdentifier.urlPercentEncoding())/resources"
@@ -1382,57 +1384,57 @@ enum ListRecommendationResourcesOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension ListRecommendationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let beforeLastUpdatedAt = beforeLastUpdatedAt {
-                let beforeLastUpdatedAtQueryItem = ClientRuntime.URLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
-                items.append(beforeLastUpdatedAtQueryItem)
-            }
-            if let pillar = pillar {
-                let pillarQueryItem = ClientRuntime.URLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
-                items.append(pillarQueryItem)
-            }
-            if let afterLastUpdatedAt = afterLastUpdatedAt {
-                let afterLastUpdatedAtQueryItem = ClientRuntime.URLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
-                items.append(afterLastUpdatedAtQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let checkIdentifier = checkIdentifier {
-                let checkIdentifierQueryItem = ClientRuntime.URLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
-                items.append(checkIdentifierQueryItem)
-            }
-            if let source = source {
-                let sourceQueryItem = ClientRuntime.URLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
-                items.append(sourceQueryItem)
-            }
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            if let awsService = awsService {
-                let awsServiceQueryItem = ClientRuntime.URLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
-                items.append(awsServiceQueryItem)
-            }
-            if let status = status {
-                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
-                items.append(statusQueryItem)
-            }
-            return items
+extension ListRecommendationsInput {
+
+    static func queryItemProvider(_ value: ListRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let beforeLastUpdatedAt = value.beforeLastUpdatedAt {
+            let beforeLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "beforeLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: beforeLastUpdatedAt)).urlPercentEncoding())
+            items.append(beforeLastUpdatedAtQueryItem)
         }
+        if let pillar = value.pillar {
+            let pillarQueryItem = ClientRuntime.SDKURLQueryItem(name: "pillar".urlPercentEncoding(), value: Swift.String(pillar.rawValue).urlPercentEncoding())
+            items.append(pillarQueryItem)
+        }
+        if let afterLastUpdatedAt = value.afterLastUpdatedAt {
+            let afterLastUpdatedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "afterLastUpdatedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: afterLastUpdatedAt)).urlPercentEncoding())
+            items.append(afterLastUpdatedAtQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let checkIdentifier = value.checkIdentifier {
+            let checkIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkIdentifier".urlPercentEncoding(), value: Swift.String(checkIdentifier).urlPercentEncoding())
+            items.append(checkIdentifierQueryItem)
+        }
+        if let source = value.source {
+            let sourceQueryItem = ClientRuntime.SDKURLQueryItem(name: "source".urlPercentEncoding(), value: Swift.String(source.rawValue).urlPercentEncoding())
+            items.append(sourceQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let awsService = value.awsService {
+            let awsServiceQueryItem = ClientRuntime.SDKURLQueryItem(name: "awsService".urlPercentEncoding(), value: Swift.String(awsService).urlPercentEncoding())
+            items.append(awsServiceQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecommendationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendationsInput {
+
+    static func urlPathProvider(_ value: ListRecommendationsInput) -> Swift.String? {
         return "/v1/recommendations"
     }
 }
@@ -3354,9 +3356,10 @@ extension UpdateOrganizationRecommendationLifecycleInput: Swift.Encodable {
     }
 }
 
-extension UpdateOrganizationRecommendationLifecycleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let organizationRecommendationIdentifier = organizationRecommendationIdentifier else {
+extension UpdateOrganizationRecommendationLifecycleInput {
+
+    static func urlPathProvider(_ value: UpdateOrganizationRecommendationLifecycleInput) -> Swift.String? {
+        guard let organizationRecommendationIdentifier = value.organizationRecommendationIdentifier else {
             return nil
         }
         return "/v1/organization-recommendations/\(organizationRecommendationIdentifier.urlPercentEncoding())/lifecycle"
@@ -3465,9 +3468,10 @@ extension UpdateRecommendationLifecycleInput: Swift.Encodable {
     }
 }
 
-extension UpdateRecommendationLifecycleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let recommendationIdentifier = recommendationIdentifier else {
+extension UpdateRecommendationLifecycleInput {
+
+    static func urlPathProvider(_ value: UpdateRecommendationLifecycleInput) -> Swift.String? {
+        guard let recommendationIdentifier = value.recommendationIdentifier else {
             return nil
         }
         return "/v1/recommendations/\(recommendationIdentifier.urlPercentEncoding())/lifecycle"

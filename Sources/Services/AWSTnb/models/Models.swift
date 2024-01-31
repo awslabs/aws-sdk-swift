@@ -58,9 +58,10 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
-extension CancelSolNetworkOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsLcmOpOccId = nsLcmOpOccId else {
+extension CancelSolNetworkOperationInput {
+
+    static func urlPathProvider(_ value: CancelSolNetworkOperationInput) -> Swift.String? {
+        guard let nsLcmOpOccId = value.nsLcmOpOccId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_lcm_op_occs/\(nsLcmOpOccId.urlPercentEncoding())/cancel"
@@ -135,8 +136,9 @@ extension CreateSolFunctionPackageInput: Swift.Encodable {
     }
 }
 
-extension CreateSolFunctionPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSolFunctionPackageInput {
+
+    static func urlPathProvider(_ value: CreateSolFunctionPackageInput) -> Swift.String? {
         return "/sol/vnfpkgm/v1/vnf_packages"
     }
 }
@@ -335,8 +337,9 @@ extension CreateSolNetworkInstanceInput: Swift.Encodable {
     }
 }
 
-extension CreateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: CreateSolNetworkInstanceInput) -> Swift.String? {
         return "/sol/nslcm/v1/ns_instances"
     }
 }
@@ -539,8 +542,9 @@ extension CreateSolNetworkPackageInput: Swift.Encodable {
     }
 }
 
-extension CreateSolNetworkPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSolNetworkPackageInput {
+
+    static func urlPathProvider(_ value: CreateSolNetworkPackageInput) -> Swift.String? {
         return "/sol/nsd/v1/ns_descriptors"
     }
 }
@@ -706,9 +710,10 @@ enum CreateSolNetworkPackageOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension DeleteSolFunctionPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension DeleteSolFunctionPackageInput {
+
+    static func urlPathProvider(_ value: DeleteSolFunctionPackageInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())"
@@ -762,9 +767,10 @@ enum DeleteSolFunctionPackageOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsInstanceId = nsInstanceId else {
+extension DeleteSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: DeleteSolNetworkInstanceInput) -> Swift.String? {
+        guard let nsInstanceId = value.nsInstanceId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_instances/\(nsInstanceId.urlPercentEncoding())"
@@ -818,9 +824,10 @@ enum DeleteSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
-extension DeleteSolNetworkPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension DeleteSolNetworkPackageInput {
+
+    static func urlPathProvider(_ value: DeleteSolNetworkPackageInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())"
@@ -995,9 +1002,10 @@ extension TnbClientTypes {
 
 }
 
-extension GetSolFunctionInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfInstanceId = vnfInstanceId else {
+extension GetSolFunctionInstanceInput {
+
+    static func urlPathProvider(_ value: GetSolFunctionInstanceInput) -> Swift.String? {
+        guard let vnfInstanceId = value.vnfInstanceId else {
             return nil
         }
         return "/sol/vnflcm/v1/vnf_instances/\(vnfInstanceId.urlPercentEncoding())"
@@ -1259,19 +1267,21 @@ enum GetSolFunctionInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSolFunctionPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetSolFunctionPackageContentInput {
+
+    static func headerProvider(_ value: GetSolFunctionPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
         return items
     }
 }
 
-extension GetSolFunctionPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension GetSolFunctionPackageContentInput {
+
+    static func urlPathProvider(_ value: GetSolFunctionPackageContentInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())/package_content"
@@ -1370,19 +1380,21 @@ enum GetSolFunctionPackageContentOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
-extension GetSolFunctionPackageDescriptorInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetSolFunctionPackageDescriptorInput {
+
+    static func headerProvider(_ value: GetSolFunctionPackageDescriptorInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
         return items
     }
 }
 
-extension GetSolFunctionPackageDescriptorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension GetSolFunctionPackageDescriptorInput {
+
+    static func urlPathProvider(_ value: GetSolFunctionPackageDescriptorInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())/vnfd"
@@ -1481,9 +1493,10 @@ enum GetSolFunctionPackageDescriptorOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-extension GetSolFunctionPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension GetSolFunctionPackageInput {
+
+    static func urlPathProvider(_ value: GetSolFunctionPackageInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())"
@@ -1778,9 +1791,10 @@ extension TnbClientTypes {
 
 }
 
-extension GetSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsInstanceId = nsInstanceId else {
+extension GetSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: GetSolNetworkInstanceInput) -> Swift.String? {
+        guard let nsInstanceId = value.nsInstanceId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_instances/\(nsInstanceId.urlPercentEncoding())"
@@ -2022,9 +2036,10 @@ enum GetSolNetworkInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetSolNetworkOperationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsLcmOpOccId = nsLcmOpOccId else {
+extension GetSolNetworkOperationInput {
+
+    static func urlPathProvider(_ value: GetSolNetworkOperationInput) -> Swift.String? {
+        guard let nsLcmOpOccId = value.nsLcmOpOccId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_lcm_op_occs/\(nsLcmOpOccId.urlPercentEncoding())"
@@ -2356,19 +2371,21 @@ extension TnbClientTypes {
 
 }
 
-extension GetSolNetworkPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension GetSolNetworkPackageContentInput {
+
+    static func headerProvider(_ value: GetSolNetworkPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let accept = accept {
+        if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
         return items
     }
 }
 
-extension GetSolNetworkPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension GetSolNetworkPackageContentInput {
+
+    static func urlPathProvider(_ value: GetSolNetworkPackageContentInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())/nsd_content"
@@ -2467,9 +2484,10 @@ enum GetSolNetworkPackageContentOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-extension GetSolNetworkPackageDescriptorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension GetSolNetworkPackageDescriptorInput {
+
+    static func urlPathProvider(_ value: GetSolNetworkPackageDescriptorInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())/nsd"
@@ -2563,9 +2581,10 @@ enum GetSolNetworkPackageDescriptorOutputError: ClientRuntime.HttpResponseErrorB
     }
 }
 
-extension GetSolNetworkPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension GetSolNetworkPackageInput {
+
+    static func urlPathProvider(_ value: GetSolNetworkPackageInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())"
@@ -3011,22 +3030,22 @@ extension InstantiateSolNetworkInstanceInput: Swift.Encodable {
     }
 }
 
-extension InstantiateSolNetworkInstanceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let dryRun = dryRun {
-                let dryRunQueryItem = ClientRuntime.URLQueryItem(name: "dry_run".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
-                items.append(dryRunQueryItem)
-            }
-            return items
+extension InstantiateSolNetworkInstanceInput {
+
+    static func queryItemProvider(_ value: InstantiateSolNetworkInstanceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let dryRun = value.dryRun {
+            let dryRunQueryItem = ClientRuntime.SDKURLQueryItem(name: "dry_run".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
+            items.append(dryRunQueryItem)
         }
+        return items
     }
 }
 
-extension InstantiateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsInstanceId = nsInstanceId else {
+extension InstantiateSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: InstantiateSolNetworkInstanceInput) -> Swift.String? {
+        guard let nsInstanceId = value.nsInstanceId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_instances/\(nsInstanceId.urlPercentEncoding())/instantiate"
@@ -3453,25 +3472,25 @@ extension TnbClientTypes {
 
 }
 
-extension ListSolFunctionInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSolFunctionInstancesInput {
+
+    static func queryItemProvider(_ value: ListSolFunctionInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSolFunctionInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolFunctionInstancesInput {
+
+    static func urlPathProvider(_ value: ListSolFunctionInstancesInput) -> Swift.String? {
         return "/sol/vnflcm/v1/vnf_instances"
     }
 }
@@ -3751,25 +3770,25 @@ extension TnbClientTypes {
 
 }
 
-extension ListSolFunctionPackagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSolFunctionPackagesInput {
+
+    static func queryItemProvider(_ value: ListSolFunctionPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSolFunctionPackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolFunctionPackagesInput {
+
+    static func urlPathProvider(_ value: ListSolFunctionPackagesInput) -> Swift.String? {
         return "/sol/vnfpkgm/v1/vnf_packages"
     }
 }
@@ -4033,25 +4052,25 @@ extension TnbClientTypes {
 
 }
 
-extension ListSolNetworkInstancesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSolNetworkInstancesInput {
+
+    static func queryItemProvider(_ value: ListSolNetworkInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSolNetworkInstancesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolNetworkInstancesInput {
+
+    static func urlPathProvider(_ value: ListSolNetworkInstancesInput) -> Swift.String? {
         return "/sol/nslcm/v1/ns_instances"
     }
 }
@@ -4254,25 +4273,25 @@ extension TnbClientTypes {
 
 }
 
-extension ListSolNetworkOperationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSolNetworkOperationsInput {
+
+    static func queryItemProvider(_ value: ListSolNetworkOperationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSolNetworkOperationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolNetworkOperationsInput {
+
+    static func urlPathProvider(_ value: ListSolNetworkOperationsInput) -> Swift.String? {
         return "/sol/nslcm/v1/ns_lcm_op_occs"
     }
 }
@@ -4632,25 +4651,25 @@ extension TnbClientTypes {
 
 }
 
-extension ListSolNetworkPackagesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListSolNetworkPackagesInput {
+
+    static func queryItemProvider(_ value: ListSolNetworkPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListSolNetworkPackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolNetworkPackagesInput {
+
+    static func urlPathProvider(_ value: ListSolNetworkPackagesInput) -> Swift.String? {
         return "/sol/nsd/v1/ns_descriptors"
     }
 }
@@ -4754,9 +4773,10 @@ enum ListSolNetworkPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5247,19 +5267,21 @@ extension PutSolFunctionPackageContentInput: Swift.Encodable {
     }
 }
 
-extension PutSolFunctionPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSolFunctionPackageContentInput {
+
+    static func headerProvider(_ value: PutSolFunctionPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
         return items
     }
 }
 
-extension PutSolFunctionPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension PutSolFunctionPackageContentInput {
+
+    static func urlPathProvider(_ value: PutSolFunctionPackageContentInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())/package_content"
@@ -5463,19 +5485,21 @@ extension PutSolNetworkPackageContentInput: Swift.Encodable {
     }
 }
 
-extension PutSolNetworkPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension PutSolNetworkPackageContentInput {
+
+    static func headerProvider(_ value: PutSolNetworkPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
         return items
     }
 }
 
-extension PutSolNetworkPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension PutSolNetworkPackageContentInput {
+
+    static func urlPathProvider(_ value: PutSolNetworkPackageContentInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())/nsd_content"
@@ -5819,9 +5843,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5964,9 +5989,10 @@ extension TerminateSolNetworkInstanceInput: Swift.Encodable {
     }
 }
 
-extension TerminateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsInstanceId = nsInstanceId else {
+extension TerminateSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: TerminateSolNetworkInstanceInput) -> Swift.String? {
+        guard let nsInstanceId = value.nsInstanceId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_instances/\(nsInstanceId.urlPercentEncoding())/terminate"
@@ -6196,26 +6222,26 @@ extension TnbClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -6287,9 +6313,10 @@ extension UpdateSolFunctionPackageInput: Swift.Encodable {
     }
 }
 
-extension UpdateSolFunctionPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension UpdateSolFunctionPackageInput {
+
+    static func urlPathProvider(_ value: UpdateSolFunctionPackageInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())"
@@ -6415,9 +6442,10 @@ extension UpdateSolNetworkInstanceInput: Swift.Encodable {
     }
 }
 
-extension UpdateSolNetworkInstanceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsInstanceId = nsInstanceId else {
+extension UpdateSolNetworkInstanceInput {
+
+    static func urlPathProvider(_ value: UpdateSolNetworkInstanceInput) -> Swift.String? {
+        guard let nsInstanceId = value.nsInstanceId else {
             return nil
         }
         return "/sol/nslcm/v1/ns_instances/\(nsInstanceId.urlPercentEncoding())/update"
@@ -6623,9 +6651,10 @@ extension UpdateSolNetworkPackageInput: Swift.Encodable {
     }
 }
 
-extension UpdateSolNetworkPackageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension UpdateSolNetworkPackageInput {
+
+    static func urlPathProvider(_ value: UpdateSolNetworkPackageInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())"
@@ -6796,19 +6825,21 @@ extension ValidateSolFunctionPackageContentInput: Swift.Encodable {
     }
 }
 
-extension ValidateSolFunctionPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ValidateSolFunctionPackageContentInput {
+
+    static func headerProvider(_ value: ValidateSolFunctionPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
         return items
     }
 }
 
-extension ValidateSolFunctionPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let vnfPkgId = vnfPkgId else {
+extension ValidateSolFunctionPackageContentInput {
+
+    static func urlPathProvider(_ value: ValidateSolFunctionPackageContentInput) -> Swift.String? {
+        guard let vnfPkgId = value.vnfPkgId else {
             return nil
         }
         return "/sol/vnfpkgm/v1/vnf_packages/\(vnfPkgId.urlPercentEncoding())/package_content/validate"
@@ -7012,19 +7043,21 @@ extension ValidateSolNetworkPackageContentInput: Swift.Encodable {
     }
 }
 
-extension ValidateSolNetworkPackageContentInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension ValidateSolNetworkPackageContentInput {
+
+    static func headerProvider(_ value: ValidateSolNetworkPackageContentInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let contentType = contentType {
+        if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
         return items
     }
 }
 
-extension ValidateSolNetworkPackageContentInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let nsdInfoId = nsdInfoId else {
+extension ValidateSolNetworkPackageContentInput {
+
+    static func urlPathProvider(_ value: ValidateSolNetworkPackageContentInput) -> Swift.String? {
+        guard let nsdInfoId = value.nsdInfoId else {
             return nil
         }
         return "/sol/nsd/v1/ns_descriptors/\(nsdInfoId.urlPercentEncoding())/nsd_content/validate"

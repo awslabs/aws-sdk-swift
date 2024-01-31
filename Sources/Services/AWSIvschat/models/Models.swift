@@ -247,8 +247,9 @@ extension CreateChatTokenInput: Swift.Encodable {
     }
 }
 
-extension CreateChatTokenInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateChatTokenInput {
+
+    static func urlPathProvider(_ value: CreateChatTokenInput) -> Swift.String? {
         return "/CreateChatToken"
     }
 }
@@ -436,8 +437,9 @@ extension CreateLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension CreateLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateLoggingConfigurationInput) -> Swift.String? {
         return "/CreateLoggingConfiguration"
     }
 }
@@ -699,8 +701,9 @@ extension CreateRoomInput: Swift.Encodable {
     }
 }
 
-extension CreateRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRoomInput {
+
+    static func urlPathProvider(_ value: CreateRoomInput) -> Swift.String? {
         return "/CreateRoom"
     }
 }
@@ -968,8 +971,9 @@ extension DeleteLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DeleteLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteLoggingConfigurationInput) -> Swift.String? {
         return "/DeleteLoggingConfiguration"
     }
 }
@@ -1049,8 +1053,9 @@ extension DeleteMessageInput: Swift.Encodable {
     }
 }
 
-extension DeleteMessageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMessageInput {
+
+    static func urlPathProvider(_ value: DeleteMessageInput) -> Swift.String? {
         return "/DeleteMessage"
     }
 }
@@ -1169,8 +1174,9 @@ extension DeleteRoomInput: Swift.Encodable {
     }
 }
 
-extension DeleteRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRoomInput {
+
+    static func urlPathProvider(_ value: DeleteRoomInput) -> Swift.String? {
         return "/DeleteRoom"
     }
 }
@@ -1311,8 +1317,9 @@ extension DisconnectUserInput: Swift.Encodable {
     }
 }
 
-extension DisconnectUserInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisconnectUserInput {
+
+    static func urlPathProvider(_ value: DisconnectUserInput) -> Swift.String? {
         return "/DisconnectUser"
     }
 }
@@ -1469,8 +1476,9 @@ extension GetLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension GetLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: GetLoggingConfigurationInput) -> Swift.String? {
         return "/GetLoggingConfiguration"
     }
 }
@@ -1649,8 +1657,9 @@ extension GetRoomInput: Swift.Encodable {
     }
 }
 
-extension GetRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRoomInput {
+
+    static func urlPathProvider(_ value: GetRoomInput) -> Swift.String? {
         return "/GetRoom"
     }
 }
@@ -1918,8 +1927,9 @@ extension ListLoggingConfigurationsInput: Swift.Encodable {
     }
 }
 
-extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListLoggingConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListLoggingConfigurationsInput) -> Swift.String? {
         return "/ListLoggingConfigurations"
     }
 }
@@ -2061,8 +2071,9 @@ extension ListRoomsInput: Swift.Encodable {
     }
 }
 
-extension ListRoomsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRoomsInput {
+
+    static func urlPathProvider(_ value: ListRoomsInput) -> Swift.String? {
         return "/ListRooms"
     }
 }
@@ -2200,9 +2211,10 @@ enum ListRoomsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -2855,8 +2867,9 @@ extension SendEventInput: Swift.Encodable {
     }
 }
 
-extension SendEventInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension SendEventInput {
+
+    static func urlPathProvider(_ value: SendEventInput) -> Swift.String? {
         return "/SendEvent"
     }
 }
@@ -3076,9 +3089,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3240,26 +3254,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -3337,8 +3351,9 @@ extension UpdateLoggingConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateLoggingConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateLoggingConfigurationInput) -> Swift.String? {
         return "/UpdateLoggingConfiguration"
     }
 }
@@ -3587,8 +3602,9 @@ extension UpdateRoomInput: Swift.Encodable {
     }
 }
 
-extension UpdateRoomInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRoomInput {
+
+    static func urlPathProvider(_ value: UpdateRoomInput) -> Swift.String? {
         return "/UpdateRoom"
     }
 }

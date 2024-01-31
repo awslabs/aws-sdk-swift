@@ -15,8 +15,9 @@ extension AcceptInvitationInput: Swift.Encodable {
     }
 }
 
-extension AcceptInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AcceptInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptInvitationInput) -> Swift.String? {
         return "/invitation"
     }
 }
@@ -297,8 +298,9 @@ extension BatchGetGraphMemberDatasourcesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetGraphMemberDatasourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetGraphMemberDatasourcesInput {
+
+    static func urlPathProvider(_ value: BatchGetGraphMemberDatasourcesInput) -> Swift.String? {
         return "/graph/datasources/get"
     }
 }
@@ -448,8 +450,9 @@ extension BatchGetMembershipDatasourcesInput: Swift.Encodable {
     }
 }
 
-extension BatchGetMembershipDatasourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetMembershipDatasourcesInput {
+
+    static func urlPathProvider(_ value: BatchGetMembershipDatasourcesInput) -> Swift.String? {
         return "/membership/datasources/get"
     }
 }
@@ -645,8 +648,9 @@ extension CreateGraphInput: Swift.Encodable {
     }
 }
 
-extension CreateGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateGraphInput {
+
+    static func urlPathProvider(_ value: CreateGraphInput) -> Swift.String? {
         return "/graph"
     }
 }
@@ -775,8 +779,9 @@ extension CreateMembersInput: Swift.Encodable {
     }
 }
 
-extension CreateMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMembersInput {
+
+    static func urlPathProvider(_ value: CreateMembersInput) -> Swift.String? {
         return "/graph/members"
     }
 }
@@ -1159,8 +1164,9 @@ extension DeleteGraphInput: Swift.Encodable {
     }
 }
 
-extension DeleteGraphInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteGraphInput {
+
+    static func urlPathProvider(_ value: DeleteGraphInput) -> Swift.String? {
         return "/graph/removal"
     }
 }
@@ -1238,8 +1244,9 @@ extension DeleteMembersInput: Swift.Encodable {
     }
 }
 
-extension DeleteMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMembersInput {
+
+    static func urlPathProvider(_ value: DeleteMembersInput) -> Swift.String? {
         return "/graph/members/removal"
     }
 }
@@ -1387,8 +1394,9 @@ extension DescribeOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension DescribeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeOrganizationConfigurationInput) -> Swift.String? {
         return "/orgs/describeOrganizationConfiguration"
     }
 }
@@ -1476,8 +1484,9 @@ enum DescribeOrganizationConfigurationOutputError: ClientRuntime.HttpResponseErr
     }
 }
 
-extension DisableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: DisableOrganizationAdminAccountInput) -> Swift.String? {
         return "/orgs/disableAdminAccount"
     }
 }
@@ -1533,8 +1542,9 @@ extension DisassociateMembershipInput: Swift.Encodable {
     }
 }
 
-extension DisassociateMembershipInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateMembershipInput {
+
+    static func urlPathProvider(_ value: DisassociateMembershipInput) -> Swift.String? {
         return "/membership/removal"
     }
 }
@@ -1606,8 +1616,9 @@ extension EnableOrganizationAdminAccountInput: Swift.Encodable {
     }
 }
 
-extension EnableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension EnableOrganizationAdminAccountInput {
+
+    static func urlPathProvider(_ value: EnableOrganizationAdminAccountInput) -> Swift.String? {
         return "/orgs/enableAdminAccount"
     }
 }
@@ -1904,8 +1915,9 @@ extension GetInvestigationInput: Swift.Encodable {
     }
 }
 
-extension GetInvestigationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetInvestigationInput {
+
+    static func urlPathProvider(_ value: GetInvestigationInput) -> Swift.String? {
         return "/investigations/getInvestigation"
     }
 }
@@ -2113,8 +2125,9 @@ extension GetMembersInput: Swift.Encodable {
     }
 }
 
-extension GetMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetMembersInput {
+
+    static func urlPathProvider(_ value: GetMembersInput) -> Swift.String? {
         return "/graph/members/get"
     }
 }
@@ -2771,8 +2784,9 @@ extension ListDatasourcePackagesInput: Swift.Encodable {
     }
 }
 
-extension ListDatasourcePackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasourcePackagesInput {
+
+    static func urlPathProvider(_ value: ListDatasourcePackagesInput) -> Swift.String? {
         return "/graph/datasources/list"
     }
 }
@@ -2912,8 +2926,9 @@ extension ListGraphsInput: Swift.Encodable {
     }
 }
 
-extension ListGraphsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListGraphsInput {
+
+    static func urlPathProvider(_ value: ListGraphsInput) -> Swift.String? {
         return "/graphs/list"
     }
 }
@@ -3055,8 +3070,9 @@ extension ListIndicatorsInput: Swift.Encodable {
     }
 }
 
-extension ListIndicatorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIndicatorsInput {
+
+    static func urlPathProvider(_ value: ListIndicatorsInput) -> Swift.String? {
         return "/investigations/listIndicators"
     }
 }
@@ -3246,8 +3262,9 @@ extension ListInvestigationsInput: Swift.Encodable {
     }
 }
 
-extension ListInvestigationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInvestigationsInput {
+
+    static func urlPathProvider(_ value: ListInvestigationsInput) -> Swift.String? {
         return "/investigations/listInvestigations"
     }
 }
@@ -3404,8 +3421,9 @@ extension ListInvitationsInput: Swift.Encodable {
     }
 }
 
-extension ListInvitationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListInvitationsInput {
+
+    static func urlPathProvider(_ value: ListInvitationsInput) -> Swift.String? {
         return "/invitations/list"
     }
 }
@@ -3539,8 +3557,9 @@ extension ListMembersInput: Swift.Encodable {
     }
 }
 
-extension ListMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMembersInput {
+
+    static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
         return "/graph/members/list"
     }
 }
@@ -3680,8 +3699,9 @@ extension ListOrganizationAdminAccountsInput: Swift.Encodable {
     }
 }
 
-extension ListOrganizationAdminAccountsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListOrganizationAdminAccountsInput {
+
+    static func urlPathProvider(_ value: ListOrganizationAdminAccountsInput) -> Swift.String? {
         return "/orgs/adminAccountslist"
     }
 }
@@ -3795,9 +3815,10 @@ enum ListOrganizationAdminAccountsOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4462,8 +4483,9 @@ extension RejectInvitationInput: Swift.Encodable {
     }
 }
 
-extension RejectInvitationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension RejectInvitationInput {
+
+    static func urlPathProvider(_ value: RejectInvitationInput) -> Swift.String? {
         return "/invitation/removal"
     }
 }
@@ -4890,8 +4912,9 @@ extension StartInvestigationInput: Swift.Encodable {
     }
 }
 
-extension StartInvestigationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartInvestigationInput {
+
+    static func urlPathProvider(_ value: StartInvestigationInput) -> Swift.String? {
         return "/investigations/startInvestigation"
     }
 }
@@ -5024,8 +5047,9 @@ extension StartMonitoringMemberInput: Swift.Encodable {
     }
 }
 
-extension StartMonitoringMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartMonitoringMemberInput {
+
+    static func urlPathProvider(_ value: StartMonitoringMemberInput) -> Swift.String? {
         return "/graph/member/monitoringstate"
     }
 }
@@ -5308,9 +5332,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5564,26 +5589,26 @@ extension DetectiveClientTypes {
 
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -5661,8 +5686,9 @@ extension UpdateDatasourcePackagesInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasourcePackagesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDatasourcePackagesInput {
+
+    static func urlPathProvider(_ value: UpdateDatasourcePackagesInput) -> Swift.String? {
         return "/graph/datasources/update"
     }
 }
@@ -5760,8 +5786,9 @@ extension UpdateInvestigationStateInput: Swift.Encodable {
     }
 }
 
-extension UpdateInvestigationStateInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateInvestigationStateInput {
+
+    static func urlPathProvider(_ value: UpdateInvestigationStateInput) -> Swift.String? {
         return "/investigations/updateInvestigationState"
     }
 }
@@ -5855,8 +5882,9 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     }
 }
 
-extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateOrganizationConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateOrganizationConfigurationInput) -> Swift.String? {
         return "/orgs/updateOrganizationConfiguration"
     }
 }

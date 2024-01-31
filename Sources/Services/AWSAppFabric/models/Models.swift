@@ -646,8 +646,9 @@ extension BatchGetUserAccessTasksInput: Swift.Encodable {
     }
 }
 
-extension BatchGetUserAccessTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension BatchGetUserAccessTasksInput {
+
+    static func urlPathProvider(_ value: BatchGetUserAccessTasksInput) -> Swift.String? {
         return "/useraccess/batchget"
     }
 }
@@ -854,12 +855,13 @@ extension ConnectAppAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension ConnectAppAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension ConnectAppAuthorizationInput {
+
+    static func urlPathProvider(_ value: ConnectAppAuthorizationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let appAuthorizationIdentifier = appAuthorizationIdentifier else {
+        guard let appAuthorizationIdentifier = value.appAuthorizationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations/\(appAuthorizationIdentifier.urlPercentEncoding())/connect"
@@ -996,9 +998,10 @@ extension CreateAppAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension CreateAppAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension CreateAppAuthorizationInput {
+
+    static func urlPathProvider(_ value: CreateAppAuthorizationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations"
@@ -1197,8 +1200,9 @@ extension CreateAppBundleInput: Swift.Encodable {
     }
 }
 
-extension CreateAppBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAppBundleInput {
+
+    static func urlPathProvider(_ value: CreateAppBundleInput) -> Swift.String? {
         return "/appbundles"
     }
 }
@@ -1341,12 +1345,13 @@ extension CreateIngestionDestinationInput: Swift.Encodable {
     }
 }
 
-extension CreateIngestionDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension CreateIngestionDestinationInput {
+
+    static func urlPathProvider(_ value: CreateIngestionDestinationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/ingestiondestinations"
@@ -1515,9 +1520,10 @@ extension CreateIngestionInput: Swift.Encodable {
     }
 }
 
-extension CreateIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension CreateIngestionInput {
+
+    static func urlPathProvider(_ value: CreateIngestionInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions"
@@ -1729,12 +1735,13 @@ extension AppFabricClientTypes {
 
 }
 
-extension DeleteAppAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension DeleteAppAuthorizationInput {
+
+    static func urlPathProvider(_ value: DeleteAppAuthorizationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let appAuthorizationIdentifier = appAuthorizationIdentifier else {
+        guard let appAuthorizationIdentifier = value.appAuthorizationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations/\(appAuthorizationIdentifier.urlPercentEncoding())"
@@ -1793,9 +1800,10 @@ enum DeleteAppAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteAppBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension DeleteAppBundleInput {
+
+    static func urlPathProvider(_ value: DeleteAppBundleInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())"
@@ -1849,15 +1857,16 @@ enum DeleteAppBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteIngestionDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension DeleteIngestionDestinationInput {
+
+    static func urlPathProvider(_ value: DeleteIngestionDestinationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
-        guard let ingestionDestinationIdentifier = ingestionDestinationIdentifier else {
+        guard let ingestionDestinationIdentifier = value.ingestionDestinationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/ingestiondestinations/\(ingestionDestinationIdentifier.urlPercentEncoding())"
@@ -1921,12 +1930,13 @@ enum DeleteIngestionDestinationOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
-extension DeleteIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension DeleteIngestionInput {
+
+    static func urlPathProvider(_ value: DeleteIngestionInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())"
@@ -2137,12 +2147,13 @@ extension AppFabricClientTypes {
     }
 }
 
-extension GetAppAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension GetAppAuthorizationInput {
+
+    static func urlPathProvider(_ value: GetAppAuthorizationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let appAuthorizationIdentifier = appAuthorizationIdentifier else {
+        guard let appAuthorizationIdentifier = value.appAuthorizationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations/\(appAuthorizationIdentifier.urlPercentEncoding())"
@@ -2232,9 +2243,10 @@ enum GetAppAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAppBundleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension GetAppBundleInput {
+
+    static func urlPathProvider(_ value: GetAppBundleInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())"
@@ -2319,15 +2331,16 @@ enum GetAppBundleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIngestionDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension GetIngestionDestinationInput {
+
+    static func urlPathProvider(_ value: GetIngestionDestinationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
-        guard let ingestionDestinationIdentifier = ingestionDestinationIdentifier else {
+        guard let ingestionDestinationIdentifier = value.ingestionDestinationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/ingestiondestinations/\(ingestionDestinationIdentifier.urlPercentEncoding())"
@@ -2422,12 +2435,13 @@ enum GetIngestionDestinationOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
-extension GetIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension GetIngestionInput {
+
+    static func urlPathProvider(_ value: GetIngestionInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())"
@@ -3006,26 +3020,26 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListAppAuthorizationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAppAuthorizationsInput {
+
+    static func queryItemProvider(_ value: ListAppAuthorizationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppAuthorizationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension ListAppAuthorizationsInput {
+
+    static func urlPathProvider(_ value: ListAppAuthorizationsInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations"
@@ -3137,25 +3151,25 @@ enum ListAppAuthorizationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAppBundlesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListAppBundlesInput {
+
+    static func queryItemProvider(_ value: ListAppBundlesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAppBundlesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAppBundlesInput {
+
+    static func urlPathProvider(_ value: ListAppBundlesInput) -> Swift.String? {
         return "/appbundles"
     }
 }
@@ -3259,29 +3273,29 @@ enum ListAppBundlesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIngestionDestinationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListIngestionDestinationsInput {
+
+    static func queryItemProvider(_ value: ListIngestionDestinationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIngestionDestinationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension ListIngestionDestinationsInput {
+
+    static func urlPathProvider(_ value: ListIngestionDestinationsInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/ingestiondestinations"
@@ -3398,26 +3412,26 @@ enum ListIngestionDestinationsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListIngestionsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ListIngestionsInput {
+
+    static func queryItemProvider(_ value: ListIngestionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIngestionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension ListIngestionsInput {
+
+    static func urlPathProvider(_ value: ListIngestionsInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions"
@@ -3529,9 +3543,10 @@ enum ListIngestionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4039,12 +4054,13 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension StartIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension StartIngestionInput {
+
+    static func urlPathProvider(_ value: StartIngestionInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/start"
@@ -4126,8 +4142,9 @@ extension StartUserAccessTasksInput: Swift.Encodable {
     }
 }
 
-extension StartUserAccessTasksInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartUserAccessTasksInput {
+
+    static func urlPathProvider(_ value: StartUserAccessTasksInput) -> Swift.String? {
         return "/useraccess/start"
     }
 }
@@ -4234,12 +4251,13 @@ enum StartUserAccessTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension StopIngestionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension StopIngestionInput {
+
+    static func urlPathProvider(_ value: StopIngestionInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/stop"
@@ -4362,9 +4380,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4616,26 +4635,26 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -4711,12 +4730,13 @@ extension UpdateAppAuthorizationInput: Swift.Encodable {
     }
 }
 
-extension UpdateAppAuthorizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension UpdateAppAuthorizationInput {
+
+    static func urlPathProvider(_ value: UpdateAppAuthorizationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let appAuthorizationIdentifier = appAuthorizationIdentifier else {
+        guard let appAuthorizationIdentifier = value.appAuthorizationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/appauthorizations/\(appAuthorizationIdentifier.urlPercentEncoding())"
@@ -4838,15 +4858,16 @@ extension UpdateIngestionDestinationInput: Swift.Encodable {
     }
 }
 
-extension UpdateIngestionDestinationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let appBundleIdentifier = appBundleIdentifier else {
+extension UpdateIngestionDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateIngestionDestinationInput) -> Swift.String? {
+        guard let appBundleIdentifier = value.appBundleIdentifier else {
             return nil
         }
-        guard let ingestionIdentifier = ingestionIdentifier else {
+        guard let ingestionIdentifier = value.ingestionIdentifier else {
             return nil
         }
-        guard let ingestionDestinationIdentifier = ingestionDestinationIdentifier else {
+        guard let ingestionDestinationIdentifier = value.ingestionDestinationIdentifier else {
             return nil
         }
         return "/appbundles/\(appBundleIdentifier.urlPercentEncoding())/ingestions/\(ingestionIdentifier.urlPercentEncoding())/ingestiondestinations/\(ingestionDestinationIdentifier.urlPercentEncoding())"

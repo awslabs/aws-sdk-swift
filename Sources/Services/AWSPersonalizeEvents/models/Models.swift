@@ -510,8 +510,9 @@ extension PutActionInteractionsInput: Swift.Encodable {
     }
 }
 
-extension PutActionInteractionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutActionInteractionsInput {
+
+    static func urlPathProvider(_ value: PutActionInteractionsInput) -> Swift.String? {
         return "/action-interactions"
     }
 }
@@ -606,8 +607,9 @@ extension PutActionsInput: Swift.Encodable {
     }
 }
 
-extension PutActionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutActionsInput {
+
+    static func urlPathProvider(_ value: PutActionsInput) -> Swift.String? {
         return "/actions"
     }
 }
@@ -715,8 +717,9 @@ extension PutEventsInput: Swift.Encodable {
     }
 }
 
-extension PutEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutEventsInput {
+
+    static func urlPathProvider(_ value: PutEventsInput) -> Swift.String? {
         return "/events"
     }
 }
@@ -826,8 +829,9 @@ extension PutItemsInput: Swift.Encodable {
     }
 }
 
-extension PutItemsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutItemsInput {
+
+    static func urlPathProvider(_ value: PutItemsInput) -> Swift.String? {
         return "/items"
     }
 }
@@ -922,8 +926,9 @@ extension PutUsersInput: Swift.Encodable {
     }
 }
 
-extension PutUsersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension PutUsersInput {
+
+    static func urlPathProvider(_ value: PutUsersInput) -> Swift.String? {
         return "/users"
     }
 }

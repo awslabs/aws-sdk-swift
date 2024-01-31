@@ -2112,8 +2112,9 @@ extension CreateAnomalyMonitorInput: Swift.Encodable {
     }
 }
 
-extension CreateAnomalyMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAnomalyMonitorInput {
+
+    static func urlPathProvider(_ value: CreateAnomalyMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2250,8 +2251,9 @@ extension CreateAnomalySubscriptionInput: Swift.Encodable {
     }
 }
 
-extension CreateAnomalySubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAnomalySubscriptionInput {
+
+    static func urlPathProvider(_ value: CreateAnomalySubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2415,8 +2417,9 @@ extension CreateCostCategoryDefinitionInput: Swift.Encodable {
     }
 }
 
-extension CreateCostCategoryDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCostCategoryDefinitionInput {
+
+    static func urlPathProvider(_ value: CreateCostCategoryDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2865,8 +2868,9 @@ extension DeleteAnomalyMonitorInput: Swift.Encodable {
     }
 }
 
-extension DeleteAnomalyMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAnomalyMonitorInput {
+
+    static func urlPathProvider(_ value: DeleteAnomalyMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2935,8 +2939,9 @@ extension DeleteAnomalySubscriptionInput: Swift.Encodable {
     }
 }
 
-extension DeleteAnomalySubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteAnomalySubscriptionInput {
+
+    static func urlPathProvider(_ value: DeleteAnomalySubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3005,8 +3010,9 @@ extension DeleteCostCategoryDefinitionInput: Swift.Encodable {
     }
 }
 
-extension DeleteCostCategoryDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCostCategoryDefinitionInput {
+
+    static func urlPathProvider(_ value: DeleteCostCategoryDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3119,8 +3125,9 @@ extension DescribeCostCategoryDefinitionInput: Swift.Encodable {
     }
 }
 
-extension DescribeCostCategoryDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCostCategoryDefinitionInput {
+
+    static func urlPathProvider(_ value: DescribeCostCategoryDefinitionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4604,8 +4611,9 @@ extension GetAnomaliesInput: Swift.Encodable {
     }
 }
 
-extension GetAnomaliesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAnomaliesInput {
+
+    static func urlPathProvider(_ value: GetAnomaliesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4775,8 +4783,9 @@ extension GetAnomalyMonitorsInput: Swift.Encodable {
     }
 }
 
-extension GetAnomalyMonitorsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAnomalyMonitorsInput {
+
+    static func urlPathProvider(_ value: GetAnomalyMonitorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4935,8 +4944,9 @@ extension GetAnomalySubscriptionsInput: Swift.Encodable {
     }
 }
 
-extension GetAnomalySubscriptionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAnomalySubscriptionsInput {
+
+    static func urlPathProvider(_ value: GetAnomalySubscriptionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5114,8 +5124,9 @@ extension GetCostAndUsageInput: Swift.Encodable {
     }
 }
 
-extension GetCostAndUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCostAndUsageInput {
+
+    static func urlPathProvider(_ value: GetCostAndUsageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5360,8 +5371,9 @@ extension GetCostAndUsageWithResourcesInput: Swift.Encodable {
     }
 }
 
-extension GetCostAndUsageWithResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCostAndUsageWithResourcesInput {
+
+    static func urlPathProvider(_ value: GetCostAndUsageWithResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5607,8 +5619,9 @@ extension GetCostCategoriesInput: Swift.Encodable {
     }
 }
 
-extension GetCostCategoriesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCostCategoriesInput {
+
+    static func urlPathProvider(_ value: GetCostCategoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5910,8 +5923,9 @@ extension GetCostForecastInput: Swift.Encodable {
     }
 }
 
-extension GetCostForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetCostForecastInput {
+
+    static func urlPathProvider(_ value: GetCostForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6150,8 +6164,9 @@ extension GetDimensionValuesInput: Swift.Encodable {
     }
 }
 
-extension GetDimensionValuesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetDimensionValuesInput {
+
+    static func urlPathProvider(_ value: GetDimensionValuesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6614,8 +6629,9 @@ extension GetReservationCoverageInput: Swift.Encodable {
     }
 }
 
-extension GetReservationCoverageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReservationCoverageInput {
+
+    static func urlPathProvider(_ value: GetReservationCoverageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6928,8 +6944,9 @@ extension GetReservationPurchaseRecommendationInput: Swift.Encodable {
     }
 }
 
-extension GetReservationPurchaseRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReservationPurchaseRecommendationInput {
+
+    static func urlPathProvider(_ value: GetReservationPurchaseRecommendationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7207,8 +7224,9 @@ extension GetReservationUtilizationInput: Swift.Encodable {
     }
 }
 
-extension GetReservationUtilizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetReservationUtilizationInput {
+
+    static func urlPathProvider(_ value: GetReservationUtilizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7473,8 +7491,9 @@ extension GetRightsizingRecommendationInput: Swift.Encodable {
     }
 }
 
-extension GetRightsizingRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetRightsizingRecommendationInput {
+
+    static func urlPathProvider(_ value: GetRightsizingRecommendationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7704,8 +7723,9 @@ extension GetSavingsPlanPurchaseRecommendationDetailsInput: Swift.Encodable {
     }
 }
 
-extension GetSavingsPlanPurchaseRecommendationDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSavingsPlanPurchaseRecommendationDetailsInput {
+
+    static func urlPathProvider(_ value: GetSavingsPlanPurchaseRecommendationDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7848,8 +7868,9 @@ extension GetSavingsPlansCoverageInput: Swift.Encodable {
     }
 }
 
-extension GetSavingsPlansCoverageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSavingsPlansCoverageInput {
+
+    static func urlPathProvider(_ value: GetSavingsPlansCoverageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8099,8 +8120,9 @@ extension GetSavingsPlansPurchaseRecommendationInput: Swift.Encodable {
     }
 }
 
-extension GetSavingsPlansPurchaseRecommendationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSavingsPlansPurchaseRecommendationInput {
+
+    static func urlPathProvider(_ value: GetSavingsPlansPurchaseRecommendationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8301,8 +8323,9 @@ extension GetSavingsPlansUtilizationDetailsInput: Swift.Encodable {
     }
 }
 
-extension GetSavingsPlansUtilizationDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSavingsPlansUtilizationDetailsInput {
+
+    static func urlPathProvider(_ value: GetSavingsPlansUtilizationDetailsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8534,8 +8557,9 @@ extension GetSavingsPlansUtilizationInput: Swift.Encodable {
     }
 }
 
-extension GetSavingsPlansUtilizationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSavingsPlansUtilizationInput {
+
+    static func urlPathProvider(_ value: GetSavingsPlansUtilizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8733,8 +8757,9 @@ extension GetTagsInput: Swift.Encodable {
     }
 }
 
-extension GetTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetTagsInput {
+
+    static func urlPathProvider(_ value: GetTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9018,8 +9043,9 @@ extension GetUsageForecastInput: Swift.Encodable {
     }
 }
 
-extension GetUsageForecastInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetUsageForecastInput {
+
+    static func urlPathProvider(_ value: GetUsageForecastInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9696,8 +9722,9 @@ extension ListCostAllocationTagsInput: Swift.Encodable {
     }
 }
 
-extension ListCostAllocationTagsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCostAllocationTagsInput {
+
+    static func urlPathProvider(_ value: ListCostAllocationTagsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9863,8 +9890,9 @@ extension ListCostCategoryDefinitionsInput: Swift.Encodable {
     }
 }
 
-extension ListCostCategoryDefinitionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCostCategoryDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListCostCategoryDefinitionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10011,8 +10039,9 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodable
     }
 }
 
-extension ListSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSavingsPlansPurchaseRecommendationGenerationInput {
+
+    static func urlPathProvider(_ value: ListSavingsPlansPurchaseRecommendationGenerationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10163,8 +10192,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10862,8 +10892,9 @@ extension ProvideAnomalyFeedbackInput: Swift.Encodable {
     }
 }
 
-extension ProvideAnomalyFeedbackInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ProvideAnomalyFeedbackInput {
+
+    static func urlPathProvider(_ value: ProvideAnomalyFeedbackInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14307,8 +14338,9 @@ extension StartSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodabl
     }
 }
 
-extension StartSavingsPlansPurchaseRecommendationGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartSavingsPlansPurchaseRecommendationGenerationInput {
+
+    static func urlPathProvider(_ value: StartSavingsPlansPurchaseRecommendationGenerationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14575,8 +14607,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15234,8 +15267,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15326,8 +15360,9 @@ extension UpdateAnomalyMonitorInput: Swift.Encodable {
     }
 }
 
-extension UpdateAnomalyMonitorInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAnomalyMonitorInput {
+
+    static func urlPathProvider(_ value: UpdateAnomalyMonitorInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15465,8 +15500,9 @@ extension UpdateAnomalySubscriptionInput: Swift.Encodable {
     }
 }
 
-extension UpdateAnomalySubscriptionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateAnomalySubscriptionInput {
+
+    static func urlPathProvider(_ value: UpdateAnomalySubscriptionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15700,8 +15736,9 @@ extension UpdateCostAllocationTagsStatusInput: Swift.Encodable {
     }
 }
 
-extension UpdateCostAllocationTagsStatusInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCostAllocationTagsStatusInput {
+
+    static func urlPathProvider(_ value: UpdateCostAllocationTagsStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15843,8 +15880,9 @@ extension UpdateCostCategoryDefinitionInput: Swift.Encodable {
     }
 }
 
-extension UpdateCostCategoryDefinitionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCostCategoryDefinitionInput {
+
+    static func urlPathProvider(_ value: UpdateCostCategoryDefinitionInput) -> Swift.String? {
         return "/"
     }
 }

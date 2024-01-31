@@ -1606,8 +1606,9 @@ extension CreateBatchInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension CreateBatchInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBatchInferenceJobInput {
+
+    static func urlPathProvider(_ value: CreateBatchInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1834,8 +1835,9 @@ extension CreateBatchSegmentJobInput: Swift.Encodable {
     }
 }
 
-extension CreateBatchSegmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateBatchSegmentJobInput {
+
+    static func urlPathProvider(_ value: CreateBatchSegmentJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2026,8 +2028,9 @@ extension CreateCampaignInput: Swift.Encodable {
     }
 }
 
-extension CreateCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateCampaignInput {
+
+    static func urlPathProvider(_ value: CreateCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2195,8 +2198,9 @@ extension CreateDatasetExportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetExportJobInput {
+
+    static func urlPathProvider(_ value: CreateDatasetExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2370,8 +2374,9 @@ extension CreateDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetGroupInput {
+
+    static func urlPathProvider(_ value: CreateDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2550,8 +2555,9 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetImportJobInput {
+
+    static func urlPathProvider(_ value: CreateDatasetImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2737,8 +2743,9 @@ extension CreateDatasetInput: Swift.Encodable {
     }
 }
 
-extension CreateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2906,8 +2913,9 @@ extension CreateEventTrackerInput: Swift.Encodable {
     }
 }
 
-extension CreateEventTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateEventTrackerInput {
+
+    static func urlPathProvider(_ value: CreateEventTrackerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3066,8 +3074,9 @@ extension CreateFilterInput: Swift.Encodable {
     }
 }
 
-extension CreateFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateFilterInput {
+
+    static func urlPathProvider(_ value: CreateFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3219,8 +3228,9 @@ extension CreateMetricAttributionInput: Swift.Encodable {
     }
 }
 
-extension CreateMetricAttributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateMetricAttributionInput {
+
+    static func urlPathProvider(_ value: CreateMetricAttributionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3377,8 +3387,9 @@ extension CreateRecommenderInput: Swift.Encodable {
     }
 }
 
-extension CreateRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateRecommenderInput {
+
+    static func urlPathProvider(_ value: CreateRecommenderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3532,8 +3543,9 @@ extension CreateSchemaInput: Swift.Encodable {
     }
 }
 
-extension CreateSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSchemaInput {
+
+    static func urlPathProvider(_ value: CreateSchemaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3681,8 +3693,9 @@ extension CreateSolutionInput: Swift.Encodable {
     }
 }
 
-extension CreateSolutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSolutionInput {
+
+    static func urlPathProvider(_ value: CreateSolutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3866,8 +3879,9 @@ extension CreateSolutionVersionInput: Swift.Encodable {
     }
 }
 
-extension CreateSolutionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateSolutionVersionInput {
+
+    static func urlPathProvider(_ value: CreateSolutionVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5503,8 +5517,9 @@ extension DeleteCampaignInput: Swift.Encodable {
     }
 }
 
-extension DeleteCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteCampaignInput {
+
+    static func urlPathProvider(_ value: DeleteCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5574,8 +5589,9 @@ extension DeleteDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5645,8 +5661,9 @@ extension DeleteDatasetInput: Swift.Encodable {
     }
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5716,8 +5733,9 @@ extension DeleteEventTrackerInput: Swift.Encodable {
     }
 }
 
-extension DeleteEventTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteEventTrackerInput {
+
+    static func urlPathProvider(_ value: DeleteEventTrackerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5787,8 +5805,9 @@ extension DeleteFilterInput: Swift.Encodable {
     }
 }
 
-extension DeleteFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteFilterInput {
+
+    static func urlPathProvider(_ value: DeleteFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5858,8 +5877,9 @@ extension DeleteMetricAttributionInput: Swift.Encodable {
     }
 }
 
-extension DeleteMetricAttributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteMetricAttributionInput {
+
+    static func urlPathProvider(_ value: DeleteMetricAttributionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5929,8 +5949,9 @@ extension DeleteRecommenderInput: Swift.Encodable {
     }
 }
 
-extension DeleteRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteRecommenderInput {
+
+    static func urlPathProvider(_ value: DeleteRecommenderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6000,8 +6021,9 @@ extension DeleteSchemaInput: Swift.Encodable {
     }
 }
 
-extension DeleteSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSchemaInput {
+
+    static func urlPathProvider(_ value: DeleteSchemaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6071,8 +6093,9 @@ extension DeleteSolutionInput: Swift.Encodable {
     }
 }
 
-extension DeleteSolutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteSolutionInput {
+
+    static func urlPathProvider(_ value: DeleteSolutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6142,8 +6165,9 @@ extension DescribeAlgorithmInput: Swift.Encodable {
     }
 }
 
-extension DescribeAlgorithmInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeAlgorithmInput {
+
+    static func urlPathProvider(_ value: DescribeAlgorithmInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6242,8 +6266,9 @@ extension DescribeBatchInferenceJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeBatchInferenceJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBatchInferenceJobInput {
+
+    static func urlPathProvider(_ value: DescribeBatchInferenceJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6342,8 +6367,9 @@ extension DescribeBatchSegmentJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeBatchSegmentJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeBatchSegmentJobInput {
+
+    static func urlPathProvider(_ value: DescribeBatchSegmentJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6442,8 +6468,9 @@ extension DescribeCampaignInput: Swift.Encodable {
     }
 }
 
-extension DescribeCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeCampaignInput {
+
+    static func urlPathProvider(_ value: DescribeCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6542,8 +6569,9 @@ extension DescribeDatasetExportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetExportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetExportJobInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetExportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6650,8 +6678,9 @@ extension DescribeDatasetGroupInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetGroupInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetGroupInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6750,8 +6779,9 @@ extension DescribeDatasetImportJobInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetImportJobInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetImportJobInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetImportJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6858,8 +6888,9 @@ extension DescribeDatasetInput: Swift.Encodable {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6958,8 +6989,9 @@ extension DescribeEventTrackerInput: Swift.Encodable {
     }
 }
 
-extension DescribeEventTrackerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeEventTrackerInput {
+
+    static func urlPathProvider(_ value: DescribeEventTrackerInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7058,8 +7090,9 @@ extension DescribeFeatureTransformationInput: Swift.Encodable {
     }
 }
 
-extension DescribeFeatureTransformationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFeatureTransformationInput {
+
+    static func urlPathProvider(_ value: DescribeFeatureTransformationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7158,8 +7191,9 @@ extension DescribeFilterInput: Swift.Encodable {
     }
 }
 
-extension DescribeFilterInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeFilterInput {
+
+    static func urlPathProvider(_ value: DescribeFilterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7258,8 +7292,9 @@ extension DescribeMetricAttributionInput: Swift.Encodable {
     }
 }
 
-extension DescribeMetricAttributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeMetricAttributionInput {
+
+    static func urlPathProvider(_ value: DescribeMetricAttributionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7358,8 +7393,9 @@ extension DescribeRecipeInput: Swift.Encodable {
     }
 }
 
-extension DescribeRecipeInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRecipeInput {
+
+    static func urlPathProvider(_ value: DescribeRecipeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7458,8 +7494,9 @@ extension DescribeRecommenderInput: Swift.Encodable {
     }
 }
 
-extension DescribeRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeRecommenderInput {
+
+    static func urlPathProvider(_ value: DescribeRecommenderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7558,8 +7595,9 @@ extension DescribeSchemaInput: Swift.Encodable {
     }
 }
 
-extension DescribeSchemaInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSchemaInput {
+
+    static func urlPathProvider(_ value: DescribeSchemaInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7658,8 +7696,9 @@ extension DescribeSolutionInput: Swift.Encodable {
     }
 }
 
-extension DescribeSolutionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSolutionInput {
+
+    static func urlPathProvider(_ value: DescribeSolutionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7758,8 +7797,9 @@ extension DescribeSolutionVersionInput: Swift.Encodable {
     }
 }
 
-extension DescribeSolutionVersionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeSolutionVersionInput {
+
+    static func urlPathProvider(_ value: DescribeSolutionVersionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8418,8 +8458,9 @@ extension GetSolutionMetricsInput: Swift.Encodable {
     }
 }
 
-extension GetSolutionMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetSolutionMetricsInput {
+
+    static func urlPathProvider(_ value: GetSolutionMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9079,8 +9120,9 @@ extension ListBatchInferenceJobsInput: Swift.Encodable {
     }
 }
 
-extension ListBatchInferenceJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBatchInferenceJobsInput {
+
+    static func urlPathProvider(_ value: ListBatchInferenceJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9221,8 +9263,9 @@ extension ListBatchSegmentJobsInput: Swift.Encodable {
     }
 }
 
-extension ListBatchSegmentJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListBatchSegmentJobsInput {
+
+    static func urlPathProvider(_ value: ListBatchSegmentJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9363,8 +9406,9 @@ extension ListCampaignsInput: Swift.Encodable {
     }
 }
 
-extension ListCampaignsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListCampaignsInput {
+
+    static func urlPathProvider(_ value: ListCampaignsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9505,8 +9549,9 @@ extension ListDatasetExportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetExportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetExportJobsInput {
+
+    static func urlPathProvider(_ value: ListDatasetExportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9643,8 +9688,9 @@ extension ListDatasetGroupsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetGroupsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetGroupsInput {
+
+    static func urlPathProvider(_ value: ListDatasetGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9776,8 +9822,9 @@ extension ListDatasetImportJobsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetImportJobsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetImportJobsInput {
+
+    static func urlPathProvider(_ value: ListDatasetImportJobsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9918,8 +9965,9 @@ extension ListDatasetsInput: Swift.Encodable {
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10060,8 +10108,9 @@ extension ListEventTrackersInput: Swift.Encodable {
     }
 }
 
-extension ListEventTrackersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListEventTrackersInput {
+
+    static func urlPathProvider(_ value: ListEventTrackersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10202,8 +10251,9 @@ extension ListFiltersInput: Swift.Encodable {
     }
 }
 
-extension ListFiltersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFiltersInput {
+
+    static func urlPathProvider(_ value: ListFiltersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10344,8 +10394,9 @@ extension ListMetricAttributionMetricsInput: Swift.Encodable {
     }
 }
 
-extension ListMetricAttributionMetricsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMetricAttributionMetricsInput {
+
+    static func urlPathProvider(_ value: ListMetricAttributionMetricsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10486,8 +10537,9 @@ extension ListMetricAttributionsInput: Swift.Encodable {
     }
 }
 
-extension ListMetricAttributionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListMetricAttributionsInput {
+
+    static func urlPathProvider(_ value: ListMetricAttributionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10632,8 +10684,9 @@ extension ListRecipesInput: Swift.Encodable {
     }
 }
 
-extension ListRecipesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecipesInput {
+
+    static func urlPathProvider(_ value: ListRecipesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10782,8 +10835,9 @@ extension ListRecommendersInput: Swift.Encodable {
     }
 }
 
-extension ListRecommendersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListRecommendersInput {
+
+    static func urlPathProvider(_ value: ListRecommendersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10920,8 +10974,9 @@ extension ListSchemasInput: Swift.Encodable {
     }
 }
 
-extension ListSchemasInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSchemasInput {
+
+    static func urlPathProvider(_ value: ListSchemasInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11053,8 +11108,9 @@ extension ListSolutionVersionsInput: Swift.Encodable {
     }
 }
 
-extension ListSolutionVersionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolutionVersionsInput {
+
+    static func urlPathProvider(_ value: ListSolutionVersionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11196,8 +11252,9 @@ extension ListSolutionsInput: Swift.Encodable {
     }
 }
 
-extension ListSolutionsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListSolutionsInput {
+
+    static func urlPathProvider(_ value: ListSolutionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11330,8 +11387,9 @@ extension ListTagsForResourceInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13326,8 +13384,9 @@ extension StartRecommenderInput: Swift.Encodable {
     }
 }
 
-extension StartRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartRecommenderInput {
+
+    static func urlPathProvider(_ value: StartRecommenderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13427,8 +13486,9 @@ extension StopRecommenderInput: Swift.Encodable {
     }
 }
 
-extension StopRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopRecommenderInput {
+
+    static func urlPathProvider(_ value: StopRecommenderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13528,8 +13588,9 @@ extension StopSolutionVersionCreationInput: Swift.Encodable {
     }
 }
 
-extension StopSolutionVersionCreationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StopSolutionVersionCreationInput {
+
+    static func urlPathProvider(_ value: StopSolutionVersionCreationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -13653,8 +13714,9 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14033,8 +14095,9 @@ extension UntagResourceInput: Swift.Encodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14135,8 +14198,9 @@ extension UpdateCampaignInput: Swift.Encodable {
     }
 }
 
-extension UpdateCampaignInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateCampaignInput {
+
+    static func urlPathProvider(_ value: UpdateCampaignInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14264,8 +14328,9 @@ extension UpdateDatasetInput: Swift.Encodable {
     }
 }
 
-extension UpdateDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateDatasetInput {
+
+    static func urlPathProvider(_ value: UpdateDatasetInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14392,8 +14457,9 @@ extension UpdateMetricAttributionInput: Swift.Encodable {
     }
 }
 
-extension UpdateMetricAttributionInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateMetricAttributionInput {
+
+    static func urlPathProvider(_ value: UpdateMetricAttributionInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14539,8 +14605,9 @@ extension UpdateRecommenderInput: Swift.Encodable {
     }
 }
 
-extension UpdateRecommenderInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateRecommenderInput {
+
+    static func urlPathProvider(_ value: UpdateRecommenderInput) -> Swift.String? {
         return "/"
     }
 }

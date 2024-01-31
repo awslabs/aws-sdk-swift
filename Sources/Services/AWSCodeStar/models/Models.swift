@@ -31,8 +31,9 @@ extension AssociateTeamMemberInput: Swift.Encodable {
     }
 }
 
-extension AssociateTeamMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension AssociateTeamMemberInput {
+
+    static func urlPathProvider(_ value: AssociateTeamMemberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -424,8 +425,9 @@ extension CreateProjectInput: Swift.Encodable {
     }
 }
 
-extension CreateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateProjectInput {
+
+    static func urlPathProvider(_ value: CreateProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -645,8 +647,9 @@ extension CreateUserProfileInput: Swift.Encodable {
     }
 }
 
-extension CreateUserProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateUserProfileInput {
+
+    static func urlPathProvider(_ value: CreateUserProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -835,8 +838,9 @@ extension DeleteProjectInput: Swift.Encodable {
     }
 }
 
-extension DeleteProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteProjectInput {
+
+    static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -962,8 +966,9 @@ extension DeleteUserProfileInput: Swift.Encodable {
     }
 }
 
-extension DeleteUserProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DeleteUserProfileInput {
+
+    static func urlPathProvider(_ value: DeleteUserProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1062,8 +1067,9 @@ extension DescribeProjectInput: Swift.Encodable {
     }
 }
 
-extension DescribeProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeProjectInput {
+
+    static func urlPathProvider(_ value: DescribeProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1250,8 +1256,9 @@ extension DescribeUserProfileInput: Swift.Encodable {
     }
 }
 
-extension DescribeUserProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DescribeUserProfileInput {
+
+    static func urlPathProvider(_ value: DescribeUserProfileInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1412,8 +1419,9 @@ extension DisassociateTeamMemberInput: Swift.Encodable {
     }
 }
 
-extension DisassociateTeamMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension DisassociateTeamMemberInput {
+
+    static func urlPathProvider(_ value: DisassociateTeamMemberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1768,8 +1776,9 @@ extension ListProjectsInput: Swift.Encodable {
     }
 }
 
-extension ListProjectsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListProjectsInput {
+
+    static func urlPathProvider(_ value: ListProjectsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1903,8 +1912,9 @@ extension ListResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2047,8 +2057,9 @@ extension ListTagsForProjectInput: Swift.Encodable {
     }
 }
 
-extension ListTagsForProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTagsForProjectInput {
+
+    static func urlPathProvider(_ value: ListTagsForProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2191,8 +2202,9 @@ extension ListTeamMembersInput: Swift.Encodable {
     }
 }
 
-extension ListTeamMembersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListTeamMembersInput {
+
+    static func urlPathProvider(_ value: ListTeamMembersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2332,8 +2344,9 @@ extension ListUserProfilesInput: Swift.Encodable {
     }
 }
 
-extension ListUserProfilesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListUserProfilesInput {
+
+    static func urlPathProvider(_ value: ListUserProfilesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2858,8 +2871,9 @@ extension TagProjectInput: Swift.Encodable {
     }
 }
 
-extension TagProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension TagProjectInput {
+
+    static func urlPathProvider(_ value: TagProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3265,8 +3279,9 @@ extension UntagProjectInput: Swift.Encodable {
     }
 }
 
-extension UntagProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UntagProjectInput {
+
+    static func urlPathProvider(_ value: UntagProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3368,8 +3383,9 @@ extension UpdateProjectInput: Swift.Encodable {
     }
 }
 
-extension UpdateProjectInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateProjectInput {
+
+    static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3466,8 +3482,9 @@ extension UpdateTeamMemberInput: Swift.Encodable {
     }
 }
 
-extension UpdateTeamMemberInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateTeamMemberInput {
+
+    static func urlPathProvider(_ value: UpdateTeamMemberInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3633,8 +3650,9 @@ extension UpdateUserProfileInput: Swift.Encodable {
     }
 }
 
-extension UpdateUserProfileInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateUserProfileInput {
+
+    static func urlPathProvider(_ value: UpdateUserProfileInput) -> Swift.String? {
         return "/"
     }
 }

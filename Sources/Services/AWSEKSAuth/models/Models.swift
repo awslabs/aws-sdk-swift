@@ -75,9 +75,10 @@ extension AssumeRoleForPodIdentityInput: Swift.Encodable {
     }
 }
 
-extension AssumeRoleForPodIdentityInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let clusterName = clusterName else {
+extension AssumeRoleForPodIdentityInput {
+
+    static func urlPathProvider(_ value: AssumeRoleForPodIdentityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/assume-role-for-pod-identity"

@@ -1222,8 +1222,9 @@ extension ApplyArchiveRuleInput: Swift.Encodable {
     }
 }
 
-extension ApplyArchiveRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ApplyArchiveRuleInput {
+
+    static func urlPathProvider(_ value: ApplyArchiveRuleInput) -> Swift.String? {
         return "/archive-rule"
     }
 }
@@ -1381,9 +1382,10 @@ extension AccessAnalyzerClientTypes {
 
 }
 
-extension CancelPolicyGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension CancelPolicyGenerationInput {
+
+    static func urlPathProvider(_ value: CancelPolicyGenerationInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/policy/generation/\(jobId.urlPercentEncoding())"
@@ -1465,8 +1467,9 @@ extension CheckAccessNotGrantedInput: Swift.Encodable {
     }
 }
 
-extension CheckAccessNotGrantedInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckAccessNotGrantedInput {
+
+    static func urlPathProvider(_ value: CheckAccessNotGrantedInput) -> Swift.String? {
         return "/policy/check-access-not-granted"
     }
 }
@@ -1670,8 +1673,9 @@ extension CheckNoNewAccessInput: Swift.Encodable {
     }
 }
 
-extension CheckNoNewAccessInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CheckNoNewAccessInput {
+
+    static func urlPathProvider(_ value: CheckNoNewAccessInput) -> Swift.String? {
         return "/policy/check-no-new-access"
     }
 }
@@ -2239,8 +2243,9 @@ extension CreateAccessPreviewInput: Swift.Encodable {
     }
 }
 
-extension CreateAccessPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAccessPreviewInput {
+
+    static func urlPathProvider(_ value: CreateAccessPreviewInput) -> Swift.String? {
         return "/access-preview"
     }
 }
@@ -2397,8 +2402,9 @@ extension CreateAnalyzerInput: Swift.Encodable {
     }
 }
 
-extension CreateAnalyzerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension CreateAnalyzerInput {
+
+    static func urlPathProvider(_ value: CreateAnalyzerInput) -> Swift.String? {
         return "/analyzer"
     }
 }
@@ -2573,9 +2579,10 @@ extension CreateArchiveRuleInput: Swift.Encodable {
     }
 }
 
-extension CreateArchiveRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension CreateArchiveRuleInput {
+
+    static func urlPathProvider(_ value: CreateArchiveRuleInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())/archive-rule"
@@ -2771,22 +2778,22 @@ extension AccessAnalyzerClientTypes {
 
 }
 
-extension DeleteAnalyzerInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteAnalyzerInput {
+
+    static func queryItemProvider(_ value: DeleteAnalyzerInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteAnalyzerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension DeleteAnalyzerInput {
+
+    static func urlPathProvider(_ value: DeleteAnalyzerInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())"
@@ -2845,25 +2852,25 @@ enum DeleteAnalyzerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DeleteArchiveRuleInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let clientToken = clientToken {
-                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-                items.append(clientTokenQueryItem)
-            }
-            return items
+extension DeleteArchiveRuleInput {
+
+    static func queryItemProvider(_ value: DeleteArchiveRuleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
         }
+        return items
     }
 }
 
-extension DeleteArchiveRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension DeleteArchiveRuleInput {
+
+    static func urlPathProvider(_ value: DeleteArchiveRuleInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
-        guard let ruleName = ruleName else {
+        guard let ruleName = value.ruleName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())/archive-rule/\(ruleName.urlPercentEncoding())"
@@ -4301,24 +4308,24 @@ extension AccessAnalyzerClientTypes {
 
 }
 
-extension GetAccessPreviewInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let analyzerArn = analyzerArn else {
-                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
-            items.append(analyzerArnQueryItem)
-            return items
+extension GetAccessPreviewInput {
+
+    static func queryItemProvider(_ value: GetAccessPreviewInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let analyzerArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
     }
 }
 
-extension GetAccessPreviewInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessPreviewId = accessPreviewId else {
+extension GetAccessPreviewInput {
+
+    static func urlPathProvider(_ value: GetAccessPreviewInput) -> Swift.String? {
+        guard let accessPreviewId = value.accessPreviewId else {
             return nil
         }
         return "/access-preview/\(accessPreviewId.urlPercentEncoding())"
@@ -4408,29 +4415,29 @@ enum GetAccessPreviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAnalyzedResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let resourceArn = resourceArn else {
-                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
-            items.append(resourceArnQueryItem)
-            guard let analyzerArn = analyzerArn else {
-                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
-            items.append(analyzerArnQueryItem)
-            return items
+extension GetAnalyzedResourceInput {
+
+    static func queryItemProvider(_ value: GetAnalyzedResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let resourceArn = value.resourceArn else {
+            let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        items.append(resourceArnQueryItem)
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let analyzerArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
     }
 }
 
-extension GetAnalyzedResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension GetAnalyzedResourceInput {
+
+    static func urlPathProvider(_ value: GetAnalyzedResourceInput) -> Swift.String? {
         return "/analyzed-resource"
     }
 }
@@ -4519,9 +4526,10 @@ enum GetAnalyzedResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetAnalyzerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension GetAnalyzerInput {
+
+    static func urlPathProvider(_ value: GetAnalyzerInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())"
@@ -4608,12 +4616,13 @@ enum GetAnalyzerOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetArchiveRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension GetArchiveRuleInput {
+
+    static func urlPathProvider(_ value: GetArchiveRuleInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
-        guard let ruleName = ruleName else {
+        guard let ruleName = value.ruleName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())/archive-rule/\(ruleName.urlPercentEncoding())"
@@ -4705,24 +4714,24 @@ enum GetArchiveRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFindingInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let analyzerArn = analyzerArn else {
-                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
-            items.append(analyzerArnQueryItem)
-            return items
+extension GetFindingInput {
+
+    static func queryItemProvider(_ value: GetFindingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        let analyzerArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
     }
 }
 
-extension GetFindingInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFindingInput {
+
+    static func urlPathProvider(_ value: GetFindingInput) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/finding/\(id.urlPercentEncoding())"
@@ -4813,32 +4822,32 @@ enum GetFindingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetFindingV2Input: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            guard let analyzerArn = analyzerArn else {
-                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
-            items.append(analyzerArnQueryItem)
-            return items
+extension GetFindingV2Input {
+
+    static func queryItemProvider(_ value: GetFindingV2Input) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let analyzerArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
     }
 }
 
-extension GetFindingV2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let id = id else {
+extension GetFindingV2Input {
+
+    static func urlPathProvider(_ value: GetFindingV2Input) -> Swift.String? {
+        guard let id = value.id else {
             return nil
         }
         return "/findingv2/\(id.urlPercentEncoding())"
@@ -5062,26 +5071,26 @@ enum GetFindingV2OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetGeneratedPolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let includeResourcePlaceholders = includeResourcePlaceholders {
-                let includeResourcePlaceholdersQueryItem = ClientRuntime.URLQueryItem(name: "includeResourcePlaceholders".urlPercentEncoding(), value: Swift.String(includeResourcePlaceholders).urlPercentEncoding())
-                items.append(includeResourcePlaceholdersQueryItem)
-            }
-            if let includeServiceLevelTemplate = includeServiceLevelTemplate {
-                let includeServiceLevelTemplateQueryItem = ClientRuntime.URLQueryItem(name: "includeServiceLevelTemplate".urlPercentEncoding(), value: Swift.String(includeServiceLevelTemplate).urlPercentEncoding())
-                items.append(includeServiceLevelTemplateQueryItem)
-            }
-            return items
+extension GetGeneratedPolicyInput {
+
+    static func queryItemProvider(_ value: GetGeneratedPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let includeResourcePlaceholders = value.includeResourcePlaceholders {
+            let includeResourcePlaceholdersQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeResourcePlaceholders".urlPercentEncoding(), value: Swift.String(includeResourcePlaceholders).urlPercentEncoding())
+            items.append(includeResourcePlaceholdersQueryItem)
         }
+        if let includeServiceLevelTemplate = value.includeServiceLevelTemplate {
+            let includeServiceLevelTemplateQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeServiceLevelTemplate".urlPercentEncoding(), value: Swift.String(includeServiceLevelTemplate).urlPercentEncoding())
+            items.append(includeServiceLevelTemplateQueryItem)
+        }
+        return items
     }
 }
 
-extension GetGeneratedPolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let jobId = jobId else {
+extension GetGeneratedPolicyInput {
+
+    static func urlPathProvider(_ value: GetGeneratedPolicyInput) -> Swift.String? {
+        guard let jobId = value.jobId else {
             return nil
         }
         return "/policy/generation/\(jobId.urlPercentEncoding())"
@@ -5944,9 +5953,10 @@ extension ListAccessPreviewFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListAccessPreviewFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let accessPreviewId = accessPreviewId else {
+extension ListAccessPreviewFindingsInput {
+
+    static func urlPathProvider(_ value: ListAccessPreviewFindingsInput) -> Swift.String? {
+        guard let accessPreviewId = value.accessPreviewId else {
             return nil
         }
         return "/access-preview/\(accessPreviewId.urlPercentEncoding())"
@@ -6096,31 +6106,31 @@ enum ListAccessPreviewFindingsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension ListAccessPreviewsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            guard let analyzerArn = analyzerArn else {
-                let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            let analyzerArnQueryItem = ClientRuntime.URLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
-            items.append(analyzerArnQueryItem)
-            return items
+extension ListAccessPreviewsInput {
+
+    static func queryItemProvider(_ value: ListAccessPreviewsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let analyzerArn = value.analyzerArn else {
+            let message = "Creating a URL Query Item failed. analyzerArn is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let analyzerArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "analyzerArn".urlPercentEncoding(), value: Swift.String(analyzerArn).urlPercentEncoding())
+        items.append(analyzerArnQueryItem)
+        return items
     }
 }
 
-extension ListAccessPreviewsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAccessPreviewsInput {
+
+    static func urlPathProvider(_ value: ListAccessPreviewsInput) -> Swift.String? {
         return "/access-preview"
     }
 }
@@ -6255,8 +6265,9 @@ extension ListAnalyzedResourcesInput: Swift.Encodable {
     }
 }
 
-extension ListAnalyzedResourcesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAnalyzedResourcesInput {
+
+    static func urlPathProvider(_ value: ListAnalyzedResourcesInput) -> Swift.String? {
         return "/analyzed-resource"
     }
 }
@@ -6391,29 +6402,29 @@ enum ListAnalyzedResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListAnalyzersInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let type = type {
-                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
-                items.append(typeQueryItem)
-            }
-            return items
+extension ListAnalyzersInput {
+
+    static func queryItemProvider(_ value: ListAnalyzersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
     }
 }
 
-extension ListAnalyzersInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListAnalyzersInput {
+
+    static func urlPathProvider(_ value: ListAnalyzersInput) -> Swift.String? {
         return "/analyzer"
     }
 }
@@ -6523,26 +6534,26 @@ enum ListAnalyzersOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListArchiveRulesInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListArchiveRulesInput {
+
+    static func queryItemProvider(_ value: ListArchiveRulesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListArchiveRulesInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension ListArchiveRulesInput {
+
+    static func urlPathProvider(_ value: ListArchiveRulesInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())/archive-rule"
@@ -6687,8 +6698,9 @@ extension ListFindingsInput: Swift.Encodable {
     }
 }
 
-extension ListFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsInput {
+
+    static func urlPathProvider(_ value: ListFindingsInput) -> Swift.String? {
         return "/finding"
     }
 }
@@ -6872,8 +6884,9 @@ extension ListFindingsV2Input: Swift.Encodable {
     }
 }
 
-extension ListFindingsV2Input: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListFindingsV2Input {
+
+    static func urlPathProvider(_ value: ListFindingsV2Input) -> Swift.String? {
         return "/findingv2"
     }
 }
@@ -7023,29 +7036,29 @@ enum ListFindingsV2OutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListPolicyGenerationsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let principalArn = principalArn {
-                let principalArnQueryItem = ClientRuntime.URLQueryItem(name: "principalArn".urlPercentEncoding(), value: Swift.String(principalArn).urlPercentEncoding())
-                items.append(principalArnQueryItem)
-            }
-            return items
+extension ListPolicyGenerationsInput {
+
+    static func queryItemProvider(_ value: ListPolicyGenerationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let principalArn = value.principalArn {
+            let principalArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "principalArn".urlPercentEncoding(), value: Swift.String(principalArn).urlPercentEncoding())
+            items.append(principalArnQueryItem)
+        }
+        return items
     }
 }
 
-extension ListPolicyGenerationsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListPolicyGenerationsInput {
+
+    static func urlPathProvider(_ value: ListPolicyGenerationsInput) -> Swift.String? {
         return "/policy/generation"
     }
 }
@@ -7153,9 +7166,10 @@ enum ListPolicyGenerationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -8769,8 +8783,9 @@ extension StartPolicyGenerationInput: Swift.Encodable {
     }
 }
 
-extension StartPolicyGenerationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartPolicyGenerationInput {
+
+    static func urlPathProvider(_ value: StartPolicyGenerationInput) -> Swift.String? {
         return "/policy/generation"
     }
 }
@@ -8898,8 +8913,9 @@ extension StartResourceScanInput: Swift.Encodable {
     }
 }
 
-extension StartResourceScanInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension StartResourceScanInput {
+
+    static func urlPathProvider(_ value: StartResourceScanInput) -> Swift.String? {
         return "/resource/scan"
     }
 }
@@ -9075,9 +9091,10 @@ extension TagResourceInput: Swift.Encodable {
     }
 }
 
-extension TagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9449,26 +9466,26 @@ extension UnprocessableEntityExceptionBody: Swift.Decodable {
     }
 }
 
-extension UntagResourceInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            guard let tagKeys = tagKeys else {
-                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-                throw ClientRuntime.ClientError.unknownError(message)
-            }
-            tagKeys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-            return items
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
         }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
-extension UntagResourceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let resourceArn = resourceArn else {
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
@@ -9814,12 +9831,13 @@ extension UpdateArchiveRuleInput: Swift.Encodable {
     }
 }
 
-extension UpdateArchiveRuleInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let analyzerName = analyzerName else {
+extension UpdateArchiveRuleInput {
+
+    static func urlPathProvider(_ value: UpdateArchiveRuleInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
             return nil
         }
-        guard let ruleName = ruleName else {
+        guard let ruleName = value.ruleName else {
             return nil
         }
         return "/analyzer/\(analyzerName.urlPercentEncoding())/archive-rule/\(ruleName.urlPercentEncoding())"
@@ -9940,8 +9958,9 @@ extension UpdateFindingsInput: Swift.Encodable {
     }
 }
 
-extension UpdateFindingsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension UpdateFindingsInput {
+
+    static func urlPathProvider(_ value: UpdateFindingsInput) -> Swift.String? {
         return "/finding"
     }
 }
@@ -10198,25 +10217,25 @@ extension ValidatePolicyInput: Swift.Encodable {
     }
 }
 
-extension ValidatePolicyInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            return items
+extension ValidatePolicyInput {
+
+    static func queryItemProvider(_ value: ValidatePolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
-extension ValidatePolicyInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ValidatePolicyInput {
+
+    static func urlPathProvider(_ value: ValidatePolicyInput) -> Swift.String? {
         return "/policy/validation"
     }
 }

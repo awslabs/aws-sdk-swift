@@ -59,9 +59,10 @@ extension AlreadyStreamedExceptionBody: Swift.Decodable {
     }
 }
 
-extension BulkPublishInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension BulkPublishInput {
+
+    static func urlPathProvider(_ value: BulkPublishInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/bulkpublish"
@@ -393,15 +394,16 @@ extension CognitoSyncClientTypes {
 
 }
 
-extension DeleteDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())"
@@ -498,15 +500,16 @@ enum DeleteDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension DescribeDatasetInput {
+
+    static func urlPathProvider(_ value: DescribeDatasetInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())"
@@ -602,9 +605,10 @@ enum DescribeDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension DescribeIdentityPoolUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension DescribeIdentityPoolUsageInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityPoolUsageInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())"
@@ -690,12 +694,13 @@ enum DescribeIdentityPoolUsageOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
-extension DescribeIdentityUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension DescribeIdentityUsageInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityUsageInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())"
@@ -843,9 +848,10 @@ extension DuplicateRequestExceptionBody: Swift.Decodable {
     }
 }
 
-extension GetBulkPublishDetailsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension GetBulkPublishDetailsInput {
+
+    static func urlPathProvider(_ value: GetBulkPublishDetailsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/getBulkPublishDetails"
@@ -970,9 +976,10 @@ enum GetBulkPublishDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetCognitoEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension GetCognitoEventsInput {
+
+    static func urlPathProvider(_ value: GetCognitoEventsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/events"
@@ -1067,9 +1074,10 @@ enum GetCognitoEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension GetIdentityPoolConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension GetIdentityPoolConfigurationInput {
+
+    static func urlPathProvider(_ value: GetIdentityPoolConfigurationInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/configuration"
@@ -1656,29 +1664,29 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListDatasetsInput {
+
+    static func queryItemProvider(_ value: ListDatasetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListDatasetsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets"
@@ -1805,25 +1813,25 @@ enum ListDatasetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListIdentityPoolUsageInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListIdentityPoolUsageInput {
+
+    static func queryItemProvider(_ value: ListIdentityPoolUsageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListIdentityPoolUsageInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
+extension ListIdentityPoolUsageInput {
+
+    static func urlPathProvider(_ value: ListIdentityPoolUsageInput) -> Swift.String? {
         return "/identitypools"
     }
 }
@@ -1948,40 +1956,40 @@ enum ListIdentityPoolUsageOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension ListRecordsInput: ClientRuntime.QueryItemProvider {
-    public var queryItems: [ClientRuntime.URLQueryItem] {
-        get throws {
-            var items = [ClientRuntime.URLQueryItem]()
-            if let syncSessionToken = syncSessionToken {
-                let syncSessionTokenQueryItem = ClientRuntime.URLQueryItem(name: "syncSessionToken".urlPercentEncoding(), value: Swift.String(syncSessionToken).urlPercentEncoding())
-                items.append(syncSessionTokenQueryItem)
-            }
-            if let nextToken = nextToken {
-                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-                items.append(nextTokenQueryItem)
-            }
-            if let lastSyncCount = lastSyncCount {
-                let lastSyncCountQueryItem = ClientRuntime.URLQueryItem(name: "lastSyncCount".urlPercentEncoding(), value: Swift.String(lastSyncCount).urlPercentEncoding())
-                items.append(lastSyncCountQueryItem)
-            }
-            if let maxResults = maxResults {
-                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
-                items.append(maxResultsQueryItem)
-            }
-            return items
+extension ListRecordsInput {
+
+    static func queryItemProvider(_ value: ListRecordsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let syncSessionToken = value.syncSessionToken {
+            let syncSessionTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "syncSessionToken".urlPercentEncoding(), value: Swift.String(syncSessionToken).urlPercentEncoding())
+            items.append(syncSessionTokenQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let lastSyncCount = value.lastSyncCount {
+            let lastSyncCountQueryItem = ClientRuntime.SDKURLQueryItem(name: "lastSyncCount".urlPercentEncoding(), value: Swift.String(lastSyncCount).urlPercentEncoding())
+            items.append(lastSyncCountQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
-extension ListRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension ListRecordsInput {
+
+    static func urlPathProvider(_ value: ListRecordsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())/records"
@@ -2554,12 +2562,13 @@ extension RegisterDeviceInput: Swift.Encodable {
     }
 }
 
-extension RegisterDeviceInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension RegisterDeviceInput {
+
+    static func urlPathProvider(_ value: RegisterDeviceInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identity/\(identityId.urlPercentEncoding())/device"
@@ -2802,9 +2811,10 @@ extension SetCognitoEventsInput: Swift.Encodable {
     }
 }
 
-extension SetCognitoEventsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension SetCognitoEventsInput {
+
+    static func urlPathProvider(_ value: SetCognitoEventsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/events"
@@ -2897,9 +2907,10 @@ extension SetIdentityPoolConfigurationInput: Swift.Encodable {
     }
 }
 
-extension SetIdentityPoolConfigurationInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension SetIdentityPoolConfigurationInput {
+
+    static func urlPathProvider(_ value: SetIdentityPoolConfigurationInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/configuration"
@@ -3057,18 +3068,19 @@ extension CognitoSyncClientTypes {
     }
 }
 
-extension SubscribeToDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension SubscribeToDatasetInput {
+
+    static func urlPathProvider(_ value: SubscribeToDatasetInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
-        guard let deviceId = deviceId else {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())/subscriptions/\(deviceId.urlPercentEncoding())"
@@ -3197,18 +3209,19 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
-extension UnsubscribeFromDatasetInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension UnsubscribeFromDatasetInput {
+
+    static func urlPathProvider(_ value: UnsubscribeFromDatasetInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
-        guard let deviceId = deviceId else {
+        guard let deviceId = value.deviceId else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())/subscriptions/\(deviceId.urlPercentEncoding())"
@@ -3304,25 +3317,27 @@ extension UpdateRecordsInput: Swift.Encodable {
     }
 }
 
-extension UpdateRecordsInput: ClientRuntime.HeaderProvider {
-    public var headers: ClientRuntime.Headers {
+extension UpdateRecordsInput {
+
+    static func headerProvider(_ value: UpdateRecordsInput) -> ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if let clientContext = clientContext {
+        if let clientContext = value.clientContext {
             items.add(Header(name: "x-amz-Client-Context", value: Swift.String(clientContext)))
         }
         return items
     }
 }
 
-extension UpdateRecordsInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        guard let identityPoolId = identityPoolId else {
+extension UpdateRecordsInput {
+
+    static func urlPathProvider(_ value: UpdateRecordsInput) -> Swift.String? {
+        guard let identityPoolId = value.identityPoolId else {
             return nil
         }
-        guard let identityId = identityId else {
+        guard let identityId = value.identityId else {
             return nil
         }
-        guard let datasetName = datasetName else {
+        guard let datasetName = value.datasetName else {
             return nil
         }
         return "/identitypools/\(identityPoolId.urlPercentEncoding())/identities/\(identityId.urlPercentEncoding())/datasets/\(datasetName.urlPercentEncoding())"
