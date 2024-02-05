@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Fault Injection Simulator is a managed service that enables you to perform fault injection experiments on your Amazon Web Services workloads. For more information, see the [Fault Injection Simulator User Guide](https://docs.aws.amazon.com/fis/latest/userguide/).
+/// Fault Injection Service is a managed service that enables you to perform fault injection experiments on your Amazon Web Services workloads. For more information, see the [Fault Injection Service User Guide](https://docs.aws.amazon.com/fis/latest/userguide/).
 public protocol FisClientProtocol {
     /// Performs the `CreateExperimentTemplate` operation on the `FaultInjectionSimulator` service.
     ///
@@ -15,7 +15,11 @@ public protocol FisClientProtocol {
     /// * Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.
     ///
     ///
+<<<<<<< HEAD
     /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Simulator User Guide.
+=======
+    /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Service User Guide.
+>>>>>>> temp-main
     ///
     /// - Parameter CreateExperimentTemplateInput : [no documentation found]
     ///
@@ -31,7 +35,11 @@ public protocol FisClientProtocol {
     func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutput
     /// Performs the `CreateTargetAccountConfiguration` operation on the `FaultInjectionSimulator` service.
     ///
+<<<<<<< HEAD
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Simulator User Guide.
+=======
+    /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
+>>>>>>> temp-main
     ///
     /// - Parameter CreateTargetAccountConfigurationInput : [no documentation found]
     ///

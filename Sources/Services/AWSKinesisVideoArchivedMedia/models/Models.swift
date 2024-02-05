@@ -1304,7 +1304,7 @@ public struct GetImagesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token that specifies where to start paginating the next set of Images. This is the GetImages:NextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream, with a default of 3000 ms. The minimum value that can be provided is 200 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available. The minimum value of 200 ms is a hard limit.
+    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 200 ms (5 images per second). If the timestamp range is less than the sampling interval, the image from the startTimestamp will be returned if available.
     public var samplingInterval: Swift.Int?
     /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
     /// This member is required.
@@ -1481,6 +1481,10 @@ enum GetImagesOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "ClientLimitExceededException": return try await ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "NoDataRetentionException": return try await NoDataRetentionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> temp-main
             case "NotAuthorizedException": return try await NotAuthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2202,7 +2206,7 @@ extension ListFragmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListFragmentsInput: Swift.Equatable {
-    /// Describes the timestamp range and timestamp origin for the range of fragments to return.
+    /// Describes the timestamp range and timestamp origin for the range of fragments to return. This is only required when the NextToken isn't passed in the API.
     public var fragmentSelector: KinesisVideoArchivedMediaClientTypes.FragmentSelector?
     /// The total number of fragments to return. If the total number of fragments available is more than the value specified in max-results, then a [ListFragmentsOutput$NextToken] is provided in the output that you can use to resume pagination.
     public var maxResults: Swift.Int?
@@ -2404,7 +2408,7 @@ extension NoDataRetentionException {
     }
 }
 
-/// A streaming session was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
+/// GetImages was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
 public struct NoDataRetentionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

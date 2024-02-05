@@ -13014,6 +13014,8 @@ extension MediaLiveClientTypes.EncoderSettings: Swift.Codable {
         videoDescriptions = videoDescriptionsDecoded0
         let thumbnailConfigurationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ThumbnailConfiguration.self, forKey: .thumbnailConfiguration)
         thumbnailConfiguration = thumbnailConfigurationDecoded
+        let colorCorrectionSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ColorCorrectionSettings.self, forKey: .colorCorrectionSettings)
+        colorCorrectionSettings = colorCorrectionSettingsDecoded
     }
 }
 
@@ -13031,7 +13033,11 @@ extension MediaLiveClientTypes {
         public var blackoutSlate: MediaLiveClientTypes.BlackoutSlate?
         /// Settings for caption decriptions
         public var captionDescriptions: [MediaLiveClientTypes.CaptionDescription]?
+<<<<<<< HEAD
         /// Color correction settings
+=======
+        /// Color Correction Settings
+>>>>>>> temp-main
         public var colorCorrectionSettings: MediaLiveClientTypes.ColorCorrectionSettings?
         /// Feature Activations
         public var featureActivations: MediaLiveClientTypes.FeatureActivations?
@@ -19701,8 +19707,105 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case profile = "profile"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let profile = self.profile {
+            try encodeContainer.encode(profile.rawValue, forKey: .profile)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
+        id = idDecoded
+        let profileDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairProfile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// One audio configuration that specifies the format for one audio pair that the device produces as output.
+    public struct InputDeviceConfigurableAudioChannelPairConfig: Swift.Equatable {
+        /// The ID for one audio pair configuration, a value from 1 to 8.
+        public var id: Swift.Int?
+        /// The profile to set for one audio pair configuration. Choose an enumeration value. Each value describes one audio configuration using the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or choose DISABLED, in which case the device won't produce audio for this pair.
+        public var profile: MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairProfile?
+
+        public init(
+            id: Swift.Int? = nil,
+            profile: MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairProfile? = nil
+        )
+        {
+            self.id = id
+            self.profile = profile
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Property of InputDeviceConfigurableAudioChannelPairConfig, which configures one audio channel that the device produces.
+    public enum InputDeviceConfigurableAudioChannelPairProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cbrAacHq192000
+        case cbrAacHq256000
+        case cbrAacHq384000
+        case cbrAacHq512000
+        case disabled
+        case vbrAacHe64000
+        case vbrAacHhe16000
+        case vbrAacLc128000
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputDeviceConfigurableAudioChannelPairProfile] {
+            return [
+                .cbrAacHq192000,
+                .cbrAacHq256000,
+                .cbrAacHq384000,
+                .cbrAacHq512000,
+                .disabled,
+                .vbrAacHe64000,
+                .vbrAacHhe16000,
+                .vbrAacLc128000,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cbrAacHq192000: return "CBR-AAC_HQ-192000"
+            case .cbrAacHq256000: return "CBR-AAC_HQ-256000"
+            case .cbrAacHq384000: return "CBR-AAC_HQ-384000"
+            case .cbrAacHq512000: return "CBR-AAC_HQ-512000"
+            case .disabled: return "DISABLED"
+            case .vbrAacHe64000: return "VBR-AAC_HE-64000"
+            case .vbrAacHhe16000: return "VBR-AAC_HHE-16000"
+            case .vbrAacLc128000: return "VBR-AAC_LC-128000"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputDeviceConfigurableAudioChannelPairProfile(rawValue: rawValue) ?? InputDeviceConfigurableAudioChannelPairProfile.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioChannelPairs = "audioChannelPairs"
         case codec = "codec"
         case configuredInput = "configuredInput"
         case latencyMs = "latencyMs"
@@ -19712,6 +19815,12 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioChannelPairs = audioChannelPairs {
+            var audioChannelPairsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioChannelPairs)
+            for inputdeviceconfigurableaudiochannelpairconfig0 in audioChannelPairs {
+                try audioChannelPairsContainer.encode(inputdeviceconfigurableaudiochannelpairconfig0)
+            }
+        }
         if let codec = self.codec {
             try encodeContainer.encode(codec.rawValue, forKey: .codec)
         }
@@ -19741,12 +19850,25 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         codec = codecDecoded
         let mediaconnectSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings.self, forKey: .mediaconnectSettings)
         mediaconnectSettings = mediaconnectSettingsDecoded
+        let audioChannelPairsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig?].self, forKey: .audioChannelPairs)
+        var audioChannelPairsDecoded0:[MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]? = nil
+        if let audioChannelPairsContainer = audioChannelPairsContainer {
+            audioChannelPairsDecoded0 = [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]()
+            for structure0 in audioChannelPairsContainer {
+                if let structure0 = structure0 {
+                    audioChannelPairsDecoded0?.append(structure0)
+                }
+            }
+        }
+        audioChannelPairs = audioChannelPairsDecoded0
     }
 }
 
 extension MediaLiveClientTypes {
     /// Configurable settings for the input device.
     public struct InputDeviceConfigurableSettings: Swift.Equatable {
+        /// An array of eight audio configurations, one for each audio pair in the source. Set up each audio configuration either to exclude the pair, or to format it and include it in the output from the device. This parameter applies only to UHD devices, and only when the device is configured as the source for a MediaConnect flow. For an HD device, you configure the audio by setting up audio selectors in the channel configuration.
+        public var audioChannelPairs: [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]?
         /// Choose the codec for the video that the device produces. Only UHD devices can specify this parameter.
         public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
@@ -19759,6 +19881,7 @@ extension MediaLiveClientTypes {
         public var mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings?
 
         public init(
+            audioChannelPairs: [MediaLiveClientTypes.InputDeviceConfigurableAudioChannelPairConfig]? = nil,
             codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             latencyMs: Swift.Int? = nil,
@@ -19766,6 +19889,7 @@ extension MediaLiveClientTypes {
             mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings? = nil
         )
         {
+            self.audioChannelPairs = audioChannelPairs
             self.codec = codec
             self.configuredInput = configuredInput
             self.latencyMs = latencyMs
@@ -20657,9 +20781,106 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "id"
+        case profile = "profile"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let profile = self.profile {
+            try encodeContainer.encode(profile.rawValue, forKey: .profile)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
+        id = idDecoded
+        let profileDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceUhdAudioChannelPairProfile.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// One audio configuration that specifies the format for one audio pair that the device produces as output.
+    public struct InputDeviceUhdAudioChannelPairConfig: Swift.Equatable {
+        /// The ID for one audio pair configuration, a value from 1 to 8.
+        public var id: Swift.Int?
+        /// The profile for one audio pair configuration. This property describes one audio configuration in the format (rate control algorithm)-(codec)_(quality)-(bitrate in bytes). For example, CBR-AAC_HQ-192000. Or DISABLED, in which case the device won't produce audio for this pair.
+        public var profile: MediaLiveClientTypes.InputDeviceUhdAudioChannelPairProfile?
+
+        public init(
+            id: Swift.Int? = nil,
+            profile: MediaLiveClientTypes.InputDeviceUhdAudioChannelPairProfile? = nil
+        )
+        {
+            self.id = id
+            self.profile = profile
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Property of InputDeviceUhdAudioChannelPairConfig, which describes one audio channel that the device is configured to produce.
+    public enum InputDeviceUhdAudioChannelPairProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cbrAacHq192000
+        case cbrAacHq256000
+        case cbrAacHq384000
+        case cbrAacHq512000
+        case disabled
+        case vbrAacHe64000
+        case vbrAacHhe16000
+        case vbrAacLc128000
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputDeviceUhdAudioChannelPairProfile] {
+            return [
+                .cbrAacHq192000,
+                .cbrAacHq256000,
+                .cbrAacHq384000,
+                .cbrAacHq512000,
+                .disabled,
+                .vbrAacHe64000,
+                .vbrAacHhe16000,
+                .vbrAacLc128000,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cbrAacHq192000: return "CBR-AAC_HQ-192000"
+            case .cbrAacHq256000: return "CBR-AAC_HQ-256000"
+            case .cbrAacHq384000: return "CBR-AAC_HQ-384000"
+            case .cbrAacHq512000: return "CBR-AAC_HQ-512000"
+            case .disabled: return "DISABLED"
+            case .vbrAacHe64000: return "VBR-AAC_HE-64000"
+            case .vbrAacHhe16000: return "VBR-AAC_HHE-16000"
+            case .vbrAacLc128000: return "VBR-AAC_LC-128000"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputDeviceUhdAudioChannelPairProfile(rawValue: rawValue) ?? InputDeviceUhdAudioChannelPairProfile.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activeInput = "activeInput"
+        case audioChannelPairs = "audioChannelPairs"
         case codec = "codec"
         case configuredInput = "configuredInput"
         case deviceState = "deviceState"
@@ -20676,6 +20897,12 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeInput = self.activeInput {
             try encodeContainer.encode(activeInput.rawValue, forKey: .activeInput)
+        }
+        if let audioChannelPairs = audioChannelPairs {
+            var audioChannelPairsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioChannelPairs)
+            for inputdeviceuhdaudiochannelpairconfig0 in audioChannelPairs {
+                try audioChannelPairsContainer.encode(inputdeviceuhdaudiochannelpairconfig0)
+            }
         }
         if let codec = self.codec {
             try encodeContainer.encode(codec.rawValue, forKey: .codec)
@@ -20733,6 +20960,17 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         codec = codecDecoded
         let mediaconnectSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceMediaConnectSettings.self, forKey: .mediaconnectSettings)
         mediaconnectSettings = mediaconnectSettingsDecoded
+        let audioChannelPairsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig?].self, forKey: .audioChannelPairs)
+        var audioChannelPairsDecoded0:[MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig]? = nil
+        if let audioChannelPairsContainer = audioChannelPairsContainer {
+            audioChannelPairsDecoded0 = [MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig]()
+            for structure0 in audioChannelPairsContainer {
+                if let structure0 = structure0 {
+                    audioChannelPairsDecoded0?.append(structure0)
+                }
+            }
+        }
+        audioChannelPairs = audioChannelPairsDecoded0
     }
 }
 
@@ -20741,6 +20979,8 @@ extension MediaLiveClientTypes {
     public struct InputDeviceUhdSettings: Swift.Equatable {
         /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
         public var activeInput: MediaLiveClientTypes.InputDeviceActiveInput?
+        /// An array of eight audio configurations, one for each audio pair in the source. Each audio configuration specifies either to exclude the pair, or to format it and include it in the output from the UHD device. Applies only when the device is configured as the source for a MediaConnect flow.
+        public var audioChannelPairs: [MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig]?
         /// The codec for the video that the device produces.
         public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The source at the input device that is currently active. You can specify this source.
@@ -20764,6 +21004,7 @@ extension MediaLiveClientTypes {
 
         public init(
             activeInput: MediaLiveClientTypes.InputDeviceActiveInput? = nil,
+            audioChannelPairs: [MediaLiveClientTypes.InputDeviceUhdAudioChannelPairConfig]? = nil,
             codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
@@ -20777,6 +21018,7 @@ extension MediaLiveClientTypes {
         )
         {
             self.activeInput = activeInput
+            self.audioChannelPairs = audioChannelPairs
             self.codec = codec
             self.configuredInput = configuredInput
             self.deviceState = deviceState

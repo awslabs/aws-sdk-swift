@@ -26,7 +26,7 @@ struct ProfileRegionProvider: RegionProvider {
         self.credentialsFilePath = credentialsFilePath
     }
 
-    func resolveRegion() async throws -> String? {
+    func getRegion() async throws -> String? {
         guard let configuration = try await fileBasedConfigurationProvider(
             configFilePath,
             credentialsFilePath

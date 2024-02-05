@@ -423,6 +423,15 @@
                     "traits": {
                         "smithy.api#enumValue": "S3Object"
                     }
+<<<<<<< HEAD
+=======
+                },
+                "S3PREFIX": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3Prefix"
+                    }
+>>>>>>> temp-main
                 }
             }
         },
@@ -1554,6 +1563,7 @@
                         "smithy.api#enumValue": "TensorBoard"
                     }
                 },
+<<<<<<< HEAD
                 "VSCode": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -1566,6 +1576,8 @@
                         "smithy.api#enumValue": "Savitur"
                     }
                 },
+=======
+>>>>>>> temp-main
                 "CodeEditor": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -1601,6 +1613,7 @@
                     "traits": {
                         "smithy.api#enumValue": "Canvas"
                     }
+<<<<<<< HEAD
                 },
                 "DatasetManager": {
                     "target": "smithy.api#Unit",
@@ -1619,6 +1632,8 @@
                     "traits": {
                         "smithy.api#enumValue": "Local"
                     }
+=======
+>>>>>>> temp-main
                 }
             }
         },
@@ -4654,6 +4669,15 @@
             "traits": {
                 "smithy.api#range": {
                     "min": 1
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#CapacityUnit": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0,
+                    "max": 10000000
                 }
             }
         },
@@ -9430,6 +9454,9 @@
                         "smithy.api#documentation": "<p>Use this to configure an <code>OfflineFeatureStore</code>. This parameter allows you to\n         specify:</p>\n         <ul>\n            <li>\n               <p>The Amazon Simple Storage Service (Amazon S3) location of an\n                  <code>OfflineStore</code>.</p>\n            </li>\n            <li>\n               <p>A configuration for an Amazon Web Services Glue or Amazon Web Services Hive data\n               catalog. </p>\n            </li>\n            <li>\n               <p>An KMS encryption key to encrypt the Amazon S3 location used for\n                  <code>OfflineStore</code>. If KMS encryption key is not specified, by default we\n               encrypt all data at rest using Amazon Web Services KMS key. By defining your <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html\">bucket-level\n                  key</a> for SSE, you can reduce Amazon Web Services KMS requests costs by up to\n               99 percent.</p>\n            </li>\n            <li>\n               <p>Format for the offline store table. Supported formats are Glue (Default) and\n                  <a href=\"https://iceberg.apache.org/\">Apache Iceberg</a>.</p>\n            </li>\n         </ul>\n         <p>To learn more about this parameter, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OfflineStoreConfig.html\">OfflineStoreConfig</a>.</p>"
                     }
                 },
+                "ThroughputConfig": {
+                    "target": "com.amazonaws.sagemaker#ThroughputConfig"
+                },
                 "RoleArn": {
                     "target": "com.amazonaws.sagemaker#RoleArn",
                     "traits": {
@@ -12226,6 +12253,15 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
+<<<<<<< HEAD
+=======
+                "RemoteDebugConfig": {
+                    "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
+                    }
+                },
+>>>>>>> temp-main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {
@@ -18482,6 +18518,9 @@
                         "smithy.api#documentation": "<p>The configuration of the offline store. It includes the following configurations:</p>\n         <ul>\n            <li>\n               <p>Amazon S3 location of the offline store.</p>\n            </li>\n            <li>\n               <p>Configuration of the Glue data catalog.</p>\n            </li>\n            <li>\n               <p>Table format of the offline store.</p>\n            </li>\n            <li>\n               <p>Option to disable the automatic creation of a Glue table for the offline\n               store.</p>\n            </li>\n            <li>\n               <p>Encryption configuration.</p>\n            </li>\n         </ul>"
                     }
                 },
+                "ThroughputConfig": {
+                    "target": "com.amazonaws.sagemaker#ThroughputConfigDescription"
+                },
                 "RoleArn": {
                     "target": "com.amazonaws.sagemaker#RoleArn",
                     "traits": {
@@ -22933,6 +22972,15 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
+<<<<<<< HEAD
+=======
+                "RemoteDebugConfig": {
+                    "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
+                    }
+                },
+>>>>>>> temp-main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {
@@ -24324,6 +24372,26 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.sagemaker#DockerSettings": {
+            "type": "structure",
+            "members": {
+                "EnableDockerAccess": {
+                    "target": "com.amazonaws.sagemaker#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the domain can access Docker.</p>"
+                    }
+                },
+                "VpcOnlyTrustedAccounts": {
+                    "target": "com.amazonaws.sagemaker#VpcOnlyTrustedAccounts",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A collection of settings that configure the domain's Docker interaction.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#DocumentSchemaVersion": {
             "type": "string",
             "traits": {
@@ -24461,6 +24529,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration for attaching a SageMaker user profile name to the execution role as a\n                <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html\">sts:SourceIdentity key</a>.</p>"
                     }
+                },
+                "DockerSettings": {
+                    "target": "com.amazonaws.sagemaker#DockerSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A collection of settings that configure the domain's Docker interaction.</p>"
+                    }
                 }
             },
             "traits": {
@@ -24486,6 +24560,12 @@
                     "target": "com.amazonaws.sagemaker#DomainSecurityGroupIds",
                     "traits": {
                         "smithy.api#documentation": "<p>The security groups for the Amazon Virtual Private Cloud that the <code>Domain</code> uses for\n            communication between Domain-level apps and user apps.</p>"
+                    }
+                },
+                "DockerSettings": {
+                    "target": "com.amazonaws.sagemaker#DockerSettings",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A collection of settings that configure the domain's Docker interaction.</p>"
                     }
                 }
             },
@@ -25387,6 +25467,9 @@
             "type": "boolean"
         },
         "com.amazonaws.sagemaker#EnableIotRoleAlias": {
+            "type": "boolean"
+        },
+        "com.amazonaws.sagemaker#EnableRemoteDebug": {
             "type": "boolean"
         },
         "com.amazonaws.sagemaker#EnableSagemakerServicecatalogPortfolio": {
@@ -52202,6 +52285,34 @@
                 "smithy.api#pattern": ".*"
             }
         },
+        "com.amazonaws.sagemaker#RemoteDebugConfig": {
+            "type": "structure",
+            "members": {
+                "EnableRemoteDebug": {
+                    "target": "com.amazonaws.sagemaker#EnableRemoteDebug",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If set to True, enables remote debugging.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for remote debugging for the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html\">CreateTrainingJob</a> API. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#RemoteDebugConfigForUpdate": {
+            "type": "structure",
+            "members": {
+                "EnableRemoteDebug": {
+                    "target": "com.amazonaws.sagemaker#EnableRemoteDebug",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If set to True, enables remote debugging.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for remote debugging for the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateTrainingJob.html\">UpdateTrainingJob</a> API. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
+            }
+        },
         "com.amazonaws.sagemaker#RenderUiTemplate": {
             "type": "operation",
             "input": {
@@ -55648,6 +55759,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>\n      A cross account filter option. When the value is <code>\"CrossAccount\"</code> the \n      search results will only include resources made discoverable to you from other \n      accounts. When the value is <code>\"SameAccount\"</code> or <code>null</code> the \n      search results will only include resources from your account. Default is \n      <code>null</code>. For more information on searching for resources made \n      discoverable to your account, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html\">\n        Search discoverable resources</a> in the SageMaker Developer Guide.\n      The maximum number of <code>ResourceCatalog</code>s viewable is 1000.\n    </p>"
                     }
+                },
+                "VisibilityConditions": {
+                    "target": "com.amazonaws.sagemaker#VisibilityConditionsList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Limits the results of your search request to the resources that you can access.\n    </p>"
+                    }
                 }
             },
             "traits": {
@@ -55832,7 +55949,7 @@
                 "StatusMessage": {
                     "target": "com.amazonaws.sagemaker#StatusMessage",
                     "traits": {
-                        "smithy.api#documentation": "<p>A detailed description of the progress within a secondary status.\n            </p>\n         <p>SageMaker provides secondary statuses and status messages that apply to each of\n            them:</p>\n         <dl>\n            <dt>Starting</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Starting the training job.</p>\n                  </li>\n                  <li>\n                     <p>Launching requested ML\n                                instances.</p>\n                  </li>\n                  <li>\n                     <p>Insufficient\n                                capacity error from EC2 while launching instances,\n                                retrying!</p>\n                  </li>\n                  <li>\n                     <p>Launched\n                                instance was unhealthy, replacing it!</p>\n                  </li>\n                  <li>\n                     <p>Preparing the instances for training.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Training</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Downloading the training image.</p>\n                  </li>\n                  <li>\n                     <p>Training\n                                image download completed. Training in\n                                progress.</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <important>\n            <p>Status messages are subject to change. Therefore, we recommend not including them\n                in code that programmatically initiates actions. For examples, don't use status\n                messages in if statements.</p>\n         </important>\n         <p>To have an overview of your training job's progress, view\n                <code>TrainingJobStatus</code> and <code>SecondaryStatus</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html\">DescribeTrainingJob</a>, and <code>StatusMessage</code> together. For example,\n            at the start of a training job, you might see the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TrainingJobStatus</code> - InProgress</p>\n            </li>\n            <li>\n               <p>\n                  <code>SecondaryStatus</code> - Training</p>\n            </li>\n            <li>\n               <p>\n                  <code>StatusMessage</code> - Downloading the training image</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>A detailed description of the progress within a secondary status.\n            </p>\n         <p>SageMaker provides secondary statuses and status messages that apply to each of\n            them:</p>\n         <dl>\n            <dt>Starting</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Starting the training job.</p>\n                  </li>\n                  <li>\n                     <p>Launching requested ML\n                                instances.</p>\n                  </li>\n                  <li>\n                     <p>Insufficient\n                                capacity error from EC2 while launching instances,\n                                retrying!</p>\n                  </li>\n                  <li>\n                     <p>Launched\n                                instance was unhealthy, replacing it!</p>\n                  </li>\n                  <li>\n                     <p>Preparing the instances for training.</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>Training</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Training\n                                image download completed. Training in\n                                progress.</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>\n         <important>\n            <p>Status messages are subject to change. Therefore, we recommend not including them\n                in code that programmatically initiates actions. For examples, don't use status\n                messages in if statements.</p>\n         </important>\n         <p>To have an overview of your training job's progress, view\n                <code>TrainingJobStatus</code> and <code>SecondaryStatus</code> in <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrainingJob.html\">DescribeTrainingJob</a>, and <code>StatusMessage</code> together. For example,\n            at the start of a training job, you might see the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TrainingJobStatus</code> - InProgress</p>\n            </li>\n            <li>\n               <p>\n                  <code>SecondaryStatus</code> - Training</p>\n            </li>\n            <li>\n               <p>\n                  <code>StatusMessage</code> - Downloading the training image</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -58133,6 +58250,7 @@
                         "smithy.api#enumValue": "KernelGateway"
                     }
                 },
+<<<<<<< HEAD
                 "VSCode": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -58145,6 +58263,8 @@
                         "smithy.api#enumValue": "Savitur"
                     }
                 },
+=======
+>>>>>>> temp-main
                 "CodeEditor": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -59190,6 +59310,105 @@
                     "max": 128
                 },
                 "smithy.api#pattern": "^[a-zA-Z0-9:_-]+$"
+            }
+        },
+        "com.amazonaws.sagemaker#ThroughputConfig": {
+            "type": "structure",
+            "members": {
+                "ThroughputMode": {
+                    "target": "com.amazonaws.sagemaker#ThroughputMode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The mode used for your feature group throughput: <code>ON_DEMAND</code> or\n            <code>PROVISIONED</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ProvisionedReadCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> For provisioned feature groups with online store enabled, this indicates the read\n         throughput you are billed for and can consume without throttling. </p>\n         <p>This field is not applicable for on-demand feature groups. </p>"
+                    }
+                },
+                "ProvisionedWriteCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> For provisioned feature groups, this indicates the write throughput you are billed for\n         and can consume without throttling. </p>\n         <p>This field is not applicable for on-demand feature groups. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Used to set feature group throughput configuration. There are two modes:\n            <code>ON_DEMAND</code> and <code>PROVISIONED</code>. With on-demand mode, you are\n         charged for data reads and writes that your application performs on your feature group. You\n         do not need to specify read and write throughput because Feature Store accommodates your\n         workloads as they ramp up and down. You can switch a feature group to on-demand only once\n         in a 24 hour period. With provisioned throughput mode, you specify the read and write\n         capacity per second that you expect your application to require, and you are billed based\n         on those limits. Exceeding provisioned throughput will result in your requests being\n         throttled. </p>\n         <p>Note: <code>PROVISIONED</code> throughput mode is supported only for feature groups that\n         are offline-only, or use the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType\">\n               <code>Standard</code>\n            </a> tier online store. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ThroughputConfigDescription": {
+            "type": "structure",
+            "members": {
+                "ThroughputMode": {
+                    "target": "com.amazonaws.sagemaker#ThroughputMode",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The mode used for your feature group throughput: <code>ON_DEMAND</code> or\n            <code>PROVISIONED</code>. </p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ProvisionedReadCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> For provisioned feature groups with online store enabled, this indicates the read\n         throughput you are billed for and can consume without throttling. </p>\n         <p>This field is not applicable for on-demand feature groups. </p>"
+                    }
+                },
+                "ProvisionedWriteCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p> For provisioned feature groups, this indicates the write throughput you are billed for\n         and can consume without throttling. </p>\n         <p>This field is not applicable for on-demand feature groups. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Active throughput configuration of the feature group. Used to set feature group\n         throughput configuration. There are two modes: <code>ON_DEMAND</code> and\n            <code>PROVISIONED</code>. With on-demand mode, you are charged for data reads and writes\n         that your application performs on your feature group. You do not need to specify read and\n         write throughput because Feature Store accommodates your workloads as they ramp up and\n         down. You can switch a feature group to on-demand only once in a 24 hour period. With\n         provisioned throughput mode, you specify the read and write capacity per second that you\n         expect your application to require, and you are billed based on those limits. Exceeding\n         provisioned throughput will result in your requests being throttled. </p>\n         <p>Note: <code>PROVISIONED</code> throughput mode is supported only for feature groups that\n         are offline-only, or use the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OnlineStoreConfig.html#sagemaker-Type-OnlineStoreConfig-StorageType\">\n               <code>Standard</code>\n            </a> tier online store. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ThroughputConfigUpdate": {
+            "type": "structure",
+            "members": {
+                "ThroughputMode": {
+                    "target": "com.amazonaws.sagemaker#ThroughputMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Target throughput mode of the feature group. Throughput update is an asynchronous\n         operation, and the outcome should be monitored by polling <code>LastUpdateStatus</code>\n         field in <code>DescribeFeatureGroup</code> response. You cannot update a feature group's\n         throughput while another update is in progress. </p>"
+                    }
+                },
+                "ProvisionedReadCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>For provisioned feature groups with online store enabled, this indicates the read\n         throughput you are billed for and can consume without throttling. </p>"
+                    }
+                },
+                "ProvisionedWriteCapacityUnits": {
+                    "target": "com.amazonaws.sagemaker#CapacityUnit",
+                    "traits": {
+                        "smithy.api#documentation": "<p>For provisioned feature groups, this indicates the write throughput you are billed for\n         and can consume without throttling. </p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The new throughput configuration for the feature group. You can switch between on-demand\n         and provisioned modes or update the read / write capacity of provisioned feature groups.\n         You can switch a feature group to on-demand only once in a 24 hour period. </p>"
+            }
+        },
+        "com.amazonaws.sagemaker#ThroughputMode": {
+            "type": "enum",
+            "members": {
+                "ON_DEMAND": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OnDemand"
+                    }
+                },
+                "PROVISIONED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Provisioned"
+                    }
+                }
             }
         },
         "com.amazonaws.sagemaker#TimeSeriesConfig": {
@@ -63067,6 +63286,9 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Updates the feature group online store configuration.</p>"
                     }
+                },
+                "ThroughputConfig": {
+                    "target": "com.amazonaws.sagemaker#ThroughputConfigUpdate"
                 }
             },
             "traits": {
@@ -64405,6 +64627,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The training job <code>ResourceConfig</code> to update warm pool retention\n            length.</p>"
                     }
+                },
+                "RemoteDebugConfig": {
+                    "target": "com.amazonaws.sagemaker#RemoteDebugConfigForUpdate",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration for remote debugging while the training job is running. You can\n            update the remote debugging configuration when the <code>SecondaryStatus</code> of the job\n            is <code>Downloading</code> or <code>Training</code>.To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -65313,6 +65541,58 @@
                 "target": "com.amazonaws.sagemaker#Vertex"
             }
         },
+        "com.amazonaws.sagemaker#VisibilityConditions": {
+            "type": "structure",
+            "members": {
+                "Key": {
+                    "target": "com.amazonaws.sagemaker#VisibilityConditionsKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key for that specifies the tag that you're using to filter the search results. The key must start with <code>Tags.</code>.</p>"
+                    }
+                },
+                "Value": {
+                    "target": "com.amazonaws.sagemaker#VisibilityConditionsValue",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The value for the tag that you're using to filter the search results.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The list of key-value pairs that you specify for your resources.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#VisibilityConditionsKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+            }
+        },
+        "com.amazonaws.sagemaker#VisibilityConditionsList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#VisibilityConditions"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
+        "com.amazonaws.sagemaker#VisibilityConditionsValue": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+            }
+        },
         "com.amazonaws.sagemaker#VolumeSizeInGB": {
             "type": "integer",
             "traits": {
@@ -65353,6 +65633,18 @@
                     "max": 32
                 },
                 "smithy.api#pattern": "^[-0-9a-zA-Z]+$"
+            }
+        },
+        "com.amazonaws.sagemaker#VpcOnlyTrustedAccounts": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.sagemaker#AccountId"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 10
+                }
             }
         },
         "com.amazonaws.sagemaker#VpcSecurityGroupIds": {

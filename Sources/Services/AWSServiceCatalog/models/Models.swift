@@ -563,6 +563,7 @@ enum AssociateProductWithPortfolioOutputError: ClientRuntime.HttpResponseErrorBi
 extension AssociateServiceActionWithProvisioningArtifactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case idempotencyToken = "IdempotencyToken"
         case productId = "ProductId"
         case provisioningArtifactId = "ProvisioningArtifactId"
         case serviceActionId = "ServiceActionId"
@@ -572,6 +573,9 @@ extension AssociateServiceActionWithProvisioningArtifactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
         }
         if let productId = self.productId {
             try encodeContainer.encode(productId, forKey: .productId)
@@ -598,6 +602,8 @@ public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Equatab
     ///
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request.
+    public var idempotencyToken: Swift.String?
     /// The product identifier. For example, prod-abcdzk7xy33qa.
     /// This member is required.
     public var productId: Swift.String?
@@ -610,12 +616,14 @@ public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Equatab
 
     public init(
         acceptLanguage: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
+        self.idempotencyToken = idempotencyToken
         self.productId = productId
         self.provisioningArtifactId = provisioningArtifactId
         self.serviceActionId = serviceActionId
@@ -627,11 +635,13 @@ struct AssociateServiceActionWithProvisioningArtifactInputBody: Swift.Equatable 
     let provisioningArtifactId: Swift.String?
     let serviceActionId: Swift.String?
     let acceptLanguage: Swift.String?
+    let idempotencyToken: Swift.String?
 }
 
 extension AssociateServiceActionWithProvisioningArtifactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case idempotencyToken = "IdempotencyToken"
         case productId = "ProductId"
         case provisioningArtifactId = "ProvisioningArtifactId"
         case serviceActionId = "ServiceActionId"
@@ -647,6 +657,8 @@ extension AssociateServiceActionWithProvisioningArtifactInputBody: Swift.Decodab
         serviceActionId = serviceActionIdDecoded
         let acceptLanguageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceptLanguage)
         acceptLanguage = acceptLanguageDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
     }
 }
 
@@ -2093,7 +2105,7 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// Enables or disables Principal sharing when creating the portfolio share. If this flag is not provided, principal sharing is disabled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType: IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
+    /// This parameter is only supported for portfolios with an OrganizationalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT. Enables or disables Principal sharing when creating the portfolio share. If you do not provide this flag, principal sharing is disabled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType: IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
     public var sharePrincipals: Swift.Bool?
     /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
     public var shareTagOptions: Swift.Bool?
@@ -3881,6 +3893,7 @@ extension DeleteServiceActionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
         case id = "Id"
+        case idempotencyToken = "IdempotencyToken"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3890,6 +3903,9 @@ extension DeleteServiceActionInput: Swift.Encodable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
         }
     }
 }
@@ -3910,26 +3926,32 @@ public struct DeleteServiceActionInput: Swift.Equatable {
     /// The self-service action identifier. For example, act-fs7abcd89wxyz.
     /// This member is required.
     public var id: Swift.String?
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request.
+    public var idempotencyToken: Swift.String?
 
     public init(
         acceptLanguage: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
         self.id = id
+        self.idempotencyToken = idempotencyToken
     }
 }
 
 struct DeleteServiceActionInputBody: Swift.Equatable {
     let id: Swift.String?
     let acceptLanguage: Swift.String?
+    let idempotencyToken: Swift.String?
 }
 
 extension DeleteServiceActionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
         case id = "Id"
+        case idempotencyToken = "IdempotencyToken"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3938,6 +3960,8 @@ extension DeleteServiceActionInputBody: Swift.Decodable {
         id = idDecoded
         let acceptLanguageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceptLanguage)
         acceptLanguage = acceptLanguageDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
     }
 }
 
@@ -7018,6 +7042,7 @@ enum DisassociateProductFromPortfolioOutputError: ClientRuntime.HttpResponseErro
 extension DisassociateServiceActionFromProvisioningArtifactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case idempotencyToken = "IdempotencyToken"
         case productId = "ProductId"
         case provisioningArtifactId = "ProvisioningArtifactId"
         case serviceActionId = "ServiceActionId"
@@ -7027,6 +7052,9 @@ extension DisassociateServiceActionFromProvisioningArtifactInput: Swift.Encodabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
         }
         if let productId = self.productId {
             try encodeContainer.encode(productId, forKey: .productId)
@@ -7053,6 +7081,8 @@ public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Equa
     ///
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request.
+    public var idempotencyToken: Swift.String?
     /// The product identifier. For example, prod-abcdzk7xy33qa.
     /// This member is required.
     public var productId: Swift.String?
@@ -7065,12 +7095,14 @@ public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Equa
 
     public init(
         acceptLanguage: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
+        self.idempotencyToken = idempotencyToken
         self.productId = productId
         self.provisioningArtifactId = provisioningArtifactId
         self.serviceActionId = serviceActionId
@@ -7082,11 +7114,13 @@ struct DisassociateServiceActionFromProvisioningArtifactInputBody: Swift.Equatab
     let provisioningArtifactId: Swift.String?
     let serviceActionId: Swift.String?
     let acceptLanguage: Swift.String?
+    let idempotencyToken: Swift.String?
 }
 
 extension DisassociateServiceActionFromProvisioningArtifactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
+        case idempotencyToken = "IdempotencyToken"
         case productId = "ProductId"
         case provisioningArtifactId = "ProvisioningArtifactId"
         case serviceActionId = "ServiceActionId"
@@ -7102,6 +7136,8 @@ extension DisassociateServiceActionFromProvisioningArtifactInputBody: Swift.Deco
         serviceActionId = serviceActionIdDecoded
         let acceptLanguageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceptLanguage)
         acceptLanguage = acceptLanguageDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
     }
 }
 

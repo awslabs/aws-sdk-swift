@@ -20,7 +20,6 @@ class CachedCredentialsProviderTests: XCTestCase {
             counter += 1
             return .init(accessKey: accessKey, secret: secret)
         }
-
         let subject = try CachedCredentialsProvider(
             source: coreProvider,
             refreshTime: 0.01

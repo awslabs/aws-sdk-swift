@@ -287,6 +287,41 @@ extension PaginatorSequence where OperationStackInput == ListIdentityProviderCon
     }
 }
 extension EKSClient {
+<<<<<<< HEAD
+=======
+    /// Paginate over `[ListInsightsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInsightsOutput`
+    public func listInsightsPaginated(input: ListInsightsInput) -> ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInsights(input:))
+    }
+}
+
+extension ListInsightsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInsightsInput {
+        return ListInsightsInput(
+            clusterName: self.clusterName,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInsightsInput, OperationStackOutput == ListInsightsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInsightsPaginated`
+    /// to access the nested member `[EKSClientTypes.InsightSummary]`
+    /// - Returns: `[EKSClientTypes.InsightSummary]`
+    public func insights() async throws -> [EKSClientTypes.InsightSummary] {
+        return try await self.asyncCompactMap { item in item.insights }
+    }
+}
+extension EKSClient {
+>>>>>>> temp-main
     /// Paginate over `[ListNodegroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

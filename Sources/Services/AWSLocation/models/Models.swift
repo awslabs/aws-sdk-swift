@@ -214,7 +214,7 @@ extension LocationClientTypes {
         ///
         /// * The resources must be in the same partition, region, and account-id as the key that is being created.
         ///
-        /// * Other than wildcards, you must include the full ARN, including the arn, partition, service, region, account-id and resource-id, delimited by colons (:).
+        /// * Other than wildcards, you must include the full ARN, including the arn, partition, service, region, account-id and resource-id delimited by colons (:).
         ///
         /// * No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
         ///
@@ -4348,6 +4348,22 @@ enum DeleteGeofenceCollectionOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+<<<<<<< HEAD
+=======
+extension DeleteKeyInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let forceDelete = forceDelete {
+                let forceDeleteQueryItem = ClientRuntime.URLQueryItem(name: "forceDelete".urlPercentEncoding(), value: Swift.String(forceDelete).urlPercentEncoding())
+                items.append(forceDeleteQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+>>>>>>> temp-main
 extension DeleteKeyInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let keyName = keyName else {
@@ -4358,14 +4374,18 @@ extension DeleteKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteKeyInput: Swift.Equatable {
+    /// ForceDelete bypasses an API key's expiry conditions and deletes the key. Set the parameter true to delete the key or to false to not preemptively delete the API key. Valid values: true, or false. Required: No This action is irreversible. Only use ForceDelete if you are certain the key is no longer in use.
+    public var forceDelete: Swift.Bool?
     /// The name of the API key to delete.
     /// This member is required.
     public var keyName: Swift.String?
 
     public init(
+        forceDelete: Swift.Bool? = nil,
         keyName: Swift.String? = nil
     )
     {
+        self.forceDelete = forceDelete
         self.keyName = keyName
     }
 }
@@ -6796,7 +6816,7 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     ///
     /// * VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold
     ///
-    /// * VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold
+    /// * VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold | Arial Unicode MS Bold | Arial Unicode MS Regular
     ///
     ///
     /// Valid font stacks for [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html) styles:
@@ -7391,7 +7411,17 @@ public struct GetPlaceInput: Swift.Equatable {
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
-    /// The identifier of the place to find.
+    /// The identifier of the place to find. While you can use PlaceID in subsequent requests, PlaceID is not intended to be a permanent identifier and the ID can change between consecutive API calls. Please see the following PlaceID behaviour for each data provider:
+    ///
+    /// * Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.
+    ///
+    /// * HERE: We recommend that you cache data for no longer than a week to keep your data data fresh. You can assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.
+    ///
+    /// * Grab: Place IDs can expire or become invalid in the following situations.
+    ///
+    /// * Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.
+    ///
+    /// * Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request, and it will be marked as derived in the place.result_type field in the response. The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
     /// This member is required.
     public var placeId: Swift.String?
 
@@ -9908,12 +9938,19 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.MapConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customLayers = "CustomLayers"
         case politicalView = "PoliticalView"
         case style = "Style"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customLayers = customLayers {
+            var customLayersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customLayers)
+            for customlayer0 in customLayers {
+                try customLayersContainer.encode(customlayer0)
+            }
+        }
         if let politicalView = self.politicalView {
             try encodeContainer.encode(politicalView, forKey: .politicalView)
         }
@@ -9928,17 +9965,30 @@ extension LocationClientTypes.MapConfiguration: Swift.Codable {
         style = styleDecoded
         let politicalViewDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .politicalView)
         politicalView = politicalViewDecoded
+        let customLayersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .customLayers)
+        var customLayersDecoded0:[Swift.String]? = nil
+        if let customLayersContainer = customLayersContainer {
+            customLayersDecoded0 = [Swift.String]()
+            for string0 in customLayersContainer {
+                if let string0 = string0 {
+                    customLayersDecoded0?.append(string0)
+                }
+            }
+        }
+        customLayers = customLayersDecoded0
     }
 }
 
 extension LocationClientTypes {
     /// Specifies the map tile style selected from an available provider.
     public struct MapConfiguration: Swift.Equatable {
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Currenlty only VectorEsriNavigation supports CustomLayers. For more information, see [Custom Layers](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers).
+        public var customLayers: [Swift.String]?
         /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
         /// Specifies the map style selected from an available data provider. Valid [Esri map styles](https://docs.aws.amazon.com/location/latest/developerguide/esri.html):
         ///
-        /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
+        /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices. It also includes a richer set of places, such as shops, services, restaurants, attractions, and other points of interest. Enable the POI layer by setting it in CustomLayers to leverage the additional places data.
         ///
         /// * RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.
         ///
@@ -9948,20 +9998,20 @@ extension LocationClientTypes {
         ///
         /// * VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.
         ///
-        /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.
+        /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
         ///
         ///
         /// Valid [HERE Technologies map styles](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html):
         ///
-        /// * VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.
-        ///
         /// * VectorHereExplore – A default HERE map style containing a neutral, global map and its features including roads, buildings, landmarks, and water features. It also now includes a fully designed map of Japan.
-        ///
-        /// * VectorHereExploreTruck – A global map containing truck restrictions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics.
         ///
         /// * RasterHereExploreSatellite – A global map containing high resolution satellite imagery.
         ///
         /// * HybridHereExploreSatellite – A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles retrieved. Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are retrieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved.
+        ///
+        /// * VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.
+        ///
+        /// * VectorHereExploreTruck – A global map containing truck restrictions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics.
         ///
         ///
         /// Valid [GrabMaps map styles](https://docs.aws.amazon.com/location/latest/developerguide/grab.html):
@@ -9984,10 +10034,12 @@ extension LocationClientTypes {
         public var style: Swift.String?
 
         public init(
+            customLayers: [Swift.String]? = nil,
             politicalView: Swift.String? = nil,
             style: Swift.String? = nil
         )
         {
+            self.customLayers = customLayers
             self.politicalView = politicalView
             self.style = style
         }
@@ -9997,11 +10049,18 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.MapConfigurationUpdate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customLayers = "CustomLayers"
         case politicalView = "PoliticalView"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customLayers = customLayers {
+            var customLayersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customLayers)
+            for customlayer0 in customLayers {
+                try customLayersContainer.encode(customlayer0)
+            }
+        }
         if let politicalView = self.politicalView {
             try encodeContainer.encode(politicalView, forKey: .politicalView)
         }
@@ -10011,19 +10070,34 @@ extension LocationClientTypes.MapConfigurationUpdate: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let politicalViewDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .politicalView)
         politicalView = politicalViewDecoded
+        let customLayersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .customLayers)
+        var customLayersDecoded0:[Swift.String]? = nil
+        if let customLayersContainer = customLayersContainer {
+            customLayersDecoded0 = [Swift.String]()
+            for string0 in customLayersContainer {
+                if let string0 = string0 {
+                    customLayersDecoded0?.append(string0)
+                }
+            }
+        }
+        customLayers = customLayersDecoded0
     }
 }
 
 extension LocationClientTypes {
     /// Specifies the political view for the style.
     public struct MapConfigurationUpdate: Swift.Equatable {
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Currenlty only VectorEsriNavigation supports CustomLayers. For more information, see [Custom Layers](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#map-custom-layers).
+        public var customLayers: [Swift.String]?
         /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
 
         public init(
+            customLayers: [Swift.String]? = nil,
             politicalView: Swift.String? = nil
         )
         {
+            self.customLayers = customLayers
             self.politicalView = politicalView
         }
     }
@@ -10227,7 +10301,11 @@ extension LocationClientTypes {
         public var region: Swift.String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public var street: Swift.String?
+<<<<<<< HEAD
         /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York. This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
+=======
+        /// An area that's part of a larger municipality. For example, Blissville is a submunicipality in the Queen County in New York. This property is only returned for a place index that uses Esri as a data provider. The property is represented as a district. For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+>>>>>>> temp-main
         public var subMunicipality: Swift.String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?
@@ -10235,9 +10313,9 @@ extension LocationClientTypes {
         public var supplementalCategories: [Swift.String]?
         /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public var timeZone: LocationClientTypes.TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. Returned only for a place index that uses Esri or Grab as a data provider. Is not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123. This property is returned only for a place index that uses Esri or Grab as a data provider. It is not returned for SearchPlaceIndexForPosition.
         public var unitNumber: Swift.String?
-        /// For addresses with a UnitNumber, the type of unit. For example, Apartment. Returned only for a place index that uses Esri as a data provider.
+        /// For addresses with a UnitNumber, the type of unit. For example, Apartment. This property is returned only for a place index that uses Esri as a data provider.
         public var unitType: Swift.String?
 
         public init(
@@ -10973,7 +11051,17 @@ extension LocationClientTypes {
     public struct SearchForSuggestionsResult: Swift.Equatable {
         /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
         public var categories: [Swift.String]?
-        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers. While you can use PlaceID in subsequent requests, PlaceID is not intended to be a permanent identifier and the ID can change between consecutive API calls. Please see the following PlaceID behaviour for each data provider:
+        ///
+        /// * Esri: Place IDs will change every quarter at a minimum. The typical time period for these changes would be March, June, September, and December. Place IDs might also change between the typical quarterly change but that will be much less frequent.
+        ///
+        /// * HERE: We recommend that you cache data for no longer than a week to keep your data data fresh. You can assume that less than 1% ID shifts will release over release which is approximately 1 - 2 times per week.
+        ///
+        /// * Grab: Place IDs can expire or become invalid in the following situations.
+        ///
+        /// * Data operations: The POI may be removed from Grab POI database by Grab Map Ops based on the ground-truth, such as being closed in the real world, being detected as a duplicate POI, or having incorrect information. Grab will synchronize data to the Waypoint environment on weekly basis.
+        ///
+        /// * Interpolated POI: Interpolated POI is a temporary POI generated in real time when serving a request, and it will be marked as derived in the place.result_type field in the response. The information of interpolated POIs will be retained for at least 30 days, which means that within 30 days, you are able to obtain POI details by Place ID from Place Details API. After 30 days, the interpolated POIs(both Place ID and details) may expire and inaccessible from the Places Details API.
         public var placeId: Swift.String?
         /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
         public var supplementalCategories: [Swift.String]?

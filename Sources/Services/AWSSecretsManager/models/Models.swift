@@ -1089,11 +1089,11 @@ public struct DescribeSecretOutput: Swift.Equatable {
     public var lastAccessedDate: ClientRuntime.Date?
     /// The last date and time that this secret was modified in any way.
     public var lastChangedDate: ClientRuntime.Date?
-    /// The last date and time that Secrets Manager rotated the secret. If the secret isn't configured for rotation, Secrets Manager returns null.
+    /// The last date and time that Secrets Manager rotated the secret. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null.
     public var lastRotatedDate: ClientRuntime.Date?
     /// The name of the secret.
     public var name: Swift.String?
-    /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation, Secrets Manager returns null.
+    /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null.
     public var nextRotationDate: ClientRuntime.Date?
     /// The ID of the service that created this secret. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     public var owningService: Swift.String?
@@ -1892,7 +1892,7 @@ public struct GetSecretValueOutput: Swift.Equatable {
     public var createdDate: ClientRuntime.Date?
     /// The friendly name of the secret.
     public var name: Swift.String?
-    /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. The response parameter represents the binary data as a [base64-encoded](https://tools.ietf.org/html/rfc4648#section-4) string. If the secret was created by using the Secrets Manager console, or if the secret value was originally provided as a string, then this field is omitted. The secret value appears in SecretString instead.
+    /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. When you retrieve a SecretBinary using the HTTP API, the Python SDK, or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not encoded. If the secret was created by using the Secrets Manager console, or if the secret value was originally provided as a string, then this field is omitted. The secret value appears in SecretString instead.
     public var secretBinary: ClientRuntime.Data?
     /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console. If this secret was created by using the console, then Secrets Manager stores the information as a JSON structure of key/value pairs.
     public var secretString: Swift.String?
@@ -4187,7 +4187,7 @@ extension SecretsManagerClientTypes {
         public var lastRotatedDate: ClientRuntime.Date?
         /// The friendly name of the secret.
         public var name: Swift.String?
-        /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation, Secrets Manager returns null.
+        /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null.
         public var nextRotationDate: ClientRuntime.Date?
         /// Returns the name of the service that created the secret.
         public var owningService: Swift.String?

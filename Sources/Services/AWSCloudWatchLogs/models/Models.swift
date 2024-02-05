@@ -65,6 +65,7 @@ extension CloudWatchLogsClientTypes.AccountPolicy: Swift.Codable {
         case policyName
         case policyType
         case scope
+        case selectionCriteria
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -87,6 +88,9 @@ extension CloudWatchLogsClientTypes.AccountPolicy: Swift.Codable {
         if let scope = self.scope {
             try encodeContainer.encode(scope.rawValue, forKey: .scope)
         }
+        if let selectionCriteria = self.selectionCriteria {
+            try encodeContainer.encode(selectionCriteria, forKey: .selectionCriteria)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -101,6 +105,8 @@ extension CloudWatchLogsClientTypes.AccountPolicy: Swift.Codable {
         policyType = policyTypeDecoded
         let scopeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
+        let selectionCriteriaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionCriteria)
+        selectionCriteria = selectionCriteriaDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
     }
@@ -121,6 +127,8 @@ extension CloudWatchLogsClientTypes {
         public var policyType: CloudWatchLogsClientTypes.PolicyType?
         /// The scope of the account policy.
         public var scope: CloudWatchLogsClientTypes.Scope?
+        /// The log group selection criteria for this subscription filter policy.
+        public var selectionCriteria: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
@@ -128,7 +136,8 @@ extension CloudWatchLogsClientTypes {
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
-            scope: CloudWatchLogsClientTypes.Scope? = nil
+            scope: CloudWatchLogsClientTypes.Scope? = nil,
+            selectionCriteria: Swift.String? = nil
         )
         {
             self.accountId = accountId
@@ -137,6 +146,7 @@ extension CloudWatchLogsClientTypes {
             self.policyName = policyName
             self.policyType = policyType
             self.scope = scope
+            self.selectionCriteria = selectionCriteria
         }
     }
 
@@ -1393,7 +1403,11 @@ public struct CreateLogGroupInput: Swift.Equatable {
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     ///
+<<<<<<< HEAD
     /// If you omit this parameter, the default of STANDARD is used. After a log group is created, its class can't be changed. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+=======
+    /// If you omit this parameter, the default of STANDARD is used. The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+>>>>>>> temp-main
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
     /// A name for the log group.
     /// This member is required.
@@ -1691,7 +1705,7 @@ public struct DeleteAccountPolicyInput: Swift.Equatable {
     /// The name of the policy to delete.
     /// This member is required.
     public var policyName: Swift.String?
-    /// The type of policy to delete. Currently, the only valid value is DATA_PROTECTION_POLICY.
+    /// The type of policy to delete.
     /// This member is required.
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
 
@@ -3260,7 +3274,7 @@ public struct DescribeAccountPoliciesInput: Swift.Equatable {
     public var accountIdentifiers: [Swift.String]?
     /// Use this parameter to limit the returned policies to only the policy with the name that you specify.
     public var policyName: Swift.String?
-    /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify. Currently, the only valid value is DATA_PROTECTION_POLICY.
+    /// Use this parameter to limit the returned policies to only the policies that match the policy type that you specify.
     /// This member is required.
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
 
@@ -9486,11 +9500,13 @@ extension CloudWatchLogsClientTypes {
 extension CloudWatchLogsClientTypes {
     public enum PolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dataProtectionPolicy
+        case subscriptionFilterPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PolicyType] {
             return [
                 .dataProtectionPolicy,
+                .subscriptionFilterPolicy,
                 .sdkUnknown("")
             ]
         }
@@ -9501,6 +9517,7 @@ extension CloudWatchLogsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dataProtectionPolicy: return "DATA_PROTECTION_POLICY"
+            case .subscriptionFilterPolicy: return "SUBSCRIPTION_FILTER_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9518,6 +9535,7 @@ extension PutAccountPolicyInput: Swift.Encodable {
         case policyName
         case policyType
         case scope
+        case selectionCriteria
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9534,6 +9552,9 @@ extension PutAccountPolicyInput: Swift.Encodable {
         if let scope = self.scope {
             try encodeContainer.encode(scope.rawValue, forKey: .scope)
         }
+        if let selectionCriteria = self.selectionCriteria {
+            try encodeContainer.encode(selectionCriteria, forKey: .selectionCriteria)
+        }
     }
 }
 
@@ -9544,36 +9565,59 @@ extension PutAccountPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountPolicyInput: Swift.Equatable {
-    /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:
+    /// Specify the policy, in JSON. Data protection policy A data protection policy must include two JSON blocks:
     ///
     /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose streams, and S3 buckets, they must already exist.
     ///
     /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
     ///
     ///
-    /// For an example data protection policy, see the Examples section on this page. The contents of the two DataIdentifer arrays must match exactly. In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters.
+    /// For an example data protection policy, see the Examples section on this page. The contents of the two DataIdentifer arrays must match exactly. In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long. Subscription filter policy A subscription filter policy can include the following attributes in a JSON block:
+    ///
+    /// * DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:
+    ///
+    /// * An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.
+    ///
+    /// * An Kinesis Data Firehose data stream in the same account as the subscription policy, for same-account delivery.
+    ///
+    /// * A Lambda function in the same account as the subscription policy, for same-account delivery.
+    ///
+    /// * A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html), for cross-account delivery. Kinesis Data Streams and Kinesis Data Firehose are supported as logical destinations.
+    ///
+    ///
+    ///
+    ///
+    /// * RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
+    ///
+    /// * FilterPattern A filter pattern for subscribing to a filtered stream of log events.
+    ///
+    /// * DistributionThe method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.
     /// This member is required.
     public var policyDocument: Swift.String?
     /// A name for the policy. This must be unique within the account.
     /// This member is required.
     public var policyName: Swift.String?
-    /// Currently the only valid value for this parameter is DATA_PROTECTION_POLICY.
+    /// The type of policy that you're creating or updating.
     /// This member is required.
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
     /// Currently the only valid value for this parameter is ALL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
     public var scope: CloudWatchLogsClientTypes.Scope?
+    /// Use this parameter to apply the subscription filter policy to a subset of log groups in the account. Currently, the only supported filter is LogGroupName NOT IN []. The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter is useful to help prevent infinite loops. For more information, see [Log recursion prevention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html). Specifing selectionCriteria is valid only when you specify  SUBSCRIPTION_FILTER_POLICY for policyType.
+    public var selectionCriteria: Swift.String?
 
     public init(
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
-        scope: CloudWatchLogsClientTypes.Scope? = nil
+        scope: CloudWatchLogsClientTypes.Scope? = nil,
+        selectionCriteria: Swift.String? = nil
     )
     {
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.policyType = policyType
         self.scope = scope
+        self.selectionCriteria = selectionCriteria
     }
 }
 
@@ -9582,6 +9626,7 @@ struct PutAccountPolicyInputBody: Swift.Equatable {
     let policyDocument: Swift.String?
     let policyType: CloudWatchLogsClientTypes.PolicyType?
     let scope: CloudWatchLogsClientTypes.Scope?
+    let selectionCriteria: Swift.String?
 }
 
 extension PutAccountPolicyInputBody: Swift.Decodable {
@@ -9590,6 +9635,7 @@ extension PutAccountPolicyInputBody: Swift.Decodable {
         case policyName
         case policyType
         case scope
+        case selectionCriteria
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9602,6 +9648,8 @@ extension PutAccountPolicyInputBody: Swift.Decodable {
         policyType = policyTypeDecoded
         let scopeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Scope.self, forKey: .scope)
         scope = scopeDecoded
+        let selectionCriteriaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionCriteria)
+        selectionCriteria = selectionCriteriaDecoded
     }
 }
 
@@ -9645,6 +9693,49 @@ extension PutAccountPolicyOutputBody: Swift.Decodable {
     }
 }
 
+<<<<<<< HEAD
+extension PutAccountPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutAccountPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountPolicy = output.accountPolicy
+        } else {
+            self.accountPolicy = nil
+        }
+    }
+}
+
+public struct PutAccountPolicyOutput: Swift.Equatable {
+    /// The account policy that you created.
+    public var accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+
+    public init(
+        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
+    )
+    {
+        self.accountPolicy = accountPolicy
+    }
+}
+
+struct PutAccountPolicyOutputBody: Swift.Equatable {
+    let accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+}
+
+extension PutAccountPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountPolicyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.AccountPolicy.self, forKey: .accountPolicy)
+        accountPolicy = accountPolicyDecoded
+    }
+}
+
+=======
+>>>>>>> temp-main
 enum PutAccountPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -12305,9 +12396,15 @@ public struct StartLiveTailInput: Swift.Equatable {
     /// An array where each item in the array is a log group to include in the Live Tail session. Specify each log group by its ARN. If you specify an ARN, the ARN can't end with an asterisk (*). You can include up to 10 log groups.
     /// This member is required.
     public var logGroupIdentifiers: [Swift.String]?
+<<<<<<< HEAD
     /// If you specify this parameter, then only log events in the log streams that have names that start with the prefixes that you specify here are included in the Live Tail session. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
     public var logStreamNamePrefixes: [Swift.String]?
     /// If you specify this parameter, then only log events in the log streams that you specify here are included in the Live Tail session. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
+=======
+    /// If you specify this parameter, then only log events in the log streams that have names that start with the prefixes that you specify here are included in the Live Tail session. If you specify this field, you can't also specify the logStreamNames field. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
+    public var logStreamNamePrefixes: [Swift.String]?
+    /// If you specify this parameter, then only log events in the log streams that you specify here are included in the Live Tail session. If you specify this field, you can't also specify the logStreamNamePrefixes field. You can specify this parameter only if you specify only one log group in logGroupIdentifiers.
+>>>>>>> temp-main
     public var logStreamNames: [Swift.String]?
 
     public init(

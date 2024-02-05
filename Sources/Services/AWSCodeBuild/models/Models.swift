@@ -3094,6 +3094,10 @@ extension CodeBuildClientTypes {
         case buildGeneral1Large
         case buildGeneral1Medium
         case buildGeneral1Small
+<<<<<<< HEAD
+=======
+        case buildGeneral1Xlarge
+>>>>>>> temp-main
         case buildLambda10gb
         case buildLambda1gb
         case buildLambda2gb
@@ -3107,6 +3111,10 @@ extension CodeBuildClientTypes {
                 .buildGeneral1Large,
                 .buildGeneral1Medium,
                 .buildGeneral1Small,
+<<<<<<< HEAD
+=======
+                .buildGeneral1Xlarge,
+>>>>>>> temp-main
                 .buildLambda10gb,
                 .buildLambda1gb,
                 .buildLambda2gb,
@@ -3125,6 +3133,10 @@ extension CodeBuildClientTypes {
             case .buildGeneral1Large: return "BUILD_GENERAL1_LARGE"
             case .buildGeneral1Medium: return "BUILD_GENERAL1_MEDIUM"
             case .buildGeneral1Small: return "BUILD_GENERAL1_SMALL"
+<<<<<<< HEAD
+=======
+            case .buildGeneral1Xlarge: return "BUILD_GENERAL1_XLARGE"
+>>>>>>> temp-main
             case .buildLambda10gb: return "BUILD_LAMBDA_10GB"
             case .buildLambda1gb: return "BUILD_LAMBDA_1GB"
             case .buildLambda2gb: return "BUILD_LAMBDA_2GB"
@@ -8915,6 +8927,8 @@ extension CodeBuildClientTypes {
         /// * BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
         ///
         /// * BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your environment type.
+        ///
+        /// * BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds, depending on your environment type.
         ///
         /// * BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to 100 GB uncompressed.
         ///

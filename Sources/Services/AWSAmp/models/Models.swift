@@ -800,6 +800,232 @@ enum CreateRuleGroupsNamespaceOutputError: ClientRuntime.HttpResponseErrorBindin
 }
 
 extension CreateScraperInput: Swift.Encodable {
+<<<<<<< HEAD
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case clientToken
+        case destination
+        case scrapeConfiguration
+        case source
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alias = self.alias {
+            try encodeContainer.encode(alias, forKey: .alias)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let scrapeConfiguration = self.scrapeConfiguration {
+            try encodeContainer.encode(scrapeConfiguration, forKey: .scrapeConfiguration)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateScraperInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/scrapers"
+    }
+}
+
+/// Represents the input of a CreateScraper operation.
+public struct CreateScraperInput: Swift.Equatable {
+    /// An optional user-assigned alias for this scraper. This alias is for user reference and does not need to be unique.
+    public var alias: Swift.String?
+    /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The destination that the scraper will be producing metrics to.
+    /// This member is required.
+    public var destination: AmpClientTypes.Destination?
+    /// The configuration used to create the scraper.
+    /// This member is required.
+    public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+    /// The source that the scraper will be discovering and collecting metrics from.
+    /// This member is required.
+    public var source: AmpClientTypes.Source?
+    /// Optional, user-provided tags for this scraper.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        alias: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        destination: AmpClientTypes.Destination? = nil,
+        scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
+        source: AmpClientTypes.Source? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.alias = alias
+        self.clientToken = clientToken
+        self.destination = destination
+        self.scrapeConfiguration = scrapeConfiguration
+        self.source = source
+        self.tags = tags
+    }
+}
+
+struct CreateScraperInputBody: Swift.Equatable {
+    let alias: Swift.String?
+    let scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+    let source: AmpClientTypes.Source?
+    let destination: AmpClientTypes.Destination?
+    let clientToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateScraperInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alias
+        case clientToken
+        case destination
+        case scrapeConfiguration
+        case source
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let aliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alias)
+        alias = aliasDecoded
+        let scrapeConfigurationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScrapeConfiguration.self, forKey: .scrapeConfiguration)
+        scrapeConfiguration = scrapeConfigurationDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Source.self, forKey: .source)
+        source = sourceDecoded
+        let destinationDecoded = try containerValues.decodeIfPresent(AmpClientTypes.Destination.self, forKey: .destination)
+        destination = destinationDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateScraperOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateScraperOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.scraperId = output.scraperId
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.scraperId = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Represents the output of a CreateScraper operation.
+public struct CreateScraperOutput: Swift.Equatable {
+    /// The ARN of the scraper that was just created.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The generated ID of the scraper that was just created.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// The status of the scraper that was just created (usually CREATING).
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperStatus?
+    /// The tags of this scraper.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.scraperId = scraperId
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateScraperOutputBody: Swift.Equatable {
+    let scraperId: Swift.String?
+    let arn: Swift.String?
+    let status: AmpClientTypes.ScraperStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateScraperOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case scraperId
+        case status
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scraperIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scraperId)
+        scraperId = scraperIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AmpClientTypes.ScraperStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateScraperOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateWorkspaceInput: Swift.Encodable {
+=======
+>>>>>>> temp-main
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken
@@ -1026,6 +1252,7 @@ extension CreateWorkspaceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken
+        case kmsKeyArn
         case tags
     }
 
@@ -1036,6 +1263,9 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1058,17 +1288,21 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     public var alias: Swift.String?
     /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     public var clientToken: Swift.String?
+    /// Optional, customer managed KMS key used to encrypt data for this workspace
+    public var kmsKeyArn: Swift.String?
     /// Optional, user-provided tags for this workspace.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.alias = alias
         self.clientToken = clientToken
+        self.kmsKeyArn = kmsKeyArn
         self.tags = tags
     }
 }
@@ -1077,12 +1311,14 @@ struct CreateWorkspaceInputBody: Swift.Equatable {
     let alias: Swift.String?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let kmsKeyArn: Swift.String?
 }
 
 extension CreateWorkspaceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case alias
         case clientToken
+        case kmsKeyArn
         case tags
     }
 
@@ -1103,6 +1339,8 @@ extension CreateWorkspaceInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -1112,11 +1350,13 @@ extension CreateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateWorkspaceOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.kmsKeyArn = output.kmsKeyArn
             self.status = output.status
             self.tags = output.tags
             self.workspaceId = output.workspaceId
         } else {
             self.arn = nil
+            self.kmsKeyArn = nil
             self.status = nil
             self.tags = nil
             self.workspaceId = nil
@@ -1129,6 +1369,8 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
     /// The ARN of the workspace that was just created.
     /// This member is required.
     public var arn: Swift.String?
+    /// Customer managed KMS key ARN for this workspace
+    public var kmsKeyArn: Swift.String?
     /// The status of the workspace that was just created (usually CREATING).
     /// This member is required.
     public var status: AmpClientTypes.WorkspaceStatus?
@@ -1140,12 +1382,14 @@ public struct CreateWorkspaceOutput: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         status: AmpClientTypes.WorkspaceStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
     )
     {
         self.arn = arn
+        self.kmsKeyArn = kmsKeyArn
         self.status = status
         self.tags = tags
         self.workspaceId = workspaceId
@@ -1157,11 +1401,13 @@ struct CreateWorkspaceOutputBody: Swift.Equatable {
     let arn: Swift.String?
     let status: AmpClientTypes.WorkspaceStatus?
     let tags: [Swift.String:Swift.String]?
+    let kmsKeyArn: Swift.String?
 }
 
 extension CreateWorkspaceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case kmsKeyArn
         case status
         case tags
         case workspaceId
@@ -1186,6 +1432,24 @@ extension CreateWorkspaceOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+    }
+}
+
+enum CreateWorkspaceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -4957,6 +5221,7 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
         case alias
         case arn
         case createdAt
+        case kmsKeyArn
         case prometheusEndpoint
         case status
         case tags
@@ -4973,6 +5238,9 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let prometheusEndpoint = self.prometheusEndpoint {
             try encodeContainer.encode(prometheusEndpoint, forKey: .prometheusEndpoint)
@@ -5016,6 +5284,8 @@ extension AmpClientTypes.WorkspaceDescription: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -5030,6 +5300,8 @@ extension AmpClientTypes {
         /// The time when the workspace was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// The customer managed KMS key of this workspace.
+        public var kmsKeyArn: Swift.String?
         /// Prometheus endpoint URI.
         public var prometheusEndpoint: Swift.String?
         /// The status of this workspace.
@@ -5045,6 +5317,7 @@ extension AmpClientTypes {
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            kmsKeyArn: Swift.String? = nil,
             prometheusEndpoint: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -5054,6 +5327,7 @@ extension AmpClientTypes {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
             self.prometheusEndpoint = prometheusEndpoint
             self.status = status
             self.tags = tags
@@ -5151,6 +5425,7 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
         case alias
         case arn
         case createdAt
+        case kmsKeyArn
         case status
         case tags
         case workspaceId
@@ -5166,6 +5441,9 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
@@ -5204,6 +5482,8 @@ extension AmpClientTypes.WorkspaceSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
@@ -5218,6 +5498,8 @@ extension AmpClientTypes {
         /// The time when the workspace was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// Customer managed KMS key ARN for this workspace
+        public var kmsKeyArn: Swift.String?
         /// The status of this workspace.
         /// This member is required.
         public var status: AmpClientTypes.WorkspaceStatus?
@@ -5231,6 +5513,7 @@ extension AmpClientTypes {
             alias: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            kmsKeyArn: Swift.String? = nil,
             status: AmpClientTypes.WorkspaceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             workspaceId: Swift.String? = nil
@@ -5239,6 +5522,7 @@ extension AmpClientTypes {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
+            self.kmsKeyArn = kmsKeyArn
             self.status = status
             self.tags = tags
             self.workspaceId = workspaceId

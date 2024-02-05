@@ -1829,6 +1829,20 @@
                 }
             }
         },
+        "com.amazonaws.eventbridge#AppSyncParameters": {
+            "type": "structure",
+            "members": {
+                "GraphQLOperation": {
+                    "target": "com.amazonaws.eventbridge#GraphQLOperation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The GraphQL operation; that is, the query, mutation, or subscription to be parsed and executed by the GraphQL service.</p>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/appsync/latest/devguide/graphql-architecture.html#graphql-operations\">Operations</a> in the <i>AppSync User Guide</i>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains the GraphQL operation to be parsed and executed, if the event target is an AppSync API.</p>"
+            }
+        },
         "com.amazonaws.eventbridge#Archive": {
             "type": "structure",
             "members": {
@@ -5443,6 +5457,16 @@
                 "smithy.api#documentation": "<p>The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered.</p>"
             }
         },
+        "com.amazonaws.eventbridge#GraphQLOperation": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1048576
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.eventbridge#HeaderKey": {
             "type": "string",
             "traits": {
@@ -8826,6 +8850,12 @@
                     "target": "com.amazonaws.eventbridge#RetryPolicy",
                     "traits": {
                         "smithy.api#documentation": "<p>The <code>RetryPolicy</code> object that contains the retry policy configuration to use\n      for the dead-letter queue.</p>"
+                    }
+                },
+                "AppSyncParameters": {
+                    "target": "com.amazonaws.eventbridge#AppSyncParameters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains the GraphQL operation to be parsed and executed, if the event target is an AppSync API.</p>"
                     }
                 }
             },

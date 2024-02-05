@@ -17,7 +17,7 @@ extension AccessDeniedException {
     }
 }
 
-/// AWS CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
+/// CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -72,7 +72,7 @@ extension ConcurrentModificationException {
     }
 }
 
-/// AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
+/// CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -231,7 +231,7 @@ extension CreateNotificationRuleInput: ClientRuntime.URLPathProvider {
 public struct CreateNotificationRuleInput: Swift.Equatable {
     /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request with the same parameters is received and a token is included, the request returns information about the initial request that used that token. The Amazon Web Services SDKs prepopulate client request tokens. If you are using an Amazon Web Services SDK, an idempotency token is created for you.
     public var clientRequestToken: Swift.String?
-    /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+    /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
     /// This member is required.
     public var detailType: CodestarnotificationsClientTypes.DetailType?
     /// A list of event types associated with this notification rule. For a list of allowed events, see [EventTypeSummary].
@@ -680,7 +680,7 @@ public struct DescribeNotificationRuleOutput: Swift.Equatable {
     public var createdBy: Swift.String?
     /// The date and time the notification rule was created, in timestamp format.
     public var createdTimestamp: ClientRuntime.Date?
-    /// The level of detail included in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+    /// The level of detail included in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
     public var detailType: CodestarnotificationsClientTypes.DetailType?
     /// A list of the event types associated with the notification rule.
     public var eventTypes: [CodestarnotificationsClientTypes.EventTypeSummary]?
@@ -987,7 +987,7 @@ extension LimitExceededException {
     }
 }
 
-/// One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
+/// One of the CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1991,7 +1991,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// AWS CodeStar Notifications can't find a resource that matches the provided ARN.
+/// CodeStar Notifications can't find a resource that matches the provided ARN.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2701,7 +2701,7 @@ public struct UpdateNotificationRuleInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
-    /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by AWS CodeStar Notifications and/or the service for the resource for which the notification is created.
+    /// The level of detail to include in the notifications for this resource. BASIC will include only the contents of the event as it would appear in Amazon CloudWatch. FULL will include any supplemental information provided by CodeStar Notifications and/or the service for the resource for which the notification is created.
     public var detailType: CodestarnotificationsClientTypes.DetailType?
     /// A list of event types associated with this notification rule. For a complete list of event types and IDs, see [Notification concepts](https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api) in the Developer Tools Console User Guide.
     public var eventTypeIds: [Swift.String]?

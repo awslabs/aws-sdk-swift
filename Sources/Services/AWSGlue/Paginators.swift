@@ -485,6 +485,8 @@ extension GetUnfilteredPartitionsMetadataInput: ClientRuntime.PaginateToken {
             expression: self.expression,
             maxResults: self.maxResults,
             nextToken: token,
+            querySessionContext: self.querySessionContext,
+            region: self.region,
             segment: self.segment,
             supportedPermissionTypes: self.supportedPermissionTypes,
             tableName: self.tableName

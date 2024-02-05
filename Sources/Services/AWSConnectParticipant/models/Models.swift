@@ -1411,6 +1411,7 @@ extension ConnectParticipantClientTypes {
         case agent
         case customer
         case customBot
+        case supervisor
         case system
         case sdkUnknown(Swift.String)
 
@@ -1419,6 +1420,7 @@ extension ConnectParticipantClientTypes {
                 .agent,
                 .customer,
                 .customBot,
+                .supervisor,
                 .system,
                 .sdkUnknown("")
             ]
@@ -1432,6 +1434,7 @@ extension ConnectParticipantClientTypes {
             case .agent: return "AGENT"
             case .customer: return "CUSTOMER"
             case .customBot: return "CUSTOM_BOT"
+            case .supervisor: return "SUPERVISOR"
             case .system: return "SYSTEM"
             case let .sdkUnknown(s): return s
             }
@@ -1582,6 +1585,7 @@ extension ConnectParticipantClientTypes {
         case hierarchyLevel
         case instance
         case participant
+        case phoneNumber
         case user
         case sdkUnknown(Swift.String)
 
@@ -1593,6 +1597,7 @@ extension ConnectParticipantClientTypes {
                 .hierarchyLevel,
                 .instance,
                 .participant,
+                .phoneNumber,
                 .user,
                 .sdkUnknown("")
             ]
@@ -1609,6 +1614,7 @@ extension ConnectParticipantClientTypes {
             case .hierarchyLevel: return "HIERARCHY_LEVEL"
             case .instance: return "INSTANCE"
             case .participant: return "PARTICIPANT"
+            case .phoneNumber: return "PHONE_NUMBER"
             case .user: return "USER"
             case let .sdkUnknown(s): return s
             }
@@ -1804,6 +1810,10 @@ enum SendEventOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+<<<<<<< HEAD
+=======
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+>>>>>>> temp-main
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
