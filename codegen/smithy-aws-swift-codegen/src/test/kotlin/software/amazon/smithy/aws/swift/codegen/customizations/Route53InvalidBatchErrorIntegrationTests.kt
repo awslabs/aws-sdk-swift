@@ -17,36 +17,38 @@ class Route53InvalidBatchErrorIntegrationTests {
         val expectedContents = """
 struct CustomInvalidBatchError {
 
-    struct Message: Decodable {
-        let message: String
-        enum CodingKeys: String, CodingKey {
-            case message = "Message"
+    struct Message {
+        var message: String?
+
+        init() {}
+
+        static func readingClosure(from reader: SmithyXML.Reader) throws -> Message? {
+            guard reader.content != nil else { return nil }
+            var value = Message()
+            value.message = try reader["Message"].readIfPresent()
+            return value
         }
     }
 
-    let requestID: String?
-    let message: String?
-    let messages: [String]?
+    var requestID: String?
+    var message: String?
+    var messages: [String]?
 
-    enum CodingKeys: String, CodingKey {
-        case message = "Message"
-        case messages = "Messages"
-        case requestID = "RequestId"
-    }
+    init() {}
 
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.requestID = try container.decode(String.self, forKey: .requestID)
-        self.message = try container.decodeIfPresent(String.self, forKey: .message)
-        let messages = try container.decodeIfPresent([Message].self, forKey: .messages)
-        self.messages = messages?.map(\.message)
+    static func readingClosure(from reader: SmithyXML.Reader) throws -> CustomInvalidBatchError? {
+        guard reader.content != nil else { return nil }
+        var value = CustomInvalidBatchError()
+        value.requestID = try reader["RequestId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.messages = try reader["Messages"].readListIfPresent(memberReadingClosure: Message.readingClosure(from:), memberNodeInfo: "Message", isFlattened: false)?.compactMap(\.message)
+        return value
     }
 
     static func makeFromHttpResponse(_ httpResponse: ClientRuntime.HttpResponse) async throws -> CustomInvalidBatchError? {
-        guard let data = try await httpResponse.body.readData() else {
-            return nil
-        }
-        return try? XMLDecoder().decode(CustomInvalidBatchError.self, from: data)
+        guard let data = try await httpResponse.body.readData() else { return nil }
+        let reader = try SmithyXML.Reader.from(data: data)
+        return try Self.readingClosure(from: reader)
     }
 }
 
