@@ -423,15 +423,12 @@
                     "traits": {
                         "smithy.api#enumValue": "S3Object"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "S3PREFIX": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "S3Prefix"
                     }
->>>>>>> temp-main
                 }
             }
         },
@@ -1563,21 +1560,6 @@
                         "smithy.api#enumValue": "TensorBoard"
                     }
                 },
-<<<<<<< HEAD
-                "VSCode": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "VSCode"
-                    }
-                },
-                "Savitur": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "Savitur"
-                    }
-                },
-=======
->>>>>>> temp-main
                 "CodeEditor": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -1596,12 +1578,6 @@
                         "smithy.api#enumValue": "RStudioServerPro"
                     }
                 },
-                "RSession": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "RSession"
-                    }
-                },
                 "RSessionGateway": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -1613,27 +1589,6 @@
                     "traits": {
                         "smithy.api#enumValue": "Canvas"
                     }
-<<<<<<< HEAD
-                },
-                "DatasetManager": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "DatasetManager"
-                    }
-                },
-                "SageMakerLite": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "SageMakerLite"
-                    }
-                },
-                "Local": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "Local"
-                    }
-=======
->>>>>>> temp-main
                 }
             }
         },
@@ -12253,15 +12208,12 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
-<<<<<<< HEAD
-=======
                 "RemoteDebugConfig": {
                     "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
                     }
                 },
->>>>>>> temp-main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {
@@ -22972,15 +22924,12 @@
                         "smithy.api#documentation": "<p>The number of times to retry the job when the job fails due to an\n                <code>InternalServerError</code>.</p>"
                     }
                 },
-<<<<<<< HEAD
-=======
                 "RemoteDebugConfig": {
                     "target": "com.amazonaws.sagemaker#RemoteDebugConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>Configuration for remote debugging. To learn more about the remote \n            debugging functionality of SageMaker, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html\">Access a training container through Amazon Web Services Systems Manager (SSM) \n                for remote debugging</a>.</p>"
                     }
                 },
->>>>>>> temp-main
                 "InfraCheckConfig": {
                     "target": "com.amazonaws.sagemaker#InfraCheckConfig",
                     "traits": {
@@ -58250,21 +58199,6 @@
                         "smithy.api#enumValue": "KernelGateway"
                     }
                 },
-<<<<<<< HEAD
-                "VSCode": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "VSCode"
-                    }
-                },
-                "Savitur": {
-                    "target": "smithy.api#Unit",
-                    "traits": {
-                        "smithy.api#enumValue": "Savitur"
-                    }
-                },
-=======
->>>>>>> temp-main
                 "CodeEditor": {
                     "target": "smithy.api#Unit",
                     "traits": {

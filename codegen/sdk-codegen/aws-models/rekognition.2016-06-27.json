@@ -3703,11 +3703,7 @@
                 }
             ],
             "traits": {
-<<<<<<< HEAD
-                "smithy.api#documentation": "<note>\n            <p>This operation applies only to Amazon Rekognition Custom Labels.</p>\n         </note>\n         <p>Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. </p>\n         <p>You specify which version of a model version to use by using the <code>ProjectVersionArn</code> input\n      parameter. </p>\n         <p>You pass the input image as base64-encoded image bytes or as a reference to an image in\n         an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing\n         image bytes is not supported. The image must be either a PNG or JPEG formatted file. </p>\n         <p> For each object that the model version detects on an image, the API returns a \n         (<code>CustomLabel</code>) object in an array (<code>CustomLabels</code>).\n         Each <code>CustomLabel</code> object provides the label name (<code>Name</code>), the level\n         of confidence that the image contains the object (<code>Confidence</code>), and \n         object location information, if it exists,  for the label on the image (<code>Geometry</code>). </p>\n         <p>To filter labels that are returned, specify a value for <code>MinConfidence</code>.\n         <code>DetectCustomLabelsLabels</code> only returns labels with a confidence that's higher than\n         the specified value.\n\n         The value of <code>MinConfidence</code> maps to the assumed threshold values\n         created during training. For more information, see <i>Assumed threshold</i>\n         in the Amazon Rekognition Custom Labels Developer Guide. \n         Amazon Rekognition Custom Labels metrics expresses an assumed threshold as a floating point value between 0-1. The range of\n         <code>MinConfidence</code> normalizes the threshold value to a percentage value (0-100). Confidence\n         responses from <code>DetectCustomLabels</code> are also returned as a percentage. \n         You can use <code>MinConfidence</code> to change the precision and recall or your model. \n         For more information, see \n         <i>Analyzing an image</i> in the Amazon Rekognition Custom Labels Developer Guide. </p>\n         <p>If you don't specify a value for <code>MinConfidence</code>,  <code>DetectCustomLabels</code>\n      returns labels based on the assumed threshold of each label.</p>\n         <p>This is a stateless API operation. That is, the operation does not persist any\n         data.</p>\n         <p>This operation requires permissions to perform the\n         <code>rekognition:DetectCustomLabels</code> action. </p>\n         <p>For more information, see \n      <i>Analyzing an image</i> in the Amazon Rekognition Custom Labels Developer Guide. </p>",
-=======
                 "smithy.api#documentation": "<note>\n            <p>This operation applies only to Amazon Rekognition Custom Labels.</p>\n         </note>\n         <p>Detects custom labels in a supplied image by using an Amazon Rekognition Custom Labels model. </p>\n         <p>You specify which version of a model version to use by using the <code>ProjectVersionArn</code> input\n      parameter. </p>\n         <p>You pass the input image as base64-encoded image bytes or as a reference to an image in\n         an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing\n         image bytes is not supported. The image must be either a PNG or JPEG formatted file. </p>\n         <p> For each object that the model version detects on an image, the API returns a\n            (<code>CustomLabel</code>) object in an array (<code>CustomLabels</code>). Each\n            <code>CustomLabel</code> object provides the label name (<code>Name</code>), the level\n         of confidence that the image contains the object (<code>Confidence</code>), and object\n         location information, if it exists, for the label on the image (<code>Geometry</code>).\n         Note that for the <code>DetectCustomLabelsLabels</code> operation, <code>Polygons</code>\n         are not returned in the <code>Geometry</code> section of the response.</p>\n         <p>To filter labels that are returned, specify a value for <code>MinConfidence</code>.\n         <code>DetectCustomLabelsLabels</code> only returns labels with a confidence that's higher than\n         the specified value.\n\n         The value of <code>MinConfidence</code> maps to the assumed threshold values\n         created during training. For more information, see <i>Assumed threshold</i>\n         in the Amazon Rekognition Custom Labels Developer Guide. \n         Amazon Rekognition Custom Labels metrics expresses an assumed threshold as a floating point value between 0-1. The range of\n         <code>MinConfidence</code> normalizes the threshold value to a percentage value (0-100). Confidence\n         responses from <code>DetectCustomLabels</code> are also returned as a percentage. \n         You can use <code>MinConfidence</code> to change the precision and recall or your model. \n         For more information, see \n         <i>Analyzing an image</i> in the Amazon Rekognition Custom Labels Developer Guide. </p>\n         <p>If you don't specify a value for <code>MinConfidence</code>,  <code>DetectCustomLabels</code>\n      returns labels based on the assumed threshold of each label.</p>\n         <p>This is a stateless API operation. That is, the operation does not persist any\n         data.</p>\n         <p>This operation requires permissions to perform the\n         <code>rekognition:DetectCustomLabels</code> action. </p>\n         <p>For more information, see \n      <i>Analyzing an image</i> in the Amazon Rekognition Custom Labels Developer Guide. </p>",
->>>>>>> temp-main
                 "smithy.api#examples": [
                     {
                         "title": "To detect custom labels in an image with an Amazon Rekognition Custom Labels model",
@@ -4344,15 +4340,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Identifier of the custom adapter that was used during inference. If\n         during inference the adapter was EXPIRED, then the parameter will not be returned,\n         indicating that a base moderation detection project version was used.</p>"
                     }
-<<<<<<< HEAD
-=======
                 },
                 "ContentTypes": {
                     "target": "com.amazonaws.rekognition#ContentTypes",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of predicted results for the type of content an image contains. For example, \n      the image content might be from animation, sports, or a video game.</p>"
                     }
->>>>>>> temp-main
                 }
             },
             "traits": {
@@ -9686,8 +9679,6 @@
                 "smithy.api#documentation": "<p>Summary that provides statistics on input manifest and errors identified in the input manifest.</p>"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.rekognition#MediaAnalysisModelVersions": {
             "type": "structure",
             "members": {
@@ -9702,7 +9693,6 @@
                 "smithy.api#documentation": "<p>Object containing information about the model versions of selected features in a given job.</p>"
             }
         },
->>>>>>> temp-main
         "com.amazonaws.rekognition#MediaAnalysisOperationsConfig": {
             "type": "structure",
             "members": {
@@ -9743,15 +9733,12 @@
             "members": {
                 "S3Object": {
                     "target": "com.amazonaws.rekognition#S3Object"
-<<<<<<< HEAD
-=======
                 },
                 "ModelVersions": {
                     "target": "com.amazonaws.rekognition#MediaAnalysisModelVersions",
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the model versions for the features selected in a given job.</p>"
                     }
->>>>>>> temp-main
                 }
             },
             "traits": {

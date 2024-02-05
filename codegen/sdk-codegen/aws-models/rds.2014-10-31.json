@@ -17711,8 +17711,6 @@
                 "smithy.api#pattern": ".*"
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.rds#DisableHttpEndpoint": {
             "type": "operation",
             "input": {
@@ -17769,7 +17767,6 @@
                 "smithy.api#output": {}
             }
         },
->>>>>>> temp-main
         "com.amazonaws.rds#DocLink": {
             "type": "structure",
             "members": {
@@ -18064,8 +18061,6 @@
                 "smithy.api#httpError": 400
             }
         },
-<<<<<<< HEAD
-=======
         "com.amazonaws.rds#EnableHttpEndpoint": {
             "type": "operation",
             "input": {
@@ -18122,7 +18117,6 @@
                 "smithy.api#output": {}
             }
         },
->>>>>>> temp-main
         "com.amazonaws.rds#EncryptionContextMap": {
             "type": "map",
             "key": {
