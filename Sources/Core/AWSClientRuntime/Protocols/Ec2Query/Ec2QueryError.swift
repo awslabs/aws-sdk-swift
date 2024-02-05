@@ -5,24 +5,20 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import class ClientRuntime.HttpResponse
+import class SmithyXML.Reader
 
 public struct Ec2QueryError {
-    public let errorCode: String? = nil
-    public let requestId: String? = nil
-    public let message: String? = nil
+    public var errorCode: String?
+    public var requestId: String?
+    public var message: String?
 
     public init(httpResponse: HttpResponse) async throws {
-        guard let data = try await httpResponse.body.readData() else {
-//            errorCode = nil
-//            requestId = nil
-//            message = nil
-            return
-        }
-        #warning("FIXME")
-//        let decoded: Ec2Response = try XMLDecoder().decode(responseBody: data)
-//        self.errorCode = decoded.errors.error.code
-//        self.message = decoded.errors.error.message
-//        self.requestId = decoded.requestId
+        guard let data = try await httpResponse.body.readData() else { return }
+        let reader = try SmithyXML.Reader.from(data: data)
+        let response = try await Ec2Response.httpBinding(httpResponse, reader)
+        self.errorCode = response.errors?.error?.code
+        self.message = response.errors?.error?.message
+        self.requestId = response.requestId
     }
 }
