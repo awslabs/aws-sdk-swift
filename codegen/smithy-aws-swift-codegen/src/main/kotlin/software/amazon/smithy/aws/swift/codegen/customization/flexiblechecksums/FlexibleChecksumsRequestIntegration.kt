@@ -41,6 +41,9 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
     }
 }
 
+private fun String.lowercaseFirstLetter(): String =
+    takeIf { it.isNotEmpty() }?.let { it.first().lowercase() + it.substring(1) } ?: this
+
 private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override val name = "FlexibleChecksumRequestMiddleware"
 
@@ -52,16 +55,10 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).getOrNull()
-        val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()
-        val algorithmMember = ctx.model.expectShape(op.inputShape).getMember(inputMemberName)
-        val algorithmEnumShape = ctx.model.expectShape(algorithmMember.getOrNull()?.target)
-
-        // Will pass list of checksums to Swift middleware to handle the rest
-        val algorithmNames: List<String> = algorithmEnumShape.members().map { it.memberName }
+        val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
         // Convert algorithmNames list to a Swift array representation
-        val algorithmNamesSwiftArray = algorithmNames.joinToString(separator = ", ") { "\"$it\"" }
-        val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithms: [$algorithmNamesSwiftArray])"
+        val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)"
 
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $middlewareInit)")
     }
